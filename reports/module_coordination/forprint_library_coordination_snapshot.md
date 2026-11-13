@@ -32,7 +32,7 @@ Already up to date.
 - priority: `p0`
 - current_phase: `shared_operational_dictionary_v0_1`
 - last_completed_step: `shared_operational_dictionary_ready`
-- recommended_next_step: `['Pass shared operational dictionary v0.1 to Blueprint for review.', 'Recommended next candidate: Operational Registry mapping from local draft statuses/types to Library canonical dictionary IDs.']`
+- recommended_next_step: `['Pass shared operational dictionary v0.1 to Blueprint for review.', 'Recommended next candidate: Operations Control Registry mapping from local draft statuses/types to Library canonical dictionary IDs.']`
 
 ## Notes
 

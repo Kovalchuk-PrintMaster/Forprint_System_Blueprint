@@ -1,0 +1,90 @@
+schema_version: forprint_worker_workspace_contract_v0_1
+contract_id: worker_workspace_contract
+revision: 0.1.0
+status: ACTIVE_CF10_FOUNDATION_SLICE_1
+owner: forprint_system_blueprint
+purpose: Define a reusable per-attempt isolated worker workspace layout outside the canonical repository. Slice
+  1 models structure and isolation only and does not provision a live workspace or launch a worker.
+authority_semantics:
+  workspace_grants_authority: false
+  canonical_repository_is_worker_workspace: false
+  worker_direct_canonical_write_allowed: false
+  workspace_may_narrow_execution: true
+  workspace_may_widen_execution: false
+runtime_root:
+  default: /srv/software_development/forprint-worker-runtime
+  tracked_in_project_git: false
+  module_partition_required: true
+  worker_partition_required: true
+  attempt_partition_required: true
+attempt_layout:
+- manifest.yaml
+- input/
+- input/task.yaml
+- input/work_front.yaml
+- input/execution_profile.yaml
+- input/procedure.yaml
+- input/handoff/
+- workspace/repo/
+- scratch/
+- logs/
+- artifacts/candidate/
+- evidence/
+- result/
+- recovery/
+- quarantine/
+isolation:
+  workspace_repo_must_be_outside_canonical_repo: true
+  source_head_must_be_pinned_before_execution: true
+  git_worktree_preferred_when_compatible: true
+  copy_or_other_isolation_requires_equivalent_head_binding: true
+  cross_repository_write_forbidden_without_separate_authority: true
+artifact_classes:
+  durable_canonical:
+  - contracts
+  - work_front
+  - execution_profile_reference
+  - procedure_reference
+  - compact_task_definition
+  - execution_attempt_ledger
+  - accepted_promotion_evidence
+  runtime_disposable_or_retained_forensics:
+  - workspace_checkout
+  - stdout_stderr
+  - scratch
+  - temporary_context
+  - retry_snapshots
+  - failed_candidates
+  - large_debug_logs
+  - quarantine
+slice_1:
+  layout_model_only: true
+  live_provisioning: false
+  worker_launch: false
+  candidate_promotion: false
+materialization:
+  base_mode: DETACHED_LOCAL_CLONE
+  canonical_git_metadata_mutation: false
+  source_head_pinned_before_overlay: true
+  dirty_overlay_source: scripts.coordination.continuity.build_source_state.durable_dirty_paths
+  full_working_tree_copy_allowed: false
+  canonical_git_index_state_copied: false
+  continuity_excluded_runtime_debris_copied: false
+  overlay_semantics:
+    modified_file: copy_final_working_tree_bytes
+    untracked_file: copy_final_working_tree_bytes
+    deleted_path: remove_from_isolated_checkout
+    symlink: recreate_symlink_target
+    directory_dirty_path: fail_closed
+  equivalence:
+    git_head_exact: true
+    durable_dirty_path_content_exact: true
+    working_delta_against_HEAD_exact: true
+    rename_copy_detection_enabled: true
+    git_branch_identity_required: false
+    reason_branch_identity_not_required: isolated workspace uses a detached checkout by design
+  live_cf10_slice3:
+    plan_only: true
+    real_attempt_workspace_creation: false
+    assistant_ack: false
+    worker_launch: false

@@ -64,10 +64,16 @@ Defines how ForPrint may evaluate, sandbox, reuse or depend on third-party tools
 
 Core root-level standards
 
-Important root-level standards include:
+The canonical structure standard is:
+
+project_structure_standard.md
+
+The compact first-adoption profile is:
 
 repository_structure_baseline.md
-project_structure_standard.md
+
+Other important root-level standards include:
+
 make_command_standard.md
 module_assistant_start_protocol.md
 module_standards_awareness_protocol.md
@@ -115,3 +121,13 @@ Do not perform large destructive restructuring only because a standard exists.
 Prefer small, tested, reversible alignment steps.
 
 Large migrations require a dedicated Blueprint-approved checkpoint.
+
+<!-- knowledge-standards-group-v0-1:start -->
+## Knowledge standards
+
+Project self-knowledge, readiness, Inspector boundaries, semantic metadata and repository
+discoverability are grouped under `knowledge/index.yaml`.
+
+These are target standards for gradual adoption and do not by themselves activate autonomous
+execution.
+<!-- knowledge-standards-group-v0-1:end -->

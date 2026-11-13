@@ -1,0 +1,960 @@
+schema_version: blueprint_module_concept_coverage_audit_v0_1
+metadata:
+  created_at: '2026-08-24T19:39:35+03:00'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: CONCEPT_COVERAGE_SNAPSHOT
+record_id: blueprint_module_concept_coverage_audit_2026_08_24_v0_1
+authority:
+  baseline_commit: cd0d0a50fab5c056fd76d70631e90c4434193306
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+audit_scope:
+  question: How deeply is each module's intended role/concept described?
+  implementation_state_assessed: false
+  code_quality_assessed: false
+  deployment_readiness_assessed: false
+  prompt_history_used_as_supporting_context: true
+coverage_dimensions:
+- purpose_goal
+- responsibilities_tasks
+- boundaries_ownership
+- inputs_sources
+- outputs_results
+- workflow_lifecycle
+- dependencies_integrations
+- data_contracts
+- actors_ux
+- exceptions_failure_modes
+- expected_outcome_completion
+depth_labels_are_heuristic: true
+module_count: 19
+modules:
+- module_id: accounting_registry_service
+  aliases_considered:
+  - accounting_registry_service
+  - forprint_accounting_registry_service
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 3
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_accounting_registry_service/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/accounting_registry_service/approved/2026-05-28-accounting-registry-boundary-correction.md
+    - coordination/outgoing_prompts/accounting_registry_service/drafts/2026-05-22-align-accounting-registry-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 3
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - forprint_accounting_registry_service
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: calculator_engine
+  aliases_considered:
+  - calculator_engine
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 4
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 3
+    docs_snapshot: 1
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/calculator_engine/development_focus.md
+    - coordination/module_policy/calculator_engine/module_goals.md
+    - coordination/module_policy/calculator_engine/module_policy.md
+    - coordination/module_policy/calculator_engine/role_boundaries.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/calculator_engine/approved/2026-05-22-align-calculator-engine-with-blueprint.md
+    - coordination/outgoing_prompts/calculator_engine/drafts/2026-05-22-align-calculator-engine-with-blueprint.md
+    - coordination/outgoing_prompts/calculator_engine/index.yaml
+    docs_snapshot:
+    - coordination/module_docs_snapshots/calculator_engine/README.md
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 3
+    prompt_parent_states_or_folders:
+    - approved
+    - calculator_engine
+    - drafts
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: cloud_backup_manager
+  aliases_considered:
+  - cloud_backup_manager
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/cloud_backup_manager/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_accounting_registry_service
+  aliases_considered:
+  - accounting_registry_service
+  - forprint_accounting_registry_service
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 3
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_accounting_registry_service/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/accounting_registry_service/approved/2026-05-28-accounting-registry-boundary-correction.md
+    - coordination/outgoing_prompts/accounting_registry_service/drafts/2026-05-22-align-accounting-registry-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 3
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - forprint_accounting_registry_service
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_contract_registry
+  aliases_considered:
+  - contract_registry
+  - forprint_contract_registry
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 10
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  gaps_for_discussion:
+  - expected_outcome_completion
+  source_presence:
+    module_policy: 2
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 2
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+    - coordination/module_policy/forprint_contract_registry/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_crm
+  aliases_considered:
+  - crm
+  - forprint_crm
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 2
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_crm/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_crm/approved/2026-05-22-align-crm-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 2
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_integration_gateway
+  aliases_considered:
+  - forprint_integration_gateway
+  - integration_gateway
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 11
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_integration_gateway/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_integration_gateway/approved/2026-05-22-align-integration-gateway-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/approved/2026-05-23-bootstrap-integration-gateway-from-blueprint.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-05-22-align-integration-gateway-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-10__gateway__channel_intake_operational_handoff_contracts_v0_3.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__adapter_contracts_error_taxonomy_v0_4.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__v0_3_1_coordination_records_fix.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_compatibility_replay_dry_run_v0_5.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_release_consumer_acceptance_v0_6.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
+    - coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+    - coordination/outgoing_prompts/forprint_integration_gateway/notes/2026-06-11__gateway__v0_3_review_lessons.md
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 11
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - forprint_integration_gateway
+    - notes
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_library
+  aliases_considered:
+  - forprint_library
+  - library
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 1
+    roadmap_detail: 0
+    prompt: 10
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_library/module_policy.md
+    roadmap:
+    - coordination/roadmaps/forprint_library.yaml
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_library/approved/2026-05-22-align-library-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-06-29__library__reference_contract_foundation_v0_2.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-07-03__library__coordination_foundation_alignment_v0_1.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+    - coordination/outgoing_prompts/forprint_library/approved/2026-07-17__forprint_library__calculator_input_contract_v0_1.md
+    - coordination/outgoing_prompts/forprint_library/drafts/2026-05-22-align-library-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_library/drafts/2026-07-03__library__configurable_product_workbench_v0_1.md
+    - coordination/outgoing_prompts/forprint_library/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 10
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - forprint_library
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_operational_registry
+  aliases_considered:
+  - forprint_operational_registry
+  - operational_registry
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 3
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_operational_registry/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_operational_registry/approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
+    - coordination/outgoing_prompts/forprint_operational_registry/drafts/2026-05-22-align-operational-registry-with-blueprint.md
+    - coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 3
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - forprint_operational_registry
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_prepress_hub
+  aliases_considered:
+  - forprint_prepress_hub
+  - prepress_hub
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 1
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_prepress_hub/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_prepress_hub/drafts/2026-05-22-align-prepress-hub-with-blueprint.md
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 1
+    prompt_parent_states_or_folders:
+    - drafts
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_project_inspector
+  aliases_considered:
+  - forprint_project_inspector
+  - project_inspector
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 2
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_project_inspector/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+    - coordination/outgoing_prompts/forprint_project_inspector/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 2
+    prompt_parent_states_or_folders:
+    - drafts
+    - forprint_project_inspector
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_strategic_control_plane
+  aliases_considered:
+  - forprint_strategic_control_plane
+  - strategic_control_plane
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 10
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  gaps_for_discussion:
+  - expected_outcome_completion
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 2
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_strategic_control_plane/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: forprint_system_blueprint
+  aliases_considered:
+  - forprint_system_blueprint
+  - system_blueprint
+  is_blueprint_control_plane: true
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 7
+    prompt: 1
+    docs_snapshot: 0
+    registry_reference: 4
+  source_files:
+    module_policy:
+    - coordination/module_policy/forprint_system_blueprint/module_policy.md
+    roadmap: []
+    roadmap_detail:
+    - coordination/roadmaps/details/forprint_system_blueprint/README.md
+    - coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
+    - coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+    - coordination/roadmaps/details/forprint_system_blueprint/continuity/prompt_sequence_v0_1.yaml
+    - coordination/roadmaps/details/forprint_system_blueprint/continuity/snapshots/2026-08-22__after_b1_activation_publication_v0_1.yaml
+    - coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+    - coordination/roadmaps/details/forprint_system_blueprint/v0_4_1_remaining_coordination_hardening_plan_v0_1.md
+    prompt:
+    - coordination/outgoing_prompts/forprint_system_blueprint/approved/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - coordination/modules/module_workflow_registry.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 1
+    prompt_parent_states_or_folders:
+    - approved
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: logistics_service
+  aliases_considered:
+  - logistics_service
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: moderate
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 0
+    roadmap: 1
+    roadmap_detail: 0
+    prompt: 14
+    docs_snapshot: 0
+    registry_reference: 2
+  source_files:
+    module_policy: []
+    roadmap:
+    - coordination/roadmaps/logistics_service.yaml
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/logistics_service/approved/2026-07-09__logistics_service__bootstrap_and_coordination_foundation_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/completed/2026-07-29__logistics_service__tracking_events_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_channel_interaction_contract_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_local_persistence_and_migration_boundary_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_normalized_quote_booking_operation_contract_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_nova_poshta_read_only_foundation_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_provider_runtime_registry_and_capability_policy_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_taxi_provider_abstraction_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_uklon_delivery_read_only_foundation_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_ukrposhta_read_only_foundation_v0_1.md
+    - coordination/outgoing_prompts/logistics_service/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 14
+    prompt_parent_states_or_folders:
+    - approved
+    - completed
+    - drafts
+    - logistics_service
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: mobile_app
+  aliases_considered:
+  - mobile_app
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/mobile_app/module_policy.md
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: production_runtime_inspector
+  aliases_considered:
+  - production_runtime_inspector
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: moderate
+  documented_dimensions_count: 10
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion:
+  - outputs_results
+  source_presence:
+    module_policy: 0
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 1
+  source_files:
+    module_policy: []
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: telegram_bot
+  aliases_considered:
+  - telegram_bot
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 1
+    roadmap_detail: 0
+    prompt: 7
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/telegram_bot/module_policy.md
+    roadmap:
+    - coordination/roadmaps/telegram_bot.yaml
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+    - coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+    - coordination/outgoing_prompts/telegram_bot/approved/2026-07-09__telegram_bot__dialogue_audit_events_v0_1.md
+    - coordination/outgoing_prompts/telegram_bot/approved/2026-07-17__telegram_bot__governance_baseline_adoption_v0_1.md
+    - coordination/outgoing_prompts/telegram_bot/archived/drafts/2026-05-22-align-telegram-bot-with-blueprint.md
+    - coordination/outgoing_prompts/telegram_bot/archived/drafts/2026-06-10__telegram_bot__governance_and_test_alignment_v0_1.md
+    - coordination/outgoing_prompts/telegram_bot/index.yaml
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 7
+    prompt_parent_states_or_folders:
+    - approved
+    - drafts
+    - telegram_bot
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: warehouse_service
+  aliases_considered:
+  - warehouse_service
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: moderate
+  documented_dimensions_count: 10
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion:
+  - outputs_results
+  source_presence:
+    module_policy: 0
+    roadmap: 0
+    roadmap_detail: 0
+    prompt: 0
+    docs_snapshot: 0
+    registry_reference: 1
+  source_files:
+    module_policy: []
+    roadmap: []
+    roadmap_detail: []
+    prompt: []
+    docs_snapshot: []
+    registry_reference:
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 0
+    prompt_parent_states_or_folders: []
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.
+- module_id: website
+  aliases_considered:
+  - website
+  is_blueprint_control_plane: false
+  concept_depth_heuristic: deep
+  documented_dimensions_count: 11
+  total_dimensions: 11
+  documented_dimensions:
+  - purpose_goal
+  - responsibilities_tasks
+  - boundaries_ownership
+  - inputs_sources
+  - outputs_results
+  - workflow_lifecycle
+  - dependencies_integrations
+  - data_contracts
+  - actors_ux
+  - exceptions_failure_modes
+  - expected_outcome_completion
+  gaps_for_discussion: []
+  source_presence:
+    module_policy: 1
+    roadmap: 1
+    roadmap_detail: 0
+    prompt: 1
+    docs_snapshot: 0
+    registry_reference: 3
+  source_files:
+    module_policy:
+    - coordination/module_policy/website/module_policy.md
+    roadmap:
+    - coordination/roadmaps/website.yaml
+    roadmap_detail: []
+    prompt:
+    - coordination/outgoing_prompts/website/approved/2026-07-07__website__php_base_launch_readiness_v0_1.md
+    docs_snapshot: []
+    registry_reference:
+    - coordination/module_policy/module_policy_index.yaml
+    - coordination/module_sources/module_git_sources.yaml
+    - machine/modules.yaml
+  prompt_context:
+    prompt_files_count: 1
+    prompt_parent_states_or_folders:
+    - approved
+    interpretation: Prompts show development/coordination direction already pursued; they are supporting concept evidence,
+      not proof of full module intent.

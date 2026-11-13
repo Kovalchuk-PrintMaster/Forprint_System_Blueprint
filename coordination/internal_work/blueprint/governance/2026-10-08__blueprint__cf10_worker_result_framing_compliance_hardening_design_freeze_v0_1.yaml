@@ -1,0 +1,110 @@
+schema_version: forprint_cf10_worker_result_framing_compliance_hardening_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_WORKER_RESULT_FRAMING_COMPLIANCE_HARDENING
+title: Whole-session zero-prose Worker result framing hardening after a035
+status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+source_head: 6ac6da02cdf623d487d9ed5a1f43238979e67a70
+trigger:
+  attempt_id: cf10-u180j-a035
+  terminal_state: BLOCKED
+  failure_class: RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+  provider_return_code: 0
+  provider_timed_out: false
+  frame_begin_count: 1
+  frame_end_count: 1
+  non_whitespace_before_frame: true
+  non_whitespace_after_frame: false
+  prefix_bytes: 380
+  prefix_source: AGENT_RESPONSE_NARRATION
+  stderr_bytes: 0
+  payload_s3: PASS
+  payload_s4: PASS
+  worker_delta_exact: true
+  worker_changed_paths:
+  - Makefile
+  - scripts/validation/run_validation_suite_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+diagnosis:
+  confirmed_defect: The Worker emitted assistant progress narration before the exact Handoff v2 result frame even
+    though the final framed payload was valid under both S3 and S4.
+  strict_parser_defect: false
+  provider_stderr_noise: false
+  s3_result_contract_defect: false
+  s4_resume_binding_defect: false
+  task70_delta_defect: false
+  prompt_whole_session_framing_compliance_gap: true
+architecture_decision:
+  strategy: HARDEN_EXISTING_WORKER_PROMPT_ZERO_PROSE_CONTRACT
+  strict_result_parser_preserved: true
+  transport_filtering_added: false
+  stdout_prefix_stripping_allowed: false
+  result_rewrite_or_synthesis_allowed: false
+  existing_handoff_v2_result_contract_reused: true
+  existing_s3_validator_reused: true
+  existing_s4_validator_reused: true
+work_front:
+  path: coordination/work_fronts/cf10_worker_result_framing_compliance_hardening_v0_1.yaml
+  sha256: e149cc06a79635afb9b5a65912e9a6637499b6ef446d565a4d26c15eb73d72eb
+  work_front_id: wf-cf10-worker-result-framing-compliance-hardening-v0-1
+implementation_slice:
+  implementation_write_set:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  implementation_path_count: 2
+  tests_first_required: true
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - config/worker_runtime.yaml
+  - Makefile
+  - scripts/validation/run_validation_suite_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+tests_first_contract:
+  red_required: true
+  red_must_prove:
+  - Current prompt does not explicitly prohibit assistant progress or narration during the whole tool-using session.
+  - Current prompt does not explicitly bind first non-whitespace stdout content to the frame begin marker.
+  - Current prompt does not explicitly bind last non-whitespace stdout content to the frame end marker.
+  green_must_prove:
+  - No assistant-facing prose is permitted before final frame output.
+  - Tool calls must be performed without assistant narration outside the frame.
+  - First non-whitespace stdout content is the exact frame begin marker.
+  - Last non-whitespace stdout content is the exact frame end marker.
+  - Failure/partial status and limitations remain inside the framed YAML.
+  - Existing S4 verbatim binding instructions remain present.
+acceptance:
+- Only the two declared implementation paths change.
+- Tests-first RED proves the current prompt lacks whole-session zero-prose requirements.
+- GREEN proves the prompt contains first/last non-whitespace frame boundaries.
+- GREEN proves progress/status/tool narration is forbidden outside the frame.
+- Existing S4 verbatim resume-binding prompt requirements remain intact.
+- Existing invocation-adapter focused tests pass.
+- cf10-worker-invocation-bridge-check passes.
+- cf10-worker-result-return-check passes without parser modification.
+- git diff --check passes for the exact two-path implementation scope.
+- Task70 files and a035 runtime/result/ledger facts remain immutable.
+- No automatic retry, dispatch, acceptance, promotion, commit, push, merge, or release.
+exclusions:
+- Do not modify worker_result_return.py or relax exact framing.
+- Do not modify S3 or S4 result/freshness validators.
+- Do not modify governed_worker_cycle.py.
+- Do not modify Task70 candidate files or validation-suite semantics.
+- Do not modify provider/MCP capability semantics or tool exposure.
+- Do not add shell, web, broad tools, persistent MCP config, or authority.
+- Do not revive, replay, rewrite, or materialize a035.
+- Do not create or launch the next Worker attempt in this slice.
+authority_boundary:
+  new_authority_source: false
+  provider_adapter_is_policy_authority: false
+  work_front_remains_execution_authority: true
+  canonical_write_authority_widened: false
+  automatic_retry_authority: false
+  automatic_dispatch_authority: false
+  automatic_acceptance_authority: false
+  promotion_authority: false
+  publication_authority: false
+next_boundary: PUBLISH_FREEZE_THEN_TESTS_FIRST_RED

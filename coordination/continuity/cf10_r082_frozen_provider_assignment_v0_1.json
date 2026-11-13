@@ -1,0 +1,23 @@
+{
+  "schema_version": "cf10_r082_frozen_provider_assignment_contract_v0_1",
+  "status": "SOURCE_WIRED_COPILOT_ONLY_FROZEN_SELECTION",
+  "base_head": "3f815acb69602422a7e676b40aaeb83ffdf3f326",
+  "freeze_stage": "PREPARE_BEFORE_ACK",
+  "bound_to": ["attempt_id", "task_id", "work_front_id", "worker_id", "source_head", "source_state_fingerprint_sha256", "handoff_manifest_sha256", "provider_id", "model_id", "registry_sha256", "runtime_config_sha256", "selected_provider_descriptor_sha256"],
+  "ack_policy": "EXACT_SELECTION_PRESERVATION",
+  "dispatch_policy": "VERIFIED_SOURCE_BOUND_SELECTION_REQUIRED_FOR_NEW_CYCLE_ATTEMPTS",
+  "decision_id_binds_selection_digest": true,
+  "launch_policy": "VERIFY_PREPARED_SELECTION_AGAINST_DISPATCH_BEFORE_INVOCATION",
+  "source_refresh_policy": "NO_PROVIDER_REBIND_NEW_ATTEMPT_REQUIRED",
+  "current_live_allowed_provider": "github_copilot_cli",
+  "current_live_allowed_model": "auto",
+  "additional_ready_provider_can_gain_launch_authority": false,
+  "automatic_fallback": false,
+  "provider_selection_is_execution_authority": false,
+  "existing_historical_legacy_copilot_decisions": "NON_REWRITTEN_EXPLICIT_LEGACY_ONLY",
+  "a054": "CONSUMED_NO_RETRY_STARTED_PENDING_NO_TERMINAL_SUCCESS",
+  "worker_launched_by_patch": false,
+  "claim_or_ledger_written_by_patch": false,
+  "secrets_in_git": false,
+  "limitations": ["new attempts currently select the explicit source-controlled default; operator-selectable nondefault requires separately reviewed adapter and permission/credential proof", "no multi-provider dispatch or second worker", "new frozen selection is source-hash verification and not a cryptographically authenticated external operator signature"]
+}

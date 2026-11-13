@@ -1,0 +1,62 @@
+schema_version: blueprint_coordination_hardening_activation_v0_1
+metadata:
+  decision_id: blueprint_b1_execution_baseline_activation_2026_08_22_v0_1
+  owner: forprint_system_blueprint
+  created_at: '2026-08-22T15:57:00+03:00'
+  status: active
+  immutable_after_commit: true
+
+operator_decision:
+  decision: ACTIVATE_B1
+  explicit_operator_input: true
+  confirmation_token: ACTIVATE_B1_EXECUTION_BASELINE
+  automatic_activation: false
+
+target:
+  display_id: B1
+  stable_id: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  title: Execution baseline and drift control
+  release: v0.4.1
+  task_class: coordination_hardening_foundation
+
+authority_before_activation:
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  head: 5bcf99cfb29f83a6ee999c239dd33e999988e9cf
+  current_release_path: coordination/releases/current.yaml
+  current_release_sha256: 65eda6be4e4e072e12e9c3098fe701c7ece1707a4108c3ea8ffaff2a501188b8
+
+dependency_evidence:
+  h9_status: accepted_published_closed
+  h9_acceptance_record: coordination/internal_work/blueprint/governance/2026-08-22__blueprint__h9_logistics_reference_rollout_acceptance_v0_1.yaml
+  h9_acceptance_record_sha256: 126980918f74e488e1e9d86efb0d20052c5de9550cf4964d611787b5f1aec5dc
+  h9_acceptance_commit: 5bcf99cfb29f83a6ee999c239dd33e999988e9cf
+
+activation_effect:
+  current_slice: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  b1_active: true
+  b2_active: false
+  q_track_active: false
+  h10_active: false
+  h11_active: false
+  logistics_h9_history_mutated: false
+  business_prompt_released: false
+  module_repository_write_authorized: false
+  sqlite_runtime_enabled: false
+  daemon_enabled: false
+  autonomous_execution_enabled: false
+  automatic_accept_enabled: false
+
+b1_scope:
+  establish_release_execution_completion_baselines: true
+  establish_required_input_manifest: true
+  establish_deterministic_execution_preflight: true
+  establish_blueprint_drift_classification: true
+  establish_module_drift_classification: true
+  establish_execution_identity_and_revalidation_semantics: true
+  establish_completion_provenance_requirements: true
+  logistics_reference_validation_required: true
+
+next_action:
+  action: implement_and_validate_B1_only
+  b2_requires_separate_promotion: true
+  q_track_requires_separate_promotion: true

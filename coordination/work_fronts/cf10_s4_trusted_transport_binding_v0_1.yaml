@@ -1,0 +1,105 @@
+work_front_id: wf-cf10-s4-trusted-transport-binding-v0-1
+objective: >-
+  Stage 4C: bind the existing opt-in Worker completion-draft transport to the
+  governed CF-10 invocation and result-return boundaries from one verified,
+  independently authorized prepared-execution/explicit-dispatch selection.
+  Preserve legacy full Handoff v2 as the default. Implement only after a
+  tests-first RED and exact read-only review of the existing dirty hunks;
+  do not launch, reconcile, publish, or rewrite any Worker attempt.
+scope:
+  - coordination/work_fronts/cf10_s4_trusted_transport_binding_v0_1.yaml
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/test_cf10_s4_trusted_transport_binding_v0_1.py
+exclusions:
+  - No edits to worker_result_return.py, s4_result_composer_v0_1.py, their tests, Handoff v2 schema or validators, or the Stage 4A/4B verified behavior.
+  - No schema, authority, dispatch, Makefile, registry, CLI, worker-runtime provider-policy or ledger edits outside the exact scope. If a trusted transport selection cannot be proven without another file, STOP and request a new operator-approved boundary.
+  - No mode inference from stdout, prompt content, Worker-produced fields, environment variables, untrusted CLI text or current canonical roadmap state.
+  - No acceptance of arbitrary transport strings or replacement of frozen hashes, attempt ID, origin manifest, source fingerprint or roadmap cursor.
+  - Do not silently repair, reinterpret, coerce or auto-fallback from a malformed full Handoff v2 or malformed completion draft.
+  - Do not mutate the existing S4 literal capsule in invocation_adapter.py, or the existing controlled post-worker/live-launch additions in governed_worker_cycle.py except the exact new additive binding hunks approved after review.
+  - No edit, replay, reclassification or rewriting of cf10-u180j-a041 or any other terminal attempt; do not prepare, authorize or launch a042.
+  - No commit, staging, push, promotion, release, live Worker dispatch or candidate acceptance, and no modification to the two parallel Telegram snapshot staged paths.
+provenance:
+  source_refs:
+    - roadmap:control_foundation_near_horizon/CF-10
+    - work_id:u180j
+    - attempt:cf10-u180j-a041/BLOCKED
+    - stage4a_work_front:wf-cf10-s4-origin-bound-result-composer-v0-1
+    - stage4b_work_front:wf-cf10-s4-result-return-opt-in-bridge-v0-1
+    - stage4b_regression:s4_runtime_162_pass
+    - stage4b_regression:cf10_worker_pipeline_64_pass
+    - stage4b_regression:blueprint_continuity_planning_33_pass
+    - current_source_head_observed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+    - unstaged_diff_sha256_observed:624c2167e5620e672100b52abbda185d2aa280d99d5a5049c4b26bef14260324
+    - governed_worker_cycle_file_sha256:aa2863b8100b0c72de138d65161be4f6bc9f1d0a68343af5efb01596283b13b8
+    - invocation_adapter_file_sha256:16858756b5cdfb5341b469442078aac4cdd52a7e386c7551961a484279e58d35
+    - worker_result_return_file_sha256:15bb6be5b0d313e8fa547f8d7b0a7ee5d617b82353370fa4cfe6244db3ab052e
+  chat_is_authority: false
+dependencies:
+  - Stage 4A pure origin-bound S4 composer has passed 22 focused tests and related regression tests.
+  - Stage 4B worker_result_return.materialize_worker_result already accepts trusted result_transport (legacy handoff-v2-full default; opt-in worker-completion-draft-v0-1), validates complete Handoff v2 and frozen S4, and writes create-only worker_result.yaml.
+  - Before tests-first RED, freeze actual bytes and reviewed hunks for two dirty implementation files, plus HEAD, staged-index bytes, all pre-existing unrelated changed/untracked files and Stage 4B module SHA.
+  - Prove an existing versioned, independently authorized policy/decision surface supports an exact immutable transport selection. Bind it consistently to prepared execution, explicit dispatch decision, invocation prompt, result materialization and recorded evidence. If any required authority source or schema is absent, STOP for explicit separate design approval; never synthesize authorization from chat or stdout.
+  - The existing governed context digest, origin Handoff hash and attempt identity are validated before launch; Stage 4C must not weaken or bypass these checks.
+outputs:
+  - Read-only binding review describing the actual pre-existing fields/schema and the precise derivation of trusted result_transport from prepared execution and explicit dispatch (or a BLOCKED report if this cannot be proven within scope).
+  - A new Stage 4C tests-first module with negative cases for missing/conflicting/unknown/Worker-supplied transport, origin/digest/attempt drift, legacy frames under draft mode, draft frames under legacy mode and no silent fallback.
+  - An exact additive production patch, subject to separate operator review of the dirty files, passing the same validated transport selection to both prompt generation and materialize_worker_result; the selected value is fixed before Worker stdout is read.
+  - Draft-mode Worker prompt uses exactly FORPRINT_WORKER_COMPLETION_DRAFT_V0_1_BEGIN/END and Worker-owned JSON fields, not a full Handoff v2 template or copied origin SHA; default mode retains existing legacy prompt and S4 literal contract unchanged.
+  - Result-return evidence includes the selected transport and safe provenance, without exposing prompt or granting authority; no schema field insertion that violates existing strict contracts.
+  - Structured fail-closed tests for invalid selection, mismatched prompt/materialization selection and create-only result protection, with no actual Worker process or filesystem writes outside temporary test fixtures.
+  - Focused runtime/S4 regressions, cf10-worker-pipeline and blueprint-continuity-planning PASS, plus Git/worktree/parallel-staging integrity evidence.
+acceptance:
+  - Canonical Work Front validator PASS with this exact four-path scope and zero live authorization.
+  - The pre-RED read-only review identifies actual current trusted policy fields; missing policy means BLOCKED, not an invented setting, new authority or unreviewed schema extension.
+  - Tests-first RED reliably fails because trusted Stage 4C integration is absent; GREEN is additive and changes only the declared paths. Both dirty implementation files pass preimage SHA and protected-hunk checks before and after patch.
+  - Legacy mode remains default, and legacy output, prompt, validation and create-only behavior do not change when the opt-in selector is absent.
+  - Draft mode requires a verified, attempt-bound, decision-bound explicit selection before invocation, and the identical value is passed to result-return; no model or provider stdout can select it.
+  - A missing, unknown, contradictory, changed, unbound, or Worker-supplied mode fails closed before materializing worker_result.yaml and without changing the ledger.
+  - Frozen origin S4 coordinates remain derived only from prepared verified context; malformed legacy Handoff cannot be rescued by draft composition.
+  - No automatic acceptance, promotion, commit, push, release, dispatch or historical result/attempt mutation; existing terminal cf10-u180j-a041 remains untouched and no a042 is started.
+  - The S4 literal resume capsule and prior dirty Worker Cycle changes remain byte-preserved outside exact Stage 4C approved additive hunks; staged Telegram snapshot bytes are preserved.
+  - Full focused S4/runtime tests plus both registered validation suites PASS without manual canonical projection refresh; no real live Worker required for acceptance.
+stop_conditions:
+  - Trusted selector policy or its versioned dispatch binding cannot be established from existing on-disk, validated sources within scope; STOP for separate operator review before code changes.
+  - A production edit requires any file beyond the four scoped paths, a change to Handoff/S4 validators, any authority widening or a persistent provider configuration change.
+  - Preflight HEAD, protected-hunk SHA, stage4b source SHA, index or Git state differs from observed baseline unexpectedly.
+  - Draft mode can be selected or changed by Worker output, chat instructions, command-line overrides or other untrusted text, or prompt/result selection may disagree.
+  - Legacy result-return behavior changes, any historical attempt record is touched, or tests request a live Worker launch or automatic repair.
+  - Any RED/GREEN, related regression, source-state, ledger-boundary or worktree-integrity check fails.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+    - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+    - tests/coordination/control_plane/test_cf10_worker_s4_literal_binding_v0_1.py
+    - tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_return_opt_in_v0_1.py
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - tests/coordination/control_plane/test_cf10_s4_trusted_transport_binding_v0_1.py
+  read_only_refs:
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  rationale: >-
+    Bind the existing verified, opt-in result transport consistently across
+    governed preparation, explicit dispatch, Worker prompt and result return,
+    without replacing any existing result validator, composer or authority source.

@@ -1,0 +1,39 @@
+schema_version: blueprint_architecture_direction_integration_record_v0_1
+metadata:
+  created_at: '2026-09-06'
+  module_id: forprint_system_blueprint
+  status: INTEGRATED_PLANNING_DIRECTION
+  authority: BLUEPRINT_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+record_id: blueprint_evening_architecture_control_package_integration_v0_1
+source:
+  conversation_date: '2026-09-05'
+  control_package_filename: forprint_blueprint__evening_architecture_control_package__2026-09-05__20260905T204913Z__pending_project_integration.zip
+  control_package_sha256: b592d60548af4e4bca45dc38c3795a622206413be315c3f167e59d9ee4a79015
+  u130_tmp_root_observation: NO_MATCHING_CONTROL_PACKAGE_FOUND
+  u130_note: The repository audit found zero matching evening control-package ZIPs in the repo tmp root; durable
+    integration therefore must not depend on that temporary copy.
+accepted_directions:
+  - Inventory is lifetime module memory, not a file list.
+  - Blueprint control-plane evolution runs parallel to Logistics.
+  - Current-state freshness must become dependency/impact driven.
+  - Significant implementation surfaces need compact machine-readable metadata linked to inventory/lineage.
+  - ForPrint semantic convergence uses stable identities and gradual adoption, not mass renaming.
+  - Library is the semantic/contract authority and should be queried before significant shared implementation.
+  - Registration/enrichment/provisional lifecycle should let local work continue while cross-module semantics remain
+    controlled.
+  - Inspector should reduce guessing through canonical/alias/provisional/inferred confidence and metadata-first
+    filtering.
+  - Generated module policy surfaces must be changed only through their canonical generation source, never by direct
+    patch.
+audit_effect:
+  gap_assessment: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_inventory_program_vnext_gap_assessment_v0_1.yaml
+  control_plane_planning_program: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+  human_intent_delta: coordination/human_intent/deltas/2026-09-06__blueprint_inventory_control_plane_semantic_convergence__human_intent_delta_v0_1.yaml
+authority_effect:
+  release_transition: false
+  prompt_activation: false
+  automatic_acceptance: false
+  automatic_release_next_prompt: false
+  module_start: false
+  cross_repository_writes: false
+  commit_push: false

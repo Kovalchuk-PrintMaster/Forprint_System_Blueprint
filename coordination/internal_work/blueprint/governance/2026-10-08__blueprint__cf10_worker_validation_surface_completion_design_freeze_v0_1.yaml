@@ -1,0 +1,167 @@
+schema_version: forprint_cf10_worker_validation_surface_completion_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_WORKER_VALIDATION_SURFACE_COMPLETION
+title: Bounded Worker validation surface completion after a036
+status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+source_head: ab3831e8b7dc6a455d49d1714e69658a04ab5938
+trigger:
+  attempt_id: cf10-u180j-a036
+  task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  terminal_state: PARTIAL
+  attempt_stage: FINISHED
+  validator_outcome: PASS
+  provider_return_code: 0
+  result_return: PASS
+  payload_s3: PASS
+  payload_s4: PASS
+  worker_delta_exact: true
+  worker_delta_path_count: 3
+  external_candidate_validation: PASS
+  focused_runner_tests: 15_PASSED
+  normal_validation_suite: PASS
+  profile_validation_suite: PASS
+  git_diff_check: PASS
+  candidate_promoted: false
+  worker_result_rewritten: false
+diagnosis:
+  task70_candidate_code_defect_proven: false
+  result_return_defect: false
+  s3_defect: false
+  s4_defect: false
+  framing_defect: false
+  bounded_validation_surface_gap: true
+  missing_worker_visible_checks:
+  - direct focused execution of tests/validation/test_validation_suite_runner_v0_1.py
+  - git diff --check
+  root_cause: The Task70 implementation validated successfully when the two missing acceptance checks were executed
+    externally, but the Worker-visible ForPrintValidation surface exposed only run_validation_suite. The registered
+    suite did not directly include its own focused runner tests, and the already-existing CF10-compatible repo_diff_check
+    capability was not exposed to the Worker provider session.
+architecture_decision:
+  strategy: EXTEND_EXISTING_BOUNDED_VALIDATION_SURFACE_USING_EXISTING_TYPED_CAPABILITIES
+  new_structured_executor: false
+  new_shell_surface: false
+  new_capability_registry_entry: false
+  repo_diff_check_reused: true
+  repo_diff_check_capability_version: 0.1.0
+  validation_suite_reused: true
+  validation_suite_capability_version: 0.2.0
+  new_worker_mcp_tool: run_repo_diff_check
+  existing_worker_mcp_tool: run_validation_suite
+  provider_tool_universe_extended_by_one: true
+  authority_widened: false
+  arbitrary_shell_allowed: false
+  web_allowed: false
+  persistent_mcp_config_allowed: false
+  canonical_write_authority_widened: false
+  automatic_retry: false
+  automatic_acceptance: false
+  automatic_promotion: false
+work_front:
+  id: wf-cf10-worker-validation-surface-completion-v0-1
+  path: coordination/work_fronts/cf10_worker_validation_surface_completion_v0_1.yaml
+  sha256: a51a589a1a87d5416340c9a57dd0eb799b17168522ff5da7c069a7b87ba20366
+implementation_slice:
+  implementation_write_set:
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  implementation_path_count: 6
+  tests_first_required: true
+  makefile_mutation_required: false
+  structured_capability_registry_mutation_required: false
+  must_not_modify:
+  - Makefile
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+tool_contract:
+  run_validation_suite:
+    capability_id: validation_suite
+    capability_version: 0.2.0
+    existing: true
+    parameter_model: suite_id + optional require_tier + optional profile
+  run_repo_diff_check:
+    capability_id: repo_diff_check
+    capability_version: 0.1.0
+    existing_capability_reused: true
+    parameter_model: EMPTY_OBJECT
+    fixed_argv:
+    - git
+    - diff
+    - --check
+    cwd: EXACT_BOUND_WORKSPACE_REPOSITORY
+    side_effect_class: NONE_EXPECTED
+    worker_supplied_cwd: false
+    worker_supplied_argv: false
+    worker_supplied_executable: false
+    worker_supplied_timeout: false
+tests_first_contract:
+  red_required: true
+  red_must_prove:
+  - Worker validation MCP currently lists only run_validation_suite.
+  - Invocation adapter currently exposes only ForPrintValidation-run_validation_suite.
+  - cf10-worker-pipeline currently contains four pytest paths and omits test_validation_suite_runner_v0_1.py.
+  green_must_prove:
+  - Worker validation MCP lists exactly run_validation_suite and run_repo_diff_check.
+  - run_repo_diff_check maps only to the existing repo_diff_check@0.1.0 structured capability.
+  - Invocation adapter exposes exactly both bounded MCP tools.
+  - No bash, web, builtin MCP or arbitrary command surface is introduced.
+  - cf10-worker-pipeline directly includes test_validation_suite_runner_v0_1.py.
+validation_plan:
+  commands:
+  - .venv_blueprint/bin/python -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+    tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - .venv_blueprint/bin/python -m pytest -q -p no:cacheprovider tests/validation/test_validation_suite_runner_v0_1.py
+  - make cf10-worker-invocation-bridge-check
+  - make cf10-worker-provider-session-proof-check
+  - make validation-suite SUITE=cf10-worker-pipeline
+  - make validation-suite SUITE=cf10-worker-pipeline PROFILE=1
+  - git diff --check -- <exact six implementation paths>
+acceptance:
+  exact_six_path_scope: true
+  existing_repo_diff_check_reused: true
+  second_bounded_mcp_tool_exposed: true
+  validation_suite_runner_tests_directly_registered: true
+  arbitrary_shell_added: false
+  web_added: false
+  persistent_mcp_config_added: false
+  authority_widened: false
+  a036_rewritten: false
+  a036_replayed: false
+  task70_candidate_promoted: false
+stop_conditions:
+- A seventh implementation mutation path becomes necessary.
+- repo_diff_check cannot be reused without changing its registered capability semantics.
+- A generic shell/command MCP surface would be required.
+- Makefile or run_validation_suite_v0_1.py mutation becomes necessary.
+- Result-return, S3, S4, promotion or ledger semantics would need modification.
+- Lifecycle, roadmap or protected inherited dirty paths would need mutation.
+- A live Worker/provider launch would be required before publishing this repair.
+authority_boundary:
+  new_authority_source: false
+  work_front_remains_execution_authority: true
+  mcp_tool_listing_grants_authority: false
+  structured_executor_grants_authority: false
+  canonical_write_authority_widened: false
+  automatic_dispatch_authority: false
+  automatic_retry_authority: false
+  automatic_acceptance_authority: false
+  promotion_authority: false
+  publication_authority: false
+next_boundary: PUBLISH_FREEZE_THEN_TESTS_FIRST_RED

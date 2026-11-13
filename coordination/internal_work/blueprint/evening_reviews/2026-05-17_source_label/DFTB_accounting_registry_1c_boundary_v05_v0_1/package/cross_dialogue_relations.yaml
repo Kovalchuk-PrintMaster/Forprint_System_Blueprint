@@ -1,0 +1,40 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-accounting-registry-source-label-2026-05-17
+authority_class: module_history_non_blueprint_authority
+relations:
+- type: precedes_and_clarifies
+  from_bundle: DFTB-accounting-registry-source-label-2026-05-17
+  to_bundle: DFTB-operational-registry-source-label-2026-05-29
+  confidence: HIGH
+  note: Accounting source first articulates production-vs-accounting truth separation; Operational Registry later makes operational truth ownership explicit.
+- type: refined_by
+  from_bundle: DFTB-accounting-registry-source-label-2026-05-17
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint architecture explicitly treats 1C/Accounting as fundamental and records Accounting-vs-Operational naming/ownership questions.
+- type: supports
+  from_bundle: DFTB-accounting-registry-source-label-2026-05-17
+  to_bundle: DFTB-blueprint-preflight-2026-08-31
+  confidence: MEDIUM
+  note: Later module-identity/ownership work benefits from this early accounting-vs-operational split.
+item_relations:
+- type: supports
+  from_item: IT-ACC1705-0025
+  to_item: IT-OPREG2905-0006
+  confidence: HIGH
+  note: Both sources distinguish accounting/1C truth from operational truth.
+- type: supports
+  from_item: IT-ACC1705-0001
+  to_item: IT-OPREG2905-0001
+  confidence: HIGH
+  note: Production operational state is intended to live outside Accounting Registry.
+- type: refines
+  from_item: IT-ACC1705-0020
+  to_item: IT-OPREG2905-0002
+  confidence: HIGH
+  note: Accounting explicitly excludes canonical client/order/product/material ownership, consistent with Operational Registry boundary tests.
+- type: related_to
+  from_item: IT-ACC1705-0015
+  to_item: IT-OPREG2905-0020
+  confidence: MEDIUM
+  note: Historical module acceptance/status should remain provenance-bound and not become current authority automatically.

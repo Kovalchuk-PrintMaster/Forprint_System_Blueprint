@@ -1,6 +1,6 @@
 # ForPrint Module Make Target Contract
 
-Status: draft v0.1
+Status: candidate v0.2 / new-module continuity reconciliation (2026-09-27)
 Created: `2026-06-12T14:33:44.165569+00:00`
 
 ## Purpose
@@ -9,69 +9,48 @@ This standard defines canonical Make targets that active ForPrint modules should
 
 The goal is to make module assistants predictable. A module assistant should not invent unique command names for the same governance actions.
 
-## Required baseline targets
+
+## Required baseline targets — v0.4.1
 
 ```text
-make blueprint-pull
+make coordination-sync-check
 make blueprint-check
 make blueprint-sync-directives
 make blueprint-prompts-list
-make blueprint-prompt
-make blueprint-prompt-check
+make blueprint-prompts-check
+make blueprint-prompts-sync
+make prompt-notify
+make prompt-next
+make prompt-read-next
 
 make coordination-check
 make coordination-fix
-make coordination-records-refresh
-make coordination-records-check
-
-make prompt-completion-apply REPORT=<path>
-make prompt-completion-check
-
 make module-policy-check
 make governance-check
 make check
 make check-report
 make status-report
 
-Target meaning
-make blueprint-pull
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack
 
-Updates the local ForPrint System Blueprint checkout.
+make module-start
+make module-sync
+make module-validate
+make module-finish
+```
 
-Expected default implementation:
+`coordination-sync-check` is the only standard network-read freshness gate.
 
-git -C /srv/software_development/forprint-project/forprint_system_blueprint pull --ff-only
-make blueprint-prompts-list
+`blueprint-pull` is removed from the canonical baseline. A module may retain a
+fail-closed compatibility target, but it must never execute `git pull` or
+`git fetch` against Blueprint.
 
-Lists outgoing Blueprint prompts for the current module.
+`module-start` is freshness-gated and is the preferred prompt-driven entrypoint.
 
-make blueprint-prompt
-
-Prints the active ready_for_module_pull prompt for the current module.
-
-make blueprint-prompt-check
-
-Validates that the module can read its outgoing prompt index and active prompt file.
-
-make coordination-records-refresh
-
-Refreshes machine-readable module coordination records.
-
-make coordination-records-check
-
-Validates machine-readable module coordination records.
-
-make prompt-completion-apply REPORT=<path>
-
-Reads a completion report with YAML frontmatter and updates related coordination files.
-
-make prompt-completion-check
-
-Validates that completion report, status, prompts index and reports index are consistent.
-
-Rule
-
-Module-specific extra targets are allowed, but the canonical targets above must keep the same names and basic meaning across all active ForPrint modules.
+`check`, `governance-check`, and `module-validate` remain local and
+network-independent.
 
 ## Reporting compatibility extension v0.1
 
@@ -114,3 +93,131 @@ module repository.
 schema before consuming external analysis.
 
 <!-- module-workflow-target-contract-v0-1:end -->
+
+
+## New-module assistant continuity extension — v0.2 candidate
+
+For newly initialized ForPrint modules, the following targets are required from
+the first usable bootstrap:
+
+```text
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack
+```
+
+Existing modules may adopt them gradually.
+
+### assistant-handoff-check
+
+Read-only recovery gate. It verifies enough repository and live Blueprint
+navigation state for a replacement assistant to establish:
+
+```text
+module identity;
+Git branch / HEAD / worktree state;
+module bootstrap navigation;
+current status / reports / questions;
+live Blueprint reading order and relevant policy;
+module-policy availability when the module is registered.
+```
+
+It must not mutate Blueprint, Git state, runtime services or production data.
+
+### assistant-pack
+
+Builds an onboarding archive for the repository in which the command is run.
+
+Semantic identity is mandatory:
+
+```text
+System Blueprint -> package_type: PROJECT_ONBOARD
+module repository -> package_type: MODULE_ONBOARD
+```
+
+A module `MODULE_ONBOARD` package is authoritative only as a bounded snapshot of
+module-local onboarding evidence. It does not become project-wide governance
+authority.
+
+The package must declare:
+
+```text
+package_type;
+target module/scope;
+purpose;
+intended_use;
+source Git state;
+live Blueprint source references;
+selection limits;
+explicit zero execution/acceptance/release authority.
+```
+
+### assistant-context-pack
+
+Builds a narrower `MODULE_CONTEXT` package. `TOPICS` or equivalent bounded
+selectors may be supported. Large customer/production assets, secrets, caches,
+virtualenvs and Git object data are excluded by default.
+
+### Required repository navigation files
+
+New modules should provide:
+
+```text
+AGENTS.md
+coordination/bootstrap/START_HERE.md
+coordination/bootstrap/module_bootstrap_manifest.yaml
+```
+
+`AGENTS.md` is a thin cross-agent entrypoint. It must route to the module
+bootstrap document and live Blueprint sources instead of duplicating changing
+governance text.
+
+### Authority boundary
+
+Assistant handoff/context packages are navigation/evidence. They never grant:
+
+```text
+execution authority;
+dispatch authority;
+Blueprint mutation authority;
+roadmap mutation authority;
+acceptance authority;
+release authority;
+cross-repository write authority.
+```
+
+### Makefile template requirement
+
+`coordination/templates/module_makefile_standard.template.mk` must expose the
+three continuity targets and a module-owned implementation entrypoint such as:
+
+```text
+scripts/coordination/module_assistant_context.py
+```
+
+When continuity target semantics change, the Make command standard, target
+contract, template, implementation reference, tests and recovery documentation
+must be reviewed together.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Pre-module bootstrap commission — Blueprint-owned operator contract
+
+`MODULE_BOOTSTRAP_COMMISSION` exists before module-owned continuity is available.
+
+It is produced by System Blueprint, not by a child module Makefile. The package:
+
+- uses committed Blueprint source evidence;
+- records module classification/purpose/non-ownership and external bootstrap scope;
+- includes current bootstrap/clean-root/continuity standards, templates and helper reference;
+- grants no execution/acceptance/release/Blueprint-write/cross-repository-write authority;
+- defaults the canonical module manifest to `coordination/module/manifest.yaml`;
+- requires live reconciliation before the first target-module canonical mutation.
+
+After initialization, normal continuity remains:
+
+```text
+assistant-handoff-check
+assistant-pack          -> MODULE_ONBOARD
+assistant-context-pack  -> MODULE_CONTEXT
+```
+<!-- module-bootstrap-commission-v0-1:end -->

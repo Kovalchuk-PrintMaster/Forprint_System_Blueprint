@@ -1,0 +1,63 @@
+schema_version: forprint_blueprint_internal_worker_task_v0_1
+task_id: cf10-zero-stage-dispatch-boundary-regression-v0-1
+revision: 0.1.0
+status: READY_FOR_CONTEXT
+module_id: forprint_system_blueprint
+source:
+  type: MANUAL_INTERNAL
+  generation_mode: MANUAL
+  created_by: operator_assistant
+  raw_chat_is_authority: false
+  automatic_generation: false
+work:
+  work_id: u180j
+  work_front_id: wf-cf10-zero-stage-dispatch-boundary-regression-v0-1
+objective: Extend the existing CF-09 Dispatcher TASK_EXECUTION preflight regression coverage with one CF-10 zero-stage
+  invariant proving that the first Blueprint-internal manual/shadow pilot does not widen external dispatch, release,
+  push, merge or foreign-repository-write authority.
+instructions:
+- Modify only tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py.
+- Use scripts/coordination/control_plane/dispatch_intent.py as read-only runtime reference.
+- Use coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml as read-only control-contract
+  reference.
+- Add one focused CF-10-specific regression using existing Dispatcher interfaces.
+- Prove the Blueprint-internal zero-stage exception does not confer external worker dispatch, release, push, merge or
+  foreign-repository-write authority.
+- Do not modify Dispatcher runtime or its control contract.
+- If the invariant cannot be proven through existing interfaces, stop and return an operator escalation instead of widening
+  scope or authority.
+acceptance:
+- Only tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py is changed by the worker.
+- The new regression demonstrates no external dispatch authority widening.
+- The new regression demonstrates no release, push, merge or foreign-write authority.
+- Focused pytest passes.
+- git diff --check passes in the isolated worker workspace.
+- No prohibited execution action is performed.
+stop_conditions:
+- Runtime source modification is required.
+- Dispatcher control-contract modification is required.
+- A path outside the declared test target must be modified.
+- The invariant cannot be proven through existing interfaces.
+- Authority widening is requested or inferred.
+- Any cross-module write, release, push or merge is required.
+- Governed context is stale or internally inconsistent.
+execution_profile:
+  profile_id: light-maintenance
+  revision: r1
+procedure:
+  procedure_id: governed_canonical_mutation
+  revision: 0.1.0
+workspace:
+  isolated_workspace_required: true
+  candidate_only: true
+  canonical_write_allowed: false
+authority:
+  execution_authority_source: WORK_FRONT
+  task_artifact_grants_authority: false
+  dispatch_authority: false
+  release_authority: false
+  push_authority: false
+  merge_authority: false
+  foreign_write_authority: false
+  automatic_accept: false
+  widening_requested: false

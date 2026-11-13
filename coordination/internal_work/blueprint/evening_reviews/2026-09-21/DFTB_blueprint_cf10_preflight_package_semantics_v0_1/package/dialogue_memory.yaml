@@ -1,0 +1,1669 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-09-21
+source:
+  source_id: SRC-blueprint-2026-09-21
+  title: Forprint_Development - Forprint_Blueprint_21.09.26
+  source_type: chatgpt_mhtml_blueprint_coordination_continuation
+  source_file: Forprint_Blueprint_21.09.26.mhtml
+  source_hash_sha256: accee4fd2e74b21676bd64e9ee8e1502cc69b7656af44dd261f01eb420ff17f6
+  conversation_started_at: null
+  conversation_ended_at: Mon, 21 Sep 2026 19:53:34 +0000
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: blueprint_coordination_history
+  completeness: large_sparse_attachment_heavy_continuation
+  completeness_notes: 113 visible turn sections / 114 message blocks across turn range 1–845. 101 short attachment/archive placeholders. Visible substantive
+    work spans 18–20 September 2026; export saved 21 September 2026.
+extraction:
+  created_at: '2026-09-21T22:53:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_strict_blueprint_cf09_cf10_knowledge_packaging_reconstruction
+  implementation_verification_performed: false
+  notes: Historical dialogue evidence only. Attachment bodies are not reconstructed. Historical PASS labels are not current implementation proof.
+evidence_index:
+- evidence_id: EV-BP2109-0001
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9508a34d-90aa-4429-baf8-007b7fc6aadf
+    message_id: 3a70f703-43af-48cc-b301-8a83499e5a04
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'Пакет прийняла й розібрала. Використовуватиму його як handoff-контекст поточного діалогу , але не як дозвіл на мутації чи dispatch. Ключовий стан із
+    пакета: Активний Work Front: CF-09 — Integrate Work Fronts, profiles and Handoff v2 into Dispatcher , work_id: u180i . CF-08 уже не треба повторювати: у
+    event stream є VALIDATION_PASSED і WORK_CLOSED для u180h . Остання подія пакета: WORK_ACTIVATED для CF-09 від 16 вересня 2026 . HEAD : 4739fdcd8b213814f8440dd6a6681f596d8da456
+    , гілка audit/blueprint-inventory-refresh-2026-07-29 . Blockers: 0 , unknowns: 0 . Working tree навмисно dirty: 574 durable dirty paths. Його не можна чистити
+    через reset/stash/rebase просто заради чистоти. Є material unreconciled delta після checkpoint: 5 нових і 9 змінених файлів, переважно вже навк'
+  quote_whitespace_normalized: true
+  context_before: Opening assistant treats the supplied archive as context only, not mutation/dispatch authority.
+  context_after: null
+  evidence_role:
+  - assistant_handoff_interpretation
+  - authority_boundary
+- evidence_id: EV-BP2109-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9508a34d-90aa-4429-baf8-007b7fc6aadf
+    message_id: 3a70f703-43af-48cc-b301-8a83499e5a04
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'ого як handoff-контекст поточного діалогу , але не як дозвіл на мутації чи dispatch. Ключовий стан із пакета: Активний Work Front: CF-09 — Integrate
+    Work Fronts, profiles and Handoff v2 into Dispatcher , work_id: u180i . CF-08 уже не треба повторювати: у event stream є VALIDATION_PASSED і WORK_CLOSED
+    для u180h . Остання подія пакета: WORK_ACTIVATED для CF-09 від 16 вересня 2026 . HEAD : 4739fdcd8b213814f8440dd6a6681f596d8da456 , гілка audit/blueprint-inventory-refresh-2026-07-29
+    . Blockers: 0 , unknowns: 0 . Working tree навмисно dirty: 574 durable dirty paths. Його не можна чистити через reset/stash/rebase просто заради чистоти.
+    Є material unreconciled delta після checkpoint: 5 нових і 9 змінених файлів, переважно вже навколо CF-09 Dispatcher. NEXT_HORIZON.yaml у цьом'
+  quote_whitespace_normalized: true
+  context_before: Opening handoff state says CF-09/u180i is active and CF-08/u180h is already closed.
+  context_after: null
+  evidence_role:
+  - assistant_handoff_interpretation
+  - lifecycle_state
+- evidence_id: EV-BP2109-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9508a34d-90aa-4429-baf8-007b7fc6aadf
+    message_id: 3a70f703-43af-48cc-b301-8a83499e5a04
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'ial unreconciled delta після checkpoint: 5 нових і 9 змінених файлів, переважно вже навколо CF-09 Dispatcher. NEXT_HORIZON.yaml у цьому архіві фактично
+    відстає від event stream: він ще говорить про validation/closure CF-08, хоча ці події вже відбулися. Тобто для поточного стану я ставлю event stream + CURRENT_WORKFRONT
+    вище цієї старої projection . CF-09 має зв''язати MODULE + FRONT + optional PROFILE , ACK/pack validation, choke-point restrictions, validation/repair результатів,
+    attempt history, telemetry та resume/restart. Загальний worker dispatch усе ще заблокований. Після успішного CF-09 допускається лише майбутній CF-10: один
+    явно санкціонований оператором внутрішній Blueprint worker у manual/shadow режимі. Це не дає права на зовнішні модулі, automatic ACCEPT, p'
+  quote_whitespace_normalized: true
+  context_before: Assistant identifies stale NEXT_HORIZON projection and prefers event stream + CURRENT_WORKFRONT for historical state.
+  context_after: null
+  evidence_role:
+  - assistant_handoff_interpretation
+  - authority_precedence
+- evidence_id: EV-BP2109-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9508a34d-90aa-4429-baf8-007b7fc6aadf
+    message_id: 3a70f703-43af-48cc-b301-8a83499e5a04
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'гілка audit/blueprint-inventory-refresh-2026-07-29 . Blockers: 0 , unknowns: 0 . Working tree навмисно dirty: 574 durable dirty paths. Його не можна
+    чистити через reset/stash/rebase просто заради чистоти. Є material unreconciled delta після checkpoint: 5 нових і 9 змінених файлів, переважно вже навколо
+    CF-09 Dispatcher. NEXT_HORIZON.yaml у цьому архіві фактично відстає від event stream: він ще говорить про validation/closure CF-08, хоча ці події вже відбулися.
+    Тобто для поточного стану я ставлю event stream + CURRENT_WORKFRONT вище цієї старої projection . CF-09 має зв''язати MODULE + FRONT + optional PROFILE ,
+    ACK/pack validation, choke-point restrictions, validation/repair результатів, attempt history, telemetry та resume/restart. Загальний worker disp'
+  quote_whitespace_normalized: true
+  context_before: Opening handoff says the worktree is intentionally dirty and must not be cleaned by reset/stash/rebase merely for cleanliness.
+  context_after: null
+  evidence_role:
+  - assistant_handoff_interpretation
+  - worktree_safety
+- evidence_id: EV-BP2109-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9508a34d-90aa-4429-baf8-007b7fc6aadf
+    message_id: 3a70f703-43af-48cc-b301-8a83499e5a04
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'ation, choke-point restrictions, validation/repair результатів, attempt history, telemetry та resume/restart. Загальний worker dispatch усе ще заблокований.
+    Після успішного CF-09 допускається лише майбутній CF-10: один явно санкціонований оператором внутрішній Blueprint worker у manual/shadow режимі. Це не дає
+    права на зовнішні модулі, automatic ACCEPT, push/merge чи розширення authority. Також зафіксувала важливе правило handoff: чат не є source of truth; canonical
+    events/authority surfaces мають перевагу, а unreconciled delta не можна мовчки поглинати в останній checkpoint. Тобто контекст для продовження роботи в мене
+    тепер є: ми знаходимося всередині активного CF-09, а не перед CF-09.'
+  quote_whitespace_normalized: true
+  context_before: Opening handoff says general worker dispatch remains blocked and future CF-10 is limited to one explicitly sanctioned internal Blueprint worker
+    in manual/shadow mode.
+  context_after: null
+  evidence_role:
+  - assistant_handoff_interpretation
+  - automation_boundary
+- evidence_id: EV-BP2109-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e9f92019-0174-4e60-a22f-be67f16df635
+    message_id: 47927b6c-3f6d-420a-ae47-ec8aeefbdf58
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'Так. У нашому поточному плані ACK = Acknowledgement , тобто формалізоване підтвердження асистента/worker-а: «Я отримав саме цей execution package,
+    розпізнав його контракт і готовий працювати саме в цих межах» . Але важливий нюанс: це не звичайне «OK, завдання отримав» . У CF-09 ACK стає частиною механізму
+    безпеки Dispatcher. Умовно весь запуск тепер має виглядати так: Dispatcher визначає, що саме треба виконати. Він зводить разом MODULE + WORK FRONT + optional
+    PROFILE , підтягує Procedure Graph, authority, budget, контекст, обмеження інструментів/шляхів/repository, expected-result contract тощо. Handoff v2 формує
+    конкретний пакет виконання. Пакет hash-bound, тобто це вже не просто текстовий п'
+  quote_whitespace_normalized: true
+  context_before: Assistant explains ACK as a formal machine-verifiable acknowledgement of a specific execution package/contract.
+  context_after: null
+  evidence_role:
+  - assistant_architecture_explanation
+  - ack_contract
+- evidence_id: EV-BP2109-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e9f92019-0174-4e60-a22f-be67f16df635
+    message_id: 47927b6c-3f6d-420a-ae47-ec8aeefbdf58
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'pt. Worker отримує пакет, але ще НЕ починає роботу. Worker повертає ACK . Dispatcher перевіряє ACK. Лише якщо pack validation == PASS і ACK validation
+    == PASS , Dispatcher може перейти до execution. Після виконання worker уже повертає зовсім інший об''єкт — Result envelope . Result знову проходить validation
+    перед тим, як потрапити оператору. Тобто ACK стоїть приблизно тут: Dispatch intent → compile Handoff v2 → validate package → send to worker → ACK → validate
+    ACK → EXECUTE → RESULT → validate result І це дуже важливо: ACK ≠ Result . ACK говорить: «Я зрозумів контракт до початку роботи». Result говорить: «Ось що
+    я фактично зробив у межах цього контракту». Навіщо він нам взагалі потрібний Без ACK Dispatcher фактично робив би припущення: «Я відправив worker-у пакет,
+    значить'
+  quote_whitespace_normalized: true
+  context_before: 'Assistant gives the intended pre-execution flow: valid package plus valid ACK before execution.'
+  context_after: null
+  evidence_role:
+  - assistant_architecture_explanation
+  - ack_gate
+- evidence_id: EV-BP2109-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e9f92019-0174-4e60-a22f-be67f16df635
+    message_id: 47927b6c-3f6d-420a-ae47-ec8aeefbdf58
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'alidate package → send to worker → ACK → validate ACK → EXECUTE → RESULT → validate result І це дуже важливо: ACK ≠ Result . ACK говорить: «Я зрозумів
+    контракт до початку роботи». Result говорить: «Ось що я фактично зробив у межах цього контракту». Навіщо він нам взагалі потрібний Без ACK Dispatcher фактично
+    робив би припущення: «Я відправив worker-у пакет, значить він правильно його зрозумів». Для автономної системи це погана модель. У нас worker може отримати
+    Handoff, але, наприклад: не розпізнати потрібну версію контракту; отримати неправильний або неповний package; втратити частину контексту; не зрозуміти Work
+    Front; не побачити Procedure binding; працювати не з тим attempt ; прийняти старий пакет; помилково вважати, що має ширші права; не підтримувати потрі'
+  quote_whitespace_normalized: true
+  context_before: Assistant distinguishes pre-execution ACK from post-execution Result envelope.
+  context_after: null
+  evidence_role:
+  - assistant_architecture_explanation
+  - contract_separation
+- evidence_id: EV-BP2109-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e9f92019-0174-4e60-a22f-be67f16df635
+    message_id: 47927b6c-3f6d-420a-ae47-ec8aeefbdf58
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'є ще одна важлива властивість нашої архітектури. CF-08 прямо зафіксував: ACK/result field names are exact and aliases are invalid. Тобто це не LLM-style
+    відповідь, де можна написати: yes accepted understood ready_to_go acknowledged і всі вони означатимуть приблизно одне. Ні. Canonical contract визначає конкретну
+    структуру. Якщо очікується певне поле, альтернативна назва не повинна автоматично трактуватися як правильна. Саме тому CF-09 має окремий тест: tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py
+    Це досить добре показує архітектурний задум: ACK — саме gate , а не інформаційний лог. Що має статися при поганому ACK Найважливіше: execution не повинен
+    початися . Наприклад: Handoff package ↓ package validation PASS ↓ worker receives packa'
+  quote_whitespace_normalized: true
+  context_before: Assistant says ACK/result field names are exact and aliases are invalid under the historical contract.
+  context_after: null
+  evidence_role:
+  - assistant_architecture_explanation
+  - schema_strictness
+- evidence_id: EV-BP2109-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e9f92019-0174-4e60-a22f-be67f16df635
+    message_id: 47927b6c-3f6d-420a-ae47-ec8aeefbdf58
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'нен початися . Наприклад: Handoff package ↓ package validation PASS ↓ worker receives package ↓ ACK invalid ↓ EXECUTION BLOCKED А не: ACK дивний, але
+    хай worker попрацює, а потім розберемося Це і є наш принцип fail closed . При цьому я б зараз не стверджувала, що будь-який неправильний ACK автоматично
+    ремонтується. У handoff видно, що bounded self-repair чітко реалізований для Result envelope , а в CF-09 окремо будується Dispatcher retry/repair orchestration.
+    Тобто ACK gate і result repair — споріднені, але це не одна й та сама операція. Ще простіше можна провести аналогію з виробництвом. Уявімо, що Dispatcher
+    — начальник виробництва, worker — оператор верстата. Dispatcher видає: Замовлення №152. Матеріал такий. Формат такий. Тираж такий. Працювати лише на верстаті
+    X'
+  quote_whitespace_normalized: true
+  context_before: Assistant says invalid ACK must fail closed and prevent execution.
+  context_after: null
+  evidence_role:
+  - assistant_architecture_explanation
+  - fail_closed
+- evidence_id: EV-BP2109-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 20
+    turn_id: fe004fe6-1714-47ff-803b-353689a2fcf5
+    message_id: 7cbee0c2-1eb2-4fa3-a193-3877b9eae3ac
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'о одному кроку . Сам архів я вже звірила зі своєю копією: у ньому 10 робочих файлів + manifest.json . Поки що нічого не переносимо в canonical directories
+    . Крок 1 — intake пакета та перевірка цілісності З кореня Blueprint виконай: Bash mkdir -p tmp/assistant_work/evening_planning_20260917_v0_1 unzip -q \ tmp/forprint_evening_planning_handoff_2026-09-17_v0_1.zip
+    \ -d tmp/assistant_work/evening_planning_20260917_v0_1 cd tmp/assistant_work/evening_planning_20260917_v0_1 unzip -t ../../forprint_evening_planning_handoff_2026-09-17_v0_1.zip
+    jq -r ''.files[] | "\(.sha256) \(.path)"'' manifest.json | sha256sum -c - printf ''\n--- FILES ---\n'' find . -maxdepth 1 -type f -printf ''%f\n'' | sort
+    Очікуємо дві речі: unzip -t завершується No errors detected ; усі 10 файлів із manifest дають OK . Цей крок нічого'
+  quote_whitespace_normalized: true
+  context_before: Assistant starts evening-package intake in tmp and requires archive/hash verification before canonical changes.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - package_intake
+- evidence_id: EV-BP2109-0012
+  speaker: user
+  locator:
+    conversation_turn: 329
+    turn_id: 07ee3933-db65-47a9-a34a-e85be66b2075
+    message_id: 07ee3933-db65-47a9-a34a-e85be66b2075
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: mutation_compiler ├── project_context_archives ├── report.txt └── repository_knowledge_freshness_status.yaml архів поклав можемо продовжувати покроково
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner confirms an architecture handoff archive is present and asks to continue step by step.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - bounded_execution
+- evidence_id: EV-BP2109-0013
+  speaker: user
+  locator:
+    conversation_turn: 551
+    turn_id: c8771f92-b985-4a61-bb7c-33f2353d417c
+    message_id: c8771f92-b985-4a61-bb7c-33f2353d417c
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: у в план щоб він її виконав і тут важливо я не знаю досить так глибоко продумати тому що у нас передбачається дуже багато змін і дуже частих нам прийдеться
+    там повністю переформатувати весь весь roadma по кожному модулю і там кожного разу там умовно перебудовувати цей оці графи да там залежностей це треба теж
+    якось передбачити щоб якась така потужна схема була роботи щоб потім ці всі правки навіть якщо їх дуже багато щоб вони якось ефективно впроваджувались проект
+    і не робили якихось там взаємних проблем Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks for a robust scheme that can handle frequent large roadmap/dependency-graph revisions without creating mutual conflicts.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - roadmap_scalability
+- evidence_id: EV-BP2109-0014
+  speaker: user
+  locator:
+    conversation_turn: 603
+    turn_id: 029bba97-5e94-468e-90df-6b8b849f461b
+    message_id: 029bba97-5e94-468e-90df-6b8b849f461b
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: ntext_archives ├── report.txt └── repository_knowledge_freshness_status.yaml ахів закинув звіт останній додав покроково продовжуємо все реалізовувати
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner again directs stepwise continuation after placing the next architecture handoff/report.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - bounded_execution
+- evidence_id: EV-BP2109-0015
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: __5deb8f9a2b49__ca0434c5e535.zip Zip Archive ===== 0155 LIVING KNOWLEDGE PROMOTION + PUBLICATION RESEAL ===== PROMOTION_SCOPE=2_VERIFIED_REUSABLE_LESSONS
+    FIELD_GUIDE_MUTATION_ALLOWED=true OTHER_SOURCE_MUTATION_ALLOWED=false KNOWLEDGE_DERIVED_REBUILD_ALLOWED=true BLUEPRINT_INDEX_REBUILD_ALLOWED=false SPECIALIZED_INDEX_REBUILD_ALLOWED=false
+    TEMP_VENV_BRIDGE_ALLOWED=true TEMP_GIT_INDEX_ALLOWED=true REAL_GIT_INDEX_MUTATION_ALLOWED=false COMMIT_ALLOWED=false PUSH_ALLOWED=false CF10_BINDING_ALLOWED=false
+    CF10_ACTIVATION_ALLOWED=false ===== MAIN BASELINE ===== HEAD=a4399af4035a6c3fcb29d4001d4445e63a6b1dc9 TREE=e39060a0cbb624b7dcaa8135726beb042782fd08 BRANCH=audit/blueprint-inventory-refresh-2026-07-29
+    UPSTREAM=a4399af4035a6c3fcb29d4001d4445e63a6b1dc9 DIVERGENCE=0 0 ===== 0154-R2 CANDIDATE SEAL =====
+  quote_whitespace_normalized: true
+  context_before: Visible historical result limits living-knowledge promotion to two verified reusable lessons.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - living_knowledge
+- evidence_id: EV-BP2109-0016
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: ad75ca PRE_PROMOTION_CONTENT_EXACT=true ===== VERIFIED LESSON PROMOTION ===== LESSON_INSERTION_ANCHOR_COUNT=1 PROMOTED_LESSON=FP-RE-007 PROMOTED_LESSON=FP-RE-008
+    FIELD_GUIDE_SHA256_AFTER_PROMOTION=44f7fe6c7d05869a16f34dacb9b2f02007458fc5d48f09e042f48f2f5ab5f76f OTHER_10_SOURCE_PATHS_UNCHANGED=true ===== KNOWLEDGE
+    INDEX REBUILD ===== KNOWLEDGE_INDEX_BUILD_EXIT=0 KNOWLEDGE_INDEX_BUILD_STDOUT_BEGIN BLUEPRINT_KNOWLEDGE_INDEX_BUILD=PASS KNOWLEDGE_INDEX_BUILD_STDOUT_END
+    KNOWLEDGE_INDEX_REBUILD=PASS ===== POST-PROMOTION EXACT DELTA ===== STAGED_COUNT=0 DIRTY_COUNT=14 UNTRACKED_COUNT=3 ===== GIT DIFF STRUCTURAL CHECK =====
+    GIT_DIFF_CHECK_EXIT=0 ===== CANONICAL VALIDATION ===== STANDARDS_CHECK_EXIT=0 STANDARDS_CHECK_STDOUT_BEGIN ✅ Standards index validation passed STANDARDS_CHECK_STD
+  quote_whitespace_normalized: true
+  context_before: Visible result promotes FP-RE-007 and FP-RE-008 while preserving the other source paths.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - living_knowledge
+- evidence_id: EV-BP2109-0017
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: _BEGIN ..............................s......................................... [ 82%] ............... [100%] 86 passed, 1 skipped in 5.23s TARGETED_VALIDATION_PYTEST_STDOUT_END
+    TARGETED_VALIDATION_TESTS=PASS ===== POST-VALIDATION PRESERVATION ===== VALIDATION_INTRODUCED_EXTRA_REPO_DELTA=false ===== RESEALED PROSPECTIVE PUBLICATION
+    TREE ===== TEMP_INDEX_DIFF_CHECK_EXIT=0 TEMP_INDEX_PATH_COUNT=17 TEMP_INDEX_PATH=coordination/instruction_intake/assistant_reading_order.md TEMP_INDEX_PATH=coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+    TEMP_INDEX_PATH=coordination/repository_knowledge/README.md TEMP_INDEX_PATH=coordination/repository_knowledge/roadmap_enrichment/README.md TEMP_INDEX_PATH=coordination/repository_knowledge/roadmap_enrichment/source_map
+  quote_whitespace_normalized: true
+  context_before: Targeted validation for the living-knowledge publication candidate passes 86 tests with 1 skipped.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - validation
+- evidence_id: EV-BP2109-0018
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: blueprint' .venv_blueprint/bin/python scripts/coordination/roadmap_execution_reconciliation.py --root . check ROADMAP_SYNC=IN_SYNC LATEST_EVENT_SEQUENCE=65
+    MUTATION_PERFORMED=false .venv_blueprint/bin/python scripts/validation/validate_roadmap_execution_reconciliation_v0_1.py ROADMAP_EXECUTION_RECONCILIATION_VALIDATION=PASS
+    DERIVED_CURSOR_PHASE_INDEPENDENT_VALIDATION=true PROGRAM_EXECUTION_CURSOR_METADATA=DERIVED_NOT_STORED CF02_CLOSURE_ACCEPTANCE=EVENT_SOURCED_DERIVED_CURSOR_PROVEN
+    ROADMAP_SYNC=IN_SYNC ACTUAL_EXECUTION_AUTHORITY=continuity_event_store GENERATED_STATUS_AUTHORITY=none EXTERNAL_LIFECYCLE_DEPENDENCIES=SUPPORTED HISTORICAL_MIGRATION_COMPATIBILITY=BOUNDED
+    WIP_LIMIT=1 AUTO_NEXT_ACTIVATION=false WORKER_DISPATCH_AUTHORITY=false PUBLIC_MAKE_CHECK_NON_MUTATING=tr
+  quote_whitespace_normalized: true
+  context_before: Subsequent check reports roadmap execution reconciliation in sync at event sequence 65.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - roadmap_state
+- evidence_id: EV-BP2109-0019
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: '_METADATA=DERIVED_NOT_STORED CF02_CLOSURE_ACCEPTANCE=EVENT_SOURCED_DERIVED_CURSOR_PROVEN ROADMAP_SYNC=IN_SYNC ACTUAL_EXECUTION_AUTHORITY=continuity_event_store
+    GENERATED_STATUS_AUTHORITY=none EXTERNAL_LIFECYCLE_DEPENDENCIES=SUPPORTED HISTORICAL_MIGRATION_COMPATIBILITY=BOUNDED WIP_LIMIT=1 AUTO_NEXT_ACTIVATION=false
+    WORKER_DISPATCH_AUTHORITY=false PUBLIC_MAKE_CHECK_NON_MUTATING=true CONTROL_FOUNDATION_DOUBLE_WRITE_REMOVED=true LEGACY_TERMINAL_STATE_RETIREMENT=COMPLETE
+    LEGACY_HISTORICAL_COMPLETION_EVIDENCE=EXPLICIT LIFECYCLE_RECONCILIATION_CHOKE_POINTS=HARD_GATED .venv_blueprint/bin/python -m pytest -q tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+    ............... [100%] 15 passed in 1.28s make[1]: Leaving directory ''/srv/software_development/forprint-project/forprint_system_blueprint'''
+  quote_whitespace_normalized: true
+  context_before: Roadmap reconciliation output names continuity event store as execution authority and generated status as non-authority.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - authority_contract
+- evidence_id: EV-BP2109-0020
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'ipts/validation/validate_project_constitution_v0_1.py PROJECT_CONSTITUTION_CONTRACT=PASS AUTHORITY_PRECEDENCE=PROJECT_CONSTITUTION>MODULE_POLICY>EXECUTION_PROFILE>WORK_FRONT
+    LOWER_LAYER_MAY_NARROW=true LOWER_LAYER_SILENT_WIDENING=false AI_SELF_GUARDRAIL_CERTIFICATION=false PROJECT_CONSTITUTION_VALIDATION=PASS PROJECT_LAW_COUNT=13
+    PUBLIC_MAKE_CHECK_BOUND=true ASSISTANT_PACK_BOUND=true LIFECYCLE_ROADMAP_GATE_BOUND=true CF04_WORK_FRONT_IMPLEMENTED=false CF06_EXECUTION_PROFILE_REGISTRY_IMPLEMENTED=false
+    WORKER_DISPATCH_AUTHORITY_WIDENED=false make[1]: Leaving directory ''/srv/software_development/forprint-project/forprint_system_blueprint'' make work-front-assistant-pack-gate
+    FRONT="" make[1]: Entering directory ''/srv/software_development/forprint-project/forprint_system_blueprint'' WORK_FRONT_GATE=NOT_APPLICABLE_PROJE'
+  quote_whitespace_normalized: true
+  context_before: Visible project-constitution check records the historical authority precedence chain.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - authority_contract
+- evidence_id: EV-BP2109-0021
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'HORITY_PRECEDENCE=PROJECT_CONSTITUTION>MODULE_POLICY>EXECUTION_PROFILE>WORK_FRONT LOWER_LAYER_MAY_NARROW=true LOWER_LAYER_SILENT_WIDENING=false AI_SELF_GUARDRAIL_CERTIFICATION=false
+    PROJECT_CONSTITUTION_VALIDATION=PASS PROJECT_LAW_COUNT=13 PUBLIC_MAKE_CHECK_BOUND=true ASSISTANT_PACK_BOUND=true LIFECYCLE_ROADMAP_GATE_BOUND=true CF04_WORK_FRONT_IMPLEMENTED=false
+    CF06_EXECUTION_PROFILE_REGISTRY_IMPLEMENTED=false WORKER_DISPATCH_AUTHORITY_WIDENED=false make[1]: Leaving directory ''/srv/software_development/forprint-project/forprint_system_blueprint''
+    make work-front-assistant-pack-gate FRONT="" make[1]: Entering directory ''/srv/software_development/forprint-project/forprint_system_blueprint'' WORK_FRONT_GATE=NOT_APPLICABLE_PROJECT_ONBOARD_COMPAT
+    make[1]: Leaving directory ''/srv/software_de'
+  quote_whitespace_normalized: true
+  context_before: Project-constitution output says lower layers may narrow but may not silently widen authority; AI self-guardrail certification is false.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - authority_contract
+- evidence_id: EV-BP2109-0022
+  speaker: user
+  locator:
+    conversation_turn: 765
+    turn_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    message_id: 8652bdae-2ea7-40a2-83dd-008e184782ab
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: rprint_system_blueprint/tmp/assistant_handoff/forprint_assistant_handoff_v0_1__5deb8f9a2b49__ca0434c5e535.zip тут наче не те зібралось що треба Show
+    more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner flags that the generated assistant-handoff package appears not to be the package actually needed.
+  context_after: null
+  evidence_role:
+  - owner_execution_feedback
+  - package_identity
+- evidence_id: EV-BP2109-0023
+  speaker: user
+  locator:
+    conversation_turn: 821
+    turn_id: 67c0c67c-a706-485a-9710-03372991cffe
+    message_id: 67c0c67c-a706-485a-9710-03372991cffe
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: ступного скрипту якесь таке невелике пояснення що ми зараз зробимо ми намагаємося перебудувати roadmap але ну цього в задачу ми не ставили тобто яка
+    зараз відбувається процедура тобто нам просто треба писати ну скажімо так інструктну новий пакування нових інструкцій для нової помічниці але вони ну напряму
+    народ мап не впливають тобто я щось не розумію з чим ми стільки мучаємося Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly questions roadmap rebuilding during a task that was supposed to package/instruct a new assistant.
+  context_after: null
+  evidence_role:
+  - owner_scope_correction
+  - roadmap_boundary
+- evidence_id: EV-BP2109-0024
+  speaker: user
+  locator:
+    conversation_turn: 825
+    turn_id: 5174d705-62d5-4c42-9ab4-ab205aaf1f3f
+    message_id: 5174d705-62d5-4c42-9ab4-ab205aaf1f3f
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: t (2)(1).txt Document Pasted text (3).txt Document Ну дивись тоді якщо ці пакети нормально зберуться то треба перенести прямо все в проект щоб все жило
+    не в пісочниці а в проекті
+  quote_whitespace_normalized: true
+  context_before: Owner says verified package outputs should be moved into the project so they live durably rather than only in sandbox/tmp.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - durable_artifacts
+- evidence_id: EV-BP2109-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 842
+    turn_id: 92e6f3ab-bb99-4871-b2ef-2fa45a97dc96
+    message_id: 2867aecb-48ca-4a31-b858-5be16ec9a85a
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: '0170 = PASS . Ми нарешті повернулися в основний маршрут. CF-10 зараз саме в правильному стартовому стані: READY_UNBOUND ; залежності CF-07 , CF-08
+    , CF-09 завершені; work_id=None ; lifecycle ще не активований. Pasted text І головне: control-plane для запуску вже існує. Є launch request, operator approval,
+    execution profiles, Handoff v2 runtime/result, attempt ledger, worker invocation та dispatch targets. Pasted text +1 Тому не пишемо нового механізму . Наступний
+    один крок — 0171 : read-only відновити точну canonical послідовність запуску першого worker-а. 0171 — exact CF-10 launch choreography audit Повністю заміни
+    tmp.py : Python Run """ ForPrint Syst'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports 0170 PASS and return to the main route.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - cf10_state
+- evidence_id: EV-BP2109-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 842
+    turn_id: 92e6f3ab-bb99-4871-b2ef-2fa45a97dc96
+    message_id: 2867aecb-48ca-4a31-b858-5be16ec9a85a
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: '0170 = PASS . Ми нарешті повернулися в основний маршрут. CF-10 зараз саме в правильному стартовому стані: READY_UNBOUND ; залежності CF-07 , CF-08
+    , CF-09 завершені; work_id=None ; lifecycle ще не активований. Pasted text І головне: control-plane для запуску вже існує. Є launch request, operator approval,
+    execution profiles, Handoff v2 runtime/result, attempt ledger, worker invocation та dispatch targets. Pasted text +1 Тому не пишемо нового механізму . Наступний
+    один крок — 0171 : read-only відновити точну canonical послідовність запуску першого worker-а. 0171 — exact CF-10 launch choreography audit Повністю заміни
+    tmp.py : Python Run """ ForPrint System Blueprint 0171 — exact CF-10 controlled-launch choreography audit. READ-ONLY. Мета: 1. підтвердити CF-10'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports CF-10 READY_UNBOUND with CF-07/CF-08/CF-09 dependencies complete, work_id None and lifecycle not activated.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - cf10_state
+- evidence_id: EV-BP2109-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 842
+    turn_id: 92e6f3ab-bb99-4871-b2ef-2fa45a97dc96
+    message_id: 2867aecb-48ca-4a31-b858-5be16ec9a85a
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'алежності CF-07 , CF-08 , CF-09 завершені; work_id=None ; lifecycle ще не активований. Pasted text І головне: control-plane для запуску вже існує.
+    Є launch request, operator approval, execution profiles, Handoff v2 runtime/result, attempt ledger, worker invocation та dispatch targets. Pasted text +1
+    Тому не пишемо нового механізму . Наступний один крок — 0171 : read-only відновити точну canonical послідовність запуску першого worker-а. 0171 — exact CF-10
+    launch choreography audit Повністю заміни tmp.py : Python Run """ ForPrint System Blueprint 0171 — exact CF-10 controlled-launch choreography audit. READ-ONLY.
+    Мета: 1. підтвердити CF-10 READY_UNBOUND; 2. знайти точний canonical binding / lifecycle interface; 3. витягнути Makefile recipes для worker/dispatch/handoff
+    targets; 4. витягн'
+  quote_whitespace_normalized: true
+  context_before: Assistant says launch request, operator approval, execution profiles, Handoff v2, result/attempt ledger and worker invocation surfaces already
+    exist, so a new mechanism should not be invented.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - reuse_existing_control_plane
+- evidence_id: EV-BP2109-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 844
+    turn_id: a96d9c5b-d539-4bf9-a934-8e94677f2488
+    message_id: edcdffe6-a67d-4922-840c-946bc8011c12
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'з PLANNED дозволяє WORK_ACTIVATED . Pasted text +1 Але в assistant_handoff_v2_runtime_v0_1.py досі буквально зашитий старий work_id: "u180h" та open_work["u180h"]
+    . Для нового CF-10 це потенційно означає неправильні resume coordinates у handoff manifest. Pasted text При цьому allocator work_id взагалі відсутній, тому
+    новий ID має бути явним operator-supplied binding. У самому аудиті всі control scripts присутні й choreography визнана derivable. Pasted text Тому CF-10
+    ще не bind/activate . Робимо один останній launch-preflight саме по трьох речах: u180j , execution profile і реальний worker-start interface. Якщо єдиний
+    blocker — hardcoded u180h , наступним кроком виправляємо тільки його. 0172 — CF-10 first-pilot launch-critical preflight Повністю заміни tmp.py : Python
+    Ru'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports Handoff v2 runtime still hardcodes old work_id u180h and treats it as launch-critical before CF-10 binding.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - cf10_blocker
+- evidence_id: EV-BP2109-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 844
+    turn_id: a96d9c5b-d539-4bf9-a934-8e94677f2488
+    message_id: edcdffe6-a67d-4922-840c-946bc8011c12
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: ', який я б не пропускала перед binding CF-10. CF-10 дійсно READY_UNBOUND , а lifecycle чітко вимагає спочатку roadmap binding, потім WORK_PLANNED ,
+    і лише з PLANNED дозволяє WORK_ACTIVATED . Pasted text +1 Але в assistant_handoff_v2_runtime_v0_1.py досі буквально зашитий старий work_id: "u180h" та open_work["u180h"]
+    . Для нового CF-10 це потенційно означає неправильні resume coordinates у handoff manifest. Pasted text При цьому allocator work_id взагалі відсутній, тому
+    новий ID має бути явним operator-supplied binding. У самому аудиті всі control scripts присутні й choreography визнана derivable. Pasted text Тому CF-10
+    ще не bind/activate . Робимо один останній launch-preflight саме по трьох речах: u180j , execution profile і реальний worker-start interface. Якщо єдиний
+    blocker — hard'
+  quote_whitespace_normalized: true
+  context_before: 'Assistant summarizes lifecycle order: roadmap binding, then WORK_PLANNED, then WORK_ACTIVATED.'
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - lifecycle_contract
+- evidence_id: EV-BP2109-0030
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'D_STATE=READY_UNBOUND CF10_DEPENDENCIES_COMPLETE=True CF10_READY_UNBOUND=PASS ===== PROSPECTIVE WORK-ID ===== U180J_REFERENCE_COUNT=1 U180J_REFERENCE=coordination/status/deferred_non_roadmap_maintenance_governance_gap.md
+    U180J_UNUSED=false WORK_ID_ALLOCATOR_REFERENCE_COUNT=0 WORK_ID_SELECTION_MODE=EXPLICIT_OPERATOR_SUPPLIED ===== EXECUTION PROFILES ===== EXECUTION_PROFILE_COUNT=4
+    EXECUTION_PROFILE_1={"authority_policy": {"capability_ceiling": ["read"], "mode": "READ_ONLY"}, "budget_policy": {"tier": "HIGH"}, "context_policy": {"fresh_context_required":
+    true, "raw_chat_is_authority": false, "tier": "DEEP"}, "profile_id": "deep-readonly-analysis", "reasoning_policy": {"backend": "replaceable", "tier": "DEEP"},
+    "revision": "r1", "schema_version": "forprint_execution_profile_v'
+  quote_whitespace_normalized: true
+  context_before: Direct 0172 output finds prospective u180j already referenced in deferred_non_roadmap_maintenance_governance_gap.md and no work-id allocator.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf10_blocker
+- evidence_id: EV-BP2109-0031
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: '_ALLOCATOR_REFERENCE_COUNT=0 WORK_ID_SELECTION_MODE=EXPLICIT_OPERATOR_SUPPLIED ===== EXECUTION PROFILES ===== EXECUTION_PROFILE_COUNT=4 EXECUTION_PROFILE_1={"authority_policy":
+    {"capability_ceiling": ["read"], "mode": "READ_ONLY"}, "budget_policy": {"tier": "HIGH"}, "context_policy": {"fresh_context_required": true, "raw_chat_is_authority":
+    false, "tier": "DEEP"}, "profile_id": "deep-readonly-analysis", "reasoning_policy": {"backend": "replaceable", "tier": "DEEP"}, "revision": "r1", "schema_version":
+    "forprint_execution_profile_v0_1", "selection": {"dispatcher_recommendable": true, "operator_override_supported": true, "recommendation_tags": ["analysis",
+    "audit", "readonly"]}, "status": "active"} EXECUTION_PROFILE_2={"authority_policy": {"capability_ceiling": ["read", "write'
+  quote_whitespace_normalized: true
+  context_before: 0172 output lists four active execution profiles and says recommendations do not confer dispatch authority.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - execution_profiles
+- evidence_id: EV-BP2109-0032
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'te": cursor["open_work"].get("u180h"), HANDOFF_U180H_FUNCTION=compile_runtime_manifest|line=326|args=[''root''] HANDOFF_DYNAMIC_WORK_ID_BINDING=false
+    HANDOFF_U180H_HARDCODE_ACTIVE=true ===== EXPLICIT LOCAL WORKER-START INTERFACE ===== WORKER_START_CANDIDATE_COUNT=14 WORKER_START_CANDIDATE=scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+    WORKER_START_CANDIDATE=scripts/coordination/build_context_bundle.py WORKER_START_CANDIDATE=scripts/coordination/build_worker_invocation.py WORKER_START_CANDIDATE=scripts/coordination/continuity.py
+    WORKER_START_CANDIDATE=scripts/coordination/control_plane/completion/intake.py WORKER_START_CANDIDATE=scripts/coordination/control_plane/context/bootstrap_task_context.py
+    WORKER_START_CANDIDATE=scripts/coordination/control_plane/context/runtime.py WORKER'
+  quote_whitespace_normalized: true
+  context_before: 0172 directly confirms Handoff v2 dynamic work-id binding is false and old u180h hardcode remains active.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf10_blocker
+- evidence_id: EV-BP2109-0033
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: 'n'': ''store_true''} WORKER_INVOCATION_CLI=add_argument|args=[''--require-ready'']|kwargs={''action'': ''store_true''} EXPLICIT_LOCAL_WORKER_START_INTERFACE_RESOLVED=true
+    ===== FIRST ZERO-STAGE TASK CANDIDATE ===== DEFERRED_GOVERNANCE_GAP_PRESENT=true PROSPECTIVE_TASK_ID=cf10_zero_stage_001_non_roadmap_maintenance_gap_analysis
+    PROSPECTIVE_TASK_KIND=BLUEPRINT_INTERNAL_READ_ONLY_MAINTENANCE_ANALYSIS PROSPECTIVE_TASK_PRIMARY_INPUT=coordination/status/deferred_non_roadmap_maintenance_governance_gap.md
+    PROSPECTIVE_TASK_GOAL=Analyze the deferred non-roadmap maintenance governance gap and return a bounded recommendation; do not modify roadmap, lifecycle,
+    repositories, release state, or external modules. PROSPECTIVE_TASK_REPOSITORY_WRITE_ALLOWED=false PROSPECTIVE_TASK_EXTERNAL_MODULE_WRITE_ALLOWED=false PROSPECTIVE_T'
+  quote_whitespace_normalized: true
+  context_before: 0172 confirms a local worker-start interface can be derived from existing control-plane surfaces.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - worker_runtime
+- evidence_id: EV-BP2109-0034
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: TASK_DISPATCH_WIDENING_ALLOWED=false PROSPECTIVE_TASK_RELEASE_ALLOWED=false ===== FIRST PILOT PREFLIGHT ===== FIRST_PILOT_BLOCKER_COUNT=2 FIRST_PILOT_BLOCKER=PROSPECTIVE_WORK_ID_U180J_ALREADY_USED
+    FIRST_PILOT_BLOCKER=HANDOFF_V2_RUNTIME_HARDCODES_U180H FIRST_PILOT_PREFLIGHT=CF10_FIRST_PILOT_REQUIRES_BOUNDED_PREFLIGHT_REPAIR NEXT_STEP=REPAIR_ONLY_THE_REPORTED_CF10_FIRST_PILOT_BLOCKERS
+    ===== MAIN PRESERVATION ===== HEAD_UNCHANGED=true REAL_INDEX_EMPTY=true DIRTY_SET_PRESERVED=true UNTRACKED_SET_PRESERVED=true WORKTREE_BYTES_PRESERVED=true
+    ===== FINAL ===== 0172_CF10_FIRST_PILOT_LAUNCH_CRITICAL_PREFLIGHT=PASS PROSPECTIVE_WORK_ID=u180j U180J_UNUSED=false HANDOFF_U180H_HARDCODE_ACTIVE=true EXPLICIT_LOCAL_WORKER_START_INTERFACE_RESOLVED=true
+    FIRST_PILOT_BLOCKER_COUNT=2 FIRST_PILOT_PR
+  quote_whitespace_normalized: true
+  context_before: 0172 PASS classifies the first pilot as still blocked by u180j reuse and Handoff u180h hardcoding; no roadmap/binding/activation/worker mutation
+    occurs.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf10_preflight
+- evidence_id: EV-BP2109-0035
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: forprint_project_context__forprint_library__0cfc9bf42fa0__eb43c4dad75289d4.zip Zip Archive forprint_assistant_handoff_v0_1__8f6aa14af4a8__ca0434c5e535.zip
+    Zip Archive Так дивись я провів ще паралельно команди по створенню пакетів загрузочних і в мене в принципі таке питання чому один пакет має чіткий чітку
+    назву з бібліотечного ну що він посилається бібліотека чи це просто якийсь там тимчасовий такий дрібний момент ну тоді на нього відволікатись не будемо чи
+    це дійсно ну формується якийсь якась задача прямо під бібліотечний модулем хоча ми поки що не плануємо туди нічого так робити тобто ми інша тільки що робили
+    поясни мені так коротко дуже ===== 0172 CF10 FIRST-PILOT LAUNCH-CRITICAL PREFLIGHT ===== READ_ONLY=true PROSPECTIVE_WORK_ID=u180j ROADMAP_MUTATION_ALLOWED=false
+    CF10_BINDING_ALLOWED=false WORK_PLAN_ALLOWED=false CF10_ACTIVATION_ALLOWED=false WORK_FRONT_MUTATION_ALLOWED=false LAUNCH_REQUEST_ALLOWED=false OPERATOR_APPROVAL_ALLOWED
+  quote_whitespace_normalized: true
+  context_before: Owner questions why a generated project-context package is Library-named when no Library work is planned.
+  context_after: null
+  evidence_role:
+  - owner_scope_question
+  - package_routing
+- evidence_id: EV-BP2109-0036
+  speaker: user
+  locator:
+    conversation_turn: 845
+    turn_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    message_id: 2fde119d-cac9-4c8c-89b2-0c948c313212
+    source_file: Forprint_Blueprint_21.09.26.mhtml
+  quote: MAIN_WORKTREE_PRESERVED=true NEXT_STEP=REPAIR_ONLY_THE_REPORTED_CF10_FIRST_PILOT_BLOCKERS Show more Show less Something went wrong. Please try again.
+    Retry
+  quote_whitespace_normalized: true
+  context_before: The source ends after the 0172 output and owner package-routing question without a visible assistant resolution.
+  context_after: null
+  evidence_role:
+  - delivery_failure
+  - source_boundary
+items:
+- item_id: IT-BP2109-0001
+  kind: process_rule
+  title: Handoff archives provide context but do not grant mutation or dispatch authority
+  statement: A supplied handoff may establish historical state, but current mutation/dispatch authority still comes from canonical live surfaces.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - bootstrap
+  - authority
+  evidence_refs:
+  - EV-BP2109-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0002
+  kind: implementation_claim
+  title: Source opens inside CF-09/u180i after CF-08/u180h closure
+  statement: Historical handoff says CF-09 is active and CF-08 already has validation/closure events.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - control_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - continuity
+  - git
+  evidence_refs:
+  - EV-BP2109-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant handoff interpretation; current repo not audited.
+- item_id: IT-BP2109-0003
+  kind: architecture_constraint
+  title: Event stream and current work-front state outrank stale roadmap horizon projections
+  statement: When NEXT_HORIZON conflicts with newer lifecycle events/current workfront, the stale projection is not execution authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - roadmap
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - authority
+  - reconciliation
+  evidence_refs:
+  - EV-BP2109-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0004
+  kind: process_rule
+  title: Intentional parallel dirty state must not be erased for cosmetic cleanliness
+  statement: Historical handoff explicitly protects durable dirty paths from reset/stash/rebase merely to make the worktree clean.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - git
+  implementation_expectation: required
+  verification_targets:
+  - mutation_safety
+  evidence_refs:
+  - EV-BP2109-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0005
+  kind: architecture_constraint
+  title: CF-09 ACK is a machine-verifiable pre-execution execution-contract receipt
+  statement: ACK binds worker understanding to the exact package/attempt before execution and is distinct from the post-execution Result envelope.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-BP2109-0006
+  - EV-BP2109-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Architecture explanation is assistant-side but aligns with visible CF-09 contracts.
+- item_id: IT-BP2109-0006
+  kind: process_rule
+  title: Package validation and ACK validation must both pass before worker execution
+  statement: Invalid or ambiguous ACK fails closed; exact canonical fields cannot be replaced by approximate aliases.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-BP2109-0007
+  - EV-BP2109-0009
+  - EV-BP2109-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0007
+  kind: architecture_constraint
+  title: General worker dispatch remains blocked; CF-10 is a bounded single internal Blueprint pilot
+  statement: Historical handoff allows only a future explicitly sanctioned internal worker in manual/shadow mode and does not authorize external modules, auto-accept,
+    push/merge or authority expansion.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - automation
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - approval
+  evidence_refs:
+  - EV-BP2109-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0008
+  kind: process_rule
+  title: Incoming architecture/planning packages are verified in tmp before canonical application
+  statement: Archive integrity/hash verification precedes any copy into canonical directories.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - handoff
+  implementation_expectation: required
+  verification_targets:
+  - package_validation
+  evidence_refs:
+  - EV-BP2109-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0009
+  kind: process_rule
+  title: Large architecture/handoff changes are applied step by step
+  statement: Owner repeatedly directs incremental implementation and review rather than one-shot archive application.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - operator_process
+  implementation_expectation: required
+  verification_targets:
+  - mutation_workflow
+  evidence_refs:
+  - EV-BP2109-0012
+  - EV-BP2109-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0010
+  kind: requirement
+  title: Roadmap/dependency maintenance must scale to frequent large restructures
+  statement: Owner wants a robust mechanism able to reformat many module roadmaps and rebuild dependency graphs repeatedly without mutual conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - tests
+  evidence_refs:
+  - EV-BP2109-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0011
+  kind: process_rule
+  title: Assistant-pack/bootstrap work must not silently become roadmap redesign
+  statement: Owner explicitly challenges scope drift when instruction/package work starts rebuilding roadmap structures that were not part of the task.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - packaging
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - scope_gate
+  - tests
+  evidence_refs:
+  - EV-BP2109-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0012
+  kind: process_rule
+  title: Verified assistant/bootstrap packages should become durable project artifacts
+  statement: Once validated, package logic/artifacts should live in the project rather than only in sandbox/tmp.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - project_memory
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - publication
+  evidence_refs:
+  - EV-BP2109-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0013
+  kind: process_rule
+  title: Living knowledge promotion is evidence-bounded and source-preserving
+  statement: Historical 0155 promotes only two verified reusable lessons, rebuilds derived knowledge, preserves other source paths and keeps CF-10 binding/activation
+    out of scope.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - knowledge
+  implementation_expectation: required
+  verification_targets:
+  - knowledge
+  - tests
+  evidence_refs:
+  - EV-BP2109-0015
+  - EV-BP2109-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0014
+  kind: implementation_claim
+  title: Historical living-knowledge candidate passes targeted and semantic validations without commit/push
+  statement: Visible 0155 evidence reports knowledge/index/semantic checks green and 86 tests passed, 1 skipped, while real index/commit/push/CF-10 mutation
+    remain false.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - knowledge
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - tests
+  evidence_refs:
+  - EV-BP2109-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0015
+  kind: architecture_constraint
+  title: Continuity event store is historical execution authority; generated roadmap status is projection only
+  statement: Visible roadmap reconciliation says ROADMAP_SYNC=IN_SYNC, actual execution authority is continuity_event_store, generated status has no authority,
+    WIP=1, auto-next false and worker dispatch authority false.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - roadmap
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - reconciliation
+  - tests
+  evidence_refs:
+  - EV-BP2109-0018
+  - EV-BP2109-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0016
+  kind: architecture_constraint
+  title: Historical project authority precedence is Constitution > Module Policy > Execution Profile > Work Front
+  statement: Lower layers may narrow authority but may not silently widen it.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - constitution
+  - tests
+  evidence_refs:
+  - EV-BP2109-0020
+  - EV-BP2109-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0017
+  kind: architecture_constraint
+  title: AI self-certification cannot widen its own guardrails
+  statement: Visible project-constitution output explicitly sets AI_SELF_GUARDRAIL_CERTIFICATION=false.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - authority
+  - ai
+  implementation_expectation: required
+  verification_targets:
+  - constitution
+  - tests
+  evidence_refs:
+  - EV-BP2109-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0018
+  kind: risk
+  title: Successful package generation can still produce the wrong semantic package
+  statement: Owner flags an assistant-handoff archive as apparently not the package required, so packaging success must include semantic identity/purpose validation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - packaging
+  implementation_expectation: required
+  verification_targets:
+  - package_contract
+  - tests
+  evidence_refs:
+  - EV-BP2109-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0019
+  kind: implementation_claim
+  title: Historical 0170 reports CF-10 READY_UNBOUND after CF-07/08/09 completion
+  statement: Assistant summary says CF-10 dependencies are complete, work_id is None and lifecycle is not yet active.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - cf10
+  implementation_expectation: unverifiable
+  verification_targets:
+  - continuity
+  - roadmap
+  evidence_refs:
+  - EV-BP2109-0025
+  - EV-BP2109-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant historical summary; exact CF-09 closure events are mostly attachment-only.
+- item_id: IT-BP2109-0020
+  kind: architecture_constraint
+  title: CF-10 should reuse the existing control plane rather than invent a parallel launch mechanism
+  statement: Historical summary says launch request, approvals, execution profiles, Handoff v2, result/attempt ledger and worker invocation already exist.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - cf10
+  - automation
+  implementation_expectation: required
+  verification_targets:
+  - control_plane
+  - tests
+  evidence_refs:
+  - EV-BP2109-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0021
+  kind: process_rule
+  title: First CF-10 launch choreography must be reconstructed read-only before any binding or worker run
+  statement: The preflight sequence audits current contracts/interfaces while explicitly forbidding work-id creation, roadmap mutation, planning, activation,
+    launch and commit/push.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - cf10
+  implementation_expectation: required
+  verification_targets:
+  - preflight
+  - tests
+  evidence_refs:
+  - EV-BP2109-0029
+  - EV-BP2109-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0022
+  kind: architecture_constraint
+  title: Lifecycle order requires roadmap binding before WORK_PLANNED and WORK_ACTIVATED
+  statement: Historical launch audit explicitly preserves binding→planned→activated sequencing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - lifecycle
+  - tests
+  evidence_refs:
+  - EV-BP2109-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant historical summary; verify current lifecycle contract.
+- item_id: IT-BP2109-0023
+  kind: risk
+  title: Prospective CF-10 work-id u180j is not safely free
+  statement: Direct 0172 output finds one existing u180j reference in the deferred governance-gap document and no allocator.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - cf10
+  - lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - work_id_registry
+  - preflight
+  evidence_refs:
+  - EV-BP2109-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0024
+  kind: architecture_constraint
+  title: Work-id selection is historically explicit/operator-supplied when no allocator exists
+  statement: 0172 reports WORK_ID_ALLOCATOR_REFERENCE_COUNT=0 and selection mode EXPLICIT_OPERATOR_SUPPLIED; current authority must confirm before binding.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - work_id_contract
+  evidence_refs:
+  - EV-BP2109-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical contract may later change.
+- item_id: IT-BP2109-0025
+  kind: risk
+  title: Handoff v2 runtime hardcodes old work-id u180h and lacks dynamic binding
+  statement: 0172 directly finds literal u180h in compile_runtime_manifest and classifies dynamic work-id binding false.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - handoff
+  - cf10
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP2109-0028
+  - EV-BP2109-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0026
+  kind: architecture_constraint
+  title: Execution-profile recommendation does not grant dispatch authority
+  statement: Four profiles are visible; recommendation output is explicitly recommendation_only and dispatch_authority=false.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - execution_profiles
+  implementation_expectation: required
+  verification_targets:
+  - profiles
+  - dispatcher
+  evidence_refs:
+  - EV-BP2109-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0027
+  kind: implementation_claim
+  title: An explicit local worker-start interface is historically resolvable
+  statement: 0172 finds worker invocation/control-plane surfaces and records EXPLICIT_LOCAL_WORKER_START_INTERFACE_RESOLVED=true.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - worker_runtime
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP2109-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical source only.
+- item_id: IT-BP2109-0028
+  kind: plan
+  title: First zero-stage candidate is bounded read-only analysis of the deferred maintenance-governance gap
+  statement: The historical candidate forbids repository write, external-module write, dispatch widening and release actions.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - cf10
+  - maintenance
+  implementation_expectation: required
+  verification_targets:
+  - task_contract
+  - approval
+  evidence_refs:
+  - EV-BP2109-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0029
+  kind: process_rule
+  title: 0172 PASS means the audit ran successfully, not that CF-10 launch is ready
+  statement: The preflight returns PASS while simultaneously reporting two blockers and no binding/activation/worker launch.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - cf10
+  - acceptance
+  implementation_expectation: required
+  verification_targets:
+  - preflight
+  - operator_ux
+  evidence_refs:
+  - EV-BP2109-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0030
+  kind: process_rule
+  title: CF-10 remains unbound/unactivated until launch-critical blockers are repaired
+  statement: Historical endpoint records no roadmap mutation, work plan, activation, launch request, approval, worker execution, commit or push.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - cf10
+  implementation_expectation: required
+  verification_targets:
+  - gates
+  - tests
+  evidence_refs:
+  - EV-BP2109-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0031
+  kind: risk
+  title: Library-named project-context package must not be interpreted as a Library task without authority
+  statement: Owner explicitly says no Library work is planned and questions why a generated context package is Library-specific.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - library
+  - packaging
+  implementation_expectation: required
+  verification_targets:
+  - package_routing
+  - module_authority
+  evidence_refs:
+  - EV-BP2109-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0032
+  kind: requirement
+  title: Package type, target module and purpose must be operator-visible and semantically accurate
+  statement: The handoff/project-context/assistant-pack family should make it obvious what is being packaged and for which module, avoiding misleading module
+    names.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - packaging
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - package_manifest
+  - naming
+  evidence_refs:
+  - EV-BP2109-0022
+  - EV-BP2109-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP2109-0033
+  kind: risk
+  title: Exact CF-09 closure lineage between 17.09 red gate and CF-10 READY_UNBOUND is missing from visible source
+  statement: The source proves a later state where CF-07/08/09 dependencies are complete but most intervening repair/closure outputs exist only as attachments.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-BP2109-0025
+  - EV-BP2109-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Reconstruct from immutable lifecycle events/current repo, not from narrative inference.
+- item_id: IT-BP2109-0034
+  kind: risk
+  title: Source ends before CF-10 blocker repair or package-routing answer
+  statement: The final visible message contains 0172 blockers and the Library-package question; no subsequent resolution is present.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - blueprint
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-BP2109-0034
+  - EV-BP2109-0035
+  - EV-BP2109-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-BP2109-0001
+  from_item: IT-BP2109-0003
+  type: supports
+  to_item: IT-BP2109-0015
+  evidence_refs:
+  - EV-BP2109-0003
+  - EV-BP2109-0019
+  confidence: high
+- relation_id: REL-BP2109-0002
+  from_item: IT-BP2109-0005
+  type: enables
+  to_item: IT-BP2109-0006
+  evidence_refs:
+  - EV-BP2109-0006
+  - EV-BP2109-0007
+  confidence: high
+- relation_id: REL-BP2109-0003
+  from_item: IT-BP2109-0011
+  type: constrains
+  to_item: IT-BP2109-0010
+  evidence_refs:
+  - EV-BP2109-0023
+  - EV-BP2109-0013
+  confidence: high
+- relation_id: REL-BP2109-0004
+  from_item: IT-BP2109-0013
+  type: enables
+  to_item: IT-BP2109-0014
+  evidence_refs:
+  - EV-BP2109-0015
+  - EV-BP2109-0017
+  confidence: high
+- relation_id: REL-BP2109-0005
+  from_item: IT-BP2109-0016
+  type: constrains
+  to_item: IT-BP2109-0026
+  evidence_refs:
+  - EV-BP2109-0020
+  - EV-BP2109-0031
+  confidence: high
+- relation_id: REL-BP2109-0006
+  from_item: IT-BP2109-0019
+  type: enables
+  to_item: IT-BP2109-0021
+  evidence_refs:
+  - EV-BP2109-0026
+  - EV-BP2109-0029
+  confidence: medium
+- relation_id: REL-BP2109-0007
+  from_item: IT-BP2109-0023
+  type: blocks
+  to_item: IT-BP2109-0030
+  evidence_refs:
+  - EV-BP2109-0030
+  - EV-BP2109-0034
+  confidence: high
+- relation_id: REL-BP2109-0008
+  from_item: IT-BP2109-0025
+  type: blocks
+  to_item: IT-BP2109-0030
+  evidence_refs:
+  - EV-BP2109-0032
+  - EV-BP2109-0034
+  confidence: high
+- relation_id: REL-BP2109-0009
+  from_item: IT-BP2109-0029
+  type: constrains
+  to_item: IT-BP2109-0030
+  evidence_refs:
+  - EV-BP2109-0034
+  confidence: high
+- relation_id: REL-BP2109-0010
+  from_item: IT-BP2109-0031
+  type: motivates
+  to_item: IT-BP2109-0032
+  evidence_refs:
+  - EV-BP2109-0035
+  confidence: high
+- relation_id: REL-BP2109-0011
+  from_item: IT-BP2109-0033
+  type: constrains
+  to_item: IT-BP2109-0019
+  evidence_refs:
+  - EV-BP2109-0025
+  - EV-BP2109-0026
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-BP2109-0001
+  type: new_unique_blueprint_continuation
+  description: No shared message IDs or exact substantive message-block overlap with clean master v3.6. The source continues after the 17.09 endpoint and adds
+    new 18–20.09 state.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP2109-0002
+  type: attachment_heavy_sparse_export
+  description: 114 visible message blocks contain 101 short attachment/archive placeholders; most intermediate action/result bodies are unavailable and are not
+    reconstructed.
+  item_refs:
+  - IT-BP2109-0033
+  - IT-BP2109-0034
+  evidence_refs:
+  - EV-BP2109-0036
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0003
+  type: prior_red_cf09_endpoint_later_seen_complete_without_visible_repair_lineage
+  description: 17.09 ended with CF-09 ACTIVE and red project closure; this source later reports CF-07/08/09 complete and CF-10 READY_UNBOUND, but exact CF-09
+    recovery/closure events are hidden in attachments.
+  item_refs:
+  - IT-BP2109-0019
+  - IT-BP2109-0033
+  evidence_refs:
+  - EV-BP2109-0025
+  - EV-BP2109-0026
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0004
+  type: packaging_scope_drift_toward_roadmap
+  description: Owner explicitly questions why assistant instruction/package work is entangled with roadmap reconstruction that was not part of the task.
+  item_refs:
+  - IT-BP2109-0010
+  - IT-BP2109-0011
+  evidence_refs:
+  - EV-BP2109-0023
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0005
+  type: package_semantic_identity_mismatch
+  description: A generated assistant-handoff package passes machinery but owner says it appears not to be the intended package.
+  item_refs:
+  - IT-BP2109-0018
+  - IT-BP2109-0032
+  evidence_refs:
+  - EV-BP2109-0022
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0006
+  type: cf10_work_id_collision
+  description: Prospective u180j is already referenced while no allocator exists, so the assumed first CF-10 work_id cannot be bound safely without current authority.
+  item_refs:
+  - IT-BP2109-0023
+  - IT-BP2109-0024
+  evidence_refs:
+  - EV-BP2109-0030
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0007
+  type: handoff_v2_stale_hardcoded_work_id
+  description: Handoff v2 runtime still hardcodes u180h after the system has progressed to CF-10 readiness, creating a launch-critical resume/binding defect.
+  item_refs:
+  - IT-BP2109-0025
+  evidence_refs:
+  - EV-BP2109-0032
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0008
+  type: pass_label_not_launch_readiness
+  description: 0172 returns PASS because the read-only audit completed correctly, while simultaneously reporting two blockers. PASS must not be interpreted as
+    authorization to launch.
+  item_refs:
+  - IT-BP2109-0029
+  - IT-BP2109-0030
+  evidence_refs:
+  - EV-BP2109-0034
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0009
+  type: unexpected_library_context_package
+  description: A `forprint_project_context__forprint_library__...zip` appears during Blueprint CF-10 preparation even though owner says Library work is not planned.
+  item_refs:
+  - IT-BP2109-0031
+  - IT-BP2109-0032
+  evidence_refs:
+  - EV-BP2109-0035
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP2109-0010
+  type: source_ends_before_resolution
+  description: No visible response resolves the Library package question or the two CF-10 launch blockers.
+  item_refs:
+  - IT-BP2109-0034
+  evidence_refs:
+  - EV-BP2109-0036
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP2109-0001
+  description: Reconstruct exact CF-09 repair/checkpoint/closure lineage after the 17.09 red 0254 gate.
+  item_refs:
+  - IT-BP2109-0019
+  - IT-BP2109-0033
+  last_known_state: Later source says CF-07/08/09 dependencies complete and CF-10 READY_UNBOUND.
+  recommended_verification: Use live continuity event store/Git artifacts; do not infer missing closure steps from assistant narrative.
+- loop_id: LOOP-BP2109-0002
+  description: Verify current project-constitution precedence and whether all active control-plane surfaces enforce it.
+  item_refs:
+  - IT-BP2109-0016
+  - IT-BP2109-0017
+  - IT-BP2109-0026
+  last_known_state: Historical check reports Constitution > Module Policy > Execution Profile > Work Front; lower layers may narrow only.
+  recommended_verification: Run current constitution validator and inspect dispatcher/profile/work-front enforcement.
+- loop_id: LOOP-BP2109-0003
+  description: Resolve packaging/bootstrap boundary so knowledge publication never mutates roadmap accidentally.
+  item_refs:
+  - IT-BP2109-0010
+  - IT-BP2109-0011
+  - IT-BP2109-0012
+  - IT-BP2109-0018
+  last_known_state: Owner wants durable living-knowledge/assistant packages but explicitly rejects unintended roadmap redesign.
+  recommended_verification: Classify each package builder's inputs/outputs/allowed mutations and bind generated artifacts to their canonical owner.
+- loop_id: LOOP-BP2109-0004
+  description: Design scalable roadmap/dependency rebuild for frequent large project changes.
+  item_refs:
+  - IT-BP2109-0010
+  last_known_state: Owner expects many future roadmap/dependency edits across modules and wants conflict-resistant automated handling.
+  recommended_verification: Reconcile with current roadmap event sourcing, dependency registries, derivation graph and mutation compiler before assigning to
+    worker.
+- loop_id: LOOP-BP2109-0005
+  description: Repair/replace the stale Handoff v2 u180h hardcode with current dynamic work binding.
+  item_refs:
+  - IT-BP2109-0025
+  - IT-BP2109-0030
+  last_known_state: 0172 confirms dynamic binding false and u180h literals active.
+  recommended_verification: Inspect current script; implement only if still present, then prove no-write manifest binding against an unbound test work item.
+- loop_id: LOOP-BP2109-0006
+  description: Resolve current work-id allocation/uniqueness authority before CF-10 binding.
+  item_refs:
+  - IT-BP2109-0023
+  - IT-BP2109-0024
+  - IT-BP2109-0030
+  last_known_state: u180j is already referenced and no allocator is found.
+  recommended_verification: Check current continuity/work-id registry and operator policy; choose/bind no work_id from historical assumptions.
+- loop_id: LOOP-BP2109-0007
+  description: Audit project-context/assistant-pack module routing after unexpected Library-named package.
+  item_refs:
+  - IT-BP2109-0031
+  - IT-BP2109-0032
+  last_known_state: Owner says no Library task is planned but a Library project-context archive is produced.
+  recommended_verification: Trace package builder target-selection logic and manifest module identity before using or distributing the archive.
+- loop_id: LOOP-BP2109-0008
+  description: Determine whether first CF-10 worker pilot was ever subsequently bound/planned/approved/launched.
+  item_refs:
+  - IT-BP2109-0019
+  - IT-BP2109-0021
+  - IT-BP2109-0023
+  - IT-BP2109-0025
+  - IT-BP2109-0030
+  - IT-BP2109-0034
+  last_known_state: Visible endpoint is READY_UNBOUND with two blockers and all launch/mutation flags false.
+  recommended_verification: Resolve current roadmap/lifecycle/head first; do not resume historical 0172 directly.
+implementation_audit_ref: implementation_audit.stub.yaml

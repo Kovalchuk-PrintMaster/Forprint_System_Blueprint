@@ -1,0 +1,97 @@
+work_front_id: wf-cf10-handoff-v2-internal-resume-binding-repair-v0-1
+objective: Repair MANUAL_INTERNAL TASK_EXECUTION Handoff v2 resume binding so resume_coordinates uses the exact normalized
+  Task work_id instead of the historical u180h hardcode.
+scope:
+- coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_handoff_v2_internal_resume_binding_repair_design_freeze_v0_1.yaml
+- coordination/work_fronts/cf10_handoff_v2_internal_resume_binding_repair_v0_1.yaml
+- Makefile
+- scripts/coordination/control_plane/context/task_context_adapter.py
+- scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+- tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py
+- tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+- tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
+exclusions:
+- Do not ACK, dispatch or launch a029.
+- Do not mutate lifecycle/roadmap state.
+- Do not modify Handoff v2 contracts.
+- Do not modify Task Context schema or Task Envelope schema.
+- Do not change external Task Context builder behavior.
+- Do not redesign external TASK_EXECUTION resume semantics.
+- Do not create a new Make target.
+- Do not touch unrelated dirty paths.
+- Do not automatically stage, commit, push, merge, release, promote or ACCEPT.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a029
+  - closeout:804ec4f4188b3b613593534855ed55cea8ade9bc
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  chat_is_authority: false
+  roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+dependencies:
+- CF10 Governed Worker Context Delivery is completed and published.
+- a029 is prepared but remains before Assistant ACK.
+- Task70 binding and lifecycle cursor both identify u180j.
+- Current Handoff v2 resume coordinates incorrectly identify u180h.
+outputs:
+- WORK_ID evidence from MANUAL_INTERNAL Task Context CLI.
+- Exact internal TASK_EXECUTION resume work_id binding.
+- Live cursor-derived resume work_state.
+- Tests-first regression coverage.
+- Existing assistant-handoff-v2-runtime-check expanded to cover the repair.
+acceptance:
+- MANUAL_INTERNAL Task Context CLI prints WORK_ID equal to the normalized Task Envelope work.work_id.
+- Handoff v2 TASK_EXECUTION captures MANUAL_INTERNAL WORK_ID without changing Task Context schema.
+- For Task70, resume_coordinates.work_id resolves to u180j, not u180h.
+- For Task70, resume_coordinates.work_state equals the live lifecycle cursor entry for u180j.
+- PROJECT_ONBOARD remains unchanged and external TASK_EXECUTION behavior is not generalized in this slice.
+- assistant-handoff-v2-runtime-check covers internal resume binding regression and passes.
+- No ACK, dispatch, launch, attempt-ledger append or lifecycle mutation for a029.
+- After publication, retry uses new attempt id cf10-u180j-a030.
+stop_conditions:
+- External TASK_EXECUTION must be redesigned to supply work_id.
+- Task Context schema/Task Envelope schema must change.
+- Handoff v2 or freshness/resume contract schema must change.
+- A path outside the frozen implementation write-set becomes necessary.
+- A new authority source or authority widening becomes necessary.
+- Lifecycle/roadmap state must be mutated to prove the repair.
+- a029 would be ACKed, dispatched, launched or appended to immutable attempt history.
+- Concurrent changes intersect the frozen implementation/dependency cone.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/build_context_bundle.py
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+  - tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
+  - Makefile
+  disposition: ADAPT
+  target_refs:
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - Makefile
+  rationale: The normalized Task Envelope already contains work.work_id; expose that existing fact through the current
+    Task Context CLI evidence and reuse it in Handoff v2 rather than creating a new work-binding source.
+audited_dependency_sha256:
+  coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml: bf95f1f7e56c9b26ddbe83a63cf52ca5d81ec2c8ff361c1ffa7a31aa816723b0
+  coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml: 478aa0660d7f07c89c3a897026d4d312fc61d31ae3c2c8116ace8c45b11859e3
+  ? coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_governed_worker_context_delivery_completion_v0_1.yaml
+  : 017fb912d9c1e7308a28d6795ec5ecc9ef8d8fe7850e232b44d0d904922e1f4e
+  coordination/work_fronts/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: 7cade745dda1c9ec7231ce80eebf56f039767af5e2167a4ab8c36b828110de8b
+  coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: a015311e7dadb0d8bd723b2dd58402705a5fd838cf508366689ccac94a70004a
+  Makefile: 5bf781c72aa6f82e0b9591eafe48b92df6774b782f53f6ca24b3a0f2cf4cb18f
+  scripts/coordination/control_plane/context/task_context_adapter.py: 8027cee17531111c7dd833f1b3a9c43a4809136dc7041d5a5b5e652b52d39d19
+  scripts/coordination/assistant_handoff_v2_runtime_v0_1.py: 30588b71017dd24af0f14e0c543b92c6aba5512f5aa44a17c25ec98634bbbcf1
+  tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py: 258a7192f78b332014d93bc78dcfae468896a1f8f30d5e2bc7059424cbb7163b
+  tests/validation/test_assistant_handoff_v2_runtime_v0_1.py: 3a89cccfdab595c945309eaf69c48fb19b01c9bb623b088f9cf748a55277901a
+  tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py: 808f1bd2164a80febdacd3aa981fca4246ead99896371fcaa28977edbff4068f

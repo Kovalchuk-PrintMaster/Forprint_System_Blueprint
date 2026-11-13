@@ -1,0 +1,26 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-01'
+status: PLANNING_INTEGRATION_NOT_RELEASE_AUTHORITY
+authority: operator_clarification_2026_09_01
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-029
+      status: AGREED
+      text: 'Project cleanliness must be a permanent project-wide policy: Blueprint keeps the single canonical cleanliness
+        rules, every module is responsible for cleanliness of its own repository, and modules must not create competing global
+        standards or uncontrolled document/surface variants.'
+      context: Operator explicitly requires the cleanup procedure learned in Blueprint to become a general rule for all modules.
+      roadmap: BP-PORTFOLIO-08
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-030
+      status: AGREED
+      text: 'Automated cleanliness capability must be discoverable and status-explicit: existing Blueprint checks are recorded
+        as implemented; missing module-local and cross-repository controls are recorded in portfolio roadmaps before future
+        execution.'
+      context: Do not describe planned automation as already implemented; keep implemented evidence and future work separate.
+      roadmap: BP-PORTFOLIO-09
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-031
+      status: AGREED
+      text: Project Inspector is the cross-repository cleanliness/conformance auditor, while each module retains local semantic
+        ownership and local repository cleanliness responsibility.
+      context: Inspector detects/report drift and duplicates but must not silently rewrite domain truth.
+      roadmap: BP-PORTFOLIO-09

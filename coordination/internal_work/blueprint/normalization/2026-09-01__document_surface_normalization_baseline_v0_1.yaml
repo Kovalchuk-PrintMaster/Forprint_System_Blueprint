@@ -1,0 +1,194 @@
+schema_version: forprint_document_surface_normalization_baseline_v0_1
+date: '2026-09-01'
+status: ACTIVE_MIGRATION_BASELINE
+authority: planning_and_validation_debt_baseline_not_business_semantic_authority
+baseline_commit: 4739fdcd8b213814f8440dd6a6681f596d8da456
+principle: Existing explicitly recorded legacy debt may migrate in controlled batches; new unregistered debt is prohibited.
+class_counts:
+  architecture_doc: 15
+  derived_index: 19
+  human_intent_delta: 2
+  human_intent_module_ledger: 23
+  incoming_request_surface: 6
+  internal_work: 304
+  machine_authority: 14
+  module_policy_surface: 37
+  operations_doc: 24
+  other: 304
+  release_coordination: 1
+  roadmap: 7
+  roadmap_detail: 86
+  script: 1
+  standard_or_policy: 113
+  template: 37
+yaml_debt: []
+markdown_debt: []
+strict_classes:
+  - document_type: generated_module_policy_projection
+    source: coordination/module_policy/module_policy_index.yaml
+    generator: scripts/generate_module_policy_docs.py
+    check: python scripts/generate_module_policy_docs.py --check
+    status: STRICT_NOW
+  - document_type: document_type_registry
+    source: coordination/standards/governance/document_type_registry_v0_1.yaml
+    check: python scripts/validation/validate_document_surface_registry_v0_1.py
+    status: STRICT_NOW
+  - document_type: human_intent_module_ledger
+    source: coordination/human_intent/modules/*.yaml
+    mutation: scripts/coordination/human_intent_mutation_v0_1.py
+    check: make human-intent-check
+    status: STRICT_NOW
+  - document_type: human_intent_delta
+    source: coordination/human_intent/deltas/*.yaml
+    check: make human-intent-check
+    status: STRICT_NOW
+  - document_type: roadmap
+    source: coordination/roadmaps/*.yaml
+    authority: canonical_planning_not_release_or_execution_authority
+    mutation: existing roadmap coordination/completion/review workflows
+    check: make root-roadmap-check
+    status: STRICT_NOW
+  - document_type: roadmap_detail_portfolio_rebuild_seed
+    parent_document_type: roadmap_detail
+    source: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/*.yaml
+    authority: provisional_planning_input_not_release_or_execution_authority
+    check: make roadmap-rebuild-seed-check
+    status: STRICT_NOW
+  - document_type: roadmap_detail_continuity_prompt_sequence
+    parent_document_type: roadmap_detail
+    source: coordination/roadmaps/details/forprint_system_blueprint/continuity/prompt_sequence_v0_1.yaml
+    authority: continuity_selection_control_not_release_or_execution_authority
+    check: make continuity-surface-check
+    status: STRICT_NOW
+  - document_type: roadmap_detail_continuity_snapshot
+    parent_document_type: roadmap_detail
+    source: coordination/roadmaps/details/forprint_system_blueprint/continuity/snapshots/*.yaml
+    authority: historical_snapshot_not_current_release_or_execution_authority
+    check: make continuity-surface-check
+    status: STRICT_NOW
+  - document_type: roadmap_detail
+    source: coordination/roadmaps/details/forprint_system_blueprint/**/*
+    authority: planning_detail_file_specific_status_and_authority_apply
+    check: make roadmap-detail-check
+    status: STRICT_NOW
+    scope: 32 YAML surfaces covered by 11 strict subclasses; Markdown one-H1 structural baseline
+migration_order:
+  - machine_authority
+  - standard_or_policy
+  - template
+  - remaining_current_coordination_surfaces
+completed_migrations:
+  - migration_id: 2026-09-01__human_intent_surfaces__batch_2a_2b
+    document_types:
+      - human_intent_delta
+      - human_intent_module_ledger
+    result: STRICT
+    semantic_rewrite: false
+    mutation_tool: scripts/coordination/human_intent_mutation_v0_1.py
+    validator: scripts/validation/validate_human_intent_surfaces_v0_1.py
+    evidence:
+      - make human-intent-check
+      - make surface-normalization-check
+      - pytest
+      - make check
+  - migration_id: 2026-09-01__root_module_roadmaps__batch_3a
+    document_types:
+      - roadmap
+    surface_count: 7
+    result: STRICT
+    semantic_rewrite: false
+    semantic_delta:
+      - document-level status metadata
+      - document-level authority metadata
+      - legacy YAML layout normalized
+      - website legacy acceptance list repair completed before migration
+    validator: scripts/validation/validate_root_module_roadmap_surfaces_v0_1.py
+    evidence:
+      - all 7 validate_module_roadmap.py PASS
+      - make root-roadmap-check
+      - make surface-normalization-check
+      - pytest
+      - make check
+  - migration_id: 2026-09-01__portfolio_rebuild_seeds__batch_3b
+    document_types:
+      - roadmap_detail_portfolio_rebuild_seed
+    parent_document_type: roadmap_detail
+    surface_count: 19
+    result: STRICT
+    semantic_rewrite: false
+    semantic_delta:
+      - document-level non-release/non-execution authority metadata
+      - legacy YAML layout normalized
+      - existing status/source_action/10-step horizon preserved
+    validator: scripts/validation/validate_portfolio_rebuild_seed_surfaces_v0_1.py
+    evidence:
+      - make roadmap-rebuild-seed-check
+      - make surface-normalization-check
+      - pytest
+      - make check
+  - migration_id: 2026-09-01__continuity_control_and_snapshot__batch_3e
+    document_types:
+      - roadmap_detail_continuity_prompt_sequence
+      - roadmap_detail_continuity_snapshot
+    parent_document_type: roadmap_detail
+    surface_count: 2
+    result: STRICT
+    semantic_rewrite: false
+    semantic_delta:
+      - continuity control received document lifecycle status only; existing authority locator mapping preserved
+      - historical snapshot received lifecycle status and explicit non-release/non-execution authority class; authoritative=false
+        preserved
+    validator: scripts/validation/validate_continuity_roadmap_detail_surfaces_v0_1.py
+    evidence:
+      - make continuity-surface-check
+      - python scripts/validation/validate_phase_boundary_progression_gate_policy.py
+      - make surface-normalization-check
+      - pytest
+      - make check
+  - migration_id: 2026-09-01__roadmap_detail_full_surface_normalization__batch_3f_full_review
+    document_types:
+      - roadmap_detail_planning_template
+      - roadmap_detail_specialized_planning_seed
+      - roadmap_detail_knowledge_foundation_program
+      - roadmap_detail_module_bootstrap_plan
+      - roadmap_detail_roadmap_authority_rebuild_register
+      - roadmap_detail_portfolio_target_projection
+      - roadmap_detail_portfolio_rebuild_input
+      - roadmap_detail_evening_architecture_action_matrix
+      - roadmap_detail_markdown_structure
+    parent_document_type: roadmap_detail
+    surface_count: 16
+    yaml_surface_count: 11
+    markdown_surface_count: 5
+    result: STRICT
+    semantic_rewrite: false
+    semantic_delta:
+      - added explicit lifecycle/authority metadata where absent without widening release or execution authority
+      - normalized one legacy schema alias from schema to schema_version
+      - moved duplicate rebuild-register status from metadata to canonical top-level status
+      - normalized YAML indentation while preserving mapping/list content and comments
+      - repaired five Markdown documents from two H1 headings to one-root hierarchical heading structure
+      - normalized portfolio projection document-level terminology from SYNTHETIC to PROPOSED where semantically equivalent;
+        technical rebuild-seed SYNTHETIC statuses remain unchanged
+    validator: scripts/validation/validate_roadmap_detail_surfaces_v0_2.py
+    evidence:
+      - make roadmap-detail-check
+      - make surface-normalization-check
+      - pytest
+      - make check
+    open_semantic_followups:
+      - reconcile forprint_semantic_retrieval_service current canonical identity/target-state evidence against the 22-module
+        portfolio target projection before promoting it from proposed_noncanonical_modules
+      - retain older inventory/review seeds as non-authoritative historical planning inputs rather than silently refreshing
+        their module sets
+  - migration_id: remaining_surface_full_disposition_2026_09_01
+    status: COMPLETE
+    reviewed_surface_count: 235
+    normalized_package_a_count: 70
+    regenerated_package_b_count: 14
+    normalized_package_c_count: 1
+    already_resolved_count: 1
+    classified_preserved_count: 149
+    note: Active baseline debt retired only after every original surface received an explicit disposition.
+active_debt_count: 0
+disposition_register: coordination/internal_work/blueprint/normalization/2026-09-01__remaining_surface_disposition_register_v0_1.yaml

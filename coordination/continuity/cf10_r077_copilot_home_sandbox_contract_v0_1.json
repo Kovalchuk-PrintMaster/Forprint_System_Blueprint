@@ -1,0 +1,48 @@
+{
+  "schema_version": "cf10_r077_copilot_home_sandbox_contract_v0_1",
+  "status": "SOURCE_FIX_CANDIDATE_NON_AUTHORIZING",
+  "base_head": "f7f7f4dd14f3b487c47fc9267d81ab07ea487ee2",
+  "scope": "cf10 Task70 pilot only",
+  "incident": {
+    "attempt_id": "cf10-u180j-a054",
+    "claim": "CONSUMED_NO_RETRY",
+    "ledger": "STARTED_PENDING",
+    "systemd": "failed exit-code 1",
+    "stderr": "ENOENT mkdir /var/lib/forprint-runner/.cache",
+    "r035_pre": "PRESENT_VERIFIED",
+    "r035_terminal": "ABSENT",
+    "retry": false,
+    "terminal_success_fabricated": false
+  },
+  "runner_home": {
+    "path": "/var/lib/forprint-runner",
+    "owner_uid": 996,
+    "owner_gid": 992,
+    "mode": "0700",
+    "cache_may_be_absent": true
+  },
+  "systemd": {
+    "StateDirectory": "forprint-runner",
+    "StateDirectoryMode": "0700",
+    "ProtectSystem": "strict",
+    "ProtectHome": "yes",
+    "ReadWritePaths": "workspace and logs only"
+  },
+  "execution": {
+    "make_readonly": "cf10-pilot-provider-home-check",
+    "make_tests": "cf10-pilot-provider-home-tests",
+    "make_disposable_probe": "cf10-pilot-provider-home-probe"
+  },
+  "limitations": [
+    "Source guard and directory permissions are static evidence, not effective mount namespace proof",
+    "Copilot CLI credentials and network not tested",
+    "The a054 STARTED ledger fact does not prove Worker completed",
+    "Disposable systemd probe checks HOME cache writability but not the Copilot CLI startup/authentication",
+    "Do not spend a new claim before a positive sandbox-probe and provider startup review"
+  ],
+  "no_tmp_runtime_dependency": true,
+  "no_hestia_or_sudoers_change": true,
+  "worker_launch": false,
+  "root_receipt_write": false,
+  "automatic_retry": false
+}

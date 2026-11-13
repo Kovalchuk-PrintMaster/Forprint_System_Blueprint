@@ -1,0 +1,107 @@
+schema_version: forprint_assistant_handoff_v2_contract_v0_1
+contract_id: assistant_handoff_v2
+revision: 0.1.0
+status: active_cf08_contract_slice_s1
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  principle: handoff packages carry derived context and acknowledgements; authority resolves from canonical control surfaces
+relationship_to_existing:
+  assistant_handoff_v1: EXTEND
+  task_context_compiler: EXTEND
+  launch_request_fresh_context_gate: EXTEND
+  work_front: REUSE
+  execution_profiles: REUSE
+  execution_attempt_ledger: REUSE
+  governed_procedure_graph: REUSE
+  parallel_handoff_framework_allowed: false
+launch_modes:
+  PROJECT_ONBOARD:
+    front_required: false
+    project_onboard_not_applicable_reason_required: true
+    execution_profile_required: false
+    compatibility_surface: make assistant-pack
+    execution_authority: false
+  TASK_EXECUTION:
+    front_required: true
+    project_onboard_not_applicable_reason_required: false
+    execution_profile_required: true
+    compatibility_surface: Task Context Compiler + Launch Request/Fresh Context Gate
+    execution_authority: false
+required_bindings:
+- project_laws_or_constitution_revision
+- work_front_or_project_onboard_not_applicable_reason
+- execution_profile_revision_for_task_execution
+- governed_procedure_revision_or_not_required_reason
+- dependency_health_slice
+- source_state_fingerprint
+- lifecycle_roadmap_cursor
+- resume_coordinates
+- expected_result_schema_revision
+ack_envelope:
+  exact_fields:
+  - schema_version
+  - handoff_manifest_sha256
+  - launch_mode
+  - context_fingerprint
+  - authority_ack
+  - work_front_ack
+  - profile_ack
+  - procedure_ack
+  - freshness_ack
+  aliases_allowed: false
+  additional_fields_allowed: false
+result_envelope:
+  exact_fields:
+  - schema_version
+  - handoff_manifest_sha256
+  - attempt_id
+  - status
+  - changed_paths
+  - validation_evidence
+  - self_repair_attempts
+  - resume_coordinates
+  - unresolved_findings
+  aliases_allowed: false
+  additional_fields_allowed: false
+fail_closed:
+  missing_required_work_front_for_task_execution: true
+  missing_effective_authority_resolution: true
+  missing_expected_result_schema: true
+  missing_required_generated_context: true
+  missing_required_freshness_proof: true
+  missing_required_manifest_hash: true
+generated_pack:
+  derived: true
+  disposable: true
+  manifest_hash_bound: true
+  chat_transcript_required: false
+  source_state_fingerprint_required: true
+local_result_validation:
+  required_before_return: true
+  bounded_self_repair_allowed: true
+  self_repair_must_remain_within_effective_authority: true
+  self_repair_must_record_attempts: true
+  dispatch_authority_granted: false
+freshness_and_resume:
+  reconciled_lifecycle_roadmap_cursor_required: true
+  durable_resume_coordinates_required: true
+  stale_required_generated_context_blocks_launch: true
+  accepted_mutation_or_event_must_not_be_replayed: true
+source_contracts:
+- coordination/standards/automation/work_front_contract_v0_1.yaml
+- coordination/standards/automation/execution_profile_registry_contract_v0_1.yaml
+- coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+- coordination/standards/automation/governed_procedure_graph_contract_v0_1.yaml
+- coordination/standards/automation/procedure_run_manifest_contract_v0_1.yaml
+deferred_to_cf09:
+- dispatcher_integration
+- actual_worker_launch
+- central_retry_orchestration
+- result_routing_to_operator
+cf08_s1_boundary:
+  contract_and_validation_only: true
+  runtime_compiler_integration_implemented: false
+  dispatcher_implemented: false
+  worker_dispatch_performed: false

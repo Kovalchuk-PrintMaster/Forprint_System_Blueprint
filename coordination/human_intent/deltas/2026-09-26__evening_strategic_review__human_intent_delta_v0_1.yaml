@@ -1,0 +1,110 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-26'
+status: approved_evening_review_delta
+authority: append_to_canonical_module_ledgers
+source_review: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-ARCH-20260926-001
+      status: AGREED
+      text: 'ForPrint planning must keep three horizons distinct: a living practical roadmap for real near-term
+        execution, a more detailed farther practical horizon, and a strategic horizon that preserves long-range
+        theses without turning them directly into executable work.'
+      context: Owner clarified the planning model during the 2026-09-25/26 evening review; strategic material must
+        be re-evaluated before future promotion into execution.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-002
+      status: AGREED
+      text: Internal assistant/developer service improvements such as startup-package quality and current-position
+        projection should accumulate into a bounded improvement pool rather than fragment into immediate micro-tasks.
+      context: These improve project operating infrastructure rather than ForPrint business capability; design must
+        be re-evaluated when a material batch is eventually scheduled.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-003
+      status: AGREED
+      text: Reliable agent-mediated development should be reasoned about as Direction → Context → Authority → Execution
+        → Verification → Acceptance → Evidence, with Acceptance kept distinct from technical verification.
+      context: The evening review consolidated earlier worker/governance discussions into a long-range execution-control
+        model.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-004
+      status: AGREED
+      text: ForPrint governance should distinguish the rights to propose, prepare, execute, verify, recommend acceptance,
+        accept, release and escalate; performing work or producing evidence must not automatically grant acceptance
+        authority.
+      context: Accepted as a strategic governability principle; exact decision-right schema remains intentionally
+        unfrozen.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-005
+      status: AGREED
+      text: ForPrint should eventually govern evolution through explicit generations or epochs so shared behavioral
+        models can be piloted, stabilized, documented and rolled out dependency-aware across modules while legacy
+        behavior is explicitly deprecated or retired.
+      context: Artifact versions may advance at different rates; compatibility with the active generation matters
+        more than equal version numbers.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-006
+      status: AGREED
+      text: ForPrint must preserve the security distinction that content is not authority, an instruction is not
+        authorization, authorization is not physical capability, and untrusted or informational content cannot directly
+        create privileged execution rights.
+      context: Worker reasoning is useful but is not the sole trust boundary; system enforcement must remain effective
+        even when a worker follows a bad instruction.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-007
+      status: AGREED
+      text: External-facing modules, especially Telegram Bot, Website, Calculator input surfaces and future public
+        channels, require high-importance module-specific security against malicious inputs and recurring adversarial
+        regression testing rather than a one-time audit.
+      context: Threat families include prompt/instruction injection, malicious embedded content, SQL/command injection,
+        path/schema/MIME abuse, resource exhaustion and later channel-specific attack classes.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-008
+      status: AGREED
+      text: Cross-module contract assurance should eventually include explicit consumer-declared expectations in
+        addition to provider schemas; provider owns its interface, consumer owns its expectation, and syntactic
+        compatibility alone does not prove semantic correctness.
+      context: Accepted as a strategic direction for future Contract Registry / Integration Gateway maturity.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-009
+      status: AGREED
+      text: A generic green PASS must not be treated as universal proof of correctness; future verification evidence
+        should be typed and preserve verifier identity/version, oracle provenance/validity, scope, feedback role
+        and evaluation independence.
+      context: Structural, contract, behavioral, governance, security, recovery and other evidence classes remain
+        candidate taxonomy; Acceptance is a separate lifecycle decision.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-010
+      status: AGREED
+      text: ForPrint should evolve toward a Trustworthy Change lifecycle that separates intent, authorization, execution,
+        verification, integration, acceptance and operational proof, with explicit residual-risk ownership and multi-anchor
+        acceptance for suitable cross-domain changes.
+      context: Exact state-machine details remain strategic design input and are not execution authority.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-011
+      status: AGREED
+      text: Assistants should not receive broad database access by default; domain owners should expose governed
+        capabilities over canonical data, with invocation-time authorization based on identity, purpose, context
+        and data scope where appropriate.
+      context: The transport technology is intentionally not fixed; the domain-ownership and capability-mediated
+        access principle is the strategic decision.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-012
+      status: AGREED
+      text: ForPrint project knowledge should prioritize machine-readable indexes and queryable dependency/flow
+        graphs over exhaustive prose, while human documentation concentrates on intent, policy, rationale and ADR-like
+        decision history.
+      context: Use local module truth with central Blueprint projection and generate C4-like or task-specific views
+        when useful; do not create a new documentation/graph module now.
+      roadmap: ''
+    - intent_id: HI-FP-ARCH-20260926-013
+      status: AGREED
+      text: CI should later become machine enforcement of stable ForPrint governance checks, while preserving CI
+        PASS ≠ ACCEPTED ≠ MERGED ≠ RELEASED; CD belongs to a later maturity stage after release authority, staging,
+        observability and rollback/recovery are mature.
+      context: Do not prioritize CI/CD implementation before the initial worker/governance baseline and current
+        roadmap rebuild are sufficiently stable.
+      roadmap: ''
+semantic_duplicates_skipped: []
+execution_authority: false
+roadmap_mutation_authority: false

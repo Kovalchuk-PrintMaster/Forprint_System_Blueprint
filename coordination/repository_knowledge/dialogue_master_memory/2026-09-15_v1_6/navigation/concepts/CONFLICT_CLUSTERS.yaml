@@ -1,0 +1,241 @@
+schema_version: forprint_master_conflict_clusters_v1_0
+clusters:
+- cluster_id: CC-001
+  title: Current authority vs stale bootstrap/continuity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical START_HERE/bootstrap/handoffs repeatedly retained current-looking stale phase claims. The reviewed authority front door is releases/current.yaml,
+    but navigation surfaces need reconciliation.
+  item_refs:
+  - IT-BP1708-0001
+  - IT-BP2708-0001
+  - IT-BP0909-0017
+  - IT-BP0909-0018
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  review_refs:
+  - B01-F001
+  - B01-F002
+  - B02-F001
+  - B02-F002
+- cluster_id: CC-002
+  title: Completion evidence vs acceptance authority
+  status: REFINEMENT_CHAIN_WITH_REMAINING_AUDIT
+  summary: The project evolves from completion-report evidence to explicit acceptance transactions; later same-phase progression is automated, while major
+    phase boundaries remain operator-controlled. Automatic acceptance itself must not be inferred from evidence alone.
+  item_refs:
+  - IT-BP0508C-0031
+  - IT-BP1708-0007
+  - IT-BP1708-0008
+  - IT-BP1708-0009
+  - IT-BP2708-0014
+  - IT-BP2708-0015
+  - IT-BP0909-0009
+  - IT-BP0909-0010
+  review_refs:
+  - B06-F006
+- cluster_id: CC-003
+  title: Globally clean tree vs parallel bounded execution
+  status: HISTORICALLY_SUPERSEDED_DIRECTION_CURRENT_AUDIT_REQUIRED
+  summary: Early mutation/seal checks often assumed a clean worktree; later owner doctrine explicitly rejects global cleanliness as a prerequisite for safe
+    parallel work and uses bounded baselines/owned scopes.
+  item_refs:
+  - IT-BP0508-0018
+  - IT-BP0508C-0004
+  - IT-BP2708-0009
+  - IT-BP2708-0010
+  - IT-BP2708-0011
+  - IT-BP0909-0015
+  review_refs:
+  - B06-F010
+- cluster_id: CC-004
+  title: Fake canonical data vs bounded temporary fixtures
+  status: NEEDS_POLICY_RECONCILIATION
+  summary: Early doctrine rejects fabricated dependency truth. Later work permits bounded temporary catalogs/fixtures to exercise logic. Current policy
+    should explicitly distinguish non-authoritative fixtures from fake canonical truth.
+  item_refs:
+  - IT-BP1406-0003
+  review_refs: []
+- cluster_id: CC-005
+  title: Synthetic planning vs accepted architecture
+  status: KNOWN_RISK
+  summary: Synthetic future steps are useful but must remain visibly synthetic/non-executable. Vocabulary/schema fragmentation can make planning artifacts
+    look authoritative.
+  item_refs:
+  - IT-BP3108-0016
+  - IT-BP3108-0017
+  - IT-BP0509-0005
+  review_refs:
+  - B02-F010
+  - B02-F011
+  - B06-F013
+- cluster_id: CC-006
+  title: Logistics pilot authority and expansion gate
+  status: LAST_KNOWN_RULE_COHERENT_BUT_RUNTIME_VERIFY
+  summary: Logistics-only pilot converges on minimum two successful real automatic runs, positive stability review and a separate expansion decision; duplicate
+    historical pilot-gate surfaces still need effective-state reconciliation.
+  item_refs:
+  - IT-BP1708-0018
+  - IT-BP2708-0023
+  - IT-BP2708-0024
+  - IT-BP2708-0025
+  - IT-BP3108-0002
+  - IT-BP0909-0008
+  review_refs:
+  - B02-F005
+  - B06-F002
+- cluster_id: CC-007
+  title: Contract Registry vs Gateway vs domain authority
+  status: ARCHITECTURE_DIRECTION_ACCEPTED_CURRENT_IMPLEMENTATION_VERIFY
+  summary: Domain modules own meaning, Contract Registry owns versioned agreements, Gateway validates/routes runtime traffic. These responsibilities must
+    not collapse.
+  item_refs:
+  - IT-BP3108-0029
+  - IT-BP3108-0030
+  - IT-BP3108-0031
+  - IT-BP3108-0032
+  - IT-BP3108-0033
+  - IT-BP3108-0034
+  - IT-BP3108-0035
+  review_refs:
+  - B01-F012
+- cluster_id: CC-008
+  title: Module inventory and identity drift
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical counts move across 19/21/22 and current reviews still find identity/double-count mismatches. Machine IDs must be canonical before
+    automated portfolio selection.
+  item_refs:
+  - IT-BP3108-0006
+  - IT-BP2708-0031
+  review_refs:
+  - B02-F009
+  - B06-F005
+  - B01-F010
+- cluster_id: CC-009
+  title: Artifact/script revision identity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Old script versions and revision collisions repeatedly caused safe failures. Unique descriptive archives and strong revision/hash checks became
+    explicit requirements.
+  item_refs:
+  - IT-BP2708-0008
+  - IT-BP2708-0034
+  - IT-BP0909-0004
+  review_refs:
+  - B06-F007
+  - B06-F008
+- cluster_id: CC-010
+  title: Human docs vs machine governance parity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Several owner/theory decisions were richer than their machine-readable governance projection. Both sides need effective-state links and parity
+    checks.
+  item_refs:
+  - IT-BP3108-0008
+  - IT-BP0509-0009
+  - IT-BP1009-0019
+  review_refs:
+  - B06-F003
+  - B06-F004
+  - B06-F009
+  - B06-F012
+- cluster_id: CC-011
+  title: Roadmap plan vs actual execution authority
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Owner identifies recurring roadmap lag. CF-02 resolves the model by making continuity event store authoritative for execution and roadmap execution
+    fields generated projections; source ends before migration is proven complete.
+  item_refs:
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP1209-0031
+  - IT-BP1209-0034
+  review_refs: []
+- cluster_id: CC-012
+  title: Whole-mutator rerun vs state-aware partial recovery
+  status: SAFETY_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: Historical failures show canonical state may advance before checkpoint/closure fails. Blind rerun is explicitly forbidden; recovery must inspect
+    source fingerprint/state and repair only the remaining layer.
+  item_refs:
+  - IT-BP1209-0023
+  - IT-BP1209-0025
+  - IT-BP1209-0032
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  review_refs: []
+- cluster_id: CC-013
+  title: Structural PASS vs semantic freshness
+  status: CURRENT_AUDIT_REQUIRED
+  summary: 08.09 Logistics evidence shows tests/module-memory/document-authority can pass while fresh-context/current-state semantics are stale. Structural
+    validation must not be treated as semantic freshness proof.
+  item_refs:
+  - IT-BP0809-0023
+  - IT-BP0809-0028
+  review_refs: []
+- cluster_id: CC-014
+  title: Local module health vs portfolio strategic alignment
+  status: ARCHITECTURAL_INVARIANT
+  summary: A locally healthy module is not automatically strategically aligned. Final disposition requires current Blueprint mission/policy/target, dependencies,
+    cross-repository consumers and runtime truth.
+  item_refs:
+  - IT-BP0809-0025
+  - IT-BP0809-0027
+  - IT-BP0809-0034
+  review_refs: []
+- cluster_id: CC-015
+  title: Generated PASS/projection vs reconciled source truth
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical B10 findings show stale lineage/current-step assumptions under PASSED reports and stale generated guides. Authoritative source reconciliation
+    must precede projection regeneration.
+  item_refs:
+  - IT-BP0809-0003
+  - IT-BP0809-0004
+  - IT-BP0809-0007
+  - IT-BP0809-0033
+  review_refs:
+  - B06-F003
+  - B06-F004
+  - B06-F009
+- cluster_id: CC-016
+  title: Stale diagnostic log vs current-tree / isolated-check truth
+  status: CURRENT_AUDIT_REQUIRED
+  summary: 14.09 shows a full-check log carrying an old source-hash pin while the current focused rerun passes. Validation must distinguish live working-tree
+    tests from isolated non-mutating materialization and stale report provenance before changing source.
+  item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  review_refs: []
+- cluster_id: CC-017
+  title: Stale handoff plan vs durable current state
+  status: ARCHITECTURAL_INVARIANT
+  summary: A handoff can prescribe work that has already been closed by the time the next assistant starts. Exact current-state reconciliation must precede
+    mutation; already-closed work is skipped rather than replayed.
+  item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  review_refs: []
+- cluster_id: CC-018
+  title: Focused tests green vs semantic/governance candidate correctness
+  status: CURRENT_AUDIT_REQUIRED
+  summary: CF-02 candidate compiled and focused tests passed, but adversarial semantic review still found seven blockers. Candidate acceptance therefore
+    requires semantic/governance review, not only local tests.
+  item_refs:
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  - IT-BP0709CF-0015
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  - IT-BP0709CF-0018
+  - IT-BP0709CF-0019
+  review_refs: []

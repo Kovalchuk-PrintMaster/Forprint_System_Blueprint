@@ -1,0 +1,36 @@
+schema_version: forprint_evidence_policy_v0_1
+owner: forprint_system_blueprint
+architecture: LOCAL_EVIDENCE_VAULT_VARIANT_A
+status: PILOT_NON_AUTHORIZING
+vault_root: /srv/software_development/forprint-evidence-store
+code_owner: forprint_system_blueprint
+runtime_owner: independent_root_operator
+modules:
+  - forprint_system_blueprint
+pilot_accepted_input_kind: CF10_G2A_STABLE_RELEASE_REVIEW
+pilot_source_head: f37abe98045afa8a28f158a017fc3114e1d26499
+record_lifecycle:
+  - SOURCE_TECHNICALLY_VERIFIED_NON_AUTHORIZING
+  - REGISTERED_NON_AUTHORIZING
+  - VERIFIED_REGISTERED_NON_AUTHORIZING
+object_storage: CONTENT_ADDRESSED_SHA256
+manifest_storage: CREATE_ONLY_JSON
+journal_storage: CREATE_ONLY_PER_EVENT_JSON
+index_storage: REBUILDABLE_NOT_AUTHORITATIVE
+risk_controls:
+  - root_only_creation_on_s01
+  - explicit_operator_confirmation_for_register_and_retrieve
+  - no_symlink_paths
+  - no_overwrite
+  - strict_manifest_and_sha256_check
+  - no_uncontrolled_delete_or_cleanup
+  - no_automatic_evidence_migration
+  - no_worker_launch_dispatch_signing_or_ledger_mutation
+independent_authority:
+  ledger_writer: EXTERNAL_UNCHANGED
+  signer: EXTERNAL_UNCHANGED
+  acceptance: NOT_GRANTED
+next_boundaries:
+  - backup_and_restore_proof
+  - independently_attested_rebind_for_g2b
+  - retention_and_garbage_collection_review

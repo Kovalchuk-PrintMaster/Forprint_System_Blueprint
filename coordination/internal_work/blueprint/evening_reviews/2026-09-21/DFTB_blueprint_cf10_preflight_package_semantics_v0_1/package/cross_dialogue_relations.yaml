@@ -1,0 +1,50 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-blueprint-2026-09-21
+authority_class: blueprint_coordination_history
+relations:
+- type: continues
+  from_bundle: DFTB-blueprint-2026-09-21
+  to_bundle: DFTB-blueprint-2026-09-17
+  confidence: HIGH
+  note: Starts from CF-09/u180i handoff state and continues into later CF-10 readiness/preflight.
+- type: extends
+  from_bundle: DFTB-blueprint-2026-09-21
+  to_bundle: DFTB_blueprint-2026-09-12
+  confidence: HIGH
+  note: Extends Control Foundation/event-sourced roadmap/lifecycle architecture through first-worker preflight.
+- type: supports
+  from_bundle: DFTB-blueprint-2026-09-21
+  to_bundle: DFTB_blueprint-2026-09-05
+  confidence: MEDIUM
+  note: Living-knowledge/bootstrap packaging and durable project context extend earlier fresh-worker/context compiler direction.
+item_relations:
+- type: continues
+  from_item: IT-BP2109-0019
+  to_item: IT-BP1709-0026
+  confidence: HIGH
+  note: Later READY_UNBOUND state implies the earlier CF-09 closure blocker was subsequently resolved, though exact repair events are missing.
+- type: supports
+  from_item: IT-BP2109-0006
+  to_item: IT-BP1709-0018
+  confidence: HIGH
+  note: ACK remains a fail-closed Dispatcher gate, not a log line.
+- type: supports
+  from_item: IT-BP2109-0007
+  to_item: IT-BP1709-0028
+  confidence: HIGH
+  note: First internal worker remains explicitly bounded and human-authorized.
+- type: refines
+  from_item: IT-BP2109-0015
+  to_item: IT-BP1709-0007
+  confidence: HIGH
+  note: Later output reaffirms event-sourced execution authority and projection-only roadmap status.
+- type: refines
+  from_item: IT-BP2109-0021
+  to_item: IT-BP1709-0028
+  confidence: HIGH
+  note: CF-10 launch requires read-only choreography reconstruction before any activation.
+- type: motivated_by
+  from_item: IT-BP2109-0033
+  to_item: IT-BP1709-0027
+  confidence: HIGH
+  note: The previous source ended before recovery; this source provides later state but not the missing exact lineage.

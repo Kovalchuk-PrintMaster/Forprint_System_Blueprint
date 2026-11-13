@@ -1,0 +1,70 @@
+{
+  "schema_version": "cf10_multi_provider_worker_boundary_v0_1",
+  "status": "SOURCE_ONLY_CONTRACT_CANDIDATE_NOT_CONNECTED_TO_LIVE_DISPATCH",
+  "baseline_head": "7aceecec4e0653affd4511b064a74c6ece527382",
+  "architecture": {
+    "worker_identity_is_provider_identity": false,
+    "provider_selection_per_attempt": true,
+    "explicit_selection_required": true,
+    "automatic_provider_fallback": false,
+    "worker_execution_cannot_be_authorized_by_provider_registry": true,
+    "provider_runtime_independent_of_work_front_handoff_dispatch_and_results": true,
+    "execution_backends": ["CONSOLE_COMMAND", "REMOTE_JOB"],
+    "cli_and_remote_have_separate_proof_requirements": true,
+    "result_normalization_is_untrusted_until_independent_validation": true,
+    "credentials_are_not_persisted_in_git_or_canonical_result": true,
+    "credentials_isolated_per_provider_and_runtime": "REQUIRED_BEFORE_MULTI_PROVIDER_CUTOVER",
+    "host_sandbox_precedes_provider_sandbox": true,
+    "attempt_source_head_and_binding_frozen_before_claim": true,
+    "legacy_task70_pilot_is_not_rebound_automatically": true
+  },
+  "interfaces": {
+    "worker_task": "canonical Work Front / Task Envelope / Handoff",
+    "routing": "explicit Task Requirements -> provider capability -> frozen candidate",
+    "provider_adapter": ["inspect_readiness", "build_invocation", "normalize_result_candidate"],
+    "local_executor": "source-bound systemd + kernel witness + root receipts",
+    "remote_executor": "separate durable request/remote_id/idempotency/attestation model; NOT_IMPLEMENTED",
+    "shared_output": "canonical worker completion draft -> independent validators",
+    "shared_authority": "owner/PAM + single-use claim + ledger + finalizer; provider may not widen"
+  },
+  "current_couplings": [
+    "registry.py limits READY provider count to exactly one",
+    "cf10_training_dispatch.py pins github_copilot_cli and model auto",
+    "governed_worker_cycle.py injects hardcoded provider/model at dispatch",
+    "invocation_adapter.py renders only Copilot argv and MCP permission patterns",
+    "cf10_supervisor_binding_candidate_v0_1.py binds one forprint-runner Unix identity",
+    "cf10_r077 and cf10_r078 check Copilot-specific HOME and startup",
+    "worker_result_return.py trusts only two canonical frame transports, not provider event streams",
+    "credential/session readiness is not proven by a CLI version smoke"
+  ],
+  "rollout": [
+    {"stage": "R079", "goal": "pure provider-neutral catalog/selection boundary + source coupling audit", "live_worker_impact": false},
+    {"stage": "ADAPTER_SEAM", "goal": "split prepare/dispatch pin from provider-specific argv and prohibit provider mutation after freeze", "live_worker_impact": "GUARDED_SOURCE_REVIEW_REQUIRED"},
+    {"stage": "COPILOT_PARITY", "goal": "existing Copilot path through new interface with byte-for-byte plan/result compatibility", "live_worker_impact": "MUST_BE_TESTED"},
+    {"stage": "SECOND_PROVIDER", "goal": "Codex CLI adapter, independent credentials, smoke/auth/MCP/results", "live_worker_impact": "NOT_READY"},
+    {"stage": "THIRD_PROVIDER", "goal": "Claude Code adapter and independent stream normalization", "live_worker_impact": "NOT_READY"},
+    {"stage": "ROUTING_AND_CONCURRENCY", "goal": "capability-aware task assignment, isolation, parallel workers, leases and quotas", "live_worker_impact": "NOT_READY"},
+    {"stage": "REMOTE_EXECUTION", "goal": "cloud-managed jobs via separately reviewed executor with durable remote job identity", "live_worker_impact": "NOT_READY"}
+  ],
+  "proof_status": {
+    "r078_copilot_offline_version_smoke": "PASS_NON_AUTHORIZING",
+    "r078_copilot_auth_verified": false,
+    "additional_provider_executed": false,
+    "multiple_ready_enabled_on_live_path": false,
+    "a054": "CONSUMED_NO_RETRY_STARTED_PENDING_NO_CANONICAL_SUCCESS",
+    "worker_launched_by_r079": false,
+    "claim_consumed_by_r079": false,
+    "release_granted_by_r079": false,
+    "production_cutover": false
+  },
+  "forbidden_shortcuts": [
+    "replace_only_copilot_binary_with_codex_or_claude",
+    "relax_ready_count_without_per_attempt_freeze_and_selection",
+    "use_same_home_or_credentials_for_multiple_providers_without_review",
+    "treat_capability_flag_or_version_smoke_as_authority",
+    "reuse_consumed_attempt_or_restart_failed_systemd_service",
+    "auto_fallback_to_another_provider_with_same_attempt",
+    "trust_raw_provider_stdout_as_accepted_worker_result",
+    "route_remote_cloud_job_through_local_systemd_identity_as_if_it_were_local"
+  ]
+}

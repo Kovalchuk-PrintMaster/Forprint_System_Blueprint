@@ -1,0 +1,25 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u179f-validated-20260911t135057855556z
+event_type: VALIDATION_PASSED
+sequence: 7
+previous_event_id: evt-u179f-lifecycle-enforcement-20260911t135057855556z
+previous_event_sha256: 08103d5ceea51403a0eddf752d47d9bf2db1e53801d3c27f91fdad1b68fd88e7
+work_id: u179f
+occurred_at: '2026-09-11T13:55:22.820011Z'
+actor: assistant_generated_operator_executed
+summary: Lifecycle enforcement acceptance validation passed
+source_state_ref: 42d9f2a90b279e19911dc45856863fe05ac3f35773b344525183c8daee781dde
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u179f-lifecycle-enforcement-20260911t135057855556z
+  checkpoint_event_sha256: 08103d5ceea51403a0eddf752d47d9bf2db1e53801d3c27f91fdad1b68fd88e7
+  evidence:
+    - 39 passed in 41.56s
+    - 1180 passed, 32 skipped in 152.28s (0:02:32)
+    - continuity event store current source match PASS
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: 140eca8cb349364e6f2951a4afb2c21b30922a0c484893236646735e1d3be9fd
+    checkpoint_fingerprint: 140eca8cb349364e6f2951a4afb2c21b30922a0c484893236646735e1d3be9fd

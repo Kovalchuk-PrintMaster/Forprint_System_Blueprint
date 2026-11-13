@@ -1,0 +1,132 @@
+schema_version: forprint_cf10_worker_result_return_s4_resume_binding_hardening_completion_v0_1
+layer: GOVERNANCE_COMPLETION
+status: PASS
+completed_at: '2026-10-08'
+slice:
+  id: CF10_WORKER_RESULT_RETURN_S4_RESUME_BINDING_HARDENING
+  work_front_id: wf-cf10-worker-result-return-s4-resume-binding-hardening-v0-1
+  objective: Reject S4-invalid Worker resume bindings before create-only result materialization while preserving canonical
+    downstream full S4 freshness validation.
+design_authority:
+  work_front:
+    path: coordination/work_fronts/cf10_worker_result_return_s4_resume_binding_hardening_v0_1.yaml
+    sha256: 7a06d8e22dc65299a16e127ebab21c6a0dc13b351b3470e06a18d4bcf80abbe0
+    publication_commit: 6edaf9f845d097514999aa9cf164ac90b5585abe
+  freeze:
+    path: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_worker_result_return_s4_resume_binding_hardening_design_freeze_v0_1.yaml
+    sha256: 47398baa67069343d8a973cd180c6d00b210b9099e231f449e02d74b239502a8
+    publication_commit: 6edaf9f845d097514999aa9cf164ac90b5585abe
+    status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+trigger:
+  attempt_id: cf10-u180j-a034
+  task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  terminal_state: BLOCKED
+  terminal_failure_class: STALE_LIFECYCLE_ROADMAP_CURSOR
+  worker_result_rewritten: false
+  worker_relaunched: false
+  same_attempt_replay_allowed: false
+implementation:
+  publication_commit: 026ae3c2bf06c248458e7dd301aba49125d064a1
+  published: true
+  path_count: 6
+  paths:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  capabilities:
+    prompt_requires_verbatim_source_state_fingerprint: true
+    prompt_requires_verbatim_lifecycle_roadmap_cursor: true
+    prompt_forbids_crypto_recompute_or_normalization: true
+    partial_status_resume_fields_explicit: true
+    governed_context_passed_to_result_materializer: true
+    canonical_s4_resume_validator_reused: true
+    new_s4_validator_created: false
+    pre_materialization_resume_gate: true
+    a034_style_cursor_hash_drift_rejected_before_write: true
+    source_fingerprint_drift_rejected_before_write: true
+    incomplete_partial_resume_rejected_before_write: true
+    valid_exact_resume_binding_materializes_create_only: true
+    canonical_s4_failure_class_preserved: true
+    downstream_full_s4_freshness_validation_preserved: true
+    result_rewrite_allowed: false
+    result_synthesis_allowed: false
+    automatic_retry: false
+    automatic_dispatch: false
+    automatic_accept: false
+    automatic_promotion: false
+    automatic_commit: false
+    automatic_push: false
+    automatic_merge: false
+    automatic_release: false
+verification:
+  tests_first_red:
+    result_return_suite:
+      expected_new_failures: 4
+      legacy_passed: 16
+      result: PASS
+    invocation_prompt_suite:
+      expected_new_failures: 1
+      legacy_passed: 15
+      result: PASS
+    cycle_pass_through_suite:
+      expected_new_failures: 1
+      legacy_passed: 10
+      result: PASS
+    s4_failure_class_preservation:
+      expected_new_failures: 1
+      result: PASS
+  focused_green_suite:
+    result: PASS
+    passed: 48
+    failed: 0
+  existing_make_surface:
+    target: cf10-worker-result-return-check
+    result: PASS
+    passed: 32
+    failed: 0
+  six_path_diff_check: PASS
+  exact_six_path_stage: PASS
+  protected_staged_count: 0
+  forbidden_task70_or_a034_mutation: NONE
+a034_state:
+  attempt_id: cf10-u180j-a034
+  attempt_stage: BLOCKED
+  result_state: BLOCKED
+  validator_outcome: FAIL
+  failure_class: STALE_LIFECYCLE_ROADMAP_CURSOR
+  immutable_worker_result_preserved: true
+  candidate_workspace_preserved: true
+  worker_relaunch: false
+  same_attempt_replay_forbidden: true
+  new_attempt_required_for_retry: true
+repository_state_before_completion_publication:
+  head: 026ae3c2bf06c248458e7dd301aba49125d064a1
+  head_equals_upstream: true
+  protected_dirty_path_count: 5
+  protected_dirty_paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  unexpected_dirty_paths: []
+closure:
+  mandatory_hardening_remaining: false
+  s4_resume_binding_hardening_complete: true
+  task70_mutated: false
+  a034_mutated: false
+  makefile_mutated: false
+  next_boundary: COMPLETION_ARTIFACT_PUBLICATION
+  task70_retry_allowed_after_completion_publication: true
+  retry_requires_new_attempt_id: true
+  automatic_transition: false
+authority:
+  completion_artifact_grants_execution_authority: false
+  completion_artifact_grants_dispatch_authority: false
+  completion_artifact_grants_acceptance_authority: false
+  completion_artifact_grants_promotion_authority: false
+  completion_artifact_grants_publication_authority: false
+  work_front_remains_execution_authority: true

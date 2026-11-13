@@ -1,0 +1,71 @@
+schema_version: forprint_dialogue_master_memory_v1_6_intake_manifest_v0_1
+source_archive_sha256: 368c40fb721c5ec629c6fce449d7e706b2230427c5a68bd3d5a68357f3f065bb
+generated_at_in_source: '2026-09-15T12:08:45+03:00'
+ingested_on: '2026-09-21'
+authority: DERIVED_AGGREGATE_NAVIGATION_NOT_CURRENT_RUNTIME_AUTHORITY
+source_counts:
+  unique_conversation_roots: 13
+  history_layers: 14
+  delta_only_continuation_layers: 1
+  historical_items: 470
+  evidence_records: 567
+  relations: 167
+  historical_anomalies: 128
+  source_open_loops: 104
+  current_audit_programs: 26
+  artifact_handoff_events: 655
+truth_layers:
+  A: dialogue evidence
+  B: normalized historical interpretation
+  C: current implementation verification
+  rule: Never collapse A/B/C; historical PASS/READY or accepted design is not current implementation proof.
+storage_policy: Preserve the original Master Memory ZIP once plus a thin extraction of primary navigation files.
+  Do not expand all embedded DFTB source bundles into this aggregate directory because many are already ingested
+  independently.
+embedded_control_foundation_source:
+  bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  embedded_zip_sha256: fb0182187ebcf8ef7f6b56e6613f3aa892d32b0284cd669fc81ec6b89e190249
+  standalone_uploaded_zip_sha256: fb0182187ebcf8ef7f6b56e6613f3aa892d32b0284cd669fc81ec6b89e190249
+  byte_identical: true
+  rule: Store primary source once in expanded review location; Master archive retains the original immutable embedded
+    ZIP.
+current_processing_boundary:
+  already_individually_integrated_or_processed_in_current_enrichment:
+  - source-label-2026-06-14
+  - '2026-07-14'
+  - '2026-08-05'
+  - 2026-08-05-continuation
+  - '2026-08-17'
+  - '2026-08-27'
+  - 2026-08-31-preflight
+  - '2026-09-05'
+  - '2026-09-08'
+  - '2026-09-12'
+  - source-label-2026-09-07-control-foundation (this intake)
+  master_layers_not_auto_promoted_to_human_intent_by_this_intake:
+  - '2026-09-09'
+  - '2026-09-10'
+  - 2026-09-14-continuation
+  reason: Preserve source-by-source reconciliation and avoid hidden duplication. The Master Memory is a navigation/index
+    layer, not permission to bulk-promote every embedded historical item.
+selected_extracted_navigation_files:
+- README.md
+- START_HERE.md
+- MASTER_MEMORY.yaml
+- AUTHORITY_EVOLUTION.md
+- DUPLICATE_EXCLUSION_POLICY.md
+- STANDARDS_AND_METHOD.md
+- SOURCE_COVERAGE_ROLLUP.yaml
+- chronology/DIALOGUE_CHRONOLOGY.md
+- chronology/DIALOGUE_CHRONOLOGY.yaml
+- concepts/CONFLICT_CLUSTERS.md
+- concepts/CONFLICT_CLUSTERS.yaml
+- current_audit/CURRENT_VERIFICATION_BACKLOG.md
+- current_audit/CURRENT_VERIFICATION_BACKLOG.yaml
+primary_value_for_current_enrichment:
+- duplicate-aware logical chronology
+- authority evolution narrative
+- conflict/supersession clusters
+- deduplicated current-verification backlog
+- source coverage rollup
+- traceable pointer to not-yet-individually-processed layers

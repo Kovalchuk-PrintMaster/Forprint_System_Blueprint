@@ -1,0 +1,42 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-library-source-label-2026-05-16
+authority_class: module_history_non_blueprint_authority_with_blueprint_alignment_directive
+relations:
+- type: module_history_precedes
+  from_bundle: DFTB-library-source-label-2026-05-16
+  to_bundle: DFTB-blueprint-source-label-2026-06-14
+  confidence: MEDIUM
+  note: Library greenfield/early Blueprint alignment predates mature Blueprint coordination; filename 16.05 is plausible but intermediate turn dates are
+    not preserved.
+- type: refined_by
+  from_bundle: DFTB-library-source-label-2026-05-16
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint architecture narrows Library and separates broader system responsibilities.
+- type: refined_by
+  from_bundle: DFTB-library-source-label-2026-05-16
+  to_bundle: DFTB-blueprint-preflight-2026-08-31
+  confidence: HIGH
+  note: Later architecture introduces explicit Contract Registry/Gateway/domain-owner split, requiring reconciliation with early Library contract-registry
+    wording.
+item_relations:
+- type: precedes
+  from_item: IT-LIB1605-0015
+  to_item: IT-BP1407-0006
+  confidence: HIGH
+  note: Early Blueprint-aligned Library boundary precedes later narrow canonical Library role.
+- type: conflicts_with
+  from_item: IT-LIB1605-0023
+  to_item: IT-BP3108-0037
+  confidence: HIGH
+  note: Early Library contract-registry ownership overlaps later dedicated Contract Registry/domain-owner architecture; current authority must reconcile.
+- type: supports
+  from_item: IT-LIB1605-0017
+  to_item: IT-BP3108-0037
+  confidence: MEDIUM
+  note: Stable semantic IDs/versioning/migrations are compatible with later contract governance even if authority shifts.
+- type: supports
+  from_item: IT-LIB1605-0018
+  to_item: IT-BP3108-0024
+  confidence: MEDIUM
+  note: Early impact/activation lifecycle supports later standards-adoption/change-impact governance.

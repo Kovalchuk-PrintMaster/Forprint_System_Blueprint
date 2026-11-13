@@ -1,0 +1,30 @@
+schema_version: blueprint_self_completion_packet_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  prompt_id: blueprint_managed_module_plan_reconciliation_v0_1
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_head: a23b8dc011920f0d9cb2dad25053908a907737b5
+  implementation_ref: same_commit_as_packet
+  completed_at: '2026-08-06T17:36:00+03:00'
+ownership:
+  implementer: blueprint_coordination_assistant
+  reviewer: project_owner
+  acceptance_authority: project_owner
+outputs:
+- coordination/internal_work/blueprint/inventory_refresh/2026-08-06__blueprint__managed_module_plan_reconciliation_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-08-06__blueprint__managed_module_plan_reconciliation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-08-06__blueprint__roadmap_dependency_debt_remediation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+- coordination/self_coordination/roadmap.yaml
+- coordination/self_coordination/prompt_queue/index.yaml
+verification:
+  managed_module_count: 3
+  control_drift_count: 0
+  invalid_roadmap_count: 0
+  dependency_finding_count: 1
+  dependency_debt_remaining: 0
+  module_controls_modified: false
+  historical_completion_rewritten: false
+  external_prompts_released: false
+  external_rollout_state: gated
+result: ACCEPTED

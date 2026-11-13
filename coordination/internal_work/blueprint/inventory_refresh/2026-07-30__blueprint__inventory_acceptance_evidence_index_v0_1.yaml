@@ -1,0 +1,246 @@
+schema_version: blueprint_inventory_acceptance_evidence_index_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T18:05:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 6e295742bffda60b542b0331d8c606ba49a03b11
+  state: READY_FOR_DRY_RUN
+  external_rollout_state: gated
+summary:
+  evidence_entry_count: 22
+  stable_hash_entry_count: 14
+  runtime_result_entry_count: 8
+  candidate_entry_count: 2
+  candidate_acceptance_performed: false
+  explicit_deferral_count: 2
+  release_decision: PROCEED_TO_INVENTORY_ACCEPTANCE_DRY_RUN
+integrity_policy:
+  stable_artifacts: sha256
+  runtime_reports: result_path_validation
+  candidate_status_source: artifact_metadata
+  candidate_acceptance_allowed: false
+  runtime_report_hash_required: false
+evidence_entries:
+- evidence_id: rci_v0_4_candidate
+  path: coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+  authority: candidate
+  artifact_type: repository_capability_inventory
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 7bc8ed5bdefa089393df2ee4830de3a96ffdcaf5ad2fa6b720dd459d1e700468
+- evidence_id: redm_v0_4_candidate
+  path: coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml
+  authority: candidate
+  artifact_type: repository_execution_dependency_map
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 6cea7f34173d58834a34850a550ce0391e80936e14d59639b461cec08daed631
+- evidence_id: coordination_direction_v0_2
+  path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  authority: current_direction
+  artifact_type: direction_snapshot
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 4a8ab7d457986ba54167d2dd5ba8af9e209fd4107e7c38f31b63b6e275ffcb14
+- evidence_id: portfolio_direction_v0_2
+  path: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  authority: current_direction
+  artifact_type: direction_snapshot
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 835cb27b07ad7b8ce985e54ff434f27048593f3552f8866c7a41f9b68c0e2d43
+- evidence_id: artifact_authority_policy
+  path: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  authority: governance_control
+  artifact_type: authority_policy
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 49bf45d875fe7f118a751bcd7187a255e28e1d4065a02d712d36e3a6638f1f3c
+- evidence_id: module_registry_resolution
+  path: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  authority: canonical_registry
+  artifact_type: module_registry
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 66b72459a9d10c025c9d3ce6cc7c5b1127e0e9b8c4d3cf0b0b1f8bab4f5add23
+- evidence_id: inventory_maintenance_policy
+  path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  authority: governance_control
+  artifact_type: maintenance_policy
+  required_for:
+  - dry_run
+  - operational_readiness
+  integrity_mode: sha256
+  sha256: 754f10b3625bb29b9eac9a3a54b417fde6c1f01f2b7f0f3194941e48d274e1cc
+- evidence_id: semantic_unknowns_triage
+  path: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  authority: decision_evidence
+  artifact_type: unknowns_triage
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 31e9f8ca21044bb9779fe22678559317c285b6a8841ed3f54a049ffa78250d1b
+- evidence_id: semantic_closure_review_record
+  path: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_coverage_closure_review_v0_1.yaml
+  authority: decision_evidence
+  artifact_type: closure_review
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: e0b43a7081111b9015caff05d4ef65ab38f22fc27c625026094d39b366afef36
+- evidence_id: reconciliation_record
+  path: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__repository_knowledge_reconciliation_v0_1.yaml
+  authority: decision_evidence
+  artifact_type: reconciliation_record
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: sha256
+  sha256: 8e801809a766784acb40a990d4f03e17a6126fadbe0f9a5a831b8bae00d07b40
+- evidence_id: rci_completion_packet
+  path: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__rci_semantic_enrichment_v0_1.yaml
+  authority: completion_evidence
+  artifact_type: completion_packet
+  required_for:
+  - dry_run
+  integrity_mode: sha256
+  sha256: df35da35f27f7a51a8015cd56ebd7f002232a35aad39a6d469250df3bc2cc83e
+- evidence_id: redm_completion_packet
+  path: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__redm_dependency_enrichment_v0_1.yaml
+  authority: completion_evidence
+  artifact_type: completion_packet
+  required_for:
+  - dry_run
+  integrity_mode: sha256
+  sha256: 41dda36efff25e92f1ae4e1c124b9899cec94eae50ca8939f522d61fbdda5aef
+- evidence_id: semantic_closure_completion_packet
+  path: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_coverage_closure_review_v0_1.yaml
+  authority: completion_evidence
+  artifact_type: completion_packet
+  required_for:
+  - dry_run
+  integrity_mode: sha256
+  sha256: d4f29c88e104e4565df6c43d1faa5bf42d712a2df87aa531678b4ba874cf1e31
+- evidence_id: reconciliation_completion_packet
+  path: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__repository_knowledge_reconciliation_v0_1.yaml
+  authority: completion_evidence
+  artifact_type: completion_packet
+  required_for:
+  - dry_run
+  integrity_mode: sha256
+  sha256: e12979c063dbc4cfaf2720cf92ef5fd452242a22a3ea273113f0da0f007cb522
+- evidence_id: rci_validation_report
+  path: reports/rci_semantic_enrichment_validation_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: runtime_result
+- evidence_id: redm_validation_report
+  path: reports/redm_dependency_enrichment_validation_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: runtime_result
+- evidence_id: semantic_closure_report
+  path: reports/semantic_coverage_closure_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: runtime_result
+- evidence_id: reconciliation_report
+  path: reports/repository_knowledge_reconciliation_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  - merge_gate
+  integrity_mode: runtime_result
+- evidence_id: freshness_report
+  path: reports/repository_knowledge_freshness_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  integrity_mode: runtime_result
+- evidence_id: inventory_status_consistency_report
+  path: reports/blueprint_inventory_status_consistency_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  integrity_mode: runtime_result
+- evidence_id: module_registry_consistency_report
+  path: reports/module_registry_consistency_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  integrity_mode: runtime_result
+- evidence_id: self_coordination_consistency_report
+  path: reports/blueprint_self_coordination_consistency_report.yaml
+  authority: generated_validation
+  artifact_type: runtime_report
+  result_path:
+  - metadata
+  - result
+  expected_result: PASSED
+  required_for:
+  - dry_run
+  integrity_mode: runtime_result
+explicit_deferrals:
+- deferral_id: unreviewed_repository_scope
+  count: 646
+  must_remain_visible: true
+  blocking_for_dry_run: false
+- deferral_id: wave_2_unknown_records
+  count: 25
+  must_remain_visible: true
+  blocking_for_dry_run: false

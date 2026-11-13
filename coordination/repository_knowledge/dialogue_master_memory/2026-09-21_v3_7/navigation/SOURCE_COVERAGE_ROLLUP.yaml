@@ -1,0 +1,363 @@
+schema_version: forprint_master_source_coverage_v1_0
+sources:
+- bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  rank: 1
+  completeness: very_sparse_partial_dialogue_with_large_middle_gap
+  completeness_notes: 15 retained turn sections / 16 message blocks across turns 1–61. Large gap 5–50. Known-good CSV attachments are referenced but not embedded.
+  authority_class: module_history_non_blueprint_authority
+  items: 20
+  evidence: 21
+  relations: 6
+  anomalies: 8
+  open_loops: 6
+- bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  rank: 2
+  completeness: large_partial_voice_heavy_dialogue_with_embedded_prior_scaffold
+  completeness_notes: '83 visible turns / 83 message blocks over turn range 1–112. Turn 1 embeds a large prior behavior/scaffold transcript. Several voice turns
+    are unavailable/corrupted. Internal scaffold anchor: 2025-10-12.'
+  authority_class: module_history_non_blueprint_authority
+  items: 34
+  evidence: 32
+  relations: 12
+  anomalies: 9
+  open_loops: 8
+- bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  rank: 3
+  completeness: sparse_attachment_heavy_dialogue
+  completeness_notes: 56 retained turn sections / 56 message blocks across turn range 1–278. Most referenced Python/JSON/CSV attachments are not embedded. Internal
+    artifact timestamps anchor active work to 2025-10-14..2025-10-25.
+  authority_class: module_history_non_blueprint_authority
+  items: 32
+  evidence: 38
+  relations: 9
+  anomalies: 9
+  open_loops: 8
+- bundle: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+  rank: 4
+  completeness: complete_but_extremely_thin_two_turn_dialogue
+  completeness_notes: 2 visible turn sections / 2 message blocks. Owner prompt is only `deberta`; all substantive technical content is assistant-generated.
+  authority_class: historical_educational_context_non_authoritative
+  items: 7
+  evidence: 7
+  relations: 3
+  anomalies: 4
+  open_loops: 3
+- bundle: DFTB-library-source-label-2026-05-16
+  rank: 5
+  completeness: partial
+  completeness_notes: 11 message blocks across retained turns [1, 2, 23, 24, 25, 26, 27, 28]. Turns 3–22 are absent, so implementation history between design
+    and Stage 2 cannot be reconstructed literally.
+  authority_class: module_history_non_blueprint_authority_with_historical_blueprint_alignment
+  items: 26
+  evidence: 30
+  relations: 8
+  anomalies: 6
+  open_loops: 6
+- bundle: DFTB-accounting-registry-source-label-2026-05-17
+  rank: 6
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 22 visible message blocks; user=16, assistant=6. Most intermediate implementation turns are attachment placeholders. Filename starts at
+    17.05; terminal visible phase is v0.5 acceptance with no independent terminal date.
+  authority_class: module_history_non_blueprint_authority
+  items: 26
+  evidence: 30
+  relations: 9
+  anomalies: 7
+  open_loops: 6
+- bundle: DFTB-crm-source-label-2026-05-16
+  rank: 7
+  completeness: partial
+  completeness_notes: 11 visible message blocks across turns 1–30; turns 3–25 are missing. Source starts with Prepress automation discussion and later contains
+    Project Inspector/System Blueprint genesis plus a CRM alignment prompt dated in-path `2026-05-22`.
+  authority_class: module_history_with_blueprint_genesis_and_alignment_noncurrent
+  items: 28
+  evidence: 37
+  relations: 10
+  anomalies: 7
+  open_loops: 6
+- bundle: DFTB-prepress-hub-source-label-2026-05-20
+  rank: 8
+  completeness: extremely_partial_attachment_referenced
+  completeness_notes: 3 visible message blocks in turns 1–2. Owner references attached `prepress_hub.docx` with earlier agreements, but attachment body is absent.
+    Assistant provides a detailed proposed scaffold; there is no execution/commit evidence.
+  authority_class: module_history_non_blueprint_authority
+  items: 22
+  evidence: 22
+  relations: 6
+  anomalies: 6
+  open_loops: 5
+- bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  rank: 9
+  completeness: large_but_sparse_partial_long_running_dialogue
+  completeness_notes: 206 visible turn sections / 213 message blocks across turn range 1–1151; user=167, assistant=46. Turn 3 embeds a large imported prior conversation.
+    Many later turns are missing or attachment-only.
+  authority_class: module_history_non_blueprint_authority
+  items: 40
+  evidence: 45
+  relations: 11
+  anomalies: 11
+  open_loops: 9
+- bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  rank: 10
+  completeness: small_partial_dialogue_with_missing_turns_and_missing_generated_csv_bodies
+  completeness_notes: 9 visible turn sections / 9 message blocks; retained turns [1, 2, 3, 4, 8, 9, 10, 11, 12]; turns 5–7 absent. CSV artifacts are referenced
+    by name but not embedded.
+  authority_class: module_history_non_blueprint_authority
+  items: 30
+  evidence: 27
+  relations: 8
+  anomalies: 9
+  open_loops: 7
+- bundle: DFTB_blueprint-source-label-2026-06-14
+  rank: 11
+  completeness: partial
+  completeness_notes: All 102/102 retained turn containers have text; assistant narrative blocks=12. Filename date is temporally ambiguous because internal artifacts
+    include July 2026 dates.
+  items: 32
+  evidence: 40
+  relations: 8
+  anomalies: 9
+  open_loops: 8
+- bundle: DFTB-operational-registry-source-label-2026-05-29
+  rank: 12
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 44 visible message blocks across retained turns 1–162; user=40, assistant=4. Most intermediate turns are attachment placeholders. Visible
+    internal dates reach at least 2026-06-19.
+  authority_class: module_history_non_blueprint_authority_with_blueprint_governance_input
+  items: 30
+  evidence: 32
+  relations: 10
+  anomalies: 8
+  open_loops: 7
+- bundle: DFTB-control-plane-source-label-2026-06-01
+  rank: 13
+  completeness: extremely_partial
+  completeness_notes: Only 2 visible turns survive. User turn is only `Pasted text.txt Document`; the direct owner prompt body is missing. The assistant turn
+    contains a detailed bootstrap implementation plan/proposal. No owner acceptance, implementation, tests or commits are preserved.
+  authority_class: historical_bootstrap_proposal_non_blueprint_authority
+  items: 26
+  evidence: 26
+  relations: 8
+  anomalies: 6
+  open_loops: 6
+- bundle: DFTB-smm-assistant-source-label-2026-06-25
+  rank: 14
+  completeness: extremely_sparse_partial_dialogue
+  completeness_notes: 16 visible turn sections / 20 message blocks across turn labels 1–108. Large turn spans are absent. One screenshot is present at turn 63
+    but semantic image content is not extracted into this textual DFTB.
+  authority_class: business_marketing_history_non_blueprint_authority
+  items: 18
+  evidence: 21
+  relations: 6
+  anomalies: 6
+  open_loops: 5
+- bundle: DFTB-prepress-hub-source-label-2026-06-27
+  rank: 15
+  completeness: partial
+  completeness_notes: 10 visible message blocks; retained turns [1, 2, 6, 7, 8, 9, 10]. Turns 3–5 are missing. Source focuses on practical Prepress capability
+    discovery rather than current repository state.
+  authority_class: module_history_non_blueprint_authority
+  items: 30
+  evidence: 38
+  relations: 10
+  anomalies: 7
+  open_loops: 6
+- bundle: DFTB_blueprint-2026-07-14
+  rank: 16
+  completeness: partial
+  completeness_notes: MHTML exposes 877 turn containers; text is recoverable in only 133 turns.
+  items: 47
+  evidence: 41
+  relations: 8
+  anomalies: 8
+  open_loops: 7
+- bundle: DFTB-integration-gateway-source-label-2026-05-26
+  rank: 17
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 34 visible message blocks across turn range 1–144; user=29, assistant=5. Most intermediate turns are attachment placeholders. Filename
+    says 26.05 but terminal visible state is v0.7 with no embedded date.
+  authority_class: module_history_non_blueprint_authority
+  items: 28
+  evidence: 30
+  relations: 9
+  anomalies: 7
+  open_loops: 6
+- bundle: DFTB-smm-assistant-source-label-2026-07-25
+  rank: 18
+  completeness: partial_dialogue_with_missing_middle_span
+  completeness_notes: 14 visible turn sections / 14 message blocks; retained turns [1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21]. Turns 10–16 are absent.
+  authority_class: business_marketing_history_only
+  items: 17
+  evidence: 18
+  relations: 6
+  anomalies: 5
+  open_loops: 5
+- bundle: DFTB-library-source-label-2026-07-05
+  rank: 19
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 72 visible message blocks; user=66, assistant=6. Many intermediate turns are attachment placeholders. Visible dated artifacts reach 2026-07-29
+    despite the 05.07 filename.
+  authority_class: module_history_non_blueprint_authority
+  items: 30
+  evidence: 38
+  relations: 9
+  anomalies: 9
+  open_loops: 7
+- bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  rank: 20
+  completeness: large_sparse_long_running_dialogue
+  completeness_notes: 144 retained turn sections / 157 message blocks across turn range 1–920. Many missing turns and attachment placeholders. Strong terminal
+    checkpoint is the 2026-07-29 governance completion packet at dcd2b01.
+  authority_class: module_history_non_blueprint_authority
+  items: 38
+  evidence: 42
+  relations: 10
+  anomalies: 10
+  open_loops: 8
+- bundle: DFTB_blueprint-2026-08-05
+  rank: 21
+  completeness: partial
+  completeness_notes: All 107/107 retained turns have text; assistant narrative blocks=4. Most execution history is artifact labels/pasted output.
+  items: 40
+  evidence: 46
+  relations: 11
+  anomalies: 10
+  open_loops: 10
+- bundle: DFTB_blueprint-2026-08-05-continuation
+  rank: 22
+  completeness: partial
+  completeness_notes: 86/87 retained containers contain text; user blocks=83, assistant blocks=3. Distinct continuation of previously processed 05.08 source,
+    not a duplicate.
+  items: 34
+  evidence: 40
+  relations: 9
+  anomalies: 9
+  open_loops: 9
+- bundle: DFTB_blueprint-2026-08-17
+  rank: 23
+  completeness: partial
+  completeness_notes: All 142 retained turn containers have text, but only 4 assistant narrative messages are preserved; many intermediate reports are represented
+    only by attachment labels.
+  items: 36
+  evidence: 43
+  relations: 9
+  anomalies: 8
+  open_loops: 6
+- bundle: DFTB-logistics-service-source-label-2026-06-10
+  rank: 24
+  completeness: partial_long_running_dialogue
+  completeness_notes: 122 visible message blocks; user=118, assistant=4. Most intermediate evidence is attachment/report placeholders. Internal artifact labels
+    extend through 2026-08-22 despite the 10.06 filename.
+  authority_class: module_history_non_blueprint_authority
+  items: 22
+  evidence: 34
+  relations: 8
+  anomalies: 7
+  open_loops: 6
+- bundle: DFTB_blueprint-2026-08-27
+  rank: 25
+  completeness: partial
+  completeness_notes: All 72 retained turn containers contain text, but only 4 assistant narrative messages are preserved.
+  items: 34
+  evidence: 42
+  relations: 6
+  anomalies: 8
+  open_loops: 7
+- bundle: DFTB_blueprint-preflight-2026-08-31
+  rank: 26
+  completeness: partial
+  completeness_notes: 107/109 retained turn containers have recoverable text; user blocks=83, assistant blocks=24. Two retained containers are empty.
+  items: 37
+  evidence: 38
+  relations: 10
+  anomalies: 10
+  open_loops: 9
+- bundle: DFTB_blueprint-2026-09-05
+  rank: 27
+  completeness: partial
+  completeness_notes: 102/103 retained turn containers contain text; only 3 assistant narrative messages are preserved.
+  items: 30
+  evidence: 37
+  relations: 8
+  anomalies: 8
+  open_loops: 7
+- bundle: DFTB_blueprint-2026-09-08
+  rank: 28
+  completeness: partial
+  completeness_notes: 13 message blocks across turn numbers 1–20; turns 6, 8–12 and 14 are absent. Filename labels 08.09.26; export saved Tue, 15 Sep 2026 12:08:51
+    +0300.
+  items: 34
+  evidence: 44
+  relations: 9
+  anomalies: 11
+  open_loops: 7
+- bundle: DFTB_blueprint-2026-09-09
+  rank: 29
+  completeness: partial
+  completeness_notes: 102/103 retained turn containers have text, but only 3 assistant narrative messages are present.
+  items: 39
+  evidence: 60
+  relations: 6
+  anomalies: 8
+  open_loops: 6
+- bundle: DFTB_blueprint-2026-09-10
+  rank: 30
+  completeness: partial
+  completeness_notes: 54/56 retained turn containers contain recoverable text; only 2 assistant narrative message blocks are preserved.
+  items: 32
+  evidence: 37
+  relations: 11
+  anomalies: 9
+  open_loops: 8
+- bundle: DFTB_blueprint-2026-09-12
+  rank: 31
+  completeness: partial
+  completeness_notes: 23/23 retained containers have recoverable text, but turn numbering reaches 154 and only 4 assistant narrative blocks survive. Execution
+    spans Sep 11–12 through embedded archive/event timestamps.
+  items: 35
+  evidence: 40
+  relations: 9
+  anomalies: 11
+  open_loops: 8
+- bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  rank: 32
+  completeness: partial
+  completeness_notes: 9 retained message blocks across turn numbers 1–12. Turns 5/7/9/11 are attachment/archive labels. Filename says 07.09.26 but internal evidence
+    includes 2026-09-12 strategy and CF-01/u180a already closed.
+  items: 20
+  evidence: 26
+  relations: 11
+  anomalies: 10
+  open_loops: 6
+- bundle: DFTB_blueprint-2026-09-14-continuation
+  rank: 33
+  completeness: partial_delta
+  completeness_notes: Full export has 61 message blocks. 18 duplicate message IDs overlap the 12.09 source and are not re-indexed. 43 messages are new; 5 messages
+    present in 12.09 are absent from this re-export. Most intermediate new user turns are attachment placeholders without embedded attachment content.
+  items: 20
+  evidence: 33
+  relations: 8
+  anomalies: 9
+  open_loops: 6
+- bundle: DFTB-blueprint-2026-09-17
+  rank: 34
+  completeness: large_sparse_attachment_heavy_continuation
+  completeness_notes: 110 visible turn sections / 110 message blocks across turn range 1–392. Most intermediate turns are attachment placeholders. Visible execution
+    anchors span 2026-09-16..2026-09-17; export saved 2026-09-18.
+  authority_class: blueprint_coordination_history
+  items: 28
+  evidence: 33
+  relations: 9
+  anomalies: 9
+  open_loops: 7
+- bundle: DFTB-blueprint-2026-09-21
+  rank: 35
+  completeness: large_sparse_attachment_heavy_continuation
+  completeness_notes: 113 visible turn sections / 114 message blocks across turn range 1–845. 101 short attachment/archive placeholders. Visible substantive
+    work spans 18–20 September 2026; export saved 21 September 2026.
+  authority_class: blueprint_coordination_history
+  items: 34
+  evidence: 36
+  relations: 11
+  anomalies: 10
+  open_loops: 8

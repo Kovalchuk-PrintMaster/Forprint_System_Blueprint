@@ -1,0 +1,190 @@
+schema_version: forprint_dftb_blueprint_source_label_20260614_portfolio_reconciliation_v0_1
+source_label: '2026-06-14'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 7689daf82eab772fee24e1c6414dab6a14589af0bec15521503bacc95dc322b4
+source_dialogue_hash_sha256: c5acd0dfb9068b993e46aa69aecc3e49e79923130cf69a2f4381b21a8698ece1
+source_authority: HISTORICAL_COORDINATION_REPORTING_SELF_ANALYSIS_EVIDENCE_NOT_CURRENT_AUTHORITY
+temporal_boundary:
+  classification: SOURCE_LABEL_TEMPORALLY_AMBIGUOUS
+  rule: Do not treat filename label 14.06.26 as the exact date of every turn. Internal artifacts include explicit
+    July 2026 dates; use turn order and explicit artifact dates for chronology.
+source_completeness:
+  classification: PARTIAL_HISTORICAL_CAPTURE_WITH_HIGH_TURN_COVERAGE
+  retained_turn_containers: 102
+  text_bearing_turn_containers: 102
+  message_blocks:
+    user: 90
+    assistant: 12
+  referenced_execution_artifacts: 45
+  implementation_verification_in_bundle: false
+summary: This source is an early operational-governance provenance layer for Blueprint portfolio coordination, dependency-aware
+  planning, prompt/roadmap next-front discipline, compact operator reporting, durable project memory, shared-standard
+  dogfooding/propagation, repository self-analysis, and machine-readable script responsibility metadata with metadata-vs-code
+  drift detection. Later sources mature most of the coordination/runtime concepts. The script-metadata drift model
+  is preserved as a bounded design candidate pending live implementation reconciliation.
+topic_reconciliation:
+- topic: portfolio_coordinator_and_dependency_balance
+  item_refs:
+  - IT-BP1406-0001
+  - IT-BP1406-0002
+  - IT-BP1406-0008
+  - IT-BP1406-0009
+  disposition: RETAINED_AND_MATURED
+  source_rules:
+  - Blueprint keeps whole-system and per-module planning aligned
+  - module work must be dependency-constrained
+  - forward direction must remain visible
+  current_reconciliation: Current full-horizon target states, dependency/convergence work, WIP discipline and roadmap
+    reconciliation supersede the historical approximate ten-step numeric heuristic while preserving meaningful forward
+    depth.
+- topic: historical_library_dependency_and_module_priorities
+  item_refs:
+  - IT-BP1406-0004
+  - IT-BP1406-0005
+  - IT-BP1406-0006
+  - IT-BP1406-0007
+  disposition: HISTORICAL_PORTFOLIO_CONTEXT_ONLY
+  current_reconciliation: Library blocking Calculator/Telegram, Telegram+Logistics as a parallel line and Calculator/Telegram
+    priority describe the historical portfolio state. Do not promote those priorities or bottlenecks to current
+    policy without current evidence.
+- topic: fake_dependency_truth_vs_bounded_temporary_data
+  item_refs:
+  - IT-BP1406-0003
+  disposition: RECONCILED_WITH_LATER_TEMPORARY_FIXTURE_DIRECTION
+  source_rule: Do not use fabricated placeholder data as if it were canonical dependency truth.
+  later_reconciliation: Later work allowed bounded temporary/local catalogs and fixtures to advance development.
+    The durable distinction is canonical truth versus explicitly temporary/non-authoritative test or development
+    data.
+- topic: roadmap_prompt_next_front_resolution
+  item_refs:
+  - IT-BP1406-0010
+  - IT-BP1406-0011
+  disposition: RETAINED_AND_MATURED
+  source_rule: 'If no eligible next prompt exists, do not invent a workfront: inspect current authority, roadmap
+    and prepared/draft evidence, and only materialize a documented next step through the governed lifecycle.'
+  current_connection:
+  - roadmap reconciliation
+  - prompt queue/release lifecycle
+  - Dispatcher selection/activation boundary
+  - Reuse-First / Pre-Implementation Reconciliation Gate
+- topic: compact_operator_reporting
+  item_refs:
+  - IT-BP1406-0012
+  - IT-BP1406-0013
+  - IT-BP1406-0014
+  - IT-BP1406-0028
+  disposition: RETAIN_AS_OPERATOR_UX_PROVENANCE_NOT_A_NEW_CAPABILITY
+  source_rule: Routine status should be compact, visually scannable and table-first; deep diagnostics may be large
+    but should end with a compact operator summary. Color is supplementary, not the only carrier of meaning.
+- topic: dogfooding_and_shared_workflow_propagation
+  item_refs:
+  - IT-BP1406-0015
+  - IT-BP1406-0017
+  - IT-BP1406-0029
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  source_rule: Blueprint follows the same shared standards it imposes on modules, and shared workflow changes propagate
+    through templates, standards and module policy rather than remaining local one-off behavior.
+  current_connection:
+  - module workflow standards
+  - global assistant rules
+  - governance closeout propagation
+  - reference-pilot behavioral contracts
+- topic: durable_project_memory_and_replayability
+  item_refs:
+  - IT-BP1406-0016
+  - IT-BP1406-0018
+  - IT-BP1406-0030
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Important process/rule evolution and closeout evidence must survive assistant/session replacement;
+    another assistant should be able to reconstruct work from project artifacts rather than chat memory.
+  current_connection:
+  - CF-11 decision/rationale/raw evidence
+  - bootstrap/context packs
+  - Handoff v2/continuity
+  - documentation and recovery gates
+- topic: historical_library_business_card_completion
+  item_refs:
+  - IT-BP1406-0019
+  - IT-BP1406-0032
+  disposition: HISTORICAL_IMPLEMENTATION_EVIDENCE_ONLY
+  current_reconciliation: The historical business-card configurable-product report may be useful provenance, but
+    current Library/catalog ownership and implementation require a live module audit.
+- topic: reports_must_feed_decisions
+  item_refs:
+  - IT-BP1406-0021
+  disposition: RETAIN_AS_DURABLE_GOVERNANCE_INVARIANT
+  source_rule: 'Generating reports is not an end state: important reports must be semantically reviewed/consumed
+    and connected to decisions, gaps, follow-up work or an explicit no-action disposition.'
+  current_connection:
+  - Project Health/operator reporting
+  - Roadmap Enrichment reconciliation
+  - completion/review evidence
+  - Review Obligations direction
+- topic: repository_self_analysis
+  item_refs:
+  - IT-BP1406-0020
+  - IT-BP1406-0022
+  - IT-BP1406-0023
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Blueprint should be able to analyze repository state, including new/unfamiliar files, expose known/unknown/risky
+    areas and differing evidence confidence, and feed findings into actionable governance.
+  current_connection:
+  - repository knowledge inventory
+  - portfolio knowledge baseline
+  - semantic reconciliation
+  - portfolio forensics
+  - Project Inspector/machine discoverability
+- topic: script_metadata_and_metadata_code_drift
+  item_refs:
+  - IT-BP1406-0024
+  - IT-BP1406-0025
+  - IT-BP1406-0026
+  - IT-BP1406-0027
+  disposition: PRESERVE_AS_DESIGN_CANDIDATE_RECONCILE_BEFORE_IMPLEMENTATION
+  source_rules:
+  - scripts/modules expose machine-readable purpose/responsibility, dependencies and outputs/effects
+  - audit compares declared metadata against observed code behavior
+  - drift creates update candidates rather than requiring constant manual metadata edits
+  - batch reconciliation should be possible
+  current_connection: Bind first to CF-13 deterministic machine discoverability, repository knowledge and Project
+    Inspector rather than creating a new subsystem. Live audit must determine whether equivalent capability already
+    exists.
+- topic: source_filename_date_chronology
+  item_refs:
+  - IT-BP1406-0031
+  disposition: RETAIN_AS_PROVENANCE_RULE
+  source_rule: Filename labels are not sufficient chronology authority when internal artifacts carry contradictory
+    explicit dates; prefer turn order, artifact timestamps and hashes.
+open_loop_reconciliation:
+- loop: LOOP-BP1406-0001
+  status: RESOLVED_DIRECTIONALLY
+  note: Current roadmap/prompt/Dispatcher surfaces are broader; historical ten-step count is not current authority.
+- loop: LOOP-BP1406-0002
+  status: DIRECTION_RETAINED_CURRENT_ADOPTION_NOT_PROVEN_BY_THIS_SOURCE
+  note: Compact operator reporting remains useful provenance; audit representative current reports only if this
+    UX standard becomes material.
+- loop: LOOP-BP1406-0003
+  status: MATERIALIZED_DIRECTION
+  note: Shared workflow propagation is later explicit in standards/module-policy/governance closeout work.
+- loop: LOOP-BP1406-0004
+  status: HISTORICAL_MODULE_IMPLEMENTATION_REAUDIT_IF_RELEVANT
+  note: Do not use the historical Library business-card completion as current proof.
+- loop: LOOP-BP1406-0005
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_REPOSITORY_KNOWLEDGE_AND_ENRICHMENT
+  note: Report-consumption remains a durable semantic requirement; current self-analysis implementation completeness
+    is separately auditable.
+- loop: LOOP-BP1406-0006
+  status: RECONCILIATION_REQUIRED_BEFORE_IMPLEMENTATION
+  note: Script/module metadata policy may be partly absorbed by machine discoverability; exact live coverage is
+    not proven.
+- loop: LOOP-BP1406-0007
+  status: DESIGN_CANDIDATE_PRESERVED
+  note: Metadata-vs-code drift audit and batch update-candidate flow are retained for a future reuse audit, not
+    promoted to a roadmap step now.
+- loop: LOOP-BP1406-0008
+  status: RECONCILED_AT_POLICY_LEVEL
+  note: Explicit temporary fixtures/local catalogs may exist, but they must never masquerade as canonical domain
+    truth.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

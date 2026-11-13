@@ -1,0 +1,138 @@
+work_front_id: wf-cf10-s4-result-return-opt-in-bridge-v0-1
+objective: Implement a tests-first, explicitly opt-in Stage 4B Worker completion-draft return bridge through the existing
+  create-only worker_result_return boundary, using the verified Stage 4A pure composer. Preserve byte-for-byte legacy
+  full Handoff v2 transport and validation behavior; do not activate draft mode in live Worker invocation or the governed
+  cycle. Future runtime selection requires a separate governed Stage 4C gate.
+scope:
+- coordination/work_fronts/cf10_s4_result_return_opt_in_bridge_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_return_opt_in_v0_1.py
+exclusions:
+- No changes to s4_result_composer_v0_1.py or its Stage 4A tests; import and reuse its tested API without local forks.
+- No changes to invocation_adapter.py, governed_worker_cycle.py, Makefile, Handoff v2 schema/validator, S4 validator,
+  dispatcher, or authorization controls; no activation of new protocol in live Worker path.
+- Do not silently overwrite malformed legacy Handoff v2 result origin fields or infer draft mode from a malformed/full
+  frame. The existing full Handoff result frame must remain strict and unchanged by default.
+- Do not parse mixed framing, multiple frames, trailing non-whitespace, duplicate JSON keys, arbitrarily large payloads,
+  unrecognized properties, invalid data types, or a Worker-supplied origin snapshot as a successful completion.
+- No fresh Git/roadmap queries for frozen S4, no recomputation of original SHA from canonical workspace, no Worker-supplied
+  manifest SHA, cursor, source fingerprint or attempt override.
+- No implicit operator approval, candidate acceptance, promotion, commit, merge, push, release, staging, or live dispatch.
+  No new attempt a042.
+- No modification, reclassification, repair, or replay of terminal a041 or other historical Worker attempt artifacts
+  and ledger facts.
+- No modification to Telegram Bot parallel staged files; respect staged/index bytes and pre-existing dirty working-tree
+  modifications.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - attempt:cf10-u180j-a041/BLOCKED
+  - stage4a_work_front:wf-cf10-s4-origin-bound-result-composer-v0-1
+  - stage4a_regression:80_pass
+  - cf10_worker_pipeline_regression:64_pass
+  - blueprint_continuity_planning_regression:33_pass
+  - current_source_head_observed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  chat_is_authority: false
+dependencies:
+- Stage 4A deterministic compose_s4_result_candidate(origin_manifest, governed_worker_context, expected_attempt_id,
+  worker_completion) exists, is purely in-memory and has passed all 22 focused contract tests plus 80 related regressions.
+- Existing worker_result_return.py materializes full Handoff v2 stdout through exact FORPRINT_HANDOFF_V2_RESULT_BEGIN/END
+  framing; strict validate_result_envelope then validate_resume then create-only worker_result.yaml must remain default
+  and unchanged.
+- The Stage 4B caller provides independently verified origin_manifest, frozen governed_worker_context and expected_attempt_id,
+  already bound to prepared execution and explicit dispatch. Stage 4B must not treat caller-supplied unverified origin
+  as authoritative proof by itself.
+- Stage 4B introduces a separate explicit transport protocol opt-in in the result materialization API, not auto-detection
+  from stdout, environment variables, CLI, Worker-provided flags or magic content.
+- Initial tests establish exact source HEAD, staged index content, pre-existing tracked and untracked paths and SHA
+  of existing module and Stage 4A composer. Any drift blocks patching.
+- This Stage 4B work front grants neither runtime selection authority nor permission to modify governed_worker_cycle.py
+  or invocation_adapter.py; Stage 4C is a separate operator-reviewed boundary.
+outputs:
+- Opt-in worker-completion-draft-v0-1 result transport path within worker_result_return.py, using a new unique frame
+  identifier distinct from the full Handoff v2 frame and strict structured JSON parsing with duplicate-key rejection,
+  size bound, single-frame-only and no extra text.
+- A default full Handoff v2 path that retains current API behavior and existing source-frame parsing exactly; opt-in
+  only via explicit trusted caller argument and not via provider output.
+- Strict worker-owned completion draft mapping passed to the unchanged Stage 4A composer, which derives all base S4
+  coordinates from frozen origin and forbids unknown and origin-owned fields.
+- Independent validation of composed Handoff v2 candidate via existing validate_result_envelope and validate_resume
+  before create-only materialization. No writes on parse, binding, schema or S4 failure.
+- Provenance-bearing result-return projection explicitly distinguishing legacy Worker-supplied full Handoff from composed
+  frozen-origin + Worker-facts result, without granting acceptance, promotion or canonical write authority.
+- A new bounded test module for opt-in PASS/PARTIAL and adversarial cases, including legacy unchanged, wrong-mode frames,
+  mixed and duplicate frames, spoofing and malformed JSON, wrong origin and attempt, partial missing, no source mutation,
+  no silent repair, symlink and pre-existing result refusal.
+- A read-only Stage 4C integration handoff stating exact required procedure/dispatch binding, invocation prompt/transport
+  selection and evidence policy; no live switching in Stage 4B.
+acceptance:
+- Work Front canonical validator passes with exactly the three scoped paths. Tests-first RED must fail due to missing
+  opt-in bridge; GREEN must pass without any other file mutations.
+- Legacy default materialize_worker_result path still accepts only the existing full Handoff v2 frame and rejects incorrect/mismatched
+  S4 exactly as before; no automatic fallback or reclassification.
+- New completion-draft mode is opt-in only through explicit trusted API argument. Draft mode requires uniquely framed
+  strict JSON object with no duplicate keys, bounded bytes, exact field set, and no content outside a single frame;
+  mixed-mode and mode confusion fail closed.
+- The existing Stage 4A composer remains byte-identical and refuses Worker-origin fields; frozen origin fields are
+  not retyped, recomputed or overwritten from Worker content.
+- Trusted origin and attempt binding must be explicitly proved by the same independent source in caller, validated
+  by composer and existing resume checks; no reliance on runtime current roadmap state.
+- Valid PASS and PARTIAL draft lead to a new complete Handoff v2 result validated by both independent validators before
+  create-only write; malformed draft or invalid origin leaves result directory untouched.
+- Any pre-existing worker_result.yaml, symlinked result directory, evidence/path mismatch or unbound stdout remains
+  BLOCKED, with no overwrite and no attempt ledger mutation.
+- Result evidence distinguishes draft composition from legacy full Handoff, never claims Worker directly authored authoritative
+  SHA and never implies candidate promotion, acceptance or publication.
+- Full related S4/result-return runtime tests plus cf10-worker-pipeline and blueprint-continuity-planning suites PASS
+  with canonical projection refresh not run manually.
+- Git HEAD, parallel Telegram staged index and unrelated dirty files remain byte-for-byte unchanged; no Worker launch,
+  no a042 attempt.
+stop_conditions:
+- Any requirement to edit s4_result_composer_v0_1.py, invocation_adapter.py, governed_worker_cycle.py, shared result-envelope
+  validator, S4 validator, historical ledger or parallel Telegram staging.
+- The new draft protocol cannot be unambiguously selected by trusted caller while keeping current legacy path bit-for-bit
+  unchanged.
+- A malformed Worker full Handoff is accepted by silently merging or replacing an invalid frozen SHA/cursor, or provenance
+  between origin-owned and Worker-owned fields becomes ambiguous.
+- The strict JSON draft parser must allow duplicate keys, complex additional formats, arbitrary-size output or data
+  outside a single frame to achieve compatibility.
+- Any preflight or postflight HEAD, staged byte, file SHA, bounded path, or functional regression drift; stop without
+  automatic restore/retry.
+- User or runtime requests a042 launch, commit, publication or a041 rewrite as part of this Stage 4B work.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_composer_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_return_opt_in_v0_1.py
+  read_only_refs:
+  - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  rationale: Extend only the established create-only result-return boundary by reusing the Stage 4A pure composer;
+    retain legacy default and defer live path selection to separate Stage 4C.

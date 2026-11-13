@@ -1,0 +1,74 @@
+schema_version: forprint_accounting_registry_one_c_downstream_sync_reconciliation_candidate_v0_1
+candidate_id: accounting_registry_one_c_downstream_sync_contract
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+authority: planning_candidate_not_execution_authority
+
+why_candidate_exists:
+  - current Accounting owner review explicitly leaves 1C sync authority as OPEN_QUESTION
+  - historical owner intent clearly prefers ForPrint operational authority with 1C receiving facts afterward
+  - historical assistant proposed queue/outbox/adapters/schedules but those details were not accepted as current contract
+  - current Warehouse and Gateway boundaries require exact ownership to be assigned before implementation
+
+current_fixed_boundaries:
+  warehouse:
+    owns:
+      - physical_stock_truth
+      - physical_quantity_location_and_movement_facts
+  accounting_registry:
+    owns:
+      - documentary_accounting_movement
+      - financial_value
+      - accounting_state
+      - reconciliation_records
+  integration_gateway:
+    owns:
+      - declared_interface_validation
+      - safe_mapping_and_routing
+      - fail_closed_communication_safety
+    does_not_own:
+      - business_truth
+  one_c:
+    role:
+      - accountant_statutory_reporting_environment
+      - downstream_compatibility_environment
+  forprint:
+    preference: operational_authority
+
+must_reconcile_before_implementation:
+  - exact owner of external 1C connector/adaptor runtime
+  - exact ForPrint -> 1C document and fact classes
+  - whether any 1C -> ForPrint flow remains after bootstrap/import phases
+  - conflict and reconciliation rules
+  - duplicate prevention and idempotency
+  - manual correction and reversal path
+  - error/retry/dead_letter responsibilities
+  - security and production-write approval gates
+  - relationship between Accounting Registry business semantics and Gateway transport mechanics
+  - physical stock vs documentary/accounting movement mapping
+  - rollout transition from sandbox/read-only to any future production exchange
+
+historical_evidence_allowed_as_input:
+  owner_intent:
+    - configurable_periodic_transfer_of_forprint_facts_to_1c
+    - forprint_internal_work_should_not_depend_on_1c
+  assistant_design_only:
+    - outbox_queue
+    - fixed_scheduled_manual_end_of_day_emergency_modes
+    - sync_log
+    - structured_batch_provenance
+    - direct_1c_adapter_shape
+
+explicit_non_authorizations:
+  - no_live_1c_connection
+  - no_live_1c_write
+  - no_production_synchronization
+  - no_automatic_posting
+  - no_new_canonical_roadmap_step
+  - no_gateway_runtime_activation
+
+closure_evidence_needed:
+  - current owner decision on exact sync authority
+  - current Accounting_Warehouse_Gateway contract
+  - explicit production safety model
+  - sanitized real export samples where parser behavior is involved
+  - idempotency_and_conflict_acceptance_tests

@@ -1,0 +1,72 @@
+work_front_id: wf-standards-index-post-baseline-drift-repair-v0-1
+objective: >-
+  Reconcile post-baseline root standards-index drift discovered while validating the
+  CF-10 runtime standards convergence prerequisite. Register exactly three already
+  published standard files that are currently reported as unindexed, without
+  modifying their contents or widening CF-10 authority.
+scope:
+  - coordination/work_fronts/standards_index_post_baseline_drift_repair_v0_1.yaml
+  - coordination/standards/index.yaml
+exclusions:
+  - Do not modify any standard content file.
+  - Do not modify coordination/standards/automation/index.yaml.
+  - Do not weaken or bypass scripts/validate_standards_index.py.
+  - Do not add blanket ignores, exemptions or allowlists.
+  - Do not rebuild unrelated indexes.
+  - Do not modify lifecycle or roadmap state.
+  - Do not consume Assistant ACK.
+  - Do not create dispatch authority.
+  - Do not append the Execution Attempt Ledger.
+  - Do not launch or retry a worker.
+  - Do not modify another repository.
+  - Do not stage, commit, push, merge, release or automatically ACCEPT.
+provenance:
+  source_refs:
+    - coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+    - coordination/standards/automation/automatic_assistant_worker_strategic_concept_v0_1.md
+    - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+    - coordination/standards/governance/makefile_operator_functional_map_policy_v0_1.md
+    - coordination/standards/index.yaml
+    - scripts/validate_standards_index.py
+  chat_is_authority: false
+dependencies:
+  - The three target standard files already exist as canonical repository files.
+  - The current root standards validator reports exactly the three target files as unindexed.
+  - coordination/standards/index.yaml is clean before this bounded repair.
+  - Existing root-index rows must remain unchanged except for three appended registrations.
+outputs:
+  - Root standards registration for automation/automatic_assistant_worker_strategic_concept_v0_1.md.
+  - Root standards registration for automation/validation_suite_registry_v0_1.yaml.
+  - Root standards registration for governance/makefile_operator_functional_map_policy_v0_1.md.
+acceptance:
+  - Each of the three target standard files is registered exactly once.
+  - No unrelated root standard entry is added, removed or modified.
+  - Existing root standards index row schema is preserved.
+  - Existing standard content files remain unchanged.
+  - scripts/validate_standards_index.py returns zero after the repair.
+  - git diff --check passes for the bounded repair.
+  - No lifecycle, roadmap, ACK, dispatch, ledger or worker-launch mutation occurs.
+stop_conditions:
+  - The current validator missing set contains any standard outside the three target files.
+  - Any target standard file is missing or no longer canonical.
+  - Repair requires modifying an existing standard content file.
+  - Repair requires weakening or bypassing the standards validator.
+  - Repair requires modifying an unrelated index.
+  - Repair requires lifecycle, roadmap, ACK, dispatch, ledger or worker mutation.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+    - coordination/standards/automation/work_front_contract_v0_1.yaml
+    - scripts/validation/validate_work_front_contract_v0_1.py
+    - scripts/validate_standards_index.py
+  disposition: EXTEND
+  target_refs:
+    - canonical root standards index
+    - existing standards index validator

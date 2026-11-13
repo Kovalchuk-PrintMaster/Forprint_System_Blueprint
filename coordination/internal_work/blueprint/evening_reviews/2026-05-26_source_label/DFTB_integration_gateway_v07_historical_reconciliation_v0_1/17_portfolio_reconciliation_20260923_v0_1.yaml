@@ -1,0 +1,76 @@
+schema_version: forprint_integration_gateway_v07_portfolio_reconciliation_v0_1
+source:
+  source_label: '2026-05-26'
+  classification: gateway_module_history_attachment_heavy
+  authority: implementation_and_owner_context_not_blueprint_execution_authority
+
+current_stronger_boundary:
+  gateway:
+    - communication_safety_layer
+    - narrow_waist_transport
+    - declared_interface_and_contract_validation
+    - safe_normalization_mapping_and_routing
+    - correlation_and_idempotency_boundary
+    - transport_delivery_state_only
+    - fail_closed_on_ambiguous_or_lossy_exchange
+  must_not_own:
+    - business_workflow_decisions
+    - domain_truth
+    - pricing_truth
+    - customer_truth
+    - accounting_truth
+    - catalog_truth
+  contract_registry:
+    owns: contract_lifecycle
+  domain_owners:
+    own: business_semantics_and_truth
+
+historical_evidence_reused:
+  initial_gateway_models:
+    status: corroborates_current_boundary
+  integration_request_response_and_validation_error:
+    status: corroborates_current_boundary
+  routing_and_idempotency:
+    status: corroborates_current_boundary
+  standards_visibility:
+    status: historical_implementation_provenance
+  channel_adapter_compatibility_replay_contract_consumer_previews:
+    status: historical_implementation_provenance
+  no_live_capability_flags:
+    status: corroborates_preview_first_safety_boundary
+  implementation_commit:
+    value: 9f792a3
+    meaning: historical_gateway_repo_implementation_provenance_only
+  completion_report_commit:
+    value: 2f36256
+    meaning: historical_gateway_repo_report_provenance_only
+  historical_tests:
+    value: 59_passed
+    meaning: historical_run_report_not_current_repo_audit
+
+resolved_or_superseded:
+  early_contract_id_authority_question:
+    disposition: resolved_by_current_contract_registry_boundary
+  gateway_as_contract_semantic_authority:
+    disposition: forbidden_current_boundary
+  live_api_database_queue_redis_s3_runtime_adapter_activation:
+    disposition: not_authorized_by_this_source
+  standards_sync_as_foreign_blueprint_mutation:
+    disposition: forbidden_by_current_governance_reuse_current
+  local_v07_completion_as_blueprint_acceptance:
+    disposition: false
+
+current_inventory_conflict:
+  current_module_git_sources_status: paused_after_v0_2
+  historical_source_terminal_visible_level: v0_7
+  exact_current_repository_head_verified_by_this_intake: false
+  blueprint_acceptance_of_v0_7_verified_by_this_intake: false
+  disposition: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+
+reconciliation_result:
+  human_intents_appended: 0
+  new_canonical_roadmap_step: none
+  open_reconcile_before_implementation_candidates: 1
+  roadmap_mutation: none
+  execution_authority_mutation: none
+  lifecycle_mutation: none

@@ -1,0 +1,165 @@
+schema_version: forprint_dftb_blueprint_20260917_portfolio_reconciliation_v0_1
+source_date_label: '2026-09-17'
+reconciled_on: '2026-09-22'
+source_archive_sha256: d9f7d00dcdd60fa4d423f905a899a3d057b1502bb5188264c3b8a3d6dc155412
+source_dialogue_hash_sha256: ef0a49a2803af7c768206a8fa8c202a22a11d0902ea4673f80e9726ed4c0a7ed
+source_authority: HISTORICAL_CF05_CF09_DISPATCHER_CONTINUATION_EVIDENCE_NOT_CURRENT_AUTHORITY
+same_date_source_distinction:
+  classification: SEPARATE_17_09_SOURCE_ROOT
+  note: This DFTB is a Control Foundation/Dispatcher continuation rooted in CF-05..CF-09 execution history. It is
+    distinct from the separately processed 17.09 strategic/evening architecture handoff.
+source_completeness:
+  classification: UNIQUE_LARGE_SPARSE_ATTACHMENT_HEAVY_CONTINUATION
+  visible_turn_sections: 110
+  visible_message_blocks: 110
+  short_attachment_placeholders: 98
+  turn_number_range: 1-392
+  internal_visible_dates: 2026-09-16..2026-09-17
+  implementation_verification_in_bundle: false
+  rule: Attachment-only bodies and hidden intermediate transitions are not reconstructed from later summaries. Historical
+    execution labels are reconciled against later/current repository evidence before being treated as closed.
+summary: This source continues the 14.09 u180e/CF-05 boundary, performs a narrow morning metadata repair, advances
+  historically through CF-06/CF-07 and transition-strategy recovery, records operator environment/Makefile UX requirements,
+  and reaches CF-09 Dispatcher ACK/readiness. Local Dispatcher readiness reaches 9/9, but the source ends with a
+  red full-project closure gate caused by stale Blueprint generator inventory surfaced through a non-mutating cross-module
+  check. Later/current evidence shows that inventory drift was repaired, the full project gate passed and u180i/CF-09
+  closed without auto-starting CF-10. The durable contribution is project-boundary acceptance semantics and operator-readable
+  command-surface intent, not a new workstream.
+topic_reconciliation:
+- topic: already_active_lifecycle_reentry_guard
+  item_refs:
+  - IT-BP1709-0001
+  - IT-BP1709-0002
+  - IT-BP1709-0007
+  disposition: RETAIN_AS_STATE_RECONCILIATION_INVARIANT
+  source_rule: A resumed session must resolve current lifecycle state first and must not re-activate an already
+    ACTIVE work item or advance the next step merely because a handoff/package was loaded.
+  current_connection:
+  - continuity lifecycle
+  - roadmap reconciliation
+  - Handoff freshness/resume
+- topic: governance_metadata_and_generated_refresh
+  item_refs:
+  - IT-BP1709-0003
+  - IT-BP1709-0004
+  - IT-BP1709-0005
+  - IT-BP1709-0006
+  disposition: MATERIALIZED_DIRECTION_REUSE_EXISTING_GENERATOR_AND_METADATA_GOVERNANCE
+  source_rule: Repair canonical source metadata narrowly; refresh generated indexes/projections only through canonical
+    producers; final aggregate checks remain validation-only and new failures remain blockers.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: context_package_is_not_execution_authority
+  item_refs:
+  - IT-BP1709-0008
+  - IT-BP1709-0009
+  disposition: MATERIALIZED_AND_ALREADY_PRESERVED
+  source_rule: A morning/context/intake package is navigation/planning evidence, not direct execution authority.
+    Current lifecycle/roadmap/release authority must still be resolved.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: candidate_fail_closed_and_state_aware_recovery
+  item_refs:
+  - IT-BP1709-0010
+  - IT-BP1709-0011
+  - IT-BP1709-0012
+  - IT-BP1709-0013
+  disposition: REINFORCES_EXISTING_SAFE_MUTATION_AND_STATE_AWARE_RECOVERY_INVARIANTS
+  source_examples:
+  - CF-07 candidate/test construction stops before canonical/lifecycle mutation on Ruff failure
+  - transition-strategy apply reports state-aware failure after possible canonical planning mutation
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: developer_tool_provisioning
+  item_refs:
+  - IT-BP1709-0014
+  disposition: MATERIALIZED_IN_DEVELOPMENT_ENVIRONMENT_POLICY
+  source_rule: Frequently required developer utilities should be provisioned canonically instead of repeatedly failing
+    or being installed ad hoc.
+  later_evidence: Current development-environment policy explicitly treats ripgrep as an expected bootstrap utility,
+    documents Debian/Ubuntu provisioning and requires command/version verification with a Python-native fallback
+    where absence is not semantically fatal.
+- topic: large_package_stepwise_application
+  item_refs:
+  - IT-BP1709-0015
+  disposition: RETAIN_AS_OPERATOR_WORKFLOW_PROVENANCE
+  source_rule: Large handoff/evening packages are identity-checked and applied incrementally rather than treated
+    as one opaque mutation batch.
+  current_connection:
+  - roadmap-enrichment source intake
+  - bounded mutation/reconciliation workflow
+- topic: makefile_operator_command_map
+  item_refs:
+  - IT-BP1709-0016
+  - IT-BP1709-0017
+  disposition: MATERIALIZED_AND_RETAIN_AS_HUMAN_INTENT
+  source_rule: 'Makefile is an operator-facing command map: public targets should be grouped and explain purpose,
+    safety/mutation semantics, inputs, scope and result; legacy/compatibility/alternate-purpose commands must be
+    explicitly classified.'
+  later_evidence: Current Makefile has an Operator reading guide, scope vocabulary and five-field target comments
+    while preserving command semantics.
+- topic: cf09_local_readiness_vs_project_closure
+  item_refs:
+  - IT-BP1709-0018
+  - IT-BP1709-0019
+  - IT-BP1709-0020
+  - IT-BP1709-0021
+  - IT-BP1709-0022
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  - IT-BP1709-0025
+  - IT-BP1709-0026
+  - IT-BP1709-0027
+  disposition: HISTORICAL_FAILURE_LATER_RECOVERED_RETAIN_PROJECT_BOUNDARY_INVARIANT
+  source_state:
+    dispatcher_requirements_satisfied: 9/9
+    gap_count: 0
+    u180i_state_before_project_gate: ACTIVE
+    lifecycle_sequence: 62
+    roadmap_sync: IN_SYNC
+    full_project_gate: FAIL
+    blocker: stale indexes/generator_inventory.yaml
+    worker_dispatch: false
+    cf10_started: false
+  durable_rule: Focused/local subsystem readiness is necessary but not sufficient for project closure. A project
+    boundary gate may still fail on cross-module dependencies, generated-state freshness or other whole-project
+    invariants; failure must not close lifecycle or start the next automation phase.
+  later_current_reconciliation: Later repository evidence records that generator inventory drift was repaired, final
+    full project make check passed, CF-09 received checkpoint/validation/close and u180i became CLOSED. CF-10 was
+    not auto-activated as a consequence of closure.
+- topic: human_boundary_before_first_internal_worker
+  item_refs:
+  - IT-BP1709-0028
+  disposition: RETAINED_AND_MATURED
+  source_rule: Dispatcher/project closure does not itself authorize the first internal worker pilot; automation
+    widening crosses a separate human/operator authority boundary.
+  current_connection:
+  - staged autonomy
+  - Work Front/Profile/Procedure authority
+  - CF-10 activation lineage
+open_loop_reconciliation:
+- loop: LOOP-BP1709-0001
+  status: HISTORICAL_LINEAGE_ONLY
+  note: Exact CF-05/CF-06 transition details can be recovered from immutable event history if ever needed; no current
+    architecture gap remains.
+- loop: LOOP-BP1709-0002
+  status: LATER_PROGRESSION_PROVEN
+  note: Later repository evidence shows CF-08 close and CF-09 activation; missing attachment bodies remain historical
+    forensic gaps only.
+- loop: LOOP-BP1709-0003
+  status: CLOSED_BY_LATER_CF09_RECOVERY
+  note: Generator inventory drift was later repaired and the full project gate passed.
+- loop: LOOP-BP1709-0004
+  status: CLOSED_FOR_CF09_CURRENT_CF10_SEPARATE
+  note: Later evidence records u180i CLOSED. Any CF-10/internal-worker state is governed by its own later authority
+    and evidence.
+- loop: LOOP-BP1709-0005
+  status: MATERIALIZED
+  note: Current Makefile exposes operator guide, grouping and five-field command contracts.
+- loop: LOOP-BP1709-0006
+  status: MATERIALIZED
+  note: Current development-environment policy explicitly provisions/verifies ripgrep and defines fallback behavior.
+- loop: LOOP-BP1709-0007
+  status: AUTHORITY_INVARIANT_RETAINED
+  note: Internal-worker launch remains a separately authorized transition; local Dispatcher readiness/closure does
+    not grant it.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

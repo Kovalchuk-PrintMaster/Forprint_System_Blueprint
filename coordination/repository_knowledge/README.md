@@ -37,3 +37,21 @@ Snapshots are historical evidence. They do not override active global policy,
 directives, module policy, approved prompts or canonical machine architecture.
 
 Historical snapshots are never overwritten.
+
+<!-- repository-knowledge-v0-3-direction-v0-1:start -->
+## Current v0.3 direction
+
+v0.2 remains valid historical/manual snapshot evidence.
+
+Current target architecture:
+`repository_knowledge_and_direction_snapshot_protocol_v0_3.md`
+
+Central knowledge standards:
+`coordination/standards/knowledge/index.yaml`
+
+v0.3 preserves RCI/REDM/SDRS while adding machine-derived facts, local semantic ownership,
+Inspector reporting boundaries, parallel Map/Reduce/Reconcile inventory, risk-weighted health,
+incremental maintenance and layered retrieval.
+
+Historical snapshots are never rewritten to match the new protocol.
+<!-- repository-knowledge-v0-3-direction-v0-1:end -->

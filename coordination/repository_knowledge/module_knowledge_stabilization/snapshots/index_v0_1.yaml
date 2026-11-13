@@ -1,0 +1,77 @@
+schema_version: forprint_module_snapshot_registry_v0_1
+registry_id: forprint_system_blueprint_module_snapshot_registry_v0_1
+owner: blueprint_repository_knowledge
+purpose: 'Discover completed historical module knowledge snapshots for cross-module comparison, historical analysis and future portfolio roadmap rebuild.
+
+  '
+authority:
+  type: historical_knowledge_registry
+  execution_authority: false
+  roadmap_authority: false
+  prompt_authority: false
+  module_identity_authority: false
+rules:
+  snapshots_are_historical_evidence: true
+  historical_snapshot_records_are_append_only: true
+  external_module_repositories_are_read_only_sources: true
+  cross_repository_writes_forbidden: true
+  unverified_snapshot_dates_forbidden: true
+  later_snapshots_do_not_rewrite_prior_snapshot_context: true
+latest_by_module:
+  forprint_library:
+    snapshot_date: '2026-09-25'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-25__forprint_library__snapshot_registration_v0_1.yaml
+  forprint_operations_control_registry:
+    snapshot_date: '2026-09-26'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-26__forprint_operations_control_registry__snapshot_registration_v0_1.yaml
+  forprint_accounting_registry_service:
+    snapshot_date: '2026-09-26'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-26__forprint_accounting_registry_service__snapshot_registration_v0_1.yaml
+  forprint_integration_gateway:
+    snapshot_date: '2026-09-27'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_integration_gateway__snapshot_registration_v0_1.yaml
+  forprint_logistics_service:
+    snapshot_date: '2026-09-27'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_logistics_service__snapshot_registration_v0_1.yaml
+  calculator_engine:
+    snapshot_date: '2026-10-09'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-10-09__calculator_engine__snapshot_registration_v0_1.yaml
+  telegram_bot:
+    snapshot_date: '2026-10-11'
+    status: complete
+    record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-10-11__telegram_bot__snapshot_registration_v0_1.yaml
+history:
+- module_id: forprint_library
+  snapshot_date: '2026-09-25'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-25__forprint_library__snapshot_registration_v0_1.yaml
+- module_id: forprint_operations_control_registry
+  snapshot_date: '2026-09-26'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-26__forprint_operations_control_registry__snapshot_registration_v0_1.yaml
+- module_id: forprint_accounting_registry_service
+  snapshot_date: '2026-09-26'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-26__forprint_accounting_registry_service__snapshot_registration_v0_1.yaml
+- module_id: forprint_integration_gateway
+  snapshot_date: '2026-09-27'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_integration_gateway__snapshot_registration_v0_1.yaml
+- module_id: forprint_logistics_service
+  snapshot_date: '2026-09-27'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_logistics_service__snapshot_registration_v0_1.yaml
+- module_id: calculator_engine
+  snapshot_date: '2026-10-09'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-10-09__calculator_engine__snapshot_registration_v0_1.yaml
+- module_id: telegram_bot
+  snapshot_date: '2026-10-11'
+  status: complete
+  record: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-10-11__telegram_bot__snapshot_registration_v0_1.yaml

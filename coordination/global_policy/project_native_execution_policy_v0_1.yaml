@@ -1,0 +1,87 @@
+schema_version: forprint_project_native_execution_policy_v0_1
+status: ACTIVE_CANONICAL_POLICY
+owner: forprint_system_blueprint
+effective_date: '2026-10-05'
+title: Project-Native Execution Policy
+purpose: Keep reusable operational and generation logic inside the project so work is reproducible across assistants,
+  sessions, and time.
+human_owner_intent:
+  chat_is_not_primary_runtime: true
+  project_is_primary_home_for_logic: true
+  routine_execution_should_use_short_stable_commands: true
+  same_entrypoint_should_produce_same_governed_behavior_over_time: true
+core_rules:
+- id: PNX-01
+  rule: Reusable, repeatable, or business-significant logic MUST live in repository code/config/contracts, not only
+    in chat.
+- id: PNX-02
+  rule: Assistant-provided temporary scripts SHOULD modify, repair, migrate, or validate project-native logic; they
+    SHOULD NOT become the normal long-term execution engine for recurring workflows.
+- id: PNX-03
+  rule: Routine execution MUST prefer existing project-native CLI/Make/operator entrypoints. If no suitable entrypoint
+    exists for a repeatable workflow, add or extend one in the project.
+- id: PNX-04
+  rule: Before creating new runtime logic, apply REUSE -> EXTEND -> ADAPT -> REPLACE -> NEW.
+- id: PNX-05
+  rule: Generated prototypes, layouts, reports, packages, reconciliations, and repeated transformations SHOULD be
+    reproducible from project state using a documented stable command.
+- id: PNX-06
+  rule: A handoff/context package MUST tell the next assistant which project-native entrypoints own recurring workflows
+    and MUST flag remaining chat-owned logic as technical debt.
+- id: PNX-07
+  rule: One-time bootstrap/recovery/migration scripts are allowed only when bounded and evidence-producing; durable
+    logic discovered during that work must be moved into canonical project surfaces.
+- id: PNX-08
+  rule: Do not duplicate an existing project function in a chat script merely for convenience. Patch the canonical
+    implementation and invoke the supported entrypoint instead.
+chat_script_role:
+  allowed:
+  - bounded repair of canonical project code
+  - bounded migration of canonical project state
+  - tests-first scaffolding
+  - read-only audit or discovery
+  - one-time bootstrap when no canonical entrypoint exists yet
+  not_preferred_for_recurring_work:
+  - full generator logic
+  - business workflow logic
+  - repeatable design/render pipeline
+  - repeatable reconciliation pipeline
+  - repeatable context/handoff build logic
+  debt_rule: If a temporary script contains reusable logic, completing the task requires migrating that logic into
+    the project or recording explicit debt.
+operator_entrypoint_model:
+  preferred_order:
+  - existing make target
+  - existing project CLI
+  - existing module command
+  - extend existing entrypoint
+  - add new bounded project-native entrypoint
+  goal: A future operator or assistant should not need old chat history to know how to execute a recurring project
+    function.
+context_and_handoff_contract:
+  canonical_policy_path: coordination/global_policy/project_native_execution_policy_v0_1.yaml
+  assistant_context_specs_must_carry_policy_digest: true
+  start_here_must_route_to_policy: true
+  assistant_reading_order_must_route_to_policy: true
+  future_assistant_must_prefer_project_native_execution: true
+  handoff_must_identify:
+  - canonical workflow owner
+  - stable operator entrypoint
+  - required inputs
+  - expected outputs
+  - validation/check command
+  - remaining temporary-script debt
+exceptions:
+  allowed_only_when:
+  - bootstrap
+  - recovery
+  - migration
+  - bounded forensic audit
+  - temporary test harness
+  must_be_bounded: true
+  must_not_silently_become_canonical_runtime: true
+authority:
+  policy_does_not_grant_execution_authority: true
+  policy_does_not_grant_dispatch_authority: true
+  policy_does_not_grant_write_authority: true
+  policy_does_not_grant_release_or_git_authority: true

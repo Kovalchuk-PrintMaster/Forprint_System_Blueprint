@@ -1,0 +1,61 @@
+schema_version: forprint_worker_task_envelope_contract_v0_1
+contract_id: worker_task_envelope_contract
+revision: 0.1.0
+status: ACTIVE_CF10_FOUNDATION_SLICE_1
+owner: forprint_system_blueprint
+purpose: Normalize a bounded worker instruction independently of how the task was materialized, while preserving
+  Work Front as execution authority and reusing existing Execution Profile, Governed Procedure, Handoff v2, Dispatcher
+  and Execution Attempt Ledger contracts.
+authority_semantics:
+  task_envelope_grants_authority: false
+  execution_authority_source: WORK_FRONT
+  execution_profile_is_ceiling_not_grant: true
+  governed_procedure_grants_authority: false
+  handoff_grants_authority: false
+  raw_chat_is_authority: false
+  authority_widening_allowed: false
+reuse:
+  work_front: REUSE
+  execution_profile: REUSE
+  governed_procedure: REUSE
+  assistant_handoff_v2: REUSE
+  execution_attempt_ledger: REUSE
+  dispatcher: REUSE
+  completion: REUSE
+  inspector: REUSE
+source_types:
+  MANUAL_INTERNAL:
+    implemented: true
+    allowed_module_ids:
+    - forprint_system_blueprint
+    generation_mode: MANUAL
+    external_module_bypass_allowed: false
+  EXTERNAL_PROMPT_QUEUE:
+    implemented: true
+    generation_mode: EXTERNAL_QUEUE
+    prompt_queue_grants_worker_authority: false
+required_envelope_fields:
+- schema_version
+- task_id
+- module_id
+- source
+- work
+- objective
+- instructions
+- acceptance
+- stop_conditions
+- execution_profile
+- procedure
+- authority
+normalization:
+  source_specific_transport_is_removed_below_tasking_layer: true
+  worker_consumes_same_envelope_shape_for_all_sources: true
+  automatic_generation_implemented: false
+  roadmap_materialization_implemented: false
+forbidden_authority_fields:
+- dispatch_authority
+- release_authority
+- push_authority
+- merge_authority
+- foreign_write_authority
+- automatic_accept

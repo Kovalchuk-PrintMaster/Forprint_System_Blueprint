@@ -1,0 +1,39 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_TEST_GOVERNANCE
+title: Pytest Skip Inventory Policy
+purpose: >-
+  Make every intentionally skipped Blueprint test visible, classified, reviewable,
+  and drift-detectable so skipped tests never become an unexplained quality metric.
+principles:
+  - Skipped tests are not garbage merely because they are skipped.
+  - Every intentional current skip must be present in the canonical skip inventory.
+  - Unregistered skip growth is a validation failure.
+  - A registered skip requires a reason, classification, owner, release-gate meaning,
+    and a future review/removal condition.
+  - Historical or compatibility tests may remain skipped when their preservation is
+    intentional and evidenced.
+  - Removing a skipped test requires an explicit disposition decision; skip count
+    alone is never sufficient evidence for deletion.
+current_release_gate_semantics:
+  skipped_test_failure: false
+  unexplained_or_unregistered_skip_failure: true
+  skip_inventory_drift_failure: true
+classification_vocabulary:
+  - PRESERVED_DEPRECATED_COMPATIBILITY
+  - TEMPORARY_ENVIRONMENTAL_SKIP
+  - TEMPORARY_FEATURE_GATE_SKIP
+  - MANUAL_MIGRATION_ONLY
+  - NEEDS_OWNER_REVIEW
+required_inventory_fields:
+  - path
+  - expected_skipped_test_count
+  - reason
+  - classification
+  - owner
+  - current_release_gate
+  - retention_or_reentry_condition
+  - removal_condition
+validation:
+  command: make skip-inventory-check
+  canonical_inventory: coordination/internal_work/blueprint/testing/2026-09-02__pytest_skip_inventory_v0_1.yaml

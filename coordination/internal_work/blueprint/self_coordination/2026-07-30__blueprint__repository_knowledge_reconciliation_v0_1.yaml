@@ -1,0 +1,28 @@
+schema_version: blueprint_repository_knowledge_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T17:35:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 6b2a7ae42e25fe707711bc2a1a261c98cf94e9e6
+  result: GREEN
+self_prompt: blueprint_repository_knowledge_reconciliation_v0_1
+next_self_prompt: blueprint_inventory_acceptance_evidence_index_v0_1
+runtime_report: reports/repository_knowledge_reconciliation_report.yaml
+reconciliation_record: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__repository_knowledge_reconciliation_v0_1.yaml
+validator: scripts/coordination/validate_repository_knowledge_reconciliation.py
+tests:
+- tests/test_validate_repository_knowledge_reconciliation.py
+- tests/test_render_repository_knowledge_reconciliation_status.py
+renderer: scripts/coordination/render_repository_knowledge_reconciliation_status.py
+roadmap_transition:
+  current_step: blueprint_inventory_acceptance_evidence_index_v0_1
+  actionable_steps_after_current: 8
+  new_horizon_steps:
+  - blueprint_inventory_post_merge_integrity_verification_v0_1
+  - blueprint_inventory_operational_handoff_readiness_v0_1
+safety:
+  candidate_acceptance_performed: false
+  explicit_deferrals_preserved: true
+  managed_module_controls_modified: false
+  external_rollout_state: gated
+  cross_repository_writes: false

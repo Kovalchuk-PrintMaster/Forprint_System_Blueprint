@@ -1,0 +1,152 @@
+schema_version: blueprint_operator_clarified_ai_activation_and_portfolio_rollout_architecture_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: ACTIVE_PLANNING_DIRECTION
+  authority: OPERATOR_CLARIFIED_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+operator_hold:
+  logistics_ai_worker_dispatch: PAUSED
+  existing_u135_worker_bundle: HISTORICAL_EVIDENCE_NOT_CURRENT_DISPATCH_AUTHORITY
+  prompt_claim_allowed: false
+  automatic_worker_launch_allowed: false
+  reason: Build the local self-knowledge reference and controlled activation runtime before first worker dispatch.
+alignment_assessment:
+  external_logistics_inventory_first: MATCHES_CURRENT_DIRECTION
+  local_module_self_knowledge_baseline: MATCHES_BUT_SEQUENCE_MUST_MOVE_EARLIER
+  script_maintained_inventory_indexes_agents: MATCHES_PARTIALLY_AND_MUST_BE_HARDENED
+  task_context_compiler: PARTIALLY_IMPLEMENTED_BY_EXISTING_CONTEXT_BUNDLE
+  event_listener_and_dispatcher: PLANNED_NOT_IMPLEMENTED
+  operator_approval_gateway: MISSING
+  telegram_required: false
+  console_ai_worker_adapter: MISSING
+  inspector_as_read_only_reviewer: MATCHES
+  portfolio_dependency_dashboard: PLANNED_NOT_IMPLEMENTED
+  portfolio_forensic_inventory_before_broad_rollout: REQUIRED_BY_OPERATOR_CLARIFICATION
+logistics_reference_sequence:
+- step: 1
+  id: external_forensic_inventory
+  state: COMPLETED
+- step: 2
+  id: manual_local_self_knowledge_reference
+  state: IMPLEMENTED_REFERENCE_V0_1
+- step: 3
+  id: scripted_self_knowledge_maintenance
+  state: IMPLEMENTED_REFERENCE_V0_1
+- step: 4
+  id: task_context_compiler
+  state: NEXT
+- step: 5
+  id: launch_request_state_machine_and_fresh_context_gate
+  state: PLANNED
+- step: 6
+  id: operator_approval_gateway
+  state: PLANNED
+- step: 7
+  id: console_worker_adapter
+  state: PLANNED
+- step: 8
+  id: event_listener_dispatcher_and_monitor
+  state: PLANNED
+- step: 9
+  id: completion_intake_and_inspector_conformance
+  state: PLANNED
+- step: 10
+  id: first_automatic_logistics_worker
+  state: BLOCKED_BY_STEPS_4_TO_9
+automatic_activation_state_machine:
+- PROMPT_DETECTED
+- ELIGIBILITY_CHECK
+- TASK_CONTEXT_COMPILED
+- FRESH_CONTEXT_GATE_PASS
+- AWAITING_OPERATOR_APPROVAL
+- APPROVED
+- DISPATCHED
+- RUNNING
+- COMPLETION_SUBMITTED
+- CONFORMANCE_REVIEW
+- AWAITING_HUMAN_ACCEPTANCE
+- ACCEPTED_OR_RETURN_OR_HOLD
+approval_gateway:
+  owner: forprint_system_blueprint_control_plane
+  inspector_role: read_only_reviewer_and_alert_producer
+  transport_independent: true
+  initial_transport: filesystem_or_cli
+  optional_future_transport: telegram
+  decision_artifact_required_fields:
+  - request_id
+  - module_id
+  - prompt_id
+  - module_head
+  - prompt_sha256
+  - context_bundle_sha256
+  - budget_policy
+  - expires_at
+  - decision
+  - decision_evidence
+  approval_invalidated_by:
+  - module head drift
+  - prompt hash drift
+  - context bundle hash drift
+  - dependency readiness change
+  - expiry
+worker_runtime:
+  recommended_topology: one shared Control Plane listener and dispatcher with standardized module-local runtime configuration
+  vendor_binary_committed_to_each_repo: false
+  secrets_committed_to_git: false
+  module_config_direction: worker_runtime.yaml or equivalent
+  adapter_contract:
+  - provider
+  - model_profile
+  - working_directory
+  - context_bundle
+  - token_or_cost_budget
+  - timeout
+  - network_policy
+  - environment_allowlist
+  - completion_output_contract
+portfolio_scale_gate:
+  few_logistics_pilot_cycles_allowed_before_portfolio_inventory: true
+  broad_multi_module_worker_rollout_allowed_now: false
+  required_before_broad_rollout:
+  - forensic external inventory for all existing modules
+  - module-local self-knowledge baseline for each rollout candidate
+  - cross-module dependency and relationship graph
+  - console readiness and pacing dashboard
+  inventory_workflow:
+  - split each module repository into bounded analysis batches
+  - copy batches to project temporary inventory workspace
+  - send bounded archives to Blueprint coordinator
+  - produce one evidence report per batch
+  - aggregate a full module forensic report
+  - generate Module Memory and dependency baseline
+  - retain analysis and reports as historical evidence
+console_dashboard_minimum_columns:
+- module_id
+- roadmap_phase
+- inventory_state
+- module_memory_freshness
+- active_prompt
+- worker_state
+- dependency_ready_ratio
+- blocking_dependencies
+- downstream_blocked_count
+- current_blockers
+- recommended_pacing
+u138_implementation:
+  status: IMPLEMENTED_REFERENCE_V0_1
+  logistics_repository: /srv/software_development/forprint-project/forprint_logistics_service
+  logistics_head: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+  root_agents: AGENTS.md
+  module_memory_root: coordination/module_memory
+  curated_surfaces:
+  - coordination/module_memory/module_memory.yaml
+  - coordination/module_memory/implementation_lineage.yaml
+  - coordination/module_memory/document_authority.yaml
+  - coordination/module_memory/roadmap_state.yaml
+  derived_surfaces:
+  - coordination/module_memory/inventory_index.yaml
+  - coordination/module_memory/current_state.yaml
+  - coordination/module_memory/fresh_context_manifest.yaml
+  worker_dispatch: PAUSED_BY_OPERATOR
+  prompt_claim_created: false
+  next: blueprint_task_context_compiler_v0_1

@@ -1,0 +1,47 @@
+schema_version: forprint_governed_procedure_graph_v0_1
+procedure_id: governed_canonical_mutation
+procedure_revision: 0.1.0
+capability:
+  capability_id: governed_canonical_mutation
+  classification: GRAPH_REQUIRED
+  reason: Canonical mutation requires ordered preflight, authority/scope verification, derived refresh and conformance evidence.
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  rule: This procedure only constrains and records execution already authorized by higher authority surfaces.
+nodes:
+  - node_id: inspect_current_state
+    kind: REQUIRED
+    gate: NONE
+    depends_on: []
+    evidence_required: true
+    waivable: false
+  - node_id: verify_authority_and_scope
+    kind: REQUIRED
+    gate: HARD_GATE
+    depends_on:
+      - inspect_current_state
+    evidence_required: true
+    waivable: false
+  - node_id: apply_canonical_mutation
+    kind: REQUIRED
+    gate: NONE
+    depends_on:
+      - verify_authority_and_scope
+    evidence_required: true
+    waivable: false
+  - node_id: refresh_affected_derived
+    kind: REQUIRED
+    gate: HARD_GATE
+    depends_on:
+      - apply_canonical_mutation
+    evidence_required: true
+    waivable: false
+  - node_id: validate_conformance
+    kind: REQUIRED
+    gate: HARD_GATE
+    depends_on:
+      - refresh_affected_derived
+    evidence_required: true
+    waivable: false

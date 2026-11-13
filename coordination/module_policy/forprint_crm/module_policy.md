@@ -28,6 +28,9 @@ Future human-facing dashboard, business workflow coordination and analytics inte
 - `Show dashboards and analytics.`
 - `Help operators resolve ambiguous cases.`
 - `Avoid becoming physical database owner.`
+- `Provide composite cross-module human workflows so one business task does not require manual tab hopping.`
+- `Provide configurable role/department dashboards and wallboards over owner-module data.`
+- `Surface plan-versus-actual variance and operational exceptions using configurable tolerances.`
 
 ## Owns
 
@@ -35,6 +38,10 @@ Future human-facing dashboard, business workflow coordination and analytics inte
 - `workflow_coordination_ui`
 - `operator_decision_views`
 - `analytics_views`
+- `composite_cross_module_workflow_ui`
+- `configurable_operational_dashboards`
+- `cross_module_read_projections`
+- `variance_and_exception_views`
 
 ## Must not own
 
@@ -43,11 +50,15 @@ Future human-facing dashboard, business workflow coordination and analytics inte
 - `calculator_logic`
 - `accounting_truth`
 - `catalog_truth`
+- `foreign_domain_write_authority`
+- `physical_persistence_platform`
 
 ## Next focus
 
 - `Keep planned/alignment status.`
 - `Activate after core data and Calculator outputs are clearer.`
+- `Define guided supplier/material onboarding as a canonical composite-workflow example.`
+- `Define role-specific dashboard/wallboard profiles while keeping the capability extractable later.`
 
 ## Adoption rule
 

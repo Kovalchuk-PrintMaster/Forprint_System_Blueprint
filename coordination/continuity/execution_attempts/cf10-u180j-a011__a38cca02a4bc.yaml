@@ -1,0 +1,34 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a011
+work_front_id: wf-cf10-local-dispatcher-telegram-operator-surface-v0-1
+recorded_at: '2026-09-26T20:31:00.400870Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a011/workspace/repo
+why: CF-10 worker-watchdog observability self-hardening training task launch.
+source_fingerprint: 9c0ef5a0cf2833a5c87237ee4a200ef09596fcab26742ddf823c48ef22cd862b
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: b340628cdeedda725f2cbb5596a4901c0e3a71d04fd0e446476d3f15ff326ae4
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a011/input/cf10_a011_provider_invocation_v0_1.yaml
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- worker_process_result_sha256:7f1ebc2a2ffaafe38689526449dff4717cd0b9ce0bcf8a0a31d632c656900b7d
+- worker_delta_sha256:b7e02f405e383aac973ed9a11bf986fea7b21c44d33dbf83f3d6bd7de10815b0
+- bootstrap_provenance_defect_sha256:8b91d56174d7ee87143a881ee6be88d41ae37e4f44112be8935859c63329e46b
+validator_outcome: NOT_RUN
+validator_evidence_refs:
+- bootstrap_provenance_defect_sha256:8b91d56174d7ee87143a881ee6be88d41ae37e4f44112be8935859c63329e46b
+- worker_delta_sha256:b7e02f405e383aac973ed9a11bf986fea7b21c44d33dbf83f3d6bd7de10815b0
+failure_or_retry_ref: bootstrap_provenance_defect_sha256:8b91d56174d7ee87143a881ee6be88d41ae37e4f44112be8935859c63329e46b
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003
+  - attempt:cf10-u180j-a004
+  - attempt:cf10-u180j-a005
+  - attempt:cf10-u180j-a006
+  - attempt:cf10-u180j-a007
+  - attempt:cf10-u180j-a008

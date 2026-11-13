@@ -1,0 +1,146 @@
+schema_version: forprint_telegram_bot_behavior_model_portfolio_reconciliation_v0_1
+internal_date_anchor: '2025-10-12'
+reconciled_on: '2026-09-22'
+source_identity:
+  uploaded_filename: Asistant_Telegram_Bot_11.10.26.mhtml
+  dftb_original_filename: Asistant_Telegram_Bot_12.10.26.mhtml
+  primary_mhtml_sha256: 6335dcb444643b175483f69c87290967f01b84868161dcf192b4b43b52d4ad0d
+  dftb_archive_sha256: dbcad8fb3ed87928d9f8f0def1847443540cc8a467ec01e907cbdabe5997a2ff
+  master_memory_v3_5_archive_sha256: fc7f1e9356574cf88ba85d4350f4b416530f16b7d511614d1da9598a2af80a86
+  uploaded_filename_alias_byte_identical_to_dftb_primary: true
+  master_v3_5_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+chronology:
+  uploaded_filename_date_trusted: false
+  dftb_filename_date_trusted: false
+  mhtml_export_saved: Tue, 15 Sep 2026 22:30:30 +0300
+  internal_scaffold_anchor: '2025-10-12'
+  logical_position: Telegram behavior-model phase on/about 2025-10-12 before later 2025-10-14..25 ML engineering
+source_quality:
+  classification: LARGE_PARTIAL_VOICE_HEAVY_WITH_EMBEDDED_PRIOR_SCAFFOLD
+  turn_containers: 83
+  message_roles:
+    user: 43
+    assistant: 40
+  turn_range: 1-112
+  embedded_prior_dialogue_in_turn_1: true
+  voice_unavailable_or_corrupted_turns_present: true
+  cyrillic_loss: false
+  implementation_verification_performed: false
+reuse_first_findings:
+- topic: human_like_conversational_behavior
+  item_refs:
+  - IT-TG1210B-0001
+  - IT-TG1210B-0004
+  classification: REUSE
+  current_surface: telegram_conversational_operating_interface_target_state_v0_1_20260826
+  disposition: PROVENANCE_ONLY_NO_NEW_ROADMAP
+- topic: order_quantity_packaging_clarification
+  item_refs:
+  - IT-TG1210B-0009
+  classification: REUSE
+  current_surface: telegram_bot_structured_clarification_workspace_v0_1
+  disposition: PROVENANCE_ONLY_NO_NEW_ROADMAP
+- topic: deterministic_ai_human_escalation
+  item_refs:
+  - IT-TG1210B-0010
+  - IT-TG1210B-0011
+  - IT-TG1210B-0012
+  - IT-TG1210B-0013
+  - IT-TG1210B-0016
+  classification: REUSE
+  current_surface: telegram_bot_ai_escalation_pipeline_v0_1
+  disposition: EXISTING_CANONICAL_ROADMAP_STEP_COVERS_DIRECTION
+- topic: historical_behavior_scaffold_files
+  item_refs:
+  - IT-TG1210B-0002
+  - IT-TG1210B-0003
+  classification: ADAPT
+  historical_surfaces:
+  - bot_behavior_config.yaml
+  - bot_state.yaml
+  - feedback_flow.py
+  - generate_human_talk.py
+  - mistral_generate.py
+  disposition: HISTORICAL_IMPLEMENTATION_HYPOTHESIS_REQUIRES_LIVE_REPO_AUDIT; do not recreate files merely from
+    chat history
+- topic: phone_as_identity
+  item_refs:
+  - IT-TG1210B-0006
+  classification: ADAPT
+  disposition: Phone remains useful channel/contact lookup evidence but must not be treated as canonical customer
+    primary key; current CRM/identity graph owns identity truth.
+- topic: voice_chat_summary_and_memory
+  item_refs:
+  - IT-TG1210B-0007
+  - IT-TG1210B-0008
+  - IT-TG1210B-0020
+  - IT-TG1210B-0021
+  classification: REUSE
+  disposition: Historical negative evidence for durable project memory/handoff. Do not make implicit chat or voice
+    memory a source of project truth.
+- topic: telegram_personal_assistant_tool_surface
+  item_refs:
+  - IT-TG1210B-0014
+  - IT-TG1210B-0015
+  - IT-TG1210B-0017
+  classification: ADAPT
+  disposition: OWNER_BOUNDARY_REQUIRES_RECONCILIATION
+  current_rule: A tool-enabled personal/operator assistant may use Telegram as a channel, but this must remain separate
+    from the customer-facing Telegram business runtime and requires explicit tool capability, credential, approval
+    and audit boundaries.
+  canonical_owner: null
+  roadmap_mutation: false
+- topic: telegram_to_1c_actions
+  item_refs:
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  classification: REPLACE
+  disposition: SUPERSEDED_BY_ACCOUNTING_REGISTRY_AND_GATEWAY_BOUNDARIES
+  current_rule: Telegram may express operator/customer intent; approved accounting/1C operations must execute through
+    owning Accounting/1C integration contracts and audited Gateway/domain paths.
+- topic: historical_deberta_mistral_ai_stack
+  item_refs:
+  - IT-TG1210B-0022
+  classification: ADAPT
+  disposition: HISTORICAL_ARCHITECTURE_REQUIRES_LIVE_IMPLEMENTATION_AUDIT
+  note: Preserve DeBERTa classifier + Mistral generator + AI escalation lineage without freezing those specific
+    models/providers as permanent architecture.
+- topic: sales_refusal_objection_semantics
+  item_refs:
+  - IT-TG1210B-0023
+  - IT-TG1210B-0024
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_ROADMAP_CANDIDATE_PENDING
+- topic: modular_training_datasets
+  item_refs:
+  - IT-TG1210B-0025
+  - IT-TG1210B-0026
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_REUSE_0710_CORPUS_CANDIDATE
+- topic: recurring_classifier_evaluation
+  item_refs:
+  - IT-TG1210B-0027
+  - IT-TG1210B-0028
+  - IT-TG1210B-0029
+  - IT-TG1210B-0030
+  - IT-TG1210B-0031
+  - IT-TG1210B-0032
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_CROSS_MODULE_CANDIDATE
+  current_refinement: Fresh generated cases are useful only with provenance, leakage controls and an independent
+    expected-label oracle. One external LLM/provider is not a required authority.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  candidate: telegram_behavior_and_ml_quality_governance
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: AI escalation already has a canonical step. Sales/classifier semantics, modular datasets and recurring
+    evaluation require remaining Telegram sources plus live repository and Verification Lab reuse audit.
+master_memory_relationship:
+  uploaded_master: v3.5
+  v3_5_role: historical_derived_navigation_archive
+  v3_5_contains_this_dftb: true
+  v3_5_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

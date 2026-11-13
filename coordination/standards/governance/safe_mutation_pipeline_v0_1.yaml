@@ -1,0 +1,266 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_MUTATION_GOVERNANCE
+title: Canonical Safe Mutation Pipeline v0.1
+purpose: >-
+  Make Blueprint updates predictable by declaring which downstream registrations,
+  generators, derived surfaces, validators, and final gates are required for each
+  class of source change.
+principles:
+  - Source changes must be classified before final validation.
+  - Derived artifacts are never treated as independent authority.
+  - A source class must declare its downstream actions explicitly; package builders
+    must not guess them from failure output.
+  - Governance standards require explicit standards-index registration before the
+    standards-index validator can pass.
+  - Human Intent changes require canonical sync before derived indexes are rebuilt.
+  - Roadmap changes require roadmap validation before final acceptance.
+  - Structural hash changes require explicit review when another controlled surface
+    pins the previous hash; silent hash acceptance is forbidden.
+  - All indexed source mutations require canonical index rebuild and drift checks.
+  - Package payloads should be linted and dry-run in an isolated staging context when
+    feasible before operator handoff.
+  - Final acceptance requires lint, full pytest, make check, release-authority guard,
+    and git diff whitespace validation.
+  - This pipeline never commits, pushes, activates prompts, widens H10, or opens
+    assistant distribution.
+pipeline_stages:
+  - PRECHECK
+  - CLASSIFY_SOURCE_CHANGE
+  - APPLY_SOURCE_CHANGE
+  - REQUIRED_REGISTRATION_OR_HASH_REVIEW
+  - DOMAIN_SYNC_AND_VALIDATION
+  - REBUILD_DERIVED_SURFACES
+  - DERIVED_DRIFT_CHECKS
+  - LINT_AND_TARGETED_VALIDATION
+  - FULL_PYTEST
+  - MAKE_CHECK
+  - RELEASE_AUTHORITY_GUARD
+  - DIFF_CHECK
+  - ACCEPT_OR_ROLLBACK
+action_registry:
+  standards_index_validation:
+    order: 20
+    kind: validator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/validate_standards_index.py
+  human_intent_sync:
+    order: 20
+    kind: deterministic_sync
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/coordination/human_intent_mutation_v0_1.py
+      - sync
+  human_intent_validation:
+    order: 25
+    kind: validator
+    automatic_safe: true
+    command:
+      - make
+      - human-intent-check
+  roadmap_validation:
+    order: 25
+    kind: validator
+    automatic_safe: true
+    command:
+      - make
+      - roadmap-detail-check
+  surface_normalization_validation:
+    order: 25
+    kind: validator
+    automatic_safe: true
+    command:
+      - make
+      - surface-normalization-check
+  blueprint_index_build:
+    order: 40
+    kind: generator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_index.py
+  knowledge_index_build:
+    order: 41
+    kind: generator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_knowledge_index.py
+  specialized_index_build:
+    order: 42
+    kind: generator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_specialized_indexes.py
+  blueprint_index_check:
+    order: 45
+    kind: drift_check
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_index.py
+      - --check
+  knowledge_index_check:
+    order: 46
+    kind: drift_check
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_knowledge_index.py
+      - --check
+  specialized_index_check:
+    order: 47
+    kind: drift_check
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - scripts/indexing/build_blueprint_specialized_indexes.py
+      - --check
+  skip_inventory_validation:
+    order: 50
+    kind: validator
+    automatic_safe: true
+    command:
+      - make
+      - skip-inventory-check
+  ruff_full:
+    order: 60
+    kind: validator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - -m
+      - ruff
+      - check
+      - scripts
+      - tests
+      - tools
+  full_pytest:
+    order: 70
+    kind: validator
+    automatic_safe: true
+    command:
+      - .venv_blueprint/bin/python
+      - -m
+      - pytest
+      - -q
+      - --maxfail=20
+  make_check:
+    order: 80
+    kind: validator
+    automatic_safe: true
+    command:
+      - make
+      - check
+  release_authority_guard:
+    order: 90
+    kind: guard
+    automatic_safe: true
+    command:
+      - git
+      - diff
+      - --exit-code
+      - HEAD
+      - --
+      - coordination/releases/current.yaml
+  diff_check:
+    order: 91
+    kind: guard
+    automatic_safe: true
+    command:
+      - git
+      - diff
+      - --check
+source_class_registry:
+  governance_standard:
+    patterns:
+      - coordination/standards/**/*.yaml
+    requirements:
+      - EXPLICIT_STANDARDS_INDEX_REGISTRATION
+      - STRUCTURAL_HASH_REFERENCE_REVIEW_WHEN_PINNED
+    actions:
+      - standards_index_validation
+  human_intent:
+    patterns:
+      - coordination/human_intent/**/*.yaml
+    requirements:
+      - CANONICAL_HUMAN_INTENT_SYNC
+    actions:
+      - human_intent_sync
+      - human_intent_validation
+  roadmap_detail:
+    patterns:
+      - coordination/roadmaps/details/**/*.yaml
+      - coordination/roadmaps/details/**/*.md
+    requirements:
+      - ROADMAP_DETAIL_VALIDATION
+    actions:
+      - roadmap_validation
+  document_surface_governance:
+    patterns:
+      - coordination/standards/governance/document_type_registry_v0_1.yaml
+      - coordination/internal_work/blueprint/normalization/*.yaml
+    requirements:
+      - CLEANLINESS_AND_SURFACE_VALIDATION
+    actions:
+      - surface_normalization_validation
+  executable_or_test_surface:
+    patterns:
+      - scripts/*.py
+      - scripts/**/*.py
+      - tests/*.py
+      - tests/**/*.py
+      - tools/*.py
+      - tools/**/*.py
+      - Makefile
+    requirements:
+      - LINT_AND_TEST_VALIDATION
+    actions:
+      - ruff_full
+  indexed_source_fallback:
+    patterns:
+      - adr/**
+      - coordination/**
+      - machine/**
+      - scripts/**
+      - tests/**
+      - tools/**
+      - Makefile
+    requirements:
+      - CANONICAL_DERIVED_INDEX_REFRESH
+    actions:
+      - blueprint_index_build
+      - knowledge_index_build
+      - specialized_index_build
+      - blueprint_index_check
+      - knowledge_index_check
+      - specialized_index_check
+universal_final_actions:
+  - skip_inventory_validation
+  - ruff_full
+  - full_pytest
+  - make_check
+  - release_authority_guard
+  - diff_check
+manual_review_signals:
+  EXPLICIT_STANDARDS_INDEX_REGISTRATION:
+    meaning: >-
+      A newly added or renamed standard must be registered in the canonical standards
+      indexes; the standards-index command validates but does not generate registration.
+  STRUCTURAL_HASH_REFERENCE_REVIEW_WHEN_PINNED:
+    meaning: >-
+      If another controlled surface pins a changed source hash, the old-to-new hash
+      migration must be explicitly reviewed and evidenced; arbitrary hash drift is not
+      accepted.
+  PACKAGE_STAGING_DRY_RUN:
+    meaning: >-
+      Generated mutation packages should lint payloads and, when feasible, execute
+      their validation sequence in an isolated staging context before operator handoff.
+tooling:
+  planner: scripts/coordination/plan_safe_mutation_v0_1.py
+  validator: scripts/validation/validate_safe_mutation_pipeline_v0_1.py
+  check_command: make safe-mutation-check

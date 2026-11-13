@@ -1,0 +1,119 @@
+schema_version: forprint_cf10_task70_a031_prerequisite_repair_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: CF-10
+contour: CF10_TASK70_A031_PREREQUISITE_REPAIR
+title: task70_worker_profile_transport_and_context_consumption_repair
+status: FROZEN_FOR_BOUNDED_REPAIR
+source_head: 5dbb94261e53cbba5e8a8d33b5c8cedca5cc671e
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+roadmap_position:
+  classification: ACTIVE_TASK70_BLOCKER_REPAIR
+  active_task: validation_check_pipeline_profile_and_optimization
+  active_task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  blocked_attempt: cf10-u180j-a031
+  roadmap_advancement_performed: false
+  a032_create_or_launch_now: false
+  oc01_reactivated: false
+trigger:
+  attempt_id: cf10-u180j-a031
+  attempt_terminal_state: BLOCKED
+  attempt_publication_commit: 5dbb94261e53cbba5e8a8d33b5c8cedca5cc671e
+  worker_changed_path_count: 0
+  blockers:
+  - PROFILE_EXECUTION_CAPABILITY_UNAVAILABLE
+  - GOVERNED_CONTEXT_CONSUMPTION_MISMATCH
+architecture_decision:
+  strategy: EXTEND_EXISTING_BOUND_VALIDATION_CAPABILITY_ONLY
+  new_profiler: false
+  new_mcp_tool: false
+  shell: false
+  arbitrary_argv: false
+  arbitrary_environment: false
+  baseline_source: existing shared launcher elapsed_seconds from normal validation-suite execution
+  profile_transport: typed boolean profile -> exact --profile argv flag
+  profile_semantics_owner: Task70 canonical validation-suite runner after task-scoped mutation
+  context_consumption: hash-bound governed context is sufficient attempt-scoped freshness verification when internally
+    consistent; it remains non-authoritative
+capability_contract:
+  capability_id: validation_suite
+  from_version: 0.1.0
+  to_version: 0.2.0
+  worker_parameters:
+    required:
+    - suite_id
+    optional:
+    - require_tier
+    - profile
+    profile_type: boolean
+    additional_properties: false
+  profile_false_semantics: exact existing argv
+  profile_true_semantics: append exactly --profile
+  worker_visible_result_addition: elapsed_seconds
+  authority_widening: false
+context_consumption_contract:
+  source: GOVERNED EXECUTION CONTEXT â€” NON-AUTHORITATIVE
+  required_worker_guidance:
+  - The projection is frozen and hash-bound to the exact attempt.
+  - roadmap_sync=IN_SYNC plus the bound ACTIVE work item satisfies attempt-scoped freshness unless the projection
+    is internally inconsistent.
+  - Do not require shell regeneration of lifecycle/roadmap projections.
+  - Do not mutate lifecycle/roadmap to prove freshness.
+  - Work Front remains execution authority and Task Envelope remains task instruction source.
+implementation_slice:
+  implementation_write_set:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - Makefile
+  tests_first_required: true
+  reuse_make_surfaces:
+  - structured-command-executor-check
+  - cf10-worker-invocation-bridge-check
+  - governed-worker-cycle-check
+  - cf10-worker-invocation-bridge-proof
+  new_make_target_allowed: false
+  must_not_modify:
+  - scripts/validation/run_validation_suite_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - scripts/validation/run_non_mutating_make_check.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
+next_boundary_after_closeout:
+  task70_revision_required_before_retry: 0.1.2
+  task70_revision_purpose: Bind the retry to the new baseline elapsed_seconds evidence and profile=true/--profile
+    transport without widening its three-file mutation scope.
+  next_attempt_candidate: cf10-u180j-a032
+  automatic_create_or_launch: false
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_retry_authority: false
+  automatic_dispatch_authority: false
+  automatic_promotion_authority: false
+  publication_authority: false
+audited_dependency_sha256:
+  coordination/registry/structured_command_capabilities_v0_1.yaml: 58c3627cc617eb6215376433c96116bdf31dd028c40752eccc157277d6b1441e
+  scripts/coordination/control_plane/worker_runtime/structured_command_executor.py: b40148b990d7b8334ec3d28531430b9aa5b6eba95a0e054e30c8f45dda578304
+  scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py: 94e0b818cc7bfbfa4b39d27e3cb857c7b8affd5b4cf236ab48aae0ad70cbebb6
+  scripts/coordination/control_plane/worker_runtime/invocation_adapter.py: 968cbac9ba5eec2af2930c0caa1e727d5b757e0beb70ed041cae8e415e77278f
+  tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py: 322e5fa02c14d99659c26328969f7fb93596fded59d260e157fbda5952037d13
+  tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py: b1d1c9abc0d035f1d9993558294787a93e9e21a7f06721450caeaef4adcf0560
+  tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py: 15d86e7c812bb7d4a81ef2962b1ce1a82b8fd59c4715057b1767e9853852c93a
+  Makefile: 4e595ca622fc319868eba965cb7b32b6c4039e41d1d4c468bd32a4e5bcdefc3d
+  coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: 4d7e24b12841e30b7076e140c7602466eb49662e6ddac7351404a16724ba859a
+  coordination/work_fronts/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: 7cade745dda1c9ec7231ce80eebf56f039767af5e2167a4ab8c36b828110de8b
+  scripts/validation/run_validation_suite_v0_1.py: 432131700f0baf401b89e2a8198a684295b767baa9ae78e178489aded62c2368
+  coordination/standards/automation/validation_suite_registry_v0_1.yaml: 3258764448bf11000f62e2d2addd53bc7abb8239a58e0c551350944e654ab53d
+  scripts/coordination/control_plane/worker_runtime/launcher.py: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+  scripts/coordination/control_plane/governed_worker_cycle.py: 0346b324ee905e1a41ab7e1f370d25ac4402944d9be438763e8ba48e52fb1a39

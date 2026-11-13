@@ -1,0 +1,58 @@
+schema_version: blueprint_module_lifecycle_decision_v0_1
+metadata:
+  decision_id: website_pause_current_hardening_scope_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-20T19:39:00+03:00'
+  source_head: d10aa8d47ed50148316b9f681dfe83af1cd11ce1
+  status: recorded
+  subject_module_id: website
+decision:
+  decision_id: website_pause_current_hardening_scope_v0_1
+  module_id: website
+  operator_decision: PAUSE
+  explicit_operator_input: true
+  explicit_instruction: website поки не чіпаємо він у нас в далеких планах поки тому можна якось позначити
+    що на паузі чи щось таке
+  decided_at: '2026-08-20T19:39:00+03:00'
+lifecycle:
+  status: paused
+  reason_code: DEFERRED_TO_FAR_HORIZON_BY_OPERATOR
+  current_hardening_scope: excluded
+  next_work_selection_eligible: false
+  automatic_resume: false
+  resume_requires_explicit_operator_decision: true
+scope_effect:
+  h6_real_roadmap_projection: excluded_with_advisory
+  current_hardening_validation: non_blocking_known_debt
+  normal_module_execution: not_authorized_while_paused
+  prompt_release: not_authorized_while_paused
+  accept_and_advance: not_authorized_while_paused
+known_debt:
+  roadmap_path: coordination/roadmaps/website.yaml
+  roadmap_sha256: 3bab24f2ac59fd5c76e3c75d43be8b253ccdbcaaabed10683a2a01ceb0891e2b
+  classification: legacy_acceptance_binding_schema_debt
+  validation_error_count: 5
+  validation_errors:
+  - roadmap[4].acceptance must be a mapping
+  - roadmap[7].acceptance must be a mapping
+  - roadmap[9].acceptance must be a mapping
+  - roadmap[17].acceptance must be a mapping
+  - roadmap[22].acceptance must be a mapping
+  treatment_while_paused: advisory_preserved_unchanged
+  blocking_on_resume: true
+resume_gate:
+  requires:
+  - explicit operator RESUME decision
+  - website roadmap validates against then-current canonical roadmap policy
+  - legacy acceptance list fields are migrated or explicitly superseded
+  - next-work eligibility is recalculated after roadmap validation
+boundaries:
+  website_repository_write: false
+  website_roadmap_mutation: false
+  website_prompt_queue_mutation: false
+  automatic_prompt_release: false
+  automatic_acceptance: false
+  automatic_commit: false
+  automatic_push: false
+result: PAUSED_AND_EXCLUDED_FROM_CURRENT_HARDENING_SCOPE

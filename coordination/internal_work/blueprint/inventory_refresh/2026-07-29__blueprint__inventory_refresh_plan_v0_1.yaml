@@ -1,0 +1,896 @@
+schema_version: blueprint_inventory_refresh_plan_v0_1
+metadata:
+  plan_id: 2026-07-29__blueprint__inventory_refresh_plan_v0_1
+  module_id: forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  base_commit: 50df50b
+  created_at: '2026-07-29'
+  status: active
+  current_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  planning_horizon:
+    rule: 8_to_10_actionable_steps_ahead
+    actionable_steps_ahead: 8
+    review_after_each_step: true
+  updated_at: '2026-08-07'
+  context_reconciliation:
+    reconciliation_id: blueprint_roadmap_context_reconciliation_v0_1
+    status: completed
+    reconciled_at: '2026-08-07'
+    reconciled_against_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+    active_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+    active_step_preserved: true
+    future_sequence_preserved: true
+    step_sequences_rewritten: false
+    completed_prerequisite_ids:
+    - completion_intake_acceptance_governance_v0_1
+    - completion_intake_protocol_tooling_v0_1
+    - historical_acceptance_reconciliation_v0_1
+    - assistant_bootstrap_handoff_contract_v0_1
+    evidence:
+    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+objective: Convert the completed Blueprint Self Audit into a current, tracked and repeatable repository-knowledge baseline
+  before rolling inventory workflows out to controlled modules.
+guardrails:
+- Do not overwrite the 2026-07-23 RCI, REDM or SDRS snapshots.
+- Do not classify files as dead without ownership and reference evidence.
+- Do not write into other repositories during Blueprint inventory.
+- Keep unknowns and conflicts explicit.
+- Use exact staging; do not use git add dot.
+- Commit each inventory wave separately.
+- Keep generated runtime reports out of tracked evidence unless policy says otherwise.
+steps:
+- sequence: 1
+  step_id: blueprint_self_audit_v0_1
+  title: Complete Blueprint Self Audit
+  status: completed
+  priority: critical
+  evidence:
+  - reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  result: 698 files indexed; 22 purposes understood; 4 dependencies mapped; 676 unknown files.
+- sequence: 2
+  step_id: blueprint_current_rci_refresh_v0_1
+  title: Create current Repository Capability Inventory
+  status: completed
+  priority: critical
+  depends_on:
+  - blueprint_self_audit_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - comparison to 2026-07-23 RCI
+  - canonical/operational/generated/historical/temporary classification
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  result:
+    tracked_files: 703
+    self_audit_source_commit_tracked_files: 701
+    self_audit_scan_files: 698
+    collector_scope_difference: 3
+    post_scan_verified_control_files: 2
+    effective_minimum_purpose_understood: 24
+    effective_maximum_unknown: 679
+    previous_snapshot_preserved: true
+- sequence: 3
+  step_id: blueprint_current_redm_refresh_v0_1
+  title: Create current execution and dependency map
+  status: completed
+  priority: critical
+  depends_on:
+  - blueprint_current_rci_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - current Make and CLI flow coverage
+  - explicit writes, generated artifacts and recovery paths
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  result:
+    previous_flow_count: 10
+    current_flow_count: 14
+    added_flow_ids:
+    - blueprint.self_audit.v1
+    - blueprint.completion_intake.v1
+    - blueprint.roadmap_control.v1
+    - blueprint.repository_inventory_refresh.v1
+    cross_repository_writes_authorized: false
+    network_io_required: false
+- sequence: 4
+  step_id: blueprint_coordination_sdrs_refresh_v0_1
+  title: Refresh Blueprint coordination SDRS
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_current_rci_refresh_v0_1
+  - blueprint_current_redm_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    state: READY_WITH_MANAGED_UNKNOWNS
+    tracked_files: 703
+    verified_execution_flows: 14
+    cross_repository_writes_authorized: false
+- sequence: 5
+  step_id: blueprint_portfolio_sdrs_refresh_v0_1
+  title: Refresh system portfolio SDRS
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_coordination_sdrs_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    state: READY_WITH_PORTFOLIO_UNKNOWNS
+    active_coordination_modules: 3
+    acceptance_blocked_modules: 2
+    active_module_workstreams: 1
+    cross_repository_writes_authorized: false
+- sequence: 6
+  step_id: blueprint_metadata_consistency_audit_v0_1
+  title: Audit coordination metadata consistency
+  status: completed
+  priority: critical
+  depends_on:
+  - blueprint_portfolio_sdrs_refresh_v0_1
+  expected_outputs:
+  - Prompt Queue versus roadmap comparison
+  - status/current-focus versus completion evidence comparison
+  - read-only consistency report
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  result:
+    audit_result: READY_WITH_CONFLICTS
+    modules_audited: 4
+    modules_with_findings: 3
+    finding_count: 4
+    critical_findings: 0
+    high_findings: 4
+    source_metadata_modified: false
+- sequence: 7
+  step_id: blueprint_module_registry_reconciliation_v0_1
+  title: Reconcile module IDs, aliases and repository paths
+  status: completed
+  priority: critical
+  depends_on:
+  - blueprint_metadata_consistency_audit_v0_1
+  expected_outputs:
+  - canonical module ID registry
+  - legacy alias map
+  - repository path and lifecycle reconciliation
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - machine/modules.yaml
+  - coordination/roadmaps/
+  - coordination/outgoing_prompts/
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  result:
+    reconciliation_result: READY_WITH_CONFLICTS
+    canonical_candidates: 22
+    modules_with_findings: 15
+    finding_count: 18
+    critical_findings: 0
+    high_findings: 7
+    source_metadata_modified: false
+    remediation_required: true
+- sequence: 8
+  step_id: blueprint_artifact_authority_map_v0_1
+  title: Create artifact authority and retention map
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_module_registry_reconciliation_v0_1
+  expected_outputs:
+  - canonical artifact classes
+  - generated/current/history retention rules
+  - temporary workflow artifact policy
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/repository_knowledge/
+  - coordination/review_packets/
+  - coordination/reports/
+  - reports/
+  - history/
+  - tmp/
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    tracked_files_classified: 709
+    artifact_classes: 19
+    generated_rebuildable_tracked: 34
+    runtime_tracked: 3
+    classification_pending: 186
+    cross_repository_writes_authorized: false
+- sequence: 9
+  step_id: blueprint_semantic_inventory_wave_1_v0_1
+  title: Verify high-value file purposes and dependencies
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_artifact_authority_map_v0_1
+  expected_outputs:
+  - verified machine and registry files
+  - verified scripts/tools/Make entrypoints
+  - updated purpose and dependency coverage
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    selected_files: 30
+    purpose_evidenced: 30
+    dependencies_mapped: 30
+    fully_verified: 30
+    records_with_unknowns: 23
+    source_files_modified: false
+- sequence: 10
+  step_id: blueprint_snapshot_comparison_automation_v0_1
+  title: Automate dated snapshot comparison
+  status: completed
+  priority: normal
+  depends_on:
+  - blueprint_semantic_inventory_wave_1_v0_1
+  expected_outputs:
+  - RCI comparison command
+  - REDM comparison command
+  - SDRS comparison command
+  - compact drift report
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  result:
+    comparison_pairs: 4
+    unit_tests_passed: true
+    previous_snapshot_links_verified: true
+    source_snapshots_modified: false
+- sequence: 11
+  step_id: ecosystem_inventory_rollout_wave_a_v0_1
+  title: Roll inventory protocol out to active modules
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_snapshot_comparison_automation_v0_1
+  expected_outputs:
+  - read-only module inventory bundles
+  - module RCI and REDM snapshots
+  - portfolio inventory dashboard
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  result:
+    wave_state: READY_GATED
+    modules_prepared: 3
+    modules_started: 0
+    modules_blocked_by_current_work: 3
+    prompt_queues_modified: false
+    module_repositories_modified: false
+- sequence: 12
+  step_id: blueprint_inventory_maintenance_gate_v0_1
+  title: Establish inventory maintenance cadence and quality gate
+  status: completed
+  priority: normal
+  depends_on:
+  - ecosystem_inventory_rollout_wave_a_v0_1
+  expected_outputs:
+  - inventory refresh cadence
+  - snapshot freshness threshold
+  - coverage regression gate
+  - operator recovery checklist
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  result:
+    artifact_families_validated: 4
+    failed_families: 0
+    lineage_links_verified: true
+    freshness_verified: true
+    external_rollout_state: gated
+    module_repositories_modified: false
+- sequence: 13
+  step_id: blueprint_inventory_coverage_dashboard_v0_1
+  title: Create inventory coverage and drift dashboard
+  status: completed
+  priority: normal
+  depends_on:
+  - blueprint_inventory_maintenance_gate_v0_1
+  expected_outputs:
+  - purpose coverage trend
+  - dependency coverage trend
+  - snapshot freshness signal
+  - metadata drift summary
+  inputs:
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  result:
+    current_tracked_files: 722
+    changed_paths_since_rci: 19
+    purpose_evidenced_lower_bound: 0.0416
+    fully_verified_lower_bound: 0.0416
+    external_rollout_state: gated
+- sequence: 14
+  step_id: blueprint_semantic_inventory_wave_2_v0_1
+  title: Verify coordination evidence, history and report purposes
+  status: completed
+  priority: normal
+  depends_on:
+  - blueprint_inventory_coverage_dashboard_v0_1
+  expected_outputs:
+  - verified coordination evidence classes
+  - verified report and history purposes
+  - updated semantic coverage metrics
+  - new unresolved ownership questions
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  result:
+    selected_files: 50
+    purpose_evidenced: 49
+    dependencies_mapped: 50
+    fully_verified: 49
+    records_with_unknowns: 25
+    changed_since_rci_reviewed: 17
+    combined_reviewed_lower_bound: 80
+    external_rollout_state: gated
+- sequence: 15
+  step_id: blueprint_registry_reconciliation_remediation_v0_1
+  title: Resolve confirmed module registry collisions and coverage gaps
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_semantic_inventory_wave_2_v0_1
+  expected_outputs:
+  - reviewed canonical module ID decisions
+  - reviewed alias ownership decisions
+  - reviewed repository-path corrections
+  - reviewed lifecycle and coverage corrections
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - tests/test_validate_module_registry_resolution.py
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  result:
+    canonical_modules: 3
+    canonical_source_bindings: 6
+    duplicate_canonical_ids: 0
+    source_path_collisions: 0
+    coverage_gaps: 0
+    external_rollout_state: gated
+- sequence: 16
+  step_id: blueprint_artifact_authority_policy_adoption_v0_1
+  title: Apply artifact authority and retention rules to generators and validators
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_registry_reconciliation_remediation_v0_1
+  expected_outputs:
+  - canonical authority declarations
+  - generator ownership and drift checks
+  - runtime retention enforcement
+  - deletion and recovery validation
+  inputs:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - tests/test_validate_artifact_authority_policy.py
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+- sequence: 17
+  step_id: blueprint_module_registry_consistency_ci_gate_v0_1
+  title: Integrate canonical module registry consistency validation into Blueprint checks
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_artifact_authority_policy_adoption_v0_1
+  inputs:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  expected_outputs:
+  - Blueprint check integration
+  - registry drift failure behavior
+  - read-only validation evidence
+  - regression tests
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - reports/module_registry_consistency_report.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+- sequence: 18
+  step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
+  title: Integrate Blueprint self-coordination consistency validation into standard checks
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_module_registry_consistency_ci_gate_v0_1
+  inputs:
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - Makefile
+  expected_outputs:
+  - make check integration
+  - roadmap and prompt-state drift failure behavior
+  - completion-packet consistency validation
+  - regression tests
+  completed_at: '2026-07-30'
+- sequence: 19
+  step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
+  title: Triage unresolved semantic inventory unknowns into bounded follow-up work
+  status: completed
+  priority: normal
+  depends_on:
+  - blueprint_self_coordination_consistency_ci_gate_v0_1
+  expected_outputs:
+  - unknowns grouped by authority and dependency risk
+  - owners or evidence sources required
+  - bounded follow-up waves
+  - explicit defer/accept decisions
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  completed_at: '2026-07-30'
+- sequence: 20
+  step_id: blueprint_snapshot_comparison_ci_gate_v0_1
+  title: Integrate snapshot comparison into Blueprint validation
+  status: completed
+  priority: normal
+  depends_on:
+  - blueprint_semantic_inventory_unknowns_triage_v0_1
+  expected_outputs:
+  - dated snapshot linkage gate
+  - comparison schema validation
+  - regression fixtures
+  - failure recovery guidance
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  completed_at: '2026-07-30'
+- sequence: 21
+  step_id: blueprint_artifact_retention_consistency_audit_v0_1
+  title: Audit artifact retention and generated-view consistency
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_snapshot_comparison_ci_gate_v0_1
+  inputs:
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  expected_outputs:
+  - retention exceptions report
+  - generated-view authority violations
+  - historical snapshot mutation check
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- sequence: 22
+  step_id: blueprint_inventory_status_consistency_gate_v0_1
+  title: Validate inventory-status metric consistency before repository-knowledge enrichment
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_artifact_retention_consistency_audit_v0_1
+  inputs:
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  expected_outputs:
+  - cross-artifact metric checks
+  - freshness failure behavior
+  - standard check integration
+  - regression tests
+  completed_at: '2026-07-30'
+- sequence: 23
+  step_id: blueprint_repository_knowledge_freshness_review_v0_1
+  title: Review repository-knowledge freshness before RCI semantic enrichment
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_inventory_status_consistency_gate_v0_1
+  inputs:
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - reports/repository_knowledge_snapshot_comparison_report.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  expected_outputs:
+  - snapshot freshness assessment
+  - stale-source exceptions
+  - bounded refresh decisions
+  - RCI enrichment release decision
+  completed_at: '2026-07-30'
+- sequence: 24
+  step_id: blueprint_rci_semantic_enrichment_v0_1
+  title: Enrich the Blueprint RCI with verified semantic inventory evidence
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_repository_knowledge_freshness_review_v0_1
+  expected_outputs:
+  - purpose-evidenced capability entries
+  - authority and retention annotations
+  - explicit unresolved unknowns
+  - new dated RCI snapshot candidate
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  completed_at: '2026-07-30'
+- sequence: 25
+  step_id: blueprint_redm_dependency_enrichment_v0_1
+  title: Enrich the Blueprint REDM with verified dependency and recovery evidence
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_rci_semantic_enrichment_v0_1
+  expected_outputs:
+  - verified entrypoints and dependency edges
+  - confirmed reads and writes
+  - side-effect and recovery annotations
+  - new dated REDM snapshot candidate
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-30'
+- sequence: 26
+  step_id: blueprint_semantic_coverage_closure_review_v0_1
+  title: Review semantic coverage closure after RCI and REDM enrichment
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_redm_dependency_enrichment_v0_1
+  inputs:
+  - reports/repository_knowledge_freshness_report.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  expected_outputs:
+  - post-enrichment semantic coverage assessment
+  - remaining unknowns and accepted deferrals
+  - coverage closure decision
+  - repository reconciliation release decision
+  completed_at: '2026-07-30'
+- sequence: 27
+  step_id: blueprint_repository_knowledge_reconciliation_v0_1
+  title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_semantic_coverage_closure_review_v0_1
+  expected_outputs:
+  - RCI semantic enrichment decisions
+  - REDM dependency enrichment decisions
+  - SDRS direction reconciliation
+  - single repository-knowledge acceptance packet
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  completed_at: '2026-07-30'
+- sequence: 28
+  step_id: blueprint_managed_module_plan_reconciliation_v0_1
+  title: Reconcile managed-module planning packets before Blueprint inventory acceptance
+  status: completed
+  completed_at: '2026-08-06'
+  priority: high
+  depends_on:
+  - blueprint_repository_knowledge_reconciliation_v0_1
+  inputs:
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  expected_outputs:
+  - three-module state comparison
+  - dependency and sequencing conflicts
+  - bounded roadmap recommendations
+  - no-write confirmation
+- sequence: 29
+  step_id: blueprint_inventory_acceptance_evidence_index_v0_1
+  title: Build inventory acceptance evidence index before the merge gate
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_managed_module_plan_reconciliation_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  expected_outputs:
+  - acceptance evidence inventory
+  - missing and stale evidence findings
+  - canonical/generated classification
+  - acceptance packet navigation index
+  completed_at: '2026-07-30'
+- sequence: 30
+  step_id: blueprint_inventory_acceptance_dry_run_v0_1
+  title: Rehearse the complete inventory acceptance decision before merge
+  status: completed
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_evidence_index_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - acceptance prerequisite matrix
+  - simulated merge decision
+  - remaining blockers and rollback conditions
+  - no-merge and no-rollout confirmation
+  completed_at: '2026-07-30'
+- sequence: 31
+  step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  title: Validate inventory acceptance packet integrity before the merge gate
+  status: active
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_dry_run_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - acceptance packet integrity report
+  - evidence hash and lineage validation
+  - missing or stale packet findings
+  - merge gate release decision
+  context_prerequisites:
+  - prerequisite_id: completion_intake_acceptance_governance_v0_1
+    status: completed
+    commit: 8c35e6dd168027e9266b6aea9a43133fcf5ffe90
+    evidence:
+    - coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
+    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion-intake-protocol-findings-v0-1.yaml
+  - prerequisite_id: completion_intake_protocol_tooling_v0_1
+    status: completed
+    commit: 39d50e7f5095f08e0bd4b9609e5e24bb06217258
+    evidence:
+    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion_intake_protocol_tooling_v0_1.yaml
+    - scripts/coordination/completion_intake_check.py
+  - prerequisite_id: historical_acceptance_reconciliation_v0_1
+    status: completed
+    commit: 645950789ea94d8fb701c793f8b9d7887ce52909
+    evidence:
+    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__historical_acceptance_reconciliation_v0_1.yaml
+    - scripts/coordination/historical_acceptance_reconciliation.py
+  - prerequisite_id: assistant_bootstrap_handoff_contract_v0_1
+    status: completed
+    commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+    evidence:
+    - coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml
+    - coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
+  context_reconciliation_status: completed
+  context_reconciliation_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+- sequence: 32
+  step_id: blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  title: Review final inventory acceptance decision readiness before the merge gate
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - final acceptance readiness matrix
+  - remaining blockers and exceptions
+  - acceptance authority handoff
+  - merge gate release decision
+- sequence: 33
+  step_id: blueprint_inventory_merge_rollback_readiness_v0_1
+  title: Confirm merge rollback readiness before inventory acceptance
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - rollback trigger matrix
+  - candidate restoration procedure
+  - post-merge verification checkpoints
+  - merge gate rollback release decision
+- sequence: 34
+  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
+  title: Accept inventory baseline and reconcile audit branch
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_merge_rollback_readiness_v0_1
+  expected_outputs:
+  - fresh main reconciliation
+  - full Blueprint validation
+  - inventory completion assessment
+  - controlled merge or fast-forward decision
+  inputs:
+  - new dated RCI snapshot candidate from blueprint_rci_semantic_enrichment_v0_1
+  - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
+  - repository-knowledge reconciliation evidence
+  - full Blueprint validation evidence
+- sequence: 35
+  step_id: blueprint_inventory_post_merge_integrity_verification_v0_1
+  title: Verify repository integrity immediately after the inventory acceptance merge
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_merge_gate_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - post-merge integrity report
+  - candidate-to-accepted lineage verification
+  - generated report consistency check
+  - operational handoff release decision
+- sequence: 36
+  step_id: blueprint_inventory_operational_handoff_readiness_v0_1
+  title: Confirm operational handoff readiness after post-merge verification
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_post_merge_integrity_verification_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - operational handoff matrix
+  - ownership and monitoring assignments
+  - remaining post-acceptance constraints
+  - operational readiness release decision
+- sequence: 37
+  step_id: blueprint_inventory_operational_readiness_review_v0_1
+  title: Review Blueprint inventory operational readiness before releasing external rollout
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_operational_handoff_readiness_v0_1
+  expected_outputs:
+  - self-context completeness decision
+  - operational ownership confirmation
+  - remaining unknowns disposition
+  - external rollout release or continued freeze decision
+  inputs:
+  - accepted inventory baseline
+  - clean main reconciliation result
+  - remaining unknowns disposition
+- sequence: 38
+  step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
+  title: Activate the accepted inventory maintenance baseline after operational readiness
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_operational_readiness_review_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - accepted inventory maintenance baseline
+  - scheduled drift and freshness checks
+  - maintenance ownership assignments
+  - next semantic enrichment cycle trigger
+- sequence: 39
+  step_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
+  title: Reassess ecosystem inventory rollout release after Blueprint maintenance baseline activation
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_maintenance_baseline_activation_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - external rollout release matrix
+  - managed-module prerequisite status
+  - remaining rollout blockers
+  - Wave B release or continued-gate decision
+- sequence: 40
+  step_id: ecosystem_inventory_rollout_wave_b_v0_1
+  title: Prepare repository inventory rollout wave B for the next verified module cohort
+  status: deferred
+  priority: normal
+  depends_on:
+  - blueprint_inventory_operational_readiness_review_v0_1
+  expected_outputs:
+  - wave B module selection
+  - dependency-safe execution order
+  - module-specific rollout packets
+  - acceptance and recovery gates
+  deferred_reason: External module inventory remains gated until Blueprint self-context acceptance and operational readiness
+    are GREEN.
+  release_conditions:
+  - Blueprint semantic inventory wave 2 completed
+  - Blueprint coverage and drift gate is GREEN
+  - Blueprint repository knowledge is reconciled
+  - Blueprint inventory acceptance and merge gate is GREEN
+completion_criteria:
+- Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
+- The 2026-07-23 baseline remains unchanged.
+- Metadata and registry conflicts are recorded explicitly.
+- Inventory workflows are repeatable and read-only by default.
+- At least eight actionable steps remain visible ahead during active work.
+- Full Blueprint validation remains green.

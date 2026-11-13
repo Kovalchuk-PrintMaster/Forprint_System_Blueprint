@@ -1,0 +1,45 @@
+schema_version: blueprint_logistics_local_self_knowledge_reference_baseline_adoption_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  reference_module: logistics_service
+  created_at: '2026-09-06'
+  status: IMPLEMENTED_REFERENCE_V0_1
+  authority: BLUEPRINT_INTERNAL_ADOPTION_EVIDENCE_NOT_RELEASE_AUTHORITY
+agreements_confirmed:
+  listener_dispatcher_owner: forprint_system_blueprint_control_plane
+  new_listener_module_required_now: false
+  inspector_execution_authority: false
+  telegram_required_for_v0: false
+  operator_gateway_initial_transport: filesystem_or_cli
+  console_worker_adapter: provider_neutral_shared_runtime
+  module_ai_worker_dispatch: PAUSED_UNTIL_ACTIVATION_RUNTIME
+  broad_multi_module_rollout: BLOCKED_UNTIL_PORTFOLIO_INVENTORY_AND_DEPENDENCY_VISIBILITY
+logistics_reference:
+  repository: /srv/software_development/forprint-project/forprint_logistics_service
+  head: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+  external_inventory_seed: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+  root_agents: AGENTS.md
+  module_memory_root: coordination/module_memory
+  curated_surfaces:
+  - coordination/module_memory/module_memory.yaml
+  - coordination/module_memory/implementation_lineage.yaml
+  - coordination/module_memory/document_authority.yaml
+  - coordination/module_memory/roadmap_state.yaml
+  derived_surfaces:
+  - coordination/module_memory/inventory_index.yaml
+  - coordination/module_memory/current_state.yaml
+  - coordination/module_memory/fresh_context_manifest.yaml
+  make_targets:
+  - module-memory-build
+  - module-memory-check
+  - document-authority-check
+  - fresh-context-check
+  - self-knowledge-status
+boundaries:
+  ai_worker_dispatched: false
+  prompt_claim_created: false
+  business_implementation_performed: false
+  live_provider_write_performed: false
+  blueprint_release_transition_performed: false
+  commit_push_performed: false
+next: blueprint_task_context_compiler_v0_1

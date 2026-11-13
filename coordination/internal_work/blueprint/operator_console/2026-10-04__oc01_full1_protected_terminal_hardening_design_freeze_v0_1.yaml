@@ -1,0 +1,101 @@
+schema_version: forprint_oc01_full1_protected_terminal_hardening_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: OC-01
+contour: OC01-FULL-1
+title: Protected Terminal hardening
+status: FROZEN_FOR_BOUNDED_SLICE_A
+source_head: 3237c0ff0875d921c965a02870e2026a972dbe64
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+authority:
+  human_owner_activation_basis: continue_OC01_after_package_integration_in_current_session
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_next_slice_activation: false
+false_positive_correction:
+  readiness_file_is_not_full_activation: true
+  true_preexisting_full_work_front_count: 0
+canonical_backend:
+  path: scripts/coordination/control_plane/operator_console/protected_terminal.py
+  disposition: REUSE_AND_EXTEND
+  shared_launcher: scripts/coordination/control_plane/worker_runtime/launcher.py
+  shared_launcher_disposition: REUSE_DO_NOT_FORK
+verified_current_state:
+  command_representation: ARGV_NO_SHELL
+  arbitrary_shell_text_allowed: false
+  read_only_capabilities: IMPLEMENTED_AND_PROVEN
+  exact_git_repository_scope: IMPLEMENTED_AND_PROVEN
+  actor_session_projection: IMPLEMENTED_AND_PROVEN
+  timeout_bounds: IMPLEMENTED
+  stdout_stderr_external_evidence: IMPLEMENTED_AND_PROVEN
+  explicit_enable_confirmation:
+    state: IMPLEMENTED
+    cli: --confirm-enable
+    makefile: OC01_TERMINAL_CONFIRM=1
+  safe_write:
+    state: STRUCTURALLY_RECOGNIZED_BUT_BLOCKED
+    blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    execution_allowed_now: false
+  canonical_session_and_lease_projection:
+    canonical_session_state: PENDING
+    exclusive_module_lease: PENDING
+    lease_id: null
+    must_not_be_faked_by_oc01: true
+  cancel:
+    state: DEPENDENCY_PENDING_CF10
+    live_cancel_implemented: false
+  structured_retained_denial: GAP
+  durable_terminal_history_audit: GAP
+full1_requirement_reconciliation:
+  richer_terminal_capability_profiles: EXTEND_NOW
+  approvals:
+    explicit_enable_confirmation: ALREADY_PRESENT
+    sensitive_or_elevated_approval: DEPENDENCY_GATED_NOT_IN_SLICE_A
+  streaming: DEPENDENCY_GATED_NOT_IN_SLICE_A
+  explainable_command_provenance: EXTEND_NOW
+  event_history: EXTEND_NOW
+  bounded_safe_write: DEPENDENCY_GATED_BY_CANONICAL_LEASE
+  live_cancel: DEPENDENCY_GATED_BY_SHARED_RUNTIME
+slice_a:
+  name: protected_terminal_policy_audit_hardening
+  objective: 'Harden the existing read-only Protected Terminal without widening authority: add richer capability/profile
+    metadata, structured explainable denial evidence, and durable append-only terminal audit/history outside the
+    protected repository. Preserve existing fixed argv, exact scope, actor/session provenance, timeout, external
+    stdout/stderr evidence and explicit confirmation.'
+  implementation_now:
+  - richer_read_only_capability_profile_metadata
+  - structured_policy_decision_and_denial_codes
+  - durable_external_denial_receipts
+  - durable_external_terminal_history_for_plan_run_and_denial
+  - stable_history_inspection_entrypoint
+  - tests_for_no_side_effect_on_denial
+  - tests_for_history_and_provenance
+  dependency_gated_not_implemented_now:
+  - lease_backed_safe_write
+  - live_process_cancel
+  - streaming_output
+  - sensitive_elevated_capability_approval
+future_full1_followup_gate:
+  safe_write_requires:
+  - canonical_session_proven
+  - exclusive_module_lease_proven
+  - lease_id_present
+  - lease_actor_matches_terminal_actor
+  - exact_scope_matches_leased_repository
+  cancel_requires: shared_control_plane_launcher_exposes_governed_cancel_semantics
+  no_dependency_means: FAIL_CLOSED_AND_RETAIN_EXPLICIT_BLOCKER
+preserved_invariants:
+- ONE_MODULE_REPOSITORY_ONE_ACTIVE_WRITABLE_ACTOR
+- console_ui_is_not_state_authority
+- gateway_does_not_originate_lease_or_write_authority
+- no_unrestricted_root_shell
+- no_arbitrary_shell_text
+- no_parallel_process_runtime
+- no_implicit_commit_push_merge_release_or_promotion
+- evidence_remains_outside_protected_repository_scope
+- preserve_unrelated_dirty_state
+source_evidence:
+  mini_gateway_work_front: coordination/work_fronts/oc01_mini_protected_terminal_gateway_v0_1.yaml
+  mini_real_proof_work_front: coordination/work_fronts/oc01_mini_protected_terminal_real_proof_v0_1.yaml
+  mini_closeout: coordination/internal_work/blueprint/operator_console/2026-10-02__oc01_mini_closeout_v0_1.md
+  full_readiness: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full_activation_readiness_v0_1.yaml
+  live_inventory: tmp/oc01_full1_live_design_freeze_inventory_2026_10_04_v0_1.yaml

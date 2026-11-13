@@ -1,0 +1,34 @@
+schema_version: forprint_blueprint_semantic_normalization_consolidated_wave_c_v1_0
+date: '2026-08-29'
+scope: forprint_system_blueprint_only
+status: local_implementation_candidate
+basis:
+  - ForPrint_Blueprint_Semantic_Cleanup_Corpus_v0_1
+  - ForPrint_Blueprint_Semantic_Normalization_Report_v1_0
+  - ForPrint_Blueprint_Semantic_Normalization_Plan_v1_0
+depends_on:
+  - blueprint_normalization_foundation_wave_a
+  - blueprint_normalization_wave_b_identity_routing
+effects:
+  - retire top-level human as a current documentation root
+  - consolidate current architecture explanation into three docs
+  - archive early current-looking machine alignment/control surfaces
+  - retire legacy Prompt Dispatch current validation
+  - preserve current Prompt Queue v0.2
+  - remove four exact approved/draft duplicate drafts
+  - make Repository Knowledge distribution copies explicitly derived
+  - expand derived Blueprint indexes for documents, legacy and derivations
+  - add semantic structure integrity to make check
+protected:
+  current_release: coordination/releases/current.yaml
+  module_identity: machine/module_identity_registry.yaml
+  module_architecture: machine/modules.yaml
+  operations_current_queue: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
+safety:
+  external_repo_writes: false
+  git_commit: false
+  git_push: false
+  git_network: false
+  current_release_change: false
+  h10_authority_change: false
+  released_prompt_rewrite: false

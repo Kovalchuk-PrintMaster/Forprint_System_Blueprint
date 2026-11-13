@@ -1,0 +1,70 @@
+work_front_id: wf-cf05-agents-history-ledger-binding-publication-repair-v0-1
+objective: Repair the missing published AGENTS.md binding required by the active Execution
+  Attempt Ledger validator by appending only the exact canonical CF-05 history-ledger
+  assistant block to the published HEAD-based AGENTS surface, while preserving the
+  unrelated broad local AGENTS worktree diff.
+scope:
+- coordination/work_fronts/cf05_agents_history_ledger_binding_publication_repair_v0_1.yaml
+- AGENTS.md
+exclusions:
+- Do not stage the complete local AGENTS.md worktree diff.
+- Do not alter the wording of the canonical CF-05 history-ledger block.
+- Do not rewrite execution-attempt records.
+- Do not modify lifecycle events or roadmap state.
+- Do not widen dispatch, retry, release, merge or foreign-write authority.
+- Do not modify unrelated bootstrap, indexes/*, machine/* or CF-10 surfaces.
+- Do not commit or push in this helper.
+- Do not use git add -A, git add ., git clean, stash, rebase or hard reset.
+provenance:
+  source_refs:
+  - scripts/validation/validate_execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - coordination/standards/automation/workfront_history_contract_v0_1.yaml
+  - coordination/work_fronts/cf10_a003_a004_attempt_history_publication_reconciliation_v0_1.yaml
+  - AGENTS.md
+  chat_is_authority: false
+dependencies:
+- Commit 52058cd is the current local HEAD and is not yet pushed.
+- Clean-checkout verification of 52058cd fails only at AGENTS_BINDING.
+- The validator requires the exact FORPRINT_CF05_HISTORY_LEDGER_START marker.
+- The exact canonical CF-05 block exists once in the local AGENTS worktree.
+- Published HEAD AGENTS.md does not yet contain the CF-05 block.
+- Main staging is empty.
+outputs:
+- Cached AGENTS.md equals published HEAD AGENTS.md plus one exact CF-05 block at EOF.
+- The broad local AGENTS.md worktree diff remains unstaged and unchanged.
+- Execution Attempt Ledger validation passes in a detached isolated candidate.
+- This Work Front is staged together with only the partial AGENTS repair.
+acceptance:
+- This Work Front validates.
+- Detached candidate starts clean before applying the two-path candidate.
+- Candidate dirty set is exactly AGENTS.md and this Work Front.
+- Execution Attempt Ledger validator passes in the detached candidate.
+- git diff --check passes in the detached candidate.
+- Cached AGENTS.md contains the canonical CF-05 block exactly once.
+- Main staging contains exactly AGENTS.md and this Work Front.
+- git diff --cached --check passes.
+stop_conditions:
+- HEAD differs from 52058cd936b714242b2c38589d1aefdb7e9e8e38.
+- Main staging is non-empty.
+- The local CF-05 block differs from the known canonical block.
+- Published HEAD AGENTS.md already contains a CF-05 marker.
+- Detached Execution Attempt Ledger validation still fails.
+- Any unrelated local AGENTS.md change would enter staging.
+- Any unrelated path would enter staging.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/work_fronts/*.yaml
+  - scripts/validation/validate_execution_attempt_ledger_v0_1.py
+  - AGENTS.md
+  disposition: EXTEND
+  target_refs:
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - AGENTS.md

@@ -1,0 +1,88 @@
+schema_version: blueprint_snapshot_comparison_automation_v0_1
+metadata:
+  automation_id: 2026-07-29__blueprint__snapshot_comparison_automation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T17:55:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: efc86e25b8cfe011108373780dc8f5e062368806
+  plan_step_id: blueprint_snapshot_comparison_automation_v0_1
+  result: READY
+implementation:
+  cli: scripts/coordination/compare_repository_knowledge_snapshots.py
+  tests: tests/test_compare_repository_knowledge_snapshots.py
+  supported_inputs:
+  - YAML
+  - JSON
+  supported_outputs:
+  - YAML
+  - JSON
+  - Markdown
+  comparison_behavior:
+  - recursive mapping comparison
+  - identity-aware list comparison
+  - explicit added, removed, changed and type_changed records
+  - previous_snapshot linkage validation
+  - no network access
+  - no source snapshot mutation
+verification:
+  unit_tests: passed
+  comparison_pairs:
+  - pair_id: blueprint_rci
+    previous: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+    changed: true
+    change_count: 116
+    change_type_counts:
+      added: 81
+      changed: 11
+      list_changed: 22
+      type_changed: 2
+    previous_snapshot_link_matches: true
+  - pair_id: blueprint_redm
+    previous: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    current: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    changed: true
+    change_count: 74
+    change_type_counts:
+      added: 51
+      changed: 5
+      removed: 14
+      type_changed: 4
+    previous_snapshot_link_matches: true
+  - pair_id: blueprint_coordination_sdrs
+    previous: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+    changed: true
+    change_count: 68
+    change_type_counts:
+      added: 31
+      changed: 6
+      removed: 29
+      type_changed: 2
+    previous_snapshot_link_matches: true
+  - pair_id: system_portfolio_sdrs
+    previous: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+    changed: true
+    change_count: 61
+    change_type_counts:
+      added: 32
+      changed: 6
+      removed: 21
+      type_changed: 2
+    previous_snapshot_link_matches: true
+  pair_count: 4
+  all_previous_links_match: true
+  all_pairs_report_changes: true
+usage:
+  command: python scripts/coordination/compare_repository_knowledge_snapshots.py --previous <previous.yaml> --current
+    <current.yaml> --format yaml --require-previous-link
+  write_behavior: The CLI writes only when --output is supplied.
+quality_checks:
+  tool_is_generic: true
+  unit_tests_passed: true
+  current_snapshot_links_verified: true
+  historical_snapshots_not_modified: true
+  network_io_not_used: true
+  cross_repository_writes_not_authorized: true
+  yaml_validated: true

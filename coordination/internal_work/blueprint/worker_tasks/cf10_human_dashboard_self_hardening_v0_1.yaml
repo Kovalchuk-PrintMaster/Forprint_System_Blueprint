@@ -1,0 +1,74 @@
+schema_version: forprint_blueprint_internal_worker_task_v0_1
+task_id: cf10-human-dashboard-self-hardening-v0-1
+revision: 0.1.0
+status: READY_FOR_CONTEXT
+module_id: forprint_system_blueprint
+source:
+  type: MANUAL_INTERNAL
+  generation_mode: MANUAL
+  created_by: operator_assistant
+  raw_chat_is_authority: false
+  automatic_generation: false
+work:
+  work_id: u180j
+  work_front_id: wf-cf10-human-dashboard-self-hardening-v0-1
+objective: Build one bounded human-readable CF-10 Worker dashboard over the existing Task50 operator projection
+  without creating a new execution, roadmap, lifecycle, or status authority.
+instructions:
+- Modify only scripts/coordination/control_plane/human_dashboard.py and tests/coordination/control_plane/test_cf10_human_dashboard_self_hardening_v0_1.py.
+- Reuse scripts/coordination/control_plane/telegram_operator.py as the machine-fact projection boundary;
+  do not create a competing ledger reader or mutable status store.
+- Render a deterministic human-readable dashboard that preserves attempt_id, attempt_stage, result_state,
+  derived state and reason from the Task50 projection.
+- 'Do not collapse terminal outcomes into one label: a human must be able to distinguish SUCCEEDED, FAILED
+  and BLOCKED while still seeing the derived runtime state.'
+- Make source provenance and non-authoritative semantics explicit. Missing or insufficient source facts
+  must remain UNKNOWN rather than being guessed.
+- Keep the default view bounded to recent attempt history; do not duplicate the entire execution ledger
+  as a new state store.
+- Do not manually write roadmap/lifecycle execution state. Any such facts may only be shown from existing
+  machine sources and clearly labelled.
+- No Telegram/network transport, credentials, daemon, service, background polling, dispatch, retry, restart,
+  approval, promotion, commit, push, merge, release or automatic ACCEPT.
+- Add focused deterministic tests for human-readable rendering, outcome visibility, UNKNOWN handling,
+  bounded history and false authority semantics.
+acceptance:
+- Only the two declared Task60 mutation targets are changed.
+- Task50 operator projection is reused rather than duplicated as another execution/status truth source.
+- Dashboard output visibly distinguishes terminal SUCCEEDED, FAILED and BLOCKED outcomes.
+- attempt_id, attempt_stage, result_state, derived state and reason remain traceable in the human projection.
+- Source/provenance and non-authoritative status are explicit; missing or stale facts remain UNKNOWN.
+- Default dashboard history is bounded rather than an unbounded ledger dump.
+- No manual double-write of roadmap or lifecycle execution state occurs.
+- Focused tests pass and git diff --check passes.
+- No lifecycle mutation, roadmap mutation, cross-module write, commit, push, merge, release or automatic
+  ACCEPT occurs.
+stop_conditions:
+- A third Task60 worker mutation path becomes necessary.
+- Implementation requires modifying Execution Attempt Ledger, telegram_operator.py, Dispatcher, launcher,
+  Handoff, lifecycle, roadmap, provider registry or Makefile.
+- A new mutable dashboard/status store or duplicated execution-state authority becomes necessary.
+- Reliable human status would require inventing facts not exposed by existing machine projections.
+- Any execution/dispatch/retry/approval authority widening is required.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+execution_profile:
+  profile_id: light-maintenance
+  revision: r1
+procedure:
+  procedure_id: governed_canonical_mutation
+  revision: 0.1.0
+workspace:
+  isolated_workspace_required: true
+  candidate_only: true
+  canonical_write_allowed: false
+authority:
+  execution_authority_source: WORK_FRONT
+  task_artifact_grants_authority: false
+  dispatch_authority: false
+  release_authority: false
+  push_authority: false
+  merge_authority: false
+  foreign_write_authority: false
+  automatic_accept: false
+  widening_requested: false

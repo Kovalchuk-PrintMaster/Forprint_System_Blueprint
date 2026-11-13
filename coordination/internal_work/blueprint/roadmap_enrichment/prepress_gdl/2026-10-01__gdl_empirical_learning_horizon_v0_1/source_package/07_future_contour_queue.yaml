@@ -1,0 +1,64 @@
+schema_version: forprint_gdl_future_contour_queue_candidate_v0_1
+status: BLUEPRINT_REVIEW_CANDIDATE
+authority:
+  registers_horizon_only: true
+  auto_executes_all_items: false
+  only_one_executable_prompt_at_a_time: true
+  every_item_requires_pre_activation_reconciliation: true
+queue:
+  - sequence: 1
+    contour_id: prepress_gdl_creator_empirical_learning_foundation_v0_1
+    title: Creator Empirical Learning Foundation
+    intended_state: NEXT_AFTER_BLUEPRINT_REVIEW
+    purpose: Establish empirical case capture and manual operator intake experimentation so later engineering is driven by real evidence.
+  - sequence: 2
+    contour_id: prepress_gdl_creator_result_package_foundation_v0_1
+    title: Creator Result Package Foundation
+    intended_state: PLANNED_REQUIRES_RECONCILIATION
+    dependencies: [creator_empirical_learning_foundation, existing_creator_handoff_foundation]
+    purpose: Establish structured, versioned, traceable Creator return packages and deterministic validation without authorizing provider execution.
+  - sequence: 3
+    contour_id: prepress_gdl_creator_evaluation_failure_taxonomy_v0_1
+    title: Creator Evaluation and Failure Taxonomy
+    intended_state: PLANNED_REQUIRES_EMPIRICAL_EVIDENCE
+    purpose: Normalize recurring strengths, weaknesses, failure modes, revision causes and outcome metrics observed across real cases.
+  - sequence: 4
+    contour_id: prepress_gdl_prompt_pattern_library_and_composer_v0_1
+    title: Prompt Pattern Library and Composer
+    intended_state: PLANNED_REQUIRES_EMPIRICAL_EVIDENCE
+    purpose: Extract reusable prompt fragments and anti-patterns from successful and failed cases and compose product/task-specific prompts from evidence rather than intuition.
+  - sequence: 5
+    contour_id: prepress_gdl_editable_output_object_layer_contract_v0_1
+    title: Editable Output / Object / Layer Contract
+    intended_state: HORIZON_REQUIRES_RECONCILIATION
+    purpose: Define which output elements should be independently editable, scalable, replaceable, raster or vector, based on observed Creator reliability and downstream operator needs.
+  - sequence: 6
+    contour_id: prepress_gdl_local_transform_decision_layer_v0_1
+    title: Local Transform Decision Layer
+    intended_state: HORIZON_REQUIRES_EMPIRICAL_EVIDENCE
+    purpose: Decide when crop, background extension, upscaling, cleanup, vectorization or layout normalization should be delegated to Creator versus local deterministic/specialized tooling.
+  - sequence: 7
+    contour_id: prepress_gdl_creator_adapter_execution_boundary_v0_1
+    title: Creator Adapter / Execution Boundary
+    intended_state: HORIZON_REQUIRES_RECONCILIATION
+    purpose: Introduce replaceable Creator adapters only after input/output contracts and empirical requirements are stable enough to avoid coupling GDL to one provider.
+  - sequence: 8
+    contour_id: prepress_gdl_human_review_revision_loop_v0_1
+    title: Human Review and Revision Loop
+    intended_state: HORIZON_REQUIRES_RECONCILIATION
+    purpose: Structure review, requested revisions, accepted revisions and approval boundaries without conflating valid, reviewable, approved and production-ready states.
+  - sequence: 9
+    contour_id: prepress_gdl_operationalization_and_manager_workflow_v0_1
+    title: Broader Manager Workflow Operationalization
+    intended_state: HORIZON_REQUIRES_EVIDENCE
+    purpose: Expand proven manual intake/playbook flows to more products and integrate them into governed operator-facing workflows.
+  - sequence: 10
+    contour_id: prepress_gdl_end_to_end_execution_candidate_v0_1
+    title: End-to-End GDL Execution Candidate
+    intended_state: FAR_HORIZON
+    purpose: Consider more autonomous end-to-end GDL execution only after empirical, contract, review and adapter layers are proven.
+ordering_policy:
+  sequence_is_default_not_unconditional: true
+  Blueprint_may_reorder_after_reconciliation: true
+  Human_Owner_may_submit_amendments: true
+  completed_prior_contours_may_change_later_scope: true

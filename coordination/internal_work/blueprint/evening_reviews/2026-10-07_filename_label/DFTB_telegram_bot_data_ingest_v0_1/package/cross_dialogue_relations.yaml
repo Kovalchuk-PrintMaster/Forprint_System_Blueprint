@@ -1,0 +1,60 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+authority_class: telegram_module_history_non_blueprint_authority
+relations:
+- type: precedes_or_overlaps
+  from_bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  to_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  confidence: LOW
+  note: Filename pattern and foundational data-ingest content suggest an early Telegram phase, but no internal date proves exact order.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  to_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  confidence: HIGH
+  note: Later Telegram source normalizes style/sentiment taxonomies and exposes stricter CSV-import compatibility concerns.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  to_bundle: DFTB-accounting-registry-source-label-2026-05-17
+  confidence: HIGH
+  note: Later Accounting history formalizes the 1C boundary, outbox/adapter model and separation from operational truth.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  to_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  confidence: HIGH
+  note: Later Gateway architecture formalizes channel-neutral validation/routing instead of direct ad hoc Telegram integration.
+item_relations:
+- type: superseded_by
+  from_item: IT-TG0710-0006
+  to_item: IT-TG1210-0005
+  confidence: HIGH
+  note: Later owner-supplied style lookup is normalized to four allowed styles.
+- type: superseded_by
+  from_item: IT-TG0710-0007
+  to_item: IT-TG1210-0006
+  confidence: HIGH
+  note: Later owner-supplied sentiment lookup is normalized to three allowed values.
+- type: constrained_by
+  from_item: IT-TG0710-0016
+  to_item: IT-ACC1705-0025
+  confidence: HIGH
+  note: Accounting/1C boundary owns accounting truth; Telegram must not become the source of it.
+- type: refined_by
+  from_item: IT-TG0710-0017
+  to_item: IT-ACC1705-0003
+  confidence: HIGH
+  note: Later Accounting architecture formalizes 1C sync through queue/outbox + adapter.
+- type: refined_by
+  from_item: IT-TG0710-0017
+  to_item: IT-GW2605-0003
+  confidence: HIGH
+  note: Gateway later owns runtime transport/validation/routing/correlation/idempotency.
+- type: constrained_by
+  from_item: IT-TG0710-0013
+  to_item: IT-LIB1605-0015
+  confidence: HIGH
+  note: Canonical definitions belong outside Telegram runtime state.
+- type: constrained_by
+  from_item: IT-TG0710-0020
+  to_item: IT-BP1407-0011
+  confidence: HIGH
+  note: Telegram remains an operational interface, not canonical truth.

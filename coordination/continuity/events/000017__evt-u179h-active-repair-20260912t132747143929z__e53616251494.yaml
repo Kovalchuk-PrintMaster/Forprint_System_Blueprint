@@ -1,0 +1,20 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u179h-active-repair-20260912t132747143929z
+event_type: WORK_ACTIVATED
+sequence: 17
+previous_event_id: evt-u179h-planned-20260911t150223964046z
+previous_event_sha256: 00d0c27fd7390e082e77a6d1a971ec6565353b278ad609c72e867df88a3ba5bd
+work_id: u179h
+occurred_at: '2026-09-12T13:27:52.736477Z'
+actor: operator_executed_repair
+summary: u179h canonical repair activated from real PLANNED state
+source_state_ref: 1c7190d1da6db3186cf0581b0ad4fd56527aa326bea6696a5dffc637d0bab4f4
+bootstrap_historical_import: false
+lifecycle:
+  from_state: PLANNED
+  to_state: ACTIVE
+  reason: Prior assistant report was not backed by canonical events/files; execute Step 12 now against verified repository
+    state.
+  remediation: false
+  prior_event_id: evt-u179h-planned-20260911t150223964046z
+  evidence: []

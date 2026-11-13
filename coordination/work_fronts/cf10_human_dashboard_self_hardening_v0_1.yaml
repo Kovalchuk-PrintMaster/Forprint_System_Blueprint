@@ -1,0 +1,82 @@
+work_front_id: wf-cf10-human-dashboard-self-hardening-v0-1
+objective: Extend the existing Task50 machine/operator projection with one bounded human-readable dashboard
+  projection while keeping all execution and planning truth in existing canonical sources.
+scope:
+- scripts/coordination/control_plane/human_dashboard.py
+- tests/coordination/control_plane/test_cf10_human_dashboard_self_hardening_v0_1.py
+exclusions:
+- Do not modify Execution Attempt Ledger implementation or history.
+- Do not modify telegram_operator.py or create a competing ledger reader.
+- Do not modify Dispatcher, worker launcher, Handoff or provider registry.
+- Do not modify lifecycle or roadmap state.
+- Do not modify Makefile in this worker task.
+- Do not create a mutable dashboard/status store.
+- Do not add Telegram/network transport, credentials or background polling.
+- Do not write another ForPrint module repository.
+- Do not commit, push, merge, release, dispatch, retry or automatically ACCEPT worker results.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - training_task:human_dashboard_self_hardening
+  - accepted_predecessor:local_dispatcher_telegram_operator_surface/commit-f755816c98caf9a28faef9a079a0cf721d8f3991
+  - acceptance_evidence:coordination/internal_work/blueprint/governance/2026-09-30__blueprint__cf10_task50_local_dispatcher_telegram_operator_surface_acceptance_v0_1.yaml
+  - attempt:cf10-u180j-a019/FINISHED/SUCCEEDED/PASS
+  - scripts/coordination/control_plane/telegram_operator.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  chat_is_authority: false
+dependencies:
+- local_dispatcher_telegram_operator_surface is operator-accepted, published at f755816c98caf9a28faef9a079a0cf721d8f3991,
+  and bound to explicit Task50 acceptance evidence.
+- cf10-u180j-a019 is terminal FINISHED/SUCCEEDED with validator PASS.
+- Task50 telegram_operator.py already provides the reusable non-authoritative machine/operator projection
+  over canonical ledger facts.
+outputs:
+- One bounded human-readable dashboard renderer under scripts/coordination/control_plane.
+- One focused deterministic test proving outcome visibility, bounded history, UNKNOWN preservation and
+  no authority widening.
+acceptance:
+- Only the two declared Task60 scope files are changed by the Worker.
+- The dashboard reuses Task50 projection facts and introduces no second execution/status authority.
+- Human output distinguishes SUCCEEDED, FAILED and BLOCKED terminal outcomes while preserving derived
+  runtime state.
+- Source/provenance and non-authoritative semantics are explicit and missing/stale facts remain UNKNOWN.
+- Default history is bounded.
+- No manual roadmap/lifecycle double-write is introduced.
+- Focused regression tests pass.
+- git diff --check passes in the isolated Worker workspace.
+- No lifecycle mutation, roadmap mutation, cross-module write, commit, push, merge, release or automatic
+  ACCEPT occurs.
+stop_conditions:
+- A path outside the two declared Task60 scope files must be modified.
+- Execution Attempt Ledger, telegram_operator.py, Dispatcher, launcher, Handoff, lifecycle, roadmap, provider
+  registry or Makefile mutation becomes necessary.
+- A new mutable dashboard/status store becomes necessary.
+- Human status would require inference beyond existing machine facts.
+- Any execution/dispatch/retry/approval authority widening is required.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/telegram_operator.py
+  read_only_refs:
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  searched_surfaces:
+  - scripts/coordination/control_plane/
+  - scripts/coordination/
+  - tests/coordination/control_plane/
+  - coordination/work_fronts/
+  rationale: 'Task50 already owns the reusable machine/operator projection over canonical ledger facts.
+    Task60 extends it with a richer human-readable dashboard instead of creating another state reader
+    or authority. The existing Task50 Telegram renderer intentionally emits only Worker N: STATE and therefore
+    does not satisfy Task60 human-dashboard semantics by itself.'

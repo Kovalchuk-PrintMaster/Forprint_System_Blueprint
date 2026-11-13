@@ -39,7 +39,7 @@ At startup, a module assistant should remember:
 ForPrint System Blueprint owns architecture and standards.
 ForPrint Library owns semantic and catalog meaning.
 Calculator Engine owns calculation outputs and drafts.
-ForPrint Operational Registry owns operational truth.
+ForPrint Operations Control Registry owns operational truth.
 ForPrint Accounting Registry Service owns accounting and 1C staging truth.
 ForPrint Integration Gateway owns transport and handoff reliability.
 CRM owns human-facing workflow views and coordination UI.
@@ -62,15 +62,27 @@ The following packages are especially important for modules that touch runtime i
 
 coordination/standards/modular_topology_and_resilience/
 coordination/standards/third_party_reuse/
-Preferred command
+Primary current startup command
+
+```text
+make module-start
+```
+
+`module-start` is the canonical prompt-driven entrypoint. It performs the
+freshness-gated startup workflow and must not mutate the Blueprint repository.
+
+Compatibility/read-only component checks may still include:
+
+```text
 make governance-check
-Fallback command sequence
-make blueprint-pull
 make blueprint-check
-make blueprint-sync-directives
 make module-policy-check
 make coordination-check
 make status-report
+```
+
+Older startup sequences are compatibility guidance only. They must not be
+interpreted as requiring module-side Blueprint mutation.
 
 If the module has make-first standards support, it should also support or gradually add:
 
@@ -121,3 +133,35 @@ start production integrations;
 overwrite module-specific coordination blocks;
 silently redesign global architecture;
 introduce third-party core dependencies without Blueprint approval.
+
+
+## Current startup command
+
+For prompt-driven work, use `make module-start`.
+
+Do not run module-side `blueprint-pull`.
+
+`module-start` freshness-checks Blueprint, synchronizes module-local snapshots,
+renders status and prompt notification, and reads the next ready prompt.
+Local validation remains network-independent.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Zero-state / pre-module commissioning entry
+
+When the target module does not yet have its own usable assistant continuity surface, start
+from a Blueprint-generated `MODULE_BOOTSTRAP_COMMISSION` package.
+
+That package is pre-module evidence/navigation. It is not `MODULE_ONBOARD`.
+
+After the repository reaches `FOUNDATION_REMOTE_CONTAINED`, the module must commission its own
+current continuity surface and prove:
+
+```text
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack TOPICS=<bounded-topic>
+```
+
+Only after `MODULE_ONBOARD`, `MODULE_CONTEXT` and cold-start recovery are verified should the
+module be considered `SELF_ONBOARD_VERIFIED`.
+<!-- module-bootstrap-commission-v0-1:end -->

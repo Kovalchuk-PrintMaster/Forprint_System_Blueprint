@@ -1,0 +1,75 @@
+schema_version: blueprint_coordination_rollout_acceptance_v0_1
+metadata:
+  decision_id: blueprint_h9_logistics_reference_rollout_accept_2026_08_22_v0_1
+  owner: forprint_system_blueprint
+  created_at: '2026-08-22T15:36:00+03:00'
+  status: accepted
+  immutable_after_commit: true
+
+scope:
+  release: v0.4.1
+  task_id: H9
+  title: Logistics reference rollout packaging
+  task_class: coordination_platform_rollout
+  module_id: logistics_service
+
+operator_decision:
+  decision: ACCEPT
+  explicit_operator_input: true
+  confirmation_token: ACCEPT_H9_LOGISTICS_REFERENCE_ROLLOUT
+  automatic_acceptance: false
+
+blueprint_authority:
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  head_before_acceptance: 2856d0fca0fe966a236cfa3101d0b49a4d43f79c
+  current_release_path: coordination/releases/current.yaml
+  current_release_sha256: 65eda6be4e4e072e12e9c3098fe701c7ece1707a4108c3ea8ffaff2a501188b8
+
+subject:
+  repository: forprint_logistics_service
+  branch: feature/logistics-tracking-events-contract-v01
+  implementation_commit: 4a3a8cf3d2809c3a7f49268fa62334ed24b5fa90
+  publication_seal_commit: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+  publication_seal_parent_is_implementation: true
+  remote_containment_verified: true
+  head_equals_upstream: true
+  divergence_ahead: 0
+  divergence_behind: 0
+  worktree_clean: true
+
+acceptance_evidence:
+  read_only_review_result: H9_LOGISTICS_ZERO_FINDING_READ_ONLY_ACCEPTANCE_REVIEW_PASS_READY_FOR_EXPLICIT_ACCEPT_DECISION
+  semantic_scope_review: pass
+  focused_h9_tests:
+    tests: 25
+    failures: 0
+    errors: 0
+    skipped: 0
+  module_quality_gates: pass
+  blueprint_freshness: CURRENT
+  no_ready_prompt: true
+  ready_count: 0
+  wip_state: WIP_OK
+  unresolved_count: 0
+  domain_runtime_changes: false
+  blueprint_repository_write_during_module_execution: false
+  business_prompt_claim_created: false
+  operator_decision_created_by_module: false
+
+decision_effect:
+  h9_status: accepted_by_blueprint
+  h9_module_side_work_closed: true
+  h9_publication_seal_accepted: true
+  logistics_business_prompt_released: false
+  logistics_business_prompt_claimed: false
+  b1_activated: false
+  b2_activated: false
+  q_track_activated: false
+  h10_activated: false
+  current_release_projection_mutated: false
+
+next_action:
+  action: activate_or_integrate_B1_as_a_separate_Blueprint_owned_transaction
+  target_id: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  do_not_mutate_logistics_h9_history: true
+  do_not_release_logistics_business_prompt_in_this_acceptance: true

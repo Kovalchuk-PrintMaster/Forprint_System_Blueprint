@@ -1,0 +1,30 @@
+schema_version: blueprint_self_completion_packet_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  prompt_id: blueprint_repository_knowledge_freshness_review_v0_1
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_head: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  implementation_ref: same_commit_as_packet
+  completed_at: '2026-07-30T15:25:00+03:00'
+ownership:
+  implementer: blueprint_coordination_assistant
+  reviewer: project_owner
+  acceptance_authority: project_owner
+outputs:
+- scripts/coordination/assess_repository_knowledge_freshness.py
+- tests/test_assess_repository_knowledge_freshness.py
+- scripts/coordination/render_repository_knowledge_freshness_status.py
+- tests/test_render_repository_knowledge_freshness_status.py
+- reports/repository_knowledge_freshness_report.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__repository_knowledge_freshness_review_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__repository_knowledge_freshness_review_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+- coordination/self_coordination/roadmap.yaml
+- coordination/self_coordination/prompt_queue/index.yaml
+verification:
+  freshness_review: GREEN
+  snapshot_count: 4
+  failed_snapshot_count: 0
+  release_decision: PROCEED_WITH_BOUNDED_REFRESH
+  external_rollout_state: gated
+result: ACCEPTED

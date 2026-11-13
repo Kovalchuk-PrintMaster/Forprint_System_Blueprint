@@ -1,0 +1,406 @@
+schema_version: blueprint_artifact_authority_retention_map_v0_1
+metadata:
+  map_id: 2026-07-29__blueprint__artifact_authority_retention_map_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T17:05:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: f71591ac37fb1da7679c2e9ceaf98fa7f2851e79
+  plan_step_id: blueprint_artifact_authority_map_v0_1
+  result: READY_WITH_CLASSIFICATION_GAPS
+scope:
+  tracked_files: 709
+  classification_basis: Git path and established Blueprint workflow semantics; classification does not invent file-level
+    purpose.
+  source_evidence:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  excluded:
+  - untracked local files
+  - ignored runtime content
+  - external module repository contents
+  - production storage
+authority_order:
+- canonical machine contracts and registries
+- governance and policy
+- roadmaps and prompt queue indexes
+- approved prompt and accepted review evidence
+- dated immutable snapshots
+- automation source and tests
+- authored documentation
+- generated views
+- operator input and temporary runtime artifacts
+global_rules:
+- rule_id: generated_is_not_authority
+  rule: Generated reports, diagrams and guides are not canonical unless a tracked policy explicitly declares them
+    authoritative.
+- rule_id: history_is_immutable
+  rule: Dated snapshots and accepted review evidence are never silently overwritten.
+- rule_id: runtime_is_not_unique_evidence
+  rule: tmp and operator-input locations must not hold the only copy of a decision.
+- rule_id: deletion_requires_dependency_review
+  rule: Tracked artifacts are not deleted until consumers, references and recovery are verified.
+- rule_id: cross_repository_write_forbidden
+  rule: This inventory map authorizes no writes to external module repositories.
+artifact_classes:
+- class_id: canonical_machine_contracts
+  tracked_count: 25
+  sample_paths:
+  - machine/calculator_alignment_review.yaml
+  - machine/contracts.yaml
+  - machine/crm_alignment_review.yaml
+  - machine/data_flows.yaml
+  - machine/data_objects.yaml
+  - machine/domains.yaml
+  - machine/forprint_execution_queue.yaml
+  - machine/future_channel_readiness.yaml
+  - machine/impact_rules.yaml
+  - machine/integration_gateway_v0_2_review.yaml
+  - machine/library_alignment_review.yaml
+  - machine/module_alignment_execution_plan.yaml
+  authority: Tracked machine-readable architecture and contract sources.
+  mutability: Reviewed source-of-truth edits only.
+  retention: Permanent while the contract or architecture line remains supported.
+  replacement_rule: Supersede through versioned migration; do not silently overwrite history.
+  deletion_rule: Delete only through an accepted deprecation or migration decision.
+- class_id: governance_and_policy
+  tracked_count: 71
+  sample_paths:
+  - coordination/global_policy/README.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/ecosystem_module_map.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/global_policy/forprint_strategic_control_plane_policy.md
+  - coordination/module_policy/README.md
+  - coordination/module_policy/calculator_engine/development_focus.md
+  - coordination/module_policy/calculator_engine/module_goals.md
+  - coordination/module_policy/calculator_engine/module_policy.md
+  - coordination/module_policy/calculator_engine/role_boundaries.md
+  - coordination/module_policy/cloud_backup_manager/module_policy.md
+  - coordination/module_policy/forprint_accounting_registry_service/module_policy.md
+  authority: Tracked governance and policy documents.
+  mutability: Reviewed policy changes with explicit rationale.
+  retention: Permanent; superseded policy must remain discoverable through Git history or dated evidence.
+  replacement_rule: Update canonical policy and record scope/date of change.
+  deletion_rule: Only after replacement is authoritative and references are reconciled.
+- class_id: registries_and_source_indexes
+  tracked_count: 13
+  sample_paths:
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/module_sources/README.md
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/README.md
+  - coordination/modules/_shared/templates/external_input.template.yaml
+  - coordination/modules/_shared/templates/workflow_definition.template.md
+  - coordination/modules/forprint_system_blueprint/README.md
+  - coordination/modules/forprint_system_blueprint/external_input/README.md
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  - coordination/modules/forprint_system_blueprint/workflows/definitions/blueprint_self_audit.md
+  - coordination/modules/forprint_system_blueprint/workflows/definitions/external_analysis_handoff.md
+  - coordination/modules/forprint_system_blueprint/workflows/workflow_index.yaml
+  authority: Tracked canonical registries and module/source indexes.
+  mutability: Reviewed exact-source changes; generated views must not become authority.
+  retention: Permanent current registry plus Git history.
+  replacement_rule: Reconcile IDs, aliases, repository paths and lifecycle values before mutation.
+  deletion_rule: Remove entries only after lifecycle closure and dependency review.
+- class_id: module_roadmaps
+  tracked_count: 4
+  sample_paths:
+  - coordination/roadmaps/forprint_library.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  - coordination/roadmaps/website.yaml
+  authority: Tracked module roadmap file.
+  mutability: Coordination-controlled; one current step and 8-10 actionable steps ahead.
+  retention: Permanent current roadmap plus Git history.
+  replacement_rule: Update after acceptance or scope change; preserve evidence links.
+  deletion_rule: Do not delete while module is active or referenced by prompt/review evidence.
+- class_id: prompt_queue_and_prompt_artifacts
+  tracked_count: 114
+  sample_paths:
+  - coordination/outgoing_prompts/accounting_registry_service/.gitkeep
+  - coordination/outgoing_prompts/accounting_registry_service/approved/.gitkeep
+  - coordination/outgoing_prompts/accounting_registry_service/approved/2026-05-28-accounting-registry-boundary-correction.md
+  - coordination/outgoing_prompts/accounting_registry_service/drafts/.gitkeep
+  - coordination/outgoing_prompts/accounting_registry_service/drafts/2026-05-22-align-accounting-registry-with-blueprint.md
+  - coordination/outgoing_prompts/accounting_registry_service/sent/.gitkeep
+  - coordination/outgoing_prompts/calculator_engine/.gitkeep
+  - coordination/outgoing_prompts/calculator_engine/approved/.gitkeep
+  - coordination/outgoing_prompts/calculator_engine/approved/2026-05-22-align-calculator-engine-with-blueprint.md
+  - coordination/outgoing_prompts/calculator_engine/drafts/.gitkeep
+  - coordination/outgoing_prompts/calculator_engine/drafts/2026-05-22-align-calculator-engine-with-blueprint.md
+  - coordination/outgoing_prompts/calculator_engine/index.yaml
+  authority: Queue index governs status; approved prompt file governs issued work content.
+  mutability: Status transitions through coordination workflow; approved content is immutable after issue except correction
+    workflow.
+  retention: Approved, accepted and processed prompts retained permanently; drafts retained until superseded or cancelled.
+  replacement_rule: Create a new version or explicit superseding record.
+  deletion_rule: Draft-only artifacts may be removed after supersession; accepted evidence must not be deleted.
+- class_id: accepted_and_review_evidence
+  tracked_count: 81
+  sample_paths:
+  - coordination/reports/completion/2026-07-03__blueprint__coordination_foundation_standards_summary_v0_1.md
+  - coordination/reports/completion/2026-07-06__blueprint__coordination_foundation_tooling_summary_v0_1.md
+  - coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/reports/completion/2026-07-14__blueprint__compact_check_reporting_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__shared_dashboard_renderer_v0_1.md
+  - coordination/reports/completion/2026-07-16__blueprint__module_governance_terminal_artifact_split_v0_1.md
+  - coordination/reports/completion/2026-07-16__blueprint__module_roadmap_renderer_cleanup_v0_1.md
+  - coordination/reports/completion/2026-07-16__blueprint__reporting_consolidation_closeout_v0_1.md
+  - coordination/reports/completion/2026-07-16__blueprint__resolve_next_prompt_result_table_v0_1.md
+  authority: Processed review packet or canonical completion evidence.
+  mutability: Immutable after acceptance; corrections require a new evidence record.
+  retention: Permanent for accepted decisions; rejected previews retained when they establish a blocker.
+  replacement_rule: Append corrected or superseding evidence without rewriting the old decision.
+  deletion_rule: No deletion without governance-approved retention exception.
+- class_id: immutable_historical_snapshots
+  tracked_count: 16
+  sample_paths:
+  - coordination/repository_knowledge/README.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+  - coordination/repository_knowledge/templates/blueprint_snapshot_assignment_v0_2.md
+  - coordination/repository_knowledge/templates/historical_snapshot_review_assignment_v0_1.md
+  authority: Dated repository-knowledge or history snapshot at its recorded commit.
+  mutability: Immutable.
+  retention: Permanent.
+  replacement_rule: Create a new dated snapshot and link to the prior snapshot.
+  deletion_rule: Forbidden during normal maintenance.
+- class_id: internal_audit_and_working_evidence
+  tracked_count: 5
+  sample_paths:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  authority: Audit evidence only; not a replacement for canonical source registries or policies.
+  mutability: Append or supersede through a new dated artifact.
+  retention: Retain through inventory acceptance; keep decision-bearing reports permanently, archive expendable working
+    notes.
+  replacement_rule: Promote confirmed decisions into canonical sources in a separate reviewed commit.
+  deletion_rule: Delete only non-decision working material after acceptance and retention review.
+- class_id: generated_rebuildable_views
+  tracked_count: 34
+  sample_paths:
+  - diagrams/README.md
+  - diagrams/data_flow.mmd
+  - diagrams/index.yaml
+  - diagrams/module_graph.mmd
+  - diagrams/ownership_map.mmd
+  - diagrams/project_landscape.mmd
+  - diagrams/system_detail_map.mmd
+  - module_guides/accounting_registry_service.md
+  - module_guides/calculator_engine.md
+  - module_guides/cloud_backup_manager.md
+  - module_guides/forprint_crm.md
+  - module_guides/forprint_integration_gateway.md
+  authority: Generator inputs and scripts, not the rendered view unless explicitly declared otherwise.
+  mutability: Regenerate; do not hand-edit.
+  retention: Keep current tracked view when required for operations; older rebuildable views may be removed after
+    replacement.
+  replacement_rule: Regenerate from canonical inputs and verify drift.
+  deletion_rule: Allowed only when reproducibility and consumer impact are verified.
+- class_id: automation_and_validation
+  tracked_count: 124
+  sample_paths:
+  - Makefile
+  - scripts/__init__.py
+  - scripts/audit_module_governance.py
+  - scripts/blueprint_utils.py
+  - scripts/check_coordination_metadata.py
+  - scripts/collect_module_coordination.py
+  - scripts/coordination/__init__.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/modules/__init__.py
+  authority: Tracked executable source and tests.
+  mutability: Reviewed code changes with test evidence.
+  retention: Permanent while workflow is supported; Git history preserves prior behavior.
+  replacement_rule: Change implementation and tests together where behavior changes.
+  deletion_rule: Only after entrypoints and documentation are reconciled.
+- class_id: authored_documentation
+  tracked_count: 33
+  sample_paths:
+  - docs/architecture/blueprint_check_reporting_architecture.md
+  - docs/architecture/blueprint_coordination_result_tables_architecture.md
+  - docs/architecture/blueprint_document_awareness_shared_renderer_architecture.md
+  - docs/architecture/blueprint_internal_workflow_foundation_architecture.md
+  - docs/architecture/blueprint_module_governance_terminal_artifact_split.md
+  - docs/architecture/blueprint_module_roadmap_renderer_cleanup_architecture.md
+  - docs/architecture/blueprint_reporting_consolidation_closeout.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/architecture/blueprint_repository_knowledge_snapshot_architecture.md
+  - docs/architecture/blueprint_resolve_next_prompt_result_table_architecture.md
+  - docs/architecture/blueprint_shared_dashboard_renderer_architecture.md
+  - docs/operations/blueprint_check_reporting_recovery.md
+  authority: Tracked authored document, subject to higher-order machine/policy sources.
+  mutability: Reviewed edits.
+  retention: Current version plus Git history; dated decision documents retained permanently.
+  replacement_rule: Update references and preserve supersession context.
+  deletion_rule: Only after consumers and links are reconciled.
+- class_id: authored_contracts
+  tracked_count: 0
+  sample_paths: []
+  authority: Tracked contract source.
+  mutability: Versioned, reviewed contract changes only.
+  retention: Permanent for released or consumed versions.
+  replacement_rule: Introduce a new version or explicit compatibility migration.
+  deletion_rule: Forbidden while any consumer depends on the version.
+- class_id: operator_input_runtime
+  tracked_count: 3
+  sample_paths:
+  - operator_input/README.md
+  - operator_input/forprint_system_blueprint/.gitignore
+  - operator_input/forprint_system_blueprint/README.md
+  authority: External operator response for one workflow request only.
+  mutability: Request-scoped input; validated before consumption.
+  retention: Retain through workflow completion and audit window, then archive or remove under policy.
+  replacement_rule: Submit a new validated response; do not mutate consumed evidence silently.
+  deletion_rule: Allowed only after workflow evidence is retained elsewhere.
+- class_id: temporary_runtime
+  tracked_count: 0
+  sample_paths: []
+  authority: Never authoritative.
+  mutability: Ephemeral.
+  retention: Delete after successful workflow completion or recovery window.
+  replacement_rule: Regenerate from tracked canonical inputs.
+  deletion_rule: Expected after completion; must not contain unique decision evidence.
+- class_id: repository_ci_configuration
+  tracked_count: 0
+  sample_paths: []
+  authority: Tracked CI configuration.
+  mutability: Reviewed changes with local validation where possible.
+  retention: Permanent while CI workflow is supported.
+  replacement_rule: Update alongside validation documentation.
+  deletion_rule: Only after workflow removal is accepted.
+- class_id: other_authored_markdown
+  tracked_count: 72
+  sample_paths:
+  - README.md
+  - adr/0001-create-system-blueprint-layer.md
+  - adr/0002-separate-project-inspector-from-blueprint.md
+  - adr/0003-define-crm-as-business-orchestration-layer.md
+  - adr/0004-create-integration-gateway-layer.md
+  - adr/0005-lint-policy-and-project-landscape.md
+  - adr/0006-module-manifest-standard.md
+  - adr/0007-project-alignment-layer.md
+  - adr/0008-human-readable-check-report.md
+  - adr/0009-system-detail-map.md
+  - adr/0010-prompt-dispatch-index.md
+  - adr/0011-alignment-report-intake-standard.md
+  authority: Tracked authored content, classification pending.
+  mutability: Reviewed edits.
+  retention: Retain until semantic inventory assigns a stronger class.
+  replacement_rule: Do not infer generated status without evidence.
+  deletion_rule: No deletion before semantic classification.
+- class_id: other_structured_metadata
+  tracked_count: 31
+  sample_paths:
+  - BLUEPRINT_VERSION.yaml
+  - coordination/checkup/ecosystem_checkup_policy.yaml
+  - coordination/checkup/module_activity_thresholds.yaml
+  - coordination/directives/global/index.yaml
+  - coordination/directives/modules/calculator_engine/index.yaml
+  - coordination/index.yaml
+  - coordination/instruction_intake/default_profile_traits.yaml
+  - coordination/instruction_intake/instruction_sources.yaml
+  - coordination/reports/index.yaml
+  - coordination/risk_registers/website.yaml
+  - coordination/templates/blueprint_completion_review_packet.template.yaml
+  - coordination/templates/config/adapters.template.yaml
+  authority: Unknown until semantic inventory confirms producer and consumer.
+  mutability: Reviewed edits only.
+  retention: Retain until classified.
+  replacement_rule: Do not promote to canonical authority by inference.
+  deletion_rule: No deletion before dependency and ownership verification.
+- class_id: other_python_source
+  tracked_count: 9
+  sample_paths:
+  - tools/__init__.py
+  - tools/completion_packet_template/apply_completion_packet.py
+  - tools/completion_packet_template/validate_completion_packet.py
+  - tools/forprint_coordination_tools/metadata.py
+  - tools/module_coordination_template/apply_prompt_completion_report.py
+  - tools/module_coordination_template/validate_prompt_completion_report.py
+  - tools/module_standards_template/check_blueprint_standards.py
+  - tools/module_standards_template/read_blueprint_standards.py
+  - tools/module_standards_template/sync_blueprint_standards_snapshot.py
+  authority: Tracked executable source, classification pending.
+  mutability: Reviewed code changes.
+  retention: Retain while referenced or until semantic inventory proves obsolescence.
+  replacement_rule: Update tests and entrypoints where applicable.
+  deletion_rule: No deletion before dependency verification.
+- class_id: unclassified_tracked
+  tracked_count: 74
+  sample_paths:
+  - .gitignore
+  - coordination/incoming_requests/accounting_registry_service/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/archived/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/new/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/reviewed/.gitkeep
+  - coordination/incoming_requests/calculator_engine/.gitkeep
+  - coordination/incoming_requests/calculator_engine/archived/.gitkeep
+  - coordination/incoming_requests/calculator_engine/new/.gitkeep
+  - coordination/incoming_requests/calculator_engine/reviewed/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/archived/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/new/.gitkeep
+  authority: Unknown.
+  mutability: No mutation based on classification inference.
+  retention: Retain until semantic inventory assigns purpose, owner and dependency role.
+  replacement_rule: None until classified.
+  deletion_rule: Forbidden before verification.
+summary:
+  tracked_files: 709
+  class_count: 19
+  nonempty_classes: 16
+  generated_rebuildable_tracked: 34
+  runtime_tracked: 3
+  classification_pending: 186
+  finding_count: 3
+findings:
+- finding_id: tracked_runtime_artifacts_present
+  severity: high
+  description: Tracked files exist under operator_input or tmp runtime classes.
+  tracked_count: 3
+  required_action: Verify each file is deliberate durable evidence; otherwise move authority to tracked evidence and
+    stop tracking runtime state.
+- finding_id: tracked_generated_views_require_generator_authority
+  severity: medium
+  description: Tracked generated or rebuildable views exist and need explicit generator/source ownership.
+  tracked_count: 34
+  required_action: Verify generators, source inputs, drift checks and consumer requirements.
+- finding_id: semantic_classification_pending
+  severity: medium
+  description: Some tracked files remain only broadly classified and require purpose/owner/dependency verification.
+  tracked_count: 186
+  required_action: Prioritize these classes in semantic inventory waves.
+next_actions:
+- Use semantic inventory wave 1 to verify high-value pending classes.
+- Map generator inputs and drift checks for tracked generated views.
+- Confirm tracked runtime-like files are deliberate durable evidence.
+- Promote confirmed authority decisions into canonical policy in a separate reviewed step.
+quality_checks:
+  git_inventory_used: true
+  every_tracked_file_classified_once: true
+  authority_and_retention_defined_for_each_class: true
+  generated_views_not_promoted_to_authority: true
+  historical_snapshots_marked_immutable: true
+  runtime_artifacts_marked_non_authoritative: true
+  cross_repository_writes_not_authorized: true
+  unknowns_preserved: true
+  yaml_validated: true

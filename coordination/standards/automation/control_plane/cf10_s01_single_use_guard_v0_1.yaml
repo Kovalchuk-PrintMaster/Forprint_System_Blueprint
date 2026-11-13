@@ -1,0 +1,32 @@
+schema_version: cf10_s01_single_use_guard_contract_v0_1
+owner: forprint_system_blueprint
+status: FIXTURE_ONLY_CANDIDATE_NON_AUTHORIZING
+source_base_commit: 60c3152504e4cc2919c662061c8341d1de6bdf02
+purpose: demonstrate_atomic_no_replay_claim_without_enabling_live_worker
+execution_boundary:
+  installed_cli_supports: [inspect, launch-preflight]
+  launch_preflight_always_returns: 2
+  active_make_quarantine_preserved: true
+  production_claim_storage_used: false
+  canonical_ledger_write_performed: false
+  worker_launch_performed: false
+  commit_or_push_performed: false
+fixture_claim:
+  directory: existing_owner_only_non_symlink_tmp_directory
+  marker: single_use_claim_v0_1.json
+  create: O_CREAT_O_EXCL_O_NOFOLLOW
+  permission: '0600'
+  durability: fsync_file_and_parent_directory
+  state: CONSUMED_TEST_FIXTURE_ONLY
+  after_crash: permanently_consume_and_block_automatic_retry
+  concurrency: one_success_eight_competing_process_fixture
+required_future_live_integration:
+  - independently_reviewed_root_owned_state_store_with_dac_acl_mount_validation
+  - independently_attested_writer_coverage_and_signatures
+  - reverify_v02_receipt_and_eight_evidence_files_with_current_approved_head
+  - atomic_claim_bound_to_exact_signed_receipt_worker_task_attempt
+  - enforce_claim_and_worker_spawn_within_one_operator_controlled_corridor
+  - prevent_parallel_workers_and_replay_across_restarts_and_direct_launches
+  - evidence_of_process_start_or_failure_and_no_automatic_retry_after_ambiguity
+  - explicit_independent_operator_release_and_one_worker_pilot_acceptance
+next_boundary: LIVE_CORRIDOR_DESIGN_AND_INDEPENDENT_RUNTIME_COVERAGE_REVIEW

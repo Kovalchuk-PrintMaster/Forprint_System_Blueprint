@@ -6,15 +6,15 @@ BLUEPRINT_DIR
 
 .PHONY: blueprint-standards-list
 blueprint-standards-list:
-	$(MAKE) blueprint-pull
+	$(MAKE) blueprint-check
 	$(PYTHON) scripts/read_blueprint_standards.py --blueprint-dir "$(BLUEPRINT_DIR)" --list
 
 .PHONY: blueprint-standards-check
 blueprint-standards-check:
-	$(MAKE) blueprint-pull
+	$(MAKE) blueprint-check
 	$(PYTHON) scripts/check_blueprint_standards.py --blueprint-dir "$(BLUEPRINT_DIR)" --module-root .
 
 .PHONY: blueprint-standards-sync
 blueprint-standards-sync:
-	$(MAKE) blueprint-pull
+	$(MAKE) blueprint-check
 	$(PYTHON) scripts/sync_blueprint_standards_snapshot.py --blueprint-dir "$(BLUEPRINT_DIR)" --module-root .

@@ -31,7 +31,7 @@ def test_module_policy_index_has_required_local_modules() -> None:
         "forprint_crm",
         "forprint_integration_gateway",
         "forprint_library",
-        "forprint_operational_registry",
+        "forprint_operations_control_registry",
         "forprint_prepress_hub",
         "forprint_strategic_control_plane",
         "telegram_bot",

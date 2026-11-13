@@ -122,7 +122,7 @@ next ready/planned steps
 blocked/deferred high-priority items
 ## Planning horizon rule
 
-For every module under active development, the canonical roadmap should normally show **8–10 actionable steps after the current ready or active step**.
+For every module under active development, the canonical roadmap should normally keep **at least 5 meaningful future actionable parent steps**, target **8**, and impose **no maximum**. Larger horizons such as 15, 25, or 50 steps are valid when concrete, dependency-aware and useful; do not pad the roadmap with speculative work.
 
 The horizon is a planning map, not an immutable contract. Steps may be split, merged, reordered, blocked, deferred or superseded as evidence changes, but the roadmap must continue to show a credible path forward.
 
@@ -304,3 +304,140 @@ When both exist:
 
 Prompt Queue answers: what prompt should I execute next?
 Roadmap answers: where am I in the broader plan?
+
+## Hierarchical task detail (`substeps[]`) — v0.4.1 hardening
+
+Roadmap steps remain the atomic Blueprint prompt/review/ACCEPT unit. A roadmap
+step may optionally contain `substeps[]` when the parent title alone is not
+sufficient to preserve implementation depth and history.
+
+Rules:
+
+- Existing roadmaps without `substeps[]` remain valid.
+- Every substep has a stable `substep_id`, `title`, `status`, and optional
+  `blocking` boolean (`true` by default).
+- `substep_id` values are unique inside the roadmap document.
+- Substep statuses use the roadmap's canonical status vocabulary.
+- A parent claiming completion (`completed` or `accepted`) is invalid while a
+  blocking substep remains unfinished.
+- `cancelled` and `superseded` may close a parent with unfinished blocking
+  substeps because those states do not claim implementation completion.
+- Non-blocking substeps may remain unfinished after parent ACCEPT.
+- Substeps describe internal scope/history of one atomic roadmap task.
+- Normal new coordination should prefer one executable prompt bound to one
+  parent `step_id`; acceptance criteria/evidence may bind to `substep_id`.
+- Historical multi-step prompt bindings remain readable for compatibility.
+- `roadmap-dashboard` remains compact/default.
+- `make roadmap-detail MODULE=<module>` expands substeps.
+
+This hardening does not rewrite existing roadmap data and does not advance any
+roadmap or prompt queue.
+
+## Acceptance oracle — v0.4.1 hardening
+
+New roadmap work may opt into an explicit acceptance oracle:
+
+```yaml
+acceptance:
+  oracle_required: true
+  oracle_path: coordination/acceptance_oracles/<module>/<oracle>.yaml
+  oracle_sha256: <lowercase_sha256>
+```
+
+Absence of `acceptance` remains valid for historical/legacy steps and does not
+retroactively reinterpret sealed v0.4 decisions.
+
+The canonical schema is `blueprint_acceptance_oracle_v0_1`. An oracle does not
+create another requirements system. Every criterion MUST reference one or more
+existing `IMP-*`, `VER-*`, or `CE-*` obligation IDs from one exact immutable
+`module_prompt_contract_v0_4` instance bound by repository path and SHA-256.
+
+Each criterion records stable `criterion_id`, parent `step_id`, optional
+`substep_id`, `requirement_refs`, summary, `blocking`, verification kind,
+exact verification locator, expected observation, and required evidence refs.
+
+For `ACCEPT` on an oracle-required step, the review request must carry an
+`acceptance_oracle_evaluation` bound to the same oracle path and SHA-256.
+Every criterion has exactly one result: `PASS`, `FAIL`, or `NOT_EVALUATED`.
+
+A blocking criterion authorizes ACCEPT only when it is `PASS` and every
+declared required evidence reference is present. Otherwise ACCEPT is blocked
+unless the same explicit operator request carries a criterion-specific waiver
+with `explicit_operator_authorization: true` and a non-empty reason. Waivers
+are copied into immutable Blueprint review evidence.
+
+RETURN and HOLD do not require a passing oracle because they do not claim
+acceptance. Oracle PASS never creates ACCEPT automatically. The gate is
+evaluated before any roadmap, queue, prompt-file, or review-evidence mutation.
+
+
+For oracle-gated ACCEPT, the evaluation MUST bind the exact review candidate
+through `event_sha256`, `packet_sha256`, and
+`discovery_fingerprint_sha256`. Blueprint stores those hashes with a canonical
+SHA-256 fingerprint of the exact operator-supplied oracle evaluation in the
+immutable decision evidence. Reapplying the same `decision_id` is idempotent
+only when the candidate hashes and oracle-evaluation fingerprint are identical;
+changed observed evidence, criterion results, evidence refs, waiver contents,
+or candidate hashes fail safely as a conflicting decision identity.
+
+The bound Prompt Contract MUST pass the canonical
+`validate_prompt_contract_v0_4.validate_contract()` validator before any oracle
+criterion may reference its obligation IDs. The oracle does not maintain a
+parallel reduced Prompt Contract validator.
+
+
+Acceptance evidence is grounded in the exact module-owned completion packet.
+`evidence_required` and evaluation `evidence_refs` are stable `evidence_id`
+values from that packet's `evidence_manifest`, not free-form labels. Before
+ACCEPT, Blueprint verifies the candidate `packet_path` and `packet_sha256`,
+reuses `validate_completion_packet_v0_4.validate_packet()`, rejects evidence
+refs absent from the manifest, and requires each criterion `requirement_ref`
+to be represented by at least one cited evidence ID that the validated packet
+itself binds to that obligation. A waiver may bypass an unsatisfied blocking
+criterion, but it cannot make an unknown/fabricated evidence reference valid.
+
+<!-- FORPRINT_U92_CANONICAL_MODULE_MATURITY_SEQUENCE_20260903:START -->
+## Canonical module maturity / production-entry sequence
+
+Every new or materially reworked module should be able to locate itself on this sequence:
+
+- **M0** portfolio justification / module-value test
+- **M1** governance, ownership, Human Intent and roadmap
+- **M2** development baseline and repository cleanliness/current-state evidence
+- **M3** capability implementation
+- **M4** verification readiness / Test Plane contract
+- **M5** adversarial and resilience verification
+- **M6** release candidate with reproducible artifact/provenance/rollback
+- **M7** staging, shadow and/or canary
+- **M8** production
+- **M9** managed self-evolution through the same DEV→VERIFY→RELEASE path
+
+Advancing maturity is not equivalent to assistant distribution. Portfolio, dependency and operator
+gates remain independently authoritative.
+<!-- FORPRINT_U92_CANONICAL_MODULE_MATURITY_SEQUENCE_20260903:END -->
+
+## Post-inventory roadmap reconciliation gate
+
+After module forensic inventory/consolidation and before normal roadmap development, Blueprint
+must reconcile actual implementation evidence, module inventory/lineage/document authority and
+the canonical module roadmap.
+
+Minimum cases:
+
+- **capability exists but roadmap omits it** → verify current/intentional status and enrich the
+  roadmap or register a future capability candidate;
+- **roadmap plans capability already implemented** → verify behavior/evidence and project the
+  real state instead of rebuilding from scratch;
+- **roadmap contradicts implementation or lineage** → reconcile before dependent development;
+- **Blueprint assigns a new responsibility** → bind existing implementation evidence or create
+  an explicit roadmap obligation/gap;
+- **legacy provenance cannot be proven** → retain `UNKNOWN_LEGACY`.
+
+The reconciliation output must bind exact source paths/hashes and identify whether canonical
+roadmap apply remains pending.
+
+Automated discovery may produce candidates, but semantic ambiguity must go to review rather
+than auto-edit roadmap intent.
+
+Roadmap reconciliation does not grant prompt release, worker activation, `ACCEPT`, or
+next-prompt release.

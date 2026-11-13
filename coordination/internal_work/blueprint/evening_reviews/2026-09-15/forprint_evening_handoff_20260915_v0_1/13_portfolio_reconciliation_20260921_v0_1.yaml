@@ -1,0 +1,143 @@
+schema_version: forprint_evening_handoff_20260915_portfolio_reconciliation_v0_1
+source_date: '2026-09-15'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 60c48a1ad38fb9b8129858273f7ea687c0c32b3495ac3767e23f0413a6a94556
+source_authority: CONVERSATIONAL_AGREEMENTS_PENDING_CANONICAL_RECONCILIATION
+reconciliation_authority: ROADMAP_ENRICHMENT_EVIDENCE_NOT_EXECUTION_AUTHORITY
+summary: This 2026-09-15 evening/travel/weekend handoff is distinct from the separately ingested transition-to-autonomous-workers
+  package. Most runtime/verification/worker concepts are now materialized in the Control Foundation. The main unique
+  design seed retained here is the small local Dispatcher Telegram bot/watchdog surface, explicitly separate from
+  the full customer-facing Telegram module.
+topic_reconciliation:
+- topic: evening_travel_weekend_handoff_and_morning_intake
+  disposition: REUSE_EXTEND_CURRENT_BOOTSTRAP_HANDOFF_CONTINUITY_SURFACES
+  source_rule: Away-from-computer discussion produces a non-executable package. Morning intake audits, classifies,
+    reconciles conflicts, maps items to roadmap/policy and executes only due work.
+  current_direction:
+  - assistant bootstrap/front-door surfaces
+  - Handoff v2 PROJECT_ONBOARD and TASK_EXECUTION modes
+  - continuity/current-handoff surfaces
+  - roadmap enrichment source intake and reconciliation workflow
+  remaining_gap: A single canonical named evening/travel/weekend package protocol was not proven by this source
+    review; preserve the source rule and reconcile before inventing another protocol.
+- topic: bootstrap_strengthening_and_two_package_modes
+  disposition: MATERIALIZED_REUSE
+  current:
+  - CF-08 assistant_handoff_compiler_v2
+  - PROJECT_ONBOARD mode
+  - TASK_EXECUTION mode
+  - freshness/resume context direction
+  source_contribution: Mandatory startup context, unresolved-question visibility, conflict rule, provenance and
+    human-readable operator status.
+- topic: durable_execution_attempt_resume_state
+  disposition: MATERIALIZED_REUSE
+  current:
+  - CF-09 execution-attempt history
+  - CF-09 durable resume coordinates and restart/resume
+  - execution attempt/continuity/runtime contracts in current repository
+  source_invariant: tmp_is_disposable_and_must_not_be_the_only_resume_state
+- topic: verification_tiers
+  disposition: MATERIALIZED_REUSE
+  current: CF-14 local/affected/core/full validation tiers plus full-check debt and impact resolution
+  source_contribution: Original LOCAL / RELATED-INTEGRATION / MODULE / PROJECT-FULL / NIGHTLY-DEEP vocabulary and
+    requirement that heavy validation not run after every small change.
+- topic: manual_module_deep_audit_before_autonomous_rollout
+  disposition: REUSE_CURRENT_ROADMAP_ENRICHMENT_AND_PORTFOLIO_READINESS_DIRECTION
+  source_rule: Old modules require human/repository-grounded deep audit, stale/conflicting documentation cleanup
+    and knowledge/index baseline before trusting autonomous rollout.
+  notes: This is a rollout-readiness rule, not permission for broad implementation now.
+- topic: roadmap_dependency_recompute_after_meaningful_change
+  disposition: REUSE_EXTEND_NT07_AND_CURRENT_DEPENDENCY_PLANNING
+  source_rule: Meaningful roadmap insertion/reordering requires dependency, readiness/order, dispatcher consequences
+    and portfolio/projection reconciliation.
+  notes: Now covered more deeply by the separately extracted NT-07 Portfolio Planning / Dependency Intelligence
+    / Convergence Engine candidate.
+- topic: operator_human_readable_reporting
+  disposition: REUSE_EXTEND_CF15_CF18_BOOTSTRAP_REPORTING
+  source_rule: 'Human meaning comes first: finished/current/why/next meaningful steps; machine IDs are secondary
+    correlation metadata.'
+- topic: dispatcher_local_telegram_bot
+  disposition: EXTEND_EXISTING_CF10_CF15_CF18_DIRECTION
+  new_roadmap_item_required: false
+  current_binding:
+  - CF-10 early worker training/self-hardening candidate
+  - CF-15 Project Health alert source
+  - CF-18 operator gateway/dashboard surface
+  critical_boundary: This is a small local Dispatcher/operator-control bot, not the full customer-facing telegram_bot
+    module and not a new domain truth owner.
+  design_candidate: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_evening_handoff_20260915_v0_1/14_dispatcher_local_telegram_bot_design_candidate_v0_1.yaml
+active_question_reconciliation:
+- id: Q-001
+  status: PARTIALLY_RESOLVED_REUSE_AUDIT_STILL_VALID
+  note: Current bootstrap/handoff/continuity and enrichment intake exist; do not create another protocol without
+    proof of a gap.
+- id: Q-002
+  status: RESOLVED_DIRECTIONALLY
+  note: CF-08/Handoff v2 now defines PROJECT_ONBOARD and TASK_EXECUTION modes; exact older 041 lineage is historical.
+- id: Q-003
+  status: RESOLVED_DIRECTIONALLY_IMPLEMENTATION_EXISTS_OR_ACTIVE_CF10
+  note: CF-10 explicitly requires isolated workspace/runtime; current repository contains worker workspace/runtime
+    contracts.
+- id: Q-004
+  status: RESOLVED_DIRECTIONALLY
+  note: Publication authority is separately governed; autonomous worker release/push/merge remain forbidden without
+    explicit authority.
+- id: Q-005
+  status: RESOLVED
+  note: Current Control Foundation explicitly uses Blueprint internal CF-10 pilot first, Logistics first external/module
+    pilot after stability.
+- id: Q-006
+  status: RESOLVED_DIRECTIONALLY
+  note: Roadmap Enrichment / module current-state evidence / module preparation now encode deep audit and knowledge
+    baseline direction.
+- id: Q-007
+  status: RESOLVED_DIRECTIONALLY_WORK_REMAINS
+  note: Dependency/prioritization standards and NT-07 convergence candidate now exist; detailed step-level dependency
+    saturation remains incomplete.
+- id: Q-008
+  status: RESOLVED
+  note: Synthetic/provisional target-state and Human Intent/provenance rules are now explicit in enrichment governance.
+- id: Q-009
+  status: RESOLVED_DIRECTIONALLY
+  note: Persistent execution attempt/resume/continuity surfaces exist; tmp remains disposable.
+- id: Q-010
+  status: RESOLVED_DIRECTIONALLY
+  note: CF-14 defines deterministic local/affected/core/full tiers; nightly/deep is scheduling/reporting detail
+    rather than separate truth.
+- id: Q-011
+  status: PARTIALLY_RESOLVED
+  note: Health/watchdog direction exists as CF-10 training and CF-15 health concern; exact service manager/watchdog
+    implementation requires current repository audit.
+- id: Q-012
+  status: DESIGN_RECOVERED_NOT_NEW_ROADMAP_ITEM
+  note: This source supplies detailed local Dispatcher Telegram bot requirements; bind to CF-10/15/18.
+- id: Q-013
+  status: RESOLVED
+  note: Reuse-First / Pre-Implementation Reconciliation Gate is now explicit and strengthened.
+- id: Q-014
+  status: RESOLVED_DIRECTIONALLY
+  note: CF-17 preserves strategic weighting for Calculator, Telegram and Logistics while still honoring dependencies/readiness.
+- id: Q-015
+  status: RESOLVED_DIRECTIONALLY
+  note: CF-15 Project Health and CF-18 dashboard/tool gateway cover operator-facing status/reporting.
+source_non_goals_preserved:
+- Z_package_is_not_direct_execution_authority
+- do_not_use_tmp_as_only_resume_state
+- do_not_confuse_local_dispatcher_telegram_bot_with_full_telegram_module
+- do_not_grant_permanent_unrestricted_dispatcher_authority
+- do_not_default_to_full_validation_after_every_small_change
+- do_not_roll_out_broad_module_autonomy_before_deep_audit_and_readiness
+remaining_material_questions:
+- id: EVENING_PACKAGE_PROTOCOL_CANONICAL_HOME
+  severity: LOW
+  question: Is there now one canonical evening/travel/weekend package protocol, or should current bootstrap/handoff/intake
+    surfaces remain the composed mechanism?
+- id: DISPATCHER_WATCHDOG_IMPLEMENTATION
+  severity: MEDIUM
+  question: Which existing service-manager/health mechanism should supervise Dispatcher before creating a new watchdog
+    implementation?
+- id: LOCAL_DISPATCHER_BOT_IMPLEMENTATION_HOST
+  severity: MEDIUM
+  question: Where should the local operator-control bot adapter live so it remains Dispatcher infrastructure rather
+    than customer Telegram domain logic?
+conclusion: NO_NEW_ROADMAP_STEP_REQUIRED_FROM_THIS_PACKAGE

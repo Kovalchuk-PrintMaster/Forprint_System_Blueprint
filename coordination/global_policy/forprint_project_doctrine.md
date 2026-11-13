@@ -56,11 +56,16 @@ ForPrint System Blueprint
 
 Owns architecture, module boundaries, execution queue, coordination standards and global project alignment.
 
-Operational Registry
+Operations Control Registry
 
-Main physical/internal data custodian of ForPrint.
+Canonical owner of ForPrint operational control state and operational write boundaries.
 
-It owns the internal ForPrint DB foundation and structured data access, but must not become the logical owner of every domain rule.
+It coordinates order state, obligations, reservations/shortages, incidents, deadlines and cross-module execution context.
+Persistent business data uses centrally managed persistence; the module does not own the physical storage topology for every domain.
+
+Compatibility note: the current technical identifier `forprint_operations_control_registry`, existing repository path/name,
+contract IDs and released prompt IDs/paths remain legacy compatibility identifiers until a separately approved technical migration.
+The canonical display/working identity is **Operations Control Registry**.
 
 Library
 
@@ -131,11 +136,12 @@ New orders should primarily pass through Calculator Engine.
 
 Manual and legacy paths are fallback only.
 
-5. Operational Registry keeps internal data
+5. Operations Control Registry owns operational state, not storage topology
 
-ForPrint DB is the internal data foundation.
+ForPrint persistent business data belongs in centrally managed persistence with explicit domain write boundaries.
 
-Operational Registry is the physical/internal data custodian.
+Operations Control Registry owns the operational model, operational state transitions and authorized writes for its domain.
+It must not become a hidden private database for every module or a substitute for Library, CRM, Accounting, Warehouse or Identity ownership.
 
 6. Library controls semantics
 
@@ -163,6 +169,31 @@ Each module must publish coordination status, reports and open questions.
 
 Manager/manual adjustments are allowed where needed, but they must be logged and later analyzed.
 
+11. Development-first governance
+
+ForPrint is a young, actively evolving system. Existing policy, protocol,
+document or workflow is not authoritative merely because it is older.
+
+When an existing rule blocks a materially better current design, first decide
+whether that rule still has an active consumer, migration value or explicit
+governance reason. If it does not, evolve the authority deliberately: update
+the current document when the concern is continuous, or create the next clear
+revision and mark the previous authority deprecated/superseded when semantics
+materially change.
+
+Backward compatibility is not a project goal by itself. Architecture must not
+be distorted solely to preserve obsolete assumptions.
+
+12. Durable project memory and forward control
+
+Significant completed implementation, architecture and governance decisions
+must be recoverable from repository evidence. Chat history is not canonical
+project memory.
+
+Roadmaps define intended project movement. Prompt sequencing defines executable
+coordination steps. Current work must stay reconciled with both so modules move
+at a balanced pace and dependent work is not advanced prematurely.
+
 Current strategic direction
 
 Near-term project direction:
@@ -171,8 +202,60 @@ Near-term project direction:
 2. Apply module coordination standard.
 3. Use Calculator as first active module in the full coordination loop.
 4. Move Calculator toward CalculationOutputPackage / Quote / OrderDraft.
-5. Expand Operational Registry data model later.
+5. Expand Operations Control Registry operational-control model and centralized-persistence boundaries later.
 6. Strengthen Library canonical catalog/semantic authority.
 7. Keep Accounting Registry ready, but wait for sanitized 1C samples before deeper v0.6.
 
 ---
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## Execution compatibility over global cleanliness
+
+ForPrint development is expected to remain active while coordination work is queued and executed. Global repository cleanliness is therefore not a project goal by itself.
+
+Execution must be judged from explicit authority, immutable contracts, required-input compatibility, and execution ownership. Unrelated Blueprint worktree changes do not invalidate a prompt. Material changes to required inputs do.
+
+Shared module execution lanes remain attributable before CLAIM. Future parallelism in one module must use isolated execution workspaces rather than multiple agents writing into one dirty checkout.
+
+No workflow may destroy, auto-stash, absorb, or silently reinterpret unrelated operator work merely to satisfy a historical "clean tree" assumption.
+
+<!-- portfolio-operated-development-doctrine-v0-1:start -->
+## Portfolio-operated development and roadmap continuity
+
+ForPrint module development is governed as a portfolio, not as isolated repositories.
+
+Blueprint must continuously maintain enough durable knowledge to recover:
+
+- why a module exists;
+- what it can/should do;
+- what the current target finish is;
+- what roadmap outcomes remain;
+- what dependencies exist and when they become blocking;
+- what evidence justifies progress.
+
+Roadmaps remain living control artifacts until final project delivery.
+A roadmap item whose design intent cannot be reconstructed is a governance defect.
+
+Module executors consume Blueprint standards as read-only authority. They may request clarification or propose a
+change, but they do not silently fork project-wide governance inside their own repositories.
+
+Portfolio optimization balances time, budget, dependency criticality, business/project value, risk and executor
+quality rather than maximizing one module's local velocity.
+<!-- portfolio-operated-development-doctrine-v0-1:end -->
+
+<!-- theory-knowledge-automation-principle-v0-1:start -->
+## Maximum useful automation and manual-work reduction
+
+ForPrint should systematically reduce avoidable manual work across business and development
+operations.
+
+Automation is valuable when it improves speed, consistency, recoverability or operator effort
+without sacrificing correctness, auditability, safety, semantic ownership or meaningful human
+control.
+
+Every module should treat reduction of repetitive manual work as a standing design objective where
+economically and operationally justified.
+
+This principle does not authorize uncontrolled autonomy, security/destructive actions, automatic
+business/module ACCEPT, or cross-repository mutation.
+<!-- theory-knowledge-automation-principle-v0-1:end -->

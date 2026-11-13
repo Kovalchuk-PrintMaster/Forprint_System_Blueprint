@@ -512,3 +512,106 @@ any specific dotenv/settings library.
 Those tools are module-specific choices.
 
 The shared requirement is that the module documents and validates its environment clearly.
+
+<!-- FORPRINT_U92_DEV_VERIFICATION_RELEASE_RUNTIME_SEPARATION_20260903:START -->
+## DEV → VERIFICATION → RELEASE → RUNTIME separation
+
+ForPrint treats one logical module as having separate execution profiles.
+
+- **DEV** may mutate its own source/workspace, create its own virtual environment, install declared
+  development dependencies, build and run tests. DEV has no production writes/secrets/cross-repo
+  mutation by default.
+- **VERIFICATION** executes in an isolated Test Plane with synthetic/fake external side effects.
+- **RELEASE** produces deterministic, versioned artifacts with provenance, compatibility evidence
+  and rollback metadata.
+- **RUNTIME** uses immutable deployed code, least privilege and capability-shaped tools. Runtime
+  code must not `git pull`, edit live source or install arbitrary packages in place.
+
+A production improvement follows:
+runtime evidence → improvement candidate → DEV implementation → Verification Lab →
+release candidate → shadow/canary → production.
+
+Durable business state survives release independently of source/artifact replacement. Database
+evolution follows expand → migrate → contract rather than destructive in-place assumptions.
+
+Initial physical separation may use Unix users/groups/ACLs and distinct dev/test/artifact/runtime
+roots; container orchestration is not a prerequisite. Concrete root paths remain deployment detail.
+<!-- FORPRINT_U92_DEV_VERIFICATION_RELEASE_RUNTIME_SEPARATION_20260903:END -->
+
+<!-- ripgrep-bootstrap-tool-v0-1:start -->
+## Expected developer search tool: ripgrep
+
+`ripgrep` (`rg`) is an expected developer/bootstrap utility for fast repository search.
+It is a system-level development tool, not an application Python dependency, so it must
+not be added to `pyproject.toml` or Python requirements as though it were a Python package.
+
+On Debian/Ubuntu development hosts the normal provisioning command is:
+`sudo apt-get install -y ripgrep`
+
+Bootstrap verification should accept `command -v rg` plus `rg --version`.
+Critical control-plane logic should retain a Python-native fallback when absence of `rg`
+is not itself a semantic or safety failure.
+<!-- ripgrep-bootstrap-tool-v0-1:end -->
+
+<!-- sandbox-tooling-evolution-v0-1:start -->
+## Sandbox tooling evolution
+
+ForPrint development environments must not become artificially weak because an assistant
+avoids proposing or installing a modern development tool that is absent from the initial
+environment.
+
+Inside an approved isolated DEV/sandbox workspace, use of additional development tools is
+encouraged when it materially improves:
+
+- correctness;
+- development speed;
+- repository-scale inspection;
+- observability;
+- visual verification;
+- test quality;
+- maintainability.
+
+Examples include repository search utilities, browser/visual tooling, bounded analysis
+libraries and module-appropriate local development dependencies.
+
+Material additions should be captured as an **Environment Delta** with at least:
+
+- tool/dependency identity;
+- installation scope;
+- reason for use;
+- whether it is one-off experimentation or a candidate recurring capability.
+
+Repeatedly useful tooling should be reviewed for promotion into an appropriate canonical
+surface:
+
+- global developer profile;
+- module development profile;
+- module-bootstrap capability;
+- tooling/capability registry or equivalent discoverable index.
+
+Fresh assistants and workers should have a deterministic way to discover existing tools and
+supported Makefile/operator workflows rather than rediscovering the environment from zero.
+
+This policy does not grant sandbox access to production secrets, host-root mutation,
+canonical Git remote push or external mutable systems. Those remain separate capability /
+authority boundaries.
+<!-- sandbox-tooling-evolution-v0-1:end -->
+
+<!-- operator-usable-functional-map-2026-10-04:start -->
+## Operator-usable functionality and Makefile coverage
+
+ForPrint treats the Makefile as an operator-facing **functional map**, not merely a convenient
+launcher. When a task creates a supported operator workflow, the task must check whether that
+workflow belongs in the existing Makefile/CLI/Console surface.
+
+A task must not categorically forbid Makefile changes merely to keep its implementation scope
+small. If Makefile integration is genuinely required for the supported operator workflow, it may
+be included through the normal governed write-set/review path.
+
+Conversely, operator surfaces must remain thin wrappers over reusable backend logic; do not encode
+a second implementation in Makefile or Console.
+
+For operator-facing capability, code/tests alone are not always a sufficient practical completion
+signal. Where appropriate, acceptance should make the capability discoverable and invocable through
+a documented Makefile target, CLI, API, Console action or equivalent operator-readable report.
+<!-- operator-usable-functional-map-2026-10-04:end -->

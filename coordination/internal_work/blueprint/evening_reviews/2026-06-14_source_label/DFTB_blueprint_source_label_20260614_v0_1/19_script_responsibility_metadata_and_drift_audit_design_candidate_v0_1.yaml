@@ -1,0 +1,42 @@
+schema_version: forprint_script_responsibility_metadata_and_drift_audit_design_candidate_v0_1
+candidate_id: BP-SCRIPT-METADATA-DRIFT-AUDIT
+status: CANDIDATE_RECONCILE_BEFORE_IMPLEMENTATION
+authority:
+  roadmap_authority: false
+  execution_authority: false
+  canonical_policy_authority: false
+origin_source: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/package/dialogue_memory.yaml
+purpose: Preserve an early agreed design for machine-readable script responsibility metadata and automated declared-vs-observed
+  behavior drift detection without creating a parallel discoverability subsystem.
+intended_binding:
+- CF-13 deterministic machine discoverability
+- Blueprint repository knowledge
+- Project Inspector semantic/conformance audit
+- module inventory / implementation lineage
+minimum_metadata:
+- artifact_id_or_stable_identity
+- purpose_or_responsibility
+- inputs_or_dependencies
+- outputs_or_effects
+- entrypoint_or_invocation
+- owned_or_mutated_surfaces_when_relevant
+- provenance_or_source_revision
+audit_model:
+- collect declared metadata
+- inspect observed code behavior using bounded deterministic/semantic evidence
+- classify match, drift, unknown or conflicting
+- emit update candidates rather than auto-rewriting metadata
+- allow bounded batch reconciliation with review
+- preserve evidence linking the candidate to observed behavior
+safety_rules:
+- metadata is a discoverability/expectation surface, not proof that behavior is safe
+- unknown behavior is not silently normalized
+- drift detection does not automatically mutate code or canonical ownership
+- existing equivalent metadata/index/inventory mechanisms must be reused or extended before creating a new schema
+preimplementation_reconciliation:
+- audit current CF-13/module discoverability schemas and generators
+- audit current repository knowledge indexes/manifests for script-level responsibility fields
+- audit Project Inspector for declared-vs-observed behavior checks
+- audit representative Blueprint scripts and module tooling
+- classify REUSE / EXTEND / ADAPT / REPLACE / NEW
+roadmap_effect: none_until_gap_is_proven

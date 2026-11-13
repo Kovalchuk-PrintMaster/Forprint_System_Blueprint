@@ -1,0 +1,166 @@
+schema_version: forprint_architecture_improvement_horizon_v0_1
+status: ACTIVE_NON_EXECUTABLE_HORIZON
+authority: NONE
+roadmap_authority: false
+execution_authority: false
+owner: forprint_system_blueprint
+purpose: Preserve promising architecture, governance and resilience candidates for evidence-based reassessment without promoting
+  them into committed work.
+candidate_states:
+- WATCH
+- ASSESS
+- TRIAL
+- READY_FOR_DECISION
+- ADOPTED
+- REJECTED
+- SUPERSEDED
+promotion_rule: A candidate gains roadmap authority only through a separate deliberate review and canonical roadmap mutation.
+review_model:
+  lightweight_review_trigger: MAJOR_WAVE_BOUNDARY
+  first_full_reassessment_trigger: FIRST_MATURE_COORDINATED_MULTI_MODULE_WORKER_WAVE_BOUNDARY
+candidates:
+- candidate_id: HZN-001
+  title: Protocol sovereignty, implementation replaceability and continuous evidence
+  status: ASSESS
+  core_idea: Implementation is replaceable; governing intent plus protocol/invariants and evidence determine admissibility.
+  revisit_trigger: After stable multi-module worker operation and richer Project Health/runtime evidence.
+- candidate_id: HZN-002
+  title: Governance Policy Taxonomy and Enforcement Map
+  status: ASSESS
+  core_idea: One canonical policy identity may have multiple legitimate enforcement points; distinguish that from duplicate
+    policy ownership.
+  revisit_trigger: After governance surfaces across Blueprint and modules can be inventoried together.
+- candidate_id: HZN-003
+  title: Lightweight cross-module architecture review
+  status: ASSESS
+  core_idea: Review quality-attribute and accumulated architecture risks that deterministic validators can miss.
+  revisit_trigger: At the first mature coordinated multi-module worker-wave boundary and selected major waves.
+- candidate_id: HZN-004
+  title: Operation-level runtime dependency and resilience model
+  status: WATCH
+  core_idea: Evaluate health at business-operation level, separate development dependencies from runtime dependencies and
+    model operation-specific success predicates.
+  revisit_trigger: After real runtime chains and telemetry exist.
+- candidate_id: HZN-005
+  title: Operation Trace Evidence and Runtime Path Regression
+  status: ASSESS
+  core_idea: Compare expected and observed business-operation trace paths to detect new critical dependencies, canonical-capability
+    bypasses and critical-path regressions.
+  revisit_trigger: After cross-module runtime chains are stable enough to observe.
+- candidate_id: HZN-006
+  title: Reliable agent execution control system
+  status: ASSESS
+  core_idea: Treat coding-agent reliability as a system property across Direction, Context, Authority, Execution, Verification,
+    Acceptance and Evidence, with state/identity, observability, recovery and containment as cross-cutting concerns.
+  revisit_trigger: After the first internal worker/governance baseline is stable enough to compare lifecycle evidence and
+    recovery behavior.
+- candidate_id: HZN-007
+  title: Project-side governability and explicit decision rights
+  status: ASSESS
+  core_idea: Model propose, prepare, execute, verify, recommend-acceptance, accept, release and escalate as distinct rights;
+    execution or evidence generation must not implicitly grant acceptance authority.
+  revisit_trigger: At the first mature multi-worker governance review, after real authority boundaries have been exercised.
+- candidate_id: HZN-008
+  title: Evolution generations and project governance epochs
+  status: ASSESS
+  core_idea: Coordinate evolution through artifact versions, capability generations, module generations and project governance
+    epochs; require compatibility with the active generation rather than artificial numeric version alignment.
+  revisit_trigger: After one cross-module behavioral standard has been piloted, stabilized and is ready for portfolio rollout.
+- candidate_id: HZN-009
+  title: Trust-aware agent execution and provenance-aware authority
+  status: ASSESS
+  core_idea: 'Content is not authority: classify sources by trust, preserve provenance of authority-relevant intent, and prevent
+    informational or untrusted content from directly producing privileged effects.'
+  revisit_trigger: Before privileged worker actions widen beyond the initial bounded worker baseline.
+- candidate_id: HZN-010
+  title: External-facing input security and continuous adversarial regression
+  status: ASSESS
+  core_idea: 'HIGH IMPORTANCE: Telegram Bot, Website, Calculator inputs and future external channels require module-specific
+    protection and recurring regression against prompt/instruction injection, malicious embedded content, SQL/command injection,
+    path/schema/MIME abuse and resource-exhaustion inputs.'
+  revisit_trigger: Before any external-facing module is considered production-ready, and repeatedly as its attack surface
+    evolves.
+- candidate_id: HZN-011
+  title: Consumer-declared cross-module contract expectations
+  status: ASSESS
+  core_idea: Provider modules own their interfaces while consumer modules formally own their expectations; known consumer
+    expectations should participate in compatibility evidence before integration, without confusing syntactic compatibility
+    with semantic correctness.
+  revisit_trigger: When Contract Registry / Integration Gateway work reaches real provider-consumer contract integration.
+- candidate_id: HZN-012
+  title: Typed verification and evidence semantics
+  status: ASSESS
+  core_idea: 'A generic PASS must not imply global correctness: verification claims should carry evidence type, verifier identity/version,
+    oracle provenance/validity, scope, feedback role and evaluation independence; acceptance remains a separate decision.'
+  revisit_trigger: When worker completion packets and acceptance gates are ready to move beyond coarse PASS/FAIL semantics.
+- candidate_id: HZN-013
+  title: Trustworthy Change lifecycle and Responsibility Topology
+  status: ASSESS
+  core_idea: Separate INTENT, AUTHORIZED, EXECUTED, VERIFIED, INTEGRATED, ACCEPTED and OPERATIONALLY_PROVEN; assign transition
+    authority and residual-risk ownership explicitly, including multi-anchor acceptance for cross-domain changes.
+  revisit_trigger: At the first real cross-module change whose acceptance spans independent provider, consumer or governance
+    owners.
+- candidate_id: HZN-014
+  title: Capability-mediated governed domain data access
+  status: ASSESS
+  core_idea: >-
+    Assistants should receive authorized domain capabilities over canonical data products
+    rather than broad database access; runtime authorization may depend on identity,
+    capability, purpose, context and data scope. External customer-facing AI assistants are
+    included in this strategic direction; MCP is a protocol/transport candidate only and is
+    not selected over HTTP, RPC or another future interface.
+  revisit_trigger: >-
+    Reassess after the ForPrint ecosystem has first stable working results and during
+    deliberate strategic-goal review, and in all cases before assistants or external channels
+    receive live access to Operational, Accounting, Library or other domain data.
+- candidate_id: HZN-015
+  title: Graph-first project knowledge and generated architecture views
+  status: ASSESS
+  core_idea: Prefer machine-readable project knowledge and queryable graphs for modules, capabilities, ownership, contracts,
+    dependencies, workflows and evidence; keep human prose focused on intent/rationale and use local truth with central Blueprint
+    projections.
+  revisit_trigger: After the portfolio roadmap rebuild and repository-knowledge snapshots provide enough stable graph inputs.
+- candidate_id: HZN-016
+  title: Staged CI/CD as governance enforcement
+  status: WATCH
+  core_idea: Introduce CI in maturity stages after worker/governance baselines stabilize, preserving the rule that CI PASS
+    is not ACCEPTED, MERGED or RELEASED; defer CD until release authority, observability and recovery are mature.
+  revisit_trigger: After the first worker/governance baseline is stable and canonical non-mutating checks are clear enough
+    to automate.
+
+research_package_reconciliation_2026_10_04:
+  authority: planning_direction_only
+  source_status: RECONCILED_WITH_EXISTING_CANONICAL_STATE
+  far_horizon_candidates:
+    capability_and_reuse_registry: FAR_HORIZON
+    capability_resolver_and_module_composer: FAR_HORIZON
+    independent_oracle_architecture:
+      status: FAR_HORIZON
+      current_action: preserve_external_evaluator_seam
+    architecture_reconciliation_engine:
+      status: FAR_HORIZON
+      current_action: preserve_declared_vs_discovered_state
+    contract_and_compatibility_registry:
+      status: FAR_HORIZON
+      current_action: richer_contract_convention_for_new_important_contracts
+    governed_capability_policy_layer:
+      status: FAR_HORIZON
+      current_action: no_direct_database_access_by_default
+    typed_evidence: FAR_HORIZON
+    mcp_external_ai_adapter:
+      status: FAR_HORIZON_STRATEGIC_CANDIDATE
+      current_action: do_not_roadmap_or_implement_now
+  near_term_semantic_refinements:
+    worker_completion_auto_implies_acceptance: false
+    bootstrap_static_template_copy_only: false
+    preserve_acceptance_topology_extension:
+      - SINGLE_ANCHOR
+      - MULTI_ANCHOR
+    preserve_governed_capability_invocation_seam: true
+  explicit_non_goals_now:
+    - MCP_server
+    - capability_registry_service
+    - contract_registry_service
+    - architecture_drift_engine
+    - hidden_metric_engine
+    - full_multi_anchor_approval_engine

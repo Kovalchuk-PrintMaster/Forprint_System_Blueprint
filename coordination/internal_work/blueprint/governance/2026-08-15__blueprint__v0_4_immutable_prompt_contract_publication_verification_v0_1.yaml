@@ -1,0 +1,52 @@
+schema_version: blueprint_publication_verification_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_immutable_prompt_contract_publication_verification_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-15T19:51:00+03:00'
+subject:
+  roadmap_step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  decision: ACCEPT
+  accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_acceptance_v0_1.yaml
+remote_publication:
+  remote: origin
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  remote_ref: refs/heads/audit/blueprint-inventory-refresh-2026-07-29
+  remote_head: 2e13d027ca16acdbee0076816ea3f670cba4351b
+  subject_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
+  remote_containment_verified: true
+post_publication_state:
+  published_base_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
+  current_active_step: blueprint_v0_4_completion_packet_v0_1
+  prompt_contract_status: candidate_reference_only
+  prompt_contract_global_promotion_performed: false
+  health_policy_promotion_performed: false
+seal_semantics:
+  publication_subject_is_acceptance_commit: true
+  seal_commit_is_separate: true
+  seal_commit_is_not_subject_to_recursive_sealing: true
+  mutation_surface_paths:
+  - coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
+  automatic_commit: false
+  automatic_push: false
+validation:
+  state: passed
+  checks:
+    make roadmap-validate MODULE=forprint_system_blueprint:
+      returncode: 0
+      result: passed
+    make check-self-coordination-consistency:
+      returncode: 0
+      result: passed
+    make -s coordination-pulse:
+      returncode: 0
+      result: passed
+    /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python -m pytest -q:
+      returncode: 0
+      result: passed
+    make check:
+      returncode: 0
+      result: passed
+result: PUBLICATION_VERIFIED

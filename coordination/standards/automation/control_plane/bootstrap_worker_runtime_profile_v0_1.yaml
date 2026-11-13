@@ -1,0 +1,46 @@
+schema_version: forprint_bootstrap_worker_runtime_profile_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+execution_class: MODULE_BOOTSTRAP
+metadata:
+  standard_id: bootstrap_worker_runtime_profile_v0_1
+  title: ForPrint Blueprint-owned Bootstrap Worker Runtime Profile v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+purpose: >-
+  Provide a safe Blueprint-owned runtime fallback for the first module bootstrap
+  cycle when config/worker_runtime.yaml does not yet exist in the module.
+scope:
+  bootstrap_only: true
+  roadmap_development_allowed: false
+  module_runtime_profile_required_for_bootstrap: false
+  module_runtime_profile_required_for_roadmap_development: true
+worker_adapter:
+  mode: provider_neutral_console
+  canonical_builder: scripts/coordination/build_worker_invocation.py
+  starts_process: false
+provider_binding:
+  mode: operator_or_dispatch_time
+  provider_in_git: false
+  model_in_git: false
+  secret_in_git: false
+  secret_source: outside_git
+dispatch_requirements:
+  - release-authorized bootstrap prompt
+  - BOOTSTRAP_READY readiness projection
+  - approved launch request
+  - explicit operator approval decision
+  - provider/model binding at dispatch
+  - current bootstrap context fingerprint
+limits:
+  network_policy: prompt_and_operator_bound
+  write_scope: module_repository_only
+  cross_repository_writes: false
+  production_provider_writes_by_profile_resolution: false
+  timeout_budget: launch_request_bound
+  token_budget: launch_request_bound
+authority_semantics:
+  profile_is_execution_authority: false
+  profile_is_operator_approval: false
+  automatic_accept: false
+  automatic_next_prompt_release: false

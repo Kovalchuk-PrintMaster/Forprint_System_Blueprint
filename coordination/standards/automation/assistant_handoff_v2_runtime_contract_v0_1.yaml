@@ -1,0 +1,43 @@
+schema_version: forprint_assistant_handoff_v2_runtime_contract_v0_1
+contract_id: assistant_handoff_v2_runtime
+revision: 0.1.0
+status: active_cf08_s2_runtime
+implements_contract: coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+implementation_slice: CF-08/S2
+architecture:
+  parallel_framework: false
+  adapter_delegates_to_existing_builders: true
+  project_onboard_delegate: scripts/coordination/build_assistant_handoff_archive.py
+  task_execution_delegate: scripts/coordination/control_plane/context/task_context_adapter.py --task-context
+  fresh_context_gate_reused: true
+  work_front_reused: true
+  execution_profile_registry_reused: true
+  governed_procedure_registry_reused: true
+launch_modes:
+  PROJECT_ONBOARD:
+    requires_work_front: false
+    requires_execution_profile: false
+    requires_task_context: false
+    compatibility_surface: make assistant-pack
+  TASK_EXECUTION:
+    requires_work_front: true
+    requires_execution_profile: true
+    requires_task_context: true
+    requires_procedure_or_not_required_reason: true
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  grants_cross_repository_write_authority: false
+deferred:
+  exact_result_validation: CF-08/S3
+  bounded_self_repair_execution: CF-08/S3
+  freshness_fail_closed_hardening: CF-08/S4
+  durable_resume_hardening: CF-08/S4
+  dispatcher_integration: CF-09
+  worker_dispatch: CF-09_or_later
+generated_artifacts:
+  derived: true
+  disposable: true
+  default_output_dir: tmp/assistant_handoff_v2_runtime
+  no_write_supported: true

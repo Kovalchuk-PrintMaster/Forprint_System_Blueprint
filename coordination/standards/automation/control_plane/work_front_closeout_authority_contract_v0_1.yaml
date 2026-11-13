@@ -1,0 +1,55 @@
+schema_version: forprint_work_front_closeout_authority_contract_v0_1
+status: DESIGN_VERIFIED_NOT_ENABLED
+authority: none
+grants_execution: false
+grants_dispatch: false
+grants_canonical_closeout_apply: false
+purpose: FORPRINT_WORK_FRONT_CLOSEOUT_ACCEPTANCE_V0_1
+trust_root:
+  live_location: /etc/forprint/work_front_closeout/trust_root_v0_1.json
+  independent_administrator_approval_required: true
+  repository_policy_may_enroll_signers: false
+  current_trusted_signers: []
+  must_be_owned_by_root: true
+  must_not_be_writable_by_group_or_others: true
+signature:
+  algorithm: Ed25519
+  domain: 'FORPRINT/WORK_FRONT_CLOSEOUT/ACCEPTANCE/v0.1\0'
+  cryptography_dependency_required: true
+  request_bytes_bound: true
+  purpose_bound: true
+  exact_acceptance_set_bound: true
+  destination_bound: true
+  publication_commit_remote_ref_and_manifest_bound: true
+  ledger_baseline_bound: true
+  max_validity_seconds: 86400
+publication:
+  required: true
+  independently_observed_remote_ref: true
+  exact_prepublication_to_published_blobs: true
+  current_approved_remote_ref: null
+ledger:
+  baseline_from_independently_approved_external_trust: true
+  all_required_runtime_roots_from_trust_root: true
+  global_writer_lock_contract_required: true
+  selected_runtime_scan_alone_is_not_permission: true
+canonical_record:
+  directory: coordination/internal_work/blueprint/governance
+  document_type: internal_work
+  authority_class: INTERNAL_WORK_NON_AUTHORITY
+  atomic_create_only: true
+  work_item_close_allowed: false
+stop_conditions:
+- trust root missing or not independently approved
+- invalid/expired signature or mismatch against B3 request
+- Git remote/ref or frozen implementation blob mismatch
+- historic ledger state drift or forbidden attempt detected
+- incomplete runtime audit or unapproved global writer lock
+- concurrent Git/index changes, occupied destination, or replayed nonce
+prohibited_automatic_actions:
+- staging
+- commit
+- push
+- Worker dispatch
+- roadmap mutation
+- continuity WORK_CLOSED

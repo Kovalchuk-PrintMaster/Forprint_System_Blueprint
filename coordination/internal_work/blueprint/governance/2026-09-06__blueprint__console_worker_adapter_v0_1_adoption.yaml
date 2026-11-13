@@ -1,0 +1,36 @@
+schema_version: blueprint_console_worker_adapter_v0_1_adoption
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+  implementation_id: blueprint_console_worker_adapter_v0_1
+decision:
+  provider_neutral: true
+  first_adapter: CONSOLE_COMMAND
+  adapter_mode: DRY_RUN_ONLY_V0_1
+  live_provider_execution: false
+  separate_execution_framework_created: false
+  telegram_required: false
+runtime_contract:
+  schema: forprint_worker_runtime_v0_1
+  module_local_or_host_bound: true
+  logistics_conventional_runtime_surface_currently_exists: false
+  secret_values_in_git_allowed: false
+  environment_values_serialized: false
+invocation_contract:
+  schema: forprint_worker_invocation_v0_1
+  approval_revalidation_required: true
+  launch_request_state_must_be_awaiting_operator_approval: true
+  dry_run_command_rendering: true
+  shell: false
+  worker_process_start_allowed: false
+completion_capture:
+  schema: forprint_worker_completion_capture_v0_1
+  unknown_telemetry: not_observable
+  semantic_acceptance_owner: INSPECTOR_AND_HUMAN_GATE
+live_logistics_reference:
+  state: BLOCKED
+  reason: NO_VALID_APPROVAL_AND_LAUNCH_REQUEST_BLOCKED
+  worker_process_started: false
+  prompt_claim_performed: false
+next: blueprint_central_listener_dispatcher_monitor_v0_1

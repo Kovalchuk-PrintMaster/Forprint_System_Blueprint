@@ -1,0 +1,60 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-calculator-engine-filename-label-2026-10-09
+authority_class: calculator_module_history_non_blueprint_authority
+relations:
+- type: supports_and_precedes
+  from_bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  to_bundle: DFTB_blueprint-source-label-2026-06-14
+  confidence: HIGH
+  note: Calculator history explains why Calculator is a business-priority module and why Library readiness can block its canonical-data progress.
+- type: refined_by
+  from_bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  to_bundle: DFTB_blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint formalizes Calculator as calculation owner, permits temporary local catalog only, and separates neighboring authorities.
+- type: refined_by
+  from_bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  to_bundle: DFTB-library-source-label-2026-07-05
+  confidence: HIGH
+  note: Later Library Calculator Input Contract turns historical local catalog/input assumptions into a bounded canonical contract relationship.
+- type: requires_reconciliation_with
+  from_bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  to_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  confidence: HIGH
+  note: Historical direct external/channel intake must be reconciled with Gateway runtime routing and contract boundaries.
+item_relations:
+- type: supports
+  from_item: IT-CALC0910-0001
+  to_item: IT-BP1407-0006
+  confidence: HIGH
+  note: Historical module intent is pricing/calculation logic, consistent with later Blueprint ownership.
+- type: supports
+  from_item: IT-CALC0910-0007
+  to_item: IT-BP1406-0006
+  confidence: HIGH
+  note: Owner deliberately pilots a few products to bring Calculator to working business value.
+- type: refined_by
+  from_item: IT-CALC0910-0037
+  to_item: IT-BP1407-0024
+  confidence: HIGH
+  note: Later Blueprint explicitly frames Calculator-local catalog as temporary rather than canonical.
+- type: refined_by
+  from_item: IT-CALC0910-0037
+  to_item: IT-LIB0507-0015
+  confidence: HIGH
+  note: Library's Calculator Input Contract becomes the bounded canonical input relationship.
+- type: supports
+  from_item: IT-CALC0910-0037
+  to_item: IT-LIB1605-0020
+  confidence: HIGH
+  note: Calculator should calculate while Library owns definitions/contracts.
+- type: requires_reconciliation_with
+  from_item: IT-CALC0910-0038
+  to_item: IT-GW2605-0001
+  confidence: HIGH
+  note: Current channel/runtime intake should respect Gateway validation/routing boundary.
+- type: supports
+  from_item: IT-CALC0910-0018
+  to_item: IT-BP1407-0034
+  confidence: HIGH
+  note: Calculator owner already wanted centralized/portable path construction; later Blueprint makes project-relative paths explicit.

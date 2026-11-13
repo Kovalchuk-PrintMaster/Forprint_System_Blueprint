@@ -1,0 +1,46 @@
+schema_version: forprint_cf10_training_task_operator_acceptance_v0_1
+acceptance_id: cf10-task50-local-dispatcher-telegram-operator-surface-acceptance-v0-1
+status: ACCEPTED
+module_id: forprint_system_blueprint
+work_id: u180j
+training_task_id: local_dispatcher_telegram_operator_surface
+worker_task_id: cf10-local-dispatcher-telegram-operator-surface-v0-1
+work_front_id: wf-cf10-local-dispatcher-telegram-operator-surface-v0-1
+operator_decision: ACCEPT
+accepted_at: '2026-09-30T22:41:39.037986+03:00'
+decision_authority: HUMAN_OPERATOR
+decision_materialization: OPERATOR_EXECUTED_BOUNDED_SCRIPT
+raw_chat_is_authority: false
+acceptance_basis:
+  attempt_id: cf10-u180j-a019
+  attempt_terminal_state: FINISHED/SUCCEEDED/PASS
+  operator_promotion: PASS
+  publication_commit: f755816c98caf9a28faef9a079a0cf721d8f3991
+  publication_commit_is_ancestor_of_current_head: true
+  published_task50_targets_unchanged: true
+  focused_revalidation: PASS
+  operator_inspected_real_projection_output: true
+evidence:
+  execution_attempt: attempt:cf10-u180j-a019
+  promotion_evidence: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a019/evidence/cf10_a019_operator_candidate_promotion_v0_4.yaml
+  promotion_evidence_sha256: b4c15bb53d0bfc29872e8701bd93b91cc5d0b931734c94721f556e7d0f6118fc
+  publication_commit: f755816c98caf9a28faef9a079a0cf721d8f3991
+  current_head_at_acceptance: bdf2edb08db19f0933ffe9dd4cd70c6eeadc84aa
+  canonical_targets:
+  - scripts/coordination/control_plane/telegram_operator.py
+  - tests/coordination/control_plane/test_cf10_local_dispatcher_telegram_operator_surface_v0_1.py
+  promotion_authority: OPERATOR_CONTROLLED_CF10
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  grants_push_authority: false
+  grants_merge_authority: false
+  grants_foreign_write_authority: false
+  grants_automatic_accept_authority: false
+next_training_boundary:
+  task_id: human_dashboard_self_hardening
+  order: 60
+  prerequisite_satisfied: true
+  materialization_allowed: true
+  worker_launch_allowed_by_this_acceptance: false

@@ -1,0 +1,74 @@
+schema_version: forprint_telegram_bot_historical_source_enrichment_checkpoint_v0_1
+captured_on: '2026-09-22'
+status: TELEGRAM_HISTORICAL_SOURCE_ENRICHMENT_BOUNDARY_REACHED
+module_id: telegram_bot
+authority: repository_knowledge_checkpoint_not_execution_or_release_authority
+processed_source_groups:
+- label: filename-label-2026-10-07 data ingest
+  primary_sha256: 1964f07d75dc66862ddb04740956dda47f8948d599b0d089fc4f94396368cbe6
+  dftb_sha256: 3d12a567b113fe23854d82fbaec1ee9497caebbb90be64b33261389f53b4f66d
+  human_intents_appended: 4
+- label: internal-anchor-2025-10-12 behavior model
+  primary_sha256: 6335dcb444643b175483f69c87290967f01b84868161dcf192b4b43b52d4ad0d
+  dftb_sha256: dbcad8fb3ed87928d9f8f0def1847443540cc8a467ec01e907cbdabe5997a2ff
+  human_intents_appended: 3
+- label: filename-label-2026-10-16 DeBERTa context
+  primary_sha256: 6e0b95682899aeb20550709bd3e9cfa0cde1f3c690a6f8bcf4d0fad7a713f3df
+  dftb_sha256: 5a6ade80bfa7e85733647cec025cd39f2ade4ed2f5a3aaeb8b5f508d67a52e80
+  human_intents_appended: 0
+- label: filename-label-2026-10-12 human-talk templates
+  primary_sha256: f53a57e1ec58417dcd16c5a3b900e1e616b1337e358f07497f400d5be984bb65
+  dftb_sha256: 52a044ceae258f8c74fafb7c2110849969017c3e9c160b7d7c4d59d8e14005f4
+  human_intents_appended: 2
+- label: internal-anchor-2025-10-14..25 ML engineering
+  primary_sha256: 435ebfa6b80efe3f012e985c42edb375c3fcb9abbfa67f76f27563a87f685d2f
+  dftb_sha256: 95fefbb50ee8f0dcf821d9f143b46e1fa96d335d90826b2ff115ab85f9937ea0
+  human_intents_appended: 5
+- label: long-running terminal-anchor-2026-07-29
+  primary_sha256: 14c1e806fc913764c49658eaaca84262fbd4a189489863f45b0cc3baaec1a264
+  dftb_sha256: 4886ad6d6f5fa588f62f282d484dee843570e7787df0fa8bcea4972ad36b5654
+  human_intents_appended: 5
+aggregate:
+  source_groups_processed: 6
+  human_intents_appended: 19
+  canonical_roadmap_mutations: 0
+  execution_authority_mutations: 0
+  master_memory_reingests: 0
+  preferred_master_memory_navigation: v3.7
+open_reconcile_before_implementation_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/18_human_talk_template_contract_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/18_ml_pipeline_and_artifact_contract_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/18_behavior_specification_runtime_boundary_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/19_customer_qualification_profile_enrichment_candidate_v0_1.yaml
+candidate_summary:
+- dialogue corpus ingest governance
+- behavior and ML quality governance
+- human-talk template contract
+- ML pipeline and artifact contract
+- behavior specification versus production runtime boundary
+- customer qualification/profile enrichment boundary with CRM
+key_supersessions:
+- Telegram-local 1C mirror/direct accounting ownership is superseded by Accounting Registry + Gateway + domain owners.
+- Telegram provider execution is superseded by Logistics Service ownership.
+- Historical assistant-invented taxonomy labels are contract drift, not canonical taxonomy expansion.
+- Historical specific models/providers/paths/artifact layouts remain evidence, not current implementation authority.
+reused_current_surfaces:
+- telegram_bot_personalized_communication_orchestration_v0_1
+- telegram_bot_communication_intent_contract_v0_1
+- telegram_bot_customer_context_consumption_v0_1
+- telegram_bot_structured_clarification_workspace_v0_1
+- telegram_bot_ai_escalation_pipeline_v0_1
+- telegram_bot_logistics_command_intake_preview_v0_1
+- telegram_bot_logistics_notification_surface_v0_1
+next_required_action_for_telegram: No action required before switching modules. Revisit candidates only after all
+  relevant historical Telegram sources are exhausted or during a deliberate live-repository/canonical-roadmap reconciliation.
+mutations_not_granted:
+- roadmap
+- execution_authority
+- lifecycle
+- dispatch
+- acceptance
+- release
+- commit_push_merge

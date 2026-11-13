@@ -28,6 +28,8 @@ Canonical semantic, catalog, naming, alias and contract-definition authority for
 - `Maintain aliases and naming rules.`
 - `Provide semantic resolution for module ambiguity.`
 - `Keep contract definitions and catalog semantics versioned.`
+- `Publish the versioned shared ForPrint UI design-system package and reusable component catalog.`
+- `Expose searchable semantic and reusable-capability references before modules create competing implementations.`
 
 ## Owns
 
@@ -39,6 +41,9 @@ Canonical semantic, catalog, naming, alias and contract-definition authority for
 - `templates`
 - `technical_cards`
 - `contract_definitions`
+- `ui_design_system_publication`
+- `shared_ui_component_catalog`
+- `ui_component_version_and_adoption_metadata`
 
 ## Must not own
 
@@ -47,12 +52,15 @@ Canonical semantic, catalog, naming, alias and contract-definition authority for
 - `accounting_truth`
 - `production_runtime`
 - `crm_workflow`
+- `domain_business_rules_outside_library_semantics`
 
 ## Next focus
 
 - `Canonical Product/Service ID and Alias Governance.`
 - `Define ambiguity routing and approval lifecycle.`
 - `Prepare contract registry direction.`
+- `Publish the first versioned shared UI component/catalog surface.`
+- `Strengthen reusable semantic/capability discoverability without absorbing domain ownership.`
 
 ## Adoption rule
 

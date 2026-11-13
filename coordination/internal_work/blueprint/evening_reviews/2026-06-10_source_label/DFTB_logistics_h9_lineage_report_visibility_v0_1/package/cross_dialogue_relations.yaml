@@ -1,0 +1,35 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-logistics-service-source-label-2026-06-10
+authority_class: module_history_non_blueprint_authority
+relations:
+- type: module_history_supports
+  from_bundle: DFTB-logistics-service-source-label-2026-06-10
+  to_bundle: DFTB-blueprint-2026-08-17
+  confidence: HIGH
+  note: Logistics H9 module-side closure precedes later Blueprint treatment of Logistics as sole controlled pilot.
+- type: precedes_module_pilot_governance
+  from_bundle: DFTB-logistics-service-source-label-2026-06-10
+  to_bundle: DFTB-blueprint-2026-08-27
+  confidence: HIGH
+  note: H9 handoff/publication history provides module-side context for later H10 governance/rollout gates.
+- type: provides_module_evidence_for
+  from_bundle: DFTB-logistics-service-source-label-2026-06-10
+  to_bundle: DFTB-blueprint-2026-09-08
+  confidence: HIGH
+  note: 08.09 later performs Logistics L1/L2 forensic validation on a module whose earlier build/H9 lineage is captured here.
+item_relations:
+- type: supports
+  from_item: IT-LOG1006-0013
+  to_item: IT-BP1708-0019
+  confidence: MEDIUM
+  note: External/current authority and rollout readiness are separate from local module publication.
+- type: precedes
+  from_item: IT-LOG1006-0015
+  to_item: IT-BP2708-0026
+  confidence: HIGH
+  note: H9 module-side seal precedes later Logistics-only pilot governance.
+- type: supports
+  from_item: IT-LOG1006-0019
+  to_item: IT-BP0809-0023
+  confidence: HIGH
+  note: Earlier freshness-gated live start aligns with later structural-PASS/semantic-freshness split.

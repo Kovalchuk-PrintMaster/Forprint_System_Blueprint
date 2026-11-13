@@ -1,0 +1,80 @@
+schema_version: forprint_dftb_blueprint_20260817_acceptance_hardening_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-08-17
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1
+purpose: Map the 17.08 STEP27/v0.4.1 hardening dialogue into current governance, acceptance, roadmap, legacy-retirement
+  and continuity surfaces without projecting historical H/B/STEP labels as present state.
+historical_chain:
+- from: DFTB-blueprint-2026-08-05-continuation
+  boundary: STEP26 seal pending / STEP27 ready_for_module_pull
+- source: DFTB-blueprint-2026-08-17
+  boundary: newer historical evidence resolves STEP26 seal, executes STEP27 review/accept/seal, then v0.4.1 H3-H9/B1
+- later_direction: 27.08 and later
+  boundary: zero-context handoff/current release authority and broader Control Foundation/autonomy evolution
+groups:
+- group_id: acceptance_and_artifact_ownership
+  item_refs:
+  - IT-BP1708-0005
+  - IT-BP1708-0006
+  - IT-BP1708-0007
+  - IT-BP1708-0008
+  - IT-BP1708-0009
+  - IT-BP1708-0010
+  - IT-BP1708-0035
+  later_surfaces:
+  - Prompt Contract / Completion Packet / Outbox
+  - Blueprint completion intake/review
+  - Acceptance Oracle
+  - ACCEPT/RETURN/HOLD and seal/publication boundaries
+  evolution: RETAINED_AND_MATURED
+- group_id: roadmap_hierarchy
+  item_refs:
+  - IT-BP1708-0012
+  - IT-BP1708-0013
+  - IT-BP1708-0014
+  later_surfaces:
+  - full-horizon roadmaps
+  - portfolio human/machine views
+  - roadmap renderers
+  evolution: BOUNDED_TASK_RULE_RETAINED_HIERARCHY_REUSE_AUDIT_REQUIRED
+- group_id: legacy_retirement
+  item_refs:
+  - IT-BP1708-0015
+  - IT-BP1708-0016
+  - IT-BP1708-0022
+  - IT-BP1708-0023
+  later_surfaces:
+  - forward-evolving governance
+  - project self-cleaning/deprecation registry direction
+  - current semantic/active-surface normalization
+  evolution: RETAINED_AND_MATURED
+- group_id: logistics_reference_pilot_and_prompt_design
+  item_refs:
+  - IT-BP1708-0018
+  - IT-BP1708-0019
+  - IT-BP1708-0020
+  - IT-BP1708-0021
+  later_surfaces:
+  - Logistics reference-pilot Human Intent
+  - behavioral contract propagation
+  - fresh-worker/prompt design
+  evolution: PILOT_PHILOSOPHY_RETAINED_ROLLOUT_STATE_SUPERSEDED
+- group_id: zero_context_continuity
+  item_refs:
+  - IT-BP1708-0030
+  - IT-BP1708-0031
+  - IT-BP1708-0032
+  - IT-BP1708-0033
+  - IT-BP1708-0034
+  later_surfaces:
+  - bootstrap/context packs
+  - Handoff v2
+  - continuity projection
+  - Blueprint internal worker/autonomy roadmap
+  evolution: CONTINUITY_RETAINED_HISTORICAL_RELEASE_OBJECTIVE_REFRAMED
+- group_id: historical_execution_lineage
+  item_refs:
+  - IT-BP1708-0024
+  - IT-BP1708-0025
+  - IT-BP1708-0026
+  later_surfaces: []
+  evolution: HISTORICAL_ONLY

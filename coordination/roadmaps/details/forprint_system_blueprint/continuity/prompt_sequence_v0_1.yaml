@@ -1,0 +1,164 @@
+schema_version: forprint_blueprint_prompt_sequence_v0_1
+status: ACTIVE_CONTINUITY_CONTROL
+purpose: >
+  Machine-readable forward coordination sequence for zero-context Blueprint handoff.
+  This file is guidance, not runtime authority.
+authority:
+  current_release: coordination/releases/current.yaml
+  start_here: coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+selection_rule: >
+  Revalidate Git and current release, then select the first package whose dependencies
+  and entry conditions are satisfied. Never skip a blocking dependency silently.
+
+global_rules:
+  - no cross-repository writes from Blueprint into module repositories
+  - no automatic module/business prompt ACCEPT; Blueprint internal same-phase package closure may use deterministic_phase_gate
+  - no automatic push
+  - released prompts are immutable
+  - WIP target is one active prompt
+  - business prompt release is separate from coordination hardening
+  - SQLite runtime and autonomous execution remain disabled unless separately authorized
+
+phase_boundary_progression_policy:
+  standard_id: phase_boundary_progression_gate_policy_v0_1
+  manual_progress_confirmation_scope: phase_boundary_only
+  current_phase: H10
+  intra_phase_operator_accept_confirmation_required: false
+  intra_phase_operator_activation_confirmation_required: false
+  deterministic_gate_failure: stop_fail_closed
+  q_track_same_phase: [Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8]
+  next_manual_phase_boundary: H10_TO_H11
+
+packages:
+  - id: B1-IMPL
+    stable_id: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+    state: completed
+    depends_on: [H9_ACCEPTED_PUBLISHED_CLOSED, B1_ACTIVATION_PUBLISHED]
+    objective: >
+      Implement release/execution/completion baselines, required-input manifests,
+      deterministic execution-preflight, drift classification, execution identity,
+      revalidation/revocation semantics and completion provenance.
+    validation:
+      - make check
+      - focused B1 tests
+      - no module repository writes
+      - no business prompt release
+      - no automatic ACCEPT
+    exit_marker: B1_IMPLEMENTED_READY_FOR_REFERENCE_VALIDATION
+
+  - id: B1-LOGISTICS-VALIDATION
+    state: completed
+    depends_on: [B1-IMPL]
+    objective: >
+      Prove exact, forward-compatible and material-drift-blocked execution scenarios
+      using Logistics as the reference module.
+    exit_marker: B1_LOGISTICS_REFERENCE_VALIDATION_PASS
+
+  - id: B1-ACCEPT
+    state: completed
+    depends_on: [B1-LOGISTICS-VALIDATION]
+    objective: Perform explicit operator review, ACCEPT, local seal and separate publication.
+    exit_marker: B1_ACCEPTED_PUBLISHED_CLOSED
+
+  - id: B2-ACTIVATE
+    stable_id: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
+    state: completed
+    depends_on: [B1-ACCEPT]
+    objective: Promote B2 as current hardening slice in a separate reviewed transaction.
+    exit_marker: B2_ACTIVE_CURRENT
+
+  - id: B2-IMPLEMENT-ACCEPT
+    state: completed
+    depends_on: [B2-ACTIVATE]
+    objective: >
+      Define hybrid source-of-truth and persistence boundaries without enabling live SQLite runtime.
+    exit_marker: B2_ACCEPTED_PUBLISHED_CLOSED
+
+  - id: Q1
+    state: completed
+    depends_on: [B2-IMPLEMENT-ACCEPT]
+    objective: Define clarification question lifecycle.
+    exit_marker: Q1_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q2
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: ba5c83eab07a44cd65b72680d099f3a18d26f9b6
+    depends_on: [Q1]
+    objective: Define bounded five-round clarification and deterministic escalation.
+    exit_marker: Q2_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q3
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 7993f873f2f8aba31b9ee2c52fd6f2d3799391be
+    activation_basis: Q2_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q2]
+    objective: Define blocker taxonomy and prompt blocking semantics.
+    exit_marker: Q3_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q4
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 711d22224e84fe280ab6ce8f0516a853436f207d
+    activation_basis: Q3_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q3]
+    objective: Define immutable released-prompt and operator-decision correlation.
+    exit_marker: Q4_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q5
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 2309437b6a5e14b54f0a6de1c08e33f2bc5c553c
+    activation_basis: Q4_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q4]
+    objective: Define common coordination event envelope.
+    exit_marker: Q5_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q6
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 7845ab850b334460a9120d827d2397f799339fc0
+    activation_basis: Q5_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q5]
+    objective: Define operator-attention semantics and causes.
+    exit_marker: Q6_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q7
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 501d53352cdf5f4ea755de335aefc6b077c6ff02
+    activation_basis: Q6_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q6]
+    objective: Define cross-module question-routing contract without cross-repo writes.
+    exit_marker: Q7_ACCEPTED_PUBLISHED_CLOSED
+  - id: Q8
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: a028f94ce20b273b459e6b7ecb853540d93f3657
+    phase_boundary_closeout_basis: explicit_operator_q_to_h10_phase_boundary_approval
+    activation_basis: Q7_ACCEPTED_PUBLISHED_CLOSED
+    depends_on: [Q7]
+    objective: Validate clarification/blocker/attention semantics against Logistics.
+    exit_marker: Q8_ACCEPTED_PUBLISHED_CLOSED
+
+  - id: H10
+    stable_id: blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1
+    state: current_functional_work
+    activation_basis: Q8_ACCEPTED_PUBLISHED_CLOSED + explicit_operator_q_to_h10_phase_boundary_approval
+    depends_on: [Q8]
+    objective: Roll current coordination mechanics across eligible modules.
+    pilot_validation_gate:
+      sole_pilot_module: logistics_service
+      all_other_modules_connected: false
+      minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+      positive_stability_result_required: true
+      expansion_requires_separate_reviewed_decision: true
+      authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
+    exit_marker: H10_ECOSYSTEM_ROLLOUT_ACCEPTED
+
+  - id: H11
+    state: planned
+    depends_on: [H10]
+    objective: Audit and retire/archive legacy compatibility after current-tool adoption.
+    exit_marker: H11_LEGACY_RETIREMENT_ACCEPTED
+
+  - id: AUT-TRANSITION
+    state: future
+    depends_on: [H11]
+    objective: Start autonomous coordination only through a separate initiative activation.
+    exit_marker: AUTONOMOUS_COORDINATION_PROGRAM_FORMALLY_STARTED

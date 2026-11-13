@@ -1,0 +1,34 @@
+{
+  "schema_version": "cf10_r085_operator_plan_to_prepare_v0_1",
+  "status": "SOURCE_BRIDGE_EXPLICIT_COPILOT_ONLY_NOT_PRODUCTION_AUTHORIZATION",
+  "source_base_head": "3fd5b86e3d34ef5e7fd89fba70c13a7d01719a03",
+  "purpose": "Attach R084 explicit operator provider plan to R082 frozen assignment during canonical prepare before workspace provisioning",
+  "interfaces": {
+    "input": "R084 verified preview from exact Worker Task, Work Front, HEAD, Registry and attempt",
+    "prepare": "governed_worker_cycle.prepare_cycle with operator_provider_preview",
+    "output": "existing R082 Frozen Assignment + operator_preview_sha256 in new prepared evidence",
+    "same_provider_only": "github_copilot_cli / auto",
+    "output_state": "AWAITING_ASSISTANT_ACK"
+  },
+  "permissions": {
+    "other_providers": false,
+    "claim": false,
+    "ledger": false,
+    "pam": false,
+    "systemd": false,
+    "worker_launch": false,
+    "ack": false,
+    "dispatch": false,
+    "fallback": false,
+    "retry": false,
+    "production_cutover": false
+  },
+  "governance": {
+    "tmp_is_disposable": true,
+    "only_make_cli_entrypoint": true,
+    "dirty_unrelated_paths_preserved": true,
+    "no_runtime_dependency_on_tmp": true,
+    "historic_attempt_rebinding": false,
+    "R037_guard_unchanged": true
+  }
+}

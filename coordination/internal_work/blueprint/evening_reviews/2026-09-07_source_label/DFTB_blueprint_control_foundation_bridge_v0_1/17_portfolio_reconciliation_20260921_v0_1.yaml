@@ -1,0 +1,139 @@
+schema_version: forprint_dftb_control_foundation_bridge_portfolio_reconciliation_v0_1
+source_label: 2026-09-07-control-foundation
+logical_position: after_CF01_closure_before_later_CF02_hardening
+reconciled_on: '2026-09-21'
+source_archive_sha256: fb0182187ebcf8ef7f6b56e6613f3aa892d32b0284cd669fc81ec6b89e190249
+source_dialogue_hash_sha256: 0c32059f0cc0787ae681b49747a96627965958ea76793ce519afa32b007d568b
+source_authority: HISTORICAL_CF02_CANDIDATE_REVIEW_EVIDENCE_NOT_CURRENT_AUTHORITY
+temporal_boundary:
+  classification: SOURCE_LABEL_TEMPORALLY_UNSAFE
+  filename_label: '2026-09-07'
+  reason: Source contains 2026-09-12 strategy material and begins from CF-01/u180a already CLOSED with CF-02 NEXT_MANUAL.
+    Place by causal project lineage, not filename date.
+source_completeness:
+  classification: UNIQUE_PARTIAL_DIALOGUE_WITH_TEMPORAL_LABEL_CONFLICT
+  message_blocks: 9
+  turn_range: 1-12
+  roles:
+    user: 5
+    assistant: 4
+  items: 20
+  evidence: 26
+  relations: 11
+  anomalies: 10
+  open_loops: 6
+  artifact_labels: 28
+  implementation_verification_in_bundle: false
+summary: This source fills the missing reasoning bridge between CF-01 closure / CF-02 planning and later CF-02 hardening.
+  An exact current-state reconciliation invalidates a stale B1-P2 handoff, then CF-02 candidate v0.1 is built candidate-first
+  without canonical mutation. Mechanical checks pass, but semantic/adversarial review returns seven findings and
+  blocks activation/apply. Those findings explain later dependency-registry, derivation-registry, standards registration,
+  work-ID authority, bootstrap-order, test-isolation and migration-evidence hardening.
+topic_reconciliation:
+- topic: stale_handoff_correction
+  item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0003
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Live Git/release/lifecycle state outranks stale handoff text; if exact current evidence proves planned
+    work already closed, skip it rather than replaying or regressing it. Missing exact mutation anchors require
+    read-only context capture, not guessing.
+  current_connection:
+  - Handoff/continuity revalidation
+  - dirty-tree/baseline snapshots
+  - state-aware recovery
+  - Reuse-First / Pre-Implementation Reconciliation
+- topic: roadmap_plan_vs_execution_truth
+  item_refs:
+  - IT-BP0709CF-0007
+  - IT-BP0709CF-0008
+  disposition: MATERIALIZED_BY_CF02_AND_LATER_CONTROL_FOUNDATION
+  source_model:
+  - roadmap = desired specification/dependencies/bindings
+  - append-only lifecycle events = actual execution truth
+  - current roadmap execution status = generated projection
+  - READY does not equal ACTIVE
+  - NEXT_MANUAL requires explicit operator activation
+  current_reconciliation: Later CF-02 closure/reconciliation mechanisms are current; this source is origin evidence
+    for the candidate gate.
+- topic: candidate_first_semantic_gate
+  item_refs:
+  - IT-BP0709CF-0009
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0019
+  disposition: MATERIALIZED_GOVERNANCE_PATTERN
+  source_rule: Control-plane changes are first built as bounded non-mutating candidates; focused tests/compile/hash
+    integrity are necessary but insufficient. Semantic/adversarial review must clear before activation or canonical
+    apply.
+  historical_result: CF-02 candidate v0.1 RETURN_FOR_CORRECTION with seven findings.
+- topic: registry_completeness_for_new_operational_surfaces
+  item_refs:
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  disposition: RETAIN_AS_DURABLE_MACHINE_DISCOVERABILITY_AND_DERIVATION_INVARIANT
+  source_rule: New or changed operational command surfaces must update execution-dependency contracts; persistent
+    generators must register their derivations; new governance/automation standards must register in canonical document/index
+    surfaces.
+  current_evidence: Later current repository evidence exposes execution-dependency-check, generator inventory/contract
+    checks and standards/index surfaces; exact completeness remains a live audit question, not proven by this historical
+    source.
+- topic: future_work_identity_authority
+  item_refs:
+  - IT-BP0709CF-0015
+  disposition: RETAIN_AS_DURABLE_AUTHORITY_INVARIANT
+  source_rule: Planning may describe future unbound work, but must not silently pre-assign future lifecycle/work
+    IDs beyond currently authorized scope.
+- topic: projection_bootstrap_order
+  item_refs:
+  - IT-BP0709CF-0016
+  disposition: RETAIN_AS_DERIVED_STATE_BOOTSTRAP_INVARIANT
+  source_rule: 'When a new persistent projection is introduced, apply/bootstrap order is explicit: install/register
+    source and producer, materialize the projection, then run read-only freshness/sync checks and broader gates.'
+- topic: test_isolation_no_ambient_projection_dependency
+  item_refs:
+  - IT-BP0709CF-0017
+  disposition: RETAIN_AS_CONTROL_PLANE_TESTABILITY_INVARIANT
+  source_rule: Focused Control Plane tests must receive explicit projection/state inputs or test fixtures; they
+    must not silently depend on ambient repository-root generated projections while runtime/CLI may still fail closed
+    on stale state.
+- topic: exact_legacy_migration_evidence
+  item_refs:
+  - IT-BP0709CF-0018
+  disposition: RETAIN_AS_MIGRATION_PROVENANCE_INVARIANT
+  source_rule: One-time legacy migration must bind to exact pre-migration source identity and immutable evidence,
+    including roadmap SHA and accepted step identities, rather than only a coarse ordinal boundary.
+- topic: historical_b1_closure_sequence
+  item_refs:
+  - IT-BP0709CF-0020
+  disposition: HISTORICAL_REVIEW_LINEAGE_ONLY
+  current_reconciliation: Later acceptance/review/seal/publication semantics are already preserved by 17.08 and
+    later sources; do not create a second closure model.
+open_loop_reconciliation:
+- loop: LOOP-BP0709CF-0001
+  status: RESOLVED_DIRECTIONALLY_BY_LATER_CONTINUITY_AND_STATE_RECONCILIATION
+  note: Stale handoff execution is forbidden; live authority must be revalidated.
+- loop: LOOP-BP0709CF-0002
+  status: LATER_CF02_HARDENING_REPORTED_PASS_CURRENT_IMPLEMENTATION_SEPARATELY_AUDITABLE
+  note: Later 14.09/CF-02 lineage reportedly closes the seven findings; this source does not itself prove current
+    implementation.
+- loop: LOOP-BP0709CF-0003
+  status: MATERIALIZED_DIRECTION_CURRENT_COMPLETENESS_NOT_ASSERTED
+  note: Dependency/generator registration has later explicit checks; exact current coverage remains live-audit scope.
+- loop: LOOP-BP0709CF-0004
+  status: AUTHORITY_INVARIANT_RETAINED
+  note: Future work identities remain unbound until authorized/bound by current lifecycle/governance.
+- loop: LOOP-BP0709CF-0005
+  status: TEST_ISOLATION_INVARIANT_RETAINED
+  note: Sterile/explicit test inputs remain the target; audit current focused tests if Control Plane test architecture
+    is touched.
+- loop: LOOP-BP0709CF-0006
+  status: MIGRATION_EVIDENCE_INVARIANT_RETAINED
+  note: Exact pre-migration identity/evidence remains required; current migration records can be audited when relevant.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

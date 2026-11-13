@@ -1,0 +1,55 @@
+schema_version: blueprint_governance_operational_decision_v0_1
+metadata:
+  created_at: "2026-09-05"
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: adopted
+record_id: blueprint_assistant_temporary_execution_and_artifact_handoff_protocol_adoption_v0_1
+recorded_at: "2026-09-05"
+scope: blueprint_assistant_operator_execution_handoff
+status: adopted
+human_intent:
+  operator_execution_surface: >
+    Assistant-supplied scripts are commonly copied to and executed through a volatile tmp.py.
+    The operator does not guarantee preservation of that file or of shell/tee history.
+  artifact_expectation: >
+    If the assistant will need a report, archive, diagnostic or document in the next turn,
+    the script itself must generate it and the assistant must identify the exact artifact
+    expected back.
+  debugging_expectation: >
+    Debug-specific files belong in a bounded temporary directory under tmp/. The directory
+    exists for the current debug/work cycle and is removed after that cycle is closed.
+  onboarding_expectation: >
+    AGENTS.md must point to this rule so the operator does not need to repeat it to each
+    fresh assistant.
+decision:
+  volatile_tmp_py_is_durable_history: false
+  shell_history_is_required_handoff_evidence: false
+  self_written_report_required_when_next_turn_depends_on_output: true
+  canonical_temp_session_root: tmp/assistant_work/<work_id>/
+  debug_artifacts_must_be_session_scoped: true
+  exact_return_artifact_must_be_printed: true
+  temporary_workspace_is_durable_archive: false
+  promote_required_durable_evidence_before_cleanup: true
+  cleanup_requires_closed_work_cycle: true
+  broad_tmp_cleanup_allowed: false
+  automatic_git_clean_reset_stash_allowed: false
+authority_effect:
+  release_transition: false
+  prompt_activation: false
+  automatic_acceptance: false
+  automatic_release_next_prompt: false
+  module_implementation_authority_widened: false
+  cross_repository_write_authority_widened: false
+  commit_push_authority_widened: false
+follow_up_discussion:
+  topic: task_aware_fresh_worker_context_bundle
+  status: discussion_backlog_not_implementation
+  existing_primitive: scripts/coordination/build_context_bundle.py
+  intent: >
+    Review the existing context-bundle primitive and design a richer BOOTSTRAP_FOR_TASK
+    contract before authorizing any implementation.
+canonical_standard:
+  path: coordination/standards/governance/assistant_temporary_execution_and_artifact_handoff_protocol_v0_1.md
+entry_point:
+  path: AGENTS.md

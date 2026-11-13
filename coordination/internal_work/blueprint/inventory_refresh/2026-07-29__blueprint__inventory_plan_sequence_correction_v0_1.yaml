@@ -1,0 +1,57 @@
+schema_version: blueprint_inventory_plan_sequence_correction_v0_1
+metadata:
+  correction_id: 2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T19:12:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: efce6def8f7485c7a41876c1d0f2cf45e9f182ff
+  result: CORRECTED
+trigger:
+  premature_current_step: blueprint_inventory_acceptance_merge_gate_v0_1
+  fully_verified_lower_bound: 0.1088
+  records_with_unknowns: 25
+  changed_paths_since_rci: 19
+  reason: Inventory acceptance and merge cannot precede registry remediation, authority adoption, unknown triage,
+    snapshot CI, RCI/REDM enrichment and repository-knowledge reconciliation.
+corrected_current_step: blueprint_registry_reconciliation_remediation_v0_1
+corrected_actionable_chain:
+- position: 1
+  step_id: blueprint_registry_reconciliation_remediation_v0_1
+  status: active
+- position: 2
+  step_id: blueprint_artifact_authority_policy_adoption_v0_1
+  status: planned
+- position: 3
+  step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
+  status: planned
+- position: 4
+  step_id: blueprint_snapshot_comparison_ci_gate_v0_1
+  status: planned
+- position: 5
+  step_id: blueprint_rci_semantic_enrichment_v0_1
+  status: planned
+- position: 6
+  step_id: blueprint_redm_dependency_enrichment_v0_1
+  status: planned
+- position: 7
+  step_id: blueprint_repository_knowledge_reconciliation_v0_1
+  status: planned
+- position: 8
+  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
+  status: planned
+- position: 9
+  step_id: blueprint_inventory_operational_readiness_review_v0_1
+  status: planned
+external_rollout:
+  wave_b_status: deferred
+  release_after: blueprint_inventory_operational_readiness_review_v0_1
+  module_repositories_modified: false
+  prompt_queues_modified: false
+  cross_repository_writes: false
+quality_checks:
+  acceptance_gate_moved_after_reconciliation: true
+  redm_enrichment_added: true
+  exactly_eight_actionable_steps_after_current: true
+  external_rollout_excluded_from_actionable_horizon: true
+  completed_history_preserved: true
+  yaml_validated: true

@@ -1,0 +1,1530 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-09-05
+source:
+  source_id: SRC-blueprint-2026-09-05
+  title: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26
+  source_type: chatgpt_mhtml_snapshot
+  source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  source_hash_sha256: d7caa4e5fc43321c58de5bde1b7184bc15624411e6e046df59d44127b183fb2f
+  conversation_started_at: null
+  conversation_ended_at: Sat, 12 Sep 2026 16:35:05 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial
+  completeness_notes: 102/103 retained turn containers contain text; only 3 assistant narrative messages are preserved.
+extraction:
+  created_at: '2026-09-12T17:19:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: independent_dialogue_reconstruction
+  implementation_verification_performed: false
+  notes: Historical intent, normalization decisions and runtime lineage only. Current repository/runtime must be audited separately.
+evidence_index:
+- evidence_id: EV-BP0509-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: dd3a2df8-3a97-49d1-a2cc-4d20ef6d8b5b
+    message_id: dd3a2df8-3a97-49d1-a2cc-4d20ef6d8b5b
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: говорено ряд питань і сформований пакет спочатку був сформований пакет версія 1.0 потім було сформований пакет 1.1 ти їх розпакуй
+    подивись вони мають описувати один і той же самий діалог але можливо є щось що один одного доповнює або якщо якась версія більш ширша
+    то просто можемо залити в проект більш ширшу версію ну або скомпонувати їх до кучі або поетапно реалізувати ми вже почали попередн
+  quote_whitespace_normalized: true
+  context_before: Owner brings two packages describing the same prior discussion and asks to reconcile rather than lose information.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - memory_integration
+- evidence_id: EV-BP0509-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 98080d80-7a22-40c7-b19f-e9797f4a8fe7
+    message_id: 8d9def43-cd59-4857-9059-c7c3aa320f16
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'чітка, щоб продовжувати без перенесення всього старого діалогу. v1.1 треба вважати основним інтеграційним пакетом. v1.0 — це підготовчий
+    пакет: 16 файлів, 50 Human Intent записів і багато матеріалу у вигляді planning/source documents. v1.1 — уже пакет, розкладений по цільових
+    шляхах Blueprint: 12 файлів, 77 Human Intent записів , roadmap amendments, planning prompts, governance standard і f'
+  quote_whitespace_normalized: true
+  context_before: Assistant selects v1.1 as the primary integration package.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - memory_integration
+- evidence_id: EV-BP0509-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 98080d80-7a22-40c7-b19f-e9797f4a8fe7
+    message_id: 8d9def43-cd59-4857-9059-c7c3aa320f16
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'уже пакет, розкладений по цільових шляхах Blueprint: 12 файлів, 77 Human Intent записів , roadmap amendments, planning prompts,
+    governance standard і focused test. Це узгоджується з роллю Blueprint як репозиторію архітектури/координації, а не runtime-системи. Важливо:
+    не треба після v1.1 механічно заливати Human Intent із v1.0. У v1.0 всі 50 записів мають старі ID'
+  quote_whitespace_normalized: true
+  context_before: v1.1 contains a larger normalized Human Intent set.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - human_intent
+- evidence_id: EV-BP0509-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 98080d80-7a22-40c7-b19f-e9797f4a8fe7
+    message_id: 8d9def43-cd59-4857-9059-c7c3aa320f16
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'активною частиною. Отже після успішної інтеграції 1.1 ми зробимо residual audit v1.0 → v1.1 , а не друге повне злиття. Щодо падіння:
+    це хороша новина. Архітектурна інтеграція не впала. Впав тільки Ruff на імпорті focused test. До цього успішно пройшли preflight, SHA/manifest,
+    копіювання пакета, історія, додавання всіх 77 intents → total 234 , реєстрація Portfolio stand'
+  quote_whitespace_normalized: true
+  context_before: Assistant chooses residual comparison instead of blindly merging both packages.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - deduplication
+- evidence_id: EV-BP0509-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 98080d80-7a22-40c7-b19f-e9797f4a8fe7
+    message_id: 8d9def43-cd59-4857-9059-c7c3aa320f16
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'е перетинаються. Якщо долити 1.0 поверх 1.1, ми отримаємо багато семантичних дублікатів замість історії намірів. При цьому v1.0
+    нам ще потрібен як контрольний шар . Я вже знайшов речі, яких у v1.1 немає або вони там значно стиснуті. Наприклад, v1.0 має детальнішу
+    специфікацію Portfolio: конкретну палітру HEX, правила cover/global introduction, top/bottom margins, s'
+  quote_whitespace_normalized: true
+  context_before: Assistant warns that merging old/new Human Intent IDs would create duplicate semantics rather than useful history.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - deduplication
+- evidence_id: EV-BP0509-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 98080d80-7a22-40c7-b19f-e9797f4a8fe7
+    message_id: 8d9def43-cd59-4857-9059-c7c3aa320f16
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'folio standard і оновлення AGENTS.md . Після I001 скрипт виконав ROLLBACK=PASS . Сам tmp.py справді спроєктований обережно: перевіряє
+    branch/HEAD/clean tree, SHA пакета, робить backup, захищає від collision Human Intent, не commit/push і при exception повертає touched
+    surfaces. Є одна причина, чому я зараз не хочу просто сказати “поміняй порядок імпортів”'
+  quote_whitespace_normalized: true
+  context_before: Initial v1.1 integration failure is reported safely rolled back after Ruff I001.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - rollback
+- evidence_id: EV-BP0509-0007
+  speaker: user
+  locator:
+    conversation_turn: 97
+    turn_id: 3be47088-7ba4-45b8-a1b8-f10c7b3c47f6
+    message_id: 3be47088-7ba4-45b8-a1b8-f10c7b3c47f6
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: Document Дивись у нас відносно часто відбуваються проблеми що ми не можемо швидко рознести інформацію по проекту і можливо якщо
+    різні документи там по-різному описують різні модулі і це постійна проблема може щоб не накопичувати скажімо проблемні ситуації може
+    запланувати і перебрати просто ці документи і провести до єдиного стандарту щоб у нас все було ну з одноманітними заголовками з одн
+  quote_whitespace_normalized: true
+  context_before: Owner identifies inconsistent document structures as a recurring information-distribution problem.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - normalization
+- evidence_id: EV-BP0509-0008
+  speaker: user
+  locator:
+    conversation_turn: 97
+    turn_id: 3be47088-7ba4-45b8-a1b8-f10c7b3c47f6
+    message_id: 3be47088-7ba4-45b8-a1b8-f10c7b3c47f6
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: емні ситуації може запланувати і перебрати просто ці документи і провести до єдиного стандарту щоб у нас все було ну з одноманітними
+    заголовками з одноманітною структурою і не ну впиратися в такі проблеми постійно чи не в цьому проблема Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner wants module/project documents normalized to a consistent structure.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - normalization
+- evidence_id: EV-BP0509-0009
+  speaker: user
+  locator:
+    conversation_turn: 119
+    turn_id: b00976f2-d9c7-42e8-bc16-9da07c616e1e
+    message_id: b00976f2-d9c7-42e8-bc16-9da07c616e1e
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: Pasted text.txt Document SYNTHETIC нормалізуємо з PROPOSED що було в одному стилі все мені не важливо який термін візьмемо робимо
+    так деменше возитись з кодом
+  quote_whitespace_normalized: true
+  context_before: Owner chooses one common status vocabulary to reduce code/maintenance complexity.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - schema_normalization
+- evidence_id: EV-BP0509-0010
+  speaker: user
+  locator:
+    conversation_turn: 161
+    turn_id: 85d823d4-641a-45b3-8adf-1fe3fb6d6e3b
+    message_id: 85d823d4-641a-45b3-8adf-1fe3fb6d6e3b
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: оверни мені готовий архів щоб ми просто його вставили в проект і ці всі 30 файлів опрацювати одним махом тут тим будеш бачити і
+    семантичний зміст і подивися ще про всяк випадок про структуру і про порядок і про може якісь там ще проблеми виявляться допоміжні я
+    думаю що так швидше буде Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner prefers batch semantic review/normalization instead of slow file-by-file handling.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - bulk_review
+- evidence_id: EV-BP0509-0011
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: 342dfba3-e360-4726-9512-f4aae29e09cb
+    message_id: a288b55b-9979-450a-b61c-440054bb8c2d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: Так на попереднє це що я там відправив то не нашого модуля завдання на нього не звертає уваги на сьогодні ми тоді завершаємо роботу
+    вже продовжимо в текстовому ну в усному форматі проговорювати roadmap і задачі помічникам планувати нашу поддячі дії але я хочу щоб ми
+    зробили зараз дві речі перше - це ну я думаю що ми можемо ще це встигнути поки в
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly excludes the immediately preceding UI task from this module/project work.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - scope_exclusion
+- evidence_id: EV-BP0509-0012
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: 342dfba3-e360-4726-9512-f4aae29e09cb
+    message_id: a288b55b-9979-450a-b61c-440054bb8c2d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: часу це описати цей момент який ми вловили ну по-перше оцю сама процедуру по такій ну скажімо чистці да тобто що ми підчистили там
+    власний власний модуль тобто це треба закласти загальні правила і загальні правила для інших модулів тобто вони мають це теж відслідковувати
+    щоб не бруднився проект ну і інші модулі щоб вони не плодили різні стандарти щоб була якась така єдина точка
+  quote_whitespace_normalized: true
+  context_before: Owner wants project-cleaning/normalization procedure formalized as a general rule.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - self_cleaning
+- evidence_id: EV-BP0509-0013
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: 342dfba3-e360-4726-9512-f4aae29e09cb
+    message_id: a288b55b-9979-450a-b61c-440054bb8c2d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ласний власний модуль тобто це треба закласти загальні правила і загальні правила для інших модулів тобто вони мають це теж відслідковувати
+    щоб не бруднився проект ну і інші модулі щоб вони не плодили різні стандарти щоб була якась така єдина точка контролю над точку контролю
+    якась політика яка вимагає щоб була чистота проекту і вони мали б інструкції що саме треба контролюват
+  quote_whitespace_normalized: true
+  context_before: Self-cleaning/normalization should become a portfolio-wide module rule, not only Blueprint-local work.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - portfolio_standard
+- evidence_id: EV-BP0509-0014
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: 342dfba3-e360-4726-9512-f4aae29e09cb
+    message_id: a288b55b-9979-450a-b61c-440054bb8c2d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: вона реалізована ще на автоматичному варіанті яка перевіряє там відповідність всіх описових документів якому стандарту і наша знову
+    модуль не буде роз'їжджатися тобто це треба там якщо це не реалізовано автоматично то треба тоді запланувати і реалізувати якщо реалізовано
+    то писати це в документах і поставити в індексі що в нас є такий функціонал ну і те що писати в політиках і для нашого модуля
+  quote_whitespace_normalized: true
+  context_before: Owner wants automated checks for descriptive-document conformance when feasible.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - validation
+- evidence_id: EV-BP0509-0015
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: 342dfba3-e360-4726-9512-f4aae29e09cb
+    message_id: a288b55b-9979-450a-b61c-440054bb8c2d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: дулів тобто і внести це треба обов'язково в обов'язково це треба внести в наш індекс щоб ми реалізували таку роботу ну я не сподіваюсь
+    що вона реалізована ще на автоматичному варіанті яка перевіряє там відповідність всіх описових документів якому стандарту і наша знову
+    модуль не буде роз'їжджатися тобто це треба там якщо це не реалізовано автоматично то треба то
+  quote_whitespace_normalized: true
+  context_before: The capability/policy should be represented in project indexes and discoverable.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - indexing
+- evidence_id: EV-BP0509-0016
+  speaker: user
+  locator:
+    conversation_turn: 265
+    turn_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    message_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: список модулів файлів скриптів або документів які застарілі і є кандидатами там на видалення ну тобто вони там повисіли застарілих
+    там рік умовно далі ми там робимо ну то ми в нас якісь є тест який перевіряє наприклад якщо є якісь застарілі документи або скрипти то
+    ми їх тоді взагалі маємо з проекту забрати або видалити або перенести в якусь директорію де вони вже ну на
+  quote_whitespace_normalized: true
+  context_before: Owner proposes a registry/list of stale modules/files/scripts/documents as removal/archive candidates.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - deprecation
+- evidence_id: EV-BP0509-0017
+  speaker: user
+  locator:
+    conversation_turn: 265
+    turn_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    message_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: рілі і є кандидатами там на видалення ну тобто вони там повисіли застарілих там рік умовно далі ми там робимо ну то ми в нас якісь
+    є тест який перевіряє наприклад якщо є якісь застарілі документи або скрипти то ми їх тоді взагалі маємо з проекту забрати або видалити
+    або перенести в якусь директорію де вони вже ну навіть не приходять ніяких перевірок і нічого там їм не
+  quote_whitespace_normalized: true
+  context_before: Stale artifacts should age through a deliberate retention/removal process rather than accumulate forever.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - deprecation
+- evidence_id: EV-BP0509-0018
+  speaker: user
+  locator:
+    conversation_turn: 265
+    turn_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    message_id: 153e6f0a-a3c8-4c27-a011-03afea59e182
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: видалити або перенести в якусь директорію де вони вже ну навіть не приходять ніяких перевірок і нічого там їм не виконується тому
+    що вони вже не використовуються в проекті може якось так робити щоб не накопичувати просто той функціонал який не потрібен він просто
+    буде ну забивати проект мені здається з часом з роками Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Archived/deprecated artifacts should be outside active checks when no longer part of current project behavior.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - legacy_isolation
+- evidence_id: EV-BP0509-0019
+  speaker: user
+  locator:
+    conversation_turn: 291
+    turn_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    message_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ак перед тим як піти далі дай мені підтвердження що в нас дійсно всі зміни зафіксовані в проекті скажімо так прописано в документах
+    ті які ми будемо роздавати ну або загальна інструкція для помічників або для кожного помічника окремо якщо це у нас так заплановано що
+    вони всі ознайомлені теж з загальними цими політиками що ми зробили і в цілому що проект наш внесено все в ін
+  quote_whitespace_normalized: true
+  context_before: Before proceeding, owner wants confirmation that changes are durably documented and propagated.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - closeout
+- evidence_id: EV-BP0509-0020
+  speaker: user
+  locator:
+    conversation_turn: 291
+    turn_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    message_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: жного помічника окремо якщо це у нас так заплановано що вони всі ознайомлені теж з загальними цими політиками що ми зробили і в
+    цілому що проект наш внесено все в індекс і він здоровий зараз і ми можемо продовжувати дай мені таке підтвердження Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Shared assistant/module policies must actually be visible to the assistants that need them.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - policy_distribution
+- evidence_id: EV-BP0509-0021
+  speaker: user
+  locator:
+    conversation_turn: 291
+    turn_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    message_id: 1250544b-9c02-4aec-9544-ee319ad498e7
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ені теж з загальними цими політиками що ми зробили і в цілому що проект наш внесено все в індекс і він здоровий зараз і ми можемо
+    продовжувати дай мені таке підтвердження Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Project closeout should include index completeness and overall health confirmation.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - health_gate
+- evidence_id: EV-BP0509-0022
+  speaker: user
+  locator:
+    conversation_turn: 369
+    turn_id: 10935f78-d4b6-4d3c-8dc5-b301c0bccccc
+    message_id: 10935f78-d4b6-4d3c-8dc5-b301c0bccccc
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: logistics_service__inventory_batch_01__bootstrap_coordination_docs_config__2026-09-04.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Logistics inventory is partitioned into explicit batches for review.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - inventory
+- evidence_id: EV-BP0509-0023
+  speaker: user
+  locator:
+    conversation_turn: 379
+    turn_id: bb1e6b50-2128-46a2-a850-42aeda184984
+    message_id: bb1e6b50-2128-46a2-a850-42aeda184984
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: logistics_service__inventory_batch_06__root_transient_and_operational_inventory_only__2026-09-04.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Sixth Logistics inventory batch covers root/transient/operational inventory-only scope.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - inventory
+- evidence_id: EV-BP0509-0024
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: і подивитися чи там нема збоїв але наша загальна робота така що ми публікуємо пром своїй директорії і далі вже помічниці там по
+    модулях підтягують ці промти автоматично тобто ми проговорювали такий момент що буде там ну на перших порах ми можемо просто видати там
+    ручну інструкцію там сказати де саме лежить пром і звідки його підтягнути але в майбутньому це має бути реалізовано
+  quote_whitespace_normalized: true
+  context_before: 'Owner restates the canonical model: Blueprint publishes prompts in its own directory.'
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - prompt_lifecycle
+- evidence_id: EV-BP0509-0025
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: на робота така що ми публікуємо пром своїй директорії і далі вже помічниці там по модулях підтягують ці промти автоматично тобто
+    ми проговорювали такий момент що буде там ну на перших порах ми можемо просто видати там ручну інструкцію там сказати де саме лежить
+    пром і звідки його підтягнути але в майбутньому це має бути реалізовано ну там скажімо це ми можемо проговорити якщо є двозна чності
+    якщо їх
+  quote_whitespace_normalized: true
+  context_before: Module-side assistants/listeners should pull prompts automatically instead of Blueprint pushing directly into module repos.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - prompt_pull
+- evidence_id: EV-BP0509-0026
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ін буде слухати директорію наприклад свою в нашому проекті тобто він нічого не може писати в наш проект але може читати тобто він
+    бачить що в нашому проекті реалізована його директорії новий документ і далі вже ініціюється ланцюжок подій тобто він перетягує його
+    в свій проект викликає скажімо так уже АІ помічника передає йому інформацію там передає супутню інформацію по контексту ну це треба поди
+  quote_whitespace_normalized: true
+  context_before: Module listener may read its Blueprint-facing directory but not write into Blueprint.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - repository_boundary
+- evidence_id: EV-BP0509-0027
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ирає ми домовлялися що в розрізі промків у нас буде запуска тися кожного разу свіжа версія і помічника щоб уникати переповнення
+    контекстного вікна десь посередині промту тобто має збиратися повний такий нормальний адекватний комплект інформації щодо ну не знаю
+    можливо це в промті ми зразу будемо прописувати що там передати аї помічнику такі-то файли або такі-то докуме
+  quote_whitespace_normalized: true
+  context_before: Each prompt should run with a fresh AI worker to avoid context-window exhaustion.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - fresh_worker
+- evidence_id: EV-BP0509-0028
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ий промт має там фіналізуватися ну він точно буде фіналізуватися звітом і там новому помічнику там з новим промтом можна передавати
+    звіт попереднього щоб він бачив яка була глобальна остання ітерація що було виконано ну і щоб він зрозумів ланцюжок послідовності дій
+    ну і також він має там відразу розуміти де в нього там що знаходиться по індексу розуміти де можна подивитис
+  quote_whitespace_normalized: true
+  context_before: Next worker should receive the previous completion/report context to understand the latest iteration.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - context_pack
+- evidence_id: EV-BP0509-0029
+  speaker: user
+  locator:
+    conversation_turn: 387
+    turn_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    message_id: ecce8a80-fbcc-4eb6-b741-73f71a4ad501
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: дразу розуміти де в нього там що знаходиться по індексу розуміти де можна подивитися історію промтів roadmap куди рухається він
+    історію звітів тобто як що було ну і там загальну картинку по проекту тобто це все має ну відбуватися плюс-мінус в такій конфігурації
+    чи співпадає воно поки що з нашим поточним станом чи треба щось уточнювати коригувати чи можливо десь щось пішло взагалі в інш
+  quote_whitespace_normalized: true
+  context_before: Worker context should expose indexes, prompt history, roadmap, report history and project overview.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - context_pack
+- evidence_id: EV-BP0509-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 416
+    turn_id: 27fe5285-2795-4b21-b113-812a18a585ff
+    message_id: 3fbd95ca-4e72-4f1e-b76d-f507e91e6102
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'repair правильний: Ruff PASS, 7 health tests PASS, після release ready_for_module_pull був єдиним ready prompt, prepared_buffer=8
+    , refill_recommendations=[] , release policy повернувся у fail-closed. Падіння тепер лише в acceptance-binding regression fixture. Причина
+    точна: після release bootstrap правильно перестає бути prepared draft , але його roadmap Acceptance Oracle binding має за'
+  quote_whitespace_normalized: true
+  context_before: u123a confirms one released prompt ready for module pull while generic health/refill behavior is stable.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - runtime
+- evidence_id: EV-BP0509-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 416
+    turn_id: 27fe5285-2795-4b21-b113-812a18a585ff
+    message_id: 3fbd95ca-4e72-4f1e-b76d-f507e91e6102
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'SS, після release ready_for_module_pull був єдиним ready prompt, prepared_buffer=8 , refill_recommendations=[] , release policy
+    повернувся у fail-closed. Падіння тепер лише в acceptance-binding regression fixture. Причина точна: після release bootstrap правильно
+    перестає бути prepared draft , але його roadmap Acceptance Oracle binding має залишатися . Старий т'
+  quote_whitespace_normalized: true
+  context_before: Prepared prompt buffer is kept at eight after release.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - buffer
+- evidence_id: EV-BP0509-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 416
+    turn_id: 27fe5285-2795-4b21-b113-812a18a585ff
+    message_id: 3fbd95ca-4e72-4f1e-b76d-f507e91e6102
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'им ready prompt, prepared_buffer=8 , refill_recommendations=[] , release policy повернувся у fail-closed. Падіння тепер лише в
+    acceptance-binding regression fixture. Причина точна: після release bootstrap правильно перестає бути prepared draft , але його roadmap
+    Acceptance Oracle binding має залишатися . Старий тест помилково прирівнював множину всіх oracle-bound roadmap steps до P'
+  quote_whitespace_normalized: true
+  context_before: Release policy restores fail-closed after one-shot release.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - safety_gate
+- evidence_id: EV-BP0509-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 416
+    turn_id: 27fe5285-2795-4b21-b113-812a18a585ff
+    message_id: 3fbd95ca-4e72-4f1e-b76d-f507e91e6102
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'ease bootstrap правильно перестає бути prepared draft , але його roadmap Acceptance Oracle binding має залишатися . Старий тест
+    помилково прирівнював множину всіх oracle-bound roadmap steps до PREPARED_IDS . Після release це вже різні поняття. Я підготувала u123b
+    . Він не видаляє oracle binding і не послаблює governance. Натомість тест тепер явно розділяє: PREPARED_IDS = 8 ; RELEASED_ORACLE'
+  quote_whitespace_normalized: true
+  context_before: Acceptance Oracle binding must persist after release even when bootstrap leaves the prepared-draft set.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - acceptance_binding
+- evidence_id: EV-BP0509-0034
+  speaker: assistant
+  locator:
+    conversation_turn: 418
+    turn_id: e8757d88-7347-4024-8b62-3f22dbbbc8a3
+    message_id: 5019a598-ad6b-494d-a232-9322fda4a317
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: 'іння сталося вже на validate_semantic_structure.py з рівно одним GENUINE_NO_INBOUND_CURRENT_DOCUMENTS . Rollback знову повернув
+    усе до pre-release стану. Найімовірніший кандидат — новий one-shot authorization decision: під час release він є authorization_evidence
+    , але після відновлення release policy у fail-closed посилання з policy зникає, і документ може лишатися current gove'
+  quote_whitespace_normalized: true
+  context_before: u123b reaches a single semantic inbound-reference failure after other tests pass.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - semantic_validation
+- evidence_id: EV-BP0509-0035
+  speaker: assistant
+  locator:
+    conversation_turn: 418
+    turn_id: e8757d88-7347-4024-8b62-3f22dbbbc8a3
+    message_id: 5019a598-ad6b-494d-a232-9322fda4a317
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ENT_DOCUMENT_EXACT_DISCOVERY_U123C=PASS Після цього u124 вже має не послаблювати semantic validator, а дати authorization evidence
+    довготривале канонічне inbound-посилання , після чого повторити ту саму one-shot release транзакцію.
+  quote_whitespace_normalized: true
+  context_before: Fix should add durable canonical inbound reference rather than weakening the semantic validator.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - semantic_validation
+- evidence_id: EV-BP0509-0036
+  speaker: user
+  locator:
+    conversation_turn: 63
+    turn_id: a764c1e1-f34a-4937-86a5-d1e74794f47e
+    message_id: a764c1e1-f34a-4937-86a5-d1e74794f47e
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: ForPrint_Self_Inventory_System_Context_2026-08-31_20260831T155430Z_4739fdc.zip Zip Archive ForPrint_Portfolio_Roadmap_Current_State_Context_2026-08-31_20260831T155430Z_4739fdc.zip
+    Zip Archive FORPRINT EVENING PREPARATION TWO-PACKAGE COLLECTOR 2026-08-31 STANDARD_WORKFLOW=tmp.py -> tmp/report.txt MODE=READ_ONLY_REPOSITORY
+    OUTPUT
+  quote_whitespace_normalized: true
+  context_before: Owner supplies a self-inventory/system-context snapshot for later planning.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - knowledge_snapshot
+- evidence_id: EV-BP0509-0037
+  speaker: user
+  locator:
+    conversation_turn: 63
+    turn_id: a764c1e1-f34a-4937-86a5-d1e74794f47e
+    message_id: a764c1e1-f34a-4937-86a5-d1e74794f47e
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  quote: stem_Context_2026-08-31_20260831T155430Z_4739fdc.zip Zip Archive ForPrint_Portfolio_Roadmap_Current_State_Context_2026-08-31_20260831T155430Z_4739fdc.zip
+    Zip Archive FORPRINT EVENING PREPARATION TWO-PACKAGE COLLECTOR 2026-08-31 STANDARD_WORKFLOW=tmp.py -> tmp/report.txt MODE=READ_ONLY_REPOSITORY
+    OUTPUT_SCOPE=tmp/*.zip COMMIT_PERFORMED=false PUSH_PERFORMED=false NETWORK=false MODULE_EXECUTION_STARTED=f
+  quote_whitespace_normalized: true
+  context_before: Owner supplies a portfolio/roadmap current-state snapshot for later planning.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - knowledge_snapshot
+items:
+- item_id: IT-BP0509-0001
+  kind: process_rule
+  title: Reconcile memory packages semantically, not by blind merge
+  statement: When two packages describe the same dialogue/history, select the stronger normalized package and perform a residual audit for
+    details missing from the newer package instead of importing both wholesale.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - project_memory
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0001
+  - EV-BP0509-0002
+  - EV-BP0509-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0002
+  kind: process_rule
+  title: Avoid duplicate Human Intent semantics across ID migrations
+  statement: Human Intent IDs/schema migrations must preserve history without creating duplicate semantic records for the same decision.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0003
+  - EV-BP0509-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0003
+  kind: implementation_claim
+  title: Initial v1.1 integration safe-failed on Ruff and rolled back
+  statement: Historical assistant report says the package integration reached the normalized Human Intent/import stage but failed only on
+    Ruff I001 and rolled back successfully.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - tooling
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only; current integration state must be audited.
+- item_id: IT-BP0509-0004
+  kind: requirement
+  title: Normalize module/project descriptive documents to one structure
+  statement: Recurring information-distribution problems should be reduced by standardizing document headings, structure and equivalent semantic
+    fields across modules.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0007
+  - EV-BP0509-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0005
+  kind: decision
+  title: Normalize SYNTHETIC and PROPOSED vocabulary
+  statement: Use a single canonical vocabulary instead of maintaining equivalent SYNTHETIC/PROPOSED states merely for backward naming variety.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - schema
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0006
+  kind: process_rule
+  title: Use bulk semantic normalization for large document sets
+  statement: When many related files need normalization, review them as a coherent batch/archive so semantics, structure and auxiliary problems
+    can be reconciled together rather than one file at a time.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - review
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0007
+  kind: rejected_alternative
+  title: Foreign UI task explicitly excluded
+  statement: The immediately preceding UI/system-settings task is explicitly outside this module/project work and must not be promoted into
+    Blueprint roadmap requirements from this dialogue.
+  dialogue_status: rejected
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - scope_control
+  implementation_expectation: not_required
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP0509-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0008
+  kind: process_rule
+  title: Project self-cleaning is a formal governance obligation
+  statement: Blueprint and other modules should continuously keep their own infrastructure/documents/indexes in a controlled, normalized
+    state rather than rely on periodic emergency cleanup.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - governance
+  - module_assistants
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0509-0012
+  - EV-BP0509-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0009
+  kind: requirement
+  title: Automated descriptive-document conformance checks
+  statement: Where practical, project tooling should validate that descriptive/module documents conform to the common structure/standard.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0010
+  kind: process_rule
+  title: Self-cleaning capability must be indexed/discoverable
+  statement: If cleanup/normalization capability exists or is planned, it must be represented in indexes/policies so assistants can discover
+    and apply it.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - indexes
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0509-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0011
+  kind: requirement
+  title: Maintain stale-artifact candidate registry
+  statement: Track obsolete or aging modules/files/scripts/documents as explicit candidates for review, archive or removal instead of letting
+    dead infrastructure accumulate indefinitely.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - repository_maintenance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0509-0016
+  - EV-BP0509-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0012
+  kind: process_rule
+  title: Retired artifacts leave active validation surface
+  statement: Once an artifact is confirmed obsolete and retained only historically, it should not continue participating in normal active
+    checks/execution.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0013
+  kind: process_rule
+  title: Closeout includes documentation propagation
+  statement: Before moving on after a governance/normalization change, verify that the final rules are durably recorded in the project and
+    in the assistant/module guidance that consumes them.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - governance
+  - closeout
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0019
+  - EV-BP0509-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0014
+  kind: process_rule
+  title: Closeout includes index and health verification
+  statement: A cleanup/governance workfront should not be considered safely complete until project indexes are updated and health checks
+    show a managed state.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - indexes
+  - health
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0509-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0015
+  kind: plan
+  title: Logistics inventory reviewed in bounded batches
+  statement: Logistics repository inventory is intentionally partitioned into bounded batches spanning bootstrap/coordination/docs/config,
+    source/domain, contracts/examples, tests/fixtures, tools/maintenance and root/transient operational surfaces.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - inventory
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - review
+  evidence_refs:
+  - EV-BP0509-0022
+  - EV-BP0509-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0016
+  kind: architecture_constraint
+  title: Blueprint publishes prompts only in Blueprint-owned surfaces
+  statement: Blueprint should publish a module prompt into its own coordination/outgoing surface rather than directly injecting/mutating
+    it inside the target module repository.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0024
+  - EV-BP0509-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0017
+  kind: workflow
+  title: Module-side pull/listener consumes released prompts
+  statement: Target modules should detect/pull their released prompt from the Blueprint-facing directory, initially with manual assistance
+    if needed and ultimately through module-side listener/runtime automation.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - listener
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0025
+  - EV-BP0509-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0018
+  kind: architecture_constraint
+  title: Module listener reads Blueprint but does not write it
+  statement: Module-side coordination/listener may read its exposed Blueprint prompt surface but should not write back into Blueprint repository
+    ownership surfaces.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - repository_boundary
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0019
+  kind: process_rule
+  title: Fresh AI worker per prompt
+  statement: Each module prompt/work package should launch a fresh AI worker to prevent long-lived context-window exhaustion.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - worker_runtime
+  - module_assistants
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0020
+  kind: requirement
+  title: Fresh-worker context includes prior completion evidence
+  statement: A new worker should receive the previous prompt's report/completion evidence so it can understand the latest iteration without
+    depending on chat memory.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - worker_runtime
+  - context_pack
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0021
+  kind: requirement
+  title: Fresh-worker context exposes project navigation
+  statement: Worker context should expose indexes, prompt history, roadmap, report history and enough project overview to independently navigate
+    the module's development chain.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - context_pack
+  - knowledge
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0509-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0022
+  kind: process_rule
+  title: Business acceptance remains separate from prompt execution
+  statement: Module execution/report return should not collapse into automatic business acceptance; operator review/ACCEPT/RETURN remains
+    a distinct transition.
+  dialogue_status: agreed
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - operator_approval
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0509-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: The full ACCEPT/RETURN wording appears in the long owner explanation; current runtime policy should be audited for exact
+    semantics.
+- item_id: IT-BP0509-0023
+  kind: implementation_claim
+  title: Generic health release reached ready_for_module_pull
+  statement: Historical u123a/u123b reports say release produced a single `ready_for_module_pull` prompt with stable generic health/refill
+    behavior.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - H10
+  - prompt_queue
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0030
+  - EV-BP0509-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only.
+- item_id: IT-BP0509-0024
+  kind: process_rule
+  title: Release policy returns fail-closed after one-shot release
+  statement: One-shot prompt release should not leave release policy permissive; the policy returns to fail-closed after the authorized transaction.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - release
+  - safety
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0025
+  kind: requirement
+  title: Acceptance Oracle binding survives prompt release
+  statement: When a prompt leaves prepared drafts and becomes released/ready-for-module-pull, its roadmap Acceptance Oracle binding must
+    remain durable and valid.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - acceptance_oracle
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0026
+  kind: risk
+  title: Prepared prompt set and oracle-bound set are not identical after release
+  statement: Tests/governance must distinguish currently prepared drafts from already released prompts that remain bound to Acceptance Oracle.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - tests
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0509-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0027
+  kind: risk
+  title: Current governance documents require durable inbound references
+  statement: A one-shot authorization decision can become an unreferenced current governance document after policy reset; semantic validation
+    should require a durable canonical inbound reference.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0034
+  - EV-BP0509-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0028
+  kind: process_rule
+  title: Repair semantic references, do not weaken validator
+  statement: When semantic validation exposes an orphan current document, add the missing canonical reference rather than relaxing the validator
+    to hide the problem.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0029
+  kind: requirement
+  title: Maintain self-inventory/system-context snapshot
+  statement: Blueprint should be able to produce a read-only snapshot of its self-inventory/system context for later zero-context analysis/review.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - knowledge
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP0509-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0509-0030
+  kind: requirement
+  title: Maintain portfolio/roadmap current-state snapshot
+  statement: Blueprint should be able to produce a portable portfolio/roadmap current-state context package for later planning and reconciliation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - roadmap
+  - knowledge
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP0509-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-BP0509-0001
+  from_item: IT-BP0509-0001
+  type: prevents
+  to_item: IT-BP0509-0002
+  evidence_refs:
+  - EV-BP0509-0004
+  - EV-BP0509-0005
+  confidence: high
+- relation_id: REL-BP0509-0002
+  from_item: IT-BP0509-0009
+  type: enables
+  to_item: IT-BP0509-0008
+  evidence_refs:
+  - EV-BP0509-0014
+  confidence: high
+- relation_id: REL-BP0509-0003
+  from_item: IT-BP0509-0010
+  type: enables
+  to_item: IT-BP0509-0008
+  evidence_refs:
+  - EV-BP0509-0015
+  confidence: high
+- relation_id: REL-BP0509-0004
+  from_item: IT-BP0509-0017
+  type: depends_on
+  to_item: IT-BP0509-0016
+  evidence_refs:
+  - EV-BP0509-0024
+  - EV-BP0509-0025
+  confidence: high
+- relation_id: REL-BP0509-0005
+  from_item: IT-BP0509-0019
+  type: depends_on
+  to_item: IT-BP0509-0020
+  evidence_refs:
+  - EV-BP0509-0027
+  - EV-BP0509-0028
+  confidence: high
+- relation_id: REL-BP0509-0006
+  from_item: IT-BP0509-0025
+  type: refines
+  to_item: IT-BP0509-0023
+  evidence_refs:
+  - EV-BP0509-0033
+  confidence: high
+- relation_id: REL-BP0509-0007
+  from_item: IT-BP0509-0028
+  type: resolves
+  to_item: IT-BP0509-0027
+  evidence_refs:
+  - EV-BP0509-0035
+  confidence: high
+- relation_id: REL-BP0509-0008
+  from_item: IT-BP0509-0012
+  type: refines
+  to_item: IT-BP0509-0011
+  evidence_refs:
+  - EV-BP0509-0018
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-BP0509-0001
+  type: assistant_side_capture_gap
+  description: 102/103 retained turn containers have text, but only three assistant narrative messages survive; most intermediate execution
+    reasoning is represented by uploaded reports/archives rather than direct assistant prose.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0002
+  type: memory_package_duplication_risk
+  description: v1.0 and v1.1 describe overlapping prior dialogue using different Human Intent IDs; blind merge would create semantic duplication
+    and obscure provenance.
+  item_refs:
+  - IT-BP0509-0001
+  - IT-BP0509-0002
+  evidence_refs:
+  - EV-BP0509-0003
+  - EV-BP0509-0005
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0003
+  type: document_schema_fragmentation
+  description: Different module/roadmap documents use inconsistent headings, structures and equivalent state vocabulary, repeatedly slowing
+    information distribution and tooling.
+  item_refs:
+  - IT-BP0509-0004
+  - IT-BP0509-0005
+  evidence_refs:
+  - EV-BP0509-0007
+  - EV-BP0509-0009
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0004
+  type: infrastructure_entropy
+  description: Without a stale-artifact registry and active self-cleaning policy, old scripts/docs/modules can continue accumulating and
+    participating in checks long after they stop being useful.
+  item_refs:
+  - IT-BP0509-0008
+  - IT-BP0509-0011
+  - IT-BP0509-0012
+  evidence_refs:
+  - EV-BP0509-0016
+  - EV-BP0509-0018
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0005
+  type: foreign_scope_contamination
+  description: A UI/system-settings task appears inside the dialogue but is immediately identified by the owner as not belonging to this
+    module. It must not be promoted into Blueprint requirements.
+  item_refs:
+  - IT-BP0509-0007
+  evidence_refs:
+  - EV-BP0509-0011
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP0509-0006
+  type: direct_push_vs_pull_drift_risk
+  description: Owner explicitly reasserts pull-based module execution. Any runtime path that tries to push prompts directly into a module
+    repository would violate this intended ownership model.
+  item_refs:
+  - IT-BP0509-0016
+  - IT-BP0509-0017
+  - IT-BP0509-0018
+  evidence_refs:
+  - EV-BP0509-0024
+  - EV-BP0509-0025
+  - EV-BP0509-0026
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0007
+  type: post_release_set_semantics
+  description: After release, prepared-draft membership and Acceptance-Oracle binding are different concepts. A regression test incorrectly
+    treated them as the same set.
+  item_refs:
+  - IT-BP0509-0025
+  - IT-BP0509-0026
+  evidence_refs:
+  - EV-BP0509-0033
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0509-0008
+  type: semantic_reference_orphan
+  description: A one-shot authorization decision may remain a current governance document without durable inbound reference after release
+    policy resets, triggering `GENUINE_NO_INBOUND_CURRENT_DOCUMENTS`.
+  item_refs:
+  - IT-BP0509-0027
+  - IT-BP0509-0028
+  evidence_refs:
+  - EV-BP0509-0034
+  - EV-BP0509-0035
+  severity: high
+  confidence: medium
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP0509-0001
+  description: Verify final v1.1 Human Intent integration and residual v1.0 audit.
+  item_refs:
+  - IT-BP0509-0001
+  - IT-BP0509-0002
+  - IT-BP0509-0003
+  last_known_state: Initial integration safe-failed on Ruff; assistant intended v1.1 primary + residual v1.0 review.
+  recommended_verification: Inspect current Human Intent registry/history and integration decisions.
+- loop_id: LOOP-BP0509-0002
+  description: Verify project-wide document/roadmap normalization and canonical vocabulary.
+  item_refs:
+  - IT-BP0509-0004
+  - IT-BP0509-0005
+  - IT-BP0509-0006
+  last_known_state: Bulk review packages were exchanged and SYNTHETIC→PROPOSED normalization was selected.
+  recommended_verification: Audit current schemas, roadmap files and validators for remaining structural variants.
+- loop_id: LOOP-BP0509-0003
+  description: Verify self-cleaning/deprecation governance and automated conformance checks.
+  item_refs:
+  - IT-BP0509-0008
+  - IT-BP0509-0009
+  - IT-BP0509-0010
+  - IT-BP0509-0011
+  - IT-BP0509-0012
+  last_known_state: Owner required portfolio-wide cleanup policy, stale-candidate handling and indexing; implementation status is not proven
+    by the dialogue.
+  recommended_verification: Inspect current standards, index/catalog, deprecation registry and health validators.
+- loop_id: LOOP-BP0509-0004
+  description: Verify pull-based prompt execution end to end.
+  item_refs:
+  - IT-BP0509-0016
+  - IT-BP0509-0017
+  - IT-BP0509-0018
+  - IT-BP0509-0019
+  - IT-BP0509-0020
+  - IT-BP0509-0021
+  last_known_state: Owner restated Blueprint-publish/module-pull/fresh-worker architecture; later u123 work reached ready_for_module_pull
+    but module-side pickup was not yet proven in retained assistant prose.
+  recommended_verification: Inspect current release/listener/module-start runtime and one real Logistics prompt cycle.
+- loop_id: LOOP-BP0509-0005
+  description: Verify post-release Acceptance Oracle binding semantics.
+  item_refs:
+  - IT-BP0509-0023
+  - IT-BP0509-0025
+  - IT-BP0509-0026
+  last_known_state: u123a/b fixed generic health and acceptance-binding tests conceptually; current code state not verified here.
+  recommended_verification: Audit prompt queue/drafts/roadmap oracle binding after a real release.
+- loop_id: LOOP-BP0509-0006
+  description: Verify durable inbound binding for one-shot authorization evidence.
+  item_refs:
+  - IT-BP0509-0027
+  - IT-BP0509-0028
+  last_known_state: u123b ended on `GENUINE_NO_INBOUND_CURRENT_DOCUMENTS`; u123c was prepared as read-only discovery before u124 repair.
+  recommended_verification: Inspect current governance decision references and semantic validator results.
+- loop_id: LOOP-BP0509-0007
+  description: Verify knowledge/context snapshot workflow is current and integrated.
+  item_refs:
+  - IT-BP0509-0029
+  - IT-BP0509-0030
+  last_known_state: Read-only self-inventory and portfolio/roadmap context packages were generated successfully.
+  recommended_verification: Locate current snapshot tooling and determine whether it feeds startup/planning without becoming authority.
+implementation_audit_ref: implementation_audit.stub.yaml

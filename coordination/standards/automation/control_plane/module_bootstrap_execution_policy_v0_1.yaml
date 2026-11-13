@@ -1,0 +1,84 @@
+schema_version: forprint_module_bootstrap_execution_policy_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+metadata:
+  standard_id: module_bootstrap_execution_policy_v0_1
+  title: ForPrint Module Bootstrap Execution Policy v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+purpose: Define the controlled first-work cycle that converts an discovered or partially prepared module into a self-maintaining,
+  verified work-ready module.
+execution_classes:
+  MODULE_BOOTSTRAP:
+    purpose: prepare or reconcile module self-knowledge and local execution baseline
+    may_start_with_stale_generated_freshness: true
+    may_start_with_local_repository_changes: true
+    requires_explicit_bootstrap_prompt: true
+    requires_stage_0_local_hygiene: true
+    development_work_before_stage_0: false
+  ROADMAP_DEVELOPMENT:
+    purpose: implement accepted roadmap work after bootstrap
+    may_start_with_stale_generated_freshness: false
+    may_start_with_local_repository_changes: false
+    requires_development_ready_state: true
+stage_0_module_local_hygiene:
+  owner: MODULE_ASSISTANT
+  steps:
+  - read root AGENTS.md and module self-knowledge
+  - inspect branch HEAD upstream and git status
+  - classify pre-existing local changes
+  - refresh module-owned inventory index lineage authority and generated freshness surfaces as applicable
+  - run module validation
+  - commit intentional valid module-local preparation changes
+  - push the current module branch
+  - verify local worktree clean and upstream synchronized
+  - only then begin the assigned bootstrap implementation
+  module_local_commit_allowed: true
+  module_local_push_allowed: true
+  authorization_basis: human standing direction adopted 2026-09-07
+  forbidden:
+  - force push
+  - git reset --hard
+  - git clean used to manufacture cleanliness
+  - blind revert
+  - rebase without prompt authority
+  - cross-repository writes
+  - Blueprint-owned commit or push into module repository
+  - production provider writes unless separately authorized
+bootstrap_completion_requirements:
+- root AGENTS authority front door
+- deterministic module inventory and index
+- implementation lineage
+- documentation authority model
+- roadmap state
+- self-maintenance or rebuild commands
+- fresh-context validation
+- module validation suite
+- module-owned worker runtime profile or declared runtime policy
+- completion report with evidence
+readiness_model:
+  DISCOVERED: repository is known but not yet prepared
+  INVENTORIED: forensic inventory exists
+  BOOTSTRAP_READY: minimum safe context exists for bootstrap worker launch
+  BOOTSTRAPPED: bootstrap prompt completed but not yet independently accepted
+  VERIFIED_WORK_READY: bootstrap accepted; strict development launch gates may be used
+bootstrap_readiness:
+  dirty_or_stale_is_not_automatic_failure: true
+  must_be_explicitly_reported_as_bootstrap_debt: true
+  minimum_fail_closed_requirements:
+  - repository is reachable
+  - module identity is known
+  - prompt is explicitly classified MODULE_BOOTSTRAP
+  - release authorization binds exact bootstrap prompt
+  - no unknown execution authority
+  - no destructive cleanup authorization
+development_readiness:
+  clean_module_worktree_required: true
+  upstream_synchronized_required: true
+  fresh_context_required: true
+  accepted_bootstrap_required: true
+control_plane_boundary:
+  Blueprint_may_commit_or_push_module_repo: false
+  Blueprint_may_clean_or_reset_module_repo: false
+  Blueprint_may_require_stage_0: true
+  Blueprint_records_completion_and_readiness: true

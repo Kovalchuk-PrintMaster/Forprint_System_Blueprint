@@ -1,0 +1,53 @@
+schema_version: forprint_bootstrap_task_context_mode_contract_v0_1
+status: active_standard
+authority:
+  release_authorization_remains_required: true
+  exact_module_and_prompt_binding_required: true
+  prompt_contract_binding_required: true
+  acceptance_oracle_binding_required: true
+  authority_relaxation_allowed: false
+metadata:
+  standard_id: bootstrap_task_context_mode_v0_1
+  title: ForPrint Bootstrap Task Context Mode v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+execution_class: MODULE_BOOTSTRAP
+purpose: Permit the first controlled module preparation worker to start with explicit bootstrap debt while preserving
+  strict authority and strict roadmap-development context rules.
+canonical_primitive:
+  path: scripts/coordination/build_context_bundle.py
+  role: strict_task_context_compiler
+strict_mode:
+  preserved: true
+  stale_generated_freshness_allowed: false
+  dirty_module_worktree_allowed: false
+bootstrap_mode:
+  envelope_schema: forprint_bootstrap_task_context_envelope_v0_1
+  dirty_worktree_is_debt_not_automatic_failure: true
+  stale_generated_freshness_is_debt_not_automatic_failure: true
+  missing_self_knowledge_is_debt_not_automatic_failure: true
+  missing_module_runtime_profile_is_debt_not_automatic_failure: true
+  roadmap_development_allowed: false
+  strict_task_context_rebuild_after_stage_0: true
+  bootstrap_debt_must_be_explicit: true
+stage_0:
+  policy: module_bootstrap_execution_policy_v0_1
+  owner: MODULE_ASSISTANT
+  local_commit_and_push_may_be_allowed_by_policy: true
+control_plane_boundary:
+  Blueprint_foreign_repo_write: false
+  Blueprint_foreign_repo_commit_push: false
+  automatic_operator_approval: false
+  automatic_accept: false
+  automatic_next_prompt_release: false
+path_semantics:
+  module_memory_and_runtime_paths: module_root_relative
+  blueprint_repository_reference: false
+  resolution_root: module_root
+  knowledge_index_false_current_reference_forbidden: true
+bootstrap_runtime:
+  module_profile_preferred_when_present: true
+  blueprint_owned_fallback_standard: bootstrap_worker_runtime_profile_v0_1
+  fallback_execution_class: MODULE_BOOTSTRAP
+  missing_module_runtime_is_bootstrap_debt_when_fallback_ready: false
+  roadmap_development_requires_module_owned_runtime: true

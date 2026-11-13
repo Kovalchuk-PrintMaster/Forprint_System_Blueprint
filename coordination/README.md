@@ -1,37 +1,61 @@
-# Coordination Workspace
+# Blueprint Coordination Workspace
 
-Це легкий робочий контур для промтів, запитів і review-пакетів між Blueprint та дочірніми модулями.
+`coordination/` is the governance, planning and inter-module coordination workspace of
+ForPrint System Blueprint.
 
-Це не окремий важкий сервіс. На старті використовується проста файлова структура + git.
+It is not one flat prompt inbox. The directory now contains several distinct lifecycle
+classes.
 
-## Outgoing prompts
+## Effective authority
 
-`coordination/outgoing_prompts/<module_id>/drafts/` — чернетки промтів для модуля.
+Current release/work authority:
 
-`approved/` — погоджені промти, готові до передачі в модуль.
+`coordination/releases/current.yaml`
 
-`sent/` — промти, які вже передані / використані.
+Current detailed Blueprint plans:
 
-## Incoming requests
+`coordination/roadmaps/details/forprint_system_blueprint/`
 
-`coordination/incoming_requests/<module_id>/new/` — запити від модуля до Blueprint.
+## Main areas
 
-`reviewed/` — переглянуті запити.
+- `releases/` — current release projection and release history/evidence;
+- `roadmaps/` — module and Blueprint plans/dependencies;
+- `standards/` — normative governance/engineering standards;
+- `outgoing_prompts/` — Blueprint-owned Prompt Queue v0.2 surfaces and released prompts;
+- `incoming_requests/` — module-to-Blueprint requests;
+- `review_packets/` — review material and review lifecycle;
+- `module_sources/` — module repository/local-source registry;
+- `module_policy/` — module policy coverage;
+- `reports/` — coordination review/completion evidence;
+- `internal_work/` — bounded analysis, migrations and historical evidence;
+- `repository_knowledge/` — canonical repository-knowledge snapshot protocol/templates;
+- `templates/` — reusable/distribution templates.
 
-`archived/` — закриті запити.
+## Authority discipline
 
-## Review packets
+A file under `coordination/` is not automatically authoritative.
 
-`coordination/review_packets/<module_id>/new/` — місце для великих фрагментів діалогу, архівів, коду, які треба проаналізувати з погляду архітектури.
+- `releases/current.yaml` wins for effective release state;
+- active standards govern their declared domain;
+- released prompts remain immutable execution contracts;
+- `internal_work/` is evidence/history unless explicitly promoted;
+- distribution templates are not authority over their declared canonical sources.
 
-## Рекомендований формат назви файлу
+## Legacy early alignment
 
-```text
-YYYY-MM-DD__short-topic__target-module.md
-```
+The initial manual alignment layer is preserved under:
 
-Наприклад:
+`coordination/internal_work/blueprint/legacy_alignment/`
 
-```text
-2026-05-21__calculator-quote-contract-review__calculator_engine.md
-```
+It contains old execution queues, prompt-dispatch history, early reviews and former
+top-level `human/` documents. It is explicitly non-authoritative.
+
+## Navigation
+
+Machine-readable coordination navigation is in:
+
+`coordination/index.yaml`
+
+Cross-repository derived navigation is in:
+
+`indexes/`

@@ -1,0 +1,176 @@
+schema_version: forprint_module_inventory_program_vnext_gap_assessment_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: EVIDENCE_BACKED_PLANNING_ASSESSMENT
+  authority: BLUEPRINT_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+  source_audit: u130_inventory_program_control_plane_baseline_audit
+  repository_head_observed_by_u130: 4739fdcd8b213814f8440dd6a6681f596d8da456
+assessment_principles:
+  - Existing primitives must be evolved before creating new competing frameworks.
+  - Inventory is lifetime module memory, not a file list.
+  - Indexes are derived navigation/evidence, not independent authority.
+  - Unknown legacy provenance remains unknown; AI must not invent historical purpose.
+  - The Logistics pilot remains non-blocked by vNext design work unless a specific prompt acceptance gate requires
+    it.
+summary:
+  requirement_count: 17
+  current_count: 0
+  partial_count: 14
+  missing_count: 3
+  redesign_needed_count: 0
+requirements:
+  - requirement_id: module_memory_purpose_and_provenance
+    classification: PARTIAL
+    evidence:
+      - coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+      - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+    gap: Purpose/evidence exists, but introduced-by prompt/date and stable implementation identity are not yet a
+      general module-local enforced registry.
+    vnext_action: Add implementation identity and provenance fields to the shared module-memory contract without
+      inventing legacy history.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: implementation_lineage
+    classification: PARTIAL
+    evidence:
+      - coordination/internal_work/blueprint/module_inventory_program/2026-09-03__u108/05_legacy_code_and_documentation_reconciliation.md
+      - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+    gap: Current/supported-legacy classification exists, but full implementation generation chains and referential
+      validation are not yet a reusable module contract.
+    vnext_action: Promote lineage fields and validators as a reusable module-memory layer.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: interfaces_contracts_tests_evidence
+    classification: PARTIAL
+    evidence:
+      - coordination/standards/governance/module_current_state_evidence_standard_v0_1.yaml
+      - coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+    gap: The structures exist, but coverage and linkage are not uniformly complete per significant implementation.
+    vnext_action: Bind significant implementation records to contracts, tests and evidence with referential checks.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: dependency_relationship_graph
+    classification: PARTIAL
+    evidence:
+      - coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+    gap: Dependency mapping exists as repository knowledge, but there is no unified queryable implementation-capability-module-contract
+      impact graph with full coverage.
+    vnext_action: Evolve existing RCI and dependency-map concepts into a validated relationship/impact graph.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: duplicate_and_coexistence_semantics
+    classification: PARTIAL
+    evidence:
+      - coordination/standards/governance/module_cleanliness_conformance_pack_v0_1.yaml
+      - coordination/module_policy/forprint_project_inspector/module_policy.md
+    gap: Duplicate candidates are detectable, but coexistence roles and lineage justification are not yet a universal
+      machine contract.
+    vnext_action: Add coexistence_role and lineage justification to duplicate review.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: retirement_impact
+    classification: PARTIAL
+    evidence:
+      - coordination/standards/governance/asset_lifecycle_retirement_policy_v0_1.yaml
+      - coordination/standards/governance/module_cleanliness_conformance_pack_v0_1.yaml
+    gap: Lifecycle/retirement governance exists, but machine impact traversal over consumers/dependencies is not
+      yet a complete shared service.
+    vnext_action: Use the relationship graph for retirement/change impact reports.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: inventory_queryability
+    classification: PARTIAL
+    evidence:
+      - scripts/coordination/render_blueprint_inventory_status.py
+      - indexes/knowledge_summary.yaml
+    gap: Blueprint has status and derived indexes, but no portable module query contract such as show capability,
+      show lineage, find orphan or impact.
+    vnext_action: Define a portable query interface over module inventory, lineage and relationships.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: fresh_context_front_door
+    classification: PARTIAL
+    evidence:
+      - coordination/internal_work/blueprint/module_inventory_program/2026-09-03__u108/08_agents_md_fresh_context_handoff_spec.md
+      - AGENTS.md
+    gap: Fresh-context rules exist, but current-state assertions can drift; the stale U111 block is direct evidence.
+    vnext_action: Separate stable AGENTS policy from a validated/generated current-state projection.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: freshness_and_impact_control
+    classification: PARTIAL
+    evidence:
+      - scripts/coordination/assess_repository_knowledge_freshness.py
+      - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+    gap: Snapshot freshness and changed-path detection exist, but per-surface dependency/freshness contracts and
+      targeted projection impact are not modeled.
+    vnext_action: Extend existing freshness machinery with surface dependency contracts and a read-only impact resolver.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: canonical_state_observatory
+    classification: PARTIAL
+    evidence:
+      - scripts/coordination/render_blueprint_governance_status.py
+      - scripts/validation/validate_project_transparency_control_layer.py
+      - coordination/releases/current.yaml
+    gap: A read-only governance transparency manifest already exists, but it is not yet the unified H10 state/freshness/impact
+      model.
+    vnext_action: Evolve the existing transparency renderer instead of creating a second observatory framework.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: task_context_compiler
+    classification: PARTIAL
+    evidence:
+      - scripts/coordination/build_context_bundle.py
+    gap: Context bundling exists, but prompt/contract/oracle, inventory lineage, git baseline, completion evidence
+      and freshness proof are not yet one task manifest.
+    vnext_action: Evolve build_context_bundle.py into the task-aware compiler; do not build a parallel context system.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: implementation_surface_metadata
+    classification: MISSING
+    evidence: []
+    gap: No general language-independent source-level implementation passport contract was found in the audited
+      reference surfaces.
+    vnext_action: Design a short significant-surface metadata contract that points to inventory/lineage rather than
+      duplicating full history.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: semantic_registry_and_alias_authority
+    classification: PARTIAL
+    evidence:
+      - coordination/module_policy/forprint_library/module_policy.md
+      - coordination/roadmaps/forprint_library.yaml
+      - coordination/module_policy/forprint_library/canonical_catalog_and_external_ingestion_target_state_v0_1_20260826.md
+    gap: Library already owns canonical semantic, naming, alias and contract direction, but the general reusable
+      semantic registry workflow remains planned rather than fully operational.
+    vnext_action: Extend the existing Library semantic-registry roadmap and its canonical policy-generation source;
+      do not patch generated module_policy.md or create a competing Blueprint semantic registry.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: preimplementation_semantic_lookup
+    classification: PARTIAL
+    evidence:
+      - coordination/module_policy/forprint_library/module_policy.md
+    gap: Library policy already wants searchable semantic/capability references before competing implementations,
+      but there is no enforced lookup evidence contract for workers.
+    vnext_action: Add pre-implementation lookup evidence and adoption guidance to the future Library workflow.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: semantic_registration_enrichment_provisional_lifecycle
+    classification: MISSING
+    evidence: []
+    gap: No shared Registration Ticket, Enrichment Ticket, provisional binding or scope/criticality/maturity contract
+      was found as an operational standard.
+    vnext_action: Design this as an extension of Library semantic governance with non-blocking local work and protected
+      cross-module integration.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: semantic_change_feed_and_adoption_modes
+    classification: MISSING
+    evidence: []
+    gap: No shared semantic change feed with INFO_ONLY, ADOPT_FOR_NEW_IMPLEMENTATIONS, MIGRATE_ON_TOUCH, ROADMAP_REQUIRED
+      and MIGRATION_REQUIRED modes was found.
+    vnext_action: Add a versioned Library change feed; Blueprint remains rollout-timing authority.
+    blocks_logistics_prompt_1_start: false
+  - requirement_id: inspector_semantic_confidence_model
+    classification: PARTIAL
+    evidence:
+      - coordination/module_policy/forprint_project_inspector/module_policy.md
+    gap: Inspector already owns duplicate/self-inventory drift detection, but exact canonical/alias/provisional/inferred
+      confidence semantics and metadata-first filtering are not yet implemented.
+    vnext_action: Add the confidence model to Inspector target architecture through its canonical policy-generation
+      source after Library/inventory contracts are stable.
+    blocks_logistics_prompt_1_start: false
+logistics_effect:
+  prompt_1_start_blocked_by_this_assessment: false
+  prompt_1_role: Establish the first reference module self-knowledge/lineage/front-door baseline.
+  full_semantic_convergence_required_before_prompt_1: false
+  parallel_blueprint_evolution_allowed: true

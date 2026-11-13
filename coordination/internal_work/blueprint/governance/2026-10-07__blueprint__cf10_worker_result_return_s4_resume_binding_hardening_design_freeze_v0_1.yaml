@@ -1,0 +1,177 @@
+schema_version: forprint_cf10_worker_result_return_s4_resume_binding_hardening_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_position: CF10_POST_A034_RESULT_RETURN_REPAIR
+slice: CF10_WORKER_RESULT_RETURN_S4_RESUME_BINDING_HARDENING
+title: Governed Worker S4 resume-binding pre-materialization hardening
+status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+source_head: c372f4581ba8f4ba22380cd3a4a74851d0e7f014
+work_front:
+  id: wf-cf10-worker-result-return-s4-resume-binding-hardening-v0-1
+  path: coordination/work_fronts/cf10_worker_result_return_s4_resume_binding_hardening_v0_1.yaml
+trigger:
+  attempt_id: cf10-u180j-a034
+  task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  terminal_state: BLOCKED
+  terminal_failure_class: STALE_LIFECYCLE_ROADMAP_CURSOR
+  terminal_record: coordination/continuity/execution_attempts/cf10-u180j-a034__0fdca926740e.yaml
+  worker_process_return_code: 0
+  s3_envelope_valid: true
+  s4_source_freshness_valid: true
+  s4_resume_valid: false
+  started_ledger_normalization_applied: true
+  started_ledger_normalization_reason: CURRENT_ATTEMPT_STARTED_LEDGER_ONLY
+  worker_result_rewritten: false
+  worker_relaunched: false
+  task70_candidate_promoted: false
+exact_failure_evidence:
+  origin_cursor_sha256: 99f387de31b261c89663c5985ed9e82626a0c8aad015e2fe96a6ec1980758570
+  governed_cursor_sha256: 99f387de31b261c89663c5985ed9e82626a0c8aad015e2fe96a6ec1980758570
+  result_cursor_sha256: 60ff8f198ec32440fe207e9791e7a34a285345d20c8c6829340b7882de695d12
+  origin_equals_governed: true
+  origin_equals_result: false
+  mismatch_field: roadmap_status_sha256
+  expected_value: 6aa036e2f9e0fd1561d8a7692cc6225d966128ac0835b379e09c5ced1983749e
+  observed_value: 6aa036e2f9e0fd1561d8a7691983749e9f128ac0835b379e09c5ced1983749e
+diagnosis:
+  task70_candidate_defect_proven: false
+  provider_frame_transport_defect: false
+  s3_result_schema_defect: false
+  source_freshness_defect: false
+  worker_resume_transcription_defect: true
+  pre_materialization_resume_gate_gap: true
+  root_cause: >-
+    The Worker was given the governed lifecycle cursor but the provider prompt
+    did not explicitly require verbatim copying of S4-bound resume values.
+    The result-return materializer validated S3 schema/manifest/attempt binding
+    only, so a semantically stale resume cursor could be persisted before the
+    downstream S4 gate rejected it.
+architecture_decision:
+  strategy: REUSE_CANONICAL_S4_RESUME_VALIDATION_BEFORE_RESULT_MATERIALIZATION
+  new_result_schema: false
+  new_validator: false
+  new_transport: false
+  new_operator_surface: false
+  full_s4_freshness_owner_changed: false
+  downstream_full_s4_freshness_validation_preserved: true
+  prompt_hardening_required: true
+  governed_context_binding_required: true
+  result_resume_semantic_repair_allowed: false
+  result_rewrite_allowed: false
+  result_synthesis_allowed: false
+  automatic_acceptance: false
+  automatic_promotion: false
+  automatic_retry: false
+binding_contract:
+  source_state_fingerprint:
+    result_path: resume_coordinates.source_state_fingerprint
+    source_path: governed_worker_context.handoff_source_state_fingerprint
+    equality: EXACT
+    copy_mode: VERBATIM
+  lifecycle_roadmap_cursor:
+    result_path: resume_coordinates.lifecycle_roadmap_cursor
+    source_path: governed_worker_context.lifecycle_roadmap_cursor
+    equality: EXACT_MAPPING
+    copy_mode: VERBATIM
+    cryptographic_value_recomputation_allowed: false
+  partial_resume:
+    statuses:
+      - PARTIAL
+      - INTERRUPTED
+      - BLOCKED
+      - RETRYABLE_FAILURE
+    canonical_required_fields_reused:
+      - latest_completed_node
+      - latest_accepted_ref
+      - replay_forbidden_refs
+implementation_slice:
+  implementation_write_set:
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+    - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+    - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+  implementation_path_count: 6
+  tests_first_required: true
+  makefile_mutation_required: false
+  existing_make_target_reused: cf10-worker-result-return-check
+  additional_regression_command: >-
+    .venv_blueprint/bin/python -m pytest -q -p no:cacheprovider
+    tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  must_not_modify:
+    - Makefile
+    - coordination/standards/automation/assistant_handoff_v2_result_contract_v0_1.yaml
+    - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+    - coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+    - scripts/validation/run_validation_suite_v0_1.py
+    - tests/validation/test_validation_suite_runner_v0_1.py
+    - AGENTS.md
+    - coordination/global_policy/current_execution_focus.md
+    - coordination/standards/automation/index.yaml
+    - indexes/governance.yaml
+    - indexes/roadmaps.yaml
+validation_plan:
+  red_first:
+    - S3-valid result with one-character roadmap_status_sha256 corruption reaches current materializer and demonstrates the missing pre-materialization gate.
+    - Prompt regression proves current protocol does not mandate verbatim S4 resume copying.
+  green:
+    - Exact governed resume binding materializes successfully.
+    - One-character roadmap_status_sha256 corruption is rejected before result file creation.
+    - source_state_fingerprint mismatch is rejected before result file creation.
+    - Missing required PARTIAL resume coordinates are rejected before result file creation.
+    - Governed cycle treats pre-materialization resume rejection as BLOCKED and not candidate-ready.
+    - Existing frame parsing, S3 validation, create-only semantics and authority invariants remain green.
+  commands:
+    - make cf10-worker-result-return-check
+    - >-
+      .venv_blueprint/bin/python -m pytest -q -p no:cacheprovider
+      tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+    - >-
+      .venv_blueprint/bin/python -m pytest -q -p no:cacheprovider
+      tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+      tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+    - git diff --check -- <exact six implementation paths>
+acceptance:
+  s4_resume_validation_before_materialization: true
+  exact_governed_cursor_binding: true
+  exact_governed_source_fingerprint_binding: true
+  a034_hash_corruption_regression: true
+  invalid_result_file_created: false
+  valid_result_materialization_preserved: true
+  semantic_repair_allowed: false
+  worker_result_synthesis_allowed: false
+  downstream_full_s4_freshness_preserved: true
+  task70_candidate_files_unchanged: true
+  historical_a034_unchanged: true
+  protected_dirty_paths_unchanged: true
+  authority_widened: false
+stop_conditions:
+  - A seventh implementation mutation path is required.
+  - Canonical S4 resume semantics must be weakened, copied or replaced.
+  - Full S4 freshness ownership must move into the transport materializer.
+  - Handoff result schema or S3 result validator semantics must change.
+  - Execution Attempt Ledger contract must change.
+  - Task70 candidate files must change.
+  - Historical a034 artifacts must change.
+  - Makefile mutation becomes necessary.
+  - Lifecycle or roadmap mutation becomes necessary.
+  - Result synthesis, semantic repair or cryptographic hash rewriting becomes necessary.
+  - Automatic acceptance, promotion, retry, commit, push, merge or release is required.
+  - Authority or provider-tool universe must widen.
+authority:
+  new_authority_source: false
+  work_front_remains_execution_authority: true
+  provider_stdout_grants_authority: false
+  result_materializer_grants_acceptance: false
+  result_materializer_grants_promotion: false
+  publication_authority: false
+next_boundary_after_publication:
+  state: BOUNDED_IMPLEMENTATION_ALLOWED
+  automatic_worker_launch: false
+  automatic_task70_retry: false
+  automatic_a035_creation: false

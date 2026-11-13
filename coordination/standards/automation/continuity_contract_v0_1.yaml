@@ -1,0 +1,387 @@
+schema_version: forprint_continuity_contract_v0_1
+status: active_standard
+authority: blueprint_continuity_semantics_standard
+owner: forprint_system_blueprint
+purpose: Define the immutable continuity event, checkpoint, source-state, projection, assistant-handoff, and work-lifecycle
+  semantics that let a fresh assistant reconstruct project state without relying on chat memory.
+authority_boundaries:
+  chat_transcript_is_source_of_truth: false
+  continuity_event_is_release_authority: false
+  checkpoint_is_release_authority: false
+  projection_is_release_authority: false
+  handoff_pack_is_release_authority: false
+  continuity_artifacts_are_queue_authority: false
+  continuity_artifacts_may_dispatch_workers: false
+  operator_approval_is_inferred: false
+  foreign_module_write_authority_is_inferred: false
+compatibility:
+  common_coordination_event_envelope:
+    required: true
+    path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
+  execution_dependency_contract:
+    path: coordination/standards/automation/execution_dependency_contract_v0_1.yaml
+  mutation_compiler_contract:
+    path: coordination/standards/automation/mutation_compiler_contract_v0_1.yaml
+  execution_progress_visibility_contract:
+    path: coordination/standards/automation/execution_progress_visibility_contract_v0_1.yaml
+  current_execution_roadmap:
+    path: coordination/roadmaps/details/forprint_system_blueprint/continuity/2026-09-10__continuity_assistant_handoff_micro_roadmap_v0_1.yaml
+event_model:
+  append_only: true
+  immutable_after_append: true
+  correction_model: append_superseding_event
+  deletion_for_normal_correction_forbidden: true
+  meaningful_event_required: true
+  terminal_heartbeat_is_continuity_event: false
+  ordinary_successful_subprocess_is_continuity_event: false
+  event_types:
+  - WORK_PLANNED
+  - WORK_ACTIVATED
+  - CHECKPOINT_RECORDED
+  - VALIDATION_PASSED
+  - VALIDATION_FAILED
+  - WORK_CLOSED
+  - DECISION_RECORDED
+  - BLOCKER_OPENED
+  - BLOCKER_RESOLVED
+  - UNKNOWN_RECORDED
+  - UNKNOWN_RESOLVED
+  - WORK_SUPERSEDED
+  common_required_fields:
+  - schema_version
+  - event_id
+  - event_type
+  - work_id
+  - occurred_at
+  - actor
+  - summary
+  - source_state_ref
+  identity:
+    event_id_unique: true
+    work_id_stable_across_lifecycle: true
+    timestamps_utc_required: true
+    sequence_monotonic_within_stream: true
+checkpoint_model:
+  event_type: CHECKPOINT_RECORDED
+  immutable: true
+  required_fields:
+  - schema_version
+  - event_id
+  - event_type
+  - work_id
+  - occurred_at
+  - actor
+  - summary
+  - what_changed
+  - why
+  - evidence
+  - decision_rationale
+  - rejected_alternative_when_material
+  - blockers
+  - unknowns
+  - next_actions
+  - source_state_before
+  - source_state_after
+  - final_applied_artifact_hashes
+  - external_baseline_preserved
+  next_actions:
+    minimum: 5
+    maximum: 10
+    bounded: true
+    dependency_ordered: true
+    current_operational_horizon_authority: false
+    semantics: historical checkpoint intent snapshot; it does not override the
+      current roadmap/execution cursor after later lifecycle events
+  evidence_binding:
+    tmp_path_alone_is_sufficient: false
+    handoff_sha256_when_handoff_exists: true
+    command_result_summary_required: true
+    validator_result_summary_required: true
+    final_artifact_hashes_are_post_repair: true
+    raw_candidate_hashes_do_not_substitute_for_final_hashes: true
+  decision_capture:
+    rationale_required: true
+    rejected_alternative_required_when_material: true
+    assumptions_must_be_explicit: true
+  blockers_and_unknowns:
+    unresolved_items_must_be_preserved: true
+    absence_must_be_explicit_empty_collection: true
+source_state_fingerprint:
+  algorithm: canonical_json_sha256_v0_1
+  source_mode: working_tree
+  dirty_working_tree_is_valid: true
+  clean_git_required: false
+  required_components:
+  - git_head
+  - git_branch
+  - durable_dirty_paths
+  - dirty_path_status
+  - dirty_path_content_or_symlink_fingerprint
+  - bounded_final_applied_artifact_hashes
+  durable_dirty_paths:
+    include_tracked_modified: true
+    include_untracked: true
+    include_deleted: true
+    sorted_by_repository_relative_path: true
+  explicit_runtime_exclusions:
+  - .git
+  - .venv_blueprint
+  - tmp
+  - tmp.py
+  - __pycache__
+  - .pytest_cache
+  - .ruff_cache
+  - .mypy_cache
+  - .tox
+  - .nox
+  - node_modules
+  non_source_metadata_exclusions:
+  - indexes
+  - coordination/continuity/events
+  - coordination/continuity/projections
+  - coordination/roadmap_execution/projections
+  exclusion_rationale: Derived indexes and continuity metadata are excluded from the project source-state fingerprint
+    to prevent checkpoint self-reference; reports are not implicitly excluded.
+  self_reference_is_forbidden: true
+  reports_are_implicitly_excluded: false
+  fingerprint_must_change_when_durable_dirty_content_changes: true
+  fingerprint_must_ignore_runtime_cache_noise: true
+  isolated_validation_baseline:
+    enabled_only_when_forprint_non_mutating_check_isolated: true
+    baseline_created_before_validation_side_effects: true
+    baseline_transport_env: FORPRINT_CONTINUITY_SOURCE_STATE_BASELINE
+    baseline_root_env: FORPRINT_CONTINUITY_SOURCE_STATE_BASELINE_ROOT
+    bounded_final_hashes_rebound_per_checkpoint: true
+    validation_runtime_mutations_do_not_redefine_source_state: true
+    source_repository_preservation_still_required: true
+checkpoint_store:
+  path: coordination/continuity/events
+  event_schema: forprint_continuity_checkpoint_event_v0_1
+  checkpoint_spec_schema: forprint_continuity_checkpoint_spec_v0_1
+  writer: scripts/coordination/continuity.py
+  validator: scripts/validation/validate_continuity_event_store_v0_1.py
+  content_addressed_filenames: true
+  sequence_is_monotonic: true
+  previous_event_hash_chain: true
+  accepted_events_append_only: true
+  manual_in_place_edit_forbidden: true
+  correction_model: append_superseding_event
+  transactional_acceptance_boundary:
+    provisional_event_may_rollback_with_failed_bounded_transaction: true
+    accepted_event_may_be_edited_or_deleted: false
+  generic_knowledge_index_excludes_event_ledger: true
+  reason: Continuity events are a dedicated immutable evidence stream and must not create a hidden checkpoint-to-generic-knowledge-index
+    rebuild dependency.
+lifecycle:
+  states:
+  - PLANNED
+  - ACTIVE
+  - CHECKPOINTED
+  - VALIDATED
+  - CLOSED
+  normal_transitions:
+  - PLANNED->ACTIVE
+  - ACTIVE->CHECKPOINTED
+  - CHECKPOINTED->VALIDATED
+  - VALIDATED->CLOSED
+  remediation_transitions:
+  - CHECKPOINTED->ACTIVE
+  - VALIDATED->ACTIVE
+  forbidden_transitions:
+  - ACTIVE->CLOSED
+  - PLANNED->CLOSED
+  - CHECKPOINTED->CLOSED
+  close_requirements:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    blockers_required_empty_or_explicitly_deferred: true
+    current_source_delta_reconciled: true
+  closed_state:
+    immutable: true
+    reopen_same_work_id_forbidden: true
+    continuation_requires_new_correlated_work_id: true
+  enforcement:
+    enabled: true
+    implementation: scripts/coordination/continuity_lifecycle.py
+    validator: scripts/validation/validate_continuity_lifecycle_v0_1.py
+    pre_enforcement_boundary_sequence: 3
+    pre_enforcement_boundary_event_id: evt-u179e-assistant-handoff-compiler-20260911t093355510787z
+    pre_enforcement_work_migration:
+      allowed_event_type: WORK_SUPERSEDED
+      allowed_only_for_latest_state: CHECKPOINTED
+      prior_state_event_sequence_must_be_at_or_before_boundary: true
+      explicit_replacement_work_id_required: true
+      history_rewrite_forbidden: true
+    checkpoint_transition_rule: post-boundary CHECKPOINT_RECORDED requires prior ACTIVE for same work_id
+    validation_pass_rule: CHECKPOINTED->VALIDATED requires evidence and reconciled current source
+    validation_fail_rule: CHECKPOINTED/VALIDATED->ACTIVE requires explicit reason
+    close_gate_runtime_enforced: true
+    closed_reopen_same_work_id_forbidden: true
+    roadmap_reconciliation_gate_runtime_enforced: true
+    roadmap_reconciliation_gate_actions:
+    - plan
+    - activate
+    - checkpoint
+    - close
+    roadmap_reconciliation_gate_fail_closed_when_installed: true
+    standalone_portability_without_reconciliation_controller: true
+projection_model:
+  generated_only: true
+  manual_edit_forbidden: true
+  authority: derived_non_authoritative
+  latest_meaningful_events_not_latest_files: true
+  projections:
+    CURRENT_WORKFRONT:
+      meaning: latest lifecycle state for active and not-yet-closed work
+    RECENT_ACTIVITY:
+      meaning: bounded recent meaningful continuity events
+    DECISIONS:
+      meaning: current accepted decisions plus material supersession links
+    BLOCKERS:
+      meaning: unresolved blockers with owning work and dependency impact
+    NEXT_HORIZON:
+      meaning: portable continuity core emits checkpoint intent by default; Blueprint
+        operator surfaces explicitly inject the current roadmap execution cursor
+      portable_default_derivation_mode: checkpoint_next_actions_portable_compatibility
+      blueprint_derivation_mode: blueprint_roadmap_execution_reconciliation_cursor
+      blueprint_adapter: scripts/coordination/blueprint_continuity_adapter_v0_1.py
+      explicit_mode_fields:
+      - authority_source
+      - portable_mode
+      - current_operational_horizon
+      current_truth_precedence:
+      - roadmap specification owns desired order and dependencies
+      - continuity event store owns actual lifecycle state
+      - roadmap execution reconciliation owns previous/current/next/ready/blocked
+      - Blueprint adapter explicitly projects that cursor into NEXT_HORIZON
+      checkpoint_next_actions_role: historical intent context and portable compatibility only
+    SOURCE_STATE:
+      meaning: latest checkpoint fingerprint compared with current working tree
+    WORKER_PORTFOLIO:
+      meaning: active worker/work package state without dispatch authority
+    UNRECONCILED_CURRENT_DELTA:
+      meaning: durable working-tree change after the latest accepted checkpoint
+      emergency_projection: true
+  unreconciled_delta:
+    must_not_be_hidden: true
+    must_not_be_silently_folded_into_latest_checkpoint: true
+    blocks_closed_state_when_material: true
+projection_store:
+  path: coordination/continuity/projections
+  schema_version: forprint_continuity_projection_v0_1
+  builder: scripts/coordination/build_continuity_projections.py
+  validator: scripts/validation/validate_continuity_projections_v0_1.py
+  projection_ids:
+  - CURRENT_WORKFRONT
+  - RECENT_ACTIVITY
+  - DECISIONS
+  - BLOCKERS
+  - NEXT_HORIZON
+  - SOURCE_STATE
+  - WORKER_PORTFOLIO
+  - UNRECONCILED_CURRENT_DELTA
+  input_event_store: coordination/continuity/events
+  roadmap_execution_cursor_input: scripts/coordination/roadmap_execution_reconciliation.py
+  blueprint_projection_adapter: scripts/coordination/blueprint_continuity_adapter_v0_1.py
+  portable_core_imports_blueprint_controller: false
+  current_source_state_input: working_tree_fingerprint
+  exact_check_is_non_mutating: true
+  explicit_refresh_is_mutating: true
+  manual_edit_forbidden: true
+  generated_outputs_are_non_authoritative: true
+  current_delta_may_be_material_during_active_work: true
+  reconciliation_required_for_close: true
+assistant_handoff_model:
+  artifact_type: derived_non_authoritative_archive
+  one_archive_zero_context_goal: true
+  chat_transcript_included_by_default: false
+  deterministic_payload_required: true
+  manifest_required: true
+  manifest_must_bind:
+  - compiler_identity
+  - compiler_version
+  - compiler_sha256
+  - source_state_fingerprint
+  - included_path_sha256
+  - continuity_contract_version
+  required_payload:
+  - 00_READ_FIRST.md
+  - manifest
+  - AGENTS.md
+  - coordination/bootstrap/START_HERE.md
+  - coordination/bootstrap/index_v0_1.yaml
+  - project_mission
+  - latest_checkpoint
+  - CURRENT_WORKFRONT
+  - NEXT_HORIZON
+  - RECENT_ACTIVITY
+  - DECISIONS
+  - BLOCKERS
+  - UNKNOWNS
+  - roadmap_slice
+  - execution_dependency_slice
+  - WORKER_PORTFOLIO
+  - SOURCE_STATE
+  - knowledge_health
+  - UNRECONCILED_CURRENT_DELTA
+  zero_context_questions:
+  - What project is this and what is its mission?
+  - What interaction and mutation rules are binding?
+  - What meaningful work was completed and why?
+  - What is active now?
+  - What blockers and unknowns remain?
+  - What is the current roadmap cursor and what are the next five to ten bounded roadmap steps?
+checkpoint_triggers:
+- accepted_bounded_mutation
+- material_architecture_decision
+- blocker_changes_next_action
+- handoff_or_context_boundary
+- lifecycle_phase_close
+- operator_decision_changes_execution_path
+non_triggers:
+- progress_heartbeat
+- ordinary_successful_subprocess
+- ephemeral_runtime_file
+- chat_message_without_project_state_change
+bootstrap_migration:
+  pre_contract_history_is_not_rewritten: true
+  first_checkpoint_implementation_may_emit_genesis_checkpoint: true
+  genesis_checkpoint_must_reference_accepted_evidence: true
+  genesis_checkpoint_must_mark_historical_import: true
+implementation_sequence:
+  current_step: module_transfer_reference_implementation
+  next_step: null
+  projections_implemented_here: true
+  checkpoint_writer_implemented_here: true
+  handoff_compiler_implemented_here: true
+  lifecycle_enforcement_implemented_here: true
+  current_step_state: complete
+  current_work_id: u179h
+  continuity_foundation_complete: true
+  next_program: control_foundation_near_horizon
+  next_program_source: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+validation:
+  validator: scripts/validation/validate_continuity_contract_v0_1.py
+  make_target: continuity-contract-check
+  public_make_check_required: true
+handoff_compiler:
+  script: scripts/coordination/build_assistant_handoff_archive.py
+  make_target: assistant-pack
+  validation_target: assistant-handoff-check
+  output_root: tmp/assistant_handoff
+  archive_type: deterministic_runtime_handoff_zip
+  authority: none
+  chat_transcript_included: false
+  project_source_mutation_performed: false
+  current_unreconciled_delta_may_be_visible: true
+  deterministic_archive:
+    entry_order: lexicographic
+    zip_compression: stored
+    zip_timestamp: '1980-01-01T00:00:00'
+    entry_mode: '0644'
+    archive_identity: source_state_fingerprint_plus_latest_event_sha256
+    manifest_self_hash_excluded: true
+  legacy_project_context_compatibility:
+    assistant_context_pack_target_replaced_here: false
+    reason: Project Context hardening and startup migration remain separate bounded work.

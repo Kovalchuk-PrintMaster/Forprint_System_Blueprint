@@ -1,0 +1,30 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a032
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+recorded_at: '2026-10-07T09:50:02.439885Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a032/workspace/repo
+why: CF-10 governed Worker launch for canonical task cf10-validation-check-pipeline-profile-and-optimization-v0-1.
+source_fingerprint: 42a860b7eb29d4f9abde98822c020ec86577db436200bb003da779d7446e8888
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: c8d9fa5652ed934bee1516e6cb3b96a3255535be9305ed7f2e467c3e1edbe123
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a032/input/governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- worker_delta:exact_zero_changed_paths
+- worker_baseline_sha256:ce3789aaea53b0c9191d33b47774bdca06f4e8640835acb31f151e28e21c1e3b
+- inherited_dirty_path_count:3
+- blocker:AVAILABLE_TOOLS_MCP_IDENTIFIER_CONTRACT_DEFECT
+- diagnosis:AVAILABLE_TOOLS_MCP_IDENTIFIER_CONTRACT_DEFECT_CONFIRMED
+- model_tool_id:ForPrintValidation-run_validation_suite
+- permission_pattern:ForPrintValidation(run_validation_suite)
+- probe_execution_id:structured-exec-08e50729642c18f5a024
+- probe_evidence_digest:c8936ae0c37517c4d146303423322714866ac9db8ef92eba807f0203f19e357f
+validator_outcome: NOT_RUN
+validator_evidence_refs: []
+failure_or_retry_ref: /srv/software_development/forprint-worker-runtime/proofs/cf10_a032_sanitized_mcp_tool_id_probe_v0_1/structured-exec-08e50729642c18f5a024/execution_result_v0_1.yaml
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs: []

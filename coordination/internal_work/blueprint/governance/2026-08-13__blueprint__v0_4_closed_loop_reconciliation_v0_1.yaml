@@ -1,0 +1,39 @@
+schema_version: blueprint_v0_4_closed_loop_reconciliation_evidence_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_closed_loop_reconciliation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-13'
+  source_head: f80c8a6b8cf3cc0b348f3bf2504e6add11f2b1c8
+  operator_authorized: true
+scope:
+  bootstrap_reconciled: true
+  self_roadmap_reconciled: true
+  self_prompt_queue_reconciled: true
+  master_prompt_removed_from_executable_queue: true
+  old_inventory_workstream_deferred_not_completed: true
+  v0_4_active_prompt_count: 1
+  v0_4_dispatchable_draft_count: 3
+  roadmap_future_steps_after_current: 12
+coordination_health_policy:
+  path: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  minimum_future_steps: 5
+  target_future_steps: 8
+  maximum_future_steps: null
+  horizon_is_blocking_gate: false
+compatibility_closure:
+  historical_2026_08_07_evidence_mutated: false
+  historical_snapshot_is_current_ordering: false
+  inventory_dry_run_superseded_deferred_supported: true
+  operator_decision_explicit_null_preserved: true
+  bounded_writer_hash_contract_refreshed: true
+prompt_lifecycle_v0_4:
+  accepted_prompt_moves_approved_to_completed: true
+  trigger: explicit_operator_accept
+  return_moves_to_completed: false
+  hold_moves_to_completed: false
+boundaries:
+  module_repository_writes: false
+  automatic_commit: false
+  automatic_push: false
+  automatic_acceptance: false
+  automatic_return: false

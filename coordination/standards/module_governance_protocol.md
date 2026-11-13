@@ -71,7 +71,6 @@ make governance-check
 
 If governance-check is not yet implemented, use the fallback sequence:
 
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check
@@ -86,7 +85,6 @@ It must not fake success.
 
 Before any module commit, the assistant must run:
 
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check
@@ -134,7 +132,6 @@ Blueprint should then collect the module coordination snapshot.
 
 Every active module should support:
 
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 
@@ -154,7 +151,6 @@ Silent ignore is not allowed.
 
 Recommended future module behavior:
 
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check
@@ -198,7 +194,7 @@ Active modules should eventually have:
 check
 check-report
 status-report
-blueprint-pull
+coordination-sync-check
 blueprint-check
 blueprint-sync-directives
 coordination-check
@@ -231,3 +227,12 @@ This standard only defines the protocol and enables central audit.
 
 
 ---
+
+
+## v0.4.1 coordination freshness command
+
+`make coordination-sync-check` supersedes module-side Blueprint pulling.
+
+It performs explicit network read-only freshness validation. Normal governance
+checks remain local and network-independent. A retained `blueprint-pull`
+compatibility target must fail closed and never mutate Blueprint.

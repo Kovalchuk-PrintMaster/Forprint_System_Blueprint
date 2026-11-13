@@ -1,0 +1,158 @@
+# ForPrint System Blueprint — Detailed Roadmap Plans
+
+Status: planning navigation / non-executable.
+
+This directory stores durable detailed plans for `forprint_system_blueprint`.
+
+Current authority remains `coordination/releases/current.yaml`. The historical
+`coordination/self_coordination/roadmap.yaml` remains non-authoritative unless a later
+explicit reconciliation promotes a replacement.
+
+Current hardening work is H10 — `blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`. H9, B1, B2 and Q1-Q8 are accepted/published/closed; the operator explicitly approved the Q -> H10 phase boundary on 2026-08-25. H10 new automation functionality is currently Logistics-only (`logistics_service` is the sole pilot): no other module is connected until at least two successful real automatic Logistics prompt runs pass the stability review and a separate expansion decision is recorded. Effective authority remains `coordination/releases/current.yaml`. H10 -> H11 is the next manual phase boundary.
+
+These files do not release prompts, activate work, authorize automatic execution,
+authorize automatic ACCEPT, or mutate module repositories.
+
+Plans:
+- `v0_4_1_remaining_coordination_hardening_plan_v0_1.md`
+- `autonomous_multi_module_coordination_program_v0_1.md`
+
+Integration rule: promote a planned package only in a separate reviewed transaction
+after checking dependencies, current release authority, acceptance criteria and pilot state.
+Stable IDs are durable; display ordering such as H9/H10 may change.
+
+## Planned foundation extensions recorded 2026-08-22
+
+The v0.4.1 remaining-hardening plan now also reserves two foundation packages
+to be integrated only after the current H9 Logistics rollout is reviewed:
+
+- `B1 — blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`
+  defines release/execution/completion baselines, required-input manifests,
+  deterministic forward-drift compatibility, claim-time execution identity and
+  explicit revalidation/revocation semantics.
+
+- `B2 — blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+  defines the hybrid source-of-truth model: Git/YAML/Markdown for declarative
+  canonical truth, a future SQLite WAL `CoordinationStore` for high-churn
+  operational state, filesystem storage for bulky evidence, dedicated secret
+  storage, and separation from the ForPrint business database.
+
+B1 was separately activated on 2026-08-22 after H9 was accepted and published,
+then accepted, published and closed on 2026-08-24.
+B2 was separately activated on 2026-08-24 after B1 closure.
+B2 activation does not enable live SQLite runtime, autonomous execution, automatic
+ACCEPT, business prompt release or module-repository writes.
+
+## Zero-context continuity entry point
+
+For assistant replacement or context-window recovery, start with:
+
+- `coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md`
+- `coordination/roadmaps/details/forprint_system_blueprint/continuity/prompt_sequence_v0_1.yaml`
+- newest snapshot under `coordination/roadmaps/details/forprint_system_blueprint/continuity/snapshots/`
+
+These continuity files are navigation/handoff artifacts, not runtime authority.
+`coordination/releases/current.yaml` and current Git state remain authoritative.
+
+## Cross-cutting portfolio/operator planning
+
+Canonical planning specification:
+
+- `coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+
+It records outcome-alignment governance, visual portfolio/dependency/priority views, historical
+assessments, budget/resource steering, remote/mobile operator control, recurring audit/scheduler
+requirements, major-milestone audit gates, and unified project skeleton/command standards.
+
+This is planning guidance only. It does not change current prompt order, release authority, runtime
+permissions, ACCEPT semantics or module-repository write boundaries.
+
+Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
+
+<!-- portfolio-roadmap-rebuild-authority-v0-1:start -->
+## Portfolio roadmap rebuild authority — 2026-08-25
+
+The Blueprint Q-series roadmap remains current execution authority.
+
+For future post-Q portfolio automation, existing non-Blueprint module roadmaps are classified as
+legacy/incomplete planning evidence pending rebuild. Accepted prompts, completion evidence and historical decisions
+remain durable evidence and are not erased.
+
+Rebuild program:
+
+`portfolio_roadmap_rebuild_program_v0_1.md`
+
+Machine-readable authority register:
+
+`non_blueprint_roadmap_authority_rebuild_register_v0_1.yaml`
+
+Common rebuild seeds:
+
+`portfolio_rebuild_seeds/`
+<!-- portfolio-roadmap-rebuild-authority-v0-1:end -->
+
+<!-- control-foundation-near-horizon-v0-1:start -->
+## Control Foundation near horizon — reconciled 2026-09-15
+
+Machine-readable planning program:
+
+- `control_foundation_near_horizon_program_v0_1.yaml`
+
+The Continuity foundation and CF-01 through CF-06 are closed. CF-07, CF-08 and CF-09 build the minimum governed procedure / handoff / dispatcher stack.
+
+A new CF-10 then runs one **bounded internal Blueprint worker zero-stage pilot** in manual/shadow mode. It is intentionally earlier than the broad readiness review so real internal work can test isolation, profiles, budgets, context, recovery, validation and result handling before non-blocking conveniences are implemented manually.
+
+CF-10 grants no broad autonomy, external-module dispatch, release, push, merge, automatic ACCEPT or cross-repository write authority. After internal stability, Logistics remains the first external/module pilot.
+
+The later broad readiness audit is now CF-19. It reviews the earlier CF-10 evidence together with discoverability, verification tiers, Project Health, cross-module controls, wave planning and operator views. CF-20 is the later broad-assistant/follow-up-worker trial and autonomy-promotion review.
+
+Planning files themselves grant no dispatch, release, automatic ACCEPT, foreign-repository-write or autonomy authority.
+<!-- control-foundation-near-horizon-v0-1:end -->
+
+<!-- execution-control-plane-program-v0-1:start -->
+## Execution Control Plane / stable workflow program — reconciled 2026-09-30
+
+Detailed architecture and sequencing:
+
+- `execution_control_plane/execution_control_plane_program_v0_1.md`
+- `execution_control_plane/execution_control_plane_program_v0_1.yaml`
+- `execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml`
+
+CF-10 owns the **bounded first implementation contour** and uses the internal Worker lifecycle
+as the first reference implementation. The current governed-worker Slice B2 remains a separate
+bounded runtime step and is not expanded by this planning integration.
+
+After the first stable Worker attempts, suitable bounded self-hardening work is pulled from the
+machine-readable backlog so the Worker progressively improves reusable workflow infrastructure
+rather than each assistant rediscovering commands, order, status and recovery behavior.
+
+CF-12 keeps the intentionally deferred long-horizon capabilities visible until deliberate
+promotion. The Operator Console consumes Control Plane projections and actions; it is not state
+authority.
+
+These planning files grant no dispatch, release, automatic ACCEPT, canonical remote push,
+foreign-repository write, or production activation authority.
+<!-- execution-control-plane-program-v0-1:end -->
+
+<!-- operator-workflow-worker-gateway-human-readable-roadmap-amendment-v0-1:start -->
+## Operator workflow / Worker gateway / human-readable roadmap amendment — 2026-10-06
+
+Accepted owner direction:
+
+- `2026-10-06__operator_workflow_worker_gateway_and_human_readable_roadmap_amendment_v0_1.md`
+
+It records three cross-cutting requirements:
+
+1. move recurring human+assistant bounded change closeout mechanics from chat-generated command blocks
+   into reusable project-native workflow entrypoints;
+2. evolve the first Worker validation MCP proof into a provider-neutral ForPrint Worker Tool Gateway
+   backed by the shared capability registry / structured executor, with thin provider-specific adapters
+   before a second real Worker provider is onboarded;
+3. preserve stable machine IDs while making human-readable titles/purpose mandatory in operator-facing
+   roadmap, work and attempt projections.
+
+This is durable planning guidance only. It does not mutate lifecycle/roadmap execution state, dispatch
+a Worker, widen Git/publication authority, or change the active CF-10 Handoff repair.
+Exact active-roadmap promotion remains a separate reviewed transaction after the current execution
+corridor is stable.
+<!-- operator-workflow-worker-gateway-human-readable-roadmap-amendment-v0-1:end -->

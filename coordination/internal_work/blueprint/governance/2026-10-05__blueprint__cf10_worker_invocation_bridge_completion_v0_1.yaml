@@ -1,0 +1,116 @@
+schema_version: forprint_cf10_worker_invocation_bridge_completion_v0_1
+layer: COMPLETION
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_WORKER_INVOCATION_BRIDGE
+title: CF10 Worker invocation bridge
+status: PASS
+closed_at: '2026-10-05T19:31:16.588846+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: 76e760ae3adfad151521c25b143ad03acb8bba98
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_worker_invocation_bridge_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/cf10_worker_invocation_bridge_v0_1.yaml
+  blocked_attempt: attempt:cf10-u180j-a028
+  blocked_attempt_publication: 8007618ceaa3dd1c37d89692197dd6af6acf4859
+  foundation_closeout: bb4ffeaa584e52b642b9f8a7d6822c4a6e2efd53
+implementation:
+  dependency_commit: d60b19d621f2059193092792d79810a94a39855a
+  bridge_commit: 76e760ae3adfad151521c25b143ad03acb8bba98
+  frozen_path_count: 6
+  actual_path_count: 6
+  exact_match: true
+  paths:
+  - Makefile
+  - pyproject.toml
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  outside_frozen_implementation_write_set_modified: false
+  dependency:
+    requirement: mcp>=2.3,<3
+    resolved_version: 2.3.0
+    pip_check: PASS
+verification:
+  dependency_regression:
+    result: PASS
+    observed_test_count: 41
+  bridge_canonical_check:
+    result: PASS
+    observed_test_count: 46
+  real_stdio_mcp_proof:
+    result: PASS
+    server_name: ForPrintValidation
+    tool_name: run_validation_suite
+    suite: cf10-worker-pipeline
+    required_tier: LOCAL_FOCUSED
+    return_code: 0
+    timed_out: false
+    outcome: completed
+    execution_id: structured-exec-e34b820dde25f26ee645
+    evidence_digest: fac003881c35ba05ac578f0b64f058c2465eb4b0c8db5a6135e6a844be70777a
+    shell: false
+    authority_widened: false
+  venv_interpreter_binding:
+    result: PASS
+    sys_executable_preserved_verbatim: true
+    path_resolve_on_sys_executable: false
+  git_diff_check: PASS
+  publication_head_equals_upstream: true
+delivered:
+  session_only_mcp_config: true
+  stdio_mcp_transport: true
+  single_validation_tool: true
+  tool_name: run_validation_suite
+  worker_parameter_surface:
+  - suite_id
+  - require_tier
+  additional_properties_allowed: false
+  startup_bound_execution_identity: true
+  startup_bound_workspace: true
+  startup_bound_evidence_root: true
+  startup_bound_timeout: true
+  startup_bound_authorization_envelope: true
+  structured_executor_reused: true
+  make_check_surface: true
+  make_proof_surface: true
+  bounded_stdout_stderr_diagnostics: true
+  snapshot_workspace_script_binding: true
+authority_boundary:
+  mcp_server_grants_authority: false
+  structured_executor_grants_authority: false
+  shell: false
+  bash_available: false
+  arbitrary_shell_text_allowed: false
+  unrestricted_argv_allowed: false
+  arbitrary_executable_selection_allowed: false
+  arbitrary_make_target_allowed: false
+  safe_write_enabled: false
+  canonical_write_allowed: false
+  commit_authority: false
+  push_authority: false
+  merge_authority: false
+  release_authority: false
+  promotion_authority: false
+  worker_dispatch_authority: false
+  automatic_accept_authority: false
+closeout:
+  slice_complete: true
+  completion_artifact_is_execution_authority: false
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  workfront_history_mutated: false
+  a029_created: false
+  oc01_reactivated: false
+  automatic_next_slice_activation: false
+next_boundary:
+  slice: CF10_GOVERNED_WORKER_CONTEXT_DELIVERY
+  state: DESIGN_FREEZE_REQUIRED_BEFORE_IMPLEMENTATION
+  purpose: Deliver governed lifecycle/roadmap context into the exact Worker launch session so Task70 can verify its
+    live cursor without widening execution authority.
+  a029_allowed_now: false
+  oc01_reactivation_allowed_now: false
+artifact_integrity:
+  design_freeze_sha256: 0a12a3ceda08682264b0a67b697d438335fcb59f52e2b7751b0f47fce515c430
+  work_front_sha256: aa41eb7838a15884c44608547938bd7a8a0f7f75ad7d865905eb5b4789041a1a

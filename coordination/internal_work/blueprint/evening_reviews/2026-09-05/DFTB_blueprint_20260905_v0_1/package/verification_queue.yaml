@@ -1,0 +1,527 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-05
+warning: Historical intent and execution reports are not current authority.
+queue:
+- item_id: IT-BP0509-0001
+  title: Reconcile memory packages semantically, not by blind merge
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - project_memory
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0001
+  - EV-BP0509-0002
+  - EV-BP0509-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0002
+  title: Avoid duplicate Human Intent semantics across ID migrations
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - governance
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0003
+  - EV-BP0509-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0003
+  title: Initial v1.1 integration safe-failed on Ruff and rolled back
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0004
+  title: Normalize module/project descriptive documents to one structure
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0007
+  - EV-BP0509-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0005
+  title: Normalize SYNTHETIC and PROPOSED vocabulary
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - schema
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0006
+  title: Use bulk semantic normalization for large document sets
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - review
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0007
+  title: Foreign UI task explicitly excluded
+  importance: high
+  dialogue_status: rejected
+  confidence: high
+  owner_or_domain:
+  - scope_control
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP0509-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0008
+  title: Project self-cleaning is a formal governance obligation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - module_assistants
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0509-0012
+  - EV-BP0509-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0009
+  title: Automated descriptive-document conformance checks
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - validation
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0010
+  title: Self-cleaning capability must be indexed/discoverable
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - indexes
+  - governance
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0509-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0011
+  title: Maintain stale-artifact candidate registry
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - repository_maintenance
+  verification_targets:
+  - config
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0509-0016
+  - EV-BP0509-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0012
+  title: Retired artifacts leave active validation surface
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - validation
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0013
+  title: Closeout includes documentation propagation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - closeout
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0509-0019
+  - EV-BP0509-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0014
+  title: Closeout includes index and health verification
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - indexes
+  - health
+  verification_targets:
+  - tests
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0509-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0015
+  title: Logistics inventory reviewed in bounded batches
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - inventory
+  verification_targets:
+  - docs
+  - config
+  - review
+  evidence_refs:
+  - EV-BP0509-0022
+  - EV-BP0509-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0016
+  title: Blueprint publishes prompts only in Blueprint-owned surfaces
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0024
+  - EV-BP0509-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0017
+  title: Module-side pull/listener consumes released prompts
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - listener
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - tests
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0025
+  - EV-BP0509-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0018
+  title: Module listener reads Blueprint but does not write it
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - repository_boundary
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0019
+  title: Fresh AI worker per prompt
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - worker_runtime
+  - module_assistants
+  verification_targets:
+  - code
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0509-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0020
+  title: Fresh-worker context includes prior completion evidence
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - worker_runtime
+  - context_pack
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0021
+  title: Fresh-worker context exposes project navigation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - context_pack
+  - knowledge
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0509-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0022
+  title: Business acceptance remains separate from prompt execution
+  importance: critical
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - operator_approval
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0509-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0023
+  title: Generic health release reached ready_for_module_pull
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - H10
+  - prompt_queue
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0030
+  - EV-BP0509-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0024
+  title: Release policy returns fail-closed after one-shot release
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - release
+  - safety
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0025
+  title: Acceptance Oracle binding survives prompt release
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - acceptance_oracle
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0509-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0026
+  title: Prepared prompt set and oracle-bound set are not identical after release
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - tests
+  verification_targets:
+  - tests
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0509-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0027
+  title: Current governance documents require durable inbound references
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - governance
+  verification_targets:
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0509-0034
+  - EV-BP0509-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0028
+  title: Repair semantic references, do not weaken validator
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - governance
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0509-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0029
+  title: Maintain self-inventory/system-context snapshot
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - knowledge
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP0509-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.
+- item_id: IT-BP0509-0030
+  title: Maintain portfolio/roadmap current-state snapshot
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - roadmap
+  - knowledge
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP0509-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Historical package/report labels are insufficient.

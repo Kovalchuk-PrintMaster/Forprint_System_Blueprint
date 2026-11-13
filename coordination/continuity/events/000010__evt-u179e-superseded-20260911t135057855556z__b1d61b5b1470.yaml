@@ -1,0 +1,20 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u179e-superseded-20260911t135057855556z
+event_type: WORK_SUPERSEDED
+sequence: 10
+previous_event_id: evt-u179d-superseded-20260911t135057855556z
+previous_event_sha256: 7f5792c8e98c7715c5a6e2f1e41b4ce65a049a857f5cf258c67902a7185835f6
+work_id: u179e
+occurred_at: '2026-09-11T13:55:36.409719Z'
+actor: assistant_generated_operator_executed
+summary: Pre-enforcement handoff compiler work migrated closed
+source_state_ref: 42d9f2a90b279e19911dc45856863fe05ac3f35773b344525183c8daee781dde
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: CLOSED
+  migration_only: true
+  enforcement_boundary_sequence: 3
+  superseded_by_work_id: u179f
+  reason: Accepted work completed before lifecycle enforcement activation
+  evidence: []

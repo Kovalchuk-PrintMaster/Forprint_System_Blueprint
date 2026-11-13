@@ -1,0 +1,189 @@
+schema_version: forprint_blueprint_20260614_source_label_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_14.06.26.mhtml
+  sha256: c5acd0dfb9068b993e46aa69aecc3e49e79923130cf69a2f4381b21a8698ece1
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-source-label-2026-06-14
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1
+
+chronology:
+  filename_label: '2026-06-14'
+  classification: SOURCE_LABEL_TEMPORALLY_AMBIGUOUS
+  rule: >
+    Do not interpret the filename label as the exact date of every turn. The source
+    contains explicit later artifact dates and the visible saved conversation surface
+    includes July chronology. Turn order and explicit artifact timestamps outrank the
+    filename label.
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_HIGH_TURN_COVERAGE
+  retained_turn_containers_from_existing_intake: 102
+  text_bearing_turn_containers_from_existing_intake: 102
+  message_blocks_from_existing_intake:
+    user: 90
+    assistant: 12
+  referenced_execution_artifacts_from_existing_intake: 45
+  lossy_cyrillic_replacement_character_after_correct_mime_decode: false
+  limitation: >
+    The source is a partial historical capture even though all retained turn containers
+    have recoverable text. Historical implementation claims, PASS/READY states and
+    assistant interpretations are not current repository/runtime authority.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - Blueprint coordinator aligns whole-system and per-module plans
+    - modules must not outrun unavailable dependencies/contracts
+    - fake dependency truth is not normal strategy
+    - Library historical readiness bottleneck for Calculator/Telegram
+    - global and per-module roadmaps with meaningful forward depth
+    - do not invent the next workfront from chat
+    - integrated prompt/report coordination workflow
+    - compact and visually scannable operator reporting
+    - shared standards should converge module behavior
+    - reports must be semantically consumed rather than merely generated
+    - reusable Blueprint repository self-analysis
+    - self-analysis covers new/unfamiliar files
+    - machine-readable script responsibility metadata
+    - declared metadata must be audited against observed code behavior
+    - metadata-update candidates should support reviewed batch reconciliation
+    - session replacement must be recoverable from project artifacts
+    - source filename date is not reliable chronology
+    - module completion evidence must support coordinator acceptance review
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: earliest_verified_zero_context_continuity_origin
+    source_items:
+      - IT-BP1406-0016
+      - IT-BP1406-0018
+      - IT-BP1406-0030
+    source_rule: >
+      Assistant/chat context can exhaust. Active state, operating rules, closeout and
+      replayability must therefore be recoverable from project-owned artifacts rather
+      than from a single conversation.
+    first_pass_status: EXPLICITLY_CAPTURED_AS_CRITICAL_PROCESS_RULE
+    current_reconciliation:
+      status: MATERIALIZED_AND_EXTENDED
+      current_surfaces:
+        - coordination/standards/automation/continuity_contract_v0_1.yaml
+        - deterministic Assistant Handoff / Handoff v2 surfaces
+        - coordination/instruction_intake/assistant_reading_order.md
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - Makefile::assistant-context-pack
+      validated_current_meaning:
+        - fresh assistant reconstructs project state without relying on chat memory
+        - chat transcript is not project source of truth
+        - handoff/context package does not grant release or execution authority
+      recent_extension: >
+        A bounded parallel-workstream current-snapshot contract has also been handed to
+        the active parallel assistant so current engineering position can be included
+        in replacement-assistant onboarding without turning chat memory into authority.
+    human_intent_decision: >
+      No new Human Intent is appended here because the historical requirement has
+      already matured into canonical continuity/bootstrap behavior and current operator
+      context-pack work.
+    action: RECORD_EARLY_ORIGIN_PROVENANCE_ONLY
+
+  - topic: dependency_constrained_portfolio_planning_origin
+    source_items:
+      - IT-BP1406-0001
+      - IT-BP1406-0002
+      - IT-BP1406-0003
+      - IT-BP1406-0008
+      - IT-BP1406-0009
+      - IT-BP1406-0010
+    promoted_human_intents:
+      - HI-FP-ORIGIN-20260614-001
+      - HI-FP-ORIGIN-20260614-002
+      - HI-FP-ORIGIN-20260614-005
+    historical_rule: >
+      Keep portfolio and module roadmaps aligned, do not let a module outrun real
+      upstream readiness, and never fabricate canonical dependency truth merely to keep
+      development moving.
+    current_connection:
+      - Portfolio Knowledge Baseline
+      - full-horizon module roadmaps
+      - dependency/readiness planning
+      - NT-07 portfolio planning dependency intelligence and convergence
+      - Reuse-first gate
+      - Gate A structural coverage
+      - Gate B capability retrieval challenge
+    supersession_note: >
+      The historical approximately-ten-step moving horizon is not retained as a fixed
+      numeric policy; meaningful full-horizon planning and explicit maturity/provenance
+      now supersede it.
+    action: NO_DUPLICATE
+
+  - topic: semantic_report_consumption_origin
+    source_items:
+      - IT-BP1406-0020
+      - IT-BP1406-0021
+      - IT-BP1406-0022
+      - IT-BP1406-0023
+    promoted_human_intent: HI-FP-ORIGIN-20260614-003
+    source_rule: >
+      Producing reports is not sufficient. Important reports must be semantically
+      consumed into a decision, gap, review obligation, follow-up action or explicit
+      no-action disposition.
+    current_connection:
+      - Roadmap Enrichment source-by-source reconciliation
+      - portfolio forensics
+      - Project Health/review evidence
+      - Gate A and Gate B
+      - explicit unresolved questions / review obligations
+    action: NO_DUPLICATE
+
+  - topic: script_responsibility_metadata_and_drift_audit
+    source_items:
+      - IT-BP1406-0024
+      - IT-BP1406-0025
+      - IT-BP1406-0026
+      - IT-BP1406-0027
+    promoted_human_intent: HI-FP-ORIGIN-20260614-004
+    existing_design_candidate: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/19_script_responsibility_metadata_and_drift_audit_design_candidate_v0_1.yaml
+    current_reconciliation:
+      classification: RECONCILE_BEFORE_IMPLEMENTATION
+      likely_reuse_surfaces:
+        - CF-13 deterministic machine discoverability
+        - repository knowledge inventories/indexes
+        - Project Inspector declared-vs-observed conformance checks
+      safety:
+        - metadata is discoverability/expectation, not proof of safe behavior
+        - detected drift does not auto-rewrite metadata or ownership
+        - existing equivalent schemas must be reused or extended before NEW
+    roadmap_effect: none_until_gap_is_proven
+    action: PRESERVE_CANDIDATE_NO_DUPLICATE_ROADMAP
+
+  - topic: module_completion_evidence_to_acceptance_origin
+    source_items:
+      - IT-BP1406-0011
+      - IT-BP1406-0018
+      - IT-BP1406-0032
+    source_rule: >
+      Module work should close with enough repository, commit, test, boundary and
+      artifact evidence for coordinator review; completion evidence is consumed rather
+      than treated as self-authorizing acceptance.
+    current_connection:
+      - completion packets and completion intake
+      - ACCEPT / RETURN / HOLD separation
+      - Control Foundation lifecycle/acceptance boundaries
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - explicit temporal-label ambiguity confirmation
+    - earliest verified provenance bridge from chat-context exhaustion to current continuity/bootstrap/context-pack architecture
+    - reaffirmed design-candidate status for script responsibility metadata/drift auditing

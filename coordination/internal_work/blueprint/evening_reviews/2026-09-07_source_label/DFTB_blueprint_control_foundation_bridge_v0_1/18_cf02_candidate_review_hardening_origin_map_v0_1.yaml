@@ -1,0 +1,41 @@
+schema_version: forprint_cf02_candidate_review_hardening_origin_map_v0_1
+source_bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-07_source_label/DFTB_blueprint_control_foundation_bridge_v0_1
+purpose: Preserve the exact historical reasons CF-02 required registry, authority, bootstrap, isolation and migration
+  hardening without treating the mislabeled source or candidate v0.1 as current execution authority.
+candidate_v0_1_gate:
+  mechanical_checks:
+    focused_tests: PASS_6_OF_6
+    static_python_compile: PASS_10_OF_10
+    manifest_hash_integrity: PASS
+  semantic_review: RETURN_FOR_CORRECTION
+  finding_count: 7
+  apply_allowed: false
+  activation_allowed: false
+findings:
+- id: CF02-R01
+  theme: execution_dependency_registry
+  durable_rule: new/changed Make and persistent execution surfaces must be registered with dependency consumers/producers
+- id: CF02-R02
+  theme: generator_derivation_registry
+  durable_rule: persistent deterministic projection generators must be derivation-registered
+- id: CF02-R03
+  theme: standards_document_registration
+  durable_rule: new governance/automation standards must be discoverable through canonical index/document surfaces
+- id: CF02-R04
+  theme: future_work_identity_authority
+  durable_rule: do not preallocate future work IDs beyond authorized scope
+- id: CF02-R05
+  theme: projection_bootstrap_order
+  durable_rule: producer registration and first projection materialization precede read-only sync/freshness checks
+- id: CF02-R06
+  theme: sterile_test_isolation
+  durable_rule: focused tests use explicit state/projection inputs instead of hidden ambient repository-root projections
+- id: CF02-R07
+  theme: exact_migration_baseline
+  durable_rule: legacy migration binds exact source SHA/accepted IDs/immutable evidence instead of a coarse ordinal
+later_lineage:
+- 12.09 Control Foundation planning/CF-01 closure
+- 'this bridge: CF-02 v0.1 seven-finding semantic gate'
+- later 14.09 CF-02 hardening and subsequent closure diagnostics
+- current CF roadmap reconciliation/continuity runtime

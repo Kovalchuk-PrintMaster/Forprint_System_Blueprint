@@ -1,0 +1,78 @@
+schema_version: blueprint_roadmap_context_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  evidence_id: blueprint_roadmap_context_reconciliation_v0_1
+  created_at: '2026-08-07T12:04:00+03:00'
+  source_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+  status: completed
+scope:
+  inventory_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  self_coordination_roadmap: coordination/self_coordination/roadmap.yaml
+  current_handoff: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  historical_freshness_review: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
+  prompt_queue_index: coordination/self_coordination/prompt_queue/index.yaml
+reconciled_prerequisites:
+- prerequisite_id: completion_intake_acceptance_governance_v0_1
+  status: completed
+  commit: 8c35e6dd168027e9266b6aea9a43133fcf5ffe90
+  evidence:
+  - coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
+  - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion-intake-protocol-findings-v0-1.yaml
+- prerequisite_id: completion_intake_protocol_tooling_v0_1
+  status: completed
+  commit: 39d50e7f5095f08e0bd4b9609e5e24bb06217258
+  evidence:
+  - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion_intake_protocol_tooling_v0_1.yaml
+  - scripts/coordination/completion_intake_check.py
+- prerequisite_id: historical_acceptance_reconciliation_v0_1
+  status: completed
+  commit: 645950789ea94d8fb701c793f8b9d7887ce52909
+  evidence:
+  - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__historical_acceptance_reconciliation_v0_1.yaml
+  - scripts/coordination/historical_acceptance_reconciliation.py
+- prerequisite_id: assistant_bootstrap_handoff_contract_v0_1
+  status: completed
+  commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+  evidence:
+  - coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml
+  - coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
+roadmap_state:
+  inventory_step_count: 40
+  self_roadmap_step_count: 25
+  active_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  active_step_preserved: true
+  future_sequence_preserved: true
+  step_sequences_rewritten: false
+  prompt_queue_active_prompt_preserved: true
+  freshness_before: SEQUENCE_VALID_CONTEXT_STALE
+  freshness_after: CURRENT_CONTEXT_RECONCILED
+hashes:
+  before:
+    coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml: d601f87842cf8c875b2bf9fc73b4a7efcdc013fbfb6eaa89040f13d70cec45cf
+    coordination/self_coordination/roadmap.yaml: 8af13ff012b2a086c21f6b5f6347b154725c64b0bd90ceaed4968eb399134418
+    coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml: f382f26fcd9e9a2456720c1917f652ef5936a726c751079fd601b5d195333062
+    ? coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
+    : 108366b5d3d8a3f35729fc676e14fea980091e92188cdded993eb2f8dcc72241
+    coordination/self_coordination/prompt_queue/index.yaml: 1d84271b490872116a7c7d3e2aa2cf8258fa4e1e02c15edde44909dc93613777
+  after:
+    coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml: 44ba6467b0dc5faa72eec4e1ddb6fdce6fdac39e164ded0e812edb6c5baf18d2
+    coordination/self_coordination/roadmap.yaml: d0e6420855aaf961647ca4559754e509b43f9144977a3dd0349b7e08624f6c4c
+    coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml: 9a924b1dc28a4fdfcab24a044797dad1b3e97ce36380fba3ac4eb1f452fdd1f5
+  historical_freshness_review_unchanged: true
+  prompt_queue_index_unchanged: true
+next_coordination_focus:
+  first: repair_logistics_module_source_registry
+  then: tracking_events_intake_preview
+  inventory_acceptance_resume_target: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+boundaries:
+  historical_freshness_review_mutated: false
+  prompt_queue_mutated: false
+  operator_decision_created: false
+  automatic_acceptance: false
+  automatic_return: false
+  directive_activation: false
+  module_repository_write: false
+  external_rollout: false
+  automatic_commit: false
+result: BLUEPRINT_ROADMAP_CONTEXT_RECONCILED

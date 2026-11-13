@@ -1,0 +1,144 @@
+schema_version: blueprint_inventory_coverage_drift_dashboard_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  as_of: '2026-07-29'
+  baseline_commit: 7b34b44
+  result: READY_WITH_GAPS
+sources:
+  rci: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  semantic_inventory_wave_1: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  artifact_authority_map: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  module_registry_reconciliation: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  maintenance_policy: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  rci_schema_version: repository_capability_inventory_v0_3
+scope:
+  current_git_tracked_files: 722
+  artifact_map_tracked_files: 709
+  artifact_map_scope_delta: 13
+  artifact_map_scope_state: current_scope_exceeds_artifact_map
+  changed_paths_since_rci_commit: 19
+semantic_coverage:
+  wave_1_selected_files: 30
+  purpose_evidenced: 30
+  dependencies_mapped: 30
+  fully_verified: 30
+  records_with_unknowns: 23
+  ratios_are_lower_bounds: true
+  ratios:
+    wave_1_selection_lower_bound: 0.0416
+    purpose_evidenced_lower_bound: 0.0416
+    dependencies_mapped_lower_bound: 0.0416
+    fully_verified_lower_bound: 0.0416
+authority_and_registry:
+  classification_pending: 186
+  artifact_map_findings: 3
+  registry_findings: 18
+  modules_with_registry_findings: 15
+drift:
+  change_count: 19
+  counts:
+    added: 18
+    modified: 1
+    deleted: 0
+    renamed: 0
+    other: 0
+  changes:
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - status: M
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - status: A
+    paths:
+    - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - status: A
+    paths:
+    - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - status: A
+    paths:
+    - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - status: A
+    paths:
+    - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - status: A
+    paths:
+    - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - status: A
+    paths:
+    - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - status: A
+    paths:
+    - tests/test_compare_repository_knowledge_snapshots.py
+  - status: A
+    paths:
+    - tests/test_validate_repository_knowledge_maintenance.py
+external_rollout:
+  state: gated
+  release_conditions:
+  - Blueprint semantic inventory wave 2 completed
+  - Blueprint coverage and drift gate is GREEN
+  - Blueprint repository knowledge is reconciled
+  - Blueprint inventory acceptance and merge gate is GREEN
+blocking_conditions:
+- condition: external_rollout_not_gated
+  active: false
+- condition: tracked_scope_drift_unreviewed
+  active: true
+- condition: semantic_unknowns_remaining
+  active: true
+- condition: classification_pending
+  active: true
+priorities:
+- priority: critical
+  work: Include post-RCI tracked-scope drift in Semantic Inventory Wave 2.
+  evidence_count: 19
+- priority: high
+  work: Resolve or explicitly defer unknowns recorded by Semantic Inventory Wave 1.
+  evidence_count: 23
+- priority: high
+  work: Assign purpose and authority to broadly classified tracked files.
+  evidence_count: 186
+- priority: medium
+  work: Reconcile confirmed registry findings before inventory acceptance.
+  evidence_count: 18
+interpretation:
+  lower_bound: Semantic Wave 1 verified a selected high-value subset; the ratios do not claim that all unselected
+    files are unknown.
+  drift: Changed paths since the accepted RCI commit must be reviewed before inventory acceptance.
+  release: External module inventory remains gated until Blueprint self-context acceptance is GREEN.
+quality_checks:
+  git_tracked_scope_used: true
+  git_name_status_drift_used: true
+  semantic_ratios_labeled_lower_bound: true
+  unknowns_not_silently_filled: true
+  external_rollout_gate_reported: true
+  source_artifacts_not_modified: true
+  cross_repository_writes_not_authorized: true

@@ -1,0 +1,52 @@
+{
+  "schema_version": "cf10_r084_operator_provider_assignment_contract_v0_1",
+  "status": "READ_ONLY_OPERATOR_TASK_PROVIDER_PLAN_NO_LIVE_ROUTING",
+  "source_head": "573b617c7b8eda218e17ec04405a4e0448c1afdc",
+  "upstream": {
+    "r080": "MULTI_READY_CATALOG",
+    "r081": "SOURCE_BOUND_PROVIDER_ADAPTER",
+    "r082": "FROZEN_PROVIDER_ASSIGNMENT",
+    "r083": "EPOCH_ANTI_DOWNGRADE"
+  },
+  "facts": {
+    "explicit_task_required": true,
+    "explicit_provider_required": true,
+    "explicit_model_required": true,
+    "worker_default": "worker-01",
+    "capabilities": [
+      "completion_capture",
+      "non_interactive_prompt"
+    ],
+    "source_head_bound": true,
+    "source_fingerprint_bound": true,
+    "registry_sha256_bound": true,
+    "selected_descriptor_sha256_bound": true,
+    "attempt_must_be_unused": true
+  },
+  "authority": {
+    "plan_grants_dispatch": false,
+    "plan_grants_launch": false,
+    "plan_consumes_claim": false,
+    "plan_writes_ledger": false,
+    "plan_creates_attempt": false,
+    "plan_auto_fallback": false,
+    "plan_enables_second_provider": false,
+    "release": false
+  },
+  "remaining": {
+    "r082_prepare_reads_operator_selection": false,
+    "nondefault_invocation_live": false,
+    "codex_ready": false,
+    "claude_ready": false,
+    "credential_probe": false,
+    "remote_workers": false
+  },
+  "source_scope": [
+    "Makefile",
+    "scripts/coordination/control_plane/worker_runtime/cf10_r084_operator_assignment_plan_v0_1.py",
+    "tests/coordination/control_plane/worker_runtime/test_cf10_r084_operator_assignment_plan_v0_1.py",
+    "coordination/continuity/cf10_r084_operator_provider_plan_v0_1.json",
+    "coordination/standards/governance/cf10_r084_operator_provider_assignment_UA.md"
+  ],
+  "worker_launched": false
+}

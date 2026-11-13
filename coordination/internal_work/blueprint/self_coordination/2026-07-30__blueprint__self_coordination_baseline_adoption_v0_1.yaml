@@ -1,0 +1,65 @@
+schema_version: blueprint_self_coordination_baseline_adoption_v0_1
+metadata:
+  adoption_id: 2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T10:49:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: f5146c37c9178a55794686e4cfebb35a0bc5fc4b
+  result: GREEN
+audit: coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+roadmap: coordination/self_coordination/roadmap.yaml
+prompt_queue: coordination/self_coordination/prompt_queue/index.yaml
+completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+validator: scripts/coordination/validate_blueprint_self_coordination.py
+tests: tests/test_validate_blueprint_self_coordination.py
+validation:
+  schema_version: blueprint_self_coordination_validation_report_v0_1
+  metadata:
+    result: PASSED
+  summary:
+    roadmap_steps: 11
+    actionable_after_current: 9
+    approved_prompts: 1
+    draft_prompts: 3
+    completed_prompts: 1
+    prompt_failures: 0
+    module_plans: 3
+    module_failures: 0
+    policy_errors: 0
+  errors: []
+managed_module_plans:
+  forprint_library: coordination/self_coordination/module_plans/forprint_library.yaml
+  logistics_service: coordination/self_coordination/module_plans/logistics_service.yaml
+  telegram_bot: coordination/self_coordination/module_plans/telegram_bot.yaml
+current_state:
+  completed_self_prompt: blueprint_self_coordination_baseline_v0_1
+  approved_self_prompt: blueprint_artifact_authority_policy_adoption_v0_1
+  draft_self_prompts:
+  - blueprint_module_registry_consistency_ci_gate_v0_1
+  - blueprint_semantic_inventory_unknowns_triage_v0_1
+  - blueprint_snapshot_comparison_ci_gate_v0_1
+  actionable_steps_after_current: 9
+  managed_modules_planned: 3
+  inventory_workstream_current_step: blueprint_artifact_authority_policy_adoption_v0_1
+  external_rollout_state: gated
+recovery:
+  previous_failure: Prompt frontmatter parser compared against literal backslash-n sequences.
+  repair: Restored real newline delimiters for YAML frontmatter.
+  package_documents_recreated: false
+  managed_module_controls_modified: false
+safety:
+  managed_module_repositories_modified: false
+  managed_module_roadmaps_modified: false
+  managed_module_prompt_queues_modified: false
+  cross_repository_writes: false
+quality_checks:
+  self_coordination_validator_passed: true
+  prompt_frontmatter_verified: true
+  one_approved_prompt_verified: true
+  three_draft_prompts_verified: true
+  completion_packet_verified: true
+  three_module_plans_verified: true
+  unit_tests_passed: true
+  ruff_lint_passed: true
+  ruff_format_passed: true
+  yaml_validated: true

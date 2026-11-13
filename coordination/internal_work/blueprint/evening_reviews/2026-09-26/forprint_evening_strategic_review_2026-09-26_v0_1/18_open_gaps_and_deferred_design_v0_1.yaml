@@ -1,0 +1,34 @@
+schema_version: forprint_evening_strategic_review_deferred_design_gaps_v0_1
+date: '2026-09-26'
+status: DEFERRED_STRATEGIC_DESIGN_NOT_EXECUTION_BACKLOG
+gaps:
+- gap_id: ESR-20260926-GAP-001
+  topic: decision_rights_and_acceptance_topology
+  detail: Exact authority matrix, risk classes and multi-anchor acceptance rules are not frozen.
+  revisit: when mature cross-module worker governance is available
+- gap_id: ESR-20260926-GAP-002
+  topic: generation_epoch_taxonomy
+  detail: Names, number of levels and compatibility-registry schema remain intentionally unfrozen.
+  revisit: after a real shared behavioral standard is piloted
+- gap_id: ESR-20260926-GAP-003
+  topic: typed_evidence_taxonomy
+  detail: Candidate PASS/evidence classes are strategic input, not a final validator taxonomy.
+  revisit: when completion/acceptance evidence is redesigned
+- gap_id: ESR-20260926-GAP-004
+  topic: external_security_control_catalog
+  detail: Threat families are known, but module-specific controls and regression suites require separate design.
+  revisit: before production readiness of each external-facing module
+- gap_id: ESR-20260926-GAP-005
+  topic: graph_project_knowledge_implementation
+  detail: Graph/index query architecture is not frozen and must reuse current Repository Knowledge/Inspector capabilities.
+  revisit: after roadmap rebuild and stronger module snapshots
+- gap_id: ESR-20260926-GAP-006
+  topic: ci_cd_generation_design
+  detail: CI/CD mechanics are deferred until stable canonical checks and worker/governance baselines exist.
+  revisit: after initial worker/governance baseline stabilization
+- gap_id: ESR-20260926-GAP-007
+  topic: domain_capability_transport
+  detail: MCP/HTTP/RPC or another transport is intentionally not selected; capability-mediated access is the retained principle.
+  revisit: when live assistant-to-domain data access is designed
+roadmap_mutation_required_now: false
+execution_task_required_now: false

@@ -1,0 +1,145 @@
+{
+  "module_id": "forprint_operations_control_registry",
+  "module_name": "ForPrint Operations Control Registry",
+  "generated_at": "2026-06-09T11:48:38.615047+00:00",
+  "local_path": "/srv/software_development/forprint-project/forprint_operations_control_registry",
+  "repo_url": "git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git",
+  "branch": "main",
+  "repo_status": "confirmed",
+  "pull": {
+    "attempted": true,
+    "ok": true,
+    "returncode": 0,
+    "stdout": "Already up to date.",
+    "stderr": ""
+  },
+  "coordination_ready": true,
+  "missing_files": [],
+  "loaded_files": [
+    "coordination/status/current_status.yaml",
+    "coordination/prompts/index.yaml",
+    "coordination/reports/index.yaml"
+  ],
+  "current_status": {
+    "module_id": "forprint_operations_control_registry",
+    "module_name": "ForPrint Operations Control Registry",
+    "module_status": "active",
+    "priority": "p0",
+    "current_phase": "order_workflow_projection_foundation_v0_1",
+    "last_completed_step": "order_workflow_projection_foundation_ready",
+    "current_status": "order_workflow_projection_foundation_v0_1_completed",
+    "last_prompt_id": "owner_blueprint_prompt__client_account_card_foundation_v0_1",
+    "last_report_id": "2026-06-05__forprint_operations_control_registry__report__client-account-card-foundation-v0-1",
+    "last_commit": "2135527",
+    "branch": "main",
+    "checks": {
+      "lint": "ok",
+      "tests": "ok_142_passed",
+      "check_report": "ok",
+      "coordination_check": "ok",
+      "client_card_preview": "ok"
+    },
+    "boundary": {
+      "no_foreign_ownership": true,
+      "no_production_api": true,
+      "no_live_write": true,
+      "no_real_integrations": true,
+      "no_real_1c_sync": true,
+      "no_crm_dashboard": true,
+      "no_telegram_runtime_ui": true,
+      "no_calculator_integration": true,
+      "no_library_integration": true,
+      "no_warehouse_stock_truth": true,
+      "no_prepress_lifecycle": true
+    },
+    "boundaries": {
+      "production_api_added": false,
+      "real_integrations_added": false,
+      "production_db_migrations_added": false,
+      "real_1c_sync_added": false,
+      "crm_dashboard_added": false,
+      "telegram_runtime_ui_added": false,
+      "calculator_integration_added": false,
+      "library_integration_added": false,
+      "warehouse_stock_truth_added": false
+    },
+    "current_outputs": [
+      "client_account_foundation_models",
+      "client_identity_lookup_service",
+      "terminal_client_card_preview",
+      "safe_demo_client_card_examples",
+      "client_account_architecture_docs",
+      "coordination_completion_report"
+    ],
+    "recommended_next_step": [
+      "Pause after ClientAccount Card Foundation v0.1 until Blueprint approves next foundation step.",
+      "Recommended next candidate: Operational Analytics and Workflow Foundation v0.1."
+    ],
+    "updated_at": "2026-06-08T15:52:54.703820+00:00",
+    "validation": {
+      "make_check": "ok",
+      "make_check_report": "ok",
+      "client_card_preview": "ok",
+      "coordination_metadata": "ok",
+      "data_foundation_preview": "ok",
+      "order_preview": "ok",
+      "workflow_preview": "ok",
+      "payment_preview": "ok",
+      "material_requirement_preview": "ok",
+      "alert_preview": "ok",
+      "operational_report_preview": "ok"
+    },
+    "notes": [
+      "ClientAccount Card Foundation v0.1 completed with models, identity lookup, terminal preview.",
+      "ClientAccount card foundation models are added.",
+      "client_account_id remains canonical customer/account truth.",
+      "Data foundation strategy v0.1 added.",
+      "Base data concepts are documented and represented as lightweight dataclasses.",
+      "No synthetic product/material/supplier catalogs were added.",
+      "No real 1C sync, API, web UI, Telegram notification or warehouse stock truth was added.",
+      "Order / Workflow / Projection Foundation v0.1 completed.",
+      "Operational order, order line, material, payment, workflow, contractor, deadline, alert and report foundations are added.",
+      "Terminal previews for order, workflow, payment, material requirements, alerts and operational reports are available.",
+      "No production API, web UI, Telegram notification, real Calculator/Library/Accounting/Warehouse integration or 1C write was added."
+    ]
+  },
+  "prompt_index": {
+    "prompts": []
+  },
+  "report_index": {
+    "reports": [
+      {
+        "report_id": "2026-06-05__forprint_operations_control_registry__report__client-account-card-foundation-v0-1",
+        "path": "coordination/reports/completion/2026-06-05__forprint_operations_control_registry__report__client-account-card-foundation-v0-1.md",
+        "status": "completed",
+        "phase": "client_account_card_foundation_v0_1",
+        "report_file": "coordination/reports/completion/2026-06-05__forprint_operations_control_registry__report__client-account-card-foundation-v0-1.md",
+        "commit": "2135527",
+        "pushed": true,
+        "created_at": "2026-06-05",
+        "responds_to_prompt_id": "owner_blueprint_prompt__client_account_card_foundation_v0_1",
+        "summary": "ClientAccount Card Foundation v0.1 completed with models, identity lookup, terminal preview, demo examples, 1C compatibility docs and tests.",
+        "checks": {
+          "tests": "ok_142_passed",
+          "check_report": "ok",
+          "boundary": "ok"
+        }
+      },
+      {
+        "report_id": "2026-06-08__forprint_operations_control_registry__report__data-foundation-strategy-v0-1",
+        "path": "coordination/reports/completion/2026-06-08__forprint_operations_control_registry__report__data-foundation-strategy-v0-1.md",
+        "status": "completed",
+        "phase": "data_foundation_strategy_v0_1",
+        "report_file": "coordination/reports/completion/2026-06-08__forprint_operations_control_registry__report__data-foundation-strategy-v0-1.md"
+      },
+      {
+        "report_id": "2026-06-08__forprint_operations_control_registry__report__order-workflow-projection-foundation-v0-1",
+        "path": "coordination/reports/completion/2026-06-08__forprint_operations_control_registry__report__order-workflow-projection-foundation-v0-1.md",
+        "status": "completed",
+        "phase": "order_workflow_projection_foundation_v0_1",
+        "report_file": "coordination/reports/completion/2026-06-08__forprint_operations_control_registry__report__order-workflow-projection-foundation-v0-1.md"
+      }
+    ]
+  },
+  "notes": "Internal ForPrint DB/data custodian. Next planned direction is v0.6 Core ForPrint Data Model Expansion.\n"
+}

@@ -1,0 +1,51 @@
+schema_version: forprint_logistics_bootstrap_prompt_contract_v0_2
+candidate_state: READY_FOR_EXPLICIT_RELEASE_AUTHORIZATION
+released: false
+module_id: logistics_service
+prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_2
+execution_class: MODULE_BOOTSTRAP
+predecessor:
+  prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  prompt_path: coordination/outgoing_prompts/logistics_service/approved/2026-09-05__logistics_service_authority_lineage_and_module_bootstrap_v0_1.md
+  prompt_sha256: 66eee8a6b09e02105689837c2320165ef698e74a12bc68f4afcf058bba604bc4
+  immutable: true
+generic_bootstrap_standard:
+  path: coordination/standards/automation/control_plane/module_bootstrap_prompt_requirements_v0_1.yaml
+  sha256: 4a850457fa0a980b12eb08c1baf74972ef030cddde72b57b35ad0e8bc52a77e6
+inherited_material_inputs:
+- input_id: logistics_inventory_completion_evidence_v0_1
+  repository: blueprint
+  path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+  sha256: 60568bf819e0ec93bf02867f141239031b10fa37cc6fbbb804ec00ea8d8fde72
+  material: true
+- input_id: logistics_implementation_lineage_baseline_v0_1
+  repository: blueprint
+  path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+  sha256: 1d0395bce46c5d370ad30896ebd2585a75b1772f18e9d76143cb66db26dc793f
+  material: true
+- input_id: logistics_first_wave_reconciliation_input_v0_1
+  repository: blueprint
+  path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+  sha256: 1e49628ed8d0a216a63c3ece0ff760bf0022ad611519f4ad21122f3100197927
+  material: true
+- input_id: aut_context_worker_boundary_alignment
+  repository: blueprint
+  path: coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
+  sha256: c68329ed5ec9da155bc1499d74b583f3341463e8b95ad68699c603011105e0fe
+  material: true
+execution_rules:
+  stage_0_required: true
+  module_local_commit_push_allowed: true
+  blueprint_foreign_repo_commit_push: false
+  strict_fresh_context_required_after_final_commit: true
+  module_owned_runtime_required_before_development_ready: true
+release_authority:
+  status: NOT_AUTHORIZED
+  old_release_authorization_inherited: false
+  explicit_new_release_authorization_required: true
+acceptance:
+  oracle_path: coordination/internal_work/blueprint/prompt_candidates/logistics_service/logistics_service_authority_lineage_and_module_bootstrap_v0_2/acceptance_oracle_v0_2.yaml
+  human_acceptance_required: true
+  automatic_accept: false
+  automatic_next_prompt_release: false
+  oracle_sha256: f233002e3a882a93b5122d86b3c550bfdd624152ee184689574b0e3b3941223d

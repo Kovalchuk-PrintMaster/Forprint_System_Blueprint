@@ -1,0 +1,207 @@
+schema_version: forprint_dftb_blueprint_20260921_portfolio_reconciliation_v0_1
+source_date_label: '2026-09-21'
+reconciled_on: '2026-09-22'
+source_archive_sha256: 606b6166162ea983c76a61451728e7e1970ac6224e9c234a2e4b4e7764850152
+source_dialogue_hash_sha256: accee4fd2e74b21676bd64e9ee8e1502cc69b7656af44dd261f01eb420ff17f6
+source_authority: HISTORICAL_CF09_CF10_PREFLIGHT_AND_PACKAGE_SEMANTICS_EVIDENCE_NOT_CURRENT_AUTHORITY
+duplicate_boundary:
+  classification: NEW_UNIQUE_BLUEPRINT_CONTINUATION_ROOT
+  shared_message_ids_with_master_v36: 0
+  exact_substantive_message_block_overlap: 0
+  note: This source continues after the 17.09 CF-09 red endpoint and adds 18-20.09 semantics around ACK, living-knowledge/bootstrap
+    packaging, CF-10 READY_UNBOUND preflight and package routing.
+source_completeness:
+  classification: LARGE_SPARSE_ATTACHMENT_HEAVY_CONTINUATION
+  visible_turn_sections: 113
+  visible_message_blocks: 114
+  roles:
+    user: 109
+    assistant: 5
+  short_attachment_or_archive_placeholders: 101
+  turn_number_range: 1-845
+  visible_substantive_date_range: 2026-09-18..2026-09-20
+  implementation_verification_in_bundle: false
+  rule: Attachment bodies are not reconstructed. Historical PASS labels prove the bounded audit/action only; later/current
+    implementation state is reconciled separately.
+summary: 'This continuation explains CF-09 ACK as an exact pre-execution receipt, preserves live event/workfront
+  authority over stale handoff projections, introduces a scalable roadmap/dependency-maintenance requirement, corrects
+  scope drift between assistant/bootstrap packaging and roadmap redesign, promotes evidence-bounded living knowledge,
+  and reaches a historical CF-10 READY_UNBOUND preflight with two launch-critical blockers: prospective u180j identity
+  uncertainty and stale u180h hardcoding in Handoff v2. It also ends on an operator question about an unexpected
+  Library-specific project-context archive. Later current evidence shows CF-10 was explicitly bound/planned/activated
+  as u180j, Handoff v2 TASK_EXECUTION passed against active u180j, and governed worker attempts a001/a002 ran. Therefore
+  the historical launch blockers are not current blockers. The unresolved reusable issue is package semantic identity/routing:
+  packaging success must prove package type, target, purpose and scope, and assistant/bootstrap packaging must not
+  silently mutate roadmap state.'
+topic_reconciliation:
+- topic: live_authority_over_handoff_projection
+  item_refs:
+  - IT-BP2109-0001
+  - IT-BP2109-0002
+  - IT-BP2109-0003
+  - IT-BP2109-0004
+  disposition: MATERIALIZED_AND_ALREADY_PRESERVED
+  source_rule: Handoff/context packages provide evidence/navigation but do not grant mutation or dispatch authority;
+    live lifecycle/current workfront outrank stale NEXT_HORIZON, and intentional parallel dirty state must not be
+    erased for cosmetic cleanliness.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: dispatcher_ack_exact_contract
+  item_refs:
+  - IT-BP2109-0005
+  - IT-BP2109-0006
+  disposition: MATERIALIZED_IN_CF09_CF10_RUNTIME
+  source_rule: ACK is an exact machine-verifiable receipt for the hash-bound pre-execution package/attempt and is
+    distinct from the post-execution Result envelope. Invalid or alias-substituted ACK fails closed before worker
+    execution.
+  later_evidence: Current CF-10 governed worker evidence records ASSISTANT_ACK_VALIDATED=true and explicit dispatch
+    decisions before worker launch.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: bounded_internal_worker_authority
+  item_refs:
+  - IT-BP2109-0007
+  - IT-BP2109-0015
+  - IT-BP2109-0016
+  - IT-BP2109-0017
+  disposition: MATERIALIZED_AND_MATURED
+  source_rules:
+  - general/external dispatch remains blocked during the bounded first internal Blueprint pilot
+  - roadmap/lifecycle authority remains separate from generated projections
+  - Constitution > Module Policy > Execution Profile > Work Front
+  - lower layers may narrow but not silently widen authority
+  - AI cannot self-certify wider guardrails
+  later_evidence: Current CF-10 a002 evidence preserves external_dispatch_allowed=false, no release/push/merge,
+    no automatic accept, and operator review required.
+- topic: verified_package_intake_and_stepwise_application
+  item_refs:
+  - IT-BP2109-0008
+  - IT-BP2109-0009
+  disposition: MATERIALIZED_OPERATOR_WORKFLOW
+  source_rule: Incoming architecture/handoff packages are hash/integrity checked in tmp and applied in bounded steps
+    rather than as an opaque bulk mutation.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: scalable_roadmap_dependency_restructuring
+  item_refs:
+  - IT-BP2109-0010
+  disposition: REUSE_NT07_PORTFOLIO_PLANNING_CONVERGENCE_DIRECTION
+  source_rule: Frequent large roadmap edits and dependency rebuilds should become a controlled derivation/mutation/convergence
+    problem rather than manual graph rewrites.
+  current_connection:
+  - NT-07 Portfolio Planning Dependency Intelligence and Convergence Engine
+  - roadmap reconciliation
+  - dependency registry/graph
+  - Mutation Compiler
+  new_roadmap_step_required: false
+- topic: assistant_bootstrap_packaging_scope_boundary
+  item_refs:
+  - IT-BP2109-0011
+  - IT-BP2109-0012
+  - IT-BP2109-0013
+  - IT-BP2109-0014
+  disposition: RETAIN_AS_DURABLE_PACKAGE_SCOPE_AND_PUBLICATION_INVARIANT
+  source_rules:
+  - instruction/knowledge/bootstrap packaging must not silently become roadmap redesign or reinterpret roadmap state
+  - living knowledge promotion is evidence-bounded and preserves unrelated source paths
+  - validated reusable assistant/bootstrap package logic/artifacts should become durable project artifacts rather
+    than tmp-only outputs
+  - package publication remains separate from CF-10 binding/activation, commit/push and execution authority
+- topic: package_semantic_identity_and_routing
+  item_refs:
+  - IT-BP2109-0018
+  - IT-BP2109-0031
+  - IT-BP2109-0032
+  disposition: RETAIN_AS_DURABLE_INVARIANT_AND_CURRENT_AUDIT_CANDIDATE
+  source_problem: A mechanically valid assistant/handoff package appeared semantically wrong, and a later project-context
+    package was unexpectedly named for forprint_library when the operator had not requested Library work.
+  durable_rule: Package validation must verify semantic package type, target module, purpose and scope in addition
+    to archive/hash correctness. Operator-facing identity must make routing obvious; unexpected implicit module
+    selection must fail closed or remain visibly scoped.
+  current_evidence: Current Makefile describes assistant-context-pack as scoped MODULE/TOPICS and only passes --module
+    when MODULE is non-empty, while the project also historically carries a global MODULE default. Live audit must
+    verify whether that default can leak into assistant-context-pack and produce unintended Library routing.
+  new_roadmap_step_required: false
+- topic: cf10_ready_unbound_and_launch_choreography
+  item_refs:
+  - IT-BP2109-0019
+  - IT-BP2109-0020
+  - IT-BP2109-0021
+  - IT-BP2109-0022
+  - IT-BP2109-0026
+  - IT-BP2109-0027
+  - IT-BP2109-0028
+  - IT-BP2109-0029
+  - IT-BP2109-0030
+  disposition: HISTORICAL_PREFLIGHT_LATER_PROGRESS_PROVEN
+  source_state: CF-10 historically READY_UNBOUND; launch machinery existed; read-only preflight derived binding
+    -> WORK_PLANNED -> WORK_ACTIVATED choreography and found no launch authority merely from successful audit completion.
+  later_current_reconciliation: Later current evidence records explicit CF-10 u180j binding, WORK_PLANNED seq66,
+    WORK_ACTIVATED seq67, isolated Work Front/runtime preparation, ACK validation and governed worker attempts.
+    The historical preflight is not the current execution boundary.
+- topic: historical_u180j_collision
+  item_refs:
+  - IT-BP2109-0023
+  - IT-BP2109-0024
+  disposition: RESOLVED_BY_LATER_EXPLICIT_CF10_BINDING
+  source_problem: 0172 saw one non-lifecycle u180j reference and no allocator, so it refused to assume that u180j
+    was safely free.
+  later_current_reconciliation: A later bounded CF-10 bind/plan/activate action explicitly bound u180j after safety
+    checks; u180j became the canonical active CF-10 work ID.
+- topic: historical_handoff_u180h_hardcode
+  item_refs:
+  - IT-BP2109-0025
+  disposition: LATER_REPAIRED_OR_BYPASSED_BY_DYNAMIC_CURRENT_RUNTIME
+  source_problem: 0172 found Handoff v2 runtime hardcoded to u180h and classified dynamic work binding false.
+  later_current_reconciliation: Later CF-10 evidence includes changes/tests for assistant_handoff_v2_runtime_v0_1.py
+    and a successful TASK_EXECUTION no-write Handoff v2 runtime while u180j is ACTIVE, followed by governed worker
+    attempts. Therefore u180h hardcoding is not treated as a current launch blocker.
+- topic: audit_pass_is_not_readiness_or_authority
+  item_refs:
+  - IT-BP2109-0029
+  disposition: RETAINED_AND_ALREADY_GENERALIZED
+  source_rule: A diagnostic/preflight PASS means the audit executed correctly; it may still report blockers and
+    must not be interpreted as launch readiness or authorization.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: missing_cf09_lineage
+  item_refs:
+  - IT-BP2109-0033
+  disposition: CLOSED_BY_LATER_IMMUTABLE_EVENT_EVIDENCE
+  note: Later current evidence exposes CF-09 checkpoint/validation/close events and the transition to CF-10. Exact
+    hidden attachment narrative is not required.
+- topic: source_endpoint
+  item_refs:
+  - IT-BP2109-0034
+  disposition: SUPERSEDED_BY_LATER_CF10_CURRENT_EVIDENCE
+  note: Do not resume historical 0172 directly. Current lifecycle/roadmap/runtime evidence now places CF-10 on u180j
+    with governed worker execution underway.
+open_loop_reconciliation:
+- loop: LOOP-BP2109-0001
+  status: CLOSED_BY_LATER_CF09_EVENT_EVIDENCE
+  note: CF-09 repair/checkpoint/validation/close lineage is present in later repository evidence.
+- loop: LOOP-BP2109-0002
+  status: MATERIALIZED_CURRENT_VALIDATOR_EXISTS
+  note: Project Constitution precedence is validated in later CF-10 execution evidence; current completeness remains
+    a normal live control.
+- loop: LOOP-BP2109-0003
+  status: PACKAGE_SCOPE_RULE_RETAINED_CURRENT_ROUTING_AUDIT_CANDIDATE
+  note: Packaging/roadmap scope separation is durable. Audit assistant-context-pack default MODULE routing before
+    changing the builder.
+- loop: LOOP-BP2109-0004
+  status: REUSE_NT07_DIRECTION
+  note: Do not create a second roadmap/dependency automation subsystem.
+- loop: LOOP-BP2109-0005
+  status: LATER_CF10_HANDOFF_RUNTIME_PASS_AGAINST_U180J
+  note: Historical u180h hardcode is no longer treated as current launch blocker; exact repair lineage remains implementation
+    provenance.
+- loop: LOOP-BP2109-0006
+  status: RESOLVED_BY_LATER_EXPLICIT_U180J_BIND_PLAN_ACTIVATE
+  note: Historical uncertainty did its job by blocking unsafe assumption; later explicit binding established current
+    identity.
+- loop: LOOP-BP2109-0007
+  status: CURRENT_PACKAGE_ROUTING_AUDIT_CANDIDATE
+  note: Unexpected Library archive is not a Library task. Verify default MODULE propagation and manifest identity
+    on assistant-context-pack.
+- loop: LOOP-BP2109-0008
+  status: LATER_CF10_WORKER_EXECUTION_PROVEN
+  note: Later evidence records u180j ACTIVE and governed worker attempts a001/a002.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

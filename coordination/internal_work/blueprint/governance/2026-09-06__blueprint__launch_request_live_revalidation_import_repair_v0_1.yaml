@@ -1,0 +1,31 @@
+schema_version: blueprint_launch_request_live_revalidation_import_repair_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+  implementation_id: blueprint_launch_request_live_revalidation_import_repair_v0_1
+defect:
+  detected_in: u141 live Logistics launch-request reference
+  unexpected_blocker: TASK_CONTEXT_REVALIDATION_FAILED
+  detail: '''NoneType'' object has no attribute ''__dict__'''
+  root_cause: dynamic import of build_context_bundle.py executed a module containing dataclasses before registering
+    it in sys.modules
+repair:
+  register_dynamic_module_before_exec_module: true
+  remove_registration_on_import_failure: true
+  real_loader_regression_test_added: true
+  live_reference_requires_exact_blocker_set: true
+expected_live_logistics_state:
+  state: BLOCKED
+  blockers:
+  - DEPENDENCY_READINESS_NOT_PROVIDED
+  task_context_revalidation: PASS
+boundaries:
+  logistics_repository_write: false
+  operator_approval: false
+  worker_dispatch: false
+  prompt_claim: false
+  blueprint_accept: false
+  next_prompt_release: false
+  commit_push: false
+next: blueprint_operator_approval_gateway_v0_1

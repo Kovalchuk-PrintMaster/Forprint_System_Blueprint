@@ -2,14 +2,11 @@ diagrams_index:
   version: "0.1"
   status: active
   source_module: forprint_system_blueprint
-  purpose: >
-    Human-readable and machine-discoverable index of ForPrint System Blueprint
-    Mermaid architecture diagrams.
-
+  purpose: >-
+    Human-readable and machine-discoverable index of current Blueprint Mermaid views.
   default_format: mermaid
   update_command: make diagrams
   check_command: make diagrams-check
-
   artifacts:
     - diagram_id: module_graph
       file: module_graph.mmd
@@ -19,9 +16,7 @@ diagrams_index:
       generator: scripts/generate_mermaid.py
       source_files:
         - machine/data_flows.yaml
-      purpose: >
-        Shows module-to-module relationships and contract/data-flow edges.
-
+      purpose: Shows module relationships and contract/data-flow edges.
     - diagram_id: ownership_map
       file: ownership_map.mmd
       title: Ownership Map
@@ -30,29 +25,16 @@ diagrams_index:
       generator: scripts/generate_mermaid.py
       source_files:
         - machine/ownership.yaml
-      purpose: >
-        Shows data object ownership boundaries by module.
-
+      purpose: Shows data object ownership boundaries by module.
     - diagram_id: data_flow
       file: data_flow.mmd
       title: Data Flow
       format: mermaid
       status: tracked_manual
-      purpose: >
-        Compact high-level data flow view for human architecture review.
-
-    - diagram_id: project_landscape
-      file: project_landscape.mmd
-      title: Project Landscape
-      format: mermaid
-      status: tracked_manual
-      purpose: >
-        Shows local project/module directory landscape and external support modules.
-
+      purpose: Compact high-level data flow view for human architecture review.
     - diagram_id: system_detail_map
       file: system_detail_map.mmd
       title: System Detail Map
       format: mermaid
       status: tracked_manual
-      purpose: >
-        Shows a detailed human-facing view of the ForPrint system architecture.
+      purpose: Layered human-facing view of the current ForPrint architecture.

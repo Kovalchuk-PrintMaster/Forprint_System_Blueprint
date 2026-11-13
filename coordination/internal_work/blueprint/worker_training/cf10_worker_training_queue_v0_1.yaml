@@ -1,0 +1,364 @@
+schema_version: forprint_cf10_worker_training_queue_v0_1
+queue_id: cf10_worker_training_queue_v0_1
+status: ACTIVE_CF10_TRAINING_QUEUE
+work_id: u180j
+step_id: CF-10
+stable_id: blueprint_internal_worker_zero_stage_pilot
+purpose: Persist the bounded CF-10 internal worker training path as canonical machine-readable project state instead
+  of chat memory.
+authority:
+  queue_is_execution_authority: false
+  execution_authority_source: WORK_FRONT
+  dispatch_authority_granted: false
+  release_authority_granted: false
+  foreign_write_authority_granted: false
+  automatic_accept_authority_granted: false
+  global_portfolio_planning_authority_granted: false
+parallel_workstream_boundary:
+  this_queue_owner: CF-10 / Internal Worker Engineering
+  other_active_workstream: Roadmap Enrichment / Portfolio Knowledge
+  global_roadmap_enrichment_in_scope: false
+  other_workstream_incidental_rewrites_allowed: false
+  shared_surface_notice_required_before_mutation: true
+  notice_fields:
+  - surface_or_path
+  - reason
+  - expected_mutation
+  - collision_risk
+  silence_grants_write_authority: false
+attempt_history:
+- attempt_id: cf10-u180j-a001
+  task_id: dispatcher_zero_stage_regression_mutation_proof
+  process_started: true
+  result: BLOCKED_NO_MUTATION
+  cause: Worker understood the task but the Copilot session exposed no permitted file-editing tool.
+  reusable: false
+  next_retry_attempt_id: cf10-u180j-a002
+transition_policy:
+  ordering_is_default_training_sequence: true
+  ordering_changes_require_dependency_evidence: true
+  consumer_acceleration_is_not_a_valid_reordering_reason_by_itself: true
+  architectural_task_current_state_refresh_required_before_materialization: true
+  task_relevance_and_capability_reuse_check_required_before_materialization: true
+  bounded_continuous_improvement_scan_required: true
+  expanded_scope_never_implies_automatic_promotion: true
+  operator_facing_completion_should_be_practically_invocable: true
+  task120_semantics_may_not_be_invented: true
+  automatic_dispatch: false
+  operator_review_between_tasks: true
+  failed_started_attempt_requires_new_attempt_id: true
+  retry_may_fix_runtime_or_instruction_defect_before_reexecution: true
+  cross_module_worker_execution_during_cf10: false
+  global_roadmap_mutation_by_cf10_worker: false
+  cf10_exit_requires_final_control_task_and_stability_evidence: true
+tasks:
+- task_id: dispatcher_zero_stage_regression_mutation_proof
+  order: 10
+  complexity: LOW
+  training_goal: Prove read -> bounded edit -> candidate -> validation on one deterministic existing regression-test
+    file.
+  prerequisites:
+  - a001 retained as immutable blocked attempt evidence
+  - worker editing capability is actually exposed
+  - new attempt id cf10-u180j-a002
+  acceptance:
+  - worker changes exactly the permitted existing test file
+  - one focused CF-10 invariant is added
+  - focused validation passes
+  - candidate-only result is returned
+  - no commit/push/merge/release/automatic ACCEPT
+  retry_policy:
+    started_attempt_id_reuse: false
+    next_attempt_id: cf10-u180j-a002
+    retry_after_runtime_fix: true
+    scope_may_widen_on_retry: false
+  final_control_task: false
+- task_id: operator_status_surface_self_hardening
+  order: 20
+  complexity: LOW_MEDIUM
+  training_goal: Improve one small operator-facing status/CLI surface using existing Control Plane facts without inventing
+    authority.
+  prerequisites:
+  - dispatcher_zero_stage_regression_mutation_proof accepted
+  - candidate promotion/review path demonstrated
+  acceptance:
+  - one bounded status/CLI improvement
+  - existing sources of truth reused
+  - deterministic tests added or extended
+  - no lifecycle or authority duplication
+  retry_policy:
+    new_attempt_per_started_retry: true
+    preserve_previous_attempt_evidence: true
+    operator_reselects_bounded_surface_if_blocked: true
+  final_control_task: false
+- task_id: verification_tier_self_hardening
+  order: 30
+  complexity: MEDIUM
+  training_goal: Improve one bounded verification-tier or validation-routing convenience without weakening proof semantics.
+  prerequisites:
+  - operator_status_surface_self_hardening accepted
+  acceptance:
+  - same-or-stronger validation semantics
+  - clear local/related/core/full boundary where applicable
+  - deterministic regression evidence
+  retry_policy:
+    new_attempt_per_started_retry: true
+    validator_weakening_allowed: false
+  final_control_task: false
+- task_id: worker_watchdog_observability_self_hardening
+  order: 40
+  complexity: MEDIUM
+  training_goal: Add bounded worker/watchdog observability for runtime state, timeout or stalled-progress evidence
+    without autonomous remediation.
+  prerequisites:
+  - verification_tier_self_hardening accepted
+  acceptance:
+  - observable deterministic worker-state evidence
+  - timeout/stall state is distinguishable
+  - watchdog does not dispatch, retry or mutate authority automatically
+  retry_policy:
+    new_attempt_per_started_retry: true
+    automatic_recovery_allowed: false
+  final_control_task: false
+- task_id: local_dispatcher_telegram_operator_surface
+  order: 50
+  complexity: MEDIUM
+  training_goal: Exercise one bounded local Dispatcher Telegram/operator convenience surface over existing registered
+    facts; no new dispatch authority.
+  prerequisites:
+  - worker_watchdog_observability_self_hardening accepted
+  acceptance:
+  - operator convenience only
+  - no hidden execution authority
+  - existing dispatcher/control-plane facts reused
+  - tests prove no external dispatch widening
+  retry_policy:
+    new_attempt_per_started_retry: true
+    authority_widening_on_retry: false
+  final_control_task: false
+- task_id: human_dashboard_self_hardening
+  order: 60
+  complexity: MEDIUM
+  training_goal: Build or improve one bounded human-readable status/dashboard projection from existing machine facts
+    without making the projection authoritative.
+  prerequisites:
+  - local_dispatcher_telegram_operator_surface accepted
+  acceptance:
+  - dashboard/projection remains derived and non-authoritative
+  - source facts and freshness are explicit
+  - no manual double-write of roadmap execution state
+  retry_policy:
+    new_attempt_per_started_retry: true
+    projection_may_not_become_authority: true
+  final_control_task: false
+- task_id: validation_check_pipeline_profile_and_optimization
+  order: 70
+  complexity: MEDIUM_HIGH
+  training_goal: Measure validation cost first, then optimize only proven duplicate or independent read-only work
+    while preserving same-or-stronger semantics.
+  prerequisites:
+  - at least two accepted self-hardening worker tasks
+  - stable worker result/evidence/recovery path
+  acceptance:
+  - before/after reproducible timing and scan/subprocess evidence
+  - critical path identified
+  - no validation weakening
+  - operator-facing profiling result is available through an existing or newly justified supported entrypoint
+  - Makefile functional-map coverage is checked; Makefile is not categorically excluded when the supported operator workflow belongs there
+  - full regression gate passes
+  - speed alone is not acceptance
+  retry_policy:
+    new_attempt_per_started_retry: true
+    measurement_required_before_retry_optimization: true
+    semantic_shortcuts_allowed: false
+  final_control_task: false
+- task_id: planning_projection_cursor_sync_audit
+  order: 80
+  complexity: HIGH
+  training_goal: Reconcile NEXT_HORIZON generation/refresh with event-sourced roadmap reconciliation, detect stale
+    projections automatically and prove deterministic transition/freshness behavior.
+  prerequisites:
+  - validation_check_pipeline_profile_and_optimization accepted
+  - roadmap/lifecycle sources remain canonical and in sync
+  acceptance:
+  - generated-only/manual-edit-forbidden semantics preserved
+  - stale projection detection is automatic
+  - transition and freshness tests are deterministic
+  - no global roadmap enrichment is performed
+  retry_policy:
+    new_attempt_per_started_retry: true
+    manual_projection_edit_allowed: false
+  final_control_task: false
+- task_id: project_change_impact_and_freshness_control
+  order: 85
+  complexity: HIGH
+  training_goal: Extend the existing CF-14 Change Impact Resolver direction and current Blueprint dependency/freshness
+    mechanisms into bounded project-change impact and freshness control for standards, templates, documentation, bootstrap
+    inputs and other critical dependent artifacts before automatic task materialization.
+  prerequisites:
+  - planning_projection_cursor_sync_audit accepted
+  - existing execution dependency graph, repository-knowledge freshness, generator/derivation and Makefile functional-map
+    mechanisms reconciled
+  - CF-14 Change Impact Resolver roadmap direction remains current and is treated as the parent architectural direction
+    rather than duplicated
+  acceptance:
+  - changed critical sources or capability facets yield a deterministic bounded affected-dependent set through explainable
+    reverse-dependency logic
+  - existing execution-dependency/repository-knowledge mechanisms are REUSE/EXTEND/ADAPT/REPLACE audited before any
+    NEW relationship framework
+  - machine-checkable dependents are verified automatically where semantics permit deterministic proof
+  - semantic dependents become explicit review-required items rather than being guessed fresh from timestamps, file
+    touch or model assertion
+  - known-stale critical template/standard/bootstrap input cannot be supplied to a new module without resolving or
+    explicitly governing the freshness gap
+  - Makefile functional-map -> reusable Makefile/template/standard -> module-bootstrap impact is demonstrated end-to-end
+  - an unrelated-change control case proves the resolver avoids broad false-positive invalidation
+  - operator receives machine-readable and human-readable impact evidence
+  - no second roadmap, execution-state authority or competing dependency truth store
+  - no automatic dispatch, ACCEPT, cross-module write, release, push or merge authority is introduced
+  - focused and relevant regression validation pass
+  retry_policy:
+    new_attempt_per_started_retry: true
+    scope_widening_requires_new_operator_authorized_work_front: true
+    semantic_freshness_may_not_be_guessed: true
+    parallel_dependency_truth_store_allowed: false
+  planning_ref: coordination/internal_work/blueprint/governance/2026-09-27__blueprint__cf10_task85_project_change_impact_and_freshness_control_v0_1.yaml
+  roadmap_alignment:
+    parent_step: CF-14
+    parent_capability: Change Impact Resolver
+    relationship: CF10_WORKER_SELF_HARDENING_IMPLEMENTATION_PROOF
+    creates_new_roadmap_authority: false
+  final_control_task: false
+- task_id: automatic_task_materialization
+  order: 90
+  complexity: HIGH
+  training_goal: 'Materialize a bounded candidate from roadmap/lifecycle facts: admissibility/dependencies -> Work
+    Front -> Worker Task Envelope -> Profile/Procedure binding -> explicit dispatch candidate.'
+  prerequisites:
+  - planning_projection_cursor_sync_audit accepted
+  - project_change_impact_and_freshness_control accepted
+  - Work Front, Task Envelope, Execution Profile, Procedure and Dispatcher contracts stable
+  acceptance:
+  - candidate task derives from authoritative existing facts
+  - dependency/admissibility checks are explicit
+  - generated candidate grants no authority
+  - no automatic dispatch
+  - no global roadmap mutation
+  - blocked/no-next-work state is deterministic
+  retry_policy:
+    new_attempt_per_started_retry: true
+    automatic_dispatch_on_retry: false
+    authority_must_still_come_from_work_front: true
+  final_control_task: false
+- task_id: project_execution_planning_system_control_task
+  order: 100
+  complexity: VERY_HIGH
+  training_goal: 'Final CF-10 control task: build/validate the Blueprint-local project execution-planning core over
+    current authoritative roadmap/lifecycle/governance facts, without enriching the global roadmap or dispatching
+    other-module workers.'
+  prerequisites:
+  - automatic_task_materialization accepted
+  - worker runtime/retry/recovery/result handling stable
+  - previous CF-10 training evidence reviewed by operator
+  - current global roadmap supplied as authoritative planning input
+  acceptance:
+  - determines admissible Blueprint-local next work from authoritative facts
+  - represents dependency, ready, blocked and retry outcomes deterministically
+  - materializes bounded candidate planning artifacts without granting authority
+  - global roadmap content is input and is not enriched by this workstream
+  - other-module worker dispatch remains disabled
+  - manual/operator boundary remains before dispatch/promotion
+  - focused and regression validation pass
+  - evidence is sufficient for a separate CF-10 stability/closure review
+  retry_policy:
+    new_attempt_per_started_retry: true
+    scope_widening_requires_new_operator_authorized_work_front: true
+    global_portfolio_planning_authority_on_retry: false
+    other_module_dispatch_on_retry: false
+  role: control_core_prerequisite
+  final_control_task: false
+- task_id: candidate_promotion_and_separate_acceptance
+  order: 110
+  complexity: HIGH
+  training_goal: Extend the governed candidate lifecycle so meaningful Worker output is independently reviewed before promotion, with acceptance, promotion and publication remaining separate decisions.
+  prerequisites:
+  - project_execution_planning_system_control_task accepted
+  - existing worker candidate promotion contract remains canonical
+  - current-state refresh completed before materialization
+  acceptance:
+  - review mode is explicit as DIRECT_PREVIEW, EVIDENCE_REVIEW or MACHINE_VALIDATED
+  - REWORK creates a new attempt linked to the prior candidate and never reopens a terminal attempt
+  - ACCEPT does not itself imply publication
+  - promotion remains bounded to the accepted exact candidate/write set
+  - no automatic ACCEPT, commit, push, release or next Work Front activation
+  retry_policy:
+    new_attempt_per_started_retry: true
+    terminal_attempt_reopen_allowed: false
+    automatic_accept_on_retry: false
+  final_control_task: false
+- task_id: resolved_execution_context_and_readiness_capsule
+  order: 130
+  complexity: HIGH
+  training_goal: Extend execution readiness into a current-state-refreshed task capsule with deterministic environment, source-freeze, dirty-overlap, dependency, validation, authority and stop-condition evidence before dispatch.
+  prerequisites:
+  - candidate_promotion_and_separate_acceptance accepted
+  - Task120 semantics recovered and reconciled if canonical Phase B dependency ordering still requires Task120
+  - current readiness/context/workspace contracts reconciled before NEW mechanisms
+  acceptance:
+  - task context is refreshed against current project state immediately before materialization
+  - branch, HEAD, upstream, source fingerprint and declared dirty paths are observed from live state rather than guessed by chat
+  - pre-existing unrelated dirty paths are protected and exact write-set overlap is classified deterministically
+  - environment/runtime/tool/access and disk-budget prerequisites are explicit
+  - unresolved authoritative source, dependency, acceptance or validation requirement yields execution_ready=false
+  - known-stale critical context is not silently supplied to Worker
+  - no global clean-worktree requirement is invented
+  retry_policy:
+    new_attempt_per_started_retry: true
+    stale_context_must_be_rebuilt: true
+    scope_widening_requires_new_operator_authorized_work_front: true
+  final_control_task: false
+- task_id: progression_gate_readiness_validation_and_manual_checkpoint
+  order: 140
+  complexity: HIGH
+  training_goal: Govern automatic micro-progression inside one authorized task while preserving explicit human/operator gates for meaningful review, next Work Front dispatch and authority changes.
+  prerequisites:
+  - resolved_execution_context_and_readiness_capsule accepted
+  - Task120 semantics recovered and reconciled if canonical Phase B dependency ordering still requires Task120
+  - Task50 Telegram operator surface remains non-authoritative
+  - Task60 human dashboard remains derived and non-authoritative
+  acceptance:
+  - automatic progression is limited to explicitly governed intra-task micro-transitions
+  - automatic next Work Front dispatch remains false by default
+  - meaningful completion/review checkpoints emit operator-visible notification/report evidence
+  - validation ladder and verification debt are represented explicitly
+  - deferred verification cannot disappear silently
+  - manual acceptance packet can batch meaningful review without collapsing acceptance into validation
+  - no cross-module write, automatic ACCEPT, release, push or merge authority is introduced
+  retry_policy:
+    new_attempt_per_started_retry: true
+    automatic_next_task_dispatch: false
+    automatic_accept_on_retry: false
+  final_control_task: false
+- task_id: cf10_final_stability_and_exit_proof
+  order: 150
+  complexity: VERY_HIGH
+  training_goal: Prove the final CF-10 governed Worker experience across current-state refresh, bounded execution, validation, review, promotion, publication boundaries, structured failure/recovery and operator-visible control without broad autonomy.
+  prerequisites:
+  - progression_gate_readiness_validation_and_manual_checkpoint accepted
+  - all CF10 self-hardening work required for exit is accepted or explicitly deferred with governed evidence
+  - canonical Worker runtime/retry/recovery/result path is stable
+  - Task120 semantics are resolved or an explicit operator-approved Phase B reconciliation proves it is not required for exit
+  acceptance:
+  - one supported operator workflow can drive an authorized bounded Worker task through the intended lifecycle without chat acting as runtime implementation
+  - structured failure evidence and deterministic recovery/resume are demonstrated
+  - candidate review occurs before promotion where meaningful
+  - promotion and publication remain separate governed boundaries
+  - human-readable projections agree with canonical machine facts
+  - automatic next Work Front dispatch remains false unless separately authorized by future policy
+  - no cross-module write or broad portfolio execution authority is silently introduced
+  - final evidence is sufficient for explicit human CF10 closure review
+  retry_policy:
+    new_attempt_per_started_retry: true
+    exit_claim_requires_fresh_evidence: true
+    authority_widening_requires_separate_operator_decision: true
+  final_control_task: true

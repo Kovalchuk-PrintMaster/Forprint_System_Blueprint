@@ -1,0 +1,55 @@
+schema_version: blueprint_semantic_inventory_unknowns_triage_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T11:45:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: dc47b6c952006f7a4a45d7fa4c3f2e060d10226c
+  result: BOUNDED
+sources:
+  semantic_wave_2: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  coverage_drift_dashboard: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  maintenance_policy: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+baseline:
+  tracked_files: 726
+  reviewed_files: 80
+  unreviewed_files: 646
+  purpose_evidenced: 49
+  purpose_gap_within_reviewed: 31
+  dependencies_mapped: 50
+  fully_verified: 49
+  verification_gap_within_reviewed: 31
+  wave_2_records_with_unknowns: 25
+  changed_paths_since_rci: 19
+  artifact_map_scope_delta: 13
+triage_buckets:
+- bucket_id: reviewed_semantic_evidence_gaps
+  count_lower_bound: 31
+  disposition: resolve_before_rci_enrichment
+  owner: blueprint_coordination_assistant
+  gate: purpose and verification evidence must be explicit
+- bucket_id: wave_2_unknown_records
+  count: 25
+  disposition: bounded_follow_up
+  owner: blueprint_coordination_assistant
+  gate: resolve, defer with rationale, or mark accepted unknown
+- bucket_id: post_rci_changed_paths
+  count: 19
+  disposition: review_before_repository_reconciliation
+  owner: blueprint_coordination_assistant
+  gate: changed paths receive semantic and dependency disposition
+- bucket_id: artifact_map_scope_delta
+  count: 13
+  disposition: reconcile_before_inventory_acceptance
+  owner: blueprint_coordination_assistant
+  gate: tracked and authority-map scope difference is explained
+- bucket_id: unreviewed_repository_scope
+  count: 646
+  disposition: controlled_semantic_backlog
+  owner: blueprint_coordination_assistant
+  gate: do not claim full semantic coverage
+acceptance:
+  unknowns_are_bounded: true
+  unknowns_are_not_silently_resolved: true
+  full_inventory_claim_allowed: false
+  rci_enrichment_may_use_only_verified_evidence: true
+  external_rollout_state: gated

@@ -1,0 +1,22 @@
+schema_version: forprint_evening_handoff_manifest_v0_1
+package_id: forprint_evening_handoff_2026_09_15_v0_1
+generated_at: '2026-09-15T00:14:00+03:00'
+mode: EVENING_TRAVEL_WEEKEND_HANDOFF
+authoritative_status: CONVERSATIONAL_AGREEMENTS_PENDING_CANONICAL_RECONCILIATION
+execution_semantics:
+  package_is_direct_execution_batch: false
+  must_reconcile_with_current_project: true
+  must_detect_conflicts: true
+  must_classify_before_execution: true
+  must_preserve_provenance: true
+  must_not_silently_overwrite_canonical_policy: true
+current_priority: FIRST_CONTROLLED_LOCAL_AUTONOMOUS_AI_WORKER_IN_BLUEPRINT_MODULE
+expected_morning_flow:
+- INGEST_PACKAGE
+- AUDIT_EXISTING_CANONICAL_DOCUMENTATION
+- COLLECT_CONFLICTS_AND_OPEN_QUESTIONS
+- CLASSIFY_ITEMS
+- PROPOSE_ROADMAP_ALLOCATION
+- UPDATE_CANONICAL_POLICY_AND_ROADMAP
+- RECONCILE_DEPENDENCIES_IF_ROADMAP_CHANGED
+- EXECUTE_ONLY_CURRENTLY_DUE_WORK

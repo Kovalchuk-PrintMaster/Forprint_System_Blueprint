@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
+import pytest
 import yaml
 
+from scripts.coordination import module_completion_intake as intake_module
+from scripts.coordination.completion_intake_check import (
+    CompletionIntakeCheckError,
+    CompletionIntakeCheckResult,
+)
 from scripts.coordination.module_completion_intake import (
     apply_intake_plan,
     build_intake_plan,
@@ -13,6 +20,26 @@ from scripts.coordination.resolve_next_module_work import resolve_next_work
 MODULE = "logistics_service"
 PROMPT_ID = "logistics_service_test_address_book_v0_1"
 NEXT_STEP_ID = "logistics_service_provider_adapter_contract_v0_1"
+
+
+def _passed_intake_check() -> CompletionIntakeCheckResult:
+    return CompletionIntakeCheckResult(
+        module_id=MODULE,
+        prompt_id=PROMPT_ID,
+        phase="test_address_book_v0_1",
+        packet_path=(
+            "coordination/completion_packets/records/test.yaml"
+        ),
+        report_path=(
+            "coordination/reports/completion/test_completion.md"
+        ),
+        implementation_commit="1" * 40,
+        completion_commit="2" * 40,
+        branch="feature/test",
+        remote="origin",
+        remote_commit="2" * 40,
+        warnings=(),
+    )
 
 
 def _write_yaml(path: Path, data: dict) -> None:
@@ -197,6 +224,7 @@ def test_completion_acceptance_is_idempotent(tmp_path: Path) -> None:
         completion_commit="2" * 40,
         reviewed_at="2026-07-14",
         verify_git=False,
+        intake_check=_passed_intake_check(),
     )
     apply_intake_plan(first)
 
@@ -210,6 +238,7 @@ def test_completion_acceptance_is_idempotent(tmp_path: Path) -> None:
         completion_commit="2" * 40,
         reviewed_at="2026-07-14",
         verify_git=False,
+        intake_check=_passed_intake_check(),
     )
     assert second.changed_paths == ()
 
@@ -233,6 +262,153 @@ def test_return_for_fix_keeps_roadmap_step_active(tmp_path: Path) -> None:
     assert prompt["module_execution"]["status"] == "returned_for_fix"
     assert prompt["blueprint_review"]["status"] == "returned_for_fix"
     assert plan.roadmap_data["roadmap"][0]["status"] == "active"
+
+    changed = apply_intake_plan(plan)
+
+    assert len(changed) == 3
+    persisted_queue = yaml.safe_load(
+        plan.queue_path.read_text(encoding="utf-8")
+    )
+    assert (
+        persisted_queue["prompt_queue"][0]["blueprint_review"]["status"]
+        == "returned_for_fix"
+    )
+
+
+def test_acceptance_write_requires_green_intake_check(
+    tmp_path: Path,
+) -> None:
+    root, module_root, packet_path = _blueprint_fixture(tmp_path)
+
+    plan = build_intake_plan(
+        root=root,
+        module_id=MODULE,
+        module_root=module_root,
+        packet=packet_path,
+        decision="accepted",
+        review_notes="Accepted by test.",
+        completion_commit="2" * 40,
+        reviewed_at="2026-07-14",
+        verify_git=False,
+    )
+
+    with pytest.raises(
+        intake_module.CompletionIntakeError,
+        match="requires a successful completion-intake-check",
+    ):
+        apply_intake_plan(plan)
+
+
+def test_acceptance_cli_check_failure_preserves_blueprint(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    root, module_root, packet_path = _blueprint_fixture(tmp_path)
+    queue_path = (
+        root
+        / "coordination/outgoing_prompts"
+        / MODULE
+        / "index.yaml"
+    )
+    roadmap_path = (
+        root
+        / "coordination/roadmaps"
+        / f"{MODULE}.yaml"
+    )
+    queue_before = queue_path.read_bytes()
+    roadmap_before = roadmap_path.read_bytes()
+
+    def fail_check(**_kwargs):
+        raise CompletionIntakeCheckError("publication missing")
+
+    monkeypatch.setattr(
+        intake_module,
+        "check_completion_intake",
+        fail_check,
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "module_completion_intake.py",
+            "--root",
+            str(root),
+            "--module",
+            MODULE,
+            "--module-root",
+            str(module_root),
+            "--packet",
+            str(packet_path),
+            "--completion-commit",
+            "2" * 40,
+            "--decision",
+            "accepted",
+            "--write",
+        ],
+    )
+
+    assert intake_module.main() == 1
+    assert queue_path.read_bytes() == queue_before
+    assert roadmap_path.read_bytes() == roadmap_before
+    review_root = root / "coordination/review_packets"
+    assert not review_root.exists()
+
+
+def test_acceptance_preview_runs_check_without_writes(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    root, module_root, packet_path = _blueprint_fixture(tmp_path)
+    queue_path = (
+        root
+        / "coordination/outgoing_prompts"
+        / MODULE
+        / "index.yaml"
+    )
+    roadmap_path = (
+        root
+        / "coordination/roadmaps"
+        / f"{MODULE}.yaml"
+    )
+    queue_before = queue_path.read_bytes()
+    roadmap_before = roadmap_path.read_bytes()
+    calls: list[dict] = []
+
+    def pass_check(**kwargs):
+        calls.append(kwargs)
+        return _passed_intake_check()
+
+    monkeypatch.setattr(
+        intake_module,
+        "check_completion_intake",
+        pass_check,
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "module_completion_intake.py",
+            "--root",
+            str(root),
+            "--module",
+            MODULE,
+            "--module-root",
+            str(module_root),
+            "--packet",
+            str(packet_path),
+            "--completion-commit",
+            "2" * 40,
+            "--decision",
+            "accepted",
+        ],
+    )
+
+    assert intake_module.main() == 0
+    assert len(calls) == 1
+    assert queue_path.read_bytes() == queue_before
+    assert roadmap_path.read_bytes() == roadmap_before
+    review_root = root / "coordination/review_packets"
+    assert not review_root.exists()
 
 
 def test_next_work_uses_roadmap_when_no_draft_exists(tmp_path: Path) -> None:

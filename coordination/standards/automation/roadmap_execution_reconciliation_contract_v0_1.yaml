@@ -1,0 +1,115 @@
+schema_version: forprint_roadmap_execution_reconciliation_contract_v0_1
+status: active_foundation_contract
+authority: none
+contract_id: roadmap_execution_state_reconciliation_controller_v0_1
+purpose: 'Separate desired roadmap structure from actual lifecycle execution state
+  and derive deterministic non-authoritative execution/reconciliation projections
+  so accepted work does not require a second mutable roadmap progress write.
+
+  '
+authority_precedence:
+  roadmap_spec:
+    owns:
+    - stable step identity
+    - desired order
+    - dependencies
+    - work binding
+    - priority
+    - activation and acceptance policy
+  lifecycle_event_store:
+    owns:
+    - planned
+    - active
+    - checkpointed
+    - validated
+    - closed
+  generated_projection:
+    owns:
+    - previous
+    - current
+    - next
+    - ready
+    - blocked
+    - sync state
+dependency_reference_forms:
+  internal_step:
+    syntax: step_id
+    semantics: satisfied only when the referenced step derives COMPLETE
+  external_lifecycle:
+    syntax: work_id:LIFECYCLE_STATE
+    supported_states:
+    - PLANNED
+    - ACTIVE
+    - CHECKPOINTED
+    - VALIDATED
+    - CLOSED
+    semantics: satisfied only when the append-only lifecycle event store derives the
+      exact state
+historical_migration_policy:
+  scope: registered completed pre-enforcement roadmaps only
+  shared_historical_work_binding_allowed: true only when the registered roadmap explicitly
+    opts in
+  current_or_future_roadmap_override_allowed: false
+  accepted_completion_evidence: explicit historical_completion_evidence block on a
+    registered completed pre-enforcement roadmap
+  legacy_step_execution_state_fields_allowed: false
+sync_states:
+- IN_SYNC
+- PROJECTION_STALE
+- PLAN_CHANGE_REQUIRED
+- EXECUTION_CONFLICT
+- UNKNOWN
+reason_codes:
+- ROADMAP_SPEC_CHANGED_AFTER_OBSERVATION
+- PROJECTION_EVENT_SEQUENCE_BEHIND
+- WORK_NOT_BOUND_TO_ROADMAP
+- ROADMAP_STEP_MISSING_WORK_BINDING
+- DUPLICATE_WORK_BINDING
+- DEPENDENCY_ORDER_VIOLATION
+- MULTIPLE_ACTIVE_WORK_VIOLATES_WIP_POLICY
+- CLOSED_STEP_WITH_OPEN_REQUIRED_PREDECESSOR
+- NEXT_CURSOR_MISMATCH
+- SOURCE_EVIDENCE_MISSING
+informational_codes:
+- HISTORICAL_PRE_ENFORCEMENT_EVIDENCE_USED
+- HISTORICAL_SHARED_WORK_BINDING_USED
+registered_roadmaps:
+- roadmap_id: continuity_foundation
+  path: coordination/roadmaps/details/forprint_system_blueprint/continuity/2026-09-10__continuity_assistant_handoff_micro_roadmap_v0_1.yaml
+  work_binding_field: work
+  historical_shared_work_bindings_allowed: true
+  historical_completion_evidence_allowed: true
+- roadmap_id: control_foundation_near_horizon
+  path: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+  work_binding_field: work_id
+  historical_shared_work_bindings_allowed: false
+  historical_completion_evidence_allowed: false
+generated_outputs:
+- coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+- coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+manual_mode:
+  wip_limit: 1
+  auto_projection_refresh_allowed: true
+  auto_next_step_activation_allowed: false
+  auto_plan_rewrite_allowed: false
+  automatic_worker_dispatch_allowed: false
+  release_authority_conferred: false
+gates:
+  before_plan: reconciliation_pass_exact_work_binding_dependency_closure_and_wip
+  before_activate: reconciliation_pass_exact_work_binding_dependency_closure_and_wip
+  before_checkpoint: reconciliation_pass_and_exact_work_binding
+  before_close: reconciliation_pass_and_exact_work_binding
+  before_assistant_pack: reconciliation_pass
+  before_dispatch: reconciliation_pass_but_dispatch_authority_remains_separate
+public_surfaces:
+  sync: make roadmap-sync
+  check: make roadmap-sync-check
+  status: make roadmap-status
+public_make_check_non_mutating: true
+migration:
+  current_slice: cf02_closed_event_sourced_cursor_proven
+  legacy_manual_step_state_fields: removed
+  next_slice: operator_review_then_explicit_cf03_activation
+  control_foundation_manual_step_state_fields: removed
+  legacy_terminal_state_fields: retired_to_explicit_historical_completion_evidence
+  cf02_closure_acceptance: complete

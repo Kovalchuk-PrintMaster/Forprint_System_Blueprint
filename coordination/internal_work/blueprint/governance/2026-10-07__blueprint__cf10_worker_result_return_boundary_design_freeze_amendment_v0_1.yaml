@@ -1,0 +1,47 @@
+schema_version: forprint_cf10_worker_result_return_boundary_design_freeze_amendment_v0_1
+layer: DESIGN_FREEZE_AMENDMENT
+status: FROZEN_FOR_BOUNDED_REGRESSION_ALIGNMENT
+parent_freeze:
+  path: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_worker_result_return_boundary_design_freeze_v0_1.yaml
+  sha256: 22ebdcf4a431fa8923460650589e9d5543dd1aac248ea092d20d0ccc4b95d27f
+  publication_commit: 836166c1b878190e55ca758ab7c4f3d23b2f26cb
+reason:
+  trigger: LEGACY_LIVE_LAUNCH_REGRESSION_ENCODES_SUPERSEDED_FAIL_OPEN_SEMANTICS
+  observed: The existing live-launch regression stubs a successful Worker process without stdout_path or a Handoff
+    v2 result and expects VALIDATE_CANDIDATE. The frozen result-return boundary intentionally makes that state invalid.
+  production_change_required: false
+  legacy_regression_alignment_required: true
+scope_amendment:
+  previous_implementation_path_count: 6
+  new_implementation_path_count: 7
+  added_path_only: tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+  all_other_parent_scope_rules_unchanged: true
+allowed_test_change:
+  test_name: test_project_native_launch_cycle_persists_process_evidence
+  requirements:
+  - Keep the regression focused on project-native launch-cycle evidence.
+  - Model a successful process with an explicit stdout_path.
+  - Model successful result-return materialization without weakening production validation.
+  - Expect VALIDATE_CANDIDATE only after valid result-return evidence exists.
+  - Do not restore RC=0-alone candidate readiness.
+  - Do not modify production code to satisfy the legacy fixture.
+must_not:
+- Modify any additional path beyond the single added regression-test path.
+- Relax worker_result_return validation or framing.
+- Treat missing stdout_path as candidate-ready.
+- Treat RC=0 without a valid Handoff v2 result as candidate-ready.
+- Reconcile a033 before focused and regression suites are green.
+- Prepare or launch a034.
+acceptance:
+- The focused result-return suite remains fully green.
+- The aligned legacy live-launch regression suite is fully green.
+- The invocation-adapter regression remains fully green.
+- The changed live-launch fixture represents success plus valid result return.
+- Missing/invalid result behavior remains fail closed in the dedicated result-return tests.
+- Exact implementation delta is limited to the amended seven-path set.
+authority:
+  authority_widening: false
+  automatic_accept: false
+  automatic_retry: false
+  candidate_promotion: false
+  commit_push_merge_release_granted: false

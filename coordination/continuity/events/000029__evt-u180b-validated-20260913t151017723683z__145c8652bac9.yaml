@@ -1,0 +1,27 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180b-validated-20260913t151017723683z
+event_type: VALIDATION_PASSED
+sequence: 29
+previous_event_id: evt-u180b-checkpoint-20260913t150926422531z
+previous_event_sha256: e1e6a501fcc603d0b585b0bb8f0d90986df8108710c6dc85e029bfa1c66a988b
+work_id: u180b
+occurred_at: '2026-09-13T15:10:26.766181Z'
+actor: assistant_generated_operator_executed
+summary: CF-02 Roadmap Execution State Reconciliation Controller validated against the final checkpoint
+source_state_ref: cd1b5a21896bf5918e193f36f39d2cc5aac718a5f9effeb755def454a70772bc
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180b-checkpoint-20260913t150926422531z
+  checkpoint_event_sha256: e1e6a501fcc603d0b585b0bb8f0d90986df8108710c6dc85e029bfa1c66a988b
+  evidence:
+    - pre-closure full pytest zero failures
+    - pre-closure public make check PASS
+    - registered roadmap step state field count zero
+    - roadmap reconciliation IN_SYNC
+    - checkpoint bound to exact final source fingerprint
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: 5cc8d506ebdb0088d845109396d332c69c371cb7faa3cd50067e81ae5dc84482
+    checkpoint_fingerprint: 5cc8d506ebdb0088d845109396d332c69c371cb7faa3cd50067e81ae5dc84482

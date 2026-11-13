@@ -1,0 +1,1709 @@
+schema_version: forprint_roadmap_enrichment_source_map_v0_1
+metadata:
+  artifact_role: living_roadmap_enrichment_navigation
+  authority: navigation_and_reusable_process_knowledge_not_execution_authority
+  owner: blueprint_coordination
+  last_verified_commit: a4399af4035a6c3fcb29d4001d4445e63a6b1dc9
+  update_required_every_session: false
+  update_trigger: verified_reusable_lesson_or_source_role_change
+boundaries:
+  is_release_authority: false
+  is_work_authority: false
+  is_activation_authority: false
+  raw_session_transcript_allowed: false
+  generated_index_is_authority: false
+startup_sequence:
+- coordination/instruction_intake/assistant_reading_order.md
+- coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+- coordination/releases/current.yaml
+- coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+- coordination/repository_knowledge/roadmap_enrichment/README.md
+- coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+sources:
+- id: assistant_reading_order
+  path: coordination/instruction_intake/assistant_reading_order.md
+  role: stable_operational_front_door
+  authority: instruction_navigation
+  freshness: current_tracked_source
+  use_for:
+  - startup_order
+  - instruction_intake_navigation
+- id: assistant_bootstrap
+  path: coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+  role: stable_machine_operating_model
+  authority: bootstrap_routing_not_execution_grant
+  freshness: current_tracked_source
+  use_for:
+  - zero_context_bootstrap
+  - authority_boundaries
+  - source_map_navigation
+  - enrichment_startup_protocol
+- id: current_handoff
+  path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  role: latest_observed_coordination_snapshot
+  authority: baseline_snapshot_reconcile_git_before_action
+  freshness: must_reconcile_with_git
+  use_for:
+  - continuation_context
+  - recent_coordination_state
+- id: current_release
+  path: coordination/releases/current.yaml
+  role: current_release_authority
+  authority: canonical_control
+  freshness: verify_before_mutation
+  use_for:
+  - current_release_state
+  - release_boundary
+- id: roadmap_enrichment_operating_guide
+  path: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+  role: stable_enrichment_method
+  authority: governance_operating_standard
+  freshness: current_tracked_source
+  use_for:
+  - knowledge_saturation_method
+  - reuse_first
+  - maturity_and_authority_boundaries
+  - clean_candidate_workflow
+- id: living_field_guide
+  path: coordination/repository_knowledge/roadmap_enrichment/README.md
+  role: durable_accumulating_reusable_process_knowledge
+  authority: advisory_navigation_not_execution_authority
+  freshness: last_verified_commit_per_lesson
+  use_for:
+  - fast_paths
+  - pitfalls
+  - lessons
+  - recommended_sequences
+- id: living_source_map
+  path: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+  role: machine_readable_enrichment_navigation
+  authority: navigation_not_semantic_owner
+  freshness: review_when_source_roles_change
+  use_for:
+  - source_discovery
+  - authority_role_lookup
+  - freshness_lookup
+- id: repository_knowledge_protocol
+  path: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_3.md
+  role: repository_self_knowledge_method
+  authority: repository_knowledge_protocol
+  freshness: current_v0_3_direction
+  use_for:
+  - incremental_knowledge_maintenance
+  - canonicalization
+  - stale_unknown_conflict_handling
+- id: artifact_authority_policy
+  path: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  role: artifact_authority_classification
+  authority: canonical_policy
+  freshness: current_tracked_source
+  use_for:
+  - authority_classification
+  - generated_vs_canonical_distinction
+- id: repository_inventory_maintenance
+  path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  role: repository_knowledge_maintenance_policy
+  authority: maintenance_policy
+  freshness: current_tracked_source
+  use_for:
+  - snapshot_lifecycle
+  - maintenance_rules
+- id: blueprint_roadmap_detail
+  path: coordination/roadmaps/details/forprint_system_blueprint/README.md
+  role: blueprint_roadmap_detail_navigation
+  authority: roadmap_source_context
+  freshness: verify_against_current_git_and_release
+  use_for:
+  - roadmap_owner_discovery
+  - blueprint_detail_navigation
+- id: human_intent_blueprint
+  path: coordination/human_intent/modules/forprint_system_blueprint.yaml
+  role: owner_intent_planning_context
+  authority: planning_context_not_release_authority
+  freshness: append_only_owner_intent
+  use_for:
+  - owner_direction
+  - planning_context
+- id: continuity_start_here
+  path: coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+  role: zero_context_navigation_and_handoff
+  authority: navigation_not_runtime_authority
+  freshness: revalidate_git_and_release
+  use_for:
+  - continuity_navigation
+  - historical_recovery
+- id: next_work_selection
+  path: coordination/standards/governance/next_work_selection_policy_v0_1.md
+  role: next_work_selection_policy
+  authority: selection_policy_not_activation
+  freshness: current_tracked_source
+  use_for:
+  - next_work_selection
+  - selection_vs_execution_boundary
+- id: mutation_builder_contract
+  path: coordination/standards/governance/mutation_builder_contract_v0_1.md
+  role: bounded_mutation_and_temporary_index_contract
+  authority: mutation_governance
+  freshness: current_tracked_source
+  use_for:
+  - dirty_repo_publication
+  - temporary_index
+  - exact_delta
+- id: portfolio_roadmap_policy
+  path: coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+  role: portfolio_roadmap_dependency_and_prioritization
+  authority: roadmap_governance
+  freshness: current_tracked_source
+  use_for:
+  - portfolio_dependencies
+  - prioritization
+- id: traceability_standard
+  path: coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md
+  role: concept_and_roadmap_traceability
+  authority: traceability_governance
+  freshness: current_tracked_source
+  use_for:
+  - concept_ownership
+  - roadmap_traceability
+- id: blueprint_architecture_handoff_20260920
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-20/forprint_blueprint_architecture_handoff_20260920_v0_1/00_README.md
+  role: curated_architecture_handoff_and_planning_source
+  authority: planning_input_not_execution_authority
+  freshness: historical_source_2026_09_20_reconciled_on_intake
+  use_for:
+  - architecture_recovery
+  - roadmap_enrichment
+  - near_term_capability_reconciliation
+  - far_horizon_reference
+- id: nt07_portfolio_planning_convergence_task_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-20/forprint_blueprint_architecture_handoff_20260920_v0_1/17_nt07_portfolio_planning_convergence_engine_task_candidate_v0_1.yaml
+  role: machine_readable_implementation_candidate
+  authority: candidate_requires_formal_reconciliation_and_activation
+  freshness: revalidate_against_current_git_before_use
+  use_for:
+  - portfolio_planning_engine_reconciliation
+  - dependency_intelligence
+  - convergence_engine_design
+  - dashboard_and_reporting_projection
+- id: evening_architecture_handoff_20260919
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+  role: portfolio_architecture_discussion_source
+  authority: discussion_handoff_not_canonical
+  freshness: historical_source_2026_09_19_reconciled_2026_09_21
+  use_for:
+  - telegram_communication_boundary
+  - customer_intelligence_recovery
+  - historical_asset_indexing
+  - structured_order_clarification
+  - hosted_process_manager_origin
+- id: evening_architecture_handoff_20260919_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_against_current_git_before_implementation
+  use_for:
+  - reuse_extend_decisions
+  - open_question_status
+  - human_intent_provenance
+  - portfolio_gap_analysis
+- id: evening_handoff_20260917
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/forprint_evening_handoff_20260917_v0_1/README.md
+  role: strategic_planning_and_review_obligation_origin_source
+  authority: non_executable_coordination_handoff
+  freshness: historical_source_2026_09_17_reconciled_2026_09_21
+  use_for:
+  - strategic_vector_lifecycle_provenance
+  - architecture_horizon_provenance
+  - review_obligation_design_provenance
+  - bootstrap_reporting_rules
+- id: evening_handoff_20260917_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/forprint_evening_handoff_20260917_v0_1/09_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_against_current_git_before_implementation
+  use_for:
+  - reuse_extend_decisions
+  - strategic_surface_reconciliation
+  - gray_zone_tracking
+- id: review_obligations_design_candidate_from_20260917
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/forprint_evening_handoff_20260917_v0_1/10_review_obligations_design_candidate_v0_1.yaml
+  role: machine_readable_design_candidate_for_existing_CF12_capability
+  authority: candidate_not_canonical
+  freshness: reconcile_with_CF12_and_current_registry_surfaces_before_code
+  use_for:
+  - CF12_review_obligations_implementation
+  - trigger_schema_design
+  - review_state_and_disposition_design
+- id: transition_to_autonomous_workers_package_20260915
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_transition_to_autonomous_workers_package_v0_1/README.md
+  role: strategic_transition_and_control_foundation_origin_source
+  authority: proposal_only_non_executable
+  freshness: historical_source_2026_09_15_reconciled_2026_09_21
+  use_for:
+  - strategic_transition_vector_provenance
+  - CF09_CF19_origin_provenance
+  - worker_retry_telemetry_origin
+  - internal_worker_self_hardening_origin
+- id: transition_to_autonomous_workers_20260915_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_transition_to_autonomous_workers_package_v0_1/09_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_against_current_git_before_implementation
+  use_for:
+  - proposal_to_current_CF_mapping
+  - reuse_extend_proof
+  - non_goal_preservation
+  - open_question_tracking
+- id: evening_handoff_20260915
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_evening_handoff_20260915_v0_1/README_START_HERE.md
+  role: evening_travel_weekend_handoff_origin_source
+  authority: conversation_agreements_pending_reconciliation
+  freshness: historical_source_2026_09_15_reconciled_2026_09_21
+  use_for:
+  - handoff_intake_provenance
+  - bootstrap_strengthening
+  - durable_resume_provenance
+  - verification_tier_provenance
+  - module_deep_audit_rollout_rule
+  - dispatcher_local_telegram_bot_origin
+- id: evening_handoff_20260915_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_evening_handoff_20260915_v0_1/13_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_against_current_git_before_implementation
+  use_for:
+  - source_to_current_CF_mapping
+  - active_question_resolution
+  - reuse_extend_decisions
+  - gray_zone_tracking
+- id: dispatcher_local_telegram_bot_design_candidate_20260915
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-15/forprint_evening_handoff_20260915_v0_1/14_dispatcher_local_telegram_bot_design_candidate_v0_1.yaml
+  role: machine_readable_design_candidate_bound_to_existing_CF10_CF15_CF18
+  authority: candidate_not_canonical
+  freshness: reuse_audit_before_code
+  use_for:
+  - local_dispatcher_operator_bot
+  - dispatcher_watchdog
+  - operator_alerts
+  - bounded_remote_control
+- id: evening_strategy_evidence_cluster_20260912
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/forprint_evening_strategy_evidence_cluster_20260912_v0_1/00_source_manifest_v0_1.yaml
+  role: multi_source_architecture_evidence_cluster
+  authority: historical_planning_evidence_not_execution_authority
+  freshness: historical_source_2026_09_12_reconciled_2026_09_21
+  use_for:
+  - control_foundation_origin_provenance
+  - roadmap_reconciliation_origin
+  - governed_procedure_origin
+  - workfront_execution_profile_origin
+  - portfolio_health_wave_publication_origin
+  - blueprint_ai_progressive_autonomy_origin
+- id: evening_strategy_20260912_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/forprint_evening_strategy_evidence_cluster_20260912_v0_1/14_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_against_current_git_before_implementation
+  use_for:
+  - reuse_extend_mapping
+  - gray_zone_tracking
+  - source_memory_model
+  - semantic_roadmap_diff_origin
+- id: control_foundation_origin_traceability_20260912
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/forprint_evening_strategy_evidence_cluster_20260912_v0_1/15_control_foundation_origin_traceability_map_v0_1.yaml
+  role: machine_readable_source_to_CF02_CF20_traceability
+  authority: evidence_navigation_not_roadmap_authority
+  freshness: historical_origin_map_current_CF_ids_revalidate_on_program_rewrite
+  use_for:
+  - why_current_CF_step_exists
+  - source_provenance_lookup
+  - future_architecture_review
+- id: dftb_blueprint_20260908_unique_dialogue
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-08/DFTB_blueprint_20260908_v0_1/package/README.md
+  role: historical_unique_dialogue_evidence_bundle
+  authority: historical_evidence_not_current_implementation_authority
+  freshness: source_2026_09_08_partial_reconciled_2026_09_21
+  use_for:
+  - portfolio_forensics_origin
+  - module_disposition_origin
+  - coverage_and_unresolved_registry_origin
+  - structural_vs_semantic_freshness_origin
+  - collector_correctness_origin
+- id: dftb_blueprint_20260908_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-08/DFTB_blueprint_20260908_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_current_surfaces_before_using_historical_findings_as_current
+  use_for:
+  - reuse_extend_decisions
+  - historical_open_loop_status
+  - chronology_and_provenance
+- id: portfolio_forensic_disposition_and_coverage_design_20260908
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-08/DFTB_blueprint_20260908_v0_1/18_portfolio_forensic_disposition_and_coverage_design_candidate_v0_1.yaml
+  role: design_candidate_bound_to_current_roadmap_enrichment
+  authority: candidate_not_canonical
+  freshness: reuse_current_knowledge_saturation_surfaces_before_implementation
+  use_for:
+  - gate_a_structural_coverage
+  - module_disposition
+  - forensic_evidence_classes
+  - unresolved_registry
+  - collector_invariants
+- id: dftb_blueprint_20260905_dialogue_bundle
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-05/DFTB_blueprint_20260905_v0_1/package/README.md
+  role: historical_dialogue_evidence_bundle
+  authority: historical_evidence_not_current_implementation_authority
+  freshness: source_2026_09_05_partial_reconciled_2026_09_21
+  use_for:
+  - human_intent_package_reconciliation_origin
+  - project_cleanliness_origin
+  - prompt_pull_runtime_origin
+  - fresh_worker_and_acceptance_boundary_origin
+  - prompt_release_semantic_edge_cases
+- id: dftb_blueprint_20260905_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-05/DFTB_blueprint_20260905_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: revalidate_current_implementation_before_using_historical_runtime_claims
+  use_for:
+  - reuse_extend_decisions
+  - historical_open_loop_status
+  - semantic_invariants
+- id: dftb_blueprint_20260905_origin_traceability
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-05/DFTB_blueprint_20260905_v0_1/18_origin_traceability_map_v0_1.yaml
+  role: machine_readable_historical_item_to_current_surface_map
+  authority: evidence_navigation_not_roadmap_authority
+  freshness: revalidate_on_major_current_surface_reorganization
+  use_for:
+  - why_current_governance_rule_exists
+  - 05_09_source_navigation
+  - future_reuse_audit
+- id: dftb_blueprint_20260714_architecture_genesis
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-14/DFTB_blueprint_20260714_v0_1/package/README.md
+  role: historical_architecture_genesis_dialogue_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_07_14_partial_reconciled_2026_09_21
+  use_for:
+  - blueprint_genesis
+  - module_role_origin
+  - automation_north_star_origin
+  - assistant_governance_origin
+  - logistics_reference_pilot_origin
+- id: dftb_blueprint_20260714_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-14/DFTB_blueprint_20260714_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: use_current_portfolio_for_current_role_authority
+  use_for:
+  - open_loop_resolution
+  - old_vs_current_boundary_reconciliation
+  - historical_question_status
+- id: architecture_genesis_role_evolution_20260714
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-14/DFTB_blueprint_20260714_v0_1/18_architecture_genesis_role_evolution_map_v0_1.yaml
+  role: machine_readable_role_evolution_provenance
+  authority: evidence_navigation_not_current_ownership_authority
+  freshness: revalidate_if_current_portfolio_roles_change
+  use_for:
+  - module_role_evolution
+  - why_current_boundary_differs_from_early_design
+  - architecture_history
+- id: dftb_blueprint_20260827_governance_evolution
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-27/DFTB_blueprint_20260827_v0_1/package/README.md
+  role: historical_governance_evolution_dialogue_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_08_27_partial_reconciled_2026_09_21
+  use_for:
+  - forward_evolving_governance_origin
+  - decision_rationale_origin
+  - dirty_tree_parallel_execution_origin
+  - artifact_identity_origin
+  - logistics_pilot_origin
+  - knowledge_snapshot_origin
+- id: dftb_blueprint_20260827_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-27/DFTB_blueprint_20260827_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: use_current_authority_for_live_progression_and_pilot_rules
+  use_for:
+  - retained_vs_superseded_policy
+  - historical_open_loop_status
+  - current_surface_mapping
+- id: dftb_blueprint_20260827_governance_evolution_origin_map
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-27/DFTB_blueprint_20260827_v0_1/18_governance_evolution_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_governance_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if_control_foundation_authority_model_changes
+  use_for:
+  - why_current_dirty_tree_rule_exists
+  - why_artifact_identity_is_guarded
+  - why_project_memory_is_repository_owned
+  - why_old_q_progression_is_not_current_global_authority
+- id: dftb_blueprint_preflight_20260831
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-31/DFTB_blueprint_preflight_20260831_v0_1/package/README.md
+  role: historical_preflight_self_inventory_and_portfolio_design_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_08_31_high_coverage_partial_reconciled_2026_09_21
+  use_for:
+  - semantic_inventory_method_origin
+  - three_view_portfolio_origin
+  - synthetic_planning_provenance_origin
+  - legacy_file_semantics_origin
+  - project_inspector_semantic_audit_origin
+  - contract_registry_target_origin
+- id: dftb_blueprint_preflight_20260831_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-31/DFTB_blueprint_preflight_20260831_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current module ledgers/roadmaps remain authoritative for current target direction
+  use_for:
+  - historical_open_loop_resolution
+  - reuse_vs_materialized_mapping
+  - source_to_current_boundary
+- id: dftb_blueprint_preflight_20260831_origin_traceability
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-31/DFTB_blueprint_preflight_20260831_v0_1/18_origin_traceability_map_v0_1.yaml
+  role: machine_readable_31_08_origin_to_current_surface_map
+  authority: evidence_navigation_not_current_authority
+  freshness: revalidate_if portfolio or module ownership changes
+  use_for:
+  - knowledge_inventory_method_provenance
+  - Inspector_semantic_audit_provenance
+  - Contract_Registry_Gateway_provenance
+  - portfolio_view_provenance
+- id: dftb_blueprint_20260805_command_knowledge_transparency
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_v0_1/package/README.md
+  role: historical_command_knowledge_and_transparency_dialogue_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_08_05_partial_complete_retained_text_reconciled_2026_09_21
+  use_for:
+  - repository_knowledge_evidence_origin
+  - make_command_semantics_origin
+  - module_vs_blueprint_tool_ownership_origin
+  - mutation_contract_origin
+  - transparency_status_origin
+  - authorization_separation_origin
+- id: dftb_blueprint_20260805_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current Control Foundation and governance surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - retained_vs_superseded_policy
+  - source_to_current_mapping
+- id: dftb_blueprint_20260805_origin_traceability
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_v0_1/18_origin_traceability_map_v0_1.yaml
+  role: machine_readable_05_08_origin_to_current_surface_map
+  authority: evidence_navigation_not_current_authority
+  freshness: revalidate_if command/runtime/control-plane architecture changes
+  use_for:
+  - why_repository_knowledge_requires_evidence
+  - why_check_is_read_only
+  - why_validation_is_not_authorization
+  - why_current_transparency_and_handoff_surfaces_exist
+- id: dftb_blueprint_source_label_20260614_coordination_self_analysis
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/package/README.md
+  role: historical_coordination_reporting_self_analysis_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_label_temporally_ambiguous_reconciled_2026_09_21
+  use_for:
+  - dependency_constrained_planning_origin
+  - next_front_resolution_origin
+  - report_consumption_origin
+  - script_metadata_drift_origin
+  - project_memory_and_dogfooding_origin
+- id: dftb_blueprint_source_label_20260614_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current portfolio and Control Foundation surfaces remain authoritative
+  use_for:
+  - historical_open_loop_status
+  - retained_vs_superseded_semantics
+  - temporal_label_caution
+- id: dftb_blueprint_source_label_20260614_origin_traceability
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/18_origin_traceability_map_v0_1.yaml
+  role: machine_readable_historical_to_current_traceability
+  authority: evidence_navigation_not_current_authority
+  freshness: revalidate_if current ownership or control-plane architecture changes
+  use_for:
+  - why_dependency_balancing_and_no_invented_front_rules_exist
+  - why_reports_must_feed_decisions
+  - why project self-analysis became durable
+- id: script_metadata_drift_design_candidate_20260614_source_label
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-14_source_label/DFTB_blueprint_source_label_20260614_v0_1/19_script_responsibility_metadata_and_drift_audit_design_candidate_v0_1.yaml
+  role: design_candidate_bound_to_existing_discoverability_and_inspector_surfaces
+  authority: candidate_not_canonical
+  freshness: live_reuse_audit_required_before_implementation
+  use_for:
+  - script responsibility metadata
+  - declared_vs_observed_behavior drift
+  - metadata update candidates
+  - CF-13 reuse audit
+- id: dftb_blueprint_20260805_continuation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_continuation_v0_1/package/README.md
+  role: historical_05_08_continuation_closed_loop_coordination_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_continuation_reconciled_2026_09_21
+  use_for:
+  - completion_intake_origin
+  - prompt_completion_contract_origin
+  - closed_loop_coordination_origin
+  - planning_buffer_health_origin
+  - parallel_git_workflow_origin
+- id: dftb_blueprint_20260805_continuation_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_continuation_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current prompt_completion_acceptance_and_dispatcher_surfaces_remain_authoritative
+  use_for:
+  - retained_vs_superseded_policy
+  - historical_open_loop_status
+  - acceptance_authority_reconciliation
+- id: dftb_blueprint_20260805_continuation_closed_loop_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_continuation_v0_1/18_closed_loop_coordination_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_closed_loop_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if completion_or_dispatcher_architecture_changes
+  use_for:
+  - completion_discovery_provenance
+  - roadmap_prompt_execution_reconciliation_provenance
+  - planning_buffer_policy_evolution
+  - STEP26_STEP27_bridge_to_17_08
+- id: dftb_blueprint_20260817_v04_v041_hardening
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/package/README.md
+  role: historical_step27_v04_v041_hardening_dialogue_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_08_17_reconciled_2026_09_21
+  use_for:
+  - STEP26_STEP27_chronology
+  - acceptance_transaction_origin
+  - artifact_ownership_boundary_origin
+  - roadmap_hierarchy_origin
+  - legacy_retirement_origin
+  - zero_context_full_path_origin
+- id: dftb_blueprint_20260817_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current Control Foundation/roadmap/runtime surfaces remain authoritative
+  use_for:
+  - historical_open_loop_status
+  - retained_vs_superseded_semantics
+  - H_B_STEP_state_non_authority
+- id: dftb_blueprint_20260817_acceptance_hardening_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/18_acceptance_hardening_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_acceptance_hardening_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if acceptance/roadmap/continuity architecture changes
+  use_for:
+  - acceptance_boundary_provenance
+  - roadmap_hierarchy_provenance
+  - legacy_retirement_provenance
+  - zero_context_continuity_provenance
+- id: roadmap_hierarchy_dual_view_design_candidate_20260817
+  path: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/19_hierarchical_roadmap_task_subtask_projection_design_candidate_v0_1.yaml
+  role: design_candidate_bound_to_existing_roadmap_and_projection_surfaces
+  authority: candidate_not_canonical
+  freshness: live_reuse_audit_required_before_implementation
+  use_for:
+  - task_subtask_hierarchy
+  - partial_progress_representation
+  - compact_detailed_roadmap_views
+  - roadmap_schema_reuse_audit
+- id: dftb_blueprint_source_label_20260907_control_foundation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-07_source_label/DFTB_blueprint_control_foundation_bridge_v0_1/package/README.md
+  role: historical_cf02_candidate_review_bridge_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: filename_temporally_unsafe_logical_position_reconciled_2026_09_21
+  use_for:
+  - stale_handoff_correction_provenance
+  - CF02_candidate_first_gate_provenance
+  - seven_finding_hardening_origin
+  - work_identity_authority_origin
+- id: dftb_blueprint_source_label_20260907_cf02_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-07_source_label/DFTB_blueprint_control_foundation_bridge_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: later CF02/current Control Foundation surfaces remain authoritative
+  use_for:
+  - historical_open_loop_status
+  - retained_vs_materialized_rules
+  - temporal_label_caution
+- id: dftb_blueprint_source_label_20260907_cf02_origin_map
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-07_source_label/DFTB_blueprint_control_foundation_bridge_v0_1/18_cf02_candidate_review_hardening_origin_map_v0_1.yaml
+  role: machine_readable_seven_finding_origin_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if CF02/control-plane contracts change
+  use_for:
+  - dependency_registry_hardening_origin
+  - derivation_registry_hardening_origin
+  - projection_bootstrap_origin
+  - sterile_test_isolation_origin
+  - exact_migration_evidence_origin
+- id: forprint_dialogue_master_memory_20260915_v1_6
+  path: coordination/repository_knowledge/dialogue_master_memory/2026-09-15_v1_6/00_intake_manifest_v0_1.yaml
+  role: derived_duplicate_aware_dialogue_navigation_archive
+  authority: derived_aggregate_not_current_runtime_authority
+  freshness: generated_2026_09_15_ingested_2026_09_21
+  use_for:
+  - logical_chronology
+  - conflict_supersession_navigation
+  - deduplicated_current_audit_backlog
+  - source_coverage_rollup
+  - locating_pending_unprocessed_dialogue_layers
+- id: dftb_blueprint_20260909_runtime_automation_logistics_pilot
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-09/DFTB_blueprint_runtime_automation_logistics_pilot_v0_1/package/README.md
+  role: historical_fresh_worker_runtime_automation_logistics_pilot_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_09_09_partial_reconciled_2026_09_21
+  use_for:
+  - fresh_worker_runtime_origin
+  - approved_pool_automation_boundary_origin
+  - task_context_operator_gateway_worker_adapter_origin
+  - startup_authority_cleanup_origin
+- id: dftb_blueprint_20260909_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-09/DFTB_blueprint_runtime_automation_logistics_pilot_v0_1/17_portfolio_reconciliation_20260921_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current CF08_CF09_CF10_and_portfolio_surfaces_remain_authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - runtime_component_owner_reconciliation
+  - publication_authority_reconciliation
+  - startup_mode_reconciliation
+- id: dftb_blueprint_20260909_runtime_origin_map
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-09/DFTB_blueprint_runtime_automation_logistics_pilot_v0_1/18_runtime_automation_logistics_pilot_origin_map_v0_1.yaml
+  role: machine_readable_09_09_runtime_origin_to_current_control_foundation_map
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if Dispatcher/worker/bootstrap architecture changes
+  use_for:
+  - runtime_stack_provenance
+  - human_major_boundary_provenance
+  - listener_dispatcher_ownership_provenance
+  - worker_context_evolution_provenance
+- id: dftb_blueprint_20260910_infrastructure_hardening
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-10/DFTB_blueprint_infrastructure_hardening_v0_1/package/README.md
+  role: historical_autogeneration_mutation_dependency_continuity_hardening_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: multi_day_source_reconciled_2026_09_22
+  use_for:
+  - generator_derivation_origin
+  - mutation_compiler_origin
+  - execution_dependency_clean_room_origin
+  - progress_visibility_origin
+  - knowledge_determinism_origin
+  - continuity_stack_origin
+- id: dftb_blueprint_20260910_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-10/DFTB_blueprint_infrastructure_hardening_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current Control Foundation/continuity/mutation surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - retained_vs_materialized_invariants
+  - u179e5_non_inference_boundary
+- id: dftb_blueprint_20260910_infrastructure_hardening_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-10/DFTB_blueprint_infrastructure_hardening_v0_1/18_infrastructure_hardening_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_infrastructure_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if generator/mutation/dependency/continuity architecture changes
+  use_for:
+  - why Mutation Compiler exists
+  - why execution dependency registry/clean-room checks exist
+  - why progress heartbeat exists
+  - why continuity stack and lifecycle enforcement evolved
+- id: dftb_blueprint_20260912_continuity_control_foundation_continuation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1/package/README.md
+  role: historical_step9_lifecycle_zero_context_cf01_cf02_continuation_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_09_12_reconciled_2026_09_22
+  use_for:
+  - 10_09_u179e5_closure_bridge
+  - lifecycle_enforcement_origin
+  - zero_context_module_transfer_origin
+  - state_aware_recovery_origin
+  - CF01_CF02_origin
+- id: dftb_blueprint_20260912_continuation_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current Control Foundation/continuity/runtime surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - source_end_vs_later_CF02_closure
+  - retained_vs_superseded_contracts
+- id: dftb_blueprint_20260912_continuity_cf_bridge_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1/18_continuity_control_foundation_bridge_origin_map_v0_1.yaml
+  role: machine_readable_10_09_to_cf02_historical_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if continuity/recovery/roadmap-reconciliation architecture changes
+  use_for:
+  - handoff_to_lifecycle_transition
+  - zero_context_module_transfer_provenance
+  - state_aware_recovery_provenance
+  - CF02_birth_and_later_closure_traceability
+- id: dftb_blueprint_20260914_control_foundation_diagnostic_truth_continuation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-14/DFTB_blueprint_control_foundation_diagnostic_truth_continuation_v0_1/package/README.md
+  role: historical_overlapping_continuation_delta_cf02_diagnostic_truth_bundle
+  authority: historical_evidence_not_current_authority
+  freshness: 43_new_messages_reconciled_2026_09_22
+  use_for:
+  - CF02_hardening_and_recovery_provenance
+  - artifact_delivery_integrity_origin
+  - Website_scope_rejection
+  - diagnostic_freshness_origin
+  - current_tree_vs_materialization_truth_origin
+- id: dftb_blueprint_20260914_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-14/DFTB_blueprint_control_foundation_diagnostic_truth_continuation_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current CF02/validation/runtime surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - CF02_source_end_vs_later_closure
+  - diagnostic_truth_current_audit_boundary
+  - scope_exclusion
+- id: dftb_blueprint_20260914_diagnostic_truth_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-14/DFTB_blueprint_control_foundation_diagnostic_truth_continuation_v0_1/18_diagnostic_truth_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_diagnostic_truth_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if validation/isolation/reporting architecture changes
+  use_for:
+  - stale_report_provenance
+  - current_tree_vs_materialized_check_boundary
+  - state_aware_recovery_reinforcement
+  - artifact_delivery_integrity_provenance
+- id: dftb_blueprint_20260917_cf05_cf09_dispatcher_continuation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/DFTB_blueprint_cf05_cf09_dispatcher_continuation_v0_1/package/README.md
+  role: historical_cf05_cf09_dispatcher_control_foundation_continuation
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_09_17_reconciled_2026_09_22
+  use_for:
+  - CF05_CF09_execution_lineage
+  - state_aware_recovery_reinforcement
+  - Makefile_operator_UX_origin
+  - CF09_local_vs_project_closure_origin
+  - human_boundary_before_internal_worker
+- id: dftb_blueprint_20260917_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/DFTB_blueprint_cf05_cf09_dispatcher_continuation_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: later/current CF09/CF10 and repository surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - CF09_red_source_endpoint_vs_later_close
+  - operator_environment_materialization
+- id: dftb_blueprint_20260917_cf05_cf09_origin_map
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-17/DFTB_blueprint_cf05_cf09_dispatcher_continuation_v0_1/18_cf05_cf09_dispatcher_origin_map_v0_1.yaml
+  role: machine_readable_historical_to_current_dispatcher_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if Dispatcher/project-closure/Makefile command-surface architecture changes
+  use_for:
+  - Dispatcher_closure_provenance
+  - project_boundary_gate_provenance
+  - Makefile_operator_map_provenance
+  - developer_tool_provisioning_provenance
+- id: forprint_dialogue_master_memory_20260918_v3_6
+  path: coordination/repository_knowledge/dialogue_master_memory/2026-09-18_v3_6/00_intake_manifest_v0_1.yaml
+  role: preferred_derived_duplicate_aware_cross_module_dialogue_navigation_archive
+  authority: derived_aggregate_not_current_runtime_authority
+  freshness: generated_2026_09_18_ingested_2026_09_22
+  use_for:
+  - logical_chronology
+  - cross_module_source_catalog
+  - concept_chains
+  - conflict_supersession_navigation
+  - current_verification_backlog
+  - locating_pending_source_by_source_module_history
+- id: dftb_blueprint_20260921_cf10_preflight_package_semantics
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1/package/README.md
+  role: historical_cf09_ack_cf10_ready_unbound_package_semantics_continuation
+  authority: historical_evidence_not_current_authority
+  freshness: source_2026_09_21_reconciled_2026_09_22
+  use_for:
+  - ACK_contract_provenance
+  - living_knowledge_packaging_scope_origin
+  - package_semantic_identity_origin
+  - CF10_ready_unbound_preflight_origin
+  - u180j_u180h_historical_blocker_provenance
+- id: dftb_blueprint_20260921_portfolio_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: later/current CF10 runtime and package-builder surfaces remain authoritative
+  use_for:
+  - historical_open_loop_resolution
+  - CF10_source_endpoint_vs_later_execution
+  - package_routing_current_audit_boundary
+- id: dftb_blueprint_20260921_cf10_package_origin
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1/18_cf10_preflight_package_semantics_origin_map_v0_1.yaml
+  role: machine_readable_cf09_ack_to_cf10_and_package_semantics_traceability
+  authority: evidence_navigation_not_execution_authority
+  freshness: revalidate_if Handoff/package-routing/CF10 architecture changes
+  use_for:
+  - ACK_and_Result_separation_provenance
+  - CF10_launch_choreography_provenance
+  - package_semantic_identity_provenance
+  - historical_u180j_u180h_blocker_resolution
+- id: forprint_dialogue_master_memory_20260921_v3_7
+  path: coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/00_intake_manifest_v0_1.yaml
+  role: preferred_derived_duplicate_aware_cross_module_dialogue_navigation_archive
+  authority: derived_aggregate_not_current_runtime_authority
+  freshness: generated_2026_09_21_ingested_2026_09_22
+  use_for:
+  - logical_chronology
+  - cross_module_source_catalog
+  - concept_chains
+  - conflict_supersession_navigation
+  - current_verification_backlog
+  - locating_pending_source_by_source_module_history
+- id: dftb_telegram_bot_filename_label_20261007_data_ingest
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/package/README.md
+  role: historical_telegram_data_ingest_and_early_integration_bundle
+  authority: telegram_module_history_not_current_runtime_authority
+  freshness: filename_date_untrusted_primary_verified_2026_09_22
+  use_for:
+  - dialogue_corpus_ingest_origin
+  - compatibility_first_synthetic_generation_origin
+  - early_taxonomy_supersession_provenance
+  - early_1c_sync_idea_provenance
+- id: dftb_telegram_bot_filename_label_20261007_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_telegram_crm_accounting_gateway_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_ownership_reconciliation
+  - training_data_gap_assessment
+  - taxonomy_supersession
+  - privacy_and_synthetic_metadata_risk
+- id: dftb_telegram_bot_filename_label_20261007_corpus_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: reconcile_against_later_telegram_sources_and_live_repo_before_promotion
+  use_for:
+  - future_training_corpus_governance_gap
+  - source_provenance
+  - privacy_sanitization
+  - synthetic_vs_observed_metadata
+- id: dftb_telegram_bot_behavior_model_internal_20251012
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/package/README.md
+  role: historical_telegram_behavior_ai_ml_source
+  authority: telegram_module_history_not_current_runtime_authority
+  freshness: internal_2025_10_12_anchor_primary_verified_2026_09_22
+  use_for:
+  - behavior_model_origin
+  - ai_escalation_origin
+  - sales_semantics_origin
+  - modular_training_dataset_origin
+  - recurring_ml_evaluation_origin
+- id: dftb_telegram_bot_behavior_model_internal_20251012_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_telegram_crm_accounting_gateway_verification_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_behavior_reconciliation
+  - direct_1c_scope_supersession
+  - ai_escalation_reuse
+  - ml_quality_governance_gap_assessment
+- id: dftb_telegram_bot_behavior_model_internal_20251012_ml_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: reconcile_against_remaining_telegram_sources_and_live_repo_before_promotion
+  use_for:
+  - sales_intent_semantics
+  - modular_training_dataset_governance
+  - recurring_classifier_evaluation
+  - hidden_holdout_and_fresh_challenge_pool
+  - independent_evaluation_oracle
+- id: dftb_telegram_bot_deberta_context_filename_label_20261016
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-16_filename_label/DFTB_telegram_bot_deberta_context_v0_1/package/README.md
+  role: historical_educational_deberta_context
+  authority: low_authority_context_not_model_or_runtime_decision
+  freshness: filename_date_untrusted_primary_verified_2026_09_22
+  use_for:
+  - deberta_topic_origin_context
+  - later_ml_history_provenance
+  - educational_example_non_authority_boundary
+- id: dftb_telegram_bot_deberta_context_filename_label_20261016_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-16_filename_label/DFTB_telegram_bot_deberta_context_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_telegram_ml_repo_and_later_sources_remain_authoritative
+  use_for:
+  - no_false_model_selection
+  - no_false_three_label_schema
+  - reuse_existing_ml_governance_candidate
+- id: dftb_telegram_bot_deberta_context_filename_label_20261016_bridge
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-16_filename_label/DFTB_telegram_bot_deberta_context_v0_1/18_deberta_context_provenance_bridge_v0_1.yaml
+  role: historical_provenance_bridge
+  authority: none_navigation_only
+  freshness: later_telegram_ml_sources_required_for_project_decisions
+  use_for:
+  - bridge_to_telegram_ml_engineering_14_10
+  - bridge_to_telegram_long_running_13_10
+  - prevent_educational_example_from_becoming_project_truth
+- id: dftb_telegram_bot_human_talk_templates_filename_label_20261012
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/package/README.md
+  role: historical_telegram_human_talk_template_contract_source
+  authority: telegram_module_history_not_current_runtime_authority
+  freshness: filename_date_untrusted_primary_verified_2026_09_22
+  use_for:
+  - human_talk_template_contract_origin
+  - normalized_taxonomy_reference_origin
+  - multilingual_template_quality_origin
+  - taxonomy_contract_drift_evidence
+  - csv_import_failure_history
+- id: dftb_telegram_bot_human_talk_templates_filename_label_20261012_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_telegram_schema_and_runtime_remain_authoritative
+  use_for:
+  - template_contract_reuse_against_current_personalized_communication
+  - taxonomy_lock
+  - historical_schema_evolution
+  - known_good_import_pattern_reuse
+- id: dftb_telegram_bot_human_talk_templates_filename_label_20261012_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/18_human_talk_template_contract_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: reconcile_against_live_telegram_schema_and_remaining_sources_before_promotion
+  use_for:
+  - template_store_schema
+  - taxonomy_lookup_binding
+  - template_selection_and_priority
+  - multilingual_rendering
+  - bulk_import_validation
+- id: dftb_telegram_bot_ml_engineering_internal_20251014
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/README.md
+  role: historical_telegram_ml_engineering_source
+  authority: telegram_module_history_not_current_runtime_authority
+  freshness: internal_2025_10_14_to_2025_10_25_anchors_primary_verified_2026_09_22
+  use_for:
+  - deberta_training_quality_origin
+  - dataset_audit_origin
+  - classifier_pipeline_contract_origin
+  - label_map_compatibility_origin
+  - config_path_contract_origin
+  - model_revision_history
+  - historical_runtime_failure_evidence
+- id: dftb_telegram_bot_ml_engineering_internal_20251014_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: live_telegram_repo_model_artifacts_and_current_contracts_remain_authoritative
+  use_for:
+  - historical_to_current_ml_pipeline_reconciliation
+  - reported_metric_non_current_boundary
+  - end_to_end_health_requirement
+  - reuse_before_duplicate_tooling
+- id: dftb_telegram_bot_ml_engineering_internal_20251014_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/18_ml_pipeline_and_artifact_contract_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: reconcile_against_remaining_telegram_sources_and_live_repo_before_promotion
+  use_for:
+  - shared_classifier_pipeline_contract
+  - entity_specific_artifact_namespaces
+  - label_map_contract
+  - model_revision_contract
+  - evaluation_artifact_contract
+  - end_to_end_pipeline_validation
+- id: dftb_telegram_bot_long_running_terminal_20260729
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/README.md
+  role: historical_long_running_telegram_behavior_runtime_governance_source
+  authority: telegram_module_history_not_current_runtime_authority
+  freshness: terminal_2026_07_29_anchor_primary_verified_2026_09_22
+  use_for:
+  - behavior_model_first_origin
+  - customer_qualification_origin
+  - behavior_registry_operator_surface_origin
+  - wizard_simulation_runtime_boundary_origin
+  - telegram_governance_adoption_history
+  - historical_ready_for_blueprint_review_boundary
+- id: dftb_telegram_bot_long_running_terminal_20260729_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_telegram_crm_logistics_blueprint_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_ownership_reconciliation
+  - behavior_runtime_boundary
+  - qualification_write_boundary
+  - governance_history_non_authority
+- id: dftb_telegram_bot_long_running_terminal_20260729_behavior_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/18_behavior_specification_runtime_boundary_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_telegram_behavior_runtime_and_remaining_sources_required_before_promotion
+  use_for:
+  - behavior_registry_contract
+  - generated_operator_views
+  - scenario_simulation_boundary
+  - artifact_postcondition_validation
+- id: dftb_telegram_bot_long_running_terminal_20260729_qualification_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/19_customer_qualification_profile_enrichment_candidate_v0_1.yaml
+  role: cross_module_reconcile_before_implementation_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: crm_identity_and_gateway_contract_reconciliation_required
+  use_for:
+  - conversational_qualification
+  - crm_profile_write_intent
+  - field_confirmation_and_provenance
+  - telegram_noncanonical_customer_boundary
+- id: dftb_calculator_engine_long_running_terminal_directive_20260603
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/README.md
+  role: historical_calculator_pricing_catalog_quote_coordination_source
+  authority: calculator_module_history_not_current_runtime_authority
+  freshness: terminal_after_2026_06_03_directive_exact_date_unknown_primary_verified_2026_09_22
+  use_for:
+  - data_driven_pricing_origin
+  - b2b_b2c_modifier_origin
+  - bulk_pricing_policy_origin
+  - historical_catalog_admin_origin
+  - quote_idempotency_and_error_contract_origin
+  - calculator_blueprint_coordination_history
+- id: dftb_calculator_engine_long_running_terminal_directive_20260603_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_calculator_library_gateway_contract_registry_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_ownership_reconciliation
+  - local_catalog_supersession
+  - direct_channel_coupling_supersession
+  - quote_contract_gap_assessment
+  - historical_terminal_pause_boundary
+- id: dftb_calculator_engine_long_running_pricing_admin_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/18_pricing_policy_and_admin_surface_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_calculator_and_library_contract_audit_required_before_promotion
+  use_for:
+  - data_driven_pricing_policy
+  - segment_modifiers
+  - bulk_filtered_repricing
+  - library_backed_applicability
+  - bounded_calculator_admin
+- id: dftb_calculator_engine_long_running_quote_contract_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/19_channel_neutral_quote_contract_candidate_v0_1.yaml
+  role: cross_module_reconcile_before_implementation_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: contract_registry_gateway_and_live_calculator_reconciliation_required
+  use_for:
+  - calculator_quote_request_result_contract
+  - domain_idempotency
+  - stable_errors_and_correlation
+  - channel_neutral_quote_outputs
+  - isolated_contract_tests
+- id: dftb_smm_assistant_source_label_20260725
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/package/README.md
+  role: historical_smm_creative_tooling_source
+  authority: business_marketing_history_not_runtime_or_website_authority
+  freshness: source_label_2026_07_25_primary_verified_2026_09_22
+  use_for:
+  - one_primary_video_generator_owner_preference
+  - historical_creative_provider_recommendations
+  - reusable_media_workflow_origin
+  - creative_tool_standardization_history
+- id: dftb_smm_assistant_source_label_20260725_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_marketing_orchestrator_roadmap_and_provider_review_remain_authoritative
+  use_for:
+  - historical_to_current_marketing_orchestrator_reconciliation
+  - provider_non_acceptance_boundary
+  - creative_asset_reuse_candidate
+  - website_crm_operational_authority_boundary
+- id: dftb_smm_assistant_source_label_20260725_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/18_creative_toolchain_operating_profile_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: current_provider_and_live_marketing_workflow_review_required_before_promotion
+  use_for:
+  - single_primary_generator_operating_profile
+  - provider_selection_gate
+  - short_video_asset_pipeline
+  - optional_postproduction
+  - cross_channel_asset_reuse
+- id: dftb_smm_assistant_source_label_20260625
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/package/README.md
+  role: historical_smm_acquisition_bootstrap_source
+  authority: business_marketing_history_not_runtime_or_website_authority
+  freshness: source_label_2026_06_25_primary_verified_2026_09_22
+  use_for:
+  - young_site_traffic_bootstrap_origin
+  - targeted_local_acquisition_owner_intent
+  - historical_local_search_and_paid_experiment_advice
+  - marketing_learning_loop_origin
+  - cross_channel_content_reuse_origin
+- id: dftb_smm_assistant_source_label_20260625_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_marketing_website_crm_analytics_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_marketing_orchestrator_reconciliation
+  - acquisition_bootstrap_gap_assessment
+  - channel_priority_non_acceptance_boundary
+  - website_technical_authority_boundary
+- id: dftb_smm_assistant_source_label_20260625_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/18_acquisition_bootstrap_learning_loop_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: current_site_analytics_and_channel_measurement_required_before_promotion
+  use_for:
+  - cold_start_traffic_seeding
+  - targeted_local_experiment_design
+  - measure_before_scale
+  - analytics_feedback_loop
+  - bounded_service_focus
+  - owned_touchpoint_seeding
+- id: dftb_prepress_hub_source_label_20260520
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-20_source_label/DFTB_prepress_hub_zero_platform_v0_1/package/README.md
+  role: historical_prepress_zero_platform_source
+  authority: prepress_module_history_not_current_runtime_authority
+  freshness: source_label_2026_05_20_primary_verified_2026_09_22
+  use_for:
+  - prepress_module_start_provenance
+  - early_zero_platform_proposal_history
+  - missing_prepress_hub_docx_boundary
+  - later_27_06_refinement_bridge
+- id: dftb_prepress_hub_source_label_20260520_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-20_source_label/DFTB_prepress_hub_zero_platform_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_prepress_calculator_library_contract_registry_surfaces_remain_authoritative
+  use_for:
+  - secondary_evidence_boundary
+  - proposal_not_implementation_boundary
+  - current_prepress_ownership_reconciliation
+  - historical_path_and_bind_risk
+- id: dftb_prepress_hub_source_label_20260520_bridge
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-20_source_label/DFTB_prepress_hub_zero_platform_v0_1/18_early_zero_platform_provenance_bridge_v0_1.yaml
+  role: historical_provenance_bridge
+  authority: none_navigation_only
+  freshness: prepress_27_06_and_live_repo_required_for_design_or_implementation_claims
+  use_for:
+  - bridge_to_prepress_27_06
+  - bridge_to_current_pdf_readiness_direction
+  - prevent_secondary_assistant_scaffold_from_becoming_owner_intent
+- id: dftb_prepress_hub_source_label_20260627
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/README.md
+  role: historical_prepress_capability_first_source
+  authority: prepress_module_history_not_current_runtime_authority
+  freshness: source_label_2026_06_27_primary_verified_2026_09_22
+  use_for:
+  - capability_first_prepress_origin
+  - product_specific_assistant_origin
+  - shared_file_intelligence_boundary_origin
+  - multi_candidate_processing_origin
+  - unix_first_windows_executor_origin
+  - raster_safety_policy_origin
+- id: dftb_prepress_hub_source_label_20260627_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_prepress_calculator_library_contract_registry_sysadmin_surfaces_remain_authoritative
+  use_for:
+  - may_zero_platform_refinement
+  - current_prepress_reuse_first_reconciliation
+  - unix_windows_execution_boundary
+  - candidate_processing_gap_assessment
+- id: dftb_prepress_hub_source_label_20260627_shared_tools_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/18_shared_file_intelligence_and_assistant_boundary_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_prepress_repo_and_current_assistant_topology_required_before_promotion
+  use_for:
+  - product_specific_assistants
+  - shared_fact_only_file_tools
+  - stable_inspection_report
+  - no_assistant_dependency_cycles
+- id: dftb_prepress_hub_source_label_20260627_execution_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/19_candidate_processing_and_execution_policy_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_prepress_runtime_and_sysadmin_station_contract_required_before_promotion
+  use_for:
+  - multi_candidate_processing
+  - tool_order_by_file_task_risk
+  - unix_first_execution
+  - bounded_windows_photoshop_executor
+  - raster_policy_thresholds
+  - preview_risk_confidence_contract
+- id: prepress_raw_primary_pdf_assistant_discovered_20260922
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/source/Designer_asistans
+    - ForPrint_PDF_Asistant.mhtml
+  role: raw_primary_prepress_pdf_assistant_source
+  authority: owner_dialogue_primary_evidence_not_runtime_authority
+  freshness: exported_2026_09_22_logical_conversation_date_unknown
+  use_for:
+  - automated_file_intake_owner_intent
+  - python_first_pdf_engineering_policy
+  - forprint_owned_pdf_control_layer_strategy
+  - client_proof_and_clarification_flow
+- id: prepress_raw_primary_architecture_discovered_20260922
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/source/Designer_asistans
+    - Prepress Assistant Архітектура.mhtml
+  role: raw_primary_prepress_architecture_source
+  authority: owner_dialogue_primary_evidence_not_runtime_authority
+  freshness: exported_2026_09_22_logical_conversation_date_unknown
+  use_for:
+  - raster_to_pdf_to_prepress_pipeline_origin
+  - product_specific_assistant_corroboration
+  - unix_windows_execution_split_corroboration
+- id: prepress_raw_primary_additional_sources_reconciliation_20260922
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/17_portfolio_reconciliation_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_prepress_library_calculator_gateway_sysadmin_surfaces_remain_authoritative
+  use_for:
+  - raw_primary_to_current_prepress_reconciliation
+  - pdf_control_layer_gap_assessment
+  - raster_pipeline_boundary
+  - secondary_assistant_recommendation_filtering
+- id: prepress_pdf_control_layer_candidate_20260922
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/18_pdf_control_layer_and_raster_pipeline_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_prepress_pdf_runtime_and_contract_audit_required_before_promotion
+  use_for:
+  - forprint_pdf_control_layer
+  - safe_auto_fix_policy
+  - proof_and_clarification_flow
+  - python_first_engine_agnostic_architecture
+  - raster_to_pdf_pipeline
+- id: dftb_crm_architecture_genesis_alignment_20260522
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/package/README.md
+  role: historical_crm_blueprint_inspector_architecture_genesis_source
+  authority: crm_module_history_and_owner_alignment_not_current_execution_authority
+  freshness: source_label_2026_05_16_embedded_alignment_2026_05_22_verified_2026_09_22
+  use_for:
+  - crm_business_orchestration_boundary_origin
+  - project_inspector_name_and_scope_origin
+  - system_blueprint_genesis_origin
+  - crm_alignment_prompt_origin
+  - prepress_operator_surface_origin
+- id: dftb_crm_architecture_genesis_alignment_20260522_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_crm_blueprint_inspector_ocr_gateway_library_accounting_surfaces_remain_authoritative
+  use_for:
+  - historical_to_current_crm_boundary_reconciliation
+  - ownership_drift_and_supersession
+  - order_handoff_resolution
+  - legacy_gateway_command_lineage
+- id: dftb_crm_architecture_genesis_alignment_20260522_bridge
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/18_blueprint_inspector_crm_genesis_provenance_bridge_v0_1.yaml
+  role: historical_cross_module_provenance_bridge
+  authority: none_navigation_only
+  freshness: current_module_boundaries_supersede_historical_examples
+  use_for:
+  - project_control_to_project_inspector_lineage
+  - system_blueprint_origin
+  - crm_business_cockpit_origin
+  - avoid_strategic_control_plane_name_conflation
+- id: dftb_crm_architecture_genesis_alignment_20260522_prepress_amendment
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/19_prepress_post_closeout_cross_module_evidence_amendment_v0_1.yaml
+  role: post_closeout_cross_module_historical_evidence_amendment
+  authority: planning_context_not_execution_authority
+  freshness: discovered_after_prepress_closeout_v0_2
+  use_for:
+  - prepress_operator_surface_owner_intent
+  - reusable_multitool_preset_chain_origin
+  - prepress_closeout_provenance_amendment
+
+- id: dftb_library_blueprint_standardization_calculator_contract_20260705
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/package/README.md
+  role: historical_library_modernization_and_calculator_contract_source
+  authority: library_module_history_not_current_blueprint_or_execution_authority
+  freshness: source_label_2026_07_05_visible_artifacts_through_2026_07_29_verified_2026_09_22
+  use_for:
+    - library_checkpointed_modernization_provenance
+    - repository_structure_owner_intent
+    - reporting_dedup_owner_intent
+    - calculator_input_contract_lineage
+    - completion_packet_governance_lineage
+- id: dftb_library_blueprint_standardization_calculator_contract_20260705_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_library_roadmap_owner_review_and_project_governance_remain_authoritative
+  use_for:
+    - historical_to_current_library_reconciliation
+    - policy_supersession_and_reuse
+    - owner_intent_delta_filtering
+- id: dftb_library_blueprint_standardization_calculator_contract_20260705_governance_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/18_library_repository_governance_reconciliation_candidate_v0_1.yaml
+  role: reconcile_before_implementation_governance_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_library_repository_audit_required_before_promotion
+  use_for:
+    - library_makefile_read_only_check_audit
+    - blueprint_read_only_boundary_audit
+    - bounded_repository_scans
+    - repository_structure_policy
+    - report_check_deduplication
+    - completion_packet_validator_idempotency
+- id: dftb_library_blueprint_standardization_calculator_contract_20260705_calculator_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/19_calculator_input_contract_lineage_candidate_v0_1.yaml
+  role: reconcile_before_implementation_lineage_candidate
+  authority: candidate_not_acceptance_or_execution_authority
+  freshness: current_library_git_and_blueprint_acceptance_evidence_required
+  use_for:
+    - calculator_input_contract_commit_lineage
+    - historical_completion_packet_lineage
+    - acceptance_merge_supersession_resolution
+
+
+- id: dftb_library_architecture_genesis_20260516
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/package/README.md
+  role: historical_library_architecture_genesis_and_canonical_boundary_source
+  authority: library_module_history_not_current_blueprint_or_execution_authority
+  freshness: source_label_2026_05_16_partial_dialogue_verified_2026_09_22
+  use_for:
+    - library_greenfield_owner_intent
+    - canonical_definition_boundary_origin
+    - partner_contract_form_origin
+    - governed_admin_surface_origin
+    - cross_module_data_consistency_origin
+    - contract_registry_and_sync_manager_lineage
+- id: dftb_library_architecture_genesis_20260516_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_library_owner_review_full_horizon_contract_registry_and_project_governance_remain_authoritative
+  use_for:
+    - historical_to_current_library_boundary_reconciliation
+    - owner_intent_delta_filtering
+    - supersession_of_broad_library_scope
+    - historical_contract_ownership_reconciliation
+- id: dftb_library_architecture_genesis_20260516_admin_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/18_library_admin_publication_surface_candidate_v0_1.yaml
+  role: reconcile_before_implementation_design_candidate
+  authority: candidate_not_roadmap_or_execution_authority
+  freshness: live_library_admin_api_ui_and_system_administration_reconciliation_required
+  use_for:
+    - canonical_reference_admin_surface
+    - no_server_code_for_routine_reference_changes
+    - validation_before_publish
+    - audit_and_version_comparison
+- id: dftb_library_architecture_genesis_20260516_contract_lineage_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/19_contract_registry_sync_manager_lineage_candidate_v0_1.yaml
+  role: cross_module_reconcile_before_implementation_lineage_candidate
+  authority: candidate_not_new_module_or_execution_authority
+  freshness: current_contract_registry_gateway_library_and_consumer_adoption_architecture_must_be_reconciled
+  use_for:
+    - human_and_machine_contract_representation
+    - partner_contract_versioning
+    - data_sufficiency_validation
+    - historical_library_contract_registry_role
+    - historical_sync_manager_role
+
+
+- id: dftb_control_plane_bootstrap_20260601
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-01_source_label/DFTB_control_plane_bootstrap_role_lineage_v0_1/package/README.md
+  role: historical_control_plane_bootstrap_proposal_source
+  authority: assistant_proposal_only_missing_direct_owner_prompt_not_current_blueprint_or_execution_authority
+  freshness: source_label_2026_06_01_extremely_partial_verified_2026_09_22
+  use_for:
+    - historical_control_plane_concept_origin
+    - strategic_control_plane_name_lineage
+    - blueprint_internal_control_plane_lineage
+    - stale_priority_map_provenance
+    - historical_autonomy_and_checkpoint_proposal_provenance
+- id: dftb_control_plane_bootstrap_20260601_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-01_source_label/DFTB_control_plane_bootstrap_role_lineage_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_strategic_control_plane_owner_review_portfolio_horizon_and_blueprint_control_plane_remain_authoritative
+  use_for:
+    - historical_to_current_control_plane_role_reconciliation
+    - missing_owner_prompt_authority_filtering
+    - stale_priority_and_autonomy_proposal_classification
+    - strategic_vs_blueprint_control_plane_boundary
+- id: dftb_control_plane_bootstrap_20260601_role_lineage
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-01_source_label/DFTB_control_plane_bootstrap_role_lineage_v0_1/18_control_plane_role_bifurcation_lineage_map_v0_1.yaml
+  role: control_plane_role_evolution_provenance_map
+  authority: evidence_navigation_not_module_or_execution_authority
+  freshness: revalidate_if_strategic_control_plane_or_blueprint_control_plane_boundaries_change
+  use_for:
+    - historical_forprint_control_plane_role_bifurcation
+    - strategic_decision_intelligence_lineage
+    - blueprint_execution_governance_lineage
+    - inspector_boundary_preservation
+    - naming_collision_avoidance
+
+
+- id: dftb_accounting_registry_1c_boundary_v05_20260517
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-17_source_label/DFTB_accounting_registry_1c_boundary_v05_v0_1/package/README.md
+  role: historical_accounting_registry_and_1c_boundary_source
+  authority: module_history_and_owner_intent_not_current_execution_authority
+  freshness: source_label_2026_05_17_attachment_heavy_verified_2026_09_23
+  use_for:
+    - forprint_independence_from_1c_origin
+    - accounting_vs_physical_stock_boundary_history
+    - accounting_registry_v05_sandbox_acceptance_provenance
+    - one_c_sync_open_question_history
+- id: dftb_accounting_registry_1c_boundary_v05_20260517_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-17_source_label/DFTB_accounting_registry_1c_boundary_v05_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_accounting_owner_review_warehouse_gateway_and_module_status_remain_authoritative
+  use_for:
+    - early_inventory_ownership_supersession
+    - current_v05_status_corroboration
+    - live_1c_write_restriction_corroboration
+    - v06_sanitized_sample_gate_corroboration
+- id: dftb_accounting_registry_1c_boundary_v05_20260517_sync_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-17_source_label/DFTB_accounting_registry_1c_boundary_v05_v0_1/18_one_c_downstream_sync_reconciliation_candidate_v0_1.yaml
+  role: open_reconcile_before_implementation_candidate
+  authority: planning_candidate_not_execution_authority
+  freshness: close_only_after_current_owner_and_cross_module_contract_reconciliation
+  use_for:
+    - exact_one_c_sync_authority
+    - accounting_warehouse_gateway_boundary
+    - idempotency_conflict_and_duplicate_policy
+    - production_safety_transition_gate
+
+
+- id: dftb_integration_gateway_v07_history_20260526
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-26_source_label/DFTB_integration_gateway_v07_historical_reconciliation_v0_1/package/README.md
+  role: historical_gateway_implementation_and_boundary_source
+  authority: module_history_not_blueprint_execution_authority
+  freshness: source_label_2026_05_26_terminal_v07_date_unknown_verified_2026_09_23
+  use_for:
+    - gateway_transport_validation_routing_idempotency_provenance
+    - standards_visibility_v07_history
+    - preview_first_safety_history
+    - historical_gateway_commits_and_tests
+- id: dftb_integration_gateway_v07_history_20260526_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-26_source_label/DFTB_integration_gateway_v07_historical_reconciliation_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_gateway_owner_review_contract_registry_and_portfolio_surfaces_remain_authoritative
+  use_for:
+    - early_contract_authority_resolution
+    - current_gateway_boundary_reuse
+    - historical_v07_local_completion_classification
+    - preview_vs_live_boundary
+- id: dftb_integration_gateway_v07_history_20260526_state_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-26_source_label/DFTB_integration_gateway_v07_historical_reconciliation_v0_1/18_gateway_current_implementation_state_reconciliation_candidate_v0_1.yaml
+  role: open_reconcile_before_implementation_candidate
+  authority: planning_candidate_not_execution_authority
+  freshness: close_only_after_current_read_only_gateway_repo_and_blueprint_acceptance_audit
+  use_for:
+    - module_source_registry_v02_vs_historical_v07_mismatch
+    - gateway_current_head_and_ancestry_verification
+    - blueprint_acceptance_history
+    - standards_sync_read_only_boundary
+    - report_tracking_ignore_policy
+
+
+- id: dftb_operational_registry_history_20260529
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/package/README.md
+  role: historical_operational_registry_domain_and_governance_source
+  authority: module_history_with_blueprint_governance_input_not_current_execution_authority
+  freshness: source_label_2026_05_29_visible_history_through_2026_06_19_verified_2026_09_23
+  use_for:
+    - operational_registry_to_operations_control_registry_lineage
+    - historical_operational_truth_boundary
+    - historical_data_foundation_policy_inventory
+    - make_first_and_prompt_sync_provenance
+    - generated_snapshot_completion_idempotency_origin
+- id: dftb_operational_registry_history_20260529_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_operations_control_registry_crm_accounting_warehouse_gateway_library_and_governance_surfaces_remain_authoritative
+  use_for:
+    - historical_domain_boundary_supersession_and_reuse
+    - stale_prompt_path_and_blueprint_pull_classification
+    - current_forensic_inventory_gate_reuse
+    - historical_alignment_vs_business_implementation_separation
+- id: dftb_operational_registry_history_20260529_identity_lineage
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/18_operational_to_operations_control_registry_lineage_v0_1.yaml
+  role: module_identity_and_ownership_lineage_map
+  authority: evidence_navigation_not_module_or_execution_authority
+  freshness: current_module_sources_and_portfolio_identity_remain_authoritative
+  use_for:
+    - old_forprint_operational_registry_name
+    - canonical_forprint_operations_control_registry_identity
+    - github_transport_slug_continuity
+    - operational_truth_boundary_evolution
+- id: dftb_operational_registry_history_20260529_idempotency_candidate
+  path: coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/19_generated_coordination_artifact_idempotency_candidate_v0_1.yaml
+  role: open_reconcile_before_implementation_candidate
+  authority: planning_candidate_not_execution_authority
+  freshness: close_only_after_current_generators_and_completion_surfaces_are_tested_for_semantic_idempotency
+  use_for:
+    - timestamp_only_churn_prevention
+    - deterministic_snapshot_generation
+    - completion_generation_idempotency
+    - event_timestamp_vs_rerun_semantics
+
+
+- id: dftb_logistics_h9_history_20260610
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/package/README.md
+  role: historical_logistics_implementation_governance_and_owner_intent_source
+  authority: module_history_not_current_blueprint_execution_authority
+  freshness: source_label_2026_06_10_visible_history_through_2026_08_22_verified_2026_09_23
+  use_for:
+    - logistics_bootstrap_and_provider_neutral_origin
+    - module_check_report_visual_intent
+    - prompt_intake_coordination_only_history
+    - h9_module_side_publication_provenance
+    - sealed_candidate_and_freshness_history
+- id: dftb_logistics_h9_history_20260610_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  role: roadmap_enrichment_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_logistics_roadmap_h9_continuity_h10_release_and_owner_review_remain_authoritative
+  use_for:
+    - historical_h9_open_loop_resolution
+    - current_h10_pilot_lineage
+    - owner_intent_deduplication
+    - provider_and_domain_boundary_reuse
+- id: dftb_logistics_h9_history_20260610_origin_map
+  path: coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/18_h9_h10_and_report_visibility_origin_map_v0_1.yaml
+  role: h9_h10_lineage_and_human_report_visibility_origin_map
+  authority: evidence_navigation_not_execution_authority
+  freshness: current_h9_h10_and_unified_reporting_authority_wins
+  use_for:
+    - h9_implementation_and_publication_seal_lineage
+    - h10_logistics_only_pilot_lineage
+    - visual_pass_warn_fail_report_intent
+    - current_authority_vs_historical_module_evidence
+
+- id: evening_strategic_review_20260926_source_bundle
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/package/00_READ_ME_FIRST.md
+  role: approved_evening_strategic_review_source_bundle
+  authority: strategic_planning_evidence_not_execution_or_roadmap_authority
+  freshness: source_2026_09_26_revalidate_before_future_implementation
+  use_for:
+  - strategic_horizon_provenance
+  - human_intent_reasoning_origin
+  - agent_governance_security_contract_evidence_strategy
+  - graph_knowledge_and_ci_cd_future_reassessment
+- id: evening_strategic_review_20260926_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/17_portfolio_reconciliation_20260926_v0_1.yaml
+  role: strategic_horizon_and_human_intent_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_horizon_and_human_intent_surfaces_remain_authoritative
+  use_for:
+  - source_to_horizon_mapping
+  - strategic_non_execution_boundary
+  - future_reassessment
+- id: evening_strategic_review_20260926_deferred_design_gaps
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/18_open_gaps_and_deferred_design_v0_1.yaml
+  role: explicit_deferred_design_gap_register
+  authority: planning_context_not_execution_backlog
+  freshness: reassess_at_recorded_triggers
+  use_for:
+  - avoid_premature_design_freeze
+  - future_architecture_review
+- id: operator_console_program_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
+  role: current_operator_console_control_plane_planning_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_29_reconcile_with_live_cf10_before_implementation
+  use_for:
+    - operator_console_minimum_working_vertical_slice
+    - operator_control_plane_architecture
+    - exclusive_module_actor_ownership
+    - cf10_execution_fabric_dependency_reconciliation
+    - sandbox_tooling_and_recovery_direction
+- id: operator_console_program_machine_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  role: machine_readable_operator_console_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_29_reconcile_with_live_cf10_before_implementation
+  use_for:
+    - machine_readable_console_steps
+    - priority_and_decision_gate
+    - dependency_mapping
+    - implementation_invariants
+- id: execution_control_plane_program_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
+  role: full_execution_control_plane_architecture_and_phased_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_30_reconcile_with_live_cf10_before_each_implementation_contour
+  use_for:
+  - execution_control_plane_target_architecture
+  - cf10_first_contour_boundary
+  - three_actor_execution_model
+  - stable_workflow_entrypoint_direction
+  - partial_implementation_accounting
+  - cf12_deferred_horizon_reentry
+- id: execution_control_plane_program_machine_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  role: machine_readable_execution_control_plane_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_30_reconcile_with_live_cf10_before_each_implementation_contour
+  use_for:
+  - machine_readable_first_contour
+  - actor_and_lease_invariants
+  - implementation_state_accounting
+  - deferred_capability_visibility
+  - console_backend_dependency
+- id: cf10_worker_self_hardening_backlog_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  role: bounded_post_first_launch_worker_self_hardening_candidates
+  authority: planning_backlog_not_activation_or_dispatch_authority
+  freshness: reconcile_before_each_worker_assignment
+  use_for:
+  - progressive_worker_training
+  - reusable_workflow_hardening
+  - task_complexity_progression
+  - acceptance_and_dependency_lookup
+- id: external_ai_mcp_capability_access_conversation_2026_10_01
+  path: coordination/internal_work/blueprint/strategic_evidence/2026-10-01__external_ai_mcp_capability_access_conversation_evidence_v0_1.md
+  role: hzn014_external_ai_protocol_context_and_human_owner_rationale
+  authority: strategic_context_not_roadmap_or_execution_authority
+  freshness: current_2026_10_01_revisit_at_deliberate_strategic_review
+  use_for:
+  - hzn014_external_ai_reassessment
+  - preserve_mcp_as_unfrozen_protocol_candidate
+  - external_ai_capability_access_rationale
+  - prevent_premature_roadmap_or_transport_freeze
+- id: prepress_gdl_empirical_learning_horizon_package_2026_10_01
+  path: coordination/internal_work/blueprint/roadmap_enrichment/prepress_gdl/2026-10-01__gdl_empirical_learning_horizon_v0_1/source_package/00_manifest.yaml
+  role: prepress_owned_gdl_empirical_learning_and_future_horizon_request_package
+  authority: source_evidence_requires_blueprint_reconciliation
+  freshness: current_2026_10_01_reconcile_before_each_later_contour
+  use_for:
+  - gdl_empirical_learning_strategy
+  - gdl_future_contour_order_and_dependency_context
+  - gdl_pre_activation_reconciliation
+  - gdl_contour_amendment_reconciliation
+  - first_empirical_learning_prompt_provenance
+source_role_rules:
+- rule: canonical_source_beats_generated_projection
+- rule: git_and_current_authority_beat_stale_handoff_or_chat
+- rule: navigation_does_not_grant_execution_authority
+- rule: historical_snapshot_is_evidence_not_current_control
+- rule: dirty_worktree_state_must_not_leak_into_bounded_publication
+contribution_protocol:
+  required_fields:
+  - discovery_or_lesson
+  - why_reusable
+  - source_or_evidence
+  - scope
+  - authority_level
+  - known_caveat
+  - recommended_sequence_or_fast_path
+  - last_verified_commit
+  - supersedes_or_conflicts_with
+  do_not:
+  - append_raw_session_transcript
+  - promote_unverified_guess
+  - duplicate_existing_lesson_without_reason
+  - silently_replace_authority
+  - treat_navigation_as_activation_authority

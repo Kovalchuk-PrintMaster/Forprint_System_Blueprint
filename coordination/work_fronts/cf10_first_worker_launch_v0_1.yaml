@@ -1,0 +1,134 @@
+work_front_id: wf-cf10-first-worker-launch-v0-1
+objective: Implement the missing canonical process-launch primitive and use it for exactly one bounded CF-10 Blueprint-internal
+  zero-stage worker attempt. Preserve the existing Assistant ACK gate, require an explicit dispatch decision, append launch-time
+  attempt facts to the canonical Execution Attempt Ledger, execute only inside the sealed isolated workspace, and retain candidate-only/no-release
+  authority. If an approved pre-existing runtime binding cannot be resolved, stop before ACK/dispatch rather than guessing
+  a provider or command.
+scope:
+- scripts/coordination/control_plane/worker_runtime/
+- scripts/coordination/control_plane/dispatch_intent.py
+- coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+- coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+- scripts/coordination/execution_attempt_ledger_v0_1.py
+- coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+- scripts/validation/validate_cf10_first_worker_launch_v0_1.py
+- tests/coordination/control_plane/worker_runtime/
+- tests/coordination/control_plane/test_cf10_first_worker_launch_boundary_v0_1.py
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/
+exclusions:
+- Do not set BLUEPRINT_AI_TRIAL_READY=true.
+- Do not broaden the CF-10 exact exception to any other work/module/front/task/profile/procedure/worker/attempt.
+- Do not launch Logistics or any external-module worker.
+- Do not bypass Assistant ACK.
+- Do not treat Assistant ACK itself as dispatch authority.
+- Do not launch before an explicit dispatch-decision artifact/state exists.
+- Do not guess, invent or hardcode a provider executable/model/credential.
+- Do not store provider credentials, API keys, tokens or secrets in Git.
+- Do not launch if the pre-existing allowed runtime binding cannot be resolved.
+- Do not launch outside /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/workspace/repo.
+- Do not allow worker writes to canonical Blueprint checkout.
+- Do not allow worker writes to another repository.
+- Do not allow worker commit/push/merge/release/auto-ACCEPT.
+- Do not mutate roadmap lifecycle as part of process launch.
+- Do not automatically checkpoint/validate/close CF-10 after launch.
+- Do not retry the failed/blocked first attempt under the same attempt_id.
+- Do not delete or overwrite forensic evidence from a launched attempt.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+  - coordination/work_fronts/cf10_internal_dispatch_exception_real_workspace_v0_1.yaml
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/build_worker_invocation.py
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/evidence/cf10_pre_dispatch_packet.yaml
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- Slice 4 PASS
+- real first workspace state PROVISIONED_NOT_DISPATCHED
+- workspace source-state freeze and equivalence evidence
+- exact CF-10 internal zero-stage exception
+- existing Handoff v2 TASK_EXECUTION manifest and canonical ACK schema
+- existing validate_cf09_assistant_ack gate
+- explicit dispatch decision boundary
+- light-maintenance@r1
+- governed_canonical_mutation@0.1.0
+- canonical Execution Attempt Ledger
+- a resolvable pre-existing allowed non-secret runtime binding
+outputs:
+- A provider-neutral canonical process-launch API under scripts/coordination/control_plane/worker_runtime/.
+- The launch API requires an already-resolved argv/runtime binding and never discovers secrets itself.
+- The launch API enforces cwd=sealed isolated workspace/repo.
+- The launch API captures stdout/stderr/exit status/timestamps/timeout evidence inside the attempt runtime tree.
+- A runtime-binding probe that reports READY or BLOCKED without mutating ACK/dispatch state.
+- A CF-10 exact explicit-dispatch transition layered on the existing Dispatcher.
+- A trusted expected ACK built from the existing Handoff v2 ACK contract/bindings.
+- Assistant ACK validation via validate_cf09_assistant_ack.
+- An explicit dispatch-decision record bound to u180j/worker-01/cf10-u180j-a001 and the sealed workspace fingerprint.
+- Exactly one first worker process launch when every gate is green.
+- A canonical Execution Attempt Ledger fact for the launched attempt, using the existing append-only ledger rather than a
+  parallel history.
+- A launch result packet in the runtime attempt tree for later Handoff v2 result/Completion/Inspector intake.
+acceptance:
+- Existing CF-09 ACK tests continue to pass.
+- ACK transition remains AWAITING_ASSISTANT_ACK -> READY_FOR_EXPLICIT_DISPATCH.
+- ACK grants no authority and performs no worker launch.
+- Explicit dispatch transition is impossible before valid ACK.
+- Explicit dispatch transition is exact-binding only for CF-10/u180j/a001.
+- Runtime binding resolution happens before ACK is consumed.
+- Unresolved runtime binding produces BLOCKED_RUNTIME_BINDING and no ACK/dispatch/ledger append/process launch.
+- No provider/model/credential is invented or committed.
+- Workspace manifest is still PROVISIONED_NOT_DISPATCHED immediately before the explicit dispatch decision.
+- Canonical source fingerprint still matches the frozen source before launch.
+- Worker cwd is exactly the isolated workspace/repo.
+- Worker has no canonical-repository working directory.
+- Worker launch is one-shot for attempt_id=cf10-u180j-a001.
+- The launch adapter enforces bounded timeout and captures completion evidence.
+- The worker cannot receive release/push/merge/auto-ACCEPT/foreign-write authority.
+- A canonical attempt record exists if and only if process launch actually begins.
+- The attempt record is fact authority only and grants no authority.
+- If the worker fails, the failed attempt remains durable and any retry requires a new attempt_id.
+- BLUEPRINT_AI_TRIAL_READY remains false.
+- u180j remains ACTIVE immediately after raw worker execution; later acceptance/checkpoint/validation are separate slices.
+- No external worker is dispatched.
+stop_conditions:
+- No approved pre-existing runtime binding resolves on the host.
+- Runtime binding would require storing a secret/provider credential in Git.
+- Current workspace is missing, not sealed, not equivalent or source-stale.
+- Canonical source fingerprint differs from the frozen source.
+- Trusted expected ACK cannot be reconstructed from existing Handoff v2 bindings.
+- ACK validation fails.
+- Explicit dispatch decision cannot be represented without broadening authority.
+- Launch API would need to run from canonical repository instead of isolated workspace.
+- Launch API would permit shell-string execution instead of argv-bound execution.
+- Attempt Ledger cannot represent the launched attempt without incompatible schema changes.
+- Worker invocation requests external dispatch, cross-repository write, commit, push, merge, release or auto-ACCEPT authority.
+- Any broad trial gate or lifecycle mutation would be required merely to launch.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/build_worker_invocation.py
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml

@@ -1,0 +1,1177 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import pytest
+import yaml
+
+from scripts.coordination.control_plane.worker_runtime import invocation_adapter as adapter
+
+
+def _context() -> dict:
+    return {
+        "task_id": "cf10-fixture-task-v0-1",
+        "module_id": "forprint_system_blueprint",
+        "authority": {
+            "context_grants_authority": False,
+            "execution_authority_source": "WORK_FRONT",
+            "dispatch_authority_conferred": False,
+            "release_authority_conferred": False,
+            "foreign_write_authority_conferred": False,
+        },
+        "task_envelope": {
+            "schema_version": "forprint_worker_task_envelope_v0_1",
+            "task_id": "cf10-fixture-task-v0-1",
+            "module_id": "forprint_system_blueprint",
+            "source": {
+                "type": "MANUAL_INTERNAL",
+                "artifact_ref": (
+                    "coordination/internal_work/blueprint/worker_tasks/"
+                    "cf10_fixture_task_v0_1.yaml"
+                ),
+            },
+            "work": {
+                "work_id": "u180j",
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "objective": "Exercise the generic runtime invocation bridge.",
+            "instructions": [
+                "Modify only the canonical fixture target.",
+                "Run focused validation.",
+            ],
+            "acceptance": ["Focused validation passes."],
+            "stop_conditions": ["Authority widening is required."],
+            "execution_profile": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "procedure": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+            "authority": {
+                "execution_authority_source": "WORK_FRONT",
+                "task_envelope_grants_authority": False,
+                "widening_requested": False,
+            },
+        },
+    }
+
+
+def _decision(workspace: Path, *, provider: str = "github_copilot_cli") -> dict:
+    return {
+        "schema_version": "forprint_cf10_internal_explicit_dispatch_decision_v0_1",
+        "decision_id": "d" * 64,
+        "decision": "ALLOW_EXACT_CF10_TRAINING_WORKER_LAUNCH",
+        "binding": {
+            "work_id": "u180j",
+            "worker_id": "worker-01",
+            "attempt_id": "cf10-u180j-a999",
+            "task_prompt_id": "cf10-fixture-task-v0-1",
+            "training_task_id": "fixture",
+            "training_order": 999,
+            "source_state_fingerprint": "a" * 64,
+            "work_front_id": "wf-cf10-fixture-v0-1",
+            "work_front_ref": "coordination/work_fronts/cf10_fixture_v0_1.yaml",
+            "profile_ref": "light-maintenance@r1",
+            "procedure_id": "governed_canonical_mutation",
+            "runtime_provider": provider,
+            "runtime_model": "auto",
+            "workspace_repo": str(workspace),
+        },
+        "assistant_ack_validated": True,
+        "explicit_dispatch_decision_recorded": True,
+        "worker_process_launch_allowed": True,
+        "canonical_attempt_ledger_append_allowed": True,
+        "external_dispatch_allowed": False,
+        "release_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "foreign_repository_write_allowed": False,
+        "automatic_accept_allowed": False,
+        "grants_broad_dispatch_authority": False,
+    }
+
+
+def _runtime_config() -> dict:
+    return {
+        "module_id": "forprint_system_blueprint",
+        "provider_adapter": "CONSOLE_COMMAND",
+        "working_directory": "ATTEMPT_WORKSPACE_REPO",
+        "network_policy": "ALLOW",
+        "timeout_seconds": 900,
+        "command": {
+            "provider_id": "github_copilot_cli",
+            "runtime_id": "github_copilot_cli",
+            "executable": "/usr/local/bin/copilot",
+            "base_argv": ["/usr/local/bin/copilot"],
+            "representation": "ARGV_NO_SHELL",
+            "shell": False,
+            "prompt_transport": "provider_adapter_owned",
+        },
+        "budget": {
+            "currency": "USD",
+            "max_cost": 0.0,
+            "provider_specific": {"max_ai_credits": 30},
+        },
+        "tool_policy": {
+            "automatic_accept_allowed": False,
+            "canonical_repository_write_allowed": False,
+            "command_execution_required": "validation_only",
+            "exact_runtime_argv_deferred_to_launch_adapter": True,
+            "foreign_repository_write_allowed": False,
+            "git_commit_allowed": False,
+            "git_push_allowed": False,
+            "merge_allowed": False,
+            "release_allowed": False,
+            "workspace_read_required": True,
+            "workspace_write_required": "task_scope_bound",
+        },
+    }
+
+
+def _runtime(provider: str = "github_copilot_cli") -> dict:
+    return {
+        "provider_id": provider,
+        "runtime_id": provider,
+        "model_id": "auto",
+        "executable": "/usr/local/bin/copilot",
+        "command_representation": "ARGV_NO_SHELL",
+        "working_directory": "ATTEMPT_WORKSPACE_REPO",
+        "timeout_seconds": 900,
+        "network_policy": "ALLOW",
+        "budget": {"provider_specific": {"max_ai_credits": 30}},
+        "authority_granted": False,
+    }
+
+
+def _arrange(tmp_path: Path, monkeypatch):
+    attempt = tmp_path / "attempt"
+    workspace = attempt / "workspace" / "repo"
+    workspace.mkdir(parents=True)
+    mcp_script = (
+        workspace
+        / "scripts/coordination/control_plane/worker_runtime/"
+        "worker_validation_mcp.py"
+    )
+    mcp_script.parent.mkdir(parents=True, exist_ok=True)
+    mcp_script.write_text("# invocation fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: _runtime_config(),
+    )
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime(),
+    )
+
+    original_is_file = Path.is_file
+    monkeypatch.setattr(
+        adapter.Path,
+        "is_file",
+        lambda self: (
+            True
+            if str(self) == "/usr/local/bin/copilot"
+            else original_is_file(self)
+        ),
+    )
+    return attempt, workspace
+
+
+def test_builds_provider_owned_argv_without_starting_process(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    assert result["provider_id"] == "github_copilot_cli"
+    assert result["argv"][0] == "/usr/local/bin/copilot"
+    assert result["argv"][-2:] == ["-C", str(workspace)]
+    assert result["argv"][result["argv"].index("--model") + 1] == "auto"
+    assert result["argv"][result["argv"].index("--max-ai-credits") + 1] == "30"
+    assert result["effects"]["worker_process_started"] is False
+    assert result["effects"]["filesystem_write_performed"] is False
+    assert result["authority"]["adapter_grants_authority"] is False
+
+
+def test_prompt_is_task_generic_and_uses_normalized_envelope() -> None:
+    context = _context()
+    decision = _decision(Path("/tmp/workspace"))
+
+    prompt = adapter.render_worker_prompt(
+        task_context=context,
+        explicit_dispatch_decision=decision,
+    )
+
+    assert "cf10-fixture-task-v0-1" in prompt
+    assert "Exercise the generic runtime invocation bridge." in prompt
+    assert "cf10_fixture_task_v0_1.yaml" in prompt
+    assert "cf10_fixture_v0_1.yaml" in prompt
+    assert "Chat text is not execution authority." in prompt
+    assert "Task50" not in prompt
+    assert "a019" not in prompt
+
+
+def test_binding_drift_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["binding"]["work_front_id"] = "wf-wrong"
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="binding drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_authority_widening_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["automatic_accept_allowed"] = True
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="widened forbidden authority",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_missing_explicit_launch_authority_fails_closed(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["worker_process_launch_allowed"] = False
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="does not authorize Worker process launch",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_provider_drift_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime("other_provider"),
+    )
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="dispatch/runtime provider drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace),
+            attempt_root=attempt,
+        )
+
+
+def test_unimplemented_future_provider_is_not_guessed(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt = tmp_path / "attempt"
+    workspace = attempt / "workspace" / "repo"
+    workspace.mkdir(parents=True)
+
+    config = _runtime_config()
+    config["command"]["provider_id"] = "openai_codex_cli"
+    config["command"]["runtime_id"] = "openai_codex_cli"
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: config,
+    )
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime("openai_codex_cli"),
+    )
+    monkeypatch.setattr(adapter.Path, "is_file", lambda self: True)
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="provider adapter not implemented",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(
+                workspace,
+                provider="openai_codex_cli",
+            ),
+            attempt_root=attempt,
+        )
+
+
+def test_workspace_binding_is_exact(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["binding"]["workspace_repo"] = str(tmp_path / "wrong")
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="binding drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_runtime_tool_policy_cannot_enable_publication(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    config = _runtime_config()
+    config["tool_policy"]["git_push_allowed"] = True
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: config,
+    )
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="tool policy widened authority",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace),
+            attempt_root=attempt,
+        )
+
+def test_durable_invocation_evidence_omits_prompt_and_full_argv(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    evidence = adapter.build_invocation_evidence(invocation)
+
+    # Durable evidence may contain paths.prompt, but never the runtime prompt
+    # text or full argv as top-level serialized command material.
+    assert "prompt" not in evidence
+    assert "argv" not in evidence
+    assert evidence["prompt_sha256"] == invocation["prompt_sha256"]
+    assert evidence["argv_sha256"] == invocation["argv_sha256"]
+    assert evidence["paths"]["prompt"].endswith("worker_prompt.txt")
+    assert evidence["provider_policy"]["available_tools"] == [
+        "view",
+        "edit",
+        "apply_patch",
+        "ForPrintValidation-run_validation_suite",
+        "ForPrintValidation-run_repo_diff_check",
+        "ForPrintValidation-run_repo_head",
+        "ForPrintValidation-run_repo_status",
+    ]
+    assert evidence["provider_policy"]["mcp_permission_patterns"] == [
+        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation(run_repo_diff_check)",
+        "ForPrintValidation(run_repo_head)",
+        "ForPrintValidation(run_repo_status)",
+    ]
+    assert evidence["provider_policy"]["permission_mode"] == (
+        "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
+    )
+    assert evidence["provider_policy"]["bash_available"] is False
+    assert evidence["provider_policy"]["web_available"] is False
+    assert evidence["provider_policy"]["builtin_mcps_disabled"] is True
+    assert evidence["serialization_boundary"] == {
+        "prompt_text_serialized": False,
+        "full_argv_serialized": False,
+        "secret_values_serialized": False,
+    }
+
+
+def test_sanitized_evidence_contains_paths_but_not_runtime_command_material(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    evidence = adapter.build_invocation_evidence(invocation)
+    rendered = yaml.safe_dump(
+        evidence,
+        sort_keys=False,
+        allow_unicode=True,
+    )
+
+    assert invocation["prompt"] not in rendered
+    assert json.dumps(invocation["argv"], ensure_ascii=False) not in rendered
+    assert "NORMALIZED TASK ENVELOPE" not in rendered
+    assert "--available-tools" not in rendered
+    assert "worker_prompt.txt" in rendered
+
+# CF10_WORKER_VALIDATION_MCP_BRIDGE_RED_V0_1
+
+
+def test_worker_bridge_injects_session_only_validation_mcp_config(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    argv = result["argv"]
+    assert "--additional-mcp-config" in argv, (
+        "RED: invocation adapter does not inject the session-only MCP bridge"
+    )
+
+    raw = argv[argv.index("--additional-mcp-config") + 1]
+    config = json.loads(raw)
+    assert set(config) == {"mcpServers"}
+    assert set(config["mcpServers"]) == {"ForPrintValidation"}
+
+    server = config["mcpServers"]["ForPrintValidation"]
+    assert server["type"] == "local"
+    assert server["cwd"] == str(workspace)
+    assert server["tools"] == [
+        "run_validation_suite",
+        "run_repo_diff_check",
+        "run_repo_head",
+        "run_repo_status",
+    ]
+    assert server["command"] == sys.executable
+    assert Path(server["command"]).is_absolute()
+
+    args = server["args"]
+    expected_bindings = {
+        "--attempt-id": "cf10-u180j-a999",
+        "--task-id": "cf10-fixture-task-v0-1",
+        "--work-front-id": "wf-cf10-fixture-v0-1",
+        "--decision-id": "d" * 64,
+        "--workspace-repo": str(workspace),
+        "--evidence-root": str(
+            (attempt / "evidence" / "structured_command").resolve()
+        ),
+    }
+    for flag, expected in expected_bindings.items():
+        assert flag in args
+        assert args[args.index(flag) + 1] == expected
+
+    assert ".mcp.json" not in " ".join(args)
+    assert ".github/mcp.json" not in " ".join(args)
+
+
+# CF10_A032_PROVIDER_EXPOSURE_REPAIR_RED_V0_1
+def test_worker_bridge_exposes_exact_bounded_tool_universe(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    expected = [
+        "view",
+        "edit",
+        "apply_patch",
+        "ForPrintValidation-run_validation_suite",
+        "ForPrintValidation-run_repo_diff_check",
+        "ForPrintValidation-run_repo_head",
+        "ForPrintValidation-run_repo_status",
+    ]
+    provider_policy = result["provider_policy"]
+    assert provider_policy["available_tools"] == expected, (
+        "RED: Copilot --available-tools must expose the provider/model-visible "
+        "sanitized MCP tool id"
+    )
+    assert provider_policy["mcp_permission_patterns"] == [
+        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation(run_repo_diff_check)",
+        "ForPrintValidation(run_repo_head)",
+        "ForPrintValidation(run_repo_status)",
+    ], (
+        "RED: MCP permission-filter identity must remain separately represented "
+        "from model-visible available-tool identity"
+    )
+    assert "ForPrintValidation(run_validation_suite)" not in provider_policy[
+        "available_tools"
+    ]
+    assert "ForPrintValidation(run_repo_diff_check)" not in provider_policy[
+        "available_tools"
+    ]
+
+    argv = result["argv"]
+    available_start = argv.index("--available-tools") + 1
+    available_end = argv.index("--allow-all-tools")
+    assert argv[available_start:available_end] == expected
+    assert "ForPrintValidation(run_validation_suite)" not in argv[
+        available_start:available_end
+    ]
+    assert "ForPrintValidation(run_repo_diff_check)" not in argv[
+        available_start:available_end
+    ]
+
+    assert provider_policy["bash_available"] is False
+    assert provider_policy["web_available"] is False
+    assert provider_policy["builtin_mcps_disabled"] is True
+    assert provider_policy["persistent_mcp_config_written"] is False
+    assert "shell" not in provider_policy["available_tools"]
+# CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
+
+
+def test_prompt_renders_hash_bound_non_authoritative_governed_context() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {"u180j": "ACTIVE"},
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "work_state": "ACTIVE",
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+    canonical = (
+        json.dumps(
+            governed,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    digest = hashlib.sha256(canonical).hexdigest()
+
+    decision = _decision(Path("/tmp/workspace"))
+    decision["binding"]["governed_worker_context_sha256"] = digest
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=decision,
+        governed_worker_context=governed,
+    )
+
+    assert "GOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE" in prompt
+    assert "IN_SYNC" in prompt
+    assert "u180j" in prompt
+    assert "dependency_health.yaml" in prompt
+    assert "0.1.0" in prompt
+    assert "Work Front remains execution authority." in prompt
+    assert "verification context only" in prompt
+
+
+def test_hash_bound_governed_context_is_explicit_freshness_proof() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {
+                "u180j": {
+                    "state": "ACTIVE",
+                    "event_id": "evt-fixture",
+                    "sequence": 67,
+                }
+            },
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "git_head": "a" * 40,
+            "work_state": {
+                "state": "ACTIVE",
+            },
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+        governed_worker_context=governed,
+    )
+
+    assert (
+        "The hash-bound governed context is the attempt-scoped freshness "
+        "verification snapshot." in prompt
+    )
+    assert (
+        "Treat roadmap_sync=IN_SYNC plus the bound ACTIVE work item as "
+        "sufficient freshness proof for this attempt unless the projection "
+        "is internally inconsistent." in prompt
+    )
+    assert (
+        "Do not regenerate lifecycle/roadmap freshness through shell commands."
+        in prompt
+    )
+    assert "verification context only" in prompt
+    assert "Work Front remains execution authority." in prompt
+
+
+# CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1
+
+
+# CF10_S4_RESUME_PROMPT_BINDING_RED_V0_2
+
+
+def test_prompt_requires_verbatim_s4_resume_binding() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {},
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status_sha256": "3" * 64,
+        },
+        "resume_coordinates": {"work_id": "u180j"},
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {},
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+        governed_worker_context=governed,
+    )
+
+    lowered = prompt.lower()
+    assert "resume_coordinates.source_state_fingerprint" in prompt
+    assert "handoff_source_state_fingerprint" in prompt
+    assert "resume_coordinates.lifecycle_roadmap_cursor" in prompt
+    assert "verbatim" in lowered
+    assert "recompute" in lowered
+    assert "latest_completed_node" in prompt
+    assert "latest_accepted_ref" in prompt
+    assert "replay_forbidden_refs" in prompt
+    assert "PARTIAL" in prompt
+    assert "INTERRUPTED" in prompt
+    assert "BLOCKED" in prompt
+    assert "RETRYABLE_FAILURE" in prompt
+
+
+# CF10_RESULT_FRAMING_COMPLIANCE_RED_V0_1
+
+
+def test_prompt_forbids_whole_session_assistant_narration() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "Do not emit any assistant-facing progress updates, status narration, "
+        "summaries, tool-call preambles, or tool-call postambles at any time."
+    )
+    assert required in prompt, (
+        "RED: a035 emitted agent progress narration before the result frame; "
+        "the Worker prompt does not yet forbid whole-session assistant narration"
+    )
+
+
+def test_prompt_binds_first_non_whitespace_stdout_to_frame_begin() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "The first non-whitespace content written to provider stdout must be "
+        "exactly FORPRINT_HANDOFF_V2_RESULT_BEGIN."
+    )
+    assert required in prompt, (
+        "RED: the prompt names the frame begin marker but does not bind it to "
+        "the first non-whitespace provider stdout content"
+    )
+
+
+def test_prompt_binds_last_non_whitespace_stdout_to_frame_end() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "The last non-whitespace content written to provider stdout must be "
+        "exactly FORPRINT_HANDOFF_V2_RESULT_END."
+    )
+    assert required in prompt, (
+        "RED: the prompt names the frame end marker but does not bind it to "
+        "the last non-whitespace provider stdout content"
+    )
+
+
+def test_prompt_requires_failures_and_limitations_inside_frame() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "Encode all failures, limitations, partial status, and unresolved "
+        "findings inside the framed YAML; never emit them as prose outside "
+        "the frame."
+    )
+    assert required in prompt, (
+        "RED: framing compliance must route failures and limitations into the "
+        "existing Handoff v2 frame instead of assistant prose"
+    )
+
+
+# CF10_STAGE3_WORKER_GIT_READONLY_RED_V0_1
+def test_cf10_stage3_mcp_exposes_exact_four_bounded_tools(tmp_path: Path) -> None:
+    import asyncio
+    from scripts.coordination.control_plane.worker_runtime import worker_validation_mcp
+
+    workspace = tmp_path / "attempt/workspace/repo"
+    evidence = tmp_path / "attempt/evidence/structured_command"
+    workspace.mkdir(parents=True)
+    evidence.mkdir(parents=True)
+    server = worker_validation_mcp.build_server(
+        attempt_id="cf10-u180j-red-a999",
+        task_id="cf10-fixture-task-v0-1",
+        work_front_id="wf-cf10-fixture-v0-1",
+        decision_id="d" * 64,
+        workspace_repo=str(workspace.resolve()),
+        evidence_root=str(evidence.resolve()),
+    )
+    handler = server.get_request_handler("tools/list")
+    assert handler is not None
+    tools = asyncio.run(handler.handler(None, None)).tools
+    assert [tool.name for tool in tools] == [
+        "run_validation_suite", "run_repo_diff_check", "run_repo_head", "run_repo_status",
+    ]
+    for tool in tools[2:]:
+        assert tool.input_schema == {
+            "type": "object", "properties": {}, "additionalProperties": False,
+        }
+
+
+def test_cf10_stage3_copilot_exposes_only_four_bounded_mcp_tools(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+    names = ["run_validation_suite", "run_repo_diff_check", "run_repo_head", "run_repo_status"]
+    argv = invocation["argv"]
+    config = json.loads(argv[argv.index("--additional-mcp-config") + 1])
+    assert config["mcpServers"]["ForPrintValidation"]["tools"] == names
+    expected_available = ["view", "edit", "apply_patch"] + [
+        "ForPrintValidation-" + name for name in names
+    ]
+    assert invocation["provider_policy"]["available_tools"] == expected_available
+    assert invocation["provider_policy"]["mcp_permission_patterns"] == [
+        "ForPrintValidation(" + name + ")" for name in names
+    ]
+    assert argv[argv.index("--available-tools") + 1:argv.index("--allow-all-tools")] == expected_available
+    assert invocation["provider_policy"]["bash_available"] is False
+    assert invocation["provider_policy"]["web_available"] is False
+    assert invocation["provider_policy"]["builtin_mcps_disabled"] is True
+
+
+# CF10_A046_FROZEN_BASELINE_CAPSULE_TESTS_V0_1
+def _a046_frozen_fixture(tmp_path: Path, monkeypatch):
+    """Minimal attempt inputs; existing exact-delta verifier stays authoritative."""
+    from scripts.coordination.control_plane.workspace import provision
+
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    (attempt / "input").mkdir()
+    (attempt / "evidence").mkdir()
+    frozen_fp, baseline_fp, head = "a" * 64, "b" * 64, "c" * 40
+    dirty = ["tests/example_inherited.py", "scripts/unrelated_inherited.py"]
+    baseline_path = attempt / "evidence/worker_baseline_v0_1.yaml"
+    frozen = {
+        "git_head": head,
+        "fingerprint_sha256": frozen_fp,
+        "durable_dirty_paths": dirty,
+    }
+    manifest = {
+        "source_head": head,
+        "source_state_fingerprint": frozen_fp,
+        "worker_baseline_fingerprint_sha256": baseline_fp,
+        "worker_baseline_evidence": str(baseline_path),
+        "workspace_equivalence_validated": True,
+        "source_state_frozen": True,
+        "worker_baseline_captured": True,
+    }
+    baseline = {
+        "source_head": head,
+        "baseline_fingerprint_sha256": baseline_fp,
+        "workspace_repo": str(workspace),
+        "durable_dirty_paths": dirty,
+        "baseline_dirty_paths": dirty,
+    }
+    for path, data in (
+        (attempt / "manifest.yaml", manifest),
+        (attempt / "input/governed_worker_cycle_source_state_v0_1.yaml", frozen),
+        (baseline_path, baseline),
+    ):
+        path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    front = tmp_path / "coordination/work_fronts/cf10_fixture_v0_1.yaml"
+    front.parent.mkdir(parents=True)
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": []}}), encoding="utf-8")
+    monkeypatch.setattr(provision, "derive_worker_delta_from_manifest", lambda _: {
+        "worker_delta_exact": True,
+        "workspace_repo": str(workspace),
+        "source_head": head,
+        "baseline_fingerprint_sha256": baseline_fp,
+        "changed_paths": [],
+        "inherited_dirty_paths": dirty,
+    })
+    return attempt, workspace, dirty, front
+
+
+def test_a046_frozen_evidence_is_pre_worker_not_new_delta(tmp_path, monkeypatch):
+    attempt, workspace, dirty, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    out = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+    assert "FROZEN PRE-WORKER WORKSPACE EVIDENCE" in out["prompt"]
+    assert "Initial exact Worker delta: []" in out["prompt"]
+    assert json.dumps(dirty, ensure_ascii=True, separators=(",", ":")) in out["prompt"]
+    assert "they are new Worker edits" not in out["prompt"]
+    assert out["prompt_sha256"] == hashlib.sha256(out["prompt"].encode("utf-8")).hexdigest()
+    assert out["effects"]["worker_process_started"] is False
+
+
+def test_a046_frozen_evidence_rejects_baseline_binding_drift(tmp_path, monkeypatch):
+    attempt, workspace, _, _ = _a046_frozen_fixture(tmp_path, monkeypatch)
+    path = attempt / "manifest.yaml"
+    manifest = yaml.safe_load(path.read_text())
+    manifest["worker_baseline_fingerprint_sha256"] = "f" * 64
+    path.write_text(yaml.safe_dump(manifest), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="source/baseline binding drift"):
+        adapter.build_launch_invocation(
+            root=tmp_path, task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace), attempt_root=attempt,
+        )
+
+
+def test_a046_frozen_evidence_rejects_prelaunch_workspace_changes(tmp_path, monkeypatch):
+    from scripts.coordination.control_plane.workspace import provision
+    attempt, workspace, dirty, _ = _a046_frozen_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(provision, "derive_worker_delta_from_manifest", lambda _: {
+        "worker_delta_exact": True,
+        "workspace_repo": str(workspace),
+        "source_head": "c" * 40,
+        "baseline_fingerprint_sha256": "b" * 64,
+        "changed_paths": [dirty[0]],
+        "inherited_dirty_paths": dirty,
+    })
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="initial workspace delta drift"):
+        adapter.build_launch_invocation(
+            root=tmp_path, task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace), attempt_root=attempt,
+        )
+
+
+def test_a046_frozen_evidence_checks_prior_accept_exact_hashes(tmp_path, monkeypatch):
+    attempt, workspace, _, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    accepted = "cf10-u180j-a040"
+    rel = "coordination/continuity/worker_result_decisions/a040-accept.yaml"
+    decision_path = tmp_path / rel
+    decision_path.parent.mkdir(parents=True)
+    terminal = tmp_path / "coordination/continuity/execution_attempts/a040-terminal.yaml"
+    result = attempt.parent / accepted / "result/worker_result.yaml"
+    returned = attempt.parent / accepted / "evidence/governed_worker_cycle_result_return_v0_1.yaml"
+    artifacts = {}
+    for kind, path in (("terminal_ledger", terminal), ("worker_result", result), ("result_return", returned)):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("verified fixture " + kind, encoding="utf-8")
+        artifacts[kind] = {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+    decision_path.write_text(yaml.safe_dump({
+        "decision": "ACCEPT", "attempt_id": accepted, "evidence_bindings": artifacts,
+    }), encoding="utf-8")
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": [
+        "accepted_attempt:" + accepted, "operator_decision:" + rel,
+    ]}}), encoding="utf-8")
+    args = dict(root=tmp_path, task_context=_context(),
+                explicit_dispatch_decision=_decision(workspace), attempt_root=attempt)
+    capsule = adapter.build_launch_invocation(**args)["prompt"]
+    assert "Prior operator ACCEPT verified" in capsule
+    assert accepted in capsule
+    result.write_text("tampered", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="prior ACCEPT evidence drift"):
+        adapter.build_launch_invocation(**args)
+
+# CF10_A048_ZERO_DELTA_ACCEPT_CONTRACT_REPAIR_R001_TESTS
+
+def _a048_zero_delta_prior_fixture(tmp_path: Path, monkeypatch):
+    attempt, workspace, _, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    accepted = "cf10-u180j-a047"
+    old = attempt.parent / accepted
+    old.mkdir(parents=True)
+
+    def write(rel: Path, data: dict):
+        rel.parent.mkdir(parents=True, exist_ok=True)
+        rel.write_text(yaml.safe_dump(data), encoding="utf-8")
+        return hashlib.sha256(rel.read_bytes()).hexdigest()
+
+    head = "7" * 40
+    store = tmp_path / "coordination/continuity/execution_attempts"
+    terminal = store / (accepted + "__term.yaml")
+    terminal_sha = write(terminal, {
+        "attempt_id": accepted, "attempt_stage": "FINISHED",
+        "result_state": "SUCCEEDED", "validator_outcome": "PASS",
+    })
+    result_sha = write(old / "result/worker_result.yaml", {"attempt_id": accepted})
+    returned_sha = write(
+        old / "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+        {"attempt_id": accepted, "result": "PASS", "validation_passed": True},
+    )
+    manifest_sha = write(old / "manifest.yaml", {"attempt_id": accepted})
+    baseline_sha = write(
+        old / "evidence/worker_baseline_v0_1.yaml", {"source_head": head},
+    )
+    origin_sha = write(
+        old / "input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml",
+        {"attempt_id": accepted},
+    )
+    write(old / "input/governed_worker_cycle_source_state_v0_1.yaml", {"git_head": head})
+    bindings = {
+        "attempt_id": accepted,
+        "task_prompt_id": "cf10-prior-zero-delta-v0-1",
+        "work_front_id": "wf-cf10-prior-zero-delta-v0-1",
+        "source_head": head,
+        "temporal_scope": "CURRENT_WORKSPACE_AT_REVIEW_NOT_HISTORICAL_EXIT",
+        "proof_sha256": "a" * 64,
+        "work_front_sha256": "b" * 64,
+        "terminal_sha256": terminal_sha,
+        "worker_result_sha256": result_sha,
+        "result_return_sha256": returned_sha,
+        "manifest_sha256": manifest_sha,
+        "baseline_sha256": baseline_sha,
+        "origin_handoff_sha256": origin_sha,
+    }
+    decision = {
+        "schema_version": "cf10_zero_delta_operator_decision_v0_1",
+        "record_role": "zero_delta_operator_decision_not_promotion_or_publication",
+        "decision": "ACCEPT", "attempt_id": accepted,
+        "task_prompt_id": bindings["task_prompt_id"],
+        "work_front_id": bindings["work_front_id"],
+        "evidence_bindings": bindings,
+        "zero_delta_confirmed_current_workspace": True,
+        "historical_exit_attestation": False,
+        "canonical_promotion_performed": False,
+        "commit_performed": False, "push_performed": False,
+        "publication_state": "NOT_ATTESTED",
+    }
+    rel = "coordination/continuity/worker_result_decisions/a047-zero-delta.yaml"
+    decision_path = tmp_path / rel
+    decision_sha = write(decision_path, decision)
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": [
+        "accepted_attempt:" + accepted,
+        "operator_decision:" + rel,
+        "accepted_decision_record_sha256:" + decision_sha,
+    ]}}), encoding="utf-8")
+    args = dict(root=tmp_path, task_context=_context(),
+                explicit_dispatch_decision=_decision(workspace), attempt_root=attempt)
+    return args, decision_path, front, terminal, old
+
+
+def test_a048_zero_delta_accept_flat_evidence_validates_without_authority(tmp_path, monkeypatch):
+    args, _, _, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    result = adapter.build_launch_invocation(**args)
+    assert "zero-delta ACCEPT (current-workspace scope)" in result["prompt"]
+    assert "grants no current ACCEPT" in result["prompt"]
+    assert result["effects"]["worker_process_started"] is False
+
+
+def test_a048_zero_delta_accept_rejects_tampered_prior_result(tmp_path, monkeypatch):
+    args, _, _, _, old = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    (old / "result/worker_result.yaml").write_text("tampered", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="evidence digest drift:worker_result_sha256"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_missing_terminal(tmp_path, monkeypatch):
+    args, _, _, terminal, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    terminal.unlink()
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="terminal ledger missing"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_terminal_state_drift(tmp_path, monkeypatch):
+    args, decision_path, front, terminal, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    # Even with recomputed terminal SHA and a freshly rebound (malicious) decision,
+    # a failed or incomplete ledger must never count as accepted.
+    doc = yaml.safe_load(terminal.read_text())
+    doc["result_state"] = "FAILED"
+    terminal.write_text(yaml.safe_dump(doc), encoding="utf-8")
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["evidence_bindings"]["terminal_sha256"] = hashlib.sha256(terminal.read_bytes()).hexdigest()
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    source_refs = yaml.safe_load(front.read_text())["provenance"]["source_refs"]
+    source_refs[-1] = "accepted_decision_record_sha256:" + hashlib.sha256(decision_path.read_bytes()).hexdigest()
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": source_refs}}), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="terminal ledger state mismatch"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_decision_digest_drift(tmp_path, monkeypatch):
+    args, decision_path, _, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision_path.write_text(decision_path.read_text() + "# unreviewed edit\n", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="decision provenance digest drift"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_missing_provenance_digest(tmp_path, monkeypatch):
+    args, _, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    provenance = yaml.safe_load(front.read_text())
+    provenance["provenance"]["source_refs"] = [x for x in provenance["provenance"]["source_refs"]
+        if not x.startswith("accepted_decision_record_sha256:")]
+    front.write_text(yaml.safe_dump(provenance), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="decision provenance digest missing"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_historical_exit_claim(tmp_path, monkeypatch):
+    args, decision_path, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["historical_exit_attestation"] = True
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    front_doc = yaml.safe_load(front.read_text())
+    front_doc["provenance"]["source_refs"][-1] = ("accepted_decision_record_sha256:"
+        + hashlib.sha256(decision_path.read_bytes()).hexdigest())
+    front.write_text(yaml.safe_dump(front_doc), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="status or historical scope contradiction"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_wrong_accepted_attempt(tmp_path, monkeypatch):
+    args, decision_path, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["evidence_bindings"]["attempt_id"] = "cf10-u180j-a046"
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    front_doc = yaml.safe_load(front.read_text())
+    front_doc["provenance"]["source_refs"][-1] = ("accepted_decision_record_sha256:"
+        + hashlib.sha256(decision_path.read_bytes()).hexdigest())
+    front.write_text(yaml.safe_dump(front_doc), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="attempt, Work Front or temporal scope binding drift"):
+        adapter.build_launch_invocation(**args)
+
+# CF10_A048_ZERO_DELTA_ACCEPT_CONTRACT_REPAIR_R001_TESTS_END
+
+# CF10_A046_FROZEN_BASELINE_CAPSULE_TESTS_V0_1_END

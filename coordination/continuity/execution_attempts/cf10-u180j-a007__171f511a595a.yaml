@@ -1,0 +1,33 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a007
+work_front_id: wf-cf10-verification-tier-self-hardening-v0-1
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a007/workspace/repo
+why: CF-10 verification-tier self-hardening training retry after a004 edit-capability
+  blocker.
+source_fingerprint: aaceb77c34a0b02afde26577aa01fdb7fa6ba439b3d9d48497dffd368171d14d
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 4816c0fd50c0a64d937fa9b4deebff7b1dc9a9924af67bfba40753193f08cdc8
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a007/input/cf10_a007_provider_invocation_v0_1.yaml
+retry_of_attempt_id: cf10-u180j-a004
+recorded_at: '2026-09-24T09:04:32.001519Z'
+attempt_stage: FINISHED
+result_state: SUCCEEDED
+result_refs:
+- worker_process_result_sha256:72af0538a3f0941c9f63f07ca26aafca792180c7ef53db1f36ac6d45957b8fc0
+- worker_delta_sha256:6302e13200c8ddf76d3995be6baa86bb68776a6f3044a1cbe2cf1ab5545cb4e7
+- candidate_validation_sha256:da84aa1a5d9a0e241d22ac72dd776062654567e101705cca56b3bcac286fadc9
+- post_worker_observation_sha256:9adf50520e9896f281fabd4b6772dbced9e102f6525972bd162454f497888bb5
+validator_outcome: PASS
+validator_evidence_refs:
+- candidate_validation_sha256:da84aa1a5d9a0e241d22ac72dd776062654567e101705cca56b3bcac286fadc9
+- worker_delta_sha256:6302e13200c8ddf76d3995be6baa86bb68776a6f3044a1cbe2cf1ab5545cb4e7
+failure_or_retry_ref: null
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003
+  - attempt:cf10-u180j-a004

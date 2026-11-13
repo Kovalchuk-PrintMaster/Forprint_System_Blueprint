@@ -1,0 +1,41 @@
+schema_version: forprint_module_readiness_levels_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+metadata:
+  standard_id: module_readiness_levels_v0_1
+  title: ForPrint Module Bootstrap and Development Readiness Levels v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+purpose: >-
+  Separate permission to enter a controlled module bootstrap cycle from permission
+  to execute accepted roadmap development.
+bootstrap_readiness:
+  state: BOOTSTRAP_READY
+  execution_class: MODULE_BOOTSTRAP
+  requires_valid_release_authority: true
+  requires_stage_0: true
+  allows_explicit_nonblocking_bootstrap_debt: true
+  grants_roadmap_development: false
+  grants_operator_approval: false
+development_readiness:
+  state: DEVELOPMENT_READY
+  portfolio_state_when_ready: VERIFIED_WORK_READY
+  bootstrap_acceptance_required: true
+  strict_task_context_required: true
+  unresolved_bootstrap_debt_allowed: false
+  inspector_binding_required: true
+  dependency_readiness_required: true
+  grants_operator_approval: false
+portfolio_projection:
+  before_bootstrap_acceptance: BOOTSTRAP_READY
+  accepted_but_not_development_ready: BOOTSTRAPPED
+  development_ready: VERIFIED_WORK_READY
+authority:
+  bootstrap_ready_is_execution_authority: false
+  development_ready_is_operator_approval: false
+  automatic_accept: false
+  automatic_next_prompt_release: false
+control_plane_boundary:
+  readiness_is_deterministic_projection: true
+  readiness_does_not_write_module_repository: true
+  readiness_does_not_start_worker: true

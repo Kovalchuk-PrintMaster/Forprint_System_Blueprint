@@ -1,9 +1,16 @@
 module: forprint_operational_registry
-updated_at: "2026-06-19T00:00:00+00:00"
+updated_at: "2026-08-29T00:00:00+00:00"
+lifecycle: historical_non_authoritative
+authority: none
+superseded_by:
+  module: forprint_operations_control_registry
+  prompt_queue: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
 
-active_prompts:
+active_prompts: []
+
+historical_prompts:
   - prompt_id: operational_registry_local_operator_command_query_readiness_v0_1
-    status: ready_for_module_pull
+    original_status: ready_for_module_pull
     file: approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
     target_module: forprint_operational_registry
     phase: local_operator_command_query_readiness_v0_1
@@ -11,3 +18,8 @@ active_prompts:
     requires_governance_check: true
     requires_no_live_integrations: true
     requires_completion_packet: true
+
+notes:
+  - Released historical prompt artifacts remain immutable.
+  - This legacy queue no longer authorizes current module execution.
+  - Current routing uses forprint_operations_control_registry.

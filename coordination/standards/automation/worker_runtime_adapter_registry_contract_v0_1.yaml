@@ -1,0 +1,92 @@
+schema_version: forprint_worker_runtime_adapter_registry_contract_v0_1
+contract_id: worker_runtime_adapter_registry
+revision: 0.1.0
+status: active_cf10_slice5a
+
+purpose:
+  - keep worker identity independent from provider/runtime identity
+  - resolve one provider runtime binding per attempt
+  - preserve one Work Front / Handoff / Dispatcher / workspace / result architecture
+  - allow comparable provider/runtime benchmarking without widening authority
+
+authority:
+  registry_grants_execution_authority: false
+  registry_grants_dispatch_authority: false
+  registry_grants_release_authority: false
+  provider_selection_grants_authority: false
+  model_selection_grants_authority: false
+  worker_identity_is_provider_identity: false
+
+provider_state_enum:
+  - READY
+  - NOT_CONFIGURED
+  - BLOCKED
+  - DISABLED
+
+required_provider_fields:
+  - provider_id
+  - display_name
+  - state
+  - adapter_type
+  - command_representation
+  - executable
+  - model_selection
+  - auth
+  - capabilities
+  - authority
+
+configured_provider_rules:
+  executable_required_when_ready: true
+  command_representation_when_ready: ARGV_NO_SHELL
+  secret_value_in_git_allowed: false
+  runtime_auth_value_serialized: false
+  executable_must_exist_at_dispatch: true
+  auth_must_be_revalidated_at_dispatch: true
+
+not_configured_provider_rules:
+  executable_must_be_null: true
+  model_selection_must_be_null: true
+  auth_binding_must_be_null: true
+  ready_must_be_false: true
+  guessed_command_forbidden: true
+  guessed_model_forbidden: true
+
+runtime_binding:
+  selected_per_attempt: true
+  required_fields:
+    - provider_id
+    - runtime_id
+    - model_id
+    - executable
+    - argv
+    - working_directory
+    - timeout_seconds
+    - network_policy
+    - budget
+    - environment_allowlist
+    - required_environment
+  shell_execution_allowed: false
+  argv_only: true
+  canonical_repository_cwd_allowed: false
+  foreign_repository_write_allowed: false
+
+secrets:
+  committed_secret_values_allowed: false
+  committed_token_values_allowed: false
+  committed_password_values_allowed: false
+  committed_api_key_values_allowed: false
+  environment_names_may_be_committed: true
+  auth_state_may_be_committed: true
+  auth_material_source: outside_git
+
+compatibility:
+  existing_worker_runtime_contract: EXTEND
+  existing_console_command_adapter: REUSE
+  work_front: REUSE
+  task_envelope: REUSE
+  handoff_v2: REUSE
+  dispatcher: REUSE
+  workspace: REUSE
+  attempt_ledger: REUSE
+  result_envelope: REUSE
+  parallel_worker_framework_allowed: false

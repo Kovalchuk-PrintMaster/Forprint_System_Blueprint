@@ -1,0 +1,65 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-crm-source-label-2026-05-16
+authority_class: module_history_with_blueprint_genesis_and_alignment_noncurrent
+relations:
+- type: precedes_and_motivates
+  from_bundle: DFTB-crm-source-label-2026-05-16
+  to_bundle: DFTB_blueprint-source-label-2026-06-14
+  confidence: HIGH
+  note: This source contains direct owner articulation of a separate living System Blueprint before the later dedicated Blueprint coordination dialogue.
+- type: precedes_and_is_refined_by
+  from_bundle: DFTB-crm-source-label-2026-05-16
+  to_bundle: DFTB_blueprint-2026-07-14
+  confidence: HIGH
+  note: 14.07 later stabilizes Blueprint/Inspector/CRM role boundaries and narrows Library/Accounting/Operational responsibilities.
+- type: supports
+  from_bundle: DFTB-crm-source-label-2026-05-16
+  to_bundle: DFTB-operational-registry-source-label-2026-05-29
+  confidence: HIGH
+  note: CRM alignment already points canonical clients/orders/tasks/statuses toward Operational Registry.
+- type: supports
+  from_bundle: DFTB-crm-source-label-2026-05-16
+  to_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  confidence: HIGH
+  note: CRM alignment requires execution commands through Gateway rather than direct module calls.
+item_relations:
+- type: precedes
+  from_item: IT-CRM1605-0009
+  to_item: IT-BP1407-0001
+  confidence: HIGH
+  note: System Blueprint genesis precedes the mature 'Blueprint as architecture truth layer' statement.
+- type: precedes
+  from_item: IT-CRM1605-0010
+  to_item: IT-BP1407-0003
+  confidence: HIGH
+  note: Plan-vs-review split precedes later explicit Inspector separation.
+- type: precedes
+  from_item: IT-CRM1605-0014
+  to_item: IT-BP1407-0004
+  confidence: HIGH
+  note: CRM business-orchestration role is already aligned before mature Blueprint architecture.
+- type: supports
+  from_item: IT-CRM1605-0016
+  to_item: IT-OPREG2905-0001
+  confidence: HIGH
+  note: CRM alignment assigns clients/orders/tasks/statuses to Operational Registry canonical truth.
+- type: supports
+  from_item: IT-CRM1605-0020
+  to_item: IT-GW2605-0001
+  confidence: HIGH
+  note: CRM commands should pass through Gateway runtime routing rather than bypass it.
+- type: supports
+  from_item: IT-CRM1605-0018
+  to_item: IT-LIB1605-0022
+  confidence: HIGH
+  note: CRM consumes Library catalogs/references while Library owns canonical definitions.
+- type: supports
+  from_item: IT-CRM1605-0017
+  to_item: IT-ACC1705-0025
+  confidence: HIGH
+  note: CRM consumes accounting truth; Accounting owns accounting/1C boundary rather than CRM.
+- type: clarifies_identity
+  from_item: IT-CRM1605-0027
+  to_item: IT-CP0106-0002
+  confidence: HIGH
+  note: Early Project Control Plane was renamed Inspector; later Strategic Control Plane is a distinct concept.

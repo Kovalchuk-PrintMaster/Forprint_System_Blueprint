@@ -1,51 +1,109 @@
+# CF10 MAKE SURFACE Q1: INDEPENDENT RELEASE REBIND REQUIRED
+# Historical release code and evidence require independent provenance and signed renewal.
+# The old launch-path commands remain fail-closed until reviewed release rebind.
+# All diagnostic reports are non-authoritative; no automatic launch or approval.
+
+# ForPrint System Blueprint Makefile
+#
+# This file is the executable command surface for the Blueprint repository.
+# Public targets must preserve repository ownership and command semantics:
+#   - preview/status/list/show/validate/check targets are operator-safe and
+#     must not hide apply/commit/push/merge behavior;
+#   - explicit write/apply/fix/generate targets may mutate only Blueprint;
+#   - Blueprint completion intake reads module repositories but never writes them;
+#   - completion-accept requires a successful read-only intake check;
+#   - completion-return remains available for invalid evidence and writes only
+#     Blueprint review records.
+#
+# GNU Make recipes use TAB indentation. Do not use .RECIPEPREFIX.
+
+# =============================================================================
+# Operator reading guide
+# =============================================================================
+# Every public target below has a five-field command contract:
+#   Purpose — what the command actually does.
+#   Safety  — whether it is read-only, report/generated-artifact-only, or mutating.
+#   Inputs  — operator variables read by the target; required inputs are marked.
+#   Scope   — how broad the command is.
+#   Result  — what appears on success and how failure is surfaced.
+#
+# Scope vocabulary:
+#   LOCAL/FOCUSED   one explicit artifact/query/target surface.
+#   RELATED         one contract plus its direct validation dependencies.
+#   CORE            core Blueprint control/governance validation surface.
+#   FULL            broad repository validation/test surface.
+#   PORTFOLIO       multi-module/project portfolio view.
+#   PROJECT_ONBOARD authoritative whole-project onboarding handoff context.
+#   MODULE/QUEUE    one selected module/prompt/packet/queue surface.
+#   WORKTREE        current Blueprint Git worktree/diff/seal surface.
+#
+# Important operator distinction:
+#   assistant-pack         = authoritative PROJECT_ONBOARD handoff archive.
+#   assistant-context-pack = scoped MODULE/TOPICS context archive.
+#   check                  = FULL non-mutating validation wrapper.
+#   check-core             = CORE validation suite.
+#   diff-show              = DIFF_PATHS when provided; otherwise full unstaged tracked diff.
+#
+# This refactor intentionally preserves target names, dependencies, recipes,
+# CLI flags, stdout/stderr ownership, and exit-code semantics.
+
+# =============================================================================
+# 00 Environment / constants
+# =============================================================================
+# Block scope: Global Blueprint command variables and defaults.
+
+.DEFAULT_GOAL := help
+.DELETE_ON_ERROR:
+
 PYTHON ?= .venv_blueprint/bin/python
-PIP ?= .venv_blueprint/bin/pip
+BLUEPRINT_PYTHON ?= $(PYTHON)
+PIP ?= $(PYTHON) -m pip
 
 MODULE ?= forprint_library
-SCOPE ?= bootstrap
-LIMIT ?= 40
-
+MODULE_ROOT ?= ../$(MODULE)
 MODULES ?=
 ROADMAP ?=
+
+SCOPE ?= bootstrap
+LIMIT ?= 40
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
-NO_COLOR ?=
 ROADMAP_SUMMARY_MODULES ?= forprint_library
 
-MODULE_ROOT ?= ../$(MODULE)
 PACKET ?=
 REVIEW_NOTES ?=
 COMPLETION_COMMIT ?=
 REVIEWED_AT ?=
+REMOTE ?= origin
+BRANCH ?=
 
 STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
 DOCUMENT ?=
 SOURCE ?=
+PROMPT_ID ?=
+APPLY ?= 0
+REPLACE ?= 0
 PRIORITY ?=
 NOTES ?=
 MODULE_COMMIT ?=
+GOVERNANCE_STATUS_FORMAT ?= status
 
-# =============================================================================
-
-# 00 Environment / constants START
-
-# =============================================================================
 
 BLUEPRINT_MODULE_MANIFEST_EXAMPLE ?= module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
 
-# =============================================================================
-
-# 00 Environment / constants FINISH
 
 # =============================================================================
-
+# 01 Help / navigation
 # =============================================================================
+# Block scope: Operator discovery only; no project mutation.
 
-# 01 Help / navigation START
-
-# =============================================================================
-
+# Target: help
+# Purpose: Show the operator command map for the Blueprint repository.
+# Safety: READ-ONLY — prints navigation only.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: help
 help:
 	@echo "ForPrint System Blueprint Make targets"
@@ -61,7 +119,17 @@ help:
 	@echo "  make validate"
 	@echo "  make markdown-fences"
 	@echo "  make check"
+	@echo "  make validation-suite SUITE=cf10-worker-pipeline"
+	@echo "  make structured-command-executor-list"
+	@echo "  make structured-command-executor-check"
+	@echo "  make structured-command-executor-proof STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> [STRUCTURED_COMMAND_PROOF_SUITE=cf10-worker-pipeline]"
+	@echo "  make cf10-worker-invocation-bridge-check"
+	@echo "  make cf10-worker-invocation-bridge-proof CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> [CF10_WORKER_BRIDGE_PROOF_SUITE=cf10-worker-pipeline]"
+	@echo "  make cf10-worker-provider-session-proof-check"
+	@echo "  make cf10-worker-provider-session-proof CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT=<outside-repo-dir> [CF10_WORKER_PROVIDER_PROOF_SUITE=cf10-worker-pipeline] [CF10_WORKER_PROVIDER_PROOF_TIER=LOCAL_FOCUSED]"
 	@echo "  make check-report"
+	@echo "  make test-make-command-surface"
+	@echo "  make test-v0-4-coordination"
 	@echo ""
 	@echo "Blueprint artifacts:"
 	@echo "  make diagrams"
@@ -70,13 +138,25 @@ help:
 	@echo "  make guides"
 	@echo "  make manifest-example"
 	@echo ""
-	@echo "Prompt queue:"
+	@echo "Prompt preparation / release:"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md APPLY=1"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md APPLY=1 REPLACE=1"
+	@echo "  make prompt-release MODULE=forprint_library PROMPT_ID=library_example_v0_1"
+	@echo "  make prompt-release MODULE=forprint_library PROMPT_ID=library_example_v0_1 APPLY=1"
+	@echo "  Release apply remains fail-closed unless governance policy authorizes it."
+	@echo ""
+	@echo "Prompt queue navigation:"
 	@echo "  make prompt-queue-validate"
 	@echo "  make prompt-dashboard MODULE=forprint_library"
 	@echo "  make prompt-next MODULE=forprint_library"
 	@echo "  make prompt-read-next MODULE=forprint_library"
-	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
-	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
+	@echo "  make completion-intake-check MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
+	@echo "  make completion-revision-status"
+	@echo "  make completion-revision-check"
+	@echo "  make completion-intake-check MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=<v0.3-packet> COMPLETION_COMMIT=<commit> ALLOW_CANDIDATE_REFERENCE=1"
+	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
+	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
 	@echo "  make completion-return MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml REVIEW_NOTES='Corrections required'"
 	@echo "  make completion-finalize-check MODULE=logistics_service"
 	@echo "  make next-work-suggestion MODULE=logistics_service"
@@ -86,15 +166,98 @@ help:
 	@echo "  make document-awareness MODULE=forprint_library LIMIT=20"
 	@echo "  make context-bundle MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
 	@echo "  make context-bundle-print MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
+	@echo "  make task-context-compiler-check"
+	@echo "  make task-context-check MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo>"
+	@echo "  make task-context-compile MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_OUTPUT_DIR=generated/task_context_bundles"
+	@echo "  make task-context-print MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo>"
+	@echo "  make launch-request-gate-check"
+	@echo "  make launch-request-evaluate TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_ARCHIVE=<archive> [DEPENDENCY_READINESS=<snapshot>]"
+	@echo "  make launch-request-build TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_ARCHIVE=<archive> [DEPENDENCY_READINESS=<snapshot>]"
+	@echo "  make operator-approval-gateway-check"
+	@echo "  make operator-approval-evaluate TASK_MODULE_ROOT=<module-repo> LAUNCH_REQUEST=<launch-request>"
+	@echo "  make operator-approval-decide TASK_MODULE_ROOT=<module-repo> LAUNCH_REQUEST=<launch-request> OPERATOR_DECISION=<APPROVE|HOLD|REJECT> OPERATOR_ACTOR=<actor> OPERATOR_REASON=<reason>"
+	@echo "  make operator-approval-validate TASK_MODULE_ROOT=<module-repo> LAUNCH_REQUEST=<launch-request> APPROVAL_DECISION=<decision-artifact>"
+	@echo "  make console-worker-adapter-check"
+	@echo "  make worker-invocation-evaluate TASK_MODULE_ROOT=<module-repo> LAUNCH_REQUEST=<launch-request> WORKER_RUNTIME=<runtime> [APPROVAL_DECISION=<approval>]"
+	@echo "  make worker-invocation-build TASK_MODULE_ROOT=<module-repo> LAUNCH_REQUEST=<launch-request> WORKER_RUNTIME=<runtime> [APPROVAL_DECISION=<approval>]"
+	@echo "  make control-plane-runtime-check"
+	@echo "  make control-plane-step LAUNCH_REQUEST=<launch> WORKER_INVOCATION=<invocation> [APPROVAL_DECISION=<approval>]"
+	@echo "  make control-plane-status LAUNCH_REQUEST=<launch> WORKER_INVOCATION=<invocation> [APPROVAL_DECISION=<approval>]"
+	@echo "  make oc01-session-projection-check"
+	@echo "  make oc01-session-status OC01_SESSION_LAUNCH_REQUEST=<launch> OC01_SESSION_WORKER_INVOCATION=<invocation> OC01_SESSION_ACTOR_TYPE=<internal_worker|operator_assistant|human_terminal> OC01_SESSION_ACTOR_ID=<actor> [OC01_SESSION_WORKSPACE_MANIFEST=<manifest>]"
+	@echo "  make oc01-protected-terminal-capabilities"
+	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1 [OC01_TERMINAL_APPROVAL_DECISION=<sensitive-approval>]"
+	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1 [OC01_TERMINAL_APPROVAL_DECISION=<sensitive-approval>]"
+	@echo "  make oc01-protected-terminal-history OC01_TERMINAL_HISTORY_EVIDENCE_DIR=<outside-repo-evidence> [OC01_TERMINAL_HISTORY_LIMIT=50]"
+	@echo "  make oc01-assistant-sandbox-create OC01_SANDBOX_ATTEMPT_ID=<id> OC01_SANDBOX_BASE_HEAD=<sha> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-assistant-sandbox-open OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-assistant-sandbox-status OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-sandbox-checkpoint OC01_RESULT_MANIFEST=<manifest> OC01_RESULT_SESSION_PROJECTION=<projection> [OC01_RESULT_RESUME_EVIDENCE=<evidence>]"
+	@echo "  make oc01-sandbox-seal-result OC01_RESULT_MANIFEST=<manifest> OC01_RESULT_SESSION_PROJECTION=<projection> OC01_RESULT_VALIDATION_EVIDENCE='pytest:PASS make-check:PASS'"
+	@echo "  make oc01-sandbox-result-status OC01_RESULT_MANIFEST=<manifest>"
+	@echo "  make oc01-promotion-preview OC01_PROMOTION_CANDIDATE_ROOT=<workspace> OC01_PROMOTION_SEALED_RESULT=<sealed> OC01_PROMOTION_WORK_FRONT=<front> OC01_PROMOTION_ORIGIN_HANDOFF=<origin> OC01_PROMOTION_HANDOFF_RESULT=<result> OC01_PROMOTION_PROFILE_REF=<profile@rev> OC01_PROMOTION_PROCEDURE_ID=<procedure> OC01_PROMOTION_PREVIEW=<outside-repo-preview>"
+	@echo "  make oc01-promotion-apply OC01_PROMOTION_CANDIDATE_ROOT=<workspace> OC01_PROMOTION_PREVIEW=<preview> OC01_PROMOTION_RECOVERY_ROOT=<outside-repo-recovery> OC01_PROMOTION_EVIDENCE=<outside-repo-evidence> OC01_PROMOTION_AUTHORIZATION=APPLY_EXACT_OC01_PROMOTION OC01_PROMOTION_EXPECTED_PREVIEW_SHA256=<sha256>"
+	@echo "  make oc01-console-check"
+	@echo "  make oc01-console-snapshot [OC01_CONSOLE_SESSION_PROJECTION=<path>] [OC01_CONSOLE_SANDBOX_MANIFEST=<path>]"
+	@echo "  make oc01-console-serve [OC01_CONSOLE_HOST=127.0.0.1] [OC01_CONSOLE_PORT=8099] [OC01_CONSOLE_ALLOW_REMOTE=0]"
+	@echo "  make oc01-protected-terminal-real-proof-check"
+	@echo "  make oc01-protected-terminal-real-proof OC01_MINI7_PROOF_RUNTIME_ROOT=<outside-repo-runtime>"
+	@echo "  make oc01-sandbox-to-canonical-real-proof-check"
+	@echo "  make oc01-sandbox-to-canonical-real-proof OC01_MINI8_PROOF_RUNTIME_ROOT=<outside-repo-runtime> OC01_MINI8_PROOF_BASE_HEAD=<sha> OC01_MINI8_PROMOTION_AUTHORIZATION=APPLY_EXACT_OC01_PROMOTION"
+	@echo "  make oc01-mini-closeout-check"
+	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
+	@echo ""
+	@echo "Assistant / continuity / handoff:"
+	@echo "  make assistant-pack"
+	@echo "  make assistant-pack FRONT=<work-front-id>"
+	@echo "  make assistant-context-pack MODULE=forprint_system_blueprint TOPICS=<comma-separated-topics>"
+	@echo "  make assistant-handoff-check"
+	@echo "  make module-bootstrap-commission-check COMMISSION_REQUEST=<request.yaml>"
+	@echo "  make module-bootstrap-commission COMMISSION_REQUEST=<request.yaml>"
+	@echo "  make roadmap-sync-check"
+	@echo "  make continuity-lifecycle-status"
+	@echo "  make continuity-projections-check"
+	@echo "  make project-constitution-check"
+	@echo "  make work-front-contract-check"
+	@echo "  make execution-profile-registry-check"
+	@echo "  make assistant-handoff-v2-contract-check"
+	@echo "  make assistant-handoff-v2-runtime-check"
+	@echo "  make assistant-handoff-v2-project-onboard"
+	@echo "  make assistant-handoff-v2-task-execution FRONT=<front> EXECUTION_PROFILE=<profile> TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-root> PROCEDURE_ID=<procedure-id>"
+	@echo "  make assistant-handoff-v2-result-check"
+	@echo "  make assistant-handoff-v2-freshness-resume-check"
 	@echo ""
 	@echo "Module roadmap:"
 	@echo "  make roadmap-validate MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
+	@echo "  make roadmap-detail MODULE=forprint_library"
+	@echo "  make acceptance-oracle-validate ORACLE=coordination/acceptance_oracles/<module>/<oracle>.yaml"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
+	@echo ""
+	@echo "v0.4 coordination reference primitives:"
+	@echo "  make coordination-pulse"
+	@echo "  make coordination-pulse COORDINATION_PULSE_FORMAT=yaml"
+	@echo "  make prompt-contract-v0-4-validate PROMPT_CONTRACT_V0_4=<contract-path>"
+	@echo "  make completion-packet-v0-4-validate COMPLETION_PACKET_V0_4=<packet-path>"
+	@echo "  make completion-outbox-v0-4-validate COMPLETION_OUTBOX_V0_4=<outbox-path>"
+	@echo "  make completion-discovery-intake-v0-4"
+	@echo "  make review-roadmap-queue-transaction-v0-4"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=<request.yaml>"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=<request.yaml> REVIEW_TRANSACTION_APPLY=1 REVIEW_OPERATOR_CONFIRMATION=<decision-id>"
+	@echo "  make accept-and-advance ACCEPT_AND_ADVANCE_REQUEST=<request.yaml> ACCEPT_AND_ADVANCE_APPLY=1 ACCEPT_AND_ADVANCE_CONFIRMATION=<operation-id>"
+	@echo "  make next-prompt-selection-activation-v0-4"
+	@echo "  make tracking-events-reference-v0-4-preflight"
+	@echo "  make tracking-events-reference-v0-4-build"
+	@echo "  make tracking-events-reference-v0-4-validate"
+	@echo "  make tracking-events-reference-v0-4-revise-after-pre-review"
+	@echo "  make tracking-events-reference-v0-4-semantic-review-prep"
+	@echo "  make tracking-events-reference-v0-4-semantic-decision TRACKING_EVENTS_SEMANTIC_DECISION=ACCEPT_SEMANTIC_FIDELITY"
+	@echo "  v0.4 primitive targets never imply global v0.4 promotion."
+	@echo ""
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
 	@echo "  make standards"
@@ -118,275 +281,1281 @@ help:
 	@echo "  make blueprint-self-audit"
 	@echo "  make blueprint-self-audit-resume"
 	@echo "  make blueprint-self-status"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=status"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=yaml"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=json"
 	@echo "  make blueprint-self-report-full"
 	@echo "  make modules-self-status"
+	@echo ""
+	@echo "Repository state:"
+	@echo "  make worktree-status"
+	@echo "  make diff-check"
+	@echo "  make diff-stat DIFF_PATHS='Makefile reports/example.yaml'"
+	@echo "  make diff-show DIFF_PATHS='Makefile reports/example.yaml'"
+	@echo "  make seal-stage-exact SEAL_PATHS='path1 path2' SEAL_PRESERVE_PATHS='dirty1 dirty2'"
+	@echo "  make seal-staged-review"
+	@echo "  make seal-commit SEAL_COMMIT_MESSAGE='message'"
+	@echo "  make seal-push SEAL_PRESERVE_PATHS='dirty1 dirty2'"
 	@echo ""
 	@echo "Cleanup:"
 	@echo "  make clean"
 
-# =============================================================================
-
-# 01 Help / navigation FINISH
 
 # =============================================================================
-
+# 02 Install / bootstrap
 # =============================================================================
+# Block scope: Local development environment setup.
 
-# 02 Install / bootstrap START
-
-# =============================================================================
-
+# Target: install
+# Purpose: Install or update the Blueprint development environment and editable development dependencies.
+# Safety: ENVIRONMENT MUTATION — changes the local Python environment/dependencies, not project source.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: install
 install:
 	$(PIP) install --upgrade pip
 	$(PIP) install -e ".[dev]"
 
-# =============================================================================
-
-# 02 Install / bootstrap FINISH
 
 # =============================================================================
-
+# 03 Code quality / tests / validation
 # =============================================================================
+# Block scope: Repository validation from focused checks through FULL gate.
 
-# 06 Syntax / formatting / lint START
-
-# =============================================================================
-
+# Target: lint
+# Purpose: Run the configured Python linter without modifying source files.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: lint
 lint:
 	$(PYTHON) -m ruff check scripts tests tools
 
+# Target: lint-fix
+# Purpose: Apply supported automatic lint fixes to Blueprint Python sources and tests.
+# Safety: SOURCE MUTATION — applies only the formatter/linter fixes documented by the target.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: lint-fix
 lint-fix:
 	$(PYTHON) -m ruff check scripts tests tools --fix
 
+# Target: format
+# Purpose: Format Blueprint Python sources and tests with the configured formatter.
+# Safety: SOURCE MUTATION — applies only the formatter/linter fixes documented by the target.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: format
 format:
 	$(PYTHON) -m black scripts tests
 
-# =============================================================================
 
-# 06 Syntax / formatting / lint FINISH
-
-# =============================================================================
-
-# =============================================================================
-
-# 07 Tests START
-
-# =============================================================================
-
+# Target: test
+# Purpose: Run the main Blueprint automated test suite.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: FULL — broad repository validation/test surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test
 test:
 	$(PYTHON) -m pytest -q
 
-# =============================================================================
 
-# 07 Tests FINISH
+# Target: test-make-command-surface
+# Purpose: Verify the canonical Make/operator command surface.
+# Safety: READ-ONLY TEST — tests only; no apply/commit/push/module writes.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-make-command-surface
+test-make-command-surface:
+	@$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/coordination/modules/_shared/test_makefile_module_workflow_targets.py \
+		tests/test_make_command_standard.py \
+		tests/test_module_makefile_standard_template.py
 
-# =============================================================================
+# Target: test-v0-4-coordination
+# Purpose: Verify the focused v0.4 coordination and Tracking Events reference surface.
+# Safety: READ-ONLY TEST — tests only; no module writes, operator decisions, rollout, or promotion.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-coordination
+test-v0-4-coordination:
+	@$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/validation/test_tracking_events_control_state_reconciliation.py \
+		tests/validation/test_tracking_events_operator_review_findings.py \
+		tests/validation/test_v0_4_closed_loop_lifecycle_standard.py \
+		tests/validation/test_v0_4_closed_loop_reconciliation.py \
+		tests/validation/test_v0_4_completion_discovery_and_intake.py \
+		tests/validation/test_v0_4_completion_outbox.py \
+		tests/validation/test_v0_4_completion_packet.py \
+		tests/validation/test_v0_4_coordination_health_and_pulse.py \
+		tests/validation/test_v0_4_coordination_source_registry.py \
+		tests/validation/test_v0_4_immutable_prompt_contract.py \
+		tests/validation/test_v0_4_next_prompt_selection_activation.py \
+		tests/validation/test_v0_4_review_roadmap_queue_transaction.py \
+		tests/validation/test_tracking_events_v0_4_reference_contract.py \
+		tests/validation/test_tracking_events_v0_4_semantic_review_packet.py \
+		tests/validation/test_tracking_events_v0_4_semantic_decision.py \
+		tests/validation/test_v0_4_coordination_pulse_completion_observability.py \
+		tests/validation/test_v0_4_review_transaction_module_schema_plan.py
 
-# =============================================================================
 
-# 08 Validation / check reports START
-
-# =============================================================================
-
+# Target: validate
+# Purpose: Run the primary Blueprint validation entrypoint.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: validate
 validate:
 	$(PYTHON) scripts/validate_blueprint.py
 
+# Target: markdown-fences
+# Purpose: Validate Markdown code-fence structure across managed documentation.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: markdown-fences
 markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
+# Target: check
+# Purpose: Run the main non-mutating repository validation wrapper.
+# Safety: READ-ONLY — main non-mutating repository validation wrapper; no fix/apply/commit/push behavior.
+# Inputs: MODULE_ROOT (optional/defaulted).
+# Scope: FULL — broad repository validation/test surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check
 check:
+	$(PYTHON) scripts/validation/run_non_mutating_make_check.py --target check-core --module-root "$(MODULE_ROOT)"
+
+# Target: validation-suite
+# Purpose: Run one registered focused validation suite through the reusable isolated suite runner.
+# Safety: READ-ONLY — validation executes in disposable isolation; no apply/commit/push/module writes.
+# Inputs: SUITE (required registered validation suite id), PROFILE (optional; 0/1).
+# Scope: LOCAL/FOCUSED — selected registered validation suite only.
+# Result: Validation exits 0 on success and non-zero on failure; durable source state remains unchanged.
+# Profiling example: make validation-suite SUITE=cf10-worker-pipeline PROFILE=1
+.PHONY: validation-suite
+validation-suite:
+	@set -eu; \
+		SUITE_ID="$${FORPRINT_VALIDATION_SUITE_ID:-$(SUITE)}"; \
+		PROFILE_VALUE="$${FORPRINT_VALIDATION_SUITE_PROFILE:-$(or $(PROFILE),0)}"; \
+		test -n "$$SUITE_ID" || { echo "ERROR: SUITE=<registered-suite-id> is required"; exit 2; }; \
+		case "$$PROFILE_VALUE" in \
+			0) PROFILE_ARGS= ;; \
+			1) PROFILE_ARGS=--profile ;; \
+			*) echo "ERROR: PROFILE must be 0 or 1"; exit 2 ;; \
+		esac; \
+		$(PYTHON) scripts/validation/run_validation_suite_v0_1.py --suite "$$SUITE_ID" $$PROFILE_ARGS
+
+STRUCTURED_COMMAND_EVIDENCE_DIR ?=
+STRUCTURED_COMMAND_PROOF_SUITE ?= cf10-worker-pipeline
+
+# Target: structured-command-executor-list
+# Purpose: List registered shared structured command capabilities and parameter contracts.
+# Safety: READ-ONLY — registry inspection only; no process launch or repository mutation.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — shared structured command capability registry.
+# Result: Human-readable YAML capability projection.
+.PHONY: structured-command-executor-list
+structured-command-executor-list:
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py list --root .
+
+# Target: structured-command-executor-check
+# Purpose: Validate the shared structured command registry/executor and focused launcher regression.
+# Safety: READ-ONLY TEST — no live capability execution, apply, commit, push, merge or release.
+# Inputs: None.
+# Scope: RELATED — shared executor, registry, focused tests and existing launcher regression.
+# Result: Validation exits 0 on success and non-zero on failure.
+.PHONY: structured-command-executor-check
+structured-command-executor-check:
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py check --root .
+	$(PYTHON) -m pytest -q \
+		tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+
+# Target: structured-command-executor-proof
+# Purpose: Execute one registered validation suite through the shared structured executor and shared launcher.
+# Safety: READ-ONLY VALIDATION — registered validation only; evidence must be outside the repository.
+# Inputs: STRUCTURED_COMMAND_EVIDENCE_DIR (required), STRUCTURED_COMMAND_PROOF_SUITE (optional/defaulted).
+# Scope: RELATED — exact repository root plus one registered validation suite in disposable isolation.
+# Result: External stdout/stderr/result evidence and non-zero exit on validation failure.
+.PHONY: structured-command-executor-proof
+structured-command-executor-proof:
+	@test -n "$(STRUCTURED_COMMAND_EVIDENCE_DIR)" || { echo "ERROR: STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py proof \
+		--root . \
+		--suite "$(STRUCTURED_COMMAND_PROOF_SUITE)" \
+		--evidence-dir "$(STRUCTURED_COMMAND_EVIDENCE_DIR)"
+
+# Target: check-core
+# Purpose: Run the broad core Blueprint validation suite used by the main check wrapper.
+# Safety: READ-ONLY — broad core validation suite; no fix/apply/commit/push behavior.
+# Inputs: None.
+# Scope: CORE — core Blueprint governance/control-plane checks and direct dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-core
+check-core: generator-inventory-check generator-contract-check execution-dependency-check roadmap-sync-check assistant-handoff-check continuity-projections-check continuity-lifecycle-check continuity-transfer-check continuity-event-store-check continuity-contract-check continuity-micro-roadmap-check check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run check-prompt-execution-observability surface-normalization-check human-intent-check root-roadmap-check roadmap-detail-check skip-inventory-check safe-mutation-check asset-retirement-check module-cleanliness-pack-check module-current-state-check canonical-state-freshness-impact-check module-memory-schema-check task-context-compiler-check launch-request-gate-check operator-approval-gateway-check console-worker-adapter-check control-plane-runtime-check completion-control-plane-check bootstrap-task-context-check project-constitution-check work-front-contract-check cf05-history-ledger-check execution-profile-registry-check assistant-handoff-v2-contract-check assistant-handoff-v2-runtime-check assistant-handoff-v2-result-check assistant-handoff-v2-freshness-resume-check blueprint-tmp-independence-check
 	$(PYTHON) scripts/run_blueprint_checks.py
 
+# Target: check-report
+# Purpose: Run Blueprint checks and render the normal operator validation report.
+# Safety: REPORT WRITE ONLY — runs validation and may write documented report artifacts; does not mutate coordination authority or Git state.
+# Inputs: None.
+# Scope: FULL — broad repository validation/test surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-report
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
 
+# Target: check-report-full
+# Purpose: Run Blueprint checks with extended diagnostic output.
+# Safety: REPORT WRITE ONLY — runs validation with extended diagnostics and may write documented report artifacts; does not mutate coordination authority or Git state.
+# Inputs: None.
+# Scope: FULL — broad repository validation/test surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-report-full
 check-report-full:
 	$(PYTHON) scripts/run_blueprint_checks.py --full-log
 
+# Target: check-fix
+# Purpose: Apply safe lint fixes, then run the main non-mutating repository check.
+# Safety: SOURCE MUTATION — applies only the formatter/linter fixes documented by the target.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-fix
 check-fix:
 	$(MAKE) lint-fix
 	$(MAKE) check
 
-# =============================================================================
-
-# 08 Validation / check reports FINISH
 
 # =============================================================================
+# 04 Repository state / diff / sealing
+# =============================================================================
+# Block scope: Worktree visibility and explicit Git sealing operations.
+
+# Target: worktree-status
+# Purpose: Show branch, HEAD, and the current repository dirty surface without mutation.
+# Safety: READ-ONLY — shows repository state only; never stages, commits, pushes, restores, or writes module repositories.
+# Inputs: None.
+# Scope: WORKTREE — current Blueprint repository.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: worktree-status
+worktree-status:
+	@git status --short
+
+# Target: diff-check
+# Purpose: Validate unstaged and staged diffs for whitespace and patch integrity problems.
+# Safety: READ-ONLY — validates current diffs only; never stages, commits, pushes, restores, or writes.
+# Inputs: None.
+# Scope: WORKTREE — current Blueprint repository.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: diff-check
+diff-check:
+	@git diff --check
+	@git diff --cached --check
+
+DIFF_PATHS ?=
+
+# Target: diff-stat
+# Purpose: Show a compact change summary for the selected unstaged diff surface.
+# Safety: READ-ONLY — prints diff statistics only; never stages, writes, restores, commits, or pushes.
+# Inputs: DIFF_PATHS (optional/defaulted).
+# Scope: SELECTED/WORKTREE — DIFF_PATHS if supplied; otherwise the current unstaged tracked diff.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: diff-stat
+diff-stat:
+	@git diff --stat -- $(DIFF_PATHS)
+
+# Target: diff-show
+# Purpose: Show the exact unstaged patch for the selected paths; with no DIFF_PATHS, show the full unstaged tracked diff.
+# Safety: READ-ONLY — prints the selected/current unstaged patch only; never stages, writes, restores, commits, or pushes.
+# Inputs: DIFF_PATHS (optional/defaulted).
+# Scope: SELECTED/WORKTREE — DIFF_PATHS if supplied; otherwise the current unstaged tracked diff.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: diff-show
+diff-show:
+	@git diff --no-ext-diff -- $(DIFF_PATHS)
+
+SEAL_PATHS ?=
+SEAL_PRESERVE_PATHS ?=
+SEAL_COMMIT_MESSAGE ?=
+SEAL_BRANCH ?= $(shell git branch --show-current)
+
+# Target: seal-stage-exact
+# Purpose: Stage exactly SEAL_PATHS while preserving explicitly declared inherited dirty paths.
+# Safety: GIT INDEX MUTATION — stages candidate paths only; preserved paths remain untouched and unstaged.
+# Inputs: SEAL_PATHS (required); SEAL_PRESERVE_PATHS (optional).
+# Scope: WORKTREE — exact candidate plus declared preserved dirty surface.
+# Result: Exact candidate is staged or operation fails closed.
+.PHONY: seal-stage-exact
+seal-stage-exact:
+	@test -n "$(SEAL_PATHS)" || { echo "ERROR: SEAL_PATHS is required"; exit 1; }
+	@$(PYTHON) scripts/coordination/control_plane/worker_runtime/repository_seal.py stage-exact --candidate-paths "$(SEAL_PATHS)" --preserve-paths "$(SEAL_PRESERVE_PATHS)"
+
+# Target: seal-staged-review
+# Purpose: Review the exact staged seal candidate before commit.
+# Safety: READ-ONLY — reviews the staged seal candidate only.
+# Inputs: None.
+# Scope: WORKTREE — current Blueprint repository.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: seal-staged-review
+seal-staged-review:
+	@git diff --cached --check
+	@GIT_PAGER=cat git diff --cached --name-only --no-renames
+	@GIT_PAGER=cat git diff --cached --stat
+
+# Target: seal-commit
+# Purpose: Create an explicit operator-requested seal commit from the staged candidate.
+# Safety: GIT MUTATION — creates a commit from staged content only; never pushes and requires an explicit non-empty message.
+# Inputs: SEAL_COMMIT_MESSAGE (required).
+# Scope: WORKTREE — current Blueprint repository.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: seal-commit
+seal-commit:
+	@test -n "$(SEAL_COMMIT_MESSAGE)" || { echo "ERROR: SEAL_COMMIT_MESSAGE is required"; exit 1; }
+	@test -n "$$(git diff --cached --name-only --no-renames)" || { echo "ERROR: nothing staged"; exit 1; }
+	@git diff --cached --check
+	@git commit -m "$(SEAL_COMMIT_MESSAGE)"
+
+# Target: seal-push
+# Purpose: Push the current seal branch while preserving explicitly declared inherited dirty paths.
+# Safety: NETWORK/GIT MUTATION — pushes only SEAL_BRANCH; no merge and no preserved-path mutation.
+# Inputs: SEAL_BRANCH; SEAL_PRESERVE_PATHS (optional).
+# Scope: WORKTREE/REMOTE — current branch plus declared preserved dirty surface.
+# Result: Local/remote HEAD equality is proven or operation fails closed.
+.PHONY: seal-push
+seal-push:
+	@test -n "$(SEAL_BRANCH)" || { echo "ERROR: SEAL_BRANCH is empty"; exit 1; }
+	@$(PYTHON) scripts/coordination/control_plane/worker_runtime/repository_seal.py push --branch "$(SEAL_BRANCH)" --preserve-paths "$(SEAL_PRESERVE_PATHS)"
+
 
 # =============================================================================
-
-# 09 Status / generated reports / cleanup START
-
+# 05 Cleanup / generated documentation artifacts
 # =============================================================================
+# Block scope: Local cleanup and documentation/diagram generation.
 
+# Target: clean
+# Purpose: Remove local cache, coverage, bytecode, and top-level egg-info artifacts.
+# Safety: LOCAL DESTRUCTIVE CLEANUP — deletes only documented caches/generated local artifacts.
+# Inputs: None.
+# Scope: WORKTREE — current Blueprint repository.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: clean
 clean:
-	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
-	find scripts tests -type d -name "**pycache**" -prune -exec rm -rf {} ;
-	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} ;
+	rm -rf -- .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
+	find scripts tests -type d -name "__pycache__" -prune -exec rm -rf -- {} +
+	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf -- {} +
 
-# =============================================================================
 
-# 09 Status / generated reports / cleanup FINISH
-
-# =============================================================================
-
-# =============================================================================
-
-# 10 Blueprint validation / generation START
-
-# =============================================================================
-
+# Target: diagrams
+# Purpose: Generate managed Mermaid diagram artifacts.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: diagrams
 diagrams:
 	$(PYTHON) scripts/generate_mermaid.py
 
+# Target: diagrams-check
+# Purpose: Validate generated diagram sources and diagram consistency.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: diagrams-check
-diagrams-check: diagrams
+diagrams-check:
 	$(PYTHON) scripts/validation/validate_diagrams_index.py
-	@echo "OK: Blueprint diagram artifacts are generated and documented."
+	@echo "OK: existing Blueprint diagram artifacts are documented and valid."
 
+# Target: diagrams-list
+# Purpose: List managed diagram definitions/artifacts without changing them.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — only the selected status/artifact/query surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: diagrams-list
 diagrams-list:
 	@find diagrams -maxdepth 1 -type f | sort
 
+# Target: guides
+# Purpose: Generate managed module guide artifacts.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: guides
 guides:
 	$(PYTHON) scripts/generate_module_guides.py
 
+# Target: manifest-example
+# Purpose: Validate the configured example module manifest.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: manifest-example
 manifest-example:
 	$(PYTHON) scripts/validate_module_manifest.py "$(BLUEPRINT_MODULE_MANIFEST_EXAMPLE)"
 
-# =============================================================================
-
-# 10 Blueprint validation / generation FINISH
 
 # =============================================================================
-
+# 06 Prompt preparation / release / queue navigation
 # =============================================================================
+# Block scope: Prompt lifecycle and queue-facing operator commands.
 
-# 11 Prompt dispatch / outgoing prompts START
-
-# =============================================================================
-
+# Target: prompt-dispatch
+# Purpose: Run the deprecated Prompt Queue v0.2 compatibility validation alias; it does not dispatch work.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: prompt-dispatch
 prompt-dispatch:
-	$(PYTHON) scripts/validate_prompt_dispatch_index.py
+	@echo "DEPRECATED compatibility alias: validating Prompt Queue v0.2"
+	$(PYTHON) scripts/coordination/validate_prompt_queue.py
 
+# Target: outgoing-prompts
+# Purpose: Validate Blueprint outgoing prompt artifacts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: outgoing-prompts
 outgoing-prompts:
 	$(PYTHON) scripts/validate_outgoing_prompts.py
 
-# =============================================================================
+# is explicit and never releases, commits, pushes, merges, or writes to modules.
+# Target: prompt-prepare
+# Purpose: Validate a managed prompt source and optionally prepare its Blueprint-owned draft artifact.
+# Safety: CONDITIONAL MUTATION — APPLY=0 validates/previews only; APPLY=1 writes only the prepared Blueprint prompt artifact. REPLACE=1 is separately explicit.
+# Inputs: SOURCE (required), APPLY (optional/defaulted), REPLACE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Preview/evaluation is reported; when explicit apply inputs authorize mutation, only the target's documented state is written.
+.PHONY: prompt-prepare
+prompt-prepare:
+	@set -eu; \
+		if [ -z "$(SOURCE)" ]; then \
+			echo "FAILED: prompt-prepare requires SOURCE=<managed prompt source path>"; \
+			exit 2; \
+		fi; \
+		case "$(APPLY)" in \
+			0|1) ;; \
+			*) echo "FAILED: APPLY must be 0 or 1"; exit 2 ;; \
+		esac; \
+		case "$(REPLACE)" in \
+			0|1) ;; \
+			*) echo "FAILED: REPLACE must be 0 or 1"; exit 2 ;; \
+		esac; \
+		set -- prepare --root "." --source "$(SOURCE)"; \
+		if [ "$(APPLY)" = "1" ]; then set -- "$$@" --apply; fi; \
+		if [ "$(REPLACE)" = "1" ]; then set -- "$$@" --replace; fi; \
+		$(PYTHON) scripts/coordination/manage_outgoing_prompt.py "$$@"; \
+		if [ "$(APPLY)" = "1" ]; then \
+			$(PYTHON) scripts/coordination/validate_prompt_queue.py; \
+			$(PYTHON) scripts/validate_outgoing_prompts.py; \
+		fi
 
-# 11 Prompt dispatch / outgoing prompts FINISH
+# Blueprint release policy. MODULE must be passed explicitly despite its global
+# navigation default. Never writes to a module repository or commit/push/merge.
+# Target: prompt-release
+# Purpose: Validate release conditions and optionally publish one prepared prompt into Prompt Queue v0.2.
+# Safety: CONDITIONAL MUTATION — APPLY=0 evaluates only; APPLY=1 may publish one prepared prompt only when governance gates authorize release.
+# Inputs: MODULE (required), PROMPT_ID (required), APPLY (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Preview/evaluation is reported; when explicit apply inputs authorize mutation, only the target's documented state is written.
+.PHONY: prompt-release
+prompt-release:
+	@set -eu; \
+		if [ "$(origin MODULE)" != "command line" ]; then \
+			echo "FAILED: prompt-release requires explicit MODULE=<canonical module id>; the default MODULE is not accepted"; \
+			exit 2; \
+		fi; \
+		if [ -z "$(MODULE)" ]; then \
+			echo "FAILED: prompt-release requires MODULE=<canonical module id>"; \
+			exit 2; \
+		fi; \
+		if [ -z "$(PROMPT_ID)" ]; then \
+			echo "FAILED: prompt-release requires PROMPT_ID=<canonical prompt id>"; \
+			exit 2; \
+		fi; \
+		case "$(APPLY)" in \
+			0|1) ;; \
+			*) echo "FAILED: APPLY must be 0 or 1"; exit 2 ;; \
+		esac; \
+		set -- release --root "." --module "$(MODULE)" --prompt-id "$(PROMPT_ID)"; \
+		if [ "$(APPLY)" = "1" ]; then set -- "$$@" --apply; fi; \
+		$(PYTHON) scripts/coordination/manage_outgoing_prompt.py "$$@"; \
+		if [ "$(APPLY)" = "1" ]; then \
+			$(PYTHON) scripts/coordination/validate_prompt_queue.py; \
+			$(PYTHON) scripts/validate_outgoing_prompts.py; \
+		fi
 
-# =============================================================================
 
-# =============================================================================
-
-# 12 Prompt Queue navigation START
-
-# =============================================================================
-
+# Target: prompt-queue-validate
+# Purpose: Validate Prompt Queue structure and queue records.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: prompt-queue-validate
 prompt-queue-validate:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py
 
+# Target: prompt-dashboard
+# Purpose: Render the human-readable prompt queue dashboard for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: prompt-dashboard
 prompt-dashboard:
-	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)"
 
+# Target: prompt-status
+# Purpose: Render canonical read-only prompt status for the selected module.
+# Safety: READ-ONLY — renders prompt state only; does not prepare, release, or mutate prompts.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: prompt-status
+prompt-status:
+	$(MAKE) prompt-dashboard MODULE="$(MODULE)"
+
+# Target: prompt-next
+# Purpose: Resolve the next queue item that is currently eligible for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: prompt-next
 prompt-next:
 	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)"
 
+# Target: prompt-read-next
+# Purpose: Resolve and print the next eligible prompt content for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: prompt-read-next
 prompt-read-next:
 	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)" --read
 
-# =============================================================================
-
-# 12 Prompt Queue navigation FINISH
-
-# =============================================================================
-
-# =============================================================================
 
 # 12A Completion intake / finalization / next work START
 
-# =============================================================================
 
+# =============================================================================
+# 07 Completion intake / review / next-work resolution
+# =============================================================================
+# Block scope: Module completion evidence intake and review decisions.
+
+# Target: completion-revision-status
+# Purpose: Render completion exchange revision lifecycle status.
+# Safety: READ-ONLY — Blueprint revision lifecycle status only.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: completion-revision-status completion-revision-check
+completion-revision-status:
+	$(PYTHON) scripts/coordination/completion_revision_status.py --root "."
+
+# Target: completion-revision-check
+# Purpose: Validate completion exchange revision lifecycle consistency.
+# Safety: READ-ONLY — validates Blueprint revision lifecycle only.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+completion-revision-check:
+	$(PYTHON) scripts/coordination/completion_revision_status.py --root "." --output-format yaml
+
+# without fetch/checkout/restore and never executes module code.
+# Target: completion-intake-check
+# Purpose: Independently verify published module completion evidence without accepting it.
+# Safety: READ-ONLY WITH NETWORK READ — may use git ls-remote to verify published evidence; writes neither Blueprint nor module repositories.
+# Inputs: MODULE (required), MODULE_ROOT (required), PACKET (required), COMPLETION_COMMIT (required), REMOTE (optional/defaulted), BRANCH (optional/defaulted), ALLOW_CANDIDATE_REFERENCE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: completion-intake-check
+completion-intake-check:
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--remote "$(REMOTE)"; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ "$(ALLOW_CANDIDATE_REFERENCE)" = "1" ]; then set -- "$$@" --allow-candidate-reference; fi; \
+		$(PYTHON) scripts/coordination/completion_intake_check.py "$$@"
+
+# Target: completion-intake-preview
+# Purpose: Build and show the acceptance intake plan after the same read-only completion check.
+# Safety: READ-ONLY — builds/prints the intake plan only; writes neither Blueprint nor module repository state.
+# Inputs: MODULE (required), MODULE_ROOT (required), PACKET (required), COMPLETION_COMMIT (required), REMOTE (optional/defaulted), BRANCH (optional/defaulted), REVIEW_NOTES (optional/defaulted), REVIEWED_AT (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: completion-intake-preview
 completion-intake-preview:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision accepted \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--remote "$(REMOTE)"; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
+# independently blocks writes unless completion-intake-check passed.
+# Target: completion-accept
+# Purpose: Record acceptance of validated module completion evidence in Blueprint coordination state.
+# Safety: BLUEPRINT MUTATION — writes only Blueprint-owned review/queue/roadmap coordination state after successful read-only intake checks; never writes the module repository.
+# Inputs: MODULE (required), MODULE_ROOT (required), PACKET (required), COMPLETION_COMMIT (required), REMOTE (optional/defaulted), BRANCH (optional/defaulted), REVIEW_NOTES (optional/defaulted), REVIEWED_AT (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: completion-accept
 completion-accept:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted --write; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision accepted \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--remote "$(REMOTE)" \
+			--write; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
+# queue/roadmap/review records. It never mutates the module repository.
+# Target: completion-return
+# Purpose: Return completion evidence for correction with explicit operator review notes.
+# Safety: BLUEPRINT MUTATION — writes only Blueprint-owned review/return records; never writes the module repository.
+# Inputs: MODULE (required), MODULE_ROOT (required), PACKET (required), REVIEW_NOTES (required), COMPLETION_COMMIT (optional/defaulted), REVIEWED_AT (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: completion-return
 completion-return:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	if [ -z "$(REVIEW_NOTES)" ]; then 		echo "FAILED: completion-return requires REVIEW_NOTES=..."; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision returned_for_fix --review-notes "$(REVIEW_NOTES)" --write; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(REVIEW_NOTES)" ]; then echo "FAILED: completion-return requires REVIEW_NOTES=..."; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision returned_for_fix \
+			--review-notes "$(REVIEW_NOTES)" \
+			--write; \
+		if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
+# Target: next-work-suggestion
+# Purpose: Render the next Blueprint coordination action suggested for the selected module.
+# Safety: READ-ONLY — resolves and prints a suggestion only.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: next-work-suggestion
 next-work-suggestion:
 	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
 
+# Target: completion-finalize-check
+# Purpose: Validate queue and roadmap state after an explicit completion accept/return action.
+# Safety: READ-ONLY — validates post-decision queue/roadmap state; does not finalize or write completion state.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-finalize-check
 completion-finalize-check:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py --root "."
 	$(PYTHON) scripts/coordination/validate_module_roadmap.py --root "." --module "$(MODULE)"
 	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
 
-# =============================================================================
-
 # 12A Completion intake / finalization / next work FINISH
 
-# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 08A Governed Worker Cycle / candidate promotion
+# -----------------------------------------------------------------------------
+# Purpose: One operator-facing corridor over existing CF-10 task resolution,
+# workspace, ACK/dispatch preparation and candidate promotion mechanics.
+# Authority: derived workflow only; Work Front remains execution authority.
+# Safety: no target below performs automatic Worker launch, acceptance, commit,
+# push, merge or release.
+
+GOVERNED_WORKER_TASK ?=
+GOVERNED_WORKER_ATTEMPT ?=
+GOVERNED_WORKER_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
+CONFIRM_RESULT_RETURN_RECONCILIATION ?= 0
+
+.PHONY: governed-worker-cycle-check
+governed-worker-cycle-check:
+	$(PYTHON) -m py_compile 		scripts/coordination/control_plane/dispatch_intent.py 		scripts/coordination/control_plane/cf10_training_dispatch.py 		scripts/coordination/control_plane/governed_worker_cycle.py 		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py 		scripts/coordination/control_plane/candidate_promotion.py
+	$(PYTHON) -m pytest -q 		tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py 		tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py 		tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py 		tests/coordination/control_plane/test_cf10_first_worker_explicit_dispatch_gate_v0_1.py 		tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py 		tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py 		tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	@git diff --check -- 		coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml 		scripts/coordination/control_plane/dispatch_intent.py 		scripts/coordination/control_plane/cf10_training_dispatch.py 		scripts/coordination/control_plane/governed_worker_cycle.py 		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py 		scripts/coordination/control_plane/candidate_promotion.py 		tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py 		tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py 		tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py 		tests/coordination/control_plane/test_cf10_first_worker_explicit_dispatch_gate_v0_1.py 		tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py 		tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py 		tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py 		coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml 		Makefile
+
+.PHONY: governed-worker-cycle-status
+governed-worker-cycle-status:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle status --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
+.PHONY: governed-worker-cycle-prepare
+governed-worker-cycle-prepare:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle prepare --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
+.PHONY: governed-worker-cycle-refresh
+governed-worker-cycle-refresh:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle refresh --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
+.PHONY: governed-worker-cycle-ack
+governed-worker-cycle-ack:
+	@test "$(CONFIRM_ACK)" = "1" || { echo "FAILED: CONFIRM_ACK=1 is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle ack --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-ack
+
+.PHONY: governed-worker-cycle-authorize-dispatch
+governed-worker-cycle-authorize-dispatch:
+	@test "$(CONFIRM_DISPATCH)" = "1" || { echo "FAILED: CONFIRM_DISPATCH=1 is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle authorize-dispatch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-dispatch-authorization
+
 
 # =============================================================================
+# 08B CF-10 Worker Runtime invocation bridge
+# =============================================================================
+# Block scope: Authority-neutral provider invocation construction plus bounded
+# provider/MCP proof; no Worker attempt or publication authority.
 
-# 13 Coordination document awareness START
+CF10_WORKER_BRIDGE_EVIDENCE_DIR ?=
+CF10_WORKER_BRIDGE_PROOF_SUITE ?= cf10-worker-pipeline
+CF10_WORKER_BRIDGE_PROOF_TIER ?= LOCAL_FOCUSED
+CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT ?=
+CF10_WORKER_PROVIDER_PROOF_SUITE ?= cf10-worker-pipeline
+CF10_WORKER_PROVIDER_PROOF_TIER ?= LOCAL_FOCUSED
+
+# Target: cf10-worker-invocation-bridge-check
+# Purpose: Validate the bounded CF-10 Worker validation MCP bridge and provider invocation integration.
+# Safety: READ-ONLY TEST - no real Worker launch, canonical mutation, attempt append, promotion, commit, push, merge, release or auto-ACCEPT.
+# Inputs: None.
+# Scope: RELATED - MCP bridge, invocation adapter, structured executor and shared launcher regressions.
+# Result: Compilation plus focused/regression tests pass or the target exits non-zero.
+.PHONY: cf10-worker-invocation-bridge-check
+cf10-worker-invocation-bridge-check:
+	$(PYTHON) -m py_compile 		scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py 		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+	$(PYTHON) -m pytest -q 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+
+# Target: cf10-worker-runtime-invocation-adapter-check
+# Purpose: Compatibility alias for the canonical Worker Invocation Bridge check.
+# Safety: READ-ONLY TEST - delegates to cf10-worker-invocation-bridge-check.
+.PHONY: cf10-worker-runtime-invocation-adapter-check
+cf10-worker-runtime-invocation-adapter-check: cf10-worker-invocation-bridge-check
+
+# Target: cf10-worker-invocation-bridge-proof
+# Purpose: Perform a real stdio MCP handshake and run one registered validation suite through the bounded bridge.
+# Safety: READ-ONLY VALIDATION - no Worker attempt, dispatch, promotion or repository mutation; evidence must be outside the repository.
+# Inputs: CF10_WORKER_BRIDGE_EVIDENCE_DIR (required); suite/tier optional and registry-bound.
+# Scope: RELATED - real stdio MCP transport plus validation_suite@0.2.0 over the structured executor.
+# Result: External structured evidence and non-zero exit on handshake/tool/validation failure.
+.PHONY: cf10-worker-invocation-bridge-proof
+cf10-worker-invocation-bridge-proof:
+	@test -n "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)" || { echo "ERROR: CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py 		--proof 		--root . 		--suite "$(CF10_WORKER_BRIDGE_PROOF_SUITE)" 		--require-tier "$(CF10_WORKER_BRIDGE_PROOF_TIER)" 		--evidence-root "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)"
+
+
+# Target: cf10-worker-provider-session-proof-check
+# Purpose: Validate the project-native real provider-session proof capability.
+# Safety: READ-ONLY TEST - no real provider launch and no repository mutation.
+# Inputs: None.
+# Scope: RELATED - provider proof module, focused tests and Make operator surface.
+# Result: Production module compiles and focused provider-proof tests pass.
+.PHONY: cf10-worker-provider-session-proof-check
+cf10-worker-provider-session-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/worker_runtime/provider_session_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/worker_runtime/test_cf10_worker_provider_session_proof_v0_1.py
+
+# Target: cf10-worker-provider-session-proof
+# Purpose: Run one real GitHub Copilot -> ForPrintValidation MCP provider-session proof.
+# Safety: READ-ONLY VALIDATION - no Worker attempt, canonical mutation, staging, commit, push, merge, release or promotion.
+# Inputs: CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT (required); suite/tier optional and registry-bound.
+# Scope: RELATED - configured provider, session-only MCP transport and validation_suite@0.2.0.
+# Result: Immutable evidence outside the repository and non-zero exit on provider/MCP/validation failure.
+.PHONY: cf10-worker-provider-session-proof
+cf10-worker-provider-session-proof:
+	@test -n "$(CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT)" || { echo "ERROR: CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/provider_session_proof.py --canonical-repo . --runtime-root "$(CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT)" --suite "$(CF10_WORKER_PROVIDER_PROOF_SUITE)" --require-tier "$(CF10_WORKER_PROVIDER_PROOF_TIER)"
 
 # =============================================================================
+# 08 Context / launch / approval / worker control surfaces
+# =============================================================================
+# Block scope: Scoped context and control-plane preparation/runtime commands.
 
+# Target: document-manifest
+# Purpose: Build the coordination document manifest in read-only/no-write mode.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: document-manifest
 document-manifest:
 	$(PYTHON) scripts/coordination/build_document_manifest.py --no-write
 
+# Target: document-manifest-write
+# Purpose: Build and write generated coordination document-manifest artifacts.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: document-manifest-write
 document-manifest-write:
 	$(PYTHON) scripts/coordination/build_document_manifest.py
 
+# Target: document-awareness
+# Purpose: Render module-scoped awareness of current Blueprint coordination documents.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted), LIMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: document-awareness
 document-awareness:
-	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)"
 
+# Target: context-bundle
+# Purpose: Build a scoped module context bundle in memory without writing an artifact.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted), SCOPE (optional/defaulted), LIMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: context-bundle
 context-bundle:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
 
+# Target: context-bundle-write
+# Purpose: Build and write a scoped module context bundle artifact.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: MODULE (optional/defaulted), SCOPE (optional/defaulted), LIMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: context-bundle-write
 context-bundle-write:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)"
 
+# Target: context-bundle-print
+# Purpose: Build and print the selected module context bundle to stdout.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted), SCOPE (optional/defaulted), LIMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: context-bundle-print
 context-bundle-print:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
 
+TASK_PROMPT_ID ?=
+TASK_MODULE_ROOT ?=
+TASK_CONTEXT_OUTPUT_DIR ?= generated/task_context_bundles
+
+# Target: task-context-compiler-check
+# Purpose: Validate the task-context compiler contract and its tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: task-context-compiler-check
+task-context-compiler-check:
+	$(PYTHON) scripts/validation/validate_task_context_compiler_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_task_context_compiler_v0_1.py
+
+# Target: task-context-check
+# Purpose: Validate a task-specific context bundle request without writing the bundle.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_PROMPT_ID (required), TASK_MODULE_ROOT (required), MODULE (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: task-context-check
+task-context-check:
+	@test -n "$(TASK_PROMPT_ID)" || { echo "FAILED: TASK_PROMPT_ID is required"; exit 1; }
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --task-context --prompt-id "$(TASK_PROMPT_ID)" --module-root "$(TASK_MODULE_ROOT)" --no-write
+
+# Target: task-context-compile
+# Purpose: Compile and write a task-specific context bundle for the selected module and prompt.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: TASK_PROMPT_ID (required), TASK_MODULE_ROOT (required), MODULE (optional/defaulted), TASK_CONTEXT_OUTPUT_DIR (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: task-context-compile
+task-context-compile:
+	@test -n "$(TASK_PROMPT_ID)" || { echo "FAILED: TASK_PROMPT_ID is required"; exit 1; }
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --task-context --prompt-id "$(TASK_PROMPT_ID)" --module-root "$(TASK_MODULE_ROOT)" --output-dir "$(TASK_CONTEXT_OUTPUT_DIR)"
+
+# Target: task-context-print
+# Purpose: Compile and print task-specific context to stdout without persisting a bundle.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_PROMPT_ID (required), TASK_MODULE_ROOT (required), MODULE (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: task-context-print
+task-context-print:
+	@test -n "$(TASK_PROMPT_ID)" || { echo "FAILED: TASK_PROMPT_ID is required"; exit 1; }
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --task-context --prompt-id "$(TASK_PROMPT_ID)" --module-root "$(TASK_MODULE_ROOT)" --print
+
+
+DEPENDENCY_READINESS ?=
+LAUNCH_REQUEST_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/launch_requests
+
+# Target: launch-request-gate-check
+# Purpose: Validate the launch-request gate contract and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: launch-request-gate-check
+launch-request-gate-check:
+	$(PYTHON) scripts/validation/validate_launch_request_fresh_context_gate_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_launch_request_fresh_context_gate_v0_1.py
+
+# Target: launch-request-evaluate
+# Purpose: Evaluate whether a task-context archive satisfies launch-request prerequisites without writing a request.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_MODULE_ROOT (required), TASK_CONTEXT_ARCHIVE (required), DEPENDENCY_READINESS (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: launch-request-evaluate
+launch-request-evaluate:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(TASK_CONTEXT_ARCHIVE)" || { echo "FAILED: TASK_CONTEXT_ARCHIVE is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_launch_request.py --module-root "$(TASK_MODULE_ROOT)" --task-context-archive "$(TASK_CONTEXT_ARCHIVE)" $(if $(DEPENDENCY_READINESS),--dependency-readiness "$(DEPENDENCY_READINESS)",) --no-write
+
+# Target: launch-request-build
+# Purpose: Build a launch-request artifact from a validated task-context archive.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: TASK_MODULE_ROOT (required), TASK_CONTEXT_ARCHIVE (required), DEPENDENCY_READINESS (optional/defaulted), LAUNCH_REQUEST_OUTPUT_DIR (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: launch-request-build
+launch-request-build:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(TASK_CONTEXT_ARCHIVE)" || { echo "FAILED: TASK_CONTEXT_ARCHIVE is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_launch_request.py --module-root "$(TASK_MODULE_ROOT)" --task-context-archive "$(TASK_CONTEXT_ARCHIVE)" $(if $(DEPENDENCY_READINESS),--dependency-readiness "$(DEPENDENCY_READINESS)",) --output-dir "$(LAUNCH_REQUEST_OUTPUT_DIR)"
+
+OPERATOR_APPROVAL_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/operator_approval_decisions
+OPERATOR_DECISION ?=
+OPERATOR_ACTOR ?=
+OPERATOR_REASON ?=
+OPERATOR_EXPIRES_MINUTES ?= 30
+APPROVAL_DECISION ?=
+
+# Target: operator-approval-gateway-check
+# Purpose: Validate the operator-approval gateway contract and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: operator-approval-gateway-check
+operator-approval-gateway-check:
+	$(PYTHON) scripts/validation/validate_operator_approval_gateway_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_operator_approval_gateway_v0_1.py
+
+# Target: operator-approval-evaluate
+# Purpose: Evaluate whether a launch request requires or satisfies operator approval.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: operator-approval-evaluate
+operator-approval-evaluate:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_operator_approval_decision.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --evaluate
+
+# Target: operator-approval-decide
+# Purpose: Write an explicit operator approval/hold/reject decision artifact for a launch request.
+# Safety: DECISION ARTIFACT WRITE — writes only the explicit bounded operator decision artifact supplied by operator inputs.
+# Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required), OPERATOR_DECISION (required), OPERATOR_ACTOR (required), OPERATOR_REASON (required), OPERATOR_EXPIRES_MINUTES (optional/defaulted), OPERATOR_APPROVAL_OUTPUT_DIR (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: operator-approval-decide
+operator-approval-decide:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(OPERATOR_DECISION)" || { echo "FAILED: OPERATOR_DECISION is required"; exit 1; }
+	@test -n "$(OPERATOR_ACTOR)" || { echo "FAILED: OPERATOR_ACTOR is required"; exit 1; }
+	@test -n "$(OPERATOR_REASON)" || { echo "FAILED: OPERATOR_REASON is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_operator_approval_decision.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --decision "$(OPERATOR_DECISION)" --decided-by "$(OPERATOR_ACTOR)" --reason "$(OPERATOR_REASON)" --expires-in-minutes "$(OPERATOR_EXPIRES_MINUTES)" --output-dir "$(OPERATOR_APPROVAL_OUTPUT_DIR)"
+
+# Target: operator-approval-validate
+# Purpose: Validate an operator approval decision against its launch request.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required), APPROVAL_DECISION (required).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: operator-approval-validate
+operator-approval-validate:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(APPROVAL_DECISION)" || { echo "FAILED: APPROVAL_DECISION is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_operator_approval_decision.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --validate-decision "$(APPROVAL_DECISION)"
+
+WORKER_RUNTIME ?=
+WORKER_INVOCATION_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/worker_invocations
+WORKER_COMPLETION_ROOT ?= /srv/software_development/forprint-control-plane-runtime/worker_runs
+
+# Target: console-worker-adapter-check
+# Purpose: Validate the console worker adapter contract and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: console-worker-adapter-check
+console-worker-adapter-check:
+	$(PYTHON) scripts/validation/validate_console_worker_adapter_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_console_worker_adapter_v0_1.py
+
+# Target: worker-invocation-evaluate
+# Purpose: Evaluate a prospective worker invocation without creating the invocation artifact.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required), WORKER_RUNTIME (required), APPROVAL_DECISION (optional/defaulted), WORKER_COMPLETION_ROOT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: worker-invocation-evaluate
+worker-invocation-evaluate:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(WORKER_RUNTIME)" || { echo "FAILED: WORKER_RUNTIME is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_worker_invocation.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --runtime "$(WORKER_RUNTIME)" $(if $(APPROVAL_DECISION),--approval-decision "$(APPROVAL_DECISION)",) --completion-root "$(WORKER_COMPLETION_ROOT)" --no-write
+
+# Target: worker-invocation-build
+# Purpose: Build a worker invocation artifact from a launch request and runtime selection.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required), WORKER_RUNTIME (required), APPROVAL_DECISION (optional/defaulted), WORKER_COMPLETION_ROOT (optional/defaulted), WORKER_INVOCATION_OUTPUT_DIR (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: worker-invocation-build
+worker-invocation-build:
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(WORKER_RUNTIME)" || { echo "FAILED: WORKER_RUNTIME is required"; exit 1; }
+	$(PYTHON) scripts/coordination/build_worker_invocation.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --runtime "$(WORKER_RUNTIME)" $(if $(APPROVAL_DECISION),--approval-decision "$(APPROVAL_DECISION)",) --completion-root "$(WORKER_COMPLETION_ROOT)" --output-dir "$(WORKER_INVOCATION_OUTPUT_DIR)"
+
+
+CONTROL_PLANE_RUNTIME_DIR ?= /srv/software_development/forprint-control-plane-runtime/runtime
+WORKER_INVOCATION ?=
+CONTROL_PLANE_EVENT_ROOT ?=
+CONTROL_PLANE_ACTIVE_EXECUTION ?=
+
+# Target: control-plane-runtime-check
+# Purpose: Validate control-plane runtime behavior and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: control-plane-runtime-check
+control-plane-runtime-check:
+	$(PYTHON) scripts/validation/control_plane/validate_central_listener_dispatcher_monitor_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_central_listener_dispatcher_monitor_v0_1.py
+
+# Target: control-plane-step
+# Purpose: Advance one bounded control-plane runtime step using supplied launch and invocation artifacts.
+# Safety: RUNTIME-STATE MUTATION — advances one bounded control-plane runtime step only for the explicitly supplied artifacts.
+# Inputs: LAUNCH_REQUEST (required), WORKER_INVOCATION (required), APPROVAL_DECISION (optional/defaulted), CONTROL_PLANE_EVENT_ROOT (optional/defaulted), CONTROL_PLANE_ACTIVE_EXECUTION (optional/defaulted), CONTROL_PLANE_RUNTIME_DIR (optional/defaulted).
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: control-plane-step
+control-plane-step:
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(WORKER_INVOCATION)" || { echo "FAILED: WORKER_INVOCATION is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.runtime --launch-request "$(LAUNCH_REQUEST)" --worker-invocation "$(WORKER_INVOCATION)" $(if $(APPROVAL_DECISION),--approval-decision "$(APPROVAL_DECISION)",) $(if $(CONTROL_PLANE_EVENT_ROOT),--event-root "$(CONTROL_PLANE_EVENT_ROOT)",) $(if $(CONTROL_PLANE_ACTIVE_EXECUTION),--active-execution "$(CONTROL_PLANE_ACTIVE_EXECUTION)",) --runtime-dir "$(CONTROL_PLANE_RUNTIME_DIR)"
+
+# Target: control-plane-status
+# Purpose: Render current control-plane runtime status for the supplied launch/invocation artifacts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: LAUNCH_REQUEST (required), WORKER_INVOCATION (required), APPROVAL_DECISION (optional/defaulted), CONTROL_PLANE_RUNTIME_DIR (optional/defaulted).
+# Scope: LOCAL/FOCUSED — only the selected status/artifact/query surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: control-plane-status
+control-plane-status:
+	@test -n "$(LAUNCH_REQUEST)" || { echo "FAILED: LAUNCH_REQUEST is required"; exit 1; }
+	@test -n "$(WORKER_INVOCATION)" || { echo "FAILED: WORKER_INVOCATION is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.runtime --launch-request "$(LAUNCH_REQUEST)" --worker-invocation "$(WORKER_INVOCATION)" $(if $(APPROVAL_DECISION),--approval-decision "$(APPROVAL_DECISION)",) --runtime-dir "$(CONTROL_PLANE_RUNTIME_DIR)" --no-write --print
+
+
+# Target: completion-control-plane-check
+# Purpose: Validate completion-control-plane integration and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: completion-control-plane-check
+completion-control-plane-check:
+	$(PYTHON) scripts/validation/control_plane/completion/validate_completion_intake_inspector_conformance_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/completion/test_completion_intake_inspector_conformance_v0_1.py
+
+# Target: bootstrap-task-context-check
+# Purpose: Validate bootstrap task-context wiring.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: bootstrap-task-context-check
+bootstrap-task-context-check:
+	$(PYTHON) scripts/validation/control_plane/context/validate_bootstrap_task_context_mode_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/context/test_bootstrap_task_context_mode_v0_1.py
+
+# Target: module-readiness-levels-check
+# Purpose: Validate module readiness-level contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-readiness-levels-check
+module-readiness-levels-check:
+	$(PYTHON) scripts/validation/control_plane/readiness/validate_module_readiness_levels_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/readiness/test_module_readiness_levels_v0_1.py
+
+# Target: bootstrap-worker-runtime-check
+# Purpose: Validate bootstrap worker-runtime contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: bootstrap-worker-runtime-check
+bootstrap-worker-runtime-check:
+	$(PYTHON) scripts/validation/control_plane/worker_runtime/validate_bootstrap_worker_runtime_profile_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/worker_runtime/test_bootstrap_worker_runtime_profile_v0_1.py
+
+# Target: inspector-reviewer-registry-check
+# Purpose: Validate inspector/reviewer registry contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: inspector-reviewer-registry-check
+inspector-reviewer-registry-check:
+	$(PYTHON) scripts/validation/control_plane/inspection/validate_inspector_reviewer_registry_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/inspection/test_inspector_reviewer_registry_v0_1.py
+
+# Target: module-bootstrap-prompt-check
+# Purpose: Validate module bootstrap prompt requirements and candidate integration.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-bootstrap-prompt-check
+module-bootstrap-prompt-check:
+	$(PYTHON) scripts/validation/control_plane/context/validate_module_bootstrap_prompt_requirements_v0_1.py
+	$(PYTHON) scripts/validation/control_plane/context/validate_logistics_bootstrap_prompt_v0_2_candidate.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/context/test_module_bootstrap_prompt_requirements_v0_1.py
+
+# Target: project-context-bootstrap-check
+# Purpose: Validate project-context bootstrap behavior and dry-run package selection.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: PROJECT_ONBOARD — whole-project onboarding context bounded by the handoff contract.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: project-context-bootstrap-check
+project-context-bootstrap-check:
+	$(PYTHON) scripts/validation/validate_project_context_bootstrap_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_project_context_bootstrap_v0_1.py
+	$(PYTHON) scripts/coordination/build_project_context_archive.py --root . --dry-run
+
+# Target: module-roadmap-reconciliation-check
+# Purpose: Validate module roadmap reconciliation behavior.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-roadmap-reconciliation-check
+module-roadmap-reconciliation-check:
+	$(PYTHON) scripts/validation/validate_module_roadmap_reconciliation_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_module_roadmap_reconciliation_v0_1.py
+	$(PYTHON) scripts/coordination/build_module_roadmap_reconciliation.py --root . --module logistics_service --output generated/module_roadmap_reconciliation_check/logistics_service.yaml
+
+# Target: logistics-semantic-roadmap-reconciliation-check
+# Purpose: Validate Logistics semantic roadmap reconciliation behavior.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: logistics-semantic-roadmap-reconciliation-check
+logistics-semantic-roadmap-reconciliation-check:
+	$(PYTHON) scripts/validation/validate_logistics_semantic_roadmap_reconciliation_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_logistics_semantic_roadmap_reconciliation_v0_1.py
+
+# Target: module-preparation-registry-check
+# Purpose: Build and validate the module preparation registry and queue.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-preparation-registry-check
+module-preparation-registry-check:
+	$(PYTHON) scripts/coordination/control_plane/preparation/build_module_preparation_registry.py --root . --registry-output coordination/internal_work/blueprint/module_preparation/module_preparation_registry_v0_1.yaml --queue-output coordination/internal_work/blueprint/module_preparation/module_preparation_queue_v0_1.yaml
+	$(PYTHON) scripts/validation/control_plane/preparation/validate_module_preparation_registry_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/preparation/test_module_preparation_registry_v0_1.py
+
+# Target: assistant-context-pack
+# Purpose: Build a scoped project-context archive for the selected module/topics.
+# Safety: GENERATED-ARTIFACT WRITE — creates a scoped context archive for MODULE/TOPICS; this is not the authoritative PROJECT_ONBOARD package route.
+# Inputs: MODULE (optional explicit command-line override; default forprint_system_blueprint), TOPICS (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected MODULE/TOPICS; not the authoritative PROJECT_ONBOARD route.
+# Result: A bounded assistant/context package is generated and its path/validation state is reported.
+.PHONY: assistant-context-pack
+assistant-context-pack:
+	@set -- --root .; \
+	module="forprint_system_blueprint"; \
+	if [ "$(origin MODULE)" = "command line" ] && [ -n "$(MODULE)" ]; then module="$(MODULE)"; fi; \
+	set -- "$$@" --module "$$module"; \
+	if [ -n "$(TOPICS)" ]; then set -- "$$@" --topics "$(TOPICS)"; fi; \
+	$(PYTHON) scripts/coordination/build_project_context_archive.py "$$@"
+
+# Target: document-ledger-preview
+# Purpose: Preview a coordination document-awareness ledger update without writing it.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: DOCUMENT (optional/defaulted), SOURCE (optional/defaulted), PRIORITY (optional/defaulted), MODULE (optional/defaulted), LEDGER (optional/defaulted), STATUS (optional/defaulted), NOTES (optional/defaulted), MODULE_COMMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: document-ledger-preview
 document-ledger-preview:
 	@set -eu; \
@@ -403,6 +1572,12 @@ document-ledger-preview:
 	set -- "$$@" --no-write; \
 	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py "$$@"
 
+# Target: document-ledger-update
+# Purpose: Apply a coordination document-awareness ledger update.
+# Safety: BLUEPRINT MUTATION — writes the documented Blueprint-owned coordination/policy state only.
+# Inputs: DOCUMENT (optional/defaulted), SOURCE (optional/defaulted), PRIORITY (optional/defaulted), MODULE (optional/defaulted), LEDGER (optional/defaulted), STATUS (optional/defaulted), NOTES (optional/defaulted), MODULE_COMMIT (optional/defaulted).
+# Scope: SCOPED CONTEXT — selected module/task/artifact only.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: document-ledger-update
 document-ledger-update:
 	@set -eu; \
@@ -418,17 +1593,18 @@ document-ledger-update:
 	if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
 	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py "$$@"
 
-# =============================================================================
-
-# 13 Coordination document awareness FINISH
-
 
 # =============================================================================
-
-# 14 Module roadmap START
-
+# 09 Module roadmaps / acceptance oracles
 # =============================================================================
+# Block scope: Roadmap inspection and acceptance-oracle validation.
 
+# Target: roadmap-validate
+# Purpose: Validate the selected module roadmap and its invariants.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: ROADMAP (optional/defaulted), MODULE (optional/defaulted).
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: roadmap-validate
 roadmap-validate:
 	@if [ -n "$(ROADMAP)" ]; then \
@@ -437,161 +1613,3405 @@ roadmap-validate:
 		$(PYTHON) scripts/coordination/validate_module_roadmap.py --module "$(MODULE)"; \
 	fi
 
+# Target: roadmap-dashboard
+# Purpose: Render the selected module roadmap window around the current position.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULES (optional/defaulted), BEFORE_CURRENT (optional/defaulted), AFTER_CURRENT (optional/defaulted), ROADMAP (optional/defaulted), MODULE (optional/defaulted).
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: roadmap-dashboard
 roadmap-dashboard:
 	@if [ -n "$(MODULES)" ]; then \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	elif [ -n "$(ROADMAP)" ]; then \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	else \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	fi
 
+# Target: roadmap-detail
+# Purpose: Render detailed roadmap information for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: ROADMAP (optional/defaulted), BEFORE_CURRENT (optional/defaulted), AFTER_CURRENT (optional/defaulted), MODULE (optional/defaulted).
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: roadmap-detail
+roadmap-detail:
+	@if [ -n "$(ROADMAP)" ]; then \
+		$(PYTHON) scripts/coordination/render_module_roadmap_detail.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
+	else \
+		$(PYTHON) scripts/coordination/render_module_roadmap_detail.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
+	fi
+
+# Target: acceptance-oracle-validate
+# Purpose: Validate the supplied acceptance-oracle artifact, optionally against an expected SHA-256.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: ORACLE (optional/defaulted), ORACLE_SHA256 (optional/defaulted).
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: acceptance-oracle-validate
+acceptance-oracle-validate:
+	@$(PYTHON) scripts/coordination/acceptance_oracle_v0_1.py --root . --oracle "$(ORACLE)" $(if $(ORACLE_SHA256),--sha256 "$(ORACLE_SHA256)",)
+
+# Target: roadmap-summary
+# Purpose: Render a summary across the configured roadmap module set.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: ROADMAP_SUMMARY_MODULES (optional/defaulted).
+# Scope: PORTFOLIO — configured multi-module/project view.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: roadmap-summary
 roadmap-summary:
-	$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(ROADMAP_SUMMARY_MODULES)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(ROADMAP_SUMMARY_MODULES)"
+
 
 # =============================================================================
-
-# 14 Module roadmap FINISH
-
+# 10 Standards / governance / self-workflow
 # =============================================================================
+# Block scope: Standards, governance, policy, and durable self-audit workflows.
 
-# =============================================================================
-
-# 15 Standards / templates / instruction intake START
-
-# =============================================================================
-
+# Target: standards-index
+# Purpose: Validate the Blueprint standards index.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: standards-index
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
 
+# Target: standards
+# Purpose: Run the standard Blueprint standards validation entrypoint.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: standards
 standards:
 	$(PYTHON) scripts/validate_standards_index.py
 
+# Target: standards-check
+# Purpose: Run the standards validation target through the stable check alias.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: standards-check
 standards-check: standards
 
+# Target: module-standards-template
+# Purpose: Render or validate the standard module Makefile/standards template surface.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-standards-template
 module-standards-template:
 	$(PYTHON) scripts/validate_module_standards_template.py
 
+# Target: instruction-intake
+# Purpose: Validate Blueprint instruction-intake sources and contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: instruction-intake
 instruction-intake:
 	$(PYTHON) scripts/validate_instruction_intake.py
 
+# Target: completion-packet-template
+# Purpose: Validate the canonical completion-packet template surface.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: completion-packet-template
 completion-packet-template:
 	$(PYTHON) scripts/validate_completion_packet_template.py
 
-# =============================================================================
 
-# 15 Standards / templates / instruction intake FINISH
-
-# =============================================================================
-
-# =============================================================================
-
-# 16 Coordination metadata / module policy / governance START
-
-# =============================================================================
-
+# Target: coordination-check
+# Purpose: Validate Blueprint coordination metadata without changing it.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: coordination-check
 coordination-check:
 	$(PYTHON) scripts/check_coordination_metadata.py --module-root .
 
+# Target: coordination-fix
+# Purpose: Apply supported repairs to Blueprint coordination metadata.
+# Safety: BLUEPRINT MUTATION — writes the documented Blueprint-owned coordination/policy state only.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: coordination-fix
 coordination-fix:
 	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
 
+# Target: module-policy-generate
+# Purpose: Generate module policy documentation from canonical policy sources.
+# Safety: BLUEPRINT MUTATION — writes the documented Blueprint-owned coordination/policy state only.
+# Inputs: None.
+# Scope: MODULE — selected MODULE.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
 .PHONY: module-policy-generate
 module-policy-generate:
 	$(PYTHON) scripts/generate_module_policy_docs.py
 
+# Target: module-policy-check
+# Purpose: Validate module policy artifacts and consistency.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE — selected MODULE.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-policy-check
 module-policy-check:
 	$(PYTHON) scripts/generate_module_policy_docs.py --check
 
+# Target: module-governance-audit
+# Purpose: Run the module governance audit for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE — selected MODULE.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-governance-audit
 module-governance-audit:
 	$(PYTHON) scripts/audit_module_governance.py
 
+# Target: module-governance-audit-check
+# Purpose: Validate the module governance audit implementation/contract.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE — selected MODULE.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-governance-audit-check
 module-governance-audit-check:
 	$(PYTHON) scripts/audit_module_governance.py --no-write
 
-# =============================================================================
 
-# 16 Coordination metadata / module policy / governance FINISH
-
-# =============================================================================
-
-# =============================================================================
 # Blueprint reporting consolidation audit
-# =============================================================================
 
+# Target: reporting-consolidation-audit
+# Purpose: Audit reporting surfaces for consolidation issues.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: reporting-consolidation-audit
 reporting-consolidation-audit:
-	$(PYTHON) scripts/reporting/audit_consolidation.py $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/reporting/audit_consolidation.py
 
+# Target: reporting-consolidation-audit-json
+# Purpose: Run the reporting consolidation audit with JSON-oriented output.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: reporting-consolidation-audit-json
 reporting-consolidation-audit-json:
 	@$(PYTHON) scripts/reporting/audit_consolidation.py --json
 
-# =============================================================================
 
-# 17 Module workflow control / self-knowledge START
-
-# =============================================================================
-
+# Target: module-workflow-list
+# Purpose: List available module workflow operations.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — only the selected status/artifact/query surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-workflow-list
 module-workflow-list:
 	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." list
 
+# Target: module-workflow-check
+# Purpose: Validate the generic module workflow control surface.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-workflow-check
 module-workflow-check:
 	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." check
 
+# Target: module-self-audit
+# Purpose: Run or initialize the self-audit workflow for the selected module.
+# Safety: WORKFLOW-STATE MUTATION — may create/update durable self-audit state for the selected module; no Git/release authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE — selected MODULE.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-self-audit
 module-self-audit:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-audit
 
+# Target: module-self-audit-resume
+# Purpose: Resume the selected module self-audit from durable workflow state.
+# Safety: WORKFLOW-STATE MUTATION — resumes and updates durable self-audit state for the selected module; no Git/release authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE — selected MODULE.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-self-audit-resume
 module-self-audit-resume:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit-resume
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-audit-resume
 
+# Target: module-self-status
+# Purpose: Render concise durable self-workflow status for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE — selected MODULE.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-self-status
 module-self-status:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-status
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-status
 
+# Target: module-self-report-full
+# Purpose: Render the full durable self-workflow report for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE — selected MODULE.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: module-self-report-full
 module-self-report-full:
 	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-report-full
 
+# Target: modules-self-status
+# Purpose: Render self-workflow status across the configured module portfolio.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: PORTFOLIO — configured multi-module/project view.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: modules-self-status
 modules-self-status:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." $(if $(filter 1,$(NO_COLOR)),--no-color,) modules-status
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." modules-status
 
+# Target: blueprint-self-audit
+# Purpose: Run the Blueprint repository self-audit through the generic module workflow.
+# Safety: WORKFLOW-STATE MUTATION — delegates to module-self-audit for the Blueprint repository only.
+# Inputs: None.
+# Scope: PROJECT — Blueprint repository.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: blueprint-self-audit
 blueprint-self-audit:
 	$(MAKE) module-self-audit MODULE=forprint_system_blueprint
 
+# Target: blueprint-self-audit-resume
+# Purpose: Resume the Blueprint self-audit from durable workflow state.
+# Safety: WORKFLOW-STATE MUTATION — resumes the Blueprint durable self-audit only.
+# Inputs: None.
+# Scope: PROJECT — Blueprint repository.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: blueprint-self-audit-resume
 blueprint-self-audit-resume:
 	$(MAKE) module-self-audit-resume MODULE=forprint_system_blueprint
 
+# Target: blueprint-self-status
+# Purpose: Render concise Blueprint self-workflow status.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: PROJECT — Blueprint repository.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: blueprint-self-status
 blueprint-self-status:
 	$(MAKE) module-self-status MODULE=forprint_system_blueprint
 
+# Target: blueprint-self-report-full
+# Purpose: Render the full Blueprint self-workflow report.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: PROJECT — Blueprint repository.
+# Result: The target completes its documented operation and returns non-zero on failure.
 .PHONY: blueprint-self-report-full
 blueprint-self-report-full:
 	$(MAKE) module-self-report-full MODULE=forprint_system_blueprint
 
-# =============================================================================
+# Target: blueprint-governance-status
+# Purpose: Render Blueprint governance status in text, YAML, or JSON format.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: GOVERNANCE_STATUS_FORMAT (optional/defaulted).
+# Scope: PROJECT — Blueprint repository.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: blueprint-governance-status
+blueprint-governance-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_governance_status.py --repo-root "." --format "$(GOVERNANCE_STATUS_FORMAT)"
 
-# 17 Module workflow control / self-knowledge FINISH
+
+# These targets may write only declared generated reports/generated-artifact evidence.
+# They are invoked by the repository gate and must never mutate source records.
+
 
 # =============================================================================
+# 11 Repository knowledge / inventory / reconciliation
+# =============================================================================
+# Block scope: Repository-knowledge health, semantic coverage, and acceptance evidence.
+
+# Target: check-module-registry-consistency
+# Purpose: Validate module-registry consistency against current repository knowledge.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-module-registry-consistency
+check-module-registry-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_module_registry_resolution.py --manifest coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --repo-root . --output reports/module_registry_consistency_report.yaml
+
+# Target: roadmap-status
+# Purpose: Render current roadmap status without mutation.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: roadmap-status
+roadmap-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_self_coordination_status.py --module "$(MODULE)" --view roadmap
+	$(PYTHON) scripts/coordination/roadmap_execution_reconciliation.py --root . status
+
+# Target: prompts-status
+# Purpose: Render current prompt-system status without mutation.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: LOCAL/FOCUSED — only the selected status/artifact/query surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: prompts-status
+prompts-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_self_coordination_status.py --module "$(MODULE)" --view prompts
+
+# Target: check-self-coordination-consistency
+# Purpose: Validate self-coordination artifacts for internal consistency.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-self-coordination-consistency
+check-self-coordination-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_self_coordination.py --repo-root . --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --completion coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml --module-plan coordination/self_coordination/module_plans/forprint_library.yaml --module-plan coordination/self_coordination/module_plans/logistics_service.yaml --module-plan coordination/self_coordination/module_plans/telegram_bot.yaml --output reports/blueprint_self_coordination_consistency_report.yaml
+
+# Target: inventory-status
+# Purpose: Render current repository capability-inventory status.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (optional/defaulted).
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: inventory-status
+inventory-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_inventory_status.py --module "$(MODULE)"
+
+# Target: check-repository-knowledge-snapshots
+# Purpose: Validate repository-knowledge snapshot artifacts.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-repository-knowledge-snapshots
+check-repository-knowledge-snapshots:
+	@mkdir -p reports generated/repository_knowledge_snapshot_comparisons
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --work-dir generated/repository_knowledge_snapshot_comparisons --output reports/repository_knowledge_snapshot_comparison_report.yaml
+
+# Target: check-inventory-status-consistency
+# Purpose: Validate consistency between repository inventory and reported status.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-inventory-status-consistency
+check-inventory-status-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_inventory_status_consistency.py --wave coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml --dashboard coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml --maintenance coordination/repository_knowledge/inventory_maintenance_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --renderer scripts/coordination/render_blueprint_inventory_status.py --module forprint_system_blueprint --output reports/blueprint_inventory_status_consistency_report.yaml
+
+# Target: check-repository-knowledge-freshness
+# Purpose: Validate freshness of repository-knowledge artifacts.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-repository-knowledge-freshness
+check-repository-knowledge-freshness:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output reports/repository_knowledge_freshness_report.yaml
+
+# Target: repository-knowledge-freshness-status
+# Purpose: Render repository-knowledge freshness status.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: repository-knowledge-freshness-status
+repository-knowledge-freshness-status:
+	@mkdir -p generated
+	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output generated/repository_knowledge_freshness_status.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_freshness_status.py --report generated/repository_knowledge_freshness_status.yaml
+
+# Target: check-rci-semantic-enrichment
+# Purpose: Validate semantic enrichment of the repository capability inventory.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-rci-semantic-enrichment
+check-rci-semantic-enrichment:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_rci_semantic_enrichment.py --source coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml --candidate coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --enrichment-record coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__rci_semantic_enrichment_v0_1.yaml --repo-root . --expected-source-sha256 3b9278a9bea091ae83f045a2fb5028c97f5fbd00a69b2be173a92a6d9d58d9aa --output reports/rci_semantic_enrichment_validation_report.yaml
+
+# Target: check-redm-dependency-enrichment
+# Purpose: Validate dependency enrichment of the repository execution dependency map.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-redm-dependency-enrichment
+check-redm-dependency-enrichment:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_redm_dependency_enrichment.py --source coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml --candidate coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --capability-context coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --enrichment-record coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__redm_dependency_enrichment_v0_1.yaml --repo-root . --expected-source-sha256 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70 --output reports/redm_dependency_enrichment_validation_report.yaml
+
+# Target: check-semantic-coverage-closure
+# Purpose: Validate semantic coverage closure across current repository knowledge.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-semantic-coverage-closure
+check-semantic-coverage-closure: check-rci-semantic-enrichment check-redm-dependency-enrichment check-repository-knowledge-freshness
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_semantic_coverage_closure.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --freshness reports/repository_knowledge_freshness_report.yaml --unknowns coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml --module forprint_system_blueprint --output reports/semantic_coverage_closure_report.yaml
+
+# Target: semantic-coverage-status
+# Purpose: Render semantic coverage status and outstanding gaps.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: semantic-coverage-status
+semantic-coverage-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_semantic_coverage_closure.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --freshness reports/repository_knowledge_freshness_report.yaml --unknowns coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml --module "$(MODULE)" --output reports/semantic_coverage_closure_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_semantic_coverage_closure_status.py --report reports/semantic_coverage_closure_report.yaml
+
+# Target: check-repository-knowledge-reconciliation
+# Purpose: Validate reconciliation between repository-knowledge artifacts and coordination direction.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-repository-knowledge-reconciliation
+check-repository-knowledge-reconciliation: check-semantic-coverage-closure check-rci-semantic-enrichment check-redm-dependency-enrichment
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_reconciliation.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --coordination-direction coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml --portfolio-direction coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --module-registry coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --closure-report reports/semantic_coverage_closure_report.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --module forprint_system_blueprint --output reports/repository_knowledge_reconciliation_report.yaml
+
+# Target: repository-knowledge-reconciliation-status
+# Purpose: Render repository-knowledge reconciliation status.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: repository-knowledge-reconciliation-status
+repository-knowledge-reconciliation-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_reconciliation.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --coordination-direction coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml --portfolio-direction coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --module-registry coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --closure-report reports/semantic_coverage_closure_report.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --module "$(MODULE)" --output reports/repository_knowledge_reconciliation_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_reconciliation_status.py --report reports/repository_knowledge_reconciliation_report.yaml
+
+# Target: check-inventory-acceptance-evidence-index
+# Purpose: Validate the inventory acceptance evidence index and prerequisite semantic evidence.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-inventory-acceptance-evidence-index
+check-inventory-acceptance-evidence-index: check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_inventory_acceptance_evidence_index.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --repo-root . --module forprint_system_blueprint --output reports/inventory_acceptance_evidence_index_validation_report.yaml
+
+# Target: inventory-acceptance-evidence-status
+# Purpose: Render inventory acceptance evidence status.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: inventory-acceptance-evidence-status
+inventory-acceptance-evidence-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_inventory_acceptance_evidence_index.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --repo-root . --module "$(MODULE)" --output reports/inventory_acceptance_evidence_index_validation_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_inventory_acceptance_evidence_status.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --report reports/inventory_acceptance_evidence_index_validation_report.yaml
+
+# Target: check-inventory-acceptance-dry-run
+# Purpose: Run the read-only inventory acceptance dry run with prerequisite evidence checks.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: None.
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-inventory-acceptance-dry-run
+check-inventory-acceptance-dry-run: check-inventory-acceptance-evidence-index check-semantic-coverage-closure check-repository-knowledge-reconciliation
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/run_inventory_acceptance_dry_run.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --index-validation reports/inventory_acceptance_evidence_index_validation_report.yaml --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --closure reports/semantic_coverage_closure_report.yaml --reconciliation reports/repository_knowledge_reconciliation_report.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --plan coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --module forprint_system_blueprint --output reports/inventory_acceptance_dry_run_report.yaml
+
+# Target: inventory-acceptance-dry-run-status
+# Purpose: Render the current inventory acceptance dry-run status.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Inputs: MODULE (optional/defaulted).
+# Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: inventory-acceptance-dry-run-status
+inventory-acceptance-dry-run-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/run_inventory_acceptance_dry_run.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --index-validation reports/inventory_acceptance_evidence_index_validation_report.yaml --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --closure reports/semantic_coverage_closure_report.yaml --reconciliation reports/repository_knowledge_reconciliation_report.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --plan coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --module "$(MODULE)" --output reports/inventory_acceptance_dry_run_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_inventory_acceptance_dry_run_status.py --report reports/inventory_acceptance_dry_run_report.yaml
+
+
+COORDINATION_PULSE_FORMAT ?= text
+PROMPT_CONTRACT_V0_4 ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+COMPLETION_PACKET_V0_4 ?= coordination/templates/module_completion_packet_v0_4.example.yaml
+COMPLETION_OUTBOX_V0_4 ?= coordination/templates/module_completion_outbox_v0_4.example.yaml
+COORDINATION_SOURCE_REGISTRY_V0_4 ?= coordination/registry/coordination_source_registry_v0_1.yaml
+
+
+# =============================================================================
+# 12 v0.4 closed-loop coordination primitives
+# =============================================================================
+# Block scope: Focused v0.4 transaction, completion, and tracking-event primitives.
+
+# Target: coordination-pulse
+# Purpose: Render the current v0.4 coordination pulse in the selected output format.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: COORDINATION_PULSE_FORMAT (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: coordination-pulse
+coordination-pulse:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format "$(COORDINATION_PULSE_FORMAT)"
+
+# Target: prompt-contract-v0-4-validate
+# Purpose: Validate a v0.4 immutable prompt contract.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: PROMPT_CONTRACT_V0_4 (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: prompt-contract-v0-4-validate
+prompt-contract-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(PROMPT_CONTRACT_V0_4)"
+
+# Target: completion-packet-v0-4-validate
+# Purpose: Validate a v0.4 completion packet in template-compatible mode.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: COMPLETION_PACKET_V0_4 (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: completion-packet-v0-4-validate
+completion-packet-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode
+
+# Target: completion-outbox-v0-4-validate
+# Purpose: Validate a v0.4 completion outbox artifact.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: COMPLETION_OUTBOX_V0_4 (optional/defaulted), COORDINATION_SOURCE_REGISTRY_V0_4 (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: completion-outbox-v0-4-validate
+completion-outbox-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_outbox_v0_4.py "$(COMPLETION_OUTBOX_V0_4)" --root . --registry "$(COORDINATION_SOURCE_REGISTRY_V0_4)" --template
+
+# Target: completion-discovery-intake-v0-4
+# Purpose: Discover and ingest v0.4 completion evidence according to the coordination contract.
+# Safety: BLUEPRINT COORDINATION MUTATION — may write only the governed v0.4 intake/discovery state defined by its script.
+# Inputs: None.
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: completion-discovery-intake-v0-4
+completion-discovery-intake-v0-4:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/completion_discovery_and_intake_v0_4.py --root .
+
+REVIEW_TRANSACTION_REQUEST ?=
+REVIEW_TRANSACTION_APPLY ?= 0
+REVIEW_OPERATOR_CONFIRMATION ?=
+REVIEW_TRANSACTION_FORMAT ?= text
+
+# Target: review-roadmap-queue-transaction-v0-4
+# Purpose: Show live transaction status or evaluate/apply a governed roadmap/queue transaction request.
+# Safety: CONDITIONAL MUTATION — with no request renders live status; with a request evaluates it; mutation requires REVIEW_TRANSACTION_APPLY=1 plus explicit operator confirmation.
+# Inputs: REVIEW_TRANSACTION_REQUEST (required), REVIEW_TRANSACTION_FORMAT (optional/defaulted), REVIEW_TRANSACTION_APPLY (optional/defaulted), REVIEW_OPERATOR_CONFIRMATION (required).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Preview/evaluation is reported; when explicit apply inputs authorize mutation, only the target's documented state is written.
+.PHONY: review-roadmap-queue-transaction-v0-4
+review-roadmap-queue-transaction-v0-4:
+	@set -eu; \
+	if [ -z "$(REVIEW_TRANSACTION_REQUEST)" ]; then \
+		$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py \
+			--root . --live-status --output-format "$(REVIEW_TRANSACTION_FORMAT)"; \
+	else \
+		set -- \
+			--root . \
+			--request "$(REVIEW_TRANSACTION_REQUEST)" \
+			--output-format "$(REVIEW_TRANSACTION_FORMAT)"; \
+		if [ "$(REVIEW_TRANSACTION_APPLY)" = "1" ]; then \
+			test -n "$(REVIEW_OPERATOR_CONFIRMATION)" || { \
+				echo "ERROR: REVIEW_OPERATOR_CONFIRMATION is required when REVIEW_TRANSACTION_APPLY=1"; \
+				exit 2; \
+			}; \
+			set -- "$$@" --apply \
+				--operator-confirmation "$(REVIEW_OPERATOR_CONFIRMATION)"; \
+		elif [ "$(REVIEW_TRANSACTION_APPLY)" != "0" ]; then \
+			echo "ERROR: REVIEW_TRANSACTION_APPLY must be 0 or 1"; \
+			exit 2; \
+		fi; \
+		$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py "$$@"; \
+	fi
+
+ACCEPT_AND_ADVANCE_REQUEST ?=
+ACCEPT_AND_ADVANCE_APPLY ?= 0
+ACCEPT_AND_ADVANCE_CONFIRMATION ?=
+ACCEPT_AND_ADVANCE_FORMAT ?= text
+
+# Target: accept-and-advance
+# Purpose: Evaluate or apply an explicit governed accept-and-advance request.
+# Safety: CONDITIONAL MUTATION — evaluates by default; mutation requires ACCEPT_AND_ADVANCE_APPLY=1 plus explicit operator confirmation.
+# Inputs: ACCEPT_AND_ADVANCE_REQUEST (required), ACCEPT_AND_ADVANCE_APPLY (optional/defaulted), ACCEPT_AND_ADVANCE_FORMAT (optional/defaulted), ACCEPT_AND_ADVANCE_CONFIRMATION (required).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Preview/evaluation is reported; when explicit apply inputs authorize mutation, only the target's documented state is written.
+.PHONY: accept-and-advance
+accept-and-advance:
+	@set -eu; \
+	if [ -z "$(ACCEPT_AND_ADVANCE_REQUEST)" ]; then \
+		echo "ERROR: ACCEPT_AND_ADVANCE_REQUEST=<request.yaml> is required"; \
+		exit 2; \
+	fi; \
+	case "$(ACCEPT_AND_ADVANCE_APPLY)" in \
+		0|1) ;; \
+		*) echo "ERROR: ACCEPT_AND_ADVANCE_APPLY must be 0 or 1"; exit 2 ;; \
+	esac; \
+	set -- --root . --request "$(ACCEPT_AND_ADVANCE_REQUEST)" --output-format "$(ACCEPT_AND_ADVANCE_FORMAT)"; \
+	if [ "$(ACCEPT_AND_ADVANCE_APPLY)" = "1" ]; then \
+		test -n "$(ACCEPT_AND_ADVANCE_CONFIRMATION)" || { \
+			echo "ERROR: ACCEPT_AND_ADVANCE_CONFIRMATION is required when APPLY=1"; \
+			exit 2; \
+		}; \
+		set -- "$$@" --apply --operator-confirmation "$(ACCEPT_AND_ADVANCE_CONFIRMATION)"; \
+	fi; \
+	$(BLUEPRINT_PYTHON) scripts/coordination/accept_and_advance_v0_1.py "$$@"
+
+# Target: test-v0-4-1-h5
+# Purpose: Run focused tests for the v0.4.1 H5 accept-and-advance flow.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-1-h5
+test-v0-4-1-h5:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_accept_and_advance.py
+
+# Target: next-prompt-selection-activation-v0-4
+# Purpose: Render live next-prompt selection/activation status for the v0.4 coordination flow.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: next-prompt-selection-activation-v0-4
+next-prompt-selection-activation-v0-4:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status
+
+
+TRACKING_EVENTS_REFERENCE_BUNDLE ?= generated/step27_tracking_events_reference_sources.txt
+TRACKING_EVENTS_SOURCE_PROMPT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
+TRACKING_EVENTS_V0_3_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1.yaml
+PROMPT_CONTRACT_V0_4_STANDARD ?= coordination/standards/governance/module_prompt_contract_v0_4.yaml
+PROMPT_CONTRACT_V0_4_EXAMPLE ?= coordination/templates/module_prompt_contract_v0_4.example.yaml
+PROMPT_CONTRACT_V0_4_SELF_REFERENCE ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+
+# Target: tracking-events-reference-v0-4-preflight
+# Purpose: Build a temporary read-only-source bundle for Tracking Events v0.4 reference review.
+# Safety: generated-artifact-ONLY WRITE — reads governed sources and writes only the temporary reference review bundle.
+# Inputs: PROMPT_CONTRACT_V0_4_STANDARD (optional/defaulted), PROMPT_CONTRACT_V0_4_EXAMPLE (optional/defaulted), PROMPT_CONTRACT_V0_4_SELF_REFERENCE (optional/defaulted), TRACKING_EVENTS_V0_3_CONTRACT (optional/defaulted), TRACKING_EVENTS_SOURCE_PROMPT (optional/defaulted), TRACKING_EVENTS_REFERENCE_BUNDLE (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: tracking-events-reference-v0-4-preflight
+tracking-events-reference-v0-4-preflight:
+	@set -eu; \
+	paths="$(PROMPT_CONTRACT_V0_4_STANDARD) $(PROMPT_CONTRACT_V0_4_EXAMPLE) $(PROMPT_CONTRACT_V0_4_SELF_REFERENCE) $(TRACKING_EVENTS_V0_3_CONTRACT) $(TRACKING_EVENTS_SOURCE_PROMPT) tests/validation/test_v0_4_immutable_prompt_contract.py"; \
+	for path in $$paths; do \
+		test -f "$$path" || { echo "ERROR: missing required source: $$path"; exit 1; }; \
+	done; \
+	mkdir -p "$$(dirname "$(TRACKING_EVENTS_REFERENCE_BUNDLE)")"; \
+	{ \
+		echo "ForPrint STEP27 Tracking Events v0.4 reference source bundle"; \
+		echo "mode: read-only-source / generated-report"; \
+		echo "HEAD: $$(git rev-parse HEAD)"; \
+		echo "BRANCH: $$(git branch --show-current)"; \
+		echo; \
+		for path in $$paths; do \
+			echo "===== FILE: $$path ====="; \
+			echo "SHA256: $$(sha256sum "$$path" | awk '{print $$1}')"; \
+			cat "$$path"; \
+			echo; \
+			echo "===== END FILE: $$path ====="; \
+			echo; \
+		done; \
+	} > "$(TRACKING_EVENTS_REFERENCE_BUNDLE)"; \
+	echo "BUNDLE: $(TRACKING_EVENTS_REFERENCE_BUNDLE)"; \
+	echo "BUNDLE_SHA256: $$(sha256sum "$(TRACKING_EVENTS_REFERENCE_BUNDLE)" | awk '{print $$1}')"; \
+	echo "module_repository_writes: false"; \
+	echo "operator_decision_created: false"; \
+	echo "global_v0_4_promotion_performed: false"; \
+	echo "RESULT: TRACKING_EVENTS_V0_4_REFERENCE_PREFLIGHT_BUNDLE_READY"
+
+
+TRACKING_EVENTS_V0_4_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2.yaml
+
+# Target: tracking-events-reference-v0-4-build
+# Purpose: Build the Blueprint-owned Tracking Events v0.4 reference contract and related artifacts.
+# Safety: BLUEPRINT MUTATION — writes only Blueprint-owned immutable reference contract/snapshot/findings surfaces; no module writes or operator decision.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: tracking-events-reference-v0-4-build
+tracking-events-reference-v0-4-build:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/build_tracking_events_reference_v0_4.py --root .
+
+# Target: tracking-events-reference-v0-4-validate
+# Purpose: Validate the immutable Tracking Events v0.4 reference contract.
+# Safety: READ-ONLY — validates the reference contract only; no Packet/Outbox creation, lifecycle decision, promotion, commit, or push.
+# Inputs: TRACKING_EVENTS_V0_4_CONTRACT (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: tracking-events-reference-v0-4-validate
+tracking-events-reference-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(TRACKING_EVENTS_V0_4_CONTRACT)"
+
+
+# Target: tracking-events-reference-v0-4-revise-after-pre-review
+# Purpose: Record pre-review findings and rebuild the Tracking Events v0.4 reference candidate.
+# Safety: BLUEPRINT MUTATION — records bounded pre-review findings and rebuilds the Blueprint-owned reference candidate only.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: tracking-events-reference-v0-4-revise-after-pre-review
+tracking-events-reference-v0-4-revise-after-pre-review:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/record_tracking_events_reference_v0_4_pre_review.py --root .
+	@$(BLUEPRINT_PYTHON) scripts/coordination/build_tracking_events_reference_v0_4.py --root .
+
+
+# Target: tracking-events-reference-v0-4-semantic-review-prep
+# Purpose: Prepare the Tracking Events v0.4 semantic-review package.
+# Safety: GENERATED REVIEW ARTIFACT WRITE — prepares semantic-review evidence only; no acceptance/promotion decision.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: tracking-events-reference-v0-4-semantic-review-prep
+tracking-events-reference-v0-4-semantic-review-prep:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prepare_tracking_events_reference_v0_4_semantic_review.py --root .
+
+
+TRACKING_EVENTS_SEMANTIC_DECISION ?=
+
+# Target: tracking-events-reference-v0-4-semantic-decision
+# Purpose: Record the explicit operator semantic-fidelity decision for Tracking Events v0.4.
+# Safety: BLUEPRINT DECISION MUTATION — records only the explicit semantic-fidelity operator decision; does not accept completion or advance roadmap.
+# Inputs: TRACKING_EVENTS_SEMANTIC_DECISION (required).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: tracking-events-reference-v0-4-semantic-decision
+tracking-events-reference-v0-4-semantic-decision:
+	@test -n "$(TRACKING_EVENTS_SEMANTIC_DECISION)" || { echo "ERROR: TRACKING_EVENTS_SEMANTIC_DECISION is required"; exit 1; }
+	@$(BLUEPRINT_PYTHON) scripts/coordination/record_tracking_events_reference_v0_4_semantic_decision.py \
+		--root . \
+		--decision "$(TRACKING_EVENTS_SEMANTIC_DECISION)"
+
+
+# ---------------------------------------------------------------------------
+# H3 v0.4.1 module-owned prompt execution event observability
+# ---------------------------------------------------------------------------
+PROMPT_EXECUTION_EVENT_V0_1 ?= coordination/templates/module_prompt_execution_event_v0_1.example.yaml
+PROMPT_EXECUTION_EVENT_MODULE_ROOT ?= .
+PROMPT_EXECUTION_EVENT_REGISTRY ?= coordination/registry/coordination_source_registry_v0_1.yaml
+
+
+# =============================================================================
+# 13 Prompt execution observability / coordination health / preflight
+# =============================================================================
+# Block scope: Prompt execution events, coordination health, and execution readiness.
+
+# Target: prompt-execution-event-v0-1-template-validate
+# Purpose: Validate the prompt-execution event v0.1 template.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted), PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: prompt-execution-event-v0-1-template-validate
+prompt-execution-event-v0-1-template-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+
+# Target: prompt-execution-event-v0-1-validate
+# Purpose: Validate the supplied prompt-execution event against the registry.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: EVENT (required), PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted), PROMPT_EXECUTION_EVENT_MODULE_ROOT (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: prompt-execution-event-v0-1-validate
+prompt-execution-event-v0-1-validate:
+	@if [ -z "$(EVENT)" ]; then echo "FAILED: provide EVENT=<module-relative event path>"; exit 2; fi
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --module-root "$(PROMPT_EXECUTION_EVENT_MODULE_ROOT)" --event "$(EVENT)"
+
+# Target: prompt-execution-discovery-v0-1
+# Purpose: Discover prompt-execution events, optionally scoped to one module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted), MODULE (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: prompt-execution-discovery-v0-1
+prompt-execution-discovery-v0-1:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py discover --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" $(if $(MODULE),--module "$(MODULE)",)
+
+# Target: prompt-execution-status
+# Purpose: Render prompt-execution event status for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: MODULE (required), PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted).
+# Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: prompt-execution-status
+prompt-execution-status:
+	@if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py discover --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --module "$(MODULE)"
+
+# Target: test-v0-4-1-h3
+# Purpose: Run focused tests for v0.4.1 H3 prompt-execution observability.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-1-h3
+test-v0-4-1-h3:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_prompt_execution_events.py
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null
+
+# Target: check-prompt-execution-observability
+# Purpose: Validate prompt-execution observability contracts and evidence.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: check-prompt-execution-observability
+check-prompt-execution-observability:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null
+
+
+# H4 v0.4.1 coordination freshness / prompt notification contract
+# Target: test-v0-4-1-h4
+# Purpose: Run focused tests for v0.4.1 H4 module coordination synchronization.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-1-h4
+test-v0-4-1-h4:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_module_coordination_sync.py
+
+# H7 Logistics pilot coordination health (read-only)
+COORDINATION_HEALTH_MODULE ?= logistics_service
+
+# Target: coordination-health
+# Purpose: Render coordination health for the selected module.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: COORDINATION_HEALTH_MODULE (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: coordination-health
+coordination-health:
+	.venv_blueprint/bin/python scripts/coordination/module_coordination_health_v0_1.py --module "$(COORDINATION_HEALTH_MODULE)"
+
+# Target: coordination-release-status
+# Purpose: Render current coordination release projection.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: coordination-release-status
+coordination-release-status:
+	.venv_blueprint/bin/python scripts/coordination/current_release_projection_v0_1.py --root .
+
+# Target: legacy-compat-status
+# Purpose: Render current legacy compatibility status.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: legacy-compat-status
+legacy-compat-status:
+	.venv_blueprint/bin/python scripts/coordination/legacy_compatibility_status_v0_1.py --root .
+
+# ---------------------------------------------------------------------------
+# B1 v0.4.1 execution baseline and drift control — P1 foundation
+# ---------------------------------------------------------------------------
+EXECUTION_PREFLIGHT_CONTRACT ?=
+EXECUTION_PREFLIGHT_MODULE_ROOT ?=
+EXECUTION_PREFLIGHT_PREVIOUS_REPORT ?=
+EXECUTION_PREFLIGHT_FORMAT ?= text
+
+# Target: execution-preflight-v0-1
+# Purpose: Run the bounded execution preflight for an immutable prompt contract and module repository.
+# Safety: READ-ONLY WITH OPTIONAL REPORT OUTPUT — evaluates execution readiness against immutable contract/module state; no worker launch or module mutation.
+# Inputs: EXECUTION_PREFLIGHT_CONTRACT (required), EXECUTION_PREFLIGHT_MODULE_ROOT (required), EXECUTION_PREFLIGHT_FORMAT (optional/defaulted), EXECUTION_PREFLIGHT_PREVIOUS_REPORT (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: execution-preflight-v0-1
+execution-preflight-v0-1:
+	@if [ -z "$(EXECUTION_PREFLIGHT_CONTRACT)" ]; then echo "FAILED: provide EXECUTION_PREFLIGHT_CONTRACT=<immutable prompt contract path>"; exit 2; fi
+	@if [ -z "$(EXECUTION_PREFLIGHT_MODULE_ROOT)" ]; then echo "FAILED: provide EXECUTION_PREFLIGHT_MODULE_ROOT=<module repository path>"; exit 2; fi
+	@set -- \
+		--root . \
+		--contract "$(EXECUTION_PREFLIGHT_CONTRACT)" \
+		--module-root "$(EXECUTION_PREFLIGHT_MODULE_ROOT)" \
+		--output-format "$(EXECUTION_PREFLIGHT_FORMAT)"; \
+	if [ -n "$(EXECUTION_PREFLIGHT_PREVIOUS_REPORT)" ]; then set -- "$$@" --previous-report "$(EXECUTION_PREFLIGHT_PREVIOUS_REPORT)"; fi; \
+	$(BLUEPRINT_PYTHON) scripts/coordination/execution_preflight_v0_1.py "$$@"
+
+# Target: test-v0-4-1-b1-p1
+# Purpose: Run focused tests for v0.4.1 B1 P1 execution baseline.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-1-b1-p1
+test-v0-4-1-b1-p1:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_execution_baseline_and_drift_control.py tests/validation/test_v0_4_immutable_prompt_contract.py
+	@$(BLUEPRINT_PYTHON) -m py_compile scripts/coordination/execution_preflight_v0_1.py scripts/coordination/validate_prompt_contract_v0_4.py
+
+# Target: test-v0-4-1-b1-p2
+# Purpose: Run focused tests for v0.4.1 B1 P2 execution drift control.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted), COMPLETION_PACKET_V0_4 (optional/defaulted).
+# Scope: COORDINATION — focused coordination protocol surface.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: test-v0-4-1-b1-p2
+test-v0-4-1-b1-p2:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_prompt_execution_events.py tests/validation/test_v0_4_completion_packet.py tests/validation/test_v0_4_1_b1_p2_authoritative_binding.py
+	@$(BLUEPRINT_PYTHON) -m py_compile scripts/coordination/prompt_execution_events_v0_1.py scripts/coordination/validate_completion_packet_v0_4.py
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode
+
+# portfolio-readiness-dashboard-v0-1-2026-09-01
+
+# =============================================================================
+# 14 Portfolio / canonical-state / surface governance
+# =============================================================================
+# Block scope: Portfolio readiness and current-state/freshness/surface governance.
+
+# Target: portfolio-readiness-dashboard
+# Purpose: Render the portfolio readiness dashboard.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: PORTFOLIO — configured multi-module/project view.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: portfolio-readiness-dashboard
+portfolio-readiness-dashboard:
+	python scripts/coordination/render_portfolio_readiness_dashboard_v0_1.py
+
+# document-surface-normalization-v0-1-2026-09-01
+# Target: surface-normalization-check
+# Purpose: Validate document-surface normalization and cleanliness closure.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: surface-normalization-check
+surface-normalization-check:
+	.venv_blueprint/bin/python scripts/validation/validate_document_surface_registry_v0_1.py
+	.venv_blueprint/bin/python scripts/validation/validate_cleanliness_normalization_closure_v0_1.py
+
+# Target: human-intent-check
+# Purpose: Validate human-intent surfaces and their consistency.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: human-intent-check
+human-intent-check:
+	.venv_blueprint/bin/python scripts/validation/validate_human_intent_surfaces_v0_1.py
+
+# Target: root-roadmap-check
+# Purpose: Validate root/module roadmap surfaces.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: root-roadmap-check
+root-roadmap-check:
+	.venv_blueprint/bin/python scripts/validation/validate_root_module_roadmap_surfaces_v0_1.py
+
+# Target: roadmap-rebuild-seed-check
+# Purpose: Validate portfolio roadmap rebuild seed surfaces.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: roadmap-rebuild-seed-check
+roadmap-rebuild-seed-check:
+	.venv_blueprint/bin/python scripts/validation/validate_portfolio_rebuild_seed_surfaces_v0_1.py
+
+# Target: continuity-surface-check
+# Purpose: Validate continuity surface contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-surface-check
+continuity-surface-check:
+	.venv_blueprint/bin/python scripts/validation/validate_continuity_roadmap_detail_surfaces_v0_1.py
+
+# Target: roadmap-detail-check
+# Purpose: Validate roadmap-detail surfaces.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: roadmap-detail-check
+roadmap-detail-check:
+	.venv_blueprint/bin/python scripts/validation/validate_roadmap_detail_surfaces_v0_2.py
+
+# Target: skip-inventory-check
+# Purpose: Validate skip-inventory governance.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: skip-inventory-check
+skip-inventory-check:
+	.venv_blueprint/bin/python scripts/validation/validate_pytest_skip_inventory_v0_1.py
+
+# Target: safe-mutation-check
+# Purpose: Validate the safe mutation pipeline contract.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: safe-mutation-check
+safe-mutation-check:
+	.venv_blueprint/bin/python scripts/validation/validate_safe_mutation_pipeline_v0_1.py
+
+# Target: asset-retirement-check
+# Purpose: Validate asset-retirement governance.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: asset-retirement-check
+asset-retirement-check:
+	.venv_blueprint/bin/python scripts/validation/validate_asset_retirement_registry_v0_1.py
+
+# Target: module-cleanliness-pack-check
+# Purpose: Validate module cleanliness package behavior.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-cleanliness-pack-check
+module-cleanliness-pack-check:
+	.venv_blueprint/bin/python scripts/validation/validate_module_cleanliness_conformance_pack_v0_1.py
+
+# Target: module-current-state-check
+# Purpose: Validate module current-state evidence.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-current-state-check
+module-current-state-check:
+	.venv_blueprint/bin/python scripts/validation/validate_module_current_state_evidence_v0_1.py
+
+# u132 canonical-state freshness/impact resolver
+# Target: canonical-state-freshness-impact-check
+# Purpose: Validate canonical-state freshness and impact resolution.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: canonical-state-freshness-impact-check
+canonical-state-freshness-impact-check:
+	@$(BLUEPRINT_PYTHON) scripts/validation/validate_blueprint_canonical_state_freshness_impact_v0_1.py
+
+# Target: canonical-state-freshness-impact-status
+# Purpose: Render canonical-state freshness/impact status.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — only the selected status/artifact/query surface.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: canonical-state-freshness-impact-status
+canonical-state-freshness-impact-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_canonical_state_freshness_impact.py --repo-root . --format text
+
+# u133 Module Memory and Logistics H10 preflight
+# Target: module-memory-schema-check
+# Purpose: Validate the Module Memory schema contract.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: module-memory-schema-check
+module-memory-schema-check:
+	@$(BLUEPRINT_PYTHON) scripts/validation/validate_module_memory_schema_v0_1.py
+
+# Target: logistics-h10-bootstrap-preflight
+# Purpose: Run the Logistics H10 bootstrap prompt preflight and emit YAML evidence.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — target-specific repository surface.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: logistics-h10-bootstrap-preflight
+logistics-h10-bootstrap-preflight:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/preflight_logistics_h10_bootstrap_prompt_v0_1.py --repo-root . --format yaml
+
+# Generator / derivation foundation
+
+
+# =============================================================================
+# 15 Generator / dependency / execution progress
+# =============================================================================
+# Block scope: Derived generator inventory, dependency graph, and progress visibility.
+
+# Target: generator-inventory
+# Purpose: Build the generated inventory of Blueprint generator surfaces.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: generator-inventory
+generator-inventory:
+	$(PYTHON) scripts/indexing/build_generator_inventory.py
+
+# Target: generator-inventory-check
+# Purpose: Validate the generator inventory against current generator surfaces.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: generator-inventory-check
+generator-inventory-check:
+	$(PYTHON) scripts/indexing/build_generator_inventory.py --check
+
+# Target: generator-contract-check
+# Purpose: Validate generator contracts and registration.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: generator-contract-check
+generator-contract-check:
+	$(PYTHON) scripts/indexing/validate_generator_derivation_registry.py
+
+# Execution dependency contract / graph
+
+# Target: execution-dependency-graph
+# Purpose: Build the generated execution dependency graph.
+# Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: execution-dependency-graph
+execution-dependency-graph:
+	$(PYTHON) scripts/indexing/build_execution_dependency_graph.py
+
+# Target: execution-dependency-graph-check
+# Purpose: Validate the generated execution dependency graph.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: execution-dependency-graph-check
+execution-dependency-graph-check:
+	$(PYTHON) scripts/indexing/build_execution_dependency_graph.py --check
+
+# Target: execution-dependency-check
+# Purpose: Run the stable execution-dependency validation alias.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: execution-dependency-check
+execution-dependency-check: execution-dependency-graph-check
+	$(PYTHON) scripts/validation/validate_execution_dependency_contract.py
+
+# Target: execution-dependency-explain
+# Purpose: Explain dependency relationships for the selected target.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: TARGET (optional/defaulted).
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: execution-dependency-explain
+execution-dependency-explain:
+	$(PYTHON) scripts/coordination/explain_execution_dependency.py --target "$(TARGET)"
+
+# Execution progress visibility
+
+FORPRINT_PROGRESS ?= always
+FORPRINT_PROGRESS_HEARTBEAT_SECONDS ?= 15
+FORPRINT_PROGRESS_CHILD_OUTPUT ?= failures
+
+export FORPRINT_PROGRESS
+export FORPRINT_PROGRESS_HEARTBEAT_SECONDS
+export FORPRINT_PROGRESS_CHILD_OUTPUT
+
+# Target: execution-progress-check
+# Purpose: Validate execution-progress visibility and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: execution-progress-check
+execution-progress-check:
+	$(PYTHON) scripts/validation/validate_execution_progress_visibility_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_execution_progress_visibility_v0_1.py
+
+# Target: execution-progress-demo
+# Purpose: Run the execution-progress demo with live child output.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: execution-progress-demo
+execution-progress-demo:
+	$(PYTHON) scripts/coordination/execution_progress.py --demo --progress-child-output live
+
+
+# =============================================================================
+# 16 Continuity / handoff / Work Front / execution profiles
+# =============================================================================
+# Block scope: Control-foundation lifecycle, handoff, work-front, profile, procedure, and Handoff v2 commands.
+
+# Target: roadmap-sync
+# Purpose: Synchronize generated roadmap execution projections from canonical lifecycle state.
+# Safety: GENERATED-PROJECTION MUTATION — refreshes derived roadmap execution projections only; canonical lifecycle authority remains the continuity event store.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: roadmap-sync
+roadmap-sync:
+	$(PYTHON) scripts/coordination/roadmap_execution_reconciliation.py --root . sync
+
+# Target: roadmap-sync-check
+# Purpose: Validate roadmap execution reconciliation without mutating projections.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: roadmap-sync-check
+roadmap-sync-check:
+	$(PYTHON) scripts/coordination/roadmap_execution_reconciliation.py --root . check
+	$(PYTHON) scripts/validation/validate_roadmap_execution_reconciliation_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+
+# Target: assistant-handoff-check
+# Purpose: Validate the assistant handoff compiler and its prerequisite governance contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: assistant-handoff-check
+assistant-handoff-check:
+	$(MAKE) roadmap-sync-check
+	$(MAKE) project-constitution-check
+	$(MAKE) work-front-contract-check
+	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --handoff-validate
+	$(PYTHON) scripts/validation/validate_assistant_handoff_compiler_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_assistant_handoff_compiler_v0_1.py
+
+# Target: module-bootstrap-commission-check
+# Purpose: Validate one zero-state module commissioning request against committed Blueprint authority.
+# Safety: READ-ONLY — reads request and committed Blueprint HEAD; performs no canonical mutation.
+# Inputs: COMMISSION_REQUEST=<request.yaml>.
+# Scope: LOCAL/FOCUSED — one requested module bootstrap commission.
+# Result: Request/source/freshness checks pass or fail closed.
+BOOTSTRAP_COMMISSION_BUILDER ?= tools/module_bootstrap/build_module_bootstrap_commission.py
+COMMISSION_REQUEST ?=
+BOOTSTRAP_COMMISSION_OUTPUT_DIR ?=
+
+.PHONY: module-bootstrap-commission-check
+module-bootstrap-commission-check:
+	@test -n "$(COMMISSION_REQUEST)" || { echo "FAILED: provide COMMISSION_REQUEST=<request.yaml>"; exit 2; }
+	$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" check
+
+# Target: module-bootstrap-commission
+# Purpose: Build a MODULE_BOOTSTRAP_COMMISSION archive for a zero-state/new-module worker.
+# Safety: GENERATED-ARTIFACT WRITE — writes under generated-artifact/ by default; never mutates canonical Blueprint/module source or Git refs.
+# Inputs: COMMISSION_REQUEST=<request.yaml>; optional BOOTSTRAP_COMMISSION_OUTPUT_DIR=<generated-artifact/output>.
+# Scope: LOCAL/FOCUSED — one requested module bootstrap commission.
+# Result: Archive contains committed Blueprint evidence, clean-root/continuity policy, templates and cold-start acceptance.
+.PHONY: module-bootstrap-commission
+module-bootstrap-commission:
+	@test -n "$(COMMISSION_REQUEST)" || { echo "FAILED: provide COMMISSION_REQUEST=<request.yaml>"; exit 2; }
+	@if [ -n "$(BOOTSTRAP_COMMISSION_OUTPUT_DIR)" ]; then 		$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" --output-dir "$(BOOTSTRAP_COMMISSION_OUTPUT_DIR)" build; 	else 		$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" build; 	fi
+
+# Target: assistant-pack
+# Purpose: Build the authoritative project-onboarding assistant handoff archive after governance gates.
+# Safety: GENERATED-ARTIFACT WRITE — creates the governed PROJECT_ONBOARD assistant handoff archive after read-only gates; grants no execution/release authority.
+# Inputs: FRONT (optional/defaulted).
+# Scope: PROJECT_ONBOARD — whole-project onboarding context bounded by the handoff contract.
+# Result: A bounded assistant/context package is generated and its path/validation state is reported.
+.PHONY: assistant-pack
+assistant-pack:
+	$(MAKE) roadmap-sync-check
+	$(MAKE) project-constitution-check
+	$(MAKE) work-front-assistant-pack-gate FRONT="$(FRONT)"
+	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --handoff-write
+
+# Target: continuity-lifecycle-check
+# Purpose: Validate continuity lifecycle rules and roadmap gates.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-lifecycle-check
+continuity-lifecycle-check:
+	$(PYTHON) scripts/validation/validate_continuity_lifecycle_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_continuity_lifecycle_v0_1.py tests/validation/test_continuity_lifecycle_roadmap_gate_v0_1.py
+
+# Target: continuity-transfer-check
+# Purpose: Validate module continuity-transfer behavior.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-transfer-check
+continuity-transfer-check:
+	$(PYTHON) scripts/validation/validate_module_continuity_transfer_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_module_continuity_transfer_v0_1.py
+
+# Target: continuity-lifecycle-status
+# Purpose: Render current continuity lifecycle status.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: continuity-lifecycle-status
+continuity-lifecycle-status:
+	$(PYTHON) scripts/coordination/continuity_lifecycle.py --root . status
+
+# Target: continuity-projections-refresh
+# Purpose: Rebuild generated continuity projections from canonical lifecycle state.
+# Safety: GENERATED-PROJECTION MUTATION — rebuilds derived continuity projections only; does not change canonical lifecycle authority.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: continuity-projections-refresh
+continuity-projections-refresh:
+	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --refresh
+
+# Target: continuity-projections-check
+# Purpose: Validate continuity projections without applying a refresh.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-projections-check
+continuity-projections-check:
+	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --check
+	$(PYTHON) scripts/validation/validate_continuity_projections_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_continuity_projections_v0_1.py tests/validation/test_continuity_projection_dependency_registration_v0_1.py
+
+# Target: continuity-event-store-check
+# Purpose: Validate the append-only continuity event store.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-event-store-check
+continuity-event-store-check:
+	$(PYTHON) scripts/validation/validate_continuity_event_store_v0_1.py
+
+# Target: continuity-fingerprint
+# Purpose: Print the current continuity source-state fingerprint.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: continuity-fingerprint
+continuity-fingerprint:
+	$(PYTHON) scripts/coordination/continuity.py fingerprint --root .
+
+# Target: continuity-checkpoint
+# Purpose: Append a governed continuity checkpoint from the supplied checkpoint specification.
+# Safety: CANONICAL LIFECYCLE MUTATION — appends one governed checkpoint from an explicit SPEC; does not auto-activate later work.
+# Inputs: SPEC (required).
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+.PHONY: continuity-checkpoint
+continuity-checkpoint:
+	@test -n "$(SPEC)" || (echo "SPEC=<checkpoint-spec.yaml> is required" >&2; exit 2)
+	$(PYTHON) scripts/coordination/continuity.py checkpoint --root . --spec "$(SPEC)"
+
+# Target: continuity-contract-check
+# Purpose: Validate continuity contract invariants.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-contract-check
+continuity-contract-check:
+	$(PYTHON) scripts/validation/validate_continuity_contract_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_continuity_contract_v0_1.py
+
+# Target: continuity-micro-roadmap-check
+# Purpose: Validate the continuity assistant-handoff micro-roadmap.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: continuity-micro-roadmap-check
+continuity-micro-roadmap-check:
+	$(PYTHON) scripts/validation/validate_continuity_micro_roadmap_v0_1.py
+
+# Target: project-constitution-check
+# Purpose: Validate the Project Constitution contract.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: project-constitution-check
+project-constitution-check:
+	.venv_blueprint/bin/python scripts/validation/validate_project_constitution_v0_1.py
+# Target: work-front-contract-check
+# Purpose: Validate the Work Front contract and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: work-front-contract-check
+work-front-contract-check:
+	$(PYTHON) scripts/validation/validate_work_front_contract_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_work_front_contract_v0_1.py
+
+# Target: work-front-check
+# Purpose: Validate or evaluate the supplied Work Front using the selected ACTION.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: FRONT (required), ACTION (optional/defaulted).
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: work-front-check
+work-front-check:
+	@test -n "$(FRONT)" || (echo "WORK_FRONT_CHECK=FAIL"; echo "ERROR=FRONT_REQUIRED"; exit 2)
+	$(PYTHON) scripts/coordination/work_front_v0_1.py --root . --front "$(FRONT)" --action "$(if $(ACTION),$(ACTION),validate)"
+
+# Target: work-front-assistant-pack-gate
+# Purpose: Apply the Work Front gate for assistant-pack when FRONT is supplied; project-onboard compatibility remains no-front.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: FRONT (optional/defaulted).
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: The target completes its documented operation and returns non-zero on failure.
+.PHONY: work-front-assistant-pack-gate
+work-front-assistant-pack-gate:
+	@if [ -n "$(FRONT)" ]; then \
+		$(PYTHON) scripts/coordination/work_front_v0_1.py --root . --front "$(FRONT)" --action assistant-pack; \
+	else \
+		echo "WORK_FRONT_GATE=NOT_APPLICABLE_PROJECT_ONBOARD_COMPAT"; \
+	fi
+
+# Target: workfront-history-check
+# Purpose: Validate Work Front history integrity.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: workfront-history-check
+workfront-history-check:
+	$(PYTHON) scripts/validation/validate_workfront_history_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_workfront_history_v0_1.py
+
+# Target: execution-attempt-ledger-check
+# Purpose: Validate execution-attempt ledger integrity.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: RELATED — target contract plus its direct validation dependencies.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: execution-attempt-ledger-check
+execution-attempt-ledger-check:
+	$(PYTHON) scripts/validation/validate_execution_attempt_ledger_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_execution_attempt_ledger_v0_1.py
+
+# Target: cf05-history-ledger-check
+# Purpose: Run the combined CF-05 history/ledger validation gate.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: cf05-history-ledger-check
+cf05-history-ledger-check: workfront-history-check execution-attempt-ledger-check
+
+# Target: execution-profile-registry-check
+# Purpose: Validate the execution profile registry.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: execution-profile-registry-check
+execution-profile-registry-check:
+	$(PYTHON) scripts/validation/validate_execution_profile_registry_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_execution_profile_registry_v0_1.py
+
+# Target: execution-profile-list
+# Purpose: List registered execution profiles.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
+.PHONY: execution-profile-list
+execution-profile-list:
+	$(PYTHON) scripts/coordination/execution_profiles_v0_1.py --root . list
+
+# CF-07 first bounded Procedure Graph / Run Manifest conformance surface.
+# Target: governed-procedure-graph-check
+# Purpose: Validate governed Procedure Graph and Run Manifest contracts.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: governed-procedure-graph-check
+governed-procedure-graph-check:
+	$(PYTHON) scripts/validation/validate_governed_procedure_graph_v0_1.py
+	$(PYTHON) -m pytest -q tests/validation/test_governed_procedure_graph_v0_1.py
+
+# assistant-handoff-v2-s1-v0-1:start
+# Target: assistant-handoff-v2-contract-check
+# Purpose: Validate Handoff Compiler v2 contract surfaces and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: assistant-handoff-v2-contract-check
+assistant-handoff-v2-contract-check:
+	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_contract_v0_1.py --root .
+	$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_assistant_handoff_v2_contract_v0_1.py
+# assistant-handoff-v2-s1-v0-1:end
+
+# assistant-handoff-v2-s2-runtime-v0-1:start
+# Target: assistant-handoff-v2-runtime-check
+# Purpose: Validate Handoff Compiler v2 runtime behavior, MANUAL_INTERNAL resume binding, freshness recompile, and PROJECT_ONBOARD dry run.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: assistant-handoff-v2-runtime-check
+assistant-handoff-v2-runtime-check:
+	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_runtime_v0_1.py --root .
+	$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py \
+		tests/validation/test_assistant_handoff_v2_runtime_v0_1.py \
+		tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
+	$(BLUEPRINT_PYTHON) scripts/coordination/assistant_handoff_v2_runtime_v0_1.py --root . --launch-mode PROJECT_ONBOARD --no-write
+
+# Target: assistant-handoff-v2-project-onboard
+# Purpose: Build/run a Handoff v2 PROJECT_ONBOARD package from current canonical state.
+# Safety: GENERATED-ARTIFACT WRITE — creates PROJECT_ONBOARD Handoff v2 output from current canonical state; grants no worker-dispatch authority.
+# Inputs: None.
+# Scope: PROJECT_ONBOARD — whole-project onboarding context bounded by the handoff contract.
+# Result: A bounded assistant/context package is generated and its path/validation state is reported.
+.PHONY: assistant-handoff-v2-project-onboard
+assistant-handoff-v2-project-onboard:
+	$(BLUEPRINT_PYTHON) scripts/coordination/assistant_handoff_v2_runtime_v0_1.py --root . --launch-mode PROJECT_ONBOARD
+
+# Target: assistant-handoff-v2-task-execution
+# Purpose: Build/run a Handoff v2 TASK_EXECUTION package for an explicit Work Front, profile, prompt, module root, and procedure decision.
+# Safety: GENERATED-ARTIFACT WRITE — creates a bounded TASK_EXECUTION handoff package from explicit Work Front/profile/procedure inputs; grants no execution authority by itself.
+# Inputs: FRONT (required), EXECUTION_PROFILE (required), TASK_PROMPT_ID (required), TASK_MODULE_ROOT (required), MODULE (optional/defaulted), PROCEDURE_ID (optional/defaulted), PROCEDURE_NOT_REQUIRED_REASON (optional/defaulted).
+# Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
+# Result: A bounded assistant/context package is generated and its path/validation state is reported.
+.PHONY: assistant-handoff-v2-task-execution
+assistant-handoff-v2-task-execution:
+	@test -n "$(FRONT)" || { echo "FAILED: FRONT is required"; exit 2; }
+	@test -n "$(EXECUTION_PROFILE)" || { echo "FAILED: EXECUTION_PROFILE is required"; exit 2; }
+	@test -n "$(TASK_PROMPT_ID)" || { echo "FAILED: TASK_PROMPT_ID is required"; exit 2; }
+	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 2; }
+	@set -- --root . --launch-mode TASK_EXECUTION --front "$(FRONT)" --profile-id "$(EXECUTION_PROFILE)" --prompt-id "$(TASK_PROMPT_ID)" --module-root "$(TASK_MODULE_ROOT)"; 	if [ -n "$(MODULE)" ]; then set -- "$$@" --module "$(MODULE)"; fi; 	if [ -n "$(PROCEDURE_ID)" ]; then set -- "$$@" --procedure-id "$(PROCEDURE_ID)"; elif [ -n "$(PROCEDURE_NOT_REQUIRED_REASON)" ]; then set -- "$$@" --procedure-not-required-reason "$(PROCEDURE_NOT_REQUIRED_REASON)"; else echo "FAILED: PROCEDURE_ID or PROCEDURE_NOT_REQUIRED_REASON is required"; exit 2; fi; 	$(BLUEPRINT_PYTHON) scripts/coordination/assistant_handoff_v2_runtime_v0_1.py "$$@"
+# assistant-handoff-v2-s2-runtime-v0-1:end
+
+# assistant-handoff-v2-s3-result-v0-1:start
+# Target: assistant-handoff-v2-result-check
+# Purpose: Validate Handoff v2 result-envelope handling and tests.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: assistant-handoff-v2-result-check
+assistant-handoff-v2-result-check:
+	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_result_v0_1.py --root .
+	$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_assistant_handoff_v2_result_v0_1.py
+# assistant-handoff-v2-s3-result-v0-1:end
+
+# assistant-handoff-v2-s4-freshness-resume-v0-1:start
+# Target: assistant-handoff-v2-freshness-resume-check
+# Purpose: Validate Handoff v2 freshness, stale-context refusal, and structured resume behavior.
+# Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
+# Inputs: None.
+# Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
+.PHONY: assistant-handoff-v2-freshness-resume-check
+assistant-handoff-v2-freshness-resume-check:
+	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_freshness_resume_v0_1.py --root .
+	$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_assistant_handoff_v2_freshness_resume_v0_1.py
+# assistant-handoff-v2-s4-freshness-resume-v0-1:end
+
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_START
+.PHONY: governed-worker-cycle-live-launch-check
+governed-worker-cycle-live-launch-check:
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+
+.PHONY: governed-worker-cycle-launch
+governed-worker-cycle-launch:
+	@test "$(CONFIRM_LAUNCH)" = "1" || { echo "FAILED: CONFIRM_LAUNCH=1 is required"; false; }
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; false; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle launch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-launch
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_END
+
+# CF10_WORKER_RESULT_RETURN_BOUNDARY_V0_1_START
+.PHONY: cf10-worker-result-return-check
+cf10-worker-result-return-check:
+	$(PYTHON) -m py_compile \
+		scripts/coordination/control_plane/worker_runtime/worker_result_return.py \
+		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py \
+		scripts/coordination/control_plane/governed_worker_cycle.py
+	$(PYTHON) -m pytest -q \
+		-p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py \
+		tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+
+.PHONY: governed-worker-cycle-reconcile-result-return
+governed-worker-cycle-reconcile-result-return:
+	@test "$(CONFIRM_RESULT_RETURN_RECONCILIATION)" = "1" || { echo "FAILED: CONFIRM_RESULT_RETURN_RECONCILIATION=1 is required"; false; }
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; false; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle reconcile-result-return --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-result-return-reconciliation
+# CF10_WORKER_RESULT_RETURN_BOUNDARY_V0_1_END
+
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_START
+# Target: governed-worker-cycle-advance
+# Purpose: advance exact already-authorized Worker result to terminal operator review.
+# Authority: original Handoff/S4 and canonical ledger; no dispatch or publication.
+.PHONY: governed-worker-cycle-advance
+governed-worker-cycle-advance:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "ERROR: GOVERNED_WORKER_TASK required"; exit 2; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "ERROR: GOVERNED_WORKER_ATTEMPT required"; exit 2; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle advance --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --output-format yaml
+
+.PHONY: governed-worker-cycle-advance-check
+governed-worker-cycle-advance-check:
+	$(PYTHON) -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_governed_worker_cycle_advance_v0_1.py
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_END
+
+
+
+
+# =============================================================================
+# OC-01 MINI-1 / dependency projection and session boundary
+# =============================================================================
+# Purpose: read-only Operator Console projection over Control Plane evidence.
+# Authority: no execution/dispatch/session/lease/acceptance/release/write authority.
+OC01_SESSION_LAUNCH_REQUEST ?=
+OC01_SESSION_WORKER_INVOCATION ?=
+OC01_SESSION_WORKSPACE_MANIFEST ?=
+OC01_SESSION_ACTOR_TYPE ?=
+OC01_SESSION_ACTOR_ID ?=
+
+.PHONY: oc01-session-projection-check
+oc01-session-projection-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/session_projection.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_session_projection_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_dependency_projection_session_boundary_v0_1.yaml scripts/coordination/control_plane/operator_console/__init__.py scripts/coordination/control_plane/operator_console/session_projection.py tests/coordination/control_plane/operator_console/test_oc01_session_projection_v0_1.py Makefile
+
+.PHONY: oc01-session-status
+oc01-session-status:
+	@test -n "$(OC01_SESSION_LAUNCH_REQUEST)" || { echo "ERROR: OC01_SESSION_LAUNCH_REQUEST is required"; false; }
+	@test -n "$(OC01_SESSION_WORKER_INVOCATION)" || { echo "ERROR: OC01_SESSION_WORKER_INVOCATION is required"; false; }
+	@test -n "$(OC01_SESSION_ACTOR_TYPE)" || { echo "ERROR: OC01_SESSION_ACTOR_TYPE is required"; false; }
+	@test -n "$(OC01_SESSION_ACTOR_ID)" || { echo "ERROR: OC01_SESSION_ACTOR_ID is required"; false; }
+	@set -- --launch-request "$(OC01_SESSION_LAUNCH_REQUEST)" --worker-invocation "$(OC01_SESSION_WORKER_INVOCATION)" --actor-type "$(OC01_SESSION_ACTOR_TYPE)" --actor-id "$(OC01_SESSION_ACTOR_ID)" --print; \
+	if [ -n "$(OC01_SESSION_WORKSPACE_MANIFEST)" ]; then set -- "$$@" --workspace-manifest "$(OC01_SESSION_WORKSPACE_MANIFEST)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.session_projection "$$@"
+
+# =============================================================================
+# OC-01 MINI-2 / Protected Terminal Gateway
+# =============================================================================
+# Purpose: bounded registered ARGV_NO_SHELL terminal capabilities over the
+# existing shared Worker Runtime launcher.
+# Safety: default-off; READ_ONLY only; no arbitrary shell text.
+OC01_TERMINAL_CAPABILITY ?=
+OC01_TERMINAL_CWD ?=
+OC01_TERMINAL_SESSION_PROJECTION ?=
+OC01_TERMINAL_TIMEOUT ?= 30
+OC01_TERMINAL_EVIDENCE_DIR ?=
+OC01_TERMINAL_APPROVAL_DECISION ?=
+OC01_TERMINAL_CONFIRM ?= 0
+
+.PHONY: oc01-protected-terminal-check
+oc01-protected-terminal-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/protected_terminal.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_protected_terminal_gateway_v0_1.yaml scripts/coordination/control_plane/operator_console/protected_terminal.py tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py Makefile
+
+.PHONY: oc01-protected-terminal-capabilities
+oc01-protected-terminal-capabilities:
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal capabilities
+
+.PHONY: oc01-protected-terminal-plan
+oc01-protected-terminal-plan:
+	@test -n "$(OC01_TERMINAL_CAPABILITY)" || { echo "ERROR: OC01_TERMINAL_CAPABILITY is required"; false; }
+	@test -n "$(OC01_TERMINAL_CWD)" || { echo "ERROR: OC01_TERMINAL_CWD is required"; false; }
+	@test -n "$(OC01_TERMINAL_SESSION_PROJECTION)" || { echo "ERROR: OC01_TERMINAL_SESSION_PROJECTION is required"; false; }
+	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
+	@set -- plan --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
+	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	if [ -n "$(OC01_TERMINAL_APPROVAL_DECISION)" ]; then set -- "$$@" --approval-decision "$(OC01_TERMINAL_APPROVAL_DECISION)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
+
+.PHONY: oc01-protected-terminal-run
+oc01-protected-terminal-run:
+	@test -n "$(OC01_TERMINAL_CAPABILITY)" || { echo "ERROR: OC01_TERMINAL_CAPABILITY is required"; false; }
+	@test -n "$(OC01_TERMINAL_CWD)" || { echo "ERROR: OC01_TERMINAL_CWD is required"; false; }
+	@test -n "$(OC01_TERMINAL_SESSION_PROJECTION)" || { echo "ERROR: OC01_TERMINAL_SESSION_PROJECTION is required"; false; }
+	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
+	@set -- run --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
+	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	if [ -n "$(OC01_TERMINAL_APPROVAL_DECISION)" ]; then set -- "$$@" --approval-decision "$(OC01_TERMINAL_APPROVAL_DECISION)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
+
+
+# =============================================================================
+# OC-01 FULL-1 / Protected Terminal policy + audit hardening
+# =============================================================================
+# Purpose: inspect append-only Protected Terminal history retained outside the
+# protected repository. SAFE_WRITE and live cancel remain dependency-gated.
+OC01_TERMINAL_HISTORY_EVIDENCE_DIR ?= $(OC01_TERMINAL_EVIDENCE_DIR)
+OC01_TERMINAL_HISTORY_LIMIT ?= 50
+
+.PHONY: oc01-protected-terminal-history
+oc01-protected-terminal-history:
+	@test -n "$(OC01_TERMINAL_HISTORY_EVIDENCE_DIR)" || { echo "ERROR: OC01_TERMINAL_HISTORY_EVIDENCE_DIR is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal history --evidence-dir "$(OC01_TERMINAL_HISTORY_EVIDENCE_DIR)" --limit "$(OC01_TERMINAL_HISTORY_LIMIT)"
+
+# =============================================================================
+# OC-01 MINI-3 / Assistant Dev Sandbox operator workflow
+# =============================================================================
+# Purpose: create/open/status an isolated assistant workspace pinned to exact BASE_HEAD.
+# Reuse: scripts/coordination/control_plane/workspace/*
+# Safety: canonical_write_allowed=false; no promotion/push/merge/release.
+OC01_SANDBOX_CANONICAL_REPO ?= .
+OC01_SANDBOX_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/sandboxes
+OC01_SANDBOX_MODULE_ID ?= forprint_system_blueprint
+OC01_SANDBOX_WORKER_ID ?= operator-assistant
+OC01_SANDBOX_ATTEMPT_ID ?=
+OC01_SANDBOX_BASE_HEAD ?=
+OC01_SANDBOX_SESSION_PROJECTION ?=
+OC01_SANDBOX_MANIFEST ?=
+
+.PHONY: oc01-assistant-sandbox-check
+oc01-assistant-sandbox-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_assistant_dev_sandbox_operator_workflow_v0_1.yaml scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-assistant-sandbox-create
+oc01-assistant-sandbox-create:
+	@test -n "$(OC01_SANDBOX_ATTEMPT_ID)" || { echo "ERROR: OC01_SANDBOX_ATTEMPT_ID is required"; false; }
+	@test -n "$(OC01_SANDBOX_BASE_HEAD)" || { echo "ERROR: OC01_SANDBOX_BASE_HEAD is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox create --canonical-repo "$(OC01_SANDBOX_CANONICAL_REPO)" --runtime-root "$(OC01_SANDBOX_RUNTIME_ROOT)" --module-id "$(OC01_SANDBOX_MODULE_ID)" --worker-id "$(OC01_SANDBOX_WORKER_ID)" --attempt-id "$(OC01_SANDBOX_ATTEMPT_ID)" --base-head "$(OC01_SANDBOX_BASE_HEAD)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+.PHONY: oc01-assistant-sandbox-open
+oc01-assistant-sandbox-open:
+	@test -n "$(OC01_SANDBOX_MANIFEST)" || { echo "ERROR: OC01_SANDBOX_MANIFEST is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox open --manifest "$(OC01_SANDBOX_MANIFEST)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+.PHONY: oc01-assistant-sandbox-status
+oc01-assistant-sandbox-status:
+	@test -n "$(OC01_SANDBOX_MANIFEST)" || { echo "ERROR: OC01_SANDBOX_MANIFEST is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox status --manifest "$(OC01_SANDBOX_MANIFEST)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+
+# =============================================================================
+# OC-01 MINI-4 / sealed result and checkpoint projection
+# =============================================================================
+# Purpose: immutable checkpoint projection + deterministic sandbox result package.
+# Reuse: shared CF10 worker baseline/delta. No pause/resume, promotion or Git authority.
+OC01_RESULT_MANIFEST ?=
+OC01_RESULT_SESSION_PROJECTION ?=
+OC01_RESULT_RESUME_EVIDENCE ?=
+OC01_RESULT_VALIDATION_EVIDENCE ?=
+OC01_RESULT_ARTIFACTS ?=
+OC01_RESULT_OPEN_ISSUES ?=
+
+.PHONY: oc01-sealed-result-check
+oc01-sealed-result-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/sealed_result.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_sealed_result_and_checkpoint_projection_v0_1.yaml scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py scripts/coordination/control_plane/operator_console/sealed_result.py tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-sandbox-checkpoint
+oc01-sandbox-checkpoint:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	@test -n "$(OC01_RESULT_SESSION_PROJECTION)" || { echo "ERROR: OC01_RESULT_SESSION_PROJECTION is required"; false; }
+	@set -- checkpoint --manifest "$(OC01_RESULT_MANIFEST)" --session-projection "$(OC01_RESULT_SESSION_PROJECTION)"; \
+	if [ -n "$(OC01_RESULT_RESUME_EVIDENCE)" ]; then set -- "$$@" --resume-evidence "$(OC01_RESULT_RESUME_EVIDENCE)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result "$$@"
+
+.PHONY: oc01-sandbox-seal-result
+oc01-sandbox-seal-result:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	@test -n "$(OC01_RESULT_SESSION_PROJECTION)" || { echo "ERROR: OC01_RESULT_SESSION_PROJECTION is required"; false; }
+	@test -n "$(OC01_RESULT_VALIDATION_EVIDENCE)" || { echo "ERROR: OC01_RESULT_VALIDATION_EVIDENCE is required"; false; }
+	@set -- seal --manifest "$(OC01_RESULT_MANIFEST)" --session-projection "$(OC01_RESULT_SESSION_PROJECTION)"; \
+	for item in $(OC01_RESULT_VALIDATION_EVIDENCE); do set -- "$$@" --validation-evidence "$$item"; done; \
+	for item in $(OC01_RESULT_ARTIFACTS); do set -- "$$@" --artifact "$$item"; done; \
+	for item in $(OC01_RESULT_OPEN_ISSUES); do set -- "$$@" --open-issue "$$item"; done; \
+	if [ -n "$(OC01_RESULT_RESUME_EVIDENCE)" ]; then set -- "$$@" --resume-evidence "$(OC01_RESULT_RESUME_EVIDENCE)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result "$$@"
+
+.PHONY: oc01-sandbox-result-status
+oc01-sandbox-result-status:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result status --manifest "$(OC01_RESULT_MANIFEST)"
+
+
+# =============================================================================
+# OC-01 MINI-5 / sandbox-to-canonical promotion preview + explicit control
+# =============================================================================
+# Reuses scripts/coordination/control_plane/candidate_promotion.py.
+# Preview is non-mutating. Apply requires exact preview SHA + explicit token.
+OC01_PROMOTION_ROOT ?= .
+OC01_PROMOTION_CANDIDATE_ROOT ?=
+OC01_PROMOTION_SEALED_RESULT ?=
+OC01_PROMOTION_WORK_FRONT ?=
+OC01_PROMOTION_ORIGIN_HANDOFF ?=
+OC01_PROMOTION_HANDOFF_RESULT ?=
+OC01_PROMOTION_PROFILE_REF ?=
+OC01_PROMOTION_PROCEDURE_ID ?=
+OC01_PROMOTION_PREVIEW ?=
+OC01_PROMOTION_RECOVERY_ROOT ?=
+OC01_PROMOTION_EVIDENCE ?=
+OC01_PROMOTION_AUTHORIZATION ?=
+OC01_PROMOTION_EXPECTED_PREVIEW_SHA256 ?=
+
+.PHONY: oc01-promotion-surface-check
+oc01-promotion-surface-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/promotion_surface.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_promotion_surface_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_sandbox_to_canonical_promotion_surface_v0_1.yaml scripts/coordination/control_plane/operator_console/promotion_surface.py tests/coordination/control_plane/operator_console/test_oc01_promotion_surface_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-promotion-preview
+oc01-promotion-preview:
+	@test -n "$(OC01_PROMOTION_CANDIDATE_ROOT)" || { echo "ERROR: OC01_PROMOTION_CANDIDATE_ROOT is required"; false; }
+	@test -n "$(OC01_PROMOTION_SEALED_RESULT)" || { echo "ERROR: OC01_PROMOTION_SEALED_RESULT is required"; false; }
+	@test -n "$(OC01_PROMOTION_WORK_FRONT)" || { echo "ERROR: OC01_PROMOTION_WORK_FRONT is required"; false; }
+	@test -n "$(OC01_PROMOTION_ORIGIN_HANDOFF)" || { echo "ERROR: OC01_PROMOTION_ORIGIN_HANDOFF is required"; false; }
+	@test -n "$(OC01_PROMOTION_HANDOFF_RESULT)" || { echo "ERROR: OC01_PROMOTION_HANDOFF_RESULT is required"; false; }
+	@test -n "$(OC01_PROMOTION_PROFILE_REF)" || { echo "ERROR: OC01_PROMOTION_PROFILE_REF is required"; false; }
+	@test -n "$(OC01_PROMOTION_PROCEDURE_ID)" || { echo "ERROR: OC01_PROMOTION_PROCEDURE_ID is required"; false; }
+	@test -n "$(OC01_PROMOTION_PREVIEW)" || { echo "ERROR: OC01_PROMOTION_PREVIEW is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.promotion_surface preview --root "$(OC01_PROMOTION_ROOT)" --candidate-root "$(OC01_PROMOTION_CANDIDATE_ROOT)" --sealed-result "$(OC01_PROMOTION_SEALED_RESULT)" --work-front "$(OC01_PROMOTION_WORK_FRONT)" --origin-handoff-manifest "$(OC01_PROMOTION_ORIGIN_HANDOFF)" --handoff-result "$(OC01_PROMOTION_HANDOFF_RESULT)" --expected-profile-ref "$(OC01_PROMOTION_PROFILE_REF)" --expected-procedure-id "$(OC01_PROMOTION_PROCEDURE_ID)" --output "$(OC01_PROMOTION_PREVIEW)" --operator-review
+
+.PHONY: oc01-promotion-apply
+oc01-promotion-apply:
+	@test -n "$(OC01_PROMOTION_CANDIDATE_ROOT)" || { echo "ERROR: OC01_PROMOTION_CANDIDATE_ROOT is required"; false; }
+	@test -n "$(OC01_PROMOTION_PREVIEW)" || { echo "ERROR: OC01_PROMOTION_PREVIEW is required"; false; }
+	@test -n "$(OC01_PROMOTION_RECOVERY_ROOT)" || { echo "ERROR: OC01_PROMOTION_RECOVERY_ROOT is required"; false; }
+	@test -n "$(OC01_PROMOTION_EVIDENCE)" || { echo "ERROR: OC01_PROMOTION_EVIDENCE is required"; false; }
+	@test -n "$(OC01_PROMOTION_AUTHORIZATION)" || { echo "ERROR: OC01_PROMOTION_AUTHORIZATION is required"; false; }
+	@test -n "$(OC01_PROMOTION_EXPECTED_PREVIEW_SHA256)" || { echo "ERROR: OC01_PROMOTION_EXPECTED_PREVIEW_SHA256 is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.promotion_surface apply --preview "$(OC01_PROMOTION_PREVIEW)" --root "$(OC01_PROMOTION_ROOT)" --candidate-root "$(OC01_PROMOTION_CANDIDATE_ROOT)" --recovery-root "$(OC01_PROMOTION_RECOVERY_ROOT)" --evidence "$(OC01_PROMOTION_EVIDENCE)" --authorization "$(OC01_PROMOTION_AUTHORIZATION)" --expected-preview-sha256 "$(OC01_PROMOTION_EXPECTED_PREVIEW_SHA256)"
+
+
+# =============================================================================
+# OC-01 MINI-6 / minimum Console API + phone/laptop UI
+# =============================================================================
+# Thin standard-library HTTP/JSON + responsive HTML surface over published OC01 backends.
+# Default bind is loopback. Remote bind is explicit and still requires trusted external transport.
+OC01_CONSOLE_CANONICAL_ROOT ?= .
+OC01_CONSOLE_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/operator_console
+OC01_CONSOLE_HOST ?= 127.0.0.1
+OC01_CONSOLE_PORT ?= 8099
+OC01_CONSOLE_ALLOW_REMOTE ?= 0
+OC01_CONSOLE_SESSION_PROJECTION ?=
+OC01_CONSOLE_SANDBOX_MANIFEST ?=
+OC01_CONSOLE_RESULT_MANIFEST ?=
+OC01_CONSOLE_PROMOTION_PREVIEW ?=
+
+.PHONY: oc01-console-check
+oc01-console-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/console_api.py scripts/coordination/control_plane/operator_console/console_ui.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_ui_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_minimum_console_api_and_phone_laptop_ui_v0_1.yaml scripts/coordination/control_plane/operator_console/console_api.py scripts/coordination/control_plane/operator_console/console_ui.py tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py tests/coordination/control_plane/operator_console/test_oc01_console_ui_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-console-snapshot
+oc01-console-snapshot:
+	@set -- --canonical-root "$(OC01_CONSOLE_CANONICAL_ROOT)" --runtime-root "$(OC01_CONSOLE_RUNTIME_ROOT)" snapshot; \
+	if [ -n "$(OC01_CONSOLE_SESSION_PROJECTION)" ]; then set -- "$$@" --session-projection "$(OC01_CONSOLE_SESSION_PROJECTION)"; fi; \
+	if [ -n "$(OC01_CONSOLE_SANDBOX_MANIFEST)" ]; then set -- "$$@" --sandbox-manifest "$(OC01_CONSOLE_SANDBOX_MANIFEST)"; fi; \
+	if [ -n "$(OC01_CONSOLE_RESULT_MANIFEST)" ]; then set -- "$$@" --result-manifest "$(OC01_CONSOLE_RESULT_MANIFEST)"; fi; \
+	if [ -n "$(OC01_CONSOLE_PROMOTION_PREVIEW)" ]; then set -- "$$@" --promotion-preview "$(OC01_CONSOLE_PROMOTION_PREVIEW)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.console_api "$$@"
+
+.PHONY: oc01-console-serve
+oc01-console-serve:
+	@set -- --canonical-root "$(OC01_CONSOLE_CANONICAL_ROOT)" --runtime-root "$(OC01_CONSOLE_RUNTIME_ROOT)" serve --host "$(OC01_CONSOLE_HOST)" --port "$(OC01_CONSOLE_PORT)"; \
+	if [ "$(OC01_CONSOLE_ALLOW_REMOTE)" = "1" ]; then set -- "$$@" --allow-remote-bind; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.console_api "$$@"
+
+
+# =============================================================================
+# OC-01 MINI-7 / real Protected Terminal proof
+# =============================================================================
+# Reuses Console API -> Protected Terminal -> shared worker launcher.
+# Proof executes READ_ONLY registered capabilities only and writes evidence outside repo.
+OC01_MINI7_PROOF_CANONICAL_ROOT ?= .
+OC01_MINI7_PROOF_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/proofs/mini7/manual
+OC01_MINI7_PROOF_ACTOR_ID ?= oc01-mini7-human-terminal-proof
+OC01_MINI7_PROOF_TIMEOUT ?= 30
+
+.PHONY: oc01-protected-terminal-real-proof-check
+oc01-protected-terminal-real-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/protected_terminal_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_real_proof_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_protected_terminal_real_proof_v0_1.yaml scripts/coordination/control_plane/operator_console/protected_terminal_proof.py tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_real_proof_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-protected-terminal-real-proof
+oc01-protected-terminal-real-proof:
+	@test -n "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" || { echo "ERROR: OC01_MINI7_PROOF_RUNTIME_ROOT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal_proof --canonical-repo "$(OC01_MINI7_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" --actor-id "$(OC01_MINI7_PROOF_ACTOR_ID)" --timeout-seconds "$(OC01_MINI7_PROOF_TIMEOUT)"
+
+
+# =============================================================================
+# OC-01 MINI-8 / sandbox-to-canonical real promotion proof
+# =============================================================================
+# One-time bounded proof. Creates exactly one dedicated proof target in canonical
+# through the published explicit promotion surface. It does not stage/commit/push.
+OC01_MINI8_PROOF_CANONICAL_ROOT ?= .
+OC01_MINI8_PROOF_RUNTIME_ROOT ?=
+OC01_MINI8_PROOF_BASE_HEAD ?=
+OC01_MINI8_PROMOTION_AUTHORIZATION ?=
+
+.PHONY: oc01-sandbox-to-canonical-real-proof-check
+oc01-sandbox-to-canonical-real-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/sandbox_to_canonical_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sandbox_to_canonical_real_proof_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_promotion_surface_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_sandbox_to_canonical_real_proof_v0_1.yaml scripts/coordination/control_plane/operator_console/sandbox_to_canonical_proof.py tests/coordination/control_plane/operator_console/test_oc01_sandbox_to_canonical_real_proof_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-sandbox-to-canonical-real-proof
+oc01-sandbox-to-canonical-real-proof:
+	@test -n "$(OC01_MINI8_PROOF_RUNTIME_ROOT)" || { echo "ERROR: OC01_MINI8_PROOF_RUNTIME_ROOT is required"; false; }
+	@test -n "$(OC01_MINI8_PROOF_BASE_HEAD)" || { echo "ERROR: OC01_MINI8_PROOF_BASE_HEAD is required"; false; }
+	@test "$(OC01_MINI8_PROMOTION_AUTHORIZATION)" = "APPLY_EXACT_OC01_PROMOTION" || { echo "ERROR: exact explicit promotion authorization is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sandbox_to_canonical_proof --canonical-repo "$(OC01_MINI8_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI8_PROOF_RUNTIME_ROOT)" --base-head "$(OC01_MINI8_PROOF_BASE_HEAD)" --authorization "$(OC01_MINI8_PROMOTION_AUTHORIZATION)"
+
+
+# =============================================================================
+# OC-01-MINI closeout
+# =============================================================================
+# Verifies the complete MINI-1..8 publication chain and acceptance boundary.
+# This check is read-only; it does not activate OC-01-FULL.
+.PHONY: oc01-mini-closeout-check
+oc01-mini-closeout-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/mini_closeout.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.mini_closeout --root .
+	@git diff --check -- coordination/internal_work/blueprint/operator_console/2026-10-02__oc01_mini_closeout_v0_1.md scripts/coordination/control_plane/operator_console/mini_closeout.py tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+# CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_START
+.PHONY: cf10-post-commit-acceptance-preview cf10-post-commit-acceptance-decide cf10-post-commit-acceptance-check
+CF10_ACCEPTANCE_REQUEST ?=
+cf10-post-commit-acceptance-preview:
+	@test -n "$(CF10_ACCEPTANCE_REQUEST)" || { echo "CF10_ACCEPTANCE_REQUEST_REQUIRED_EXPLICIT_PATH"; exit 2; }
+	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance preview --root . --request "$(CF10_ACCEPTANCE_REQUEST)"
+cf10-post-commit-acceptance-decide:
+	@test -n "$(CF10_ACCEPTANCE_REQUEST)" || { echo "CF10_ACCEPTANCE_REQUEST_REQUIRED_EXPLICIT_PATH"; exit 2; }
+	@test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" || (echo 'Explicit CF10_DECISION, CF10_DECISION_ID, CF10_OPERATOR_REF and CF10_DECISION_CONFIRM required'; exit 2)
+	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance decide --root . --request "$(CF10_ACCEPTANCE_REQUEST)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)"
+cf10-post-commit-acceptance-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_post_commit_worker_acceptance_v0_1.py
+# CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_END
+
+# Blueprint governed Work Front closeout planning (candidate; review before adoption)
+.PHONY: work-front-closeout-plan work-front-closeout-check
+work-front-closeout-plan:
+	$(PYTHON) -m scripts.coordination.work_front_closeout_v0_1 --root . --front "$(FRONT)" --evidence "$(EVIDENCE)" --action plan --plan-name "$(or $(PLAN_NAME),work_front_closeout_plan_v0_1.json)" $(if $(FORBID_ATTEMPT),--forbid-attempt-id "$(FORBID_ATTEMPT)",)
+work-front-closeout-check:
+	$(PYTHON) -m scripts.coordination.work_front_closeout_v0_1 --root . --front "$(FRONT)" --evidence "$(EVIDENCE)" --action check --plan-name "$(or $(PLAN_NAME),work_front_closeout_plan_v0_1.json)" $(if $(FORBID_ATTEMPT),--forbid-attempt-id "$(FORBID_ATTEMPT)",)
+
+# Blueprint governed Work Front closeout B4 (no authority bootstrap)
+CLOSEOUT_B4_REQUEST ?=
+CLOSEOUT_B4_DECISION ?=
+CLOSEOUT_B4_MANIFEST ?=
+CLOSEOUT_B4_BASELINE ?=
+CLOSEOUT_B4_RECORD ?=
+.PHONY: work-front-closeout-prepare work-front-closeout-candidate-check work-front-closeout-authority-check work-front-closeout-publication-check work-front-closeout-apply work-front-closeout-verify
+CLOSEOUT_B4_PLAN_NAME ?=
+CLOSEOUT_B4_CANDIDATE_NAME ?=
+work-front-closeout-prepare:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 prepare --root . --plan-name "$(CLOSEOUT_B4_PLAN_NAME)" --candidate-name "$(CLOSEOUT_B4_CANDIDATE_NAME)"
+work-front-closeout-candidate-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-candidate --root . --plan-name "$(CLOSEOUT_B4_PLAN_NAME)" --candidate-name "$(CLOSEOUT_B4_CANDIDATE_NAME)"
+work-front-closeout-authority-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-authority --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)"
+work-front-closeout-publication-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-publication --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)" --manifest "$(CLOSEOUT_B4_MANIFEST)"
+work-front-closeout-apply:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 apply --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)" --manifest "$(CLOSEOUT_B4_MANIFEST)" --baseline "$(CLOSEOUT_B4_BASELINE)"
+work-front-closeout-verify:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 verify --root . --request "$(CLOSEOUT_B4_REQUEST)" --record "$(CLOSEOUT_B4_RECORD)"
+
+# Prospective CF-10 shared canonical ledger writer protocol (no activation).
+.PHONY: shared-ledger-writer-protocol-check
+shared-ledger-writer-protocol-check:
+	$(PYTHON) -m py_compile scripts/coordination/execution_attempt_writer_lock_v0_1.py scripts/coordination/execution_attempt_ledger_v0_1.py scripts/coordination/work_front_closeout_apply_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_shared_execution_attempt_writer_lock_v0_1.py
+
+# CF-10 independently authorized ledger-writer activation gates (READ ONLY).
+# No target here provisions /etc, /run, signs, commits, pushes, or starts a Worker.
+.PHONY: shared-ledger-writer-readiness shared-ledger-writer-approval-check shared-ledger-writer-activation-check shared-ledger-writer-activation-verify shared-ledger-writer-activation-tests
+shared-ledger-writer-readiness:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 readiness --root .
+shared-ledger-writer-approval-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 approval-check --root .
+shared-ledger-writer-activation-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 activation-check --root .
+shared-ledger-writer-activation-verify:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 verify --root .
+shared-ledger-writer-activation-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/test_execution_attempt_writer_activation_v0_1.py
+
+
+# CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_START
+# Operator corridor only. This prerequisite does NOT intercept direct Python or
+# non-Make ledger writes; independent ENFORCED global lock remains required.
+CF10_S01_GATE_ROOT ?= /srv/software_development/forprint-releases/cf10/gate/3d90143a240439d33833463d38ab0fb3497eac8f
+CF10_S01_WRITER_ROOT ?= /srv/software_development/forprint-releases/cf10/writer/d5d1495c0a1ab25367c146b0f5379b015e03dd85
+CF10_S01_COVERAGE_EVIDENCE ?= /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
+CF10_S01_COVERAGE_SHA256 ?= 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+.PHONY: cf10-s01-runtime-binding-inspect cf10-s01-runtime-launch-preflight
+cf10-s01-runtime-binding-inspect:
+	@echo "CF10_MAKE_RELEASE_BINDING=QUARANTINED_NEEDS_INDEPENDENT_REBIND"; exit 2
+cf10-s01-runtime-launch-preflight:
+	@echo "CF10_MAKE_RELEASE_BINDING=QUARANTINED_NEEDS_INDEPENDENT_REBIND"; exit 2
+# Preserve original commands and confirmation checks. All write-capable
+# operator targets acquire an additional fail-closed prerequisite.
+governed-worker-cycle-launch: cf10-s01-runtime-launch-preflight
+governed-worker-cycle-reconcile-result-return: cf10-s01-runtime-launch-preflight
+governed-worker-cycle-advance: cf10-s01-runtime-launch-preflight
+# CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_END
+
+# CF10_S01_AUTHORIZED_ONE_SHOT_LAUNCH_V0_1 (source cutover; authority remains external)
+# Source publication is NOT proof acceptance. Runtime requires signed 8/8 release evidence.
+# No Make-supplied task or attempt: load exact scope from root-controlled signed release.
+.PHONY: cf10-s01-governed-one-shot-launch
+cf10-s01-governed-one-shot-launch:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_s01_live_pilot_corridor_v0_1 launch --root /srv/software_development/forprint-project/forprint_system_blueprint --runtime-root /srv/software_development/forprint-worker-runtime --from-signed-release --confirm-launch
+# CF10_S01_AUTHORIZED_ONE_SHOT_LAUNCH_V0_1_END
+
+
+# CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_START
+# Read-only governed attempt reporting. Does not grant ACCEPT, promotion, commit or push.
+.PHONY: cf10-attempt-report cf10-attempt-report-check
+cf10-attempt-report:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_ATTEMPT_REPORT_OUTPUT)" || { echo 'ERROR: task, attempt and output required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_attempt_operator_report_v0_2 --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --output-dir "$(CF10_ATTEMPT_REPORT_OUTPUT)"
+cf10-attempt-report-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_attempt_operator_report_v0_2.py
+# CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_END
+# CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_START
+.PHONY: cf10-zero-delta-review-preview cf10-zero-delta-review-check cf10-zero-delta-review-decide
+CF10_ZERO_DELTA_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
+CF10_ZERO_DELTA_PROOF ?=
+cf10-zero-delta-review-preview:
+	@test -n "$(CF10_ZERO_DELTA_PROOF)" || { echo "CF10_ZERO_DELTA_PROOF_REQUIRED_EXPLICIT_PATH"; exit 2; }
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || (echo 'Task and attempt are required'; exit 2)
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 preview --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-zero-delta-review-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_operator_review_v0_1.py
+cf10-zero-delta-review-decide:
+	@test -n "$(CF10_ZERO_DELTA_PROOF)" || { echo "CF10_ZERO_DELTA_PROOF_REQUIRED_EXPLICIT_PATH"; exit 2; }
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" && test -n "$(CF10_TEMPORAL_ACK)" || (echo 'Explicit task, attempt, decision, decision-id, operator, confirmation and temporal acknowledgment required'; exit 2)
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 decide --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)" --temporal-ack "$(CF10_TEMPORAL_ACK)"
+# CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_END
+
+# CF10_S2C_ZERO_DELTA_REVIEW_STATUS_V0_1_START
+.PHONY: cf10-zero-delta-status-preview cf10-zero-delta-status-check
+cf10-zero-delta-status-preview:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_S2C_PROOF_FILE)" || { echo "ERROR: GOVERNED_WORKER_TASK, GOVERNED_WORKER_ATTEMPT, CF10_S2C_PROOF_FILE required"; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_status_projection_v0_1 preview --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --proof-file "$(CF10_S2C_PROOF_FILE)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-zero-delta-status-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_status_projection_v0_1.py
+# CF10_S2C_ZERO_DELTA_REVIEW_STATUS_V0_1_END
+# CF10_S3_BOUNDED_POSTWORKER_WORKFLOW_V0_1_START
+# Post-worker only; all mutating advancement delegates to governed-worker-cycle-advance.
+# No new dispatch, acceptance, promotion, push or publication authority.
+.PHONY: cf10-worker-s3-status cf10-worker-s3-run cf10-worker-s3-resume cf10-worker-s3-report cf10-worker-s3-check
+CF10_S3_PROOF_FILE ?=
+CF10_S3_REPORT_DIR ?=
+CF10_S3_ARGS = --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" $(if $(CF10_S3_PROOF_FILE),--proof-file "$(CF10_S3_PROOF_FILE)",) --python "$(PYTHON)"
+cf10-worker-s3-status:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 status $(CF10_S3_ARGS)
+cf10-worker-s3-run:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 run $(CF10_S3_ARGS)
+cf10-worker-s3-resume:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 resume $(CF10_S3_ARGS)
+cf10-worker-s3-report:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_S3_REPORT_DIR)" || { echo 'S3 task, attempt and report dir are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 report $(CF10_S3_ARGS) --output-dir "$(CF10_S3_REPORT_DIR)"
+cf10-worker-s3-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py
+# CF10_S3_BOUNDED_POSTWORKER_WORKFLOW_V0_1_END
+
+# CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_START
+# Non-authorizing; never prepares/dispatches/starts Worker or signs /etc.
+# Executable source is tracked in the repository; generated-artifact is reports only.
+CF10_PRELAUNCH_EXPECTED_HEAD ?=
+CF10_PRELAUNCH_ATTEMPT ?=
+CF10_PRELAUNCH_TASK ?= cf10-project-change-impact-and-freshness-control-v0-1
+CF10_PRELAUNCH_REPORT_PARENT ?= generated/cf10_prelaunch_audits
+.PHONY: cf10-prelaunch-check cf10-prelaunch-tests
+cf10-prelaunch-check:
+	@mkdir -p generated
+	@test -n "$(CF10_PRELAUNCH_EXPECTED_HEAD)" && test -n "$(CF10_PRELAUNCH_ATTEMPT)" || { echo 'ERROR: CF10_PRELAUNCH_EXPECTED_HEAD and CF10_PRELAUNCH_ATTEMPT required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_prelaunch_audit_v0_2 --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --expected-head "$(CF10_PRELAUNCH_EXPECTED_HEAD)" --task-id "$(CF10_PRELAUNCH_TASK)" --attempt-id "$(CF10_PRELAUNCH_ATTEMPT)" --output-parent "$(CF10_PRELAUNCH_REPORT_PARENT)"
+cf10-prelaunch-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_prelaunch_audit_v0_2.py
+# CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_END
+
+# CF10_CANONICAL_INVOCATION_REHEARSAL_V0_1_START
+# Extends project-native cf10-prelaunch-check; this target only runs offline tests.
+.PHONY: cf10-invocation-rehearsal-tests
+cf10-invocation-rehearsal-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_invocation_rehearsal_v0_1.py
+cf10-prelaunch-tests: cf10-invocation-rehearsal-tests
+# CF10_CANONICAL_INVOCATION_REHEARSAL_V0_1_END
+
+# CF10_GATE_WRITER_IMMUTABLE_RELEASE_SOURCE_AUDIT_V0_1_START
+# Provenance evidence only: reads pinned Git blobs/remote, never grants Writer authority.
+# Existing live launch gate and its independent historical readback are unchanged.
+CF10_GATE_WRITER_AUDIT_HEAD ?=
+CF10_GATE_WRITER_STABLE_GATE_ROOT ?=
+CF10_GATE_WRITER_STABLE_WRITER_ROOT ?=
+CF10_GATE_WRITER_AUDIT_REPORT_PARENT ?= generated/cf10_gate_writer_release_audits
+.PHONY: cf10-gate-writer-release-audit cf10-gate-writer-release-audit-tests
+cf10-gate-writer-release-audit:
+	@mkdir -p generated
+	@test -n "$(CF10_GATE_WRITER_AUDIT_HEAD)" || { echo 'ERROR: CF10_GATE_WRITER_AUDIT_HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_gate_writer_release_audit_v0_1 --root . --expected-head "$(CF10_GATE_WRITER_AUDIT_HEAD)" $(if $(CF10_GATE_WRITER_STABLE_GATE_ROOT),--stable-gate-root "$(CF10_GATE_WRITER_STABLE_GATE_ROOT)",) $(if $(CF10_GATE_WRITER_STABLE_WRITER_ROOT),--stable-writer-root "$(CF10_GATE_WRITER_STABLE_WRITER_ROOT)",) --output-parent "$(CF10_GATE_WRITER_AUDIT_REPORT_PARENT)"
+cf10-gate-writer-release-audit-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_gate_writer_release_audit_v0_1.py
+# CF10_GATE_WRITER_IMMUTABLE_RELEASE_SOURCE_AUDIT_V0_1_END
+
+# CF10_MAKE_SURFACE_MIGRATION_Q1_START
+# One stable, project-native policy surface; launch remains independently quarantined.
+.PHONY: cf10-make-surface-policy-check cf10-make-surface-policy-tests cf10-make-surface-notice
+cf10-make-surface-policy-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.validation.validate_make_surface_no_scratch_v0_1 --root .
+cf10-make-surface-policy-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/validation/test_cf10_make_surface_no_scratch_v0_1.py
+cf10-make-surface-notice:
+	@cat coordination/continuity/cf10_make_surface_deprecation_notice_v0_1.md
+# CF10_MAKE_SURFACE_MIGRATION_Q1_END
+
+# CF10_G2A_STABLE_RELEASE_ROOTS_V0_1_START
+# Project-owned code, external root-owned source copies, no grant of Worker authority.
+# Q1 live Make launch gate remains QUARANTINED until independent G2b acceptance.
+CF10_G2A_EXPECTED_HEAD ?=
+CF10_G2A_OPERATOR_CONFIRM ?=
+.PHONY: cf10-g2a-release-inspect cf10-g2a-release-provision cf10-g2a-release-tests
+cf10-g2a-release-inspect:
+	@test -n "$(CF10_G2A_EXPECTED_HEAD)" || { echo 'ERROR: CF10_G2A_EXPECTED_HEAD required'; exit 2; }
+	@mkdir -p generated
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_stable_release_roots_v0_1 inspect --root . --expected-head "$(CF10_G2A_EXPECTED_HEAD)"
+cf10-g2a-release-provision:
+	@test -n "$(CF10_G2A_EXPECTED_HEAD)" || { echo 'ERROR: CF10_G2A_EXPECTED_HEAD required'; exit 2; }
+	@test "$(CF10_G2A_OPERATOR_CONFIRM)" = 'PROVISION_PINNED_G2A_RELEASES' || { echo 'ERROR: independent explicit root operator confirmation required'; exit 2; }
+	@test "$$(id -u)" = 0 || { echo 'ERROR: root operator required'; exit 2; }
+	@mkdir -p generated
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_stable_release_roots_v0_1 provision --root . --expected-head "$(CF10_G2A_EXPECTED_HEAD)" --confirm-provision
+cf10-g2a-release-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_stable_release_roots_v0_1.py
+# CF10_G2A_STABLE_RELEASE_ROOTS_V0_1_END
+
+# FORPRINT_EVIDENCE_VAULT_A01_START
+# Root-owned local evidence storage, never a launch/acceptance/signing authority.
+# The default physical store is bound by the versioned Python module, outside the repo.
+EVIDENCE_VAULT_SOURCE ?=
+EVIDENCE_VAULT_ID ?=
+EVIDENCE_VAULT_DESTINATION ?=
+EVIDENCE_VAULT_CONFIRM ?=
+.PHONY: evidence-vault-tests evidence-vault-inspect evidence-vault-init evidence-vault-propose evidence-vault-register evidence-vault-verify evidence-vault-retrieve
+evidence-vault-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_vault_v0_1.py' -q
+evidence-vault-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 inspect
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-init:
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'INIT_FORPRINT_EVIDENCE_VAULT_V01' || { echo 'ERROR: explicit root initialization confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 init --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+evidence-vault-propose:
+	@test -n "$(EVIDENCE_VAULT_SOURCE)" || { echo 'ERROR: EVIDENCE_VAULT_SOURCE required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 propose --source "$(EVIDENCE_VAULT_SOURCE)"
+evidence-vault-register:
+	@test -n "$(EVIDENCE_VAULT_SOURCE)" && test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: evidence source and ID required'; exit 2; }
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'REGISTER_FORPRINT_G2A_EVIDENCE_V01' || { echo 'ERROR: explicit registration confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 register --source "$(EVIDENCE_VAULT_SOURCE)" --evidence-id "$(EVIDENCE_VAULT_ID)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-verify:
+	@test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: EVIDENCE_VAULT_ID required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 verify --evidence-id "$(EVIDENCE_VAULT_ID)"
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-retrieve:
+	@test -n "$(EVIDENCE_VAULT_ID)" && test -n "$(EVIDENCE_VAULT_DESTINATION)" || { echo 'ERROR: evidence ID and destination required'; exit 2; }
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'EXPORT_FORPRINT_EVIDENCE_V01' || { echo 'ERROR: explicit export confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 retrieve --evidence-id "$(EVIDENCE_VAULT_ID)" --destination "$(EVIDENCE_VAULT_DESTINATION)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+# FORPRINT_EVIDENCE_VAULT_A01_END
+
+# FORPRINT_EVIDENCE_VAULT_A02_START
+# Backup target must be selected by operator and separately mounted.
+# Separate filesystem is not by itself proof of off-host disaster recovery.
+EVIDENCE_A02_BACKUP_ROOT ?=
+EVIDENCE_A02_SNAPSHOT_ID ?=
+EVIDENCE_A02_MANIFEST_SHA256 ?=
+EVIDENCE_A02_RESTORE_ROOT ?=
+EVIDENCE_A02_CONFIRM ?=
+.PHONY: evidence-vault-a02-tests evidence-vault-a02-inspect evidence-vault-a02-target-check evidence-vault-a02-snapshot evidence-vault-a02-verify-snapshot evidence-vault-a02-restore-test
+evidence-vault-a02-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_*.py' -q
+evidence-vault-a02-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 inspect-source
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-a02-target-check:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" || { echo 'ERROR: operator must explicitly select backup root'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 check-target --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)"
+evidence-vault-a02-snapshot:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test "$(EVIDENCE_A02_CONFIRM)" = 'CREATE_FORPRINT_EVIDENCE_A02_SNAPSHOT' || { echo 'ERROR: backup root and explicit A02 operator confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 snapshot --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --confirm "$(EVIDENCE_A02_CONFIRM)"
+evidence-vault-a02-verify-snapshot:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test -n "$(EVIDENCE_A02_SNAPSHOT_ID)" && test -n "$(EVIDENCE_A02_MANIFEST_SHA256)" || { echo 'ERROR: backup root, snapshot ID and externally recorded manifest SHA required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 verify-snapshot --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --snapshot-id "$(EVIDENCE_A02_SNAPSHOT_ID)" --manifest-sha256 "$(EVIDENCE_A02_MANIFEST_SHA256)"
+evidence-vault-a02-restore-test:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test -n "$(EVIDENCE_A02_SNAPSHOT_ID)" && test -n "$(EVIDENCE_A02_MANIFEST_SHA256)" && test -n "$(EVIDENCE_A02_RESTORE_ROOT)" && test "$(EVIDENCE_A02_CONFIRM)" = 'RESTORE_TEST_FORPRINT_EVIDENCE_A02' || { echo 'ERROR: backup root, snapshot, anchor, new restore root and operator confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 restore-test --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --snapshot-id "$(EVIDENCE_A02_SNAPSHOT_ID)" --manifest-sha256 "$(EVIDENCE_A02_MANIFEST_SHA256)" --restore-root "$(EVIDENCE_A02_RESTORE_ROOT)" --confirm "$(EVIDENCE_A02_CONFIRM)"
+# FORPRINT_EVIDENCE_VAULT_A02_END
+
+# FORPRINT_EVIDENCE_BACKUP_HANDOFF_V01_START
+# Deferred off-host backup is an explicit backlog item. No service integration.
+.PHONY: evidence-vault-backup-status evidence-vault-backup-handoff-tests
+evidence-vault-backup-status:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-backup-handoff-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_backup_handoff_status_v0_1.py' -q
+# FORPRINT_EVIDENCE_BACKUP_HANDOFF_V01_END
+
+# CF10_G2B01_EVIDENCE_INVENTORY_V0_1_START
+# Non-authorizing inventory; reports are scratch-only and never ledger/launch evidence.
+CF10_G2B01_EXPECTED_HEAD ?=
+CF10_G2B01_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b01-inventory cf10-g2b01-inventory-tests
+cf10-g2b01-inventory:
+	@test -n "$(CF10_G2B01_EXPECTED_HEAD)" || { echo 'ERROR: explicit frozen source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b01_inventory_v0_1 --root . --expected-head "$(CF10_G2B01_EXPECTED_HEAD)" $(if $(CF10_G2B01_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B01_HISTORICAL_COVERAGE)",)
+cf10-g2b01-inventory-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b01_inventory_v0_1.py' -q
+# CF10_G2B01_EVIDENCE_INVENTORY_V0_1_END
+
+# CF10_G2B02_SUCCESSOR_GATE_BINDING_PLAN_V0_1_START
+# Source-only audit; static published verifier review, no execution/rebind/signing.
+CF10_G2B02_EXPECTED_HEAD ?=
+CF10_G2B02_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b02-plan cf10-g2b02-plan-tests
+cf10-g2b02-plan:
+	@test -n "$(CF10_G2B02_EXPECTED_HEAD)" || { echo 'ERROR: explicit pinned source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b02_binding_plan_v0_1 --root . --expected-head "$(CF10_G2B02_EXPECTED_HEAD)" $(if $(CF10_G2B02_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B02_HISTORICAL_COVERAGE)",)
+cf10-g2b02-plan-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b02_binding_plan_v0_1.py' -q
+# CF10_G2B02_SUCCESSOR_GATE_BINDING_PLAN_V0_1_END
+
+# CF10_G2B03A_SUCCESSOR_PROVENANCE_V0_1_START
+# Read-only external evidence provenance candidate; never an execution/signature authority.
+CF10_G2B03A_EXPECTED_HEAD ?=
+CF10_G2B03A_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b03a-provenance-check cf10-g2b03a-tests
+cf10-g2b03a-provenance-check:
+	@test -n "$(CF10_G2B03A_EXPECTED_HEAD)" || { echo 'ERROR: explicit source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03_successor_provenance_v0_1 --root . --expected-head "$(CF10_G2B03A_EXPECTED_HEAD)" $(if $(CF10_G2B03A_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B03A_HISTORICAL_COVERAGE)",)
+cf10-g2b03a-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03_successor_provenance_v0_1.py' -q
+# CF10_G2B03A_SUCCESSOR_PROVENANCE_V0_1_END
+
+# CF10_G2B03B_EXTERNAL_COVERAGE_CANDIDATE_V0_1_START
+# Source- and path-pinned candidate only. No rebind, signed authority, Worker or Writer activation.
+CF10_G2B03B_EXPECTED_HEAD ?=
+CF10_G2B03B_SOURCE ?=
+CF10_G2B03B_SOURCE_ROOT ?=
+CF10_G2B03B_TARGET ?=
+CF10_G2B03B_TARGET_ROOT ?=
+CF10_G2B03B_SHA256 ?=
+CF10_G2B03B_CONFIRM ?=
+CF10_G2B03B_ARGS = --root . --expected-head "$(CF10_G2B03B_EXPECTED_HEAD)" --source "$(CF10_G2B03B_SOURCE)" --source-root "$(CF10_G2B03B_SOURCE_ROOT)" --target "$(CF10_G2B03B_TARGET)" --target-root "$(CF10_G2B03B_TARGET_ROOT)" --sha256 "$(CF10_G2B03B_SHA256)"
+.PHONY: cf10-g2b03b-inspect cf10-g2b03b-provision cf10-g2b03b-verify cf10-g2b03b-tests
+cf10-g2b03b-inspect:
+	@test -n "$(CF10_G2B03B_EXPECTED_HEAD)" && test -n "$(CF10_G2B03B_SOURCE)" && test -n "$(CF10_G2B03B_SOURCE_ROOT)" && test -n "$(CF10_G2B03B_TARGET)" && test -n "$(CF10_G2B03B_TARGET_ROOT)" && test -n "$(CF10_G2B03B_SHA256)" || { echo 'ERROR: live pinned evidence inputs required; no guessed defaults'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 inspect $(CF10_G2B03B_ARGS)
+cf10-g2b03b-provision:
+	@test "$(CF10_G2B03B_CONFIRM)" = 'PROVISION_CF10_G2B03B_COVERAGE_V01' || { echo 'ERROR: explicit root operator confirmation required'; exit 2; }
+	@$(MAKE) --no-print-directory cf10-g2b03b-inspect CF10_G2B03B_EXPECTED_HEAD="$(CF10_G2B03B_EXPECTED_HEAD)" CF10_G2B03B_SOURCE="$(CF10_G2B03B_SOURCE)" CF10_G2B03B_SOURCE_ROOT="$(CF10_G2B03B_SOURCE_ROOT)" CF10_G2B03B_TARGET="$(CF10_G2B03B_TARGET)" CF10_G2B03B_TARGET_ROOT="$(CF10_G2B03B_TARGET_ROOT)" CF10_G2B03B_SHA256="$(CF10_G2B03B_SHA256)"
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 provision $(CF10_G2B03B_ARGS) --confirm "$(CF10_G2B03B_CONFIRM)"
+cf10-g2b03b-verify:
+	@test -n "$(CF10_G2B03B_EXPECTED_HEAD)" && test -n "$(CF10_G2B03B_SOURCE)" && test -n "$(CF10_G2B03B_SOURCE_ROOT)" && test -n "$(CF10_G2B03B_TARGET)" && test -n "$(CF10_G2B03B_TARGET_ROOT)" && test -n "$(CF10_G2B03B_SHA256)" || { echo 'ERROR: live pinned evidence inputs required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 verify $(CF10_G2B03B_ARGS)
+cf10-g2b03b-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03b_coverage_candidate_v0_1.py' -q
+# CF10_G2B03B_EXTERNAL_COVERAGE_CANDIDATE_V0_1_END
+# CF10_G2B03C_SUCCESSOR_GATE_READINESS_V0_1_START
+CF10_G2B03C_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c-review cf10-g2b03c-tests
+cf10-g2b03c-review:
+	@test -n "$(CF10_G2B03C_EXPECTED_HEAD)" || { echo 'ERROR: explicit canonical expected head required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c_successor_readiness_v0_1 --root . --expected-head "$(CF10_G2B03C_EXPECTED_HEAD)"
+cf10-g2b03c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c_successor_readiness_v0_1.py' -q
+# CF10_G2B03C_SUCCESSOR_GATE_READINESS_V0_1_END
+# CF10_G2B03C02_SUCCESSOR_GATE_CANDIDATE_V0_1_START
+# Read-only live s01 Gate *candidate*; never signed coverage/launch authority.
+CF10_G2B03C02_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c02-review cf10-g2b03c02-tests
+cf10-g2b03c02-review:
+	@test -n "$(CF10_G2B03C02_EXPECTED_HEAD)" || { echo 'ERROR: explicit canonical HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c02_successor_gate_v0_1 --root . --expected-head "$(CF10_G2B03C02_EXPECTED_HEAD)"
+cf10-g2b03c02-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c02_successor_gate_v0_1.py' -q
+# CF10_G2B03C02_SUCCESSOR_GATE_CANDIDATE_V0_1_END
+# CF10_G2B03C03A_WRITER_DELTA_REVIEW_V0_1_START
+# Exact published source comparison. Never calls authorization or launch.
+CF10_G2B03C03A_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c03a-review cf10-g2b03c03a-tests
+cf10-g2b03c03a-review:
+	@test -n "$(CF10_G2B03C03A_EXPECTED_HEAD)" || { echo 'ERROR: explicit canonical HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c03a_writer_delta_v0_1 --root . --expected-head "$(CF10_G2B03C03A_EXPECTED_HEAD)"
+cf10-g2b03c03a-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c03a_writer_delta_v0_1.py' -q
+# CF10_G2B03C03A_WRITER_DELTA_REVIEW_V0_1_END
+# CF10_G2B03C03B_BINDING_DESIGN_V0_1_START
+CF10_G2B03C03B_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c03b-review cf10-g2b03c03b-tests
+cf10-g2b03c03b-review:
+	@test -n "$(CF10_G2B03C03B_EXPECTED_HEAD)" || { echo 'ERROR: explicit frozen canonical HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c03b_binding_design_v0_1 --root . --expected-head "$(CF10_G2B03C03B_EXPECTED_HEAD)"
+cf10-g2b03c03b-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c03b_binding_design_v0_1.py' -q
+# CF10_G2B03C03B_BINDING_DESIGN_V0_1_END
+# CF10_G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_V0_1_START
+# Candidate-only: inspect or blocked preflight. NOT connected to the Worker launch chain.
+CF10_G2B03C03C_EXPECTED_HEAD ?=
+CF10_G2B03C03C_B3_REPORT ?=
+CF10_G2B03C03C_B3_SHA256 ?=
+CF10_G2B03C03C_ARGS = --root . --expected-head "$(CF10_G2B03C03C_EXPECTED_HEAD)" --b3-report "$(CF10_G2B03C03C_B3_REPORT)" --b3-sha256 "$(CF10_G2B03C03C_B3_SHA256)"
+.PHONY: cf10-g2b03c03c-inspect cf10-g2b03c03c-launch-preflight cf10-g2b03c03c-tests
+cf10-g2b03c03c-inspect:
+	@test -n "$(CF10_G2B03C03C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C03C_B3_REPORT)" && test -n "$(CF10_G2B03C03C_B3_SHA256)" || { echo 'ERROR: live head and exact prior report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_3 inspect $(CF10_G2B03C03C_ARGS)
+cf10-g2b03c03c-launch-preflight:
+	@test -n "$(CF10_G2B03C03C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C03C_B3_REPORT)" && test -n "$(CF10_G2B03C03C_B3_SHA256)" || { echo 'ERROR: live head and exact prior report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_3 launch-preflight $(CF10_G2B03C03C_ARGS)
+cf10-g2b03c03c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_s01_writer_runtime_binding_v0_3.py' -q
+# CF10_G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_V0_1_END
+# CF10_G2B03C04A_ATTESTATION_BOUNDARY_V0_1_START
+# Metadata-only external trust inventory; never claims signature, coverage or launch authority.
+CF10_G2B03C04A_EXPECTED_HEAD ?=
+CF10_G2B03C04A_B3_REPORT ?=
+CF10_G2B03C04A_B3_SHA256 ?=
+.PHONY: cf10-g2b03c04a-review cf10-g2b03c04a-tests
+cf10-g2b03c04a-review:
+	@test -n "$(CF10_G2B03C04A_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04A_B3_REPORT)" && test -n "$(CF10_G2B03C04A_B3_SHA256)" || { echo 'ERROR: exact published head and frozen B3 report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04a_attestation_boundary_v0_1 --root . --expected-head "$(CF10_G2B03C04A_EXPECTED_HEAD)" --b3-report "$(CF10_G2B03C04A_B3_REPORT)" --b3-sha256 "$(CF10_G2B03C04A_B3_SHA256)"
+cf10-g2b03c04a-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04a_attestation_boundary_v0_1.py' -q
+# CF10_G2B03C04A_ATTESTATION_BOUNDARY_V0_1_END
+# CF10_G2B03C04B_DYNAMIC_COVERAGE_PROOF_CONTRACT_V0_1_START
+# Bounded static and process observation; NEVER an attestation or permission to launch.
+CF10_G2B03C04B_EXPECTED_HEAD ?=
+CF10_G2B03C04B_B3_REPORT ?=
+CF10_G2B03C04B_B3_SHA256 ?=
+.PHONY: cf10-g2b03c04b-review cf10-g2b03c04b-tests
+cf10-g2b03c04b-review:
+	@test -n "$(CF10_G2B03C04B_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04B_B3_REPORT)" && test -n "$(CF10_G2B03C04B_B3_SHA256)" || { echo 'ERROR: exact current HEAD and frozen B3 report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1 --root . --expected-head "$(CF10_G2B03C04B_EXPECTED_HEAD)" --b3-report "$(CF10_G2B03C04B_B3_REPORT)" --b3-sha256 "$(CF10_G2B03C04B_B3_SHA256)"
+cf10-g2b03c04b-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.py' -q
+# CF10_G2B03C04B_DYNAMIC_COVERAGE_PROOF_CONTRACT_V0_1_END
+# CF10_G2B03C04C_INDEPENDENT_EVIDENCE_READBACK_V0_1_START
+# Frozen 04B source/process evidence readback and proof intake only. No attestation or authority.
+CF10_G2B03C04C_EXPECTED_HEAD ?=
+CF10_G2B03C04C_REPORT ?=
+CF10_G2B03C04C_SHA256 ?=
+.PHONY: cf10-g2b03c04c-review cf10-g2b03c04c-tests
+cf10-g2b03c04c-review:
+	@test -n "$(CF10_G2B03C04C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04C_REPORT)" && test -n "$(CF10_G2B03C04C_SHA256)" || { echo 'ERROR: exact current HEAD, frozen 04B report path and SHA required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04c_coverage_evidence_readback_v0_1 --root . --expected-head "$(CF10_G2B03C04C_EXPECTED_HEAD)" --frozen-report "$(CF10_G2B03C04C_REPORT)" --frozen-sha256 "$(CF10_G2B03C04C_SHA256)"
+cf10-g2b03c04c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04c_coverage_evidence_readback_v0_1.py' -q
+# CF10_G2B03C04C_INDEPENDENT_EVIDENCE_READBACK_V0_1_END
+# CF10_G2B03C04D_OPERATOR_EVIDENCE_SURVEY_V0_1_START
+# Read-only scheduler/process/ledger survey. Never a coverage or launch authorization.
+CF10_G2B03C04D_EXPECTED_HEAD ?=
+CF10_G2B03C04D_04C_REPORT ?=
+CF10_G2B03C04D_04C_SHA256 ?=
+.PHONY: cf10-g2b03c04d-capture cf10-g2b03c04d-tests
+cf10-g2b03c04d-capture:
+	@test -n "$(CF10_G2B03C04D_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04D_04C_REPORT)" && test -n "$(CF10_G2B03C04D_04C_SHA256)" || { echo 'ERROR: canonical HEAD and frozen 04C report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04d_operator_evidence_survey_v0_1 --root . --expected-head "$(CF10_G2B03C04D_EXPECTED_HEAD)" --frozen-04c-report "$(CF10_G2B03C04D_04C_REPORT)" --frozen-04c-sha256 "$(CF10_G2B03C04D_04C_SHA256)"
+cf10-g2b03c04d-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04d_operator_evidence_survey_v0_1.py' -q
+# CF10_G2B03C04D_OPERATOR_EVIDENCE_SURVEY_V0_1_END
+# CF10_G2B03C04E_OPERATOR_PROOF_SUBMISSION_INTEGRITY_V0_1_START
+# Source-bound voluntary proof submission; hash integrity never equals independent attestation.
+CF10_G2B03C04E_EXPECTED_HEAD ?=
+CF10_G2B03C04E_04D_REPORT ?=
+CF10_G2B03C04E_04D_SHA256 ?=
+CF10_G2B03C04E_SUBMISSION_INDEX ?=
+CF10_G2B03C04E_SUBMISSION_SHA256 ?=
+.PHONY: cf10-g2b03c04e-review cf10-g2b03c04e-tests
+cf10-g2b03c04e-review:
+	@test -n "$(CF10_G2B03C04E_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04E_04D_REPORT)" && test -n "$(CF10_G2B03C04E_04D_SHA256)" || { echo 'ERROR: canonical HEAD and exact frozen 04D report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04e_proof_submission_review_v0_1 --root . --expected-head "$(CF10_G2B03C04E_EXPECTED_HEAD)" --frozen-04d-report "$(CF10_G2B03C04E_04D_REPORT)" --frozen-04d-sha256 "$(CF10_G2B03C04E_04D_SHA256)" $(if $(CF10_G2B03C04E_SUBMISSION_INDEX),--submission-index "$(CF10_G2B03C04E_SUBMISSION_INDEX)",) $(if $(CF10_G2B03C04E_SUBMISSION_SHA256),--submission-sha256 "$(CF10_G2B03C04E_SUBMISSION_SHA256)",)
+cf10-g2b03c04e-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04e_proof_submission_review_v0_1.py' -q
+# CF10_G2B03C04E_OPERATOR_PROOF_SUBMISSION_INTEGRITY_V0_1_END
+
+
+# NON-AUTHORIZING PROPOSAL ONLY — do not install without owner review.
+# Destination after separate review:
+#   scripts/coordination/control_plane/cf10_offline_batch_review_v0_1.py
+# Note: this v0.1 analyzer is pinned to 2026-10-28 HEAD/report hashes.
+CF10_WRITER_BATCH_ARCHIVE ?=
+CF10_WRITER_BATCH_REPORT_DIR ?=
+.PHONY: cf10-writer-coverage-offline-review
+cf10-writer-coverage-offline-review:
+	@test -n "$(CF10_WRITER_BATCH_ARCHIVE)" || { echo "CF10_WRITER_BATCH_ARCHIVE_REQUIRED"; exit 2; }
+	@test -n "$(CF10_WRITER_BATCH_REPORT_DIR)" || { echo "CF10_WRITER_BATCH_REPORT_DIR_REQUIRED"; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(BLUEPRINT_PYTHON) -B scripts/coordination/control_plane/cf10_offline_batch_review_v0_1.py --archive "$(CF10_WRITER_BATCH_ARCHIVE)" --output-dir "$(CF10_WRITER_BATCH_REPORT_DIR)"
+
+# CF10_S01_RELEASE_GATE_CANDIDATE_V01_START
+# Non-authorizing candidate; does NOT replace the quarantined launch prerequisite.
+.PHONY: cf10-s01-release-gate-candidate-inspect cf10-s01-release-gate-candidate-tests
+cf10-s01-release-gate-candidate-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_release_gate_candidate_v0_1 inspect --root .
+cf10-s01-release-gate-candidate-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
+# CF10_S01_RELEASE_GATE_CANDIDATE_V01_END
+
+# CF10_S01_RUNTIME_REBIND_V02_CANDIDATE_START
+# Candidate predicate only; NO prerequisites attached to governed-worker-cycle-*.
+# Live cf10-s01-runtime-launch-preflight stays literal QUARANTINED exit 2.
+CF10_S01_PILOT_WORKER ?=
+CF10_S01_PILOT_TASK ?=
+CF10_S01_PILOT_ATTEMPT ?=
+CF10_S01_V02_ARGS = --root . --worker-id "$(CF10_S01_PILOT_WORKER)" --task-prompt-id "$(CF10_S01_PILOT_TASK)" --attempt-id "$(CF10_S01_PILOT_ATTEMPT)"
+.PHONY: cf10-s01-runtime-rebind-v02-inspect cf10-s01-runtime-rebind-v02-predicate-check cf10-s01-runtime-rebind-v02-launch-preflight cf10-s01-runtime-rebind-v02-tests
+cf10-s01-runtime-rebind-v02-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 inspect $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-predicate-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 predicate-check $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-launch-preflight:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 launch-preflight $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_runtime_rebind_v0_2.py tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
+# CF10_S01_RUNTIME_REBIND_V02_CANDIDATE_END
+
+# CF10_S01_SINGLE_USE_GUARD_CANDIDATE_V0_1_START
+# Fixture-only, never calls Worker or writes production consume state.
+.PHONY: cf10-s01-single-use-guard-check cf10-s01-single-use-guard-inspect
+cf10-s01-single-use-guard-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_single_use_guard_v0_1.py
+cf10-s01-single-use-guard-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_single_use_guard_v0_1 inspect
+# CF10_S01_SINGLE_USE_GUARD_CANDIDATE_V0_1_END
+
+# CF10_S01_ROOT_CONTROLLED_SINGLE_USE_V02_CANDIDATE_START
+# Persistent root-owned primitive; tests use isolated tmp fixtures ONLY.
+# Neither target provisions /var/lib nor launches a Worker or modifies ledger.
+.PHONY: cf10-s01-root-single-use-check cf10-s01-root-single-use-inspect
+cf10-s01-root-single-use-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_root_controlled_single_use_v0_2.py
+cf10-s01-root-single-use-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_root_controlled_single_use_v0_2 inspect
+# CF10_S01_ROOT_CONTROLLED_SINGLE_USE_V02_CANDIDATE_END
+
+# CF10_S01_CONTROLLED_CORRIDOR_READONLY_CANDIDATE_V0_1_START
+# Read-only gap preflight. NO claim, Worker, authority or live release wiring.
+.PHONY: cf10-s01-corridor-review cf10-s01-corridor-check
+cf10-s01-corridor-review:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_controlled_launch_corridor_v0_1 inspect --root . --worker-id "$(CF10_S01_REVIEW_WORKER_ID)" --task-prompt-id "$(CF10_S01_REVIEW_TASK_PROMPT_ID)" --attempt-id "$(CF10_S01_REVIEW_ATTEMPT_ID)"
+cf10-s01-corridor-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_controlled_launch_corridor_v0_1.py
+# CF10_S01_CONTROLLED_CORRIDOR_READONLY_CANDIDATE_V0_1_END
+
+# CF10_SOLE_OWNER_CONSOLE_R016_START
+# Single-owner project-native console. Operator gates use PAM/sudo password.
+# This source stage does NOT authorize Worker launch, bypass signed release,
+# relax canonical writer locking, or grant acceptance/publication authority.
+.PHONY: cf10-run cf10-resume cf10-console-status cf10-console-plan cf10-console-select cf10-console-cleanup
+CF10_OWNER_CONSOLE_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_owner_operator_console_v0_1
+CF10_OWNER_CONSOLE_ARGS = --root "$(CURDIR)" --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-run:
+	@$(CF10_OWNER_CONSOLE_CMD) run $(CF10_OWNER_CONSOLE_ARGS)
+cf10-resume:
+	@$(CF10_OWNER_CONSOLE_CMD) resume $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-status:
+	@$(CF10_OWNER_CONSOLE_CMD) status $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-plan:
+	@$(CF10_OWNER_CONSOLE_CMD) plan $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-select:
+	@$(CF10_OWNER_CONSOLE_CMD) select $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-cleanup:
+	@$(CF10_OWNER_CONSOLE_CMD) cleanup --root "$(CURDIR)" --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --days 7
+# CF10_SOLE_OWNER_CONSOLE_R016_END
+
+# Target: blueprint-tmp-independence-check
+# Purpose: Verify the global durable-storage rule and critical canonical runtime defaults.
+# Safety: READ-ONLY — no provisioning, runtime mutation, launch or release authority.
+# Inputs: None. Scope: GLOBAL Blueprint policy; end-to-end cutover remains separately blocked.
+# Result: FAIL-CLOSED policy/path check and focused negative tests.
+.PHONY: blueprint-tmp-independence-check
+blueprint-tmp-independence-check:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.validation.blueprint_tmp_independence_check_v0_1 --root .
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/validation/test_blueprint_tmp_independence_v0_1.py
+
+# CF10 r023: isolated root-receipt/ledger fixture, not a production Worker launch.
+.PHONY: cf10-guarded-transaction-check
+cf10-guarded-transaction-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_guarded_transaction_fixture_check_v0_1.py --no-project-tmp
+
+# CF10 r024: root-owned receipt + real disposable systemd + non-authorizing ledger join.
+.PHONY: cf10-r024-systemd-check cf10-r024-systemd-proof
+cf10-r024-systemd-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --check
+cf10-r024-systemd-proof:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --confirm RUN_CF10_R024_DISPOSABLE_SYSTEMD_PROOF
+
+# CF10 r025: read-only canonical cutover seam, post-crash recovery, isolated tests.
+.PHONY: cf10-r025-recovery-check
+cf10-r025-recovery-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r025_integration_gate_v0_1.py
+
+# CF10 r026: root-side systemd + cgroup readback; NO launch or release authority.
+.PHONY: cf10-r026-systemd-readback-check
+cf10-r026-systemd-readback-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r026_systemd_readback_check_v0_1.py
+
+# CF10 r027: systemd Worker Launcher Modernization; backend implemented but NO live cutover.
+.PHONY: cf10-r027-launcher-modernization-check
+cf10-r027-launcher-modernization-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r027_launcher_modernization_check_v0_1.py
+
+# CF10 r028: systemd terminal completion bridge (non-authorizing)
+.PHONY: cf10-r028-terminal-bridge-check
+cf10-r028-terminal-bridge-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r028_terminal_bridge_check_v0_1.py
+
+# CF10 r029: fail-closed systemd log sinks + kernel terminal consistency
+.PHONY: cf10-r029-output-kernel-check
+cf10-r029-output-kernel-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r029_output_kernel_check_v0_1.py
+
+# CF10 r030: sealed canonical systemd route; never grants worker authority.
+.PHONY: cf10-r030-canonical-systemd-check
+cf10-r030-canonical-systemd-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r030_canonical_systemd_check_v0_1.py
+
+.PHONY: cf10-r034-kernel-witness-check
+cf10-r034-kernel-witness-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r034_kernel_witness_join_check_v0_1.py
+
+.PHONY: cf10-r035-durable-recovery-check
+cf10-r035-durable-recovery-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r035_durable_recovery_check_v0_1.py
+
+.PHONY: cf10-r036-independent-result-review-check
+cf10-r036-independent-result-review-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r036_independent_result_review_check_v0_1.py
+
+.PHONY: cf10-r037-finalizer-boundary-check
+cf10-r037-finalizer-boundary-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r037_finalizer_boundary_check_v0_1.py
+
+# CF10_R041_CONSOLE_S3_MAKE_BRIDGE_START
+# Target: cf10-r041-console-s3-bridge-check
+# Purpose: Assert Owner Console post-worker bridge delegates through S3 and Make.
+# Safety: READ-ONLY — isolated pytest; does not dispatch, launch, accept or publish.
+# Inputs: None.
+# Scope: RELATED — console + S3 + exact gate contract regression.
+# Result: exit 0 on passing tests; nonzero with exact test failures.
+# Canonical cf10-run/resume delegates to S3, which MUST run the existing
+# governed-worker-cycle-advance target (including its quarantine).
+.PHONY: cf10-r041-console-s3-bridge-check
+cf10-r041-console-s3-bridge-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py
+# CF10_R041_CONSOLE_S3_MAKE_BRIDGE_END
+
+# CF10_R043_S3_OPERATOR_REVIEW_AUTO_EXPORT_START
+# Source-native regression only; no launch, signed release, or production cutover.
+.PHONY: cf10-r043-s3-operator-review-check
+cf10-r043-s3-operator-review-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py \
+		tests/coordination/control_plane/test_cf10_r043_operator_review_autoexport.py
+# CF10_R043_S3_OPERATOR_REVIEW_AUTO_EXPORT_END
+
+# CF10_R044_SINGLE_OWNER_PILOT_DESIGN_V0_1_START
+# Safety: READ ONLY review/test; selected owner design is NOT release authority.
+# The legacy signed-release and live Make/systemd quarantine remain unchanged.
+.PHONY: cf10-r044-single-owner-pilot-inspect cf10-r044-single-owner-pilot-check
+cf10-r044-single-owner-pilot-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_single_owner_pilot_review_v0_1 --mode inspect --root .
+cf10-r044-single-owner-pilot-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r044_single_owner_pilot_review.py
+# CF10_R044_SINGLE_OWNER_PILOT_DESIGN_V0_1_END
+
+# CF10_R045_BOUNDED_PILOT_ADMISSION_CANDIDATE_START
+# READ-ONLY; no claim, PAM prompt, systemd launch, acceptance or release.
+.PHONY: cf10-r045-admission-inventory cf10-r045-admission-check
+cf10-r045-admission-inventory:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/coordination/control_plane/cf10_r045_pilot_admission_v0_1.py inventory --root .
+cf10-r045-admission-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r045_pilot_admission.py
+# CF10_R045_BOUNDED_PILOT_ADMISSION_CANDIDATE_END
+
+# CF10_R046_SINGLE_OWNER_PILOT_PROOF_BOUNDARY_START
+# READ-ONLY technical proof contract; neither issues nor consumes authority.
+# Production Make quarantine and the source-disabled systemd backend remain intact.
+.PHONY: cf10-r046-pilot-proof-requirements cf10-r046-pilot-proof-inspect cf10-r046-pilot-cutover-check
+cf10-r046-pilot-proof-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 requirements
+cf10-r046-pilot-proof-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 inspect --root . --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-r046-pilot-cutover-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py
+# CF10_R046_SINGLE_OWNER_PILOT_PROOF_BOUNDARY_END
+
+# CF10_R047_ROOT_SOURCE_PROVENANCE_START
+# Read-only root-owned raw source binding; no evidence issuance or launch.
+.PHONY: cf10-r047-pilot-proof-lineage-check
+cf10-r047-pilot-proof-lineage-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py \
+		tests/coordination/control_plane/test_cf10_r047_pilot_proof_lineage.py
+# CF10_R047_ROOT_SOURCE_PROVENANCE_END
+
+# CF10_R050_TWO_PHASE_AND_POSITIVE_CANDIDATE_START
+# Source-native READ-ONLY/isolated fixture. Does not change the quarantined
+# cf10-s01-runtime-launch-preflight, backend cutover, ledger or launch authority.
+.PHONY: cf10-r050-phase-requirements cf10-r050-positive-candidate-fixture cf10-r050-two-phase-check
+cf10-r050-phase-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_two_phase_pilot_v0_1 requirements
+cf10-r050-positive-candidate-fixture:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant positive
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant missing_terminal
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant drifted_result
+cf10-r050-two-phase-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r050_two_phase_positive_candidate.py
+# CF10_R050_TWO_PHASE_AND_POSITIVE_CANDIDATE_END
+
+# CF10_R051_ROOT_PRECLAIM_RECEIPT_START
+# The first two entrypoints are explicitly non-authorizing. The issuing command
+# requires root and a manual confirmation phrase; no PAM launch or claim occurs.
+# Task/attempt are shell environment variables (no Make-expanded command input).
+.PHONY: cf10-r051-preclaim-inspect cf10-r051-preclaim-issue cf10-r051-preclaim-check cf10-r051-launch-window-proof-inspect
+cf10-r051-preclaim-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r051_root_preclaim_receipt_v0_1 inspect --root . --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}"
+cf10-r051-preclaim-issue:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r051_root_preclaim_receipt_v0_1 issue --root . --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}" --confirm SEAL_CF10_TASK70_ROOT_PRECLAIM_NONAUTHORIZING
+cf10-r051-launch-window-proof-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 inspect --root . --phase LAUNCH_WINDOW --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}"
+cf10-r051-preclaim-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r051_root_preclaim_receipt.py
+# CF10_R051_ROOT_PRECLAIM_RECEIPT_END
+
+# CF10_R052_OWNER_LAUNCH_BOUNDARY_START
+# READ-ONLY requirements + tests. Existing make quarantine and backend cutover
+# remain unchanged. No claim, PAM, production Worker or proof issuance.
+.PHONY: cf10-r052-pilot-launch-requirements cf10-r052-owner-launch-check
+cf10-r052-pilot-launch-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode requirements
+cf10-r052-owner-launch-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r052_owner_launch_guard.py
+# CF10_R052_OWNER_LAUNCH_BOUNDARY_END
+
+# CF10_R053_DORMANT_SOURCE_BRIDGE_START
+# READ-ONLY proof-bound candidate. The legacy quarantine and all three original
+# launch/reconcile/advance prerequisites above remain intact. This does not
+# schedule, activate, dispatch, launch, accept or authorize a Worker.
+.PHONY: cf10-s01-pilot-launch-preflight cf10-r053-dormant-route-check cf10-r053-route-requirements
+cf10-s01-pilot-launch-preflight:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode guarded-preflight
+cf10-r053-route-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r053_dormant_pilot_bridge_v0_1 --mode requirements
+cf10-r053-dormant-route-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r053_dormant_pilot_bridge.py
+# CF10_R053_DORMANT_SOURCE_BRIDGE_END
+
+# CF10_R054_EXACT_POSTWORKER_GATE_START
+# Scoped to an ALREADY-LAUNCHED Task70 pilot. Legacy launch/reconcile/advance
+# quarantine is unchanged. No preworker launch authority is created here.
+.PHONY: cf10-r054-postworker-check cf10-r054-postworker-requirements
+.PHONY: cf10-s01-pilot-postworker-preflight cf10-s01-pilot-postworker-advance
+cf10-r054-postworker-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r054_pilot_postworker_gate.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py
+cf10-r054-postworker-requirements:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode requirements
+cf10-s01-pilot-postworker-preflight:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode inspect --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-s01-pilot-postworker-advance:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode advance --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt "$(GOVERNED_WORKER_ATTEMPT)" --confirm ADVANCE_EXACT_SOURCE_BOUND_TASK70_POSTWORKER_ONCE
+# CF10_R054_EXACT_POSTWORKER_GATE_END
+
+# CF10_R055_PILOT_OWNER_ENTRY_START
+# One exact Task70 already READY for launch; root proof+PAM+one-shot claim
+# remain inside the canonical console, r055 source and backend gates.
+# No target aliases or overrides the legacy quarantine targets.
+.PHONY: cf10-s01-pilot-owner-run cf10-r055-source-corridor-check cf10-r055-source-requirements
+# Export make selectors as environment values, never interpolate them into
+# shell source; r052 and the owner code independently validate their scope.
+cf10-s01-pilot-owner-run: export CF10_TASK = $(GOVERNED_WORKER_TASK)
+cf10-s01-pilot-owner-run: export CF10_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-s01-pilot-owner-run:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode guarded-preflight
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_owner_operator_console_v0_1 run --root . --runtime-root /srv/software_development/forprint-worker-runtime --task-prompt-id "$$CF10_TASK" --attempt-id "$$CF10_ATTEMPT"
+cf10-r055-source-corridor-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r055_pilot_launch_corridor.py
+cf10-r055-source-requirements:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r055_pilot_launch_corridor_v0_1 --mode requirements
+# CF10_R055_PILOT_OWNER_ENTRY_END
+
+# CF10_R068_PROJECT_NATIVE_PILOT_CYCLE_START
+# Root-TTY guarded operations; no independent proof issuer or new launcher.
+# Use Make variables only as exported DATA, never Make-expanded shell code.
+.PHONY: cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision cf10-pilot-check
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_RUNTIME = $(GOVERNED_WORKER_RUNTIME_ROOT)
+CF10_PILOT_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_pilot_cycle_v0_1
+CF10_PILOT_ARGS = --root "$(CURDIR)" --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-status:
+	@$(CF10_PILOT_CMD) status $(CF10_PILOT_ARGS)
+cf10-pilot-plan:
+	@$(CF10_PILOT_CMD) plan $(CF10_PILOT_ARGS)
+cf10-pilot-run:
+	@$(CF10_PILOT_CMD) run $(CF10_PILOT_ARGS)
+cf10-pilot-resume:
+	@$(CF10_PILOT_CMD) resume $(CF10_PILOT_ARGS)
+cf10-pilot-launch-once:
+	@$(CF10_PILOT_CMD) resume $(CF10_PILOT_ARGS) --launch-once
+cf10-pilot-report:
+	@$(CF10_PILOT_CMD) report $(CF10_PILOT_ARGS)
+cf10-pilot-runtime-provision:
+	@$(CF10_PILOT_CMD) provision-runtime $(CF10_PILOT_ARGS) --confirm-runtime PROVISION_EXACT_CF10_PILOT_RUNTIME_PRECLAIM
+cf10-pilot-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r013_cross_boundaries.py \
+		tests/coordination/control_plane/test_cf10_r068_r013_prompt_contract.py \
+		tests/coordination/control_plane/test_cf10_pilot_cycle_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_pam_launch_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r055_pilot_launch_corridor.py
+# CF10_R068_PROJECT_NATIVE_PILOT_CYCLE_END
+
+# CF10_R075_PERSISTENT_OPERATOR_DOCTOR_START
+.PHONY: cf10-pilot-operator-doctor cf10-pilot-operator-check
+cf10-pilot-operator-doctor: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-operator-doctor: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-pilot-operator-doctor: export CF10_PILOT_RUNTIME = $(GOVERNED_WORKER_RUNTIME_ROOT)
+cf10-pilot-operator-doctor:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_pilot_operator_workflow_v0_1 --root "$(CURDIR)" --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-operator-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py
+# CF10_R075_PERSISTENT_OPERATOR_DOCTOR_END
+
+# CF10_R076_PROJECT_NATIVE_EVIDENCE_ISSUER_START
+# History and exact-attempt proof review, NOT Worker launch or automatic approval.
+.PHONY: cf10-pilot-evidence-history cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once cf10-pilot-evidence-check
+cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+CF10_R076_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r076_pilot_proof_issuer_v0_1
+cf10-pilot-evidence-history:
+	@$(CF10_R076_CMD) --mode history
+cf10-pilot-evidence-inspect:
+	@$(CF10_R076_CMD) --mode inspect --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-evidence-issue-once:
+	@$(CF10_R076_CMD) --mode review-and-issue --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT" --confirm REVIEW_HISTORICAL_NONCRYPTO_EVIDENCE_ISSUE_EXACT_NONAUTH_PROOFS_NO_WORKER
+cf10-pilot-evidence-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r076_pilot_proof_issuer.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py
+# CF10_R076_PROJECT_NATIVE_EVIDENCE_ISSUER_END
+
+# CF10_R077_PROVIDER_HOME_SANDBOX_START
+# Read-only source-bound HOME contract, NOT a systemd probe, Worker launch or approval.
+.PHONY: cf10-pilot-provider-home-check cf10-pilot-provider-home-tests cf10-pilot-provider-home-probe
+cf10-pilot-provider-home-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r077_runner_home_contract_v0_1 --mode inspect
+cf10-pilot-provider-home-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r077_runner_home_contract_v0_1.py
+cf10-pilot-provider-home-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r077_runner_home_contract_v0_1 --mode probe --confirm PROBE_CF10_R077_DISPOSABLE_HOME_NO_WORKER
+# CF10_R077_PROVIDER_HOME_SANDBOX_END
+
+# CF10_R078_DISPOSABLE_PROVIDER_CLI_BOOT_START
+# CLI --version only, no Worker, no claim, no credentials, network disabled.
+.PHONY: cf10-pilot-provider-cli-inspect cf10-pilot-provider-cli-tests cf10-pilot-provider-cli-smoke
+cf10-pilot-provider-cli-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r078_copilot_cli_smoke_v0_1 --mode inspect
+cf10-pilot-provider-cli-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r078_copilot_cli_smoke.py
+cf10-pilot-provider-cli-smoke:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r078_copilot_cli_smoke_v0_1 --mode probe --confirm PROBE_COPILOT_VERSION_OFFLINE_DISPOSABLE_NO_WORKER
+# CF10_R078_DISPOSABLE_PROVIDER_CLI_BOOT_END
+
+# CF10_R079_PROVIDER_NEUTRAL_CONTRACT_START
+# Pure contract / source audit only; no Worker, claim, dispatch, approval or authority.
+.PHONY: cf10-provider-neutral-contract-check cf10-provider-neutral-architecture-audit
+cf10-provider-neutral-contract-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_provider_neutral_boundary_v0_1.py
+cf10-provider-neutral-architecture-audit:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_provider_neutral_boundary_v0_1 --mode audit --root "$(CURDIR)"
+# CF10_R079_PROVIDER_NEUTRAL_CONTRACT_END
+
+# CF10_R080_MULTI_READY_CATALOG_START
+# Multi-READY catalog and hash-bound attempt selection CANDIDATE only; no dispatch/retry/Worker.
+.PHONY: cf10-provider-catalog-check cf10-provider-catalog-tests
+cf10-provider-catalog-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r080_catalog_assignment_v0_1 --mode inspect --root "$(CURDIR)"
+cf10-provider-catalog-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r080_catalog_assignment_v0_1.py
+# CF10_R080_MULTI_READY_CATALOG_END
+
+# CF10_R081_COPILOT_ADAPTER_PARITY_START
+# Source-bound provider argv/policy parity; NO second-provider execution.
+.PHONY: cf10-provider-adapter-parity-tests cf10-provider-adapter-parity-audit
+cf10-provider-adapter-parity-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py
+cf10-provider-adapter-parity-audit:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r081_provider_adapter_v0_1 --mode inspect
+# CF10_R081_COPILOT_ADAPTER_PARITY_END
+
+# CF10_R082_FROZEN_PROVIDER_ASSIGNMENT_START
+# Provider selected before ACK and bound through dispatch/launch; no new authority.
+.PHONY: cf10-provider-freeze-tests cf10-provider-freeze-check
+cf10-provider-freeze-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r082_frozen_assignment_v0_1.py
+cf10-provider-freeze-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as f; print("CF10_R082_FREEZE_MODULE=" + f.SCHEMA); print("CF10_R082_SECOND_PROVIDER_DISPATCH=false")'
+# CF10_R082_FROZEN_PROVIDER_ASSIGNMENT_END
+
+# CF10_R083_FREEZE_EPOCH_ANTI_DOWNGRADE_START
+# Strict ancestry-bound R082 provider freeze; no Worker, claim, or authority.
+.PHONY: cf10-provider-freeze-epoch-tests
+cf10-provider-freeze-epoch-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r083_frozen_epoch_gate_v0_1.py
+# CF10_R083_FREEZE_EPOCH_ANTI_DOWNGRADE_END
+
+# CF10_R084_OPERATOR_PROVIDER_ASSIGNMENT_PLAN_START
+# Explicit read-only operator task/provider plan; no prepare/claim/dispatch/Worker.
+.PHONY: cf10-provider-assignment-inspect cf10-provider-assignment-plan cf10-provider-assignment-tests
+cf10-provider-assignment-plan: export CF10_TASK := $(CF10_TASK)
+cf10-provider-assignment-plan: export CF10_ATTEMPT := $(CF10_ATTEMPT)
+cf10-provider-assignment-plan: export CF10_PROVIDER := $(CF10_PROVIDER)
+cf10-provider-assignment-plan: export CF10_MODEL := $(CF10_MODEL)
+cf10-provider-assignment-plan: export CF10_WORKER := $(CF10_WORKER)
+cf10-provider-assignment-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r084_operator_assignment_plan_v0_1 --mode inspect
+cf10-provider-assignment-plan:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r084_operator_assignment_plan_v0_1 --mode plan
+cf10-provider-assignment-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r084_operator_assignment_plan_v0_1.py
+# CF10_R084_OPERATOR_PROVIDER_ASSIGNMENT_PLAN_END
+# CF10_R085_EXPLICIT_OPERATOR_PLAN_TO_PREPARE_START
+# Explicit CLI-selected Copilot prepare, never claim, ACK, dispatch or launch.
+# Variables are passed via environment, never interpolated into shell code.
+.PHONY: cf10-provider-assignment-prepare cf10-provider-assignment-prepare-inspect cf10-provider-assignment-prepare-tests
+cf10-provider-assignment-prepare: export CF10_TASK := $(CF10_TASK)
+cf10-provider-assignment-prepare: export CF10_ATTEMPT := $(CF10_ATTEMPT)
+cf10-provider-assignment-prepare: export CF10_PROVIDER := $(CF10_PROVIDER)
+cf10-provider-assignment-prepare: export CF10_MODEL := $(CF10_MODEL)
+cf10-provider-assignment-prepare: export CF10_WORKER := $(CF10_WORKER)
+cf10-provider-assignment-prepare: export CF10_CONFIRM_PREPARE := $(CF10_CONFIRM_PREPARE)
+cf10-provider-assignment-prepare-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r085_operator_prepare_bridge_v0_1 --mode inspect
+cf10-provider-assignment-prepare-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r085_operator_prepare_bridge_v0_1.py
+cf10-provider-assignment-prepare:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r085_operator_prepare_bridge_v0_1 --mode prepare
+# CF10_R085_EXPLICIT_OPERATOR_PLAN_TO_PREPARE_END
+# CF10_R086_OPERATOR_PREVIEW_PROVENANCE_START
+# Provenance verification only; no Worker, provider auth, claim, dispatch or launch.
+.PHONY: cf10-operator-provenance-tests cf10-operator-provenance-inspect
+cf10-operator-provenance-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r086_operator_provenance_v0_1.py
+cf10-operator-provenance-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as p; print("CF10_R086_SCHEMA=" + p.SCHEMA); print("CF10_R086_SECOND_PROVIDER_DISPATCH=false"); print("CF10_R086_NO_WORKER_NO_CLAIM=true")'
+# CF10_R086_OPERATOR_PREVIEW_PROVENANCE_END
+# CF10_R087_CODEX_CLI_CANDIDATE_START
+# Source-only read-only ABI candidate; not a READY/dispatch/claim/Worker route.
+.PHONY: cf10-codex-adapter-candidate-check cf10-codex-adapter-candidate-tests
+cf10-codex-adapter-candidate-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r087_codex_cli_candidate_v0_1 --mode inspect
+cf10-codex-adapter-candidate-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r087_codex_cli_candidate_v0_1.py
+# CF10_R087_CODEX_CLI_CANDIDATE_END
+# CF10_R088_CODEX_OFFLINE_ATTESTATION_START
+# Inspect only by default; opt-in isolated systemd --version with explicit confirmation.
+.PHONY: cf10-codex-offline-inspect cf10-codex-offline-tests cf10-codex-offline-version-probe
+cf10-codex-offline-version-probe: export CF10_CONFIRM_CODEX_VERSION_PROBE := $(CF10_CONFIRM_CODEX_VERSION_PROBE)
+cf10-codex-offline-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r088_codex_offline_attestation_v0_1 --mode inspect
+cf10-codex-offline-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r088_codex_offline_attestation_v0_1.py
+cf10-codex-offline-version-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r088_codex_offline_attestation_v0_1 --mode probe
+# CF10_R088_CODEX_OFFLINE_ATTESTATION_END
+# CF10_R089_PINNED_CODEX_BINARY_INTAKE_START
+# Explicit pinned official binary install is NOT invoked by source package installer.
+# No npm/curl|sh, no Worker/claim, no READY, separate R088 offline --version.
+.PHONY: cf10-codex-pinned-install-inspect cf10-codex-pinned-install-tests cf10-codex-pinned-install
+cf10-codex-pinned-install: export CF10_CONFIRM_CODEX_INSTALL := $(CF10_CONFIRM_CODEX_INSTALL)
+cf10-codex-pinned-install-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r089_codex_pinned_install_v0_1 --mode inspect
+cf10-codex-pinned-install-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r089_codex_pinned_install_v0_1.py
+cf10-codex-pinned-install:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r089_codex_pinned_install_v0_1 --mode install
+# CF10_R089_PINNED_CODEX_BINARY_INTAKE_END
+# CF10_R090_CODEX_BINARY_LINEAGE_AND_OFFLINE_HELP_START
+# Durable read-only binary+receipt lineage; separate opt-in offline exec --help.
+# NEVER runs model/prompts, Worker, auth, claim, READY or live dispatch.
+.PHONY: cf10-codex-lineage-attest cf10-codex-lineage-tests cf10-codex-offline-exec-help-probe
+cf10-codex-offline-exec-help-probe: export CF10_CONFIRM_CODEX_HELP_PROBE := $(CF10_CONFIRM_CODEX_HELP_PROBE)
+cf10-codex-lineage-attest:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r090_codex_binary_lineage_and_help_v0_1 --mode attest
+cf10-codex-lineage-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r090_codex_binary_lineage_and_help_v0_1.py
+cf10-codex-offline-exec-help-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r090_codex_binary_lineage_and_help_v0_1 --mode help-probe
+# CF10_R090_CODEX_BINARY_LINEAGE_AND_OFFLINE_HELP_END
+
+# R115 - offline/source-only Copilot preclaim feasibility; no claim or cutover.
+.PHONY: cf10-r115-preclaim-check
+cf10-r115-preclaim-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py
+
+# CF10 R116: source-only exec-time Copilot FD/SHA pin regression tests.
+# DOES NOT install a binary, authorize live Worker, claim or change systemd.
+.PHONY: cf10-r116-execfd-pin-tests
+cf10-r116-execfd-pin-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r116_execfd_pin_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r027_modernized_launcher.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
+
+# CF10 R117 S02: static single-MCP and tool-universe negative gate only.
+# No effective native sandbox, credential isolation or live admission claimed.
+.PHONY: cf10-r117-tool-boundary-tests
+cf10-r117-tool-boundary-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
+
+# R118 S01: source-only preclaim contract regression; no live Worker/claim.
+.PHONY: cf10-r118-mcp-identity-tests
+cf10-r118-mcp-identity-tests:
+	.venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py
+
+# CF10 R122: immutable Git-blob source capsule in stable root-owned runtime state.
+# Non-authorizing. No Worker/claim/Copilot, no systemd changes or credential read.
+# Publish is a separate deliberate Make/CLI operation; never hooked into live launch.
+.PHONY: cf10-r122-capsule-tests cf10-r122-capsule-inspect cf10-r122-capsule-publish cf10-r122-capsule-verify
+cf10-r122-capsule-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r122_durable_source_capsule_v0_1.py
+cf10-r122-capsule-inspect:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode inspect
+cf10-r122-capsule-publish:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode publish
+cf10-r122-capsule-verify: export CF10_CAPSULE_ID := $(CF10_CAPSULE_ID)
+cf10-r122-capsule-verify:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode verify
+
+# CF10 R123: non-authorizing crosswalk between canonical invocation/R118
+# preclaim shape and already-published immutable R122 source capsule.
+# Does not activate capsule in Copilot or change systemd, kernel, claims.
+.PHONY: cf10-r123-capsule-binding-tests cf10-r123-capsule-binding-verify
+cf10-r123-capsule-binding-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r122_durable_source_capsule_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r123_capsule_invocation_binding_v0_1.py
+cf10-r123-capsule-binding-verify:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r123_capsule_invocation_binding_v0_1 --mode verify
+
+# CF10 R125: guarded, non-authorizing attempt-bound IPC candidate, source-only.
+# Disposable real MCP call/revoke proof is an operator-side ZIP lab, not a live launch.
+.PHONY: cf10-r125-ipc-contract-tests
+cf10-r125-ipc-contract-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py
+
+# CF10 R126: explicit root-only external revoke for disposable R125 IPC lease.
+# Source-only bridge and tests; no Worker launch or production cutover.
+.PHONY: cf10-r126-external-revoke-tests
+cf10-r126-external-revoke-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+
+# CF10 R127: source-only canonical Copilot IPC cutover candidate plus bounded
+# STDIO→root Unix proxy. Existing R115/R118 and LIVE_CUTOVER_ENABLED remain
+# unchanged, no Worker launch, root claim, release or production transition.
+.PHONY: cf10-r127-ipc-cutover-source-tests
+cf10-r127-ipc-cutover-source-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_mcp_stdio_ipc_proxy_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
+
+# CF10 R129: single, source-only synthetic lifecycle convergence review.
+# Never grants release, performs Worker launch, or changes canonical preclaim.
+.PHONY: cf10-r129-lifecycle-tests cf10-r129-lifecycle-source-check
+cf10-r129-lifecycle-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
+cf10-r129-lifecycle-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r129_canonical_lifecycle_convergence_v0_1 --mode synthetic-check
+
+# CF10 R131: root-owned revoke and genuine canonical KernelWitness terminal
+# reconciliation precondition, review-only. No live Worker, claim or ledger write.
+.PHONY: cf10-r131-terminal-tests cf10-r131-terminal-source-check
+cf10-r131-terminal-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r131_terminal_review_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
+cf10-r131-terminal-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r131_terminal_review_fence_v0_1 --mode source-check
+
+# CF10 R133: post-release exact systemd kill + pinned kernel quarantine (source-only tests).
+# Does not bypass the existing Owner/PAM gate or authorize any Worker.
+.PHONY: cf10-r133-post-release-quarantine-tests
+cf10-r133-post-release-quarantine-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r133_post_release_quarantine_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
+
+# CF10 R134 — IPC candidate versus frozen R115 preclaim; review-only, no claim.
+.PHONY: cf10-r134-ipc-preclaim-tests cf10-r134-ipc-preclaim-source-check
+cf10-r134-ipc-preclaim-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py
+cf10-r134-ipc-preclaim-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r134_ipc_preclaim_crosswalk_v0_1 --mode source-check
+
+# CF10 R135 — source-only root IPC session fence, no listener/Worker/release.
+.PHONY: cf10-r135-ipc-session-tests cf10-r135-ipc-session-source-check
+cf10-r135-ipc-session-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_mcp_stdio_ipc_proxy_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+cf10-r135-ipc-session-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r135_ipc_session_fence_v0_1 --mode source-check
+
+# CF10 R138: canonical R030 root terminal / cancellation review-only ledger join.
+# No Worker claim, independent Worker Result acceptance or terminal append.
+.PHONY: cf10-r138-terminal-handoff-tests cf10-r138-terminal-handoff-source-check
+cf10-r138-terminal-handoff-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r138_canonical_terminal_handoff_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r133_post_release_quarantine_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
+cf10-r138-terminal-handoff-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r138_canonical_terminal_handoff_v0_1 --mode source-check
+# CF10 R139: source-only root terminal prerequisite; no Worker, claim or ledger append.
+.PHONY: cf10-r139-finalizer-root-source-check
+cf10-r139-finalizer-root-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r139_root_terminal_finalizer_gate_v0_1 --mode source-check
+
+# CF10 R140 — bounded root IPC adapter for single R125 lab lease; no live Worker.
+.PHONY: cf10-r140-root-ipc-tests cf10-r140-root-ipc-source-check
+cf10-r140-root-ipc-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+cf10-r140-root-ipc-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 R141 — two-phase held/released root IPC BRIDGE provenance; no admission.
+.PHONY: cf10-r141-held-ipc-tests cf10-r141-held-ipc-source-check
+cf10-r141-held-ipc-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py
+cf10-r141-held-ipc-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r141_held_ipc_bridge_origin_v0_1 --mode source-check
+
+# CF10 R142 — root-verified MCP child PIDFD + stdio bridge lineage (source-only).
+# No canonical R030 release, Worker, claim, G1-G5 or terminal write.
+.PHONY: cf10-r142-mcp-child-tests cf10-r142-mcp-child-source-check
+cf10-r142-mcp-child-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
+cf10-r142-mcp-child-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r142_canonical_mcp_child_lineage_v0_1 --mode source-check
+
+# CF10 R143 — immutable Git HEAD MCP capsule bound to R142 kernel PIDFD child.
+# Source-only. Does not admit production R030 release, claim or Worker result.
+.PHONY: cf10-r143-mcp-git-origin-tests cf10-r143-mcp-git-origin-source-check
+cf10-r143-mcp-git-origin-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r143_git_mcp_capsule_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py
+cf10-r143-mcp-git-origin-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r143_git_mcp_capsule_origin_v0_1 --mode source-check
+
+# CF10 R144 — guarded root IPC pre-forward joins live R141+R143 proof.
+# Disposable R125 lease only; no R030 release, Copilot or canonical ledger.
+.PHONY: cf10-r144-preforward-tests cf10-r144-preforward-source-check
+cf10-r144-preforward-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r144_root_ipc_preforward_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r143_git_mcp_capsule_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
+cf10-r144-preforward-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 R145 — independently pin R030 root release marker + active kernel
+# invocation before R140 public IPC forwarding. Read-only, lab lease only.
+.PHONY: cf10-r145-release-preforward-tests cf10-r145-release-preforward-source-check
+cf10-r145-release-preforward-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r145_canonical_root_release_readback_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r144_root_ipc_preforward_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r143_git_mcp_capsule_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
+cf10-r145-release-preforward-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r145_canonical_root_release_readback_v0_1 --mode source-check
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 Batch D — source-only canonical R115→R134→R030 IPC preclaim crosswalk.
+# No Worker, claim, systemd, production admission, or runtime state.
+.PHONY: cf10-batch-d-ipc-preclaim-review
+cf10-batch-d-ipc-preclaim-review:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_d_canonical_ipc_preclaim_bridge_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
+
+# CF10 Large Batch E — whole-process runtime cutover join with canonical R030
+# preclaim. Source-only / no production admission, Copilot, systemd or claim.
+.PHONY: cf10-batch-e-runtime-cutover-check
+cf10-batch-e-runtime-cutover-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_e_runtime_cutover_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_d_canonical_ipc_preclaim_bridge_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_e_runtime_cutover_contract_v0_1 --mode source-check
+
+# CF10 Batch F: source-only sandbox candidate; never invokes Copilot or starts systemd.
+.PHONY: cf10-batch-f-sandbox-source-check
+cf10-batch-f-sandbox-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_f_disposable_sandbox_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_f_disposable_sandbox_contract_v0_1.py
+
+# CF10 Large Batch G: bounded disposable AF_UNIX fixture request/response.
+# Source-level checks only; actual one-shot lab is run only by guarded installer.
+.PHONY: cf10-batch-g-inference-bridge-source-check
+cf10-batch-g-inference-bridge-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_g_inference_bridge_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
+
+# CF10 Large Batch H: executable disposable localhost CONNECT -> Unix IPC ->
+# authenticated synthetic TLS fixture. Source-level check only; s01 systemd
+# acceptance is guarded by one-shot installer, never by this target.
+.PHONY: cf10-batch-h-loopback-tls-source-check
+cf10-batch-h-loopback-tls-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_h_loopback_tls_transport_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_h_loopback_tls_transport_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
+
+# CF10 Large Batch I: pinned real Copilot executable offline sandbox compatibility.
+# No provider auth, live task, claim, network or ledger changes.
+.PHONY: cf10-batch-i-offline-copilot-source-check
+cf10-batch-i-offline-copilot-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_i_offline_copilot_compatibility_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_i_offline_copilot_compatibility_v0_1.py
+
+# CF10 Large Batch J: composed real Copilot offline --version and synthetic HTTPS in same disposable unit.
+.PHONY: cf10-batch-j-composed-copilot-proxy-source-check
+cf10-batch-j-composed-copilot-proxy-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_j_composed_copilot_proxy_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_j_composed_copilot_proxy_contract_v0_1.py
+
+# CF10 Large Batch K: bounded canonical R030 preclaim digest -> disposable composed sandbox.
+.PHONY: cf10-batch-k-dispatcher-runtime-rehearsal-check
+cf10-batch-k-dispatcher-runtime-rehearsal-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_k_dispatcher_runtime_join_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_k_dispatcher_runtime_join_v0_1.py
+
+# CF10 Large Batch L: retained-unit kernel terminal proof; disposable only.
+.PHONY: cf10-batch-l-retained-kernel-terminal-source-check
+cf10-batch-l-retained-kernel-terminal-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_l_retained_kernel_terminal_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_l_retained_kernel_terminal_contract_v0_1.py
+
+# CF10 BATCH O SOURCE-ONLY EGRESS ATTACHMENT CONTRACT v0.1
+.PHONY: cf10-root-egress-contract-check
+cf10-root-egress-contract-check:
+	@PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest discover -s tests/coordination/control_plane/worker_runtime -p 'test_cf10_root_egress_attachment_contract_v0_1.py'
+	@PYTHONDONTWRITEBYTECODE=1 python3 -B scripts/coordination/control_plane/worker_runtime/cf10_root_egress_attachment_contract_v0_1.py --mode source-check
+
+# CF10 BATCH U INFERENCE CUTOVER READINESS CONTRACT v0.1
+.PHONY: cf10-inference-cutover-readiness-check
+cf10-inference-cutover-readiness-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_inference_cutover_readiness_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B scripts/coordination/control_plane/worker_runtime/cf10_inference_cutover_readiness_v0_1.py --mode source-check
+
+# CF10 BATCH V BOUNDED EGRESS IPC AND TERMINAL COHERENCE v0.1
+.PHONY: cf10-bounded-egress-terminal-check
+cf10-bounded-egress-terminal-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_inference_egress_session_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_terminal_proof_fence_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_inference_egress_session_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_terminal_proof_fence_v0_1 --mode source-check
+
+# CF10 BATCH X BOUND CONNECT TO ROOT TLS FIXTURE v0.1
+.PHONY: cf10-bound-tls-join-check
+cf10-bound-tls-join-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_egress_transport_join_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_egress_transport_join_v0_1 --mode source-check
+
+# CF10 BATCH Y FIRST REAL WORKER CRITICAL PATH v0.1
+.PHONY: cf10-first-worker-critical-path-check
+cf10-first-worker-critical-path-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_critical_path_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_operator_doctor_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_critical_path_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_operator_doctor_v0_1 --mode inspect
+
+# CF10 AA FIRST WORKER SECURITY HARDENING + TRACKED SOURCE AUDIT (NO LIVE AUTHORITY)
+.PHONY: cf10-first-worker-security-inventory-check
+cf10-first-worker-security-inventory-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_secure_metadata_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_repository_risk_inventory_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_operator_doctor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_critical_path_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_secure_metadata_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_repository_risk_inventory_v0_1 --root . --brief
+
+# CF10 BATCH AB: CANONICAL CROSS-PLANE + KERNEL DIRECTORY FD ANCHOR (NON-AUTHORIZING)
+.PHONY: cf10-first-worker-crossplane-gate-check
+cf10-first-worker-crossplane-gate-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ab_kernel_anchor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ab_crossplane_gate_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_crossplane_gate_v0_1 --mode source-check
+
+# CF10 AD: FIRST PHYSICAL DISPOSABLE WORKER RESULT + KERNEL TERMINAL
+# WARNING: not a production Worker dispatch; G1-G5 remain open.
+.PHONY: cf10-first-disposable-physical-worker-check cf10-first-disposable-physical-worker-run-once
+cf10-first-disposable-physical-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ad_disposable_worker_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ad_disposable_worker_rehearsal_v0_1 --mode source-check
+
+# Only run from the guarded, one-shot Batch AD root controller after preflight.
+# Creates one disposable non-production unit; no Worker claim or provider token.
+cf10-first-disposable-physical-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ad_disposable_worker_rehearsal_v0_1 --mode run-once
+
+# CF10 AE: delegated anchored child-cgroup proof, disposable only, no live Worker
+.PHONY: cf10-disposable-delegated-worker-check cf10-disposable-delegated-worker-run-once
+cf10-disposable-delegated-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ae_delegated_kernel_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ae_delegated_kernel_rehearsal_v0_1 --mode source-check
+
+# Only from guarded one-shot AE controller after source checkpoint; no claims/tokens.
+cf10-disposable-delegated-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ae_delegated_kernel_rehearsal_v0_1 --mode run-once
+
+# CF10 BATCH AF: CANONICAL DISPATCHER API DRY DECISION TO PHYSICAL DISPOSABLE WORKER (NON-AUTHORIZING)
+.PHONY: cf10-disposable-dispatcher-physical-join-check
+cf10-disposable-dispatcher-physical-join-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_af_dispatcher_physical_join_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_af_dispatcher_physical_join_v0_1 --mode source-check
+
+.PHONY: cf10-disposable-dispatcher-physical-join-run-once
+cf10-disposable-dispatcher-physical-join-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_af_dispatcher_physical_join_v0_1 --mode run-once
+
+# CF10 BATCH AG: CANONICAL DISPATCHER DECISION NONCE -> PHYSICAL AE WORKER (LAB ONLY)
+.PHONY: cf10-disposable-bound-dispatcher-worker-check
+cf10-disposable-bound-dispatcher-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ag_bound_dispatcher_worker_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ae_delegated_kernel_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ag_bound_dispatcher_worker_v0_1 --mode source-check
+
+.PHONY: cf10-disposable-bound-dispatcher-worker-run-once
+cf10-disposable-bound-dispatcher-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ag_bound_dispatcher_worker_v0_1 --mode run-once
+
+# CF10 AH: PINNED REAL COPILOT VERSION INSIDE DISPOSABLE GOVERNED PHYSICAL WORKER
+.PHONY: cf10-pinned-copilot-offline-physical-check cf10-pinned-copilot-offline-physical-run-once
+cf10-pinned-copilot-offline-physical-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ah_pinned_copilot_offline_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
+cf10-pinned-copilot-offline-physical-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
+
+# CF10 AH r005: EXACT OFFLINE COPILOT FAILURE DIAGNOSTICS, NON-AUTHORIZING
+.PHONY: cf10-pinned-copilot-offline-diagnostics-check cf10-pinned-copilot-offline-diagnostics-run-once
+cf10-pinned-copilot-offline-diagnostics-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ah_pinned_copilot_offline_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ah_r005_offline_diagnostics_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
+cf10-pinned-copilot-offline-diagnostics-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
+
+# CF10 Batch AH r006: PINNED COPILOT --VERSION WITH ISOLATED /run HOME (DISPOSABLE)
+.PHONY: cf10-pinned-copilot-isolated-home-check cf10-pinned-copilot-isolated-home-run-once
+cf10-pinned-copilot-isolated-home-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ah_r006_isolated_offline_home_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ah_r005_offline_diagnostics_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ah_pinned_copilot_offline_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
+cf10-pinned-copilot-isolated-home-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
+
+# CF10 Batch AI: root-only pre-admission, NON-authorizing survey
+.PHONY: cf10-first-inference-pre-admission-check cf10-first-inference-root-readiness-survey-once
+cf10-first-inference-pre-admission-check:
+	@.venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ai_pre_admission_v0_1.py
+	@.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ai_root_copilot_survey_v0_1 --mode source-check
+
+cf10-first-inference-root-readiness-survey-once:
+	@.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ai_root_copilot_survey_v0_1 --mode root-survey
+
+# CF10_CANONICAL_E2E_REGRESSION_R001_START
+# One public Make target for all source-only tests; optional crossplane CLI
+# is read-only and independently callable (no new execution route).
+.PHONY: cf10-canonical-e2e-check
+cf10-canonical-e2e-check:
+	@PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/coordination/control_plane/worker_runtime -p 'test_cf10_canonical_e2e_regression_v0_1.py' -v
+	@PYTHONDONTWRITEBYTECODE=1 python3 -m scripts.coordination.control_plane.worker_runtime.cf10_canonical_e2e_regression_v0_1 --root . --mode source-only
+# CF10_CANONICAL_E2E_REGRESSION_R001_END

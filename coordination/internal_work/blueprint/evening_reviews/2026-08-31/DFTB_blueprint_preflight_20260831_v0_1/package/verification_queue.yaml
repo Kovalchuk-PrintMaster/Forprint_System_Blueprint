@@ -1,0 +1,636 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-preflight-2026-08-31
+warning: Historical inventory/design evidence is not current authority.
+queue:
+- item_id: IT-BP3108-0001
+  title: Current release authority remains separate from planning inventory
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - governance
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP3108-0001
+  - EV-BP3108-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0002
+  title: Logistics remains sole H10 pilot during inventory work
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - H10
+  - logistics_service
+  verification_targets:
+  - config
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP3108-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0003
+  title: Semantic inventory combines machine scans and bounded external semantic review
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - knowledge_inventory
+  - semantic_review
+  verification_targets:
+  - operations
+  - docs
+  - tooling
+  evidence_refs:
+  - EV-BP3108-0005
+  - EV-BP3108-0006
+  - EV-BP3108-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0004
+  title: Coordinator synthesis is persisted during inventory
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - knowledge_inventory
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0005
+  title: Keep current inventory scope on Blueprint when explicitly bounded
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - scope_control
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP3108-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0006
+  title: Portfolio inventory count requires reconciliation
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - module_registry
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP3108-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0007
+  title: Makefile/integration coverage is a Blueprint gray zone
+  importance: high
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - make
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0008
+  title: Descriptive/theory documents must stay synchronized with implementation reality
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - semantic_consistency
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0009
+  title: Capability/knowledge index for machine navigation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - knowledge
+  - indexes
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP3108-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0010
+  title: Do not retain legacy technical IDs without concrete compatibility need
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - repository_structure
+  - module_identity
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP3108-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0011
+  title: Normalize Blueprint structure for predictability
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - repository_structure
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0014
+  - EV-BP3108-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0012
+  title: Reconcile semantic sources before rebuilding generated knowledge
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - knowledge
+  - indexes
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP3108-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0013
+  title: Maintain three portfolio representations
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - operator_ux
+  - knowledge
+  verification_targets:
+  - docs
+  - tooling
+  evidence_refs:
+  - EV-BP3108-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0014
+  title: Approved portfolio steps retain durable status and roadmap binding
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0015
+  title: Roadmap/portfolio items preserve human intent context
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - human_intent
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0016
+  title: Synthetic planning is allowed only when visibly labeled
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0018
+  - EV-BP3108-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0017
+  title: Young modules should have a rough end-state roadmap
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0018
+  title: Legacy print-file naming/storage must be understood during migration
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - file_management
+  - calculator_engine
+  - prepress_hub
+  verification_targets:
+  - docs
+  - database
+  - code
+  evidence_refs:
+  - EV-BP3108-0020
+  - EV-BP3108-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0019
+  title: Legacy file conventions are transitional, not automatically canonical
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - file_management
+  - standards
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0020
+  title: Cross-module file/standard rules must become real roadmap work
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - standards
+  - roadmap
+  - module_assistants
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP3108-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0021
+  title: Shared standards activate only after consumer readiness
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - standards
+  - adoption
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP3108-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0022
+  title: Project Inspector gains Semantic Consistency Audit capability
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - forprint_project_inspector
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0023
+  title: Inspector change detection uses durable inspected baseline
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - forprint_project_inspector
+  - git_workflow
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP3108-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0024
+  title: Inspector uses deterministic checks before LLM
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - forprint_project_inspector
+  - semantic_audit
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0025
+  title: Semantic LLM auditing is risk-based, not diff-size-based
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - forprint_project_inspector
+  - risk
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP3108-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0026
+  title: Semantic worker requests missing context instead of guessing
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - semantic_audit
+  - fail_closed
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0027
+  title: Inspector/LLM does not become semantic authority
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - forprint_project_inspector
+  - authority
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP3108-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0028
+  title: Legal semantic audit flags risk but does not certify compliance
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - legal
+  - forprint_project_inspector
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP3108-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0029
+  title: Contract Registry owns versioned interface agreements, not domain meaning
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - architecture
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP3108-0031
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0030
+  title: Gateway enforces/routes contracts at runtime
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - forprint_integration_gateway
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP3108-0032
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0031
+  title: Contract records carry lifecycle, compatibility and adoption metadata
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0033
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0032
+  title: Core contracts should be transport-neutral
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - forprint_integration_gateway
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP3108-0034
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0033
+  title: Contract activation depends on adoption matrix and conformance
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - forprint_project_inspector
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP3108-0035
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0034
+  title: Contract changes support dependency impact analysis
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - forprint_system_blueprint
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP3108-0036
+  - EV-BP3108-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0035
+  title: Job Specification is first Contract Registry roadmap candidate
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_contract_registry
+  - calculator_engine
+  verification_targets:
+  - roadmap
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0036
+  title: Inventory results need actionable-reference reconciliation before promotion
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - knowledge_inventory
+  - governance
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP3108-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.
+- item_id: IT-BP3108-0037
+  title: Machine and external-review evidence remain non-canonical until coordinator adjudication
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - knowledge_inventory
+  - governance
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP3108-0003
+  - EV-BP3108-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    review packages/design prose are not current proof.

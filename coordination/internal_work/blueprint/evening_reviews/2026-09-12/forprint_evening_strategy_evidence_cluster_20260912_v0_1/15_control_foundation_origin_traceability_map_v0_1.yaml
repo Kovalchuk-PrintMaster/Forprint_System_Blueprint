@@ -1,0 +1,147 @@
+schema_version: forprint_control_foundation_origin_traceability_map_v0_1
+source_cluster: coordination/internal_work/blueprint/evening_reviews/2026-09-12/forprint_evening_strategy_evidence_cluster_20260912_v0_1
+date_origin: '2026-09-12'
+purpose: Machine-readable provenance map from recovered architecture discussion/design to the current Control Foundation
+  steps. This map is evidence/navigation only and does not change roadmap authority.
+mappings:
+- current_step: CF-02
+  stable_id: roadmap_execution_state_reconciliation_controller
+  source_topics:
+  - roadmap_state_reconciliation_design_v0_1
+  - ROADMAP SPEC / LIFECYCLE EVENT STORE / GENERATED ROADMAP STATUS
+  disposition: MATERIALIZED_REUSE
+  source_contribution:
+  - spec/status separation
+  - event-store actual truth
+  - generated execution projection
+  - observed roadmap hash/event sequence
+  - IN_SYNC/PROJECTION_STALE/PLAN_CHANGE_REQUIRED/EXECUTION_CONFLICT/UNKNOWN
+  - fail-closed before activation/dispatch
+- current_step: CF-03
+  stable_id: project_constitution_and_authority_hierarchy
+  source_topics:
+  - Project Constitution
+  - authority hierarchy
+  - approved operation instead of ambient raw shell
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-04
+  stable_id: canonical_work_front_contract_and_reuse_gate
+  source_topics:
+  - Work Front Contract
+  - REUSE/EXTEND/ADAPT/REPLACE/NEW
+  - semantic roadmap reconciliation before NEW
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-05
+  stable_id: workfront_and_execution_attempt_history_ledger
+  source_topics:
+  - durable Work Front history
+  - execution attempt history separate from business intent
+  - disposable assistant pack vs durable work/evidence record
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-06
+  stable_id: execution_profiles_registry
+  source_topics:
+  - deep-dev/standard-dev/light-maintenance
+  - separate reasoning, authority and budget axes
+  - project -> module -> profile -> workfront narrowing
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-07
+  stable_id: governed_procedure_graph_model
+  source_topics:
+  - Governed Procedure Graphs
+  - hard vs observed gates
+  - Run Manifest
+  - conformance/waiver/evidence
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-08
+  stable_id: assistant_handoff_compiler_v2
+  source_topics:
+  - PROJECT_ONBOARD
+  - TASK_EXECUTION
+  - State Pack + Task Contract + Authority Envelope + Expected Result + Validator
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-09
+  stable_id: dispatcher_launch_contract_and_integration
+  source_topics:
+  - MODULE + FRONT (+ optional PROFILE)
+  - resolve constitution/module policy/profile/procedures/knowledge/dependencies
+  - compile pack -> validate -> launch -> validate ACK/result -> execution ledger
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-10
+  stable_id: blueprint_internal_worker_zero_stage_pilot
+  source_topics:
+  - progressive Blueprint AI
+  - fresh temporary reasoning over persistent project state
+  - bounded internal worker before broad autonomy
+  disposition: MATERIALIZED_REUSE_ACTIVE_OR_IMPLEMENTED_DIRECTION
+- current_step: CF-11
+  stable_id: decision_rationale_and_raw_conversation_evidence
+  source_topics:
+  - Canonical Project State -> Decision/Rationale Ledger -> Raw Conversation Evidence
+  - stable conversation ID/hash
+  - raw conversation is historical evidence, not authority
+  - generated portfolio history/change review
+  disposition: MATERIALIZED_ROADMAP_DIRECTION_IMPLEMENTATION_REMAINS_TO_VERIFY
+- current_step: CF-12
+  stable_id: architecture_capability_horizon_and_review_obligations
+  source_topics:
+  - Architecture/Capability Horizon
+  - measurable reconsideration triggers
+  - semantic review obligations
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-13
+  stable_id: deterministic_machine_discoverability_and_module_golden_path
+  source_topics:
+  - deterministic machine discoverability
+  - module manifest/golden path
+  - new modules strict, old modules touch-it-improve-it
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-14
+  stable_id: test_tiers_and_full_check_debt
+  source_topics:
+  - check-local/check-affected/check-core/make check
+  - dependency-derived affected tests
+  - Full Check Debt
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-15
+  stable_id: project_health_machine_model
+  source_topics:
+  - single canonical PROJECT_HEALTH snapshot
+  - knowledge freshness/procedure conformance/graph drift/tests/debt/reviews/wave/context health
+  - status/dashboard/Assistant Pack/alerts as projections
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-16
+  stable_id: cross_module_query_proposal_and_dependency_debt
+  source_topics:
+  - OBSERVE -> QUERY -> PROPOSE, not FOREIGN MUTATE
+  - Proposal Inbox/Wave Proposal Digest
+  - Dependency Debt / Temporary Compatibility Stub
+  - replacement trigger when provider capability becomes validated
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-17
+  stable_id: wave_planner_and_portfolio_balancer
+  source_topics:
+  - dependency readiness, critical path, WIP, lead/lag, knowledge completeness, strategic weight
+  - Telegram/Calculator/Logistics boosted but cannot bypass dependency constraints
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-18
+  stable_id: portfolio_renderer_operator_dashboard_and_publication_controls
+  source_topics:
+  - generated Human Portfolio
+  - Current->Target / Full Historical / Decision-Change Review
+  - terminal status/status-full/dashboard
+  - bounded publication pipeline
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-19
+  stable_id: blueprint_ai_trial_readiness_audit
+  source_topics:
+  - autonomy readiness
+  - blast-radius-aware capability autonomy
+  - independent guardrail validation
+  disposition: MATERIALIZED_REUSE
+- current_step: CF-20
+  stable_id: manual_blueprint_ai_trial_and_autonomy_promotion_review
+  source_topics:
+  - Shadow -> Copilot -> Bounded Operator -> Autonomous Routine Coordinator -> High Autonomy by Capability
+  - human retains mission/priorities/core authority/breaking decisions/autonomy promotion
+  disposition: MATERIALIZED_REUSE

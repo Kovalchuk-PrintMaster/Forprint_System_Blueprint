@@ -1,0 +1,600 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-12
+warning: Historical continuation evidence is not current implementation authority.
+queue:
+- item_id: IT-BP1209-0001
+  title: Assistant Handoff Compiler Step 9 historically accepted
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - handoff_compiler
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0001
+  - EV-BP1209-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0002
+  title: Sterile project-gate tests must not weaken production Git requirement
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_compiler
+  - git_workflow
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0003
+  title: Execution dependencies reflect actual reads, not convenient persistent artifacts
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - dependency_contracts
+  - continuity
+  verification_targets:
+  - config
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP1209-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0004
+  title: Canonical delta probe schema-path fix closes u179e5
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - projection
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1209-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0005
+  title: Continuity work follows enforced lifecycle state machine
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - lifecycle
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0006
+  title: Direct ACTIVE→CLOSED and reopening a closed work id are forbidden
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - lifecycle
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0007
+  title: Validation and close bind to the same work checkpoint
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - lifecycle
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0008
+  title: Legacy lifecycle migration is append-only
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - event_store
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1209-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0009
+  title: Durable current state outranks rolled-back candidate/chat state
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - authority
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1209-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0010
+  title: Zero-context acceptance proves continuity foundation
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - bootstrap
+  verification_targets:
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1209-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0011
+  title: Continuity model transfers to reusable module reference implementation
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - module_templates
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1209-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0012
+  title: Project-entry context and Task Context remain distinct
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - task_context
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1209-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0013
+  title: Second-level continuity hardening remains after foundation
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - continuity
+  verification_targets:
+  - roadmap
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP1209-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0014
+  title: Lifecycle Enforcement u179f historically progressed through bounded repairs
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - lifecycle
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0015
+  title: Zero-context work u179g historically closed
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - zero_context
+  verification_targets:
+  - tests
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1209-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0016
+  title: Step 12 acceptance first failed then later passed
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - step12
+  verification_targets:
+  - tests
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1209-0017
+  - EV-BP1209-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0017
+  title: Successful closure may wait for strategy reconciliation instead of auto-progressing
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - operator_approval
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1209-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0018
+  title: Use one compact temporary work folder per bounded horizon
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - repository_hygiene
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1209-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0019
+  title: Temporary artifact names use leading monotonic indexes
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - artifact_identity
+  - operator_ux
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1209-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0020
+  title: Temp-work convention belongs in a machine/bootstrap policy surface
+  importance: normal
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - operator_workflow
+  - governance
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1209-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0021
+  title: Roadmap can lag actual execution state
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - coordination
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0022
+  title: Roadmap/execution reconciliation needs deterministic control
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - continuity
+  verification_targets:
+  - code
+  - tests
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1209-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0023
+  title: Partial failures require state-aware recovery, not blind rerun
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_compiler
+  - recovery
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0025
+  - EV-BP1209-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0024
+  title: Continuity checkpoints carry 5–10 next actions
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - roadmap
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0025
+  title: Recovery must not repeat already-applied canonical source mutation
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_compiler
+  - recovery
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0026
+  title: Control Foundation CF-01 historically closed
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - continuity
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0029
+  - EV-BP1209-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0027
+  title: Control Foundation closure preserves manual operator boundary
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - operator_approval
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0028
+  title: Roadmap is plan; continuity event store is actual execution authority
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - continuity
+  - control_foundation
+  verification_targets:
+  - code
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1209-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0029
+  title: Execution status becomes generated projection
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - generated_projections
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0030
+  title: CF-02 does not auto-activate the next step
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - operator_approval
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1209-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0031
+  title: CF-02 migration is intentionally two-stage
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  verification_targets:
+  - roadmap
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1209-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0032
+  title: First CF-02 foundation attempt safe-failed before canonical mutation
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - safe_fail
+  verification_targets:
+  - code
+  - config
+  evidence_refs:
+  - EV-BP1209-0036
+  - EV-BP1209-0037
+  - EV-BP1209-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0033
+  title: CF-02 contracts require strict document-type registration and sync ordering
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - document_registry
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0034
+  title: CF-02 legacy double-write migration remains unresolved at source end
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1209-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.
+- item_id: IT-BP1209-0035
+  title: Current source spans Sep 11→12 execution lineage
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - provenance
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP1209-0001
+  - EV-BP1209-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current release/authority and exact repository baseline first; then verify current code/tests/config/docs/runtime.
+    Historical PASS/CLOSED labels are not current proof.

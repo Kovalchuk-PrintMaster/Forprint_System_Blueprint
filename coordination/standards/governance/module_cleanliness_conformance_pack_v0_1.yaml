@@ -1,0 +1,114 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_CLEANLINESS_GOVERNANCE
+title: Reusable Module Cleanliness Conformance Pack v0.1
+purpose: >-
+  Define one shared cleanliness contract that every canonical ForPrint module must
+  eventually implement locally, so repositories remain understandable, maintainable,
+  and free from parallel ad-hoc cleanup standards.
+ownership:
+  blueprint:
+    owns:
+      - global cleanliness policy
+      - reusable conformance pack schema
+      - portfolio conformance state
+      - cross-module readiness requirement
+    does_not_own:
+      - physical cleanup of another module repository
+      - another module's semantic truth
+  module:
+    owns:
+      - cleanliness of its own repository
+      - local conformance implementation
+      - local evidence and debt disposition
+  project_inspector:
+    future_role:
+      - cross-repository conformance audit
+      - duplicate and orphan candidate detection
+      - evidence-backed findings
+    forbidden:
+      - silent deletion
+      - silent movement
+      - silent semantic ownership reassignment
+      - automatic truth activation
+principles:
+  - There is one global cleanliness standard; modules must not invent competing global standards.
+  - A module-local pack is an implementation of this shared standard, not a fork of it.
+  - Cleanliness conformance is a future assistant-distribution and readiness condition.
+  - Current assistant distribution remains closed.
+  - Current ordinary module implementation remains blocked.
+  - Age is a retirement review signal, never an automatic deletion reason.
+  - Generated artifacts must have an explicit canonical source/generator relationship.
+  - Temporary/root clutter and orphaned assets must be detectable.
+  - Duplicate helpers are candidates for semantic review, not automatic merge.
+  - The normal module check command must include the local cleanliness check.
+required_components:
+  - component_id: repository_asset_classification
+    required: true
+    purpose: classify source, generated, historical, temporary, configuration, test, evidence, and documentation surfaces
+  - component_id: canonical_source_generator_relationships
+    required: true
+    purpose: map canonical sources to generators and derived artifacts
+  - component_id: generated_drift_detection
+    required: true
+    purpose: fail when controlled generated output is stale or diverges from its canonical generator/source
+  - component_id: validator_registry
+    required: true
+    purpose: list local validators, their scope, command, and expected evidence
+  - component_id: cleanliness_debt_baseline
+    required: true
+    purpose: make known debt explicit and prevent silent debt growth
+  - component_id: orphan_asset_detection
+    required: true
+    purpose: detect assets with no clear owner, purpose, dependency, roadmap role, or accepted historical role
+  - component_id: temporary_and_root_clutter_detection
+    required: true
+    purpose: detect ad-hoc temp files, backups, stray reports, package debris, and root-level clutter
+  - component_id: duplicate_helper_and_semantic_candidate_detection
+    required: true
+    purpose: identify duplicate/equivalent implementation candidates for owner review without silent merge
+  - component_id: naming_schema_version_conformance
+    required: true
+    purpose: enforce local naming, schema, contract, and version rules
+  - component_id: safe_mutation_path
+    required: true
+    purpose: apply source-to-derived-to-validator mutation planning rather than repairing drift after failures
+    blueprint_reference: coordination/standards/governance/safe_mutation_pipeline_v0_1.yaml
+  - component_id: asset_lifecycle_and_retirement
+    required: true
+    purpose: govern deprecated, dormant, archive, and removal candidates without automatic deletion
+    blueprint_reference: coordination/standards/governance/asset_lifecycle_retirement_policy_v0_1.yaml
+  - component_id: skipped_test_inventory_when_applicable
+    required: true
+    purpose: make intentional test skips explicit and drift-detectable when the module has skipped tests
+    blueprint_reference: coordination/standards/governance/pytest_skip_inventory_policy_v0_1.yaml
+  - component_id: normal_cleanliness_check_command
+    required: true
+    purpose: provide one normal local command that validates the complete module cleanliness pack
+module_local_pack_required_fields:
+  - schema_version
+  - module_id
+  - status
+  - standard_reference
+  - owner
+  - normal_check_command
+  - components
+  - known_debt
+  - retirement_registry
+  - evidence
+  - last_verified
+lifecycle:
+  planning: REQUIRED_PLANNED_NOT_STARTED
+  implementation: LOCAL_IMPLEMENTATION_IN_MODULE_REPOSITORY
+  acceptance: LOCAL_EVIDENCE_PLUS_BLUEPRINT_CONFORMANCE_REVIEW
+  audit: PROJECT_INSPECTOR_FUTURE_CROSS_REPOSITORY_CONFORMANCE
+gates:
+  assistant_distribution_allowed_now: false
+  module_implementation_allowed_now: false
+  future_distribution_requires_local_pack: true
+  future_readiness_requires_local_pack: true
+tooling:
+  portfolio_registry: coordination/internal_work/blueprint/cleanliness/module_cleanliness_conformance_portfolio_v0_1.yaml
+  starter_renderer: scripts/coordination/render_module_cleanliness_pack_v0_1.py
+  validator: scripts/validation/validate_module_cleanliness_conformance_pack_v0_1.py
+  check_command: make module-cleanliness-pack-check

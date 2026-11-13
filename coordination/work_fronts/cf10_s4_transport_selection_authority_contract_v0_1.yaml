@@ -1,0 +1,109 @@
+work_front_id: wf-cf10-s4-transport-selection-authority-contract-v0-1
+objective: >-
+  Stage 4C-P0: establish a prospective, versioned, exact-task-bound policy
+  for selecting the CF-10 Worker result transport, and bind that selection
+  independently and immutably through prepared_execution, validated
+  ready_execution, and the hash-bound explicit_dispatch_decision.
+  Preserve handoff-v2-full as the default; do not activate the completion-draft
+  mode, change runtime invocation, authorize a new attempt, or replay existing ones.
+scope:
+  - coordination/work_fronts/cf10_s4_transport_selection_authority_contract_v0_1.yaml
+  - coordination/registry/cf10_worker_result_transport_policy_v0_1.yaml
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - tests/coordination/control_plane/test_cf10_s4_transport_selection_authority_v0_1.py
+exclusions:
+  - No modifications to governed_worker_cycle.py, invocation_adapter.py, worker_result_return.py, s4_result_composer_v0_1.py, their existing tests, or any Handoff v2/S4 validator.
+  - No modifications to dispatch_intent.py, generic CF-09 ACK contract, CLI, Makefile, worker training queue, execution profiles, operational registry, ledger contract, or provider policy. If they are required, STOP and request a separately approved scope.
+  - No change to the current full Handoff v2 stdout protocol, result-return default, legacy absence behavior, or existing S4 literal resume capsule.
+  - A policy entry only establishes result-transport eligibility, not Worker dispatch, execution, launch, result validity, automatic acceptance, or materialization authority.
+  - No dynamic selection from Worker stdout, prompt text, assistant chat, model output, environment variables, untrusted CLI arguments, workspace contents, or current source-state/roadmap inference.
+  - No retroactive reinterpretation, correction or rewriting of a037 through a041 (especially a041 terminal BLOCKED), and no prepare, ACK, dispatch or launch of a042.
+  - No writes outside the exact four scoped paths; preserve all earlier dirty hunks and the two separately staged Telegram snapshot files byte-for-byte.
+  - No staging, commit, push, merge, promotion, release, acceptance, launch or publication.
+provenance:
+  source_refs:
+    - roadmap:control_foundation_near_horizon/CF-10
+    - work_id:u180j
+    - attempt:cf10-u180j-a041/BLOCKED
+    - stage4a_work_front:wf-cf10-s4-origin-bound-result-composer-v0-1
+    - stage4b_work_front:wf-cf10-s4-result-return-opt-in-bridge-v0-1
+    - stage4c_paused_work_front:wf-cf10-s4-trusted-transport-binding-v0-1
+    - stage4b_regression:s4_runtime_162_pass
+    - stage4b_regression:cf10_worker_pipeline_64_pass
+    - stage4b_regression:blueprint_continuity_planning_33_pass
+    - current_source_head_observed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+    - unstaged_diff_sha256_observed:624c2167e5620e672100b52abbda185d2aa280d99d5a5049c4b26bef14260324
+    - cf10_training_dispatch_current_head_source:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+  chat_is_authority: false
+dependencies:
+  - Stage 4A pure composer and Stage 4B opt-in result-return boundary are functionally VERIFIED but not published; no live transport selector has been approved.
+  - Reviewed cf10_training_dispatch.py prepare_training_pre_dispatch builds the prepared execution; validate_training_assistant_ack delegates to CF-09 validator which returns a ready copy of prepared data; authorize_training_explicit_dispatch constructs a decision_binding and hashes that mapping into decision_id.
+  - The existing explicit human ACK and dispatch authorization gates are unchanged; a transport policy must not be used to bypass or stand in for either approval.
+  - Before RED or GREEN freeze HEAD, staged index bytes, exact prior unstaged diff, all existing dirty/untracked work, and source SHA of cf10_training_dispatch.py; check no conflicting edits to this producer.
+  - Reuse existing canonical task identity, Work Front binding, source-state fingerprint, governed context digest, attempt ID and decision hash semantics; never fabricate an authorization when an input is absent.
+outputs:
+  - A reviewed versioned policy at coordination/registry/cf10_worker_result_transport_policy_v0_1.yaml, schema-checked fail-closed; default_transport is exactly handoff-v2-full and opt_in_bindings is initially empty.
+  - The policy defines only two known transports, handoff-v2-full and worker-completion-draft-v0-1; each future opt-in requires an exact, explicitly reviewed Worker Task and Work Front binding, not a global wildcard or a mutable runtime toggle.
+  - A producer-only extension to cf10_training_dispatch.py which derives transport selection from the policy and the exact resolved task/Work Front; includes policy identity/revision/content SHA and selected transport in a frozen prepared selection record.
+  - Verification at ready/dispatch boundary of the selection against prepared binding, original task, Work Front, policy revision/SHA and current on-disk policy bytes, including proof that the CF-09 ACK step did not alter its bytes or meaning.
+  - Inclusion of the selected exact transport plus policy provenance in the explicit decision binding before decision_id is computed; the binding cannot be forged, upgraded, or altered by the caller after confirmation.
+  - A separate tests-first RED/GREEN module covering correct default, synthetic explicitly authorized opt-in, policy SHA/identity drift, mismatched task/Work Front/attempt, unrecognized transport, duplicate/wildcard entries, invalid schemas, conflicting prepared/ready/decision records, no retroactive draft for legacy decisions, and authority flags remaining false.
+  - Negative tests ensuring no Worker stdout, prompt, env, arbitrary arguments or external model text can select draft; no changes to Stage 4C live invocation or Stage 4B materialization in this P0.
+  - Focused producer/dispatch and existing S4/runtime regression checks, cf10-worker-pipeline and blueprint-continuity-planning suites, and SHA/index/parallel-staging integrity evidence.
+acceptance:
+  - Work Front validation PASS, exactly four scoped paths, and zero live authority conferred.
+  - Versioned policy explicitly defaults to handoff-v2-full; exact opt_in_bindings list is empty at initial registration, so the new draft transport is NOT eligible for any real attempt until a separately reviewed policy change.
+  - Producer selects only supported transport values from validated policy and exact canonical task+Work Front; wildcard, ambiguous, duplicate, malformed and unknown entries fail closed; policy schema never grants dispatch/execution authority.
+  - Prepared execution records selection and canonical policy content SHA; ACK-ready transition preserves it exactly; explicit decision verifies its unchanged binding and carries it inside decision_binding before the existing deterministic decision_id hash.
+  - Missing selector on a historical legacy decision remains legacy only; a declared but mismatched/incomplete selector is BLOCKED, not silently downgraded or upgraded. No historical dispatch or ledger is rewritten.
+  - Existing ACK and explicit authorization semantics remain unchanged; opt-in does not authorize worker dispatch or permit acceptance/promotion/commit/push.
+  - Focused tests-first RED fails on the missing selection authority proof, then GREEN passes without altering legacy tests; if the general ACK validator or strict consumer schema cannot pass through and verify the record inside scope, STOP instead of patching a foreign file.
+  - Current Stage 4A/4B result composition and materialization code is read-only and unchanged; Stage 4C remains separately BLOCKED pending this authority proof and later operator review.
+  - No S4 literal capsule changes, no model-selected transport, no stdout format reinterpretation, no worker launch and no source refresh outside an isolated validation mirror.
+  - Git HEAD, staged Telegram snapshot index and unrelated dirty files are unchanged; both registered validation suites pass and no manually refreshed canonical projections are required.
+stop_conditions:
+  - Validated prepared-to-ready-to-dispatch provenance cannot be demonstrated without changing an out-of-scope schema, generic dispatcher, or authority gate.
+  - A choice depends on Worker output, chat, environment variables, mutable workspace state, wildcard opt-in or an unreviewed implicit fallback to draft.
+  - The policy contains any initial nonempty real opt-in binding; activation of the draft mode requires separate explicit operator approval and a subsequent exact policy review.
+  - Any unknown/missing/conflicting/modified policy SHA, selection, task, Work Front, attempt or decision hash cannot fail closed.
+  - Producer modifications require edits to current protected live Worker Cycle, invocation adapter, legacy result-return, S4 composer/validator, existing terminal attempts, or the two staged Telegram files.
+  - RED/GREEN or any relevant producer, S4/runtime, registry or source-state regression fails, or HEAD/index/protected worktree drift is detected.
+  - Any commit, staging, push, release, candidate promotion, acceptance, automatic result materialization, Worker prepare/dispatch/launch or a042 attempt is requested.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/control_plane/cf10_training_dispatch.py
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+    - tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py
+    - tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+    - coordination/work_fronts/cf10_s4_trusted_transport_binding_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+    - coordination/registry/cf10_worker_result_transport_policy_v0_1.yaml
+    - scripts/coordination/control_plane/cf10_training_dispatch.py
+    - tests/coordination/control_plane/test_cf10_s4_transport_selection_authority_v0_1.py
+  read_only_refs:
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+    - tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py
+  rationale: >-
+    Reuse the current CF-10 producer and the established prepared/ACK-ready/
+    explicit dispatch decision chain to record and hash-bind a transport choice.
+    Keep Stage 4C invocation and result-return transport plumbing untouched
+    until Stage 4C-P0 independently establishes a fail-closed policy and provenance.

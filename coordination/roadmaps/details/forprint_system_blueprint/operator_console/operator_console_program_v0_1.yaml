@@ -1,0 +1,395 @@
+schema_version: forprint_operator_console_program_v0_1
+program_id: operator_console_control_plane_program_v0_1
+title: ForPrint Operator Console / Operator Control Plane
+status: CURRENT_PLANNING_CONTEXT_NOT_EXECUTION_AUTHORITY
+date: '2026-09-29'
+
+authority:
+  owner: human_owner_plus_blueprint_planning
+  execution_authority_created: false
+  dispatch_authority_created: false
+  release_authority_created: false
+  automatic_activation: false
+
+priority:
+  class: CO_EQUAL_CURRENT_HIGH_PRIORITY
+  peers:
+    - module_inventory_and_primary_roadmap_reconciliation
+  next_execution_slot_decision:
+    authority: human_owner
+    state: START_OC_01_CONFIRMED_2026_10_01
+
+ownership:
+  current_host: forprint_system_blueprint
+  current_host_role: incubator_host
+  permanent_blueprint_domain_capability: false
+  relocatable: true
+  future_owner: unresolved
+  candidate_future_owners:
+    - dedicated_control_plane
+    - forprint_system_administration
+    - crm_operator_surface
+
+architecture:
+  ui_component: operator_console
+  durable_backend_component: operator_control_plane_execution_fabric
+  ui_is_state_authority: false
+  module_state_authority: dispatcher_or_control_plane
+  actor_types:
+    - internal_worker
+    - operator_assistant
+    - human_terminal
+
+invariants:
+  - one_module_repository_one_active_writable_actor
+  - no_ownership_stealing
+  - interrupt_checkpoint_release_before_transfer
+  - internal_worker_cannot_preempt_human_interactive_session
+  - reuse_extend_adapt_replace_new_before_new
+  - sandbox_experimentation_encouraged
+  - boundary_crossing_has_stronger_control_than_sandbox_actions
+  - ambiguity_escalates_to_blueprint_then_human_owner
+  - active_workspace_not_auto_deleted_by_age
+  - artifact_payload_may_expire_but_provenance_persists
+
+post_oc01_portfolio_architecture_gate_2026_10_07:
+  marker: PORTFOLIO_ARCHITECTURE_EXECUTION_MODEL_INTEGRATION_V0_1
+  status: PLANNED_NON_EXECUTABLE_POINTER
+  relationship: EXECUTION_PRIORITY_SUCCESSOR_NOT_OC_DEPENDENCY
+  target_initiative_id: blueprint_architecture_execution_model_integration_v0_1
+  target_entry: AEM-01
+  not_part_of_oc_step_chain: true
+  trigger:
+    step_id: OC-01
+    contour_id: OC-01-FULL
+    completion_meaning: oc01_target_complete
+  target_program: coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+  target_section: Architecture & Execution Model integration initiative
+  human_intent_refs:
+    - HI-FP-ARCH-EXECUTION-MODEL-20261007-001
+    - HI-FP-POST-OC01-AEM-GATE-20261007-001
+  authority:
+    execution_authority_created: false
+    dispatch_authority_created: false
+    release_authority_created: false
+    automatic_activation: false
+    activation_authority: human_owner
+  ordering:
+    immediate_next_portfolio_priority_after_oc01_full: true
+    priority_successor_is_not_roadmap_dependency: true
+    preserve_cf10_control_foundation_dependency_order: true
+    may_not_force_cf10_reordering: true
+    may_not_preempt_active_bounded_writer: true
+    oc02_remains_future_target_not_activated: true
+  reentry_required:
+    - refresh_canonical_head_and_upstream
+    - reconcile_current_project_state
+    - recheck_reuse_extend_adapt_replace_new
+    - recheck_dependencies_and_ownership
+    - explicitly_activate_by_human_owner
+
+steps:
+  - step_id: OC-01
+    delivery_refinement_id: oc01_two_contour_delivery_2026_10_01
+    delivery_model: two_contour_progressive_delivery
+    detailed_implementation_prompt: coordination/self_coordination/prompt_queue/draft/2026-10-01__forprint_system_blueprint__oc01_mini_full_operator_console_implementation_v0_1.md
+    activation_rule: human_owner_separate_explicit_decision
+    implementation_contours:
+      - contour_id: OC-01-MINI
+        title: Minimum Operational Console
+        intent: >-
+          Deliver the smallest genuinely useful Operator Console with both governed Protected
+          Terminal work and isolated Assistant Dev Sandbox work.
+        required_capabilities:
+          - actor-neutral execution/session state and exclusive module lease
+          - Protected Terminal Gateway with read-only and bounded capability-shaped safe-write profiles
+          - scoped command execution with stdout/stderr/exit-code evidence and denial outside policy
+          - Assistant Dev Sandbox created from exact BASE_HEAD in isolated writable workspace
+          - sandbox edits/tests/local commits where useful plus Environment Delta evidence
+          - durable checkpoint, pause/resume, seal and deterministic result package
+          - Sandbox-to-Canonical promotion preview with base-head/conflict/exact-write-set validation
+          - explicitly authorized bounded promotion/apply path without implicit remote push
+          - minimum phone/laptop Console surface for state, terminal, sandbox, checkpoint and promotion
+          - one real Protected Terminal proof and one real Sandbox-to-Canonical proof
+        completion_meaning: useful_minimum_proven_partial_oc01
+      - contour_id: OC-01-FULL
+        title: Full Operator Console v1
+        extends: OC-01-MINI
+        intent: >-
+          Complete the approved OC-01 target after MINI is proven while preserving the same lease,
+          authority, provenance, recovery and sandbox/canonical boundaries.
+        required_capabilities:
+          - richer terminal capability profiles, approvals, streaming and explainable command provenance
+          - long-lived resumable sandboxes with deterministic recovery and retained checkpoints
+          - stronger artifact/commit/diff/test/environment/dependency provenance
+          - hardened promotion transaction with conflict handling and rollback evidence
+          - complete controlled handoff among internal_worker, operator_assistant and human_terminal
+          - mature phone/laptop controls, event history, alerts, health and recovery views
+          - bounded task continuation while Human Owner is away from the local terminal
+          - full OC-01 end-to-end acceptance and operator documentation
+        completion_meaning: oc01_target_complete
+
+    name: minimum_working_console_vertical_slice
+    state: ACTIVE_IMPLEMENTATION_PARTIAL
+    goal: >-
+      Deliver one useful remote operator surface with live module availability,
+      exclusive operator session acquisition, isolated workspace, assistant/execution
+      interaction, artifact exchange and clean release.
+    required_capabilities:
+      - module_registry_and_status_projection
+      - exclusive_module_acquire_release
+      - operator_assistant_actor_identity
+      - isolated_operator_workspace
+      - assistant_execution_bridge
+      - artifact_exchange
+      - clean_release
+    acceptance:
+      - canonical_repo_not_exposed_to_uncontrolled_writes
+      - simultaneous_writable_actor_collision_prevented
+      - meaningful_remote_bounded_session_possible
+      - outputs_reviewable_and_preservable
+      - module_cleanly_releasable
+    explicitly_deferred_allowed:
+      - full_secrets_broker
+      - advanced_network_policy_engine
+      - automated_integration_gate
+      - rich_artifact_registry_ui
+      - full_telegram_approval_broker
+      - complete_recovery_automation
+      - all_interrupt_priority_controls
+      - advanced_garbage_collection
+
+  - step_id: OC-02
+    name: advanced_operator_control_surface
+    state: FUTURE_TARGET_NOT_ACTIVATED
+    capabilities:
+      - controlled_priority_interrupt
+      - suspend_resume
+      - access_request_flow
+      - chat_review_supervised_dev_full_dev_modes
+      - environment_delta
+      - tool_capability_registry
+      - local_git_checkpoints
+      - durable_artifact_provenance
+      - notification_and_approval_flows
+      - heartbeat_checkpoint_recovery
+      - storage_pressure_retention_hysteresis
+      - bounded_change_package
+      - clean_integration_worktree_and_governance_gate
+
+cf10_dependencies:
+  reconciliation_required: true
+  expected_capabilities:
+    - actor_neutral_execution_fabric
+    - execution_record_and_source
+    - shared_three_actor_execution_state
+    - stable_workflow_entrypoints
+    - workflow_registry_and_health
+    - step_execution_ledger_or_equivalent
+    - heartbeat_liveness
+    - semantic_event_journal
+    - status_projection
+    - exclusive_module_lease_or_equivalent
+    - controlled_interrupt_checkpoint_release
+    - sandbox_workspace_lifecycle
+    - recovery_checkpoint_model
+    - artifact_and_status_metadata
+    - execution_tool_capability_projection
+  missing_dependency_behavior:
+    - mark_dependency_not_ready
+    - inspect_live_cf10_state
+    - choose_wait_adapter_mock_or_minimal_temporary_surface_explicitly
+    - do_not_create_competing_permanent_subsystem_silently
+
+sandbox_tooling:
+  policy: modern_tooling_encouraged_when_materially_useful
+  environment_delta_required: true
+  promotion_targets:
+    - global_developer_profile
+    - module_development_profile
+    - bootstrap_capability_pack
+    - tool_capability_registry
+
+recovery:
+  abrupt_power_loss_is_real_operating_condition: true
+  durable_checkpoint_direction: required
+  resume_from_recent_durable_state: target
+
+retention:
+  dimensions:
+    - age
+    - storage_pressure
+  active_workspace_auto_delete_by_age: false
+  discussed_noncanonical_examples:
+    storage_budget_gb: 100
+    stale_inactive_horizon_months: 6
+
+artifact_provenance:
+  payload_may_expire: true
+  provenance_should_persist: true
+  desired_fields:
+    - execution_id
+    - module_id
+    - actor
+    - base_head
+    - source_inputs
+    - generation_recipe
+    - filename
+    - type
+    - sha256
+    - retention_class
+
+implementation_flexibility:
+  baseline_is_not_rigid_mechanical_template: true
+  reuse_policy:
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+    - NEW
+  better_compatible_solution_should_be_surfaced: true
+  ownership_or_policy_change_requires_clarification: true
+
+decision_gate:
+  after_planning_and_cf10_reconciliation:
+    options:
+      - START_OC_01
+      - FINISH_MODULE_INVENTORY_THEN_START_OC_01
+    authority: human_owner
+
+references:
+  human_intent: coordination/human_intent/modules/forprint_system_blueprint.yaml
+  methodology: coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
+  development_environment_policy: coordination/standards/development_environment_policy.md
+  bootstrap_navigation: coordination/bootstrap/START_HERE.md
+  roadmap_enrichment_source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+  execution_control_plane_program: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  worker_self_hardening_backlog: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+
+# oc01-rollout-bundle-reconciliation-2026-10-02:start
+oc01_current_implementation_state_2026_10_02:
+  source_bundle:
+    name: forprint_execution_control_plane_console_rollout_bundle_v0_1.zip
+    sha256: 8421cb7ab31e34171ae55c7f675ec32f5cf0154f80f5d908b5cd2e36128bd881
+    reconciliation_record: EMBEDDED_IN_EXISTING_CANONICAL_ROADMAP_OWNERS
+  status: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+  implemented:
+    OC01-MINI-1:
+      state: PUBLISHED
+      commit: ef4ec7a482b75f9a2e1317a9d09afc5bb5e5d355
+    OC01-MINI-2:
+      state: PUBLISHED
+      commit: a7ade7fa797e554e994658a73e3f662c31b7cf91
+    OC01-MINI-3:
+      state: PUBLISHED
+      commit: c5d9cf0e68136f681af27fbc946ec6a466cd1c78
+      capability: assistant_dev_sandbox_operator_workflow
+    OC01-MINI-4:
+      state: PUBLISHED
+      commit: e50bdc08af0ee634f0f8d51693de465f060ec713
+      capability: sealed_result_and_checkpoint_projection
+    OC01-MINI-5:
+      state: PUBLISHED
+      commit: f6612467eaa047e3b2558120f594edd133e6209e
+      capability: sandbox_to_canonical_promotion_surface
+    OC01-MINI-6:
+      state: PUBLISHED
+      commit: e4873e5fcf09c1bacc9fabfe235131dae22c761c
+      capability: minimum_console_api_and_phone_laptop_ui
+    OC01-MINI-7:
+      state: PUBLISHED
+      commit: 9247d2a8750afec0fa30c7320056d9202e0a8cc5
+      capability: protected_terminal_real_proof
+      real_proof: PASS
+      evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
+      evidence_sha256: 69a4ba9935725070699dc04bf8f535d03437fa9935ecfe42d8143dc23d176c85
+    OC01-MINI-8:
+      state: PUBLISHED
+      commit: 89afbb3b4f3f06c664979de788bfd9bb117c789a
+      capability: sandbox_to_canonical_real_proof
+      real_proof: PASS
+      promoted_probe: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+      explicit_promotion: true
+      preview_sha256: ea3d56596034897f68950392c13ae7765bc9c4c36fb89ae3e9ff8c3fda49f85b
+      evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
+      evidence_sha256: f8b517dcd5d7c2be9b5ee16c8a0a572f24050c7274058d49052da82c08554efb
+      completion_candidate_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+      must_not_claim: OC01_FULL_COMPLETE
+  mini_closeout:
+    mini_sequence_complete: true
+    mini_slice_count: 8
+    completion_state: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+    oc01_full_complete: false
+    oc01_full_activated: false
+    closeout_source_head: 89afbb3b4f3f06c664979de788bfd9bb117c789a
+    cf10_canonical_write_reentry_allowed_after_closeout_publication: true
+    cf10_must_reconcile_from_closeout_head: true
+  current_boundaries:
+    console_is_state_authority: false
+    canonical_write_from_sandbox: false
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
+    checkpoint_projection: IMPLEMENTED_NO_AUTHORITY
+    canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
+    deterministic_result_seal: IMPLEMENTED
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
+    canonical_promotion: EXPLICIT_OPERATOR_CONTROLLED_CF10_VIA_OC01_SURFACE
+    promotion_preview: IMPLEMENTED_REUSES_CF10_ENGINE
+    promotion_apply_requires_exact_preview_hash: true
+    implicit_remote_push: false
+    minimum_console_api: IMPLEMENTED_THIN_STANDARD_LIBRARY_SURFACE
+    phone_laptop_ui: IMPLEMENTED_MINIMUM_RESPONSIVE_SURFACE
+    console_http_default_bind: LOOPBACK
+    console_remote_transport_security: EXTERNAL_REQUIRED
+    console_state_authority: false
+  rollout_bundle_reuse:
+    stable_workflow_entrypoints: EXTEND
+    minimum_working_console: REUSE_EXTEND
+    persistent_transcript: PRESERVE_DIRECTION
+    conversation_archive: FUTURE_EVIDENCE_SURFACE_NOT_AUTHORITY
+    phone_laptop_reconnect: PRESERVE_DIRECTION
+  stale_bundle_phase0_replayed: false
+# oc01-rollout-bundle-reconciliation-2026-10-02:end
+
+# cf10-oc01-parallel-coordination-2026-10-04:start
+cf10_parallel_coordination_2026_10_04:
+  status: PLANNING_RECONCILED_NO_ACTIVATION
+  ordering_rule:
+    cf10_logical_dependency_order_has_priority_over_oc01_acceleration: true
+    oc01_may_not_force_cf10_reordering: true
+    cf10_reordering_requires_dependency_evidence: true
+  parallel_execution_direction:
+    read_only_analysis_planning_and_artifact_preparation_may_progress_in_parallel: true
+    one_module_repository_one_active_writable_actor_preserved: true
+    simultaneous_writable_actors_same_module_allowed: false
+    exact_path_non_overlap_reduces_handoff_cost_but_does_not_grant_write_authority: true
+    shared_exact_paths_require_explicit_handoff_reconciliation: true
+    after_cf10_or_oc01_publication_and_release:
+      refresh_live_head: true
+      check_descendant_relationship: true
+      check_exact_path_overlap: true
+      descendant_plus_no_overlap_allows_continuation: true
+      reset_stash_clean_unrelated_work_for_synchronization: false
+  ownership_direction:
+    cf10:
+      role: canonical_execution_primitive_owner_and_evolver
+    oc01:
+      role: client_projection_and_structured_control_surface
+      consume_stable_cf10_interfaces_before_editing_shared_primitive_implementation: true
+  package_reconciliation:
+    - package: 04.10.26_forprint_operator_console_mcp_integration_package_2026-10-02.zip
+      sha256: 9a6adfbf5b52c56804bf9ceb63e8e1c6fffce35380c0f12623497d3c37c59562
+      disposition: ALREADY_REPRESENTED_IN_CURRENT_CANONICAL_CONTEXT_DO_NOT_REPLAY
+      note: MCP remains strategic/deferred where already recorded; this integration grants no executable MCP roadmap work.
+    - package: 04.10.26_forprint_operator_console_roadmap_integration_v2_2026_10_03_1.zip
+      sha256: a2396dc03ef1e6e7374c3b5be98f5a9345a001a16e5825af4475f9a9f32346ef
+      disposition: CURRENT_OC01_PROGRAM_ALREADY_CONTAINS_LATER_MINI_CLOSEOUT_STATE_DO_NOT_REPLAY_OLDER_DELTA
+    - package: 04.10.26_cf10_oc01_integration_handoff_2026-10-03_v0_1.zip
+      sha256: fc9052cf2cfc574c124095af6aa8cbe2962d07acc2860c21d4e900790acfed8d
+      disposition: ENRICH_EXISTING_CF10_OC01_COORDINATION
+  authority:
+    execution_authority_created: false
+    dispatch_authority_created: false
+    roadmap_reordering_authority_created: false
+    automatic_promotion_authority_created: false
+    push_merge_release_authority_created: false
+# cf10-oc01-parallel-coordination-2026-10-04:end

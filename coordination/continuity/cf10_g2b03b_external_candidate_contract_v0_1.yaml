@@ -1,0 +1,39 @@
+schema_version: cf10_g2b03b_external_candidate_contract_v0_1
+owner: forprint_system_blueprint
+status: candidate_source_only_non_authorizing
+predecessor:
+  g2b03a_checkpoint: b81cc641e69eb3c73265cc621424f3ce25d7a603
+  g2b03a_observed_result: EXTERNAL_CANDIDATE_MISSING_NON_AUTHORIZING
+scope:
+  - inspect_explicit_canonical_historical_coverage
+  - compare_with_external_target_without_guessed_paths
+  - optionally_provision_immutable_candidate_with_exact_sha256
+  - verify_candidate_bytes_after_provision
+source_of_values:
+  historical_source_path: explicit_operator_supplied_from_live_g2b_audit
+  historical_source_root: explicit_operator_supplied_from_live_g2b_audit
+  external_candidate_path: explicit_operator_supplied_from_live_g2b_audit
+  external_candidate_root: explicit_operator_supplied_from_live_g2b_audit
+  historical_sha256: explicit_operator_supplied_from_live_g2b_audit
+invariants:
+  source_must_be_regular_file_not_symlink: true
+  expected_source_hash_required: true
+  secure_root_owned_directories_required: true
+  external_target_beneath_cf10_releases_root: true
+  no_overwrite: true
+  no_historical_evidence_mutation: true
+  external_candidate_provision_requires_exact_operator_confirmation: true
+  dry_inspect_before_provision: true
+  dynamic_coverage_gate_verified: false
+  independent_attestation: false
+  signed_decision_or_renewal: false
+  evidence_binding_changed: false
+  worker_launched: false
+  writer_gate_unquarantined: false
+  authority_granted: false
+  vault_backup_or_restore_changed: false
+next_after_candidate:
+  - rerun_readonly_g2b03a_provenance_check
+  - independent_dynamic_coverage_attestation
+  - review_signed_operator_authority_for_current_head
+  - preserve_writer_quarantine_until_independent_review

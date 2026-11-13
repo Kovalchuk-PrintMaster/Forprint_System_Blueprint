@@ -1,0 +1,134 @@
+schema_version: blueprint_acceptance_oracle_v0_1
+metadata:
+  oracle_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__acceptance_oracle_v0_1
+  module_id: logistics_service
+  prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  owner: forprint_system_blueprint
+  immutable: true
+source_prompt_contract:
+  path: coordination/prompt_contracts/logistics_service/logistics_service_authority_lineage_and_module_bootstrap_v0_1/logistics_service_authority_lineage_and_module_bootstrap_v0_1__contract_v0_4_h10_inventory_v0_1.yaml
+  sha256: 4400611b942bdf070ce269bb899dc9043b3bfd362cf7b83c1feac796697d5217
+criteria:
+  - criterion_id: AC-001
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - IMP-001
+      - VER-004
+    summary: Verify root AGENTS.md and canonical fresh-context navigation.
+    blocking: true
+    verification:
+      kind: semantic_review
+      locator: changed files + fresh-context validation evidence
+      expected_observation: A zero-context assistant deterministically resolves current authority, task, H9 startup,
+        lineage/index entry points and stop rules.
+    evidence_required:
+      - EV-COMPLETION-REPORT
+      - EV-FRESH-CONTEXT
+    substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__01
+  - criterion_id: AC-002
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - IMP-002
+      - IMP-006
+      - VER-003
+    summary: Verify deterministic module inventory/index substrate.
+    blocking: true
+    verification:
+      kind: command
+      locator: make inventory-check
+      expected_observation: Inventory/index check succeeds and repeated build/check is idempotent.
+    evidence_required:
+      - EV-INVENTORY-CHECK
+      - EV-COMPLETION-REPORT
+    substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__02
+  - criterion_id: AC-003
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - IMP-003
+      - IMP-005
+      - IMP-008
+      - VER-004
+    summary: Verify implementation lineage and supported-legacy classification.
+    blocking: true
+    verification:
+      kind: semantic_review
+      locator: implementation lineage registry + public exports + tests
+      expected_observation: Material parallel families are classified and tested compatibility is not silently treated
+        as dead code.
+    evidence_required:
+      - EV-LINEAGE
+      - EV-FOCUSED-TESTS
+    substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__03
+  - criterion_id: AC-004
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - IMP-004
+      - IMP-007
+      - VER-006
+    summary: Verify documentation authority and H9/AUT boundary reconciliation.
+    blocking: true
+    verification:
+      kind: semantic_review
+      locator: documentation authority registry + corrected current docs
+      expected_observation: H9 startup and compatibility/historical protocol scopes are unambiguous; future listener
+        events are wake-up signals only.
+    evidence_required:
+      - EV-DOC-AUTHORITY
+      - EV-COMPLETION-REPORT
+    substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__04
+  - criterion_id: AC-005
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - VER-001
+      - VER-002
+      - VER-005
+      - CE-001
+      - CE-002
+      - CE-B01
+    summary: Verify full regression and safety/authority boundaries.
+    blocking: true
+    verification:
+      kind: command
+      locator: make check
+      expected_observation: Canonical module check passes and completion evidence proves no live provider, Blueprint
+        or cross-repository authority widening.
+    evidence_required:
+      - EV-FULL-GATE
+      - EV-BOUNDARY
+      - EV-COMPLETION-REPORT
+    substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__05
+  - criterion_id: AC-900
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - CE-003
+      - CE-004
+      - CE-005
+      - CE-006
+    summary: Verify lineage, documentation, fresh-context and completion handoff evidence.
+    blocking: true
+    verification:
+      kind: semantic_review
+      locator: completion packet requirement_results + evidence_manifest
+      expected_observation: All declared bootstrap outputs are concrete and internally consistent.
+    evidence_required:
+      - EV-LINEAGE
+      - EV-DOC-AUTHORITY
+      - EV-FRESH-CONTEXT
+      - EV-COMPLETION-REPORT
+  - criterion_id: AC-901
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    requirement_refs:
+      - CE-B01
+      - IMP-008
+      - VER-005
+    summary: Verify no automatic retirement, external side effect or governance widening.
+    blocking: true
+    verification:
+      kind: semantic_review
+      locator: completion packet boundary_confirmations + changed-file inventory
+      expected_observation: No deletion/archive, live provider write, production activation, Blueprint write, cross-repository
+        mutation, automatic ACCEPT or next release occurred.
+    evidence_required:
+      - EV-BOUNDARY
+      - EV-COMPLETION-REPORT

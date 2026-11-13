@@ -1,0 +1,419 @@
+schema_version: blueprint_control_plane_module_memory_semantic_convergence_program_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: DURABLE_PLANNING_INPUT_PENDING_ROADMAP_DETAIL_SCHEMA_INTEGRATION
+  authority: BLUEPRINT_INTERNAL_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+  parallel_with: logistics_service_h10_reference_pilot
+principles:
+- Reuse existing Blueprint primitives before creating new frameworks.
+- Blueprint control-plane evolution must not become a blanket blocker for the Logistics pilot.
+- Authority, derived projection and evidence are separate roles.
+- Fresh worker continuity must be repository-owned rather than chat-memory-owned.
+- Semantic convergence is gradual and evidence-driven; no mass rename.
+- Every future automation widening remains bounded by explicit human governance.
+existing_foundation_to_evolve:
+- capability: read_only_governance_transparency
+  path: scripts/coordination/render_blueprint_governance_status.py
+- capability: repository_knowledge_freshness
+  path: scripts/coordination/assess_repository_knowledge_freshness.py
+- capability: task_context_bundle
+  path: scripts/coordination/build_context_bundle.py
+- capability: module_current_state_profile
+  path: coordination/standards/governance/module_current_state_evidence_standard_v0_1.yaml
+- capability: module_cleanliness_reference
+  path: coordination/standards/governance/module_cleanliness_conformance_pack_v0_1.yaml
+- capability: library_semantic_authority
+  path: coordination/module_policy/forprint_library/module_policy.md
+- capability: inspector_read_only_conformance_direction
+  path: coordination/module_policy/forprint_project_inspector/module_policy.md
+parallel_lanes:
+  lane_a_logistics_pilot:
+    status: LOCAL_SELF_KNOWLEDGE_REFERENCE_IMPLEMENTED_WORKER_PAUSED
+    control: OPERATOR_CONTROLLED_REFERENCE_BUILD_THEN_APPROVAL_GATED_AUTOMATION
+    next:
+    - keep Logistics AI worker paused
+    - evolve Blueprint task-aware context compiler
+    - implement launch-request and fresh-context gate
+    - implement transport-neutral Operator Approval Gateway
+    - implement provider-neutral console Worker Adapter
+    - implement central listener, dispatcher and monitor
+    - regenerate fresh Logistics context only after those gates exist
+    completed_reference_baseline:
+      root_agents: AGENTS.md
+      module_memory_root: coordination/module_memory
+      deterministic_build: make module-memory-build
+      validation:
+      - make module-memory-check
+      - make document-authority-check
+      - make fresh-context-check
+      repository_head: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+  lane_b_blueprint_control_plane:
+    status: CONTINUE_IN_PARALLEL
+    next:
+    - evolve build_context_bundle.py into task-aware context compiler
+    - bind task context to Module Memory, roadmap, prompt contract, oracle, previous completion and git baseline
+    - implement launch-request state machine and Fresh Context Gate
+    - implement transport-neutral Operator Approval Gateway with filesystem or CLI first
+    - implement provider-neutral console Worker Adapter and runtime configuration
+    - implement central event listener, dispatcher and execution monitor
+    - wire Inspector read-only conformance and normalized completion intake
+    - run first approval-gated Logistics AI worker only after operator approval
+    - run two or three Logistics pilot cycles
+    - perform forensic inventory of remaining modules before broad rollout
+    - build dependency/readiness graph and console pacing dashboard
+next_implementation:
+  id: first_approval_gated_logistics_worker_pilot_preflight_v0_1
+  mode: READ_ONLY_PREFLIGHT
+  must_not:
+  - dispatch worker
+  - claim prompt
+  - write Logistics repository
+  - fabricate dependency readiness
+  - auto ACCEPT
+  - auto release next prompt
+  after: first_approval_gated_logistics_worker_pilot_v0_1
+gap_assessment:
+  path: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_inventory_program_vnext_gap_assessment_v0_1.yaml
+implementation_progress:
+  blueprint_read_only_canonical_state_freshness_impact_resolver_v0_1:
+    status: IMPLEMENTED_REFERENCE_V0_1
+    completed_on: '2026-09-06'
+    resolver: scripts/coordination/render_blueprint_canonical_state_freshness_impact.py
+    validator: scripts/validation/validate_blueprint_canonical_state_freshness_impact_v0_1.py
+    freshness_surface_contracts: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__current_state_freshness_surface_contracts_v0_1.yaml
+    adoption_record: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__canonical_state_freshness_impact_resolver_adoption_v0_1.yaml
+    read_only: true
+    independent_authority: false
+    reuses:
+    - scripts/coordination/render_blueprint_governance_status.py
+    - scripts/coordination/assess_repository_knowledge_freshness.py
+    - scripts/coordination/build_context_bundle.py
+  blueprint_inventory_vnext_module_memory_schema_v0_1:
+    status: IMPLEMENTED_REFERENCE_V0_1
+    completed_on: '2026-09-06'
+    schema: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_memory_schema_v0_1.yaml
+    validator: scripts/validation/validate_module_memory_schema_v0_1.py
+    source_binding_model: RCI plus current-state evidence plus cleanliness plus lineage
+    initial_reference_module: logistics_service
+    full_portfolio_backfill_required_before_logistics_prompt_1: false
+  logistics_h10_bootstrap_preflight_tool_v0_1:
+    status: IMPLEMENTED_READ_ONLY_TOOL
+    completed_on: '2026-09-06'
+    tool: scripts/coordination/preflight_logistics_h10_bootstrap_prompt_v0_1.py
+    module_start_performed: false
+    prompt_pull_performed: false
+  logistics_manual_self_knowledge_reference_baseline_v0_1:
+    status: IMPLEMENTED_REFERENCE_V0_1
+    completed_on: '2026-09-06'
+    logistics_head: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+    worker_dispatched: false
+    prompt_claim_created: false
+operator_execution_hold:
+  logistics_worker_dispatch: PAUSED_BY_OPERATOR
+  u135_worker_bundle: HISTORICAL_EVIDENCE_NOT_CURRENT_DISPATCH_AUTHORITY
+  prompt_claim_allowed: false
+  automatic_worker_launch_allowed: false
+  record: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__operator_clarified_ai_activation_and_portfolio_rollout_architecture_v0_1.yaml
+activation_architecture:
+  record: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__operator_clarified_ai_activation_and_portfolio_rollout_architecture_v0_1.yaml
+  telegram_required_for_v0: false
+  operator_gateway_owner: forprint_system_blueprint_control_plane
+  inspector_execution_authority: false
+  first_transport: filesystem_or_cli
+  future_transport: telegram_optional
+portfolio_scale_gate:
+  broad_multi_module_worker_rollout_allowed: false
+  few_logistics_pilot_cycles_allowed: true
+  blocked_until:
+  - portfolio forensic inventory baseline
+  - module-local self-knowledge coverage for rollout candidates
+  - cross-module dependency/readiness graph
+  - simple console pacing dashboard
+task_context_compiler:
+  implementation_id: blueprint_task_context_compiler_v0_1
+  status: IMPLEMENTED
+  existing_primitive_extended: scripts/coordination/build_context_bundle.py
+  second_context_framework_created: false
+  manifest_schema: forprint_task_context_manifest_v0_1
+  logistics_reference_binding:
+    module_id: logistics_service
+    module_memory_required: true
+    fresh_context_required: true
+    prompt_contract_required: true
+    acceptance_oracle_required: true
+  execution_boundaries:
+    worker_dispatch_allowed: false
+    prompt_claim_allowed: false
+    automatic_blueprint_accept: false
+    automatic_next_prompt_release: false
+    telegram_required: false
+    secrets_in_archive_allowed: false
+  operator_surfaces:
+  - kind: make_target
+    target: task-context-compiler-check
+  - kind: make_target
+    target: task-context-check
+  - kind: make_target
+    target: task-context-compile
+  - kind: make_target
+    target: task-context-print
+launch_request_fresh_context_gate:
+  implementation_id: blueprint_launch_request_fresh_context_gate_v0_1
+  status: IMPLEMENTED
+  artifact_schema: forprint_launch_request_v0_1
+  dependency_input_schema: forprint_dependency_readiness_snapshot_v0_1
+  state_machine:
+  - TASK_CONTEXT_REVALIDATION
+  - DEPENDENCY_READINESS_CHECK
+  - AWAITING_OPERATOR_APPROVAL_OR_BLOCKED
+  fail_closed: true
+  live_logistics_reference:
+    dependency_readiness_supplied: false
+    expected_state: BLOCKED
+    expected_blocker: DEPENDENCY_READINESS_NOT_PROVIDED
+    verified_exact_blocker_set:
+    - DEPENDENCY_READINESS_NOT_PROVIDED
+    task_context_revalidation: PASS_AFTER_U141A_REPAIR
+    unexpected_blockers_allowed: false
+  execution_boundaries:
+    operator_approval_performed: false
+    worker_dispatch_allowed: false
+    prompt_claim_allowed: false
+    automatic_blueprint_accept: false
+    automatic_next_prompt_release: false
+    telegram_required: false
+  repair_record: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__launch_request_live_revalidation_import_repair_v0_1.yaml
+operator_approval_gateway:
+  implementation_id: blueprint_operator_approval_gateway_v0_1
+  status: IMPLEMENTED
+  artifact_schema: forprint_operator_approval_decision_v0_1
+  input_schema: forprint_operator_approval_input_v0_1
+  decision_enum:
+  - APPROVE
+  - HOLD
+  - REJECT
+  initial_transports:
+  - FILESYSTEM
+  - CLI
+  reuses:
+    q4_immutable_operator_decision: true
+    q5_operator_decision_event_family: true
+    q6_operator_acceptance_attention: true
+    phase_boundary_approval_conflated: false
+  approval_rules:
+    approve_requires_awaiting_operator_approval: true
+    blocked_request_force_approval_allowed: false
+    approval_expiry_required: true
+    dispatch_requires_revalidation_after_approval: true
+    drift_invalidates_approval: true
+  execution_boundaries:
+    worker_dispatch_performed: false
+    prompt_claim_performed: false
+    automatic_blueprint_accept: false
+    automatic_next_prompt_release: false
+    telegram_required: false
+  live_logistics_reference:
+    state: BLOCKED
+    approve_allowed: false
+    reason: DEPENDENCY_READINESS_NOT_PROVIDED
+    operator_decision_artifact_created: false
+console_worker_adapter:
+  implementation_id: blueprint_console_worker_adapter_v0_1
+  status: IMPLEMENTED
+  runtime_contract: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  runtime_schema: forprint_worker_runtime_v0_1
+  invocation_schema: forprint_worker_invocation_v0_1
+  completion_capture_schema: forprint_worker_completion_capture_v0_1
+  provider_neutral: true
+  first_adapter: CONSOLE_COMMAND
+  adapter_mode: DRY_RUN_ONLY_V0_1
+  approval_revalidation_required: true
+  policies:
+    budget_required: true
+    timeout_required: true
+    network_policy_required: true
+    working_directory_must_stay_in_module_root: true
+    environment_allowlist_names_only: true
+    secret_values_serialized: false
+  live_logistics_reference:
+    module_runtime_surface: ABSENT
+    launch_request_state: BLOCKED
+    valid_approval_exists: false
+    adapter_state: BLOCKED
+    worker_process_started: false
+  execution_boundaries:
+    live_provider_execution: false
+    worker_process_start_allowed: false
+    prompt_claim_allowed: false
+    logistics_repository_write_allowed: false
+    automatic_blueprint_accept: false
+    automatic_next_prompt_release: false
+    telegram_required: false
+central_listener_dispatcher_monitor:
+  implementation_id: blueprint_central_listener_dispatcher_monitor_v0_1
+  status: IMPLEMENTED
+  package: scripts/coordination/control_plane
+  execution_mode: EXPLICIT_ONE_SHOT_CLI_STEP
+  central_runtime_count: 1
+  per_module_listener: false
+  wip_limit_per_module: 1
+  q5_event_family_set_expanded: false
+  worker_process_start_allowed: false
+  daemon_required: false
+  telegram_required: false
+repository_structure_hygiene:
+  status: PLANNED_NON_BLOCKING
+  roadmap: coordination/roadmaps/details/forprint_system_blueprint/architecture_hygiene_and_repository_structure_consolidation_v0_1.md
+  flat_coordination_entrypoint_count_observed: 63
+  new_runtime_internals_must_be_nested: true
+  mass_move_now: false
+  run_after: blueprint_completion_intake_inspector_conformance_integration_v0_1
+  complete_before: broad_multi_module_ai_worker_rollout
+  eligible_for_parallel_cleanup_after_u149: true
+completion_intake_inspector_conformance:
+  implementation_id: blueprint_completion_intake_inspector_conformance_integration_v0_1
+  status: IMPLEMENTED
+  package: scripts/coordination/control_plane/completion
+  inspector_repository_binding: UNBOUND_EXTERNAL_REVIEWER
+  inspector_read_only: true
+  human_acceptance_authority: true
+  q5_completion_publication_reused: true
+  q5_event_family_set_expanded: false
+  legacy_completion_primitives_replaced: false
+  automatic_accept: false
+  automatic_next_prompt_release: false
+module_bootstrap_execution_policy:
+  standard: module_bootstrap_execution_policy_v0_1
+  status: ADOPTED
+  stage_0_module_local_hygiene: true
+  module_assistant_commit_and_push_own_repo: true
+  blueprint_foreign_repo_commit_or_push: false
+  bootstrap_may_begin_with_stale_generated_freshness: true
+  roadmap_development_requires_strict_freshness: true
+portfolio_preparation_phase:
+  status: ACTIVE_CURRENT
+  state_machine:
+  - DISCOVERED
+  - INVENTORIED
+  - BOOTSTRAP_READY
+  - BOOTSTRAPPED
+  - VERIFIED_WORK_READY
+  development_priority_selection_before_all_modules_prepared: false
+  next_control_plane_implementation: null
+  subsequent_control_plane_implementations: []
+  registry_and_queue:
+    implementation_id: module_preparation_registry_and_queue_v0_1
+    status: IMPLEMENTED
+    registry: coordination/internal_work/blueprint/module_preparation/module_preparation_registry_v0_1.yaml
+    queue: coordination/internal_work/blueprint/module_preparation/module_preparation_queue_v0_1.yaml
+    blueprint_obligations: coordination/internal_work/blueprint/module_preparation/blueprint_module_obligations_v0_1.yaml
+    development_priority_selection_performed: false
+    worker_launch_allowed: false
+    operator_selection_required: true
+    repository_provisioning_gate:
+      standard: coordination/standards/automation/control_plane/module_repository_provisioning_gate_v0_1.yaml
+      source_authority: coordination/module_sources/module_git_sources.yaml
+      forprint_project_inspector:
+        state: REPOSITORY_PROVISIONING_REQUIRED
+        gap_record: coordination/internal_work/blueprint/module_preparation/forprint_project_inspector_repository_provisioning_gap_v0_1.yaml
+        git_init_authorized: false
+        clone_authorized: false
+        remote_repository_creation_authorized: false
+  next_portfolio_action: INSPECTOR_BLOCKED_ON_EXPLICIT_REPOSITORY_PROVISIONING; CONTINUE_FORENSIC_PREPARATION_WITH_EXISTING_REPOSITORY_MODULE
+bootstrap_task_context_mode:
+  implementation_id: blueprint_bootstrap_task_context_mode_v0_1
+  status: IMPLEMENTED
+  package: scripts/coordination/control_plane/context
+  schema: forprint_bootstrap_task_context_envelope_v0_1
+  strict_compiler_primitive: scripts/coordination/build_context_bundle.py
+  strict_mode_preserved: true
+  bootstrap_debt_allowed: true
+  authority_relaxation_allowed: false
+  strict_task_context_required_after_stage_0: true
+  roadmap_development_allowed: false
+module_readiness_levels:
+  implementation_id: bootstrap_vs_development_readiness_v0_1
+  status: IMPLEMENTED
+  package: scripts/coordination/control_plane/readiness
+  bootstrap_state: BOOTSTRAP_READY
+  development_state: DEVELOPMENT_READY
+  bootstrap_ready_grants_roadmap_development: false
+  development_ready_requires:
+  - accepted_bootstrap
+  - strict_task_context
+  - resolved_bootstrap_debt
+  - inspector_binding
+  - dependency_readiness
+  automatic_accept: false
+bootstrap_worker_runtime_profile:
+  implementation_id: blueprint_bootstrap_worker_runtime_profile_v0_1
+  status: IMPLEMENTED
+  package: scripts/coordination/control_plane/worker_runtime
+  standard: bootstrap_worker_runtime_profile_v0_1
+  execution_class: MODULE_BOOTSTRAP
+  module_runtime_profile_required_for_bootstrap: false
+  module_runtime_profile_required_for_roadmap_development: true
+  canonical_worker_adapter: scripts/coordination/build_worker_invocation.py
+  provider_binding: operator_or_dispatch_time
+  secret_in_git: false
+  worker_process_started_by_resolution: false
+inspector_reviewer_registry_binding:
+  implementation_id: forprint_project_inspector_registry_binding_v0_1
+  status: IMPLEMENTED
+  registry: inspector_reviewer_registry_v0_1
+  completion_reviewer_id: forprint_project_inspector
+  completion_reviewer_role: PROJECT_CONFORMANCE_REVIEWER
+  binding_state: READY
+  runtime_observer_id: production_runtime_inspector
+  runtime_observer_is_completion_reviewer: false
+  human_acceptance_authority_preserved: true
+module_bootstrap_prompt_profile:
+  standard: module_bootstrap_prompt_requirements_v0_1
+  status: IMPLEMENTED
+  stage_0_required: true
+  module_local_commit_push_allowed: true
+  blueprint_foreign_repo_commit_push: false
+logistics_bootstrap_prompt_replacement:
+  candidate_prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_2
+  predecessor_prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  candidate_state: READY_FOR_EXPLICIT_RELEASE_AUTHORIZATION
+  released: false
+  old_release_authorization_inherited: false
+  active_queue_mutated: false
+  next_gate: EXPLICIT_RELEASE_AUTHORIZATION
+project_entry_context_bootstrap:
+  implementation_id: project_entry_context_bootstrap_aut_02_04_v0_1
+  status: IMPLEMENTED
+  roadmap_items:
+  - AUT-02
+  - AUT-03
+  - AUT-04
+  entrypoint: coordination/bootstrap/START_HERE.md
+  bootstrap_index: coordination/bootstrap/index_v0_1.yaml
+  builder: scripts/coordination/build_project_context_archive.py
+  operator_command: make assistant-context-pack
+  default_scope: portfolio
+  all_portfolio_rebuild_seeds_included: true
+  task_context_replaced: false
+  task_context_primitive: scripts/coordination/build_context_bundle.py
+  execution_authority_granted: false
+module_roadmap_reconciliation:
+  implementation_id: self_knowledge_and_roadmap_reconciliation_foundation_v0_1
+  status: IMPLEMENTED
+  builder: scripts/coordination/build_module_roadmap_reconciliation.py
+  canonical_roadmap_auto_apply: false
+  semantic_review_required: true
+  blueprint_derived_obligation_projection_required: true
+  unknown_legacy_invention_forbidden: true
+  logistics_report: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__roadmap_reconciliation_report_v0_1.yaml
+  logistics_state: REVIEW_READY_PENDING_CANONICAL_ROADMAP_APPLY
+  next_control_plane_implementation: module_preparation_registry_and_queue_v0_1
+  logistics_semantic_review:
+    state: BOUNDED_CANONICAL_UPDATE_APPLIED
+    report: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+    canonical_current_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    required_roadmap_candidate_count: 3
+    review_candidate_count: 2
+    numbered_step_count_changed: false
+    canonical_status_changes_applied: false

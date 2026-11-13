@@ -1,0 +1,96 @@
+work_front_id: wf-cf10-local-dispatcher-telegram-operator-surface-v0-1
+objective: Add one bounded local Telegram-ready operator convenience surface that projects existing registered worker/Dispatcher
+  facts for a human operator without becoming an execution or status authority.
+scope:
+- scripts/coordination/control_plane/telegram_operator.py
+- tests/coordination/control_plane/test_cf10_local_dispatcher_telegram_operator_surface_v0_1.py
+exclusions:
+- Do not modify Execution Attempt Ledger implementation or history.
+- Do not modify worker_runtime/launcher.py or its timeout/watchdog semantics.
+- Do not modify Dispatcher dispatch/ACK/authorization behavior.
+- Do not modify lifecycle, roadmap, Handoff or provider registry.
+- Do not modify central_listener_dispatcher_monitor_v0_1.yaml.
+- Do not modify Makefile.
+- Do not create a mutable status store or duplicate execution-state authority.
+- Do not implement Telegram Bot API/network sending in this task.
+- Do not add bot credentials, chat IDs or secrets.
+- Do not create a daemon, listener service, systemd unit or background poller.
+- Do not write another ForPrint module repository.
+- Do not commit, push, merge, release or automatically ACCEPT worker results.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - training_task:local_dispatcher_telegram_operator_surface
+  - accepted_predecessor:worker_watchdog_observability_self_hardening/commit-f3811072006f9a4cc9ae0446492523a8f87c313d
+  - attempt:cf10-u180j-a009/FINISHED/SUCCEEDED/PASS
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/monitor.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - coordination/work_fronts/cf10_operator_status_surface_self_hardening_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- worker_watchdog_observability_self_hardening is accepted, published and post-publication revalidated at f3811072006f9a4cc9ae0446492523a8f87c313d.
+- cf10-u180j-a009 is terminal FINISHED/SUCCEEDED with validator PASS.
+- Execution Attempt Ledger already exposes read-only deterministic latest-attempt status and remains the durable
+  attempt/status truth.
+- Published worker launcher now exposes deterministic heartbeat, progress, stall and timeout evidence without remediation.
+- The existing central listener/dispatcher monitor contract keeps telegram_required=false and requires no daemon/systemd
+  surface.
+outputs:
+- One local read-only Telegram/operator projection module under scripts/coordination/control_plane.
+- One deterministic Telegram-ready text renderer over existing ledger and optional watchdog/process evidence.
+- Explicit ACTIVE/STALLED/TIMEOUT/FINISHED classification when supported by source facts and UNKNOWN when live facts
+  are absent.
+- Focused tests proving no dispatch or authority widening and no Telegram network transport.
+acceptance:
+- Only the two declared scope files are changed by the worker.
+- The projection reuses existing immutable ledger facts and watchdog evidence without introducing another state
+  authority.
+- Operator-visible output deterministically distinguishes ACTIVE, STALLED, TIMEOUT and FINISHED when evidence supports
+  them.
+- Insufficient live evidence is reported as UNKNOWN.
+- Telegram output is render-only and performs no network call.
+- No external dispatch widening, retry, approval, promotion, publication or automatic acceptance authority is introduced.
+- Focused regression tests pass.
+- git diff --check passes in the isolated worker workspace.
+- No lifecycle mutation, roadmap mutation, cross-module write, commit, push, merge, release or automatic ACCEPT
+  occurs.
+stop_conditions:
+- A path outside the two declared scope files must be modified.
+- A new mutable status store or duplicate execution-state source of truth becomes necessary.
+- Execution Attempt Ledger, launcher, dispatcher, lifecycle, roadmap, Handoff, provider registry, central monitor
+  contract or Makefile mutation becomes necessary.
+- Telegram network transport or credentials become necessary.
+- Reliable status would require inference beyond registered facts.
+- Any execution/dispatch/retry/approval authority widening is required.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: NEW
+  target_refs: []
+  read_only_refs:
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/monitor.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - coordination/work_fronts/cf10_operator_status_surface_self_hardening_v0_1.yaml
+  searched_surfaces:
+  - scripts/coordination/control_plane/
+  - tests/coordination/control_plane/
+  - coordination/standards/automation/control_plane/
+  - coordination/work_fronts/
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  rationale: Capability reuse search found existing Execution Attempt Ledger, operator-status and watchdog fact
+    sources, but no existing local Telegram-ready render-only projection surface. Create one new bounded projection
+    module and focused test while keeping all source facts read-only and non-authoritative.

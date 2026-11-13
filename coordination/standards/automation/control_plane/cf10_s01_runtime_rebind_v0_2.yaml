@@ -1,0 +1,58 @@
+schema_version: cf10_s01_runtime_rebind_contract_v0_2
+owner: forprint_system_blueprint
+status: CANDIDATE_NON_AUTHORIZING
+source_base_commit: 7e19b2f10efb8e5ed57e75094b21475f3536010f
+purpose: signed_release_predicate_for_future_one_worker_one_attempt_corridor
+behavior:
+  candidate_predicate_can_pass_if_independently_authorized: true
+  live_worker_launch_allowed_by_candidate: false
+  live_make_targets_remain_literal_quarantine: true
+  true_one_time_consumption_enforced_by_candidate: false
+  operator_explicit_dispatch_still_required: true
+  no_external_authority_mutations: true
+  no_canonical_ledger_writes: true
+  no_git_publication_by_candidate: true
+signature_binding:
+  existing_receipt: /etc/forprint/cf10_release_authority/signed_release_v0_1.json
+  required_extension_in_signed_receipt: pilot_scope
+  pilot_scope:
+    worker_id: worker-01
+    task_prompt_id: OPERATOR_SELECTED_TASK_PROMPT_ID
+    attempt_id: OPERATOR_SELECTED_ATTEMPT_ID
+    max_active_workers: 1
+    max_attempts: 1
+    explicit_operator_dispatch_required: true
+    automatic_retry_allowed: false
+    automatic_accept_allowed: false
+    route: GOVERNED_WORKER_CYCLE_ONLY
+  whole_receipt_reverified_with_existing_ed25519_verifier: true
+  exact_head_remote_coverage_activation_and_protocol_pins: true
+independent_evidence:
+  root_controlled_dir: /etc/forprint/cf10_release_authority/proofs
+  naming: '<requirement_name>.json'
+  root_owned_proof_files: true
+  externally_signed_receipt_binds_each_proof_sha256: true
+  per_proof_schema: cf10_s01_independent_proof_v0_2
+  per_proof_decision: ACCEPTED
+  requires_underlying_evidence_review_by_independent_operator: true
+  evidence_refs_are_not_dynamically_opened_by_this_candidate: true
+  requirements:
+    - writer_entrypoints_and_callbacks
+    - active_and_short_lived_process_enrollment
+    - drain_restart_and_old_writer_exclusion
+    - systemd_cron_manual_ssh_remote_paths
+    - lock_inode_acl_mount_and_dac
+    - independent_dynamic_non_bypass_proof
+    - independent_signature_and_publication
+    - separate_release_quarantine_acceptance
+negative_tests:
+  - activation_or_release_gate_blocked
+  - re_read_receipt_not_cryptographically_verified
+  - unsigned_or_wrong_pilot_scope
+  - fake_boolean_or_wrong_worker_task_attempt
+  - missing_proof_or_changed_proof_bytes
+  - wrong_proof_commit_review_or_signer
+  - unstructured_proof_evidence
+  - source_head_drift
+  - positive_predicate_never_authorizes_launch
+next_boundary: INDEPENDENT_PRODUCTION_COVERAGE_ACCEPTANCE_AND_SEPARATE_LIVE_WIRING_REVIEW

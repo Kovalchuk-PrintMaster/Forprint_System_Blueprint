@@ -1,0 +1,492 @@
+schema_version: forprint_portfolio_module_inventory_program_state_v0_1
+status: ACTIVE_PLANNING_CONTEXT
+authority: BLUEPRINT_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+date: '2026-09-04'
+source_package: forprint_next_phase_module_inventory_bootstrap__2026-09-03__u108
+source_package_sha256: 7db78246ad79333d1cfa92b34d5825b91ce61aecacb6e7702bab8280501f1753
+canonical_module_count: 23
+gates:
+  assistant_distribution_allowed: false
+  module_implementation_started: false
+  prompt_activation: false
+  automatic_acceptance: false
+  automatic_release_next_prompt: false
+  cross_repo_diagnostics_started: false
+  h10_widened: false
+  commit_performed: false
+  push_performed: false
+program_sequence:
+- BLUEPRINT_CONTINUITY_AND_GOVERNANCE_CHECK
+- PORTFOLIO_TRIAGE
+- MODULE_REPOSITORY_PARTITION
+- ARCHIVE_BATCH_ANALYSIS
+- MODULE_CONSOLIDATION
+- BLUEPRINT_PORTFOLIO_ENRICHMENT
+- MODULE_ROADMAP_ENRICHMENT
+- MODULE_INDEX_AND_AGENTS_BOOTSTRAP
+- COORDINATION_V0_4_1_AND_INVENTORY_TOOLING
+- READINESS_VERIFICATION
+- BOUNDED_IMPLEMENTATION_ONLY_AFTER_HUMAN_APPROVAL
+evidence_labels:
+- VERIFIED_LOCAL_REPOSITORY
+- VERIFIED_RUNTIME
+- BLUEPRINT_CANONICAL_DOCUMENTATION
+- HUMAN_CONFIRMED
+- PROPOSED
+- UNKNOWN
+- HISTORICAL_ONLY
+- DEPRECATED
+- CONFLICTING_EVIDENCE
+legacy_dispositions:
+- KEEP_CURRENT
+- KEEP_BUT_ISOLATE
+- DEPRECATE
+- HISTORICAL_ONLY
+- REWRITE
+- MERGE
+- MOVE_OWNERSHIP_CANDIDATE
+- REMOVE_CANDIDATE
+- NEEDS_OWNER_REVIEW
+- UNKNOWN
+documentation_dispositions:
+- CANONICAL_CURRENT
+- CURRENT_SUPPORTING
+- NEEDS_REWRITE
+- DEPRECATED
+- HISTORICAL_ONLY
+- CONFLICTING
+- DUPLICATE
+- REMOVE_CANDIDATE
+- UNKNOWN
+special_legacy_risk_modules:
+- calculator_engine
+- telegram_bot
+first_pilot_selection:
+  state: PENDING_SIZE_RISK_TRIAGE
+  candidates:
+  - calculator_engine
+  - telegram_bot
+  selection_rule: choose after repository size/history/risk triage; inventory order is not implementation order
+modules:
+- module_id: calculator_engine
+  inventory_wave: A_HIGH_LEGACY_AMBIGUITY
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: cloud_backup_manager
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_accounting_registry_service
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_contract_registry
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_crm
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_identity_access_service
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_integration_gateway
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_library
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_marketing_orchestrator
+  inventory_wave: D_PRESENTATION_GROWTH_FUTURE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_operations_assistant
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_operations_control_registry
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_prepress_hub
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_project_inspector
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_strategic_control_plane
+  inventory_wave: D_PRESENTATION_GROWTH_FUTURE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_system_administration
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_system_blueprint
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: COORDINATOR_BASELINE_VERIFIED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: VERIFIED_LOCAL_REPOSITORY
+  blockers: []
+  next_action: MAINTAIN_BLUEPRINT_COORDINATOR_BASELINE
+- module_id: logistics_service
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: COMPLETE_FIRST_PASS
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: COMPLETE
+  archive_batches_completed: 6
+  archive_batches_expected: 6
+  consolidation_state: COMPLETE
+  blueprint_portfolio_enrichment_state: EVIDENCE_RECORDED_PENDING_CANONICAL_PORTFOLIO_PROJECTION
+  roadmap_enrichment_state: SEMANTIC_RECONCILIATION_APPLIED_CURRENT_FRONT_GAP_CANDIDATES_REGISTERED
+  module_index_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  agents_md_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  coordination_v0_4_1_readiness_state: H9_VERIFIED_AUT_RUNTIME_NOT_ACTIVATED
+  local_inventory_tooling_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  autonomous_readiness_state: NOT_READY_BOOTSTRAP_REQUIRED
+  repository_evidence: VERIFIED_LOCAL_REPOSITORY
+  blockers: []
+  next_action: CONTINUE_BOOTSTRAP_FRONT_AND_CARRY_ROADMAP_CANDIDATES_IN_PREPARATION_REGISTRY
+  inventory_evidence_ref: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+  implementation_lineage_ref: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+  first_wave_reconciliation_ref: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+  repository_verified_branch: feature/logistics-tracking-events-contract-v01
+  repository_verified_head: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+  inventory_verified_on: 2026-09-05
+  roadmap_reconciliation_report_ref: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+- module_id: mobile_app
+  inventory_wave: D_PRESENTATION_GROWTH_FUTURE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: production_runtime_inspector
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: telegram_bot
+  inventory_wave: A_HIGH_LEGACY_AMBIGUITY
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: verification_lab
+  inventory_wave: B_GOVERNANCE_CONTROL_SPINE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: warehouse_service
+  inventory_wave: C_OPERATIONAL_BUSINESS_CORE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: website
+  inventory_wave: D_PRESENTATION_GROWTH_FUTURE
+  inventory_state: NOT_STARTED
+  repository_location_state: KNOWN_OR_TO_VERIFY
+  partition_plan_state: NOT_STARTED
+  archive_batches_completed: 0
+  archive_batches_expected: null
+  consolidation_state: NOT_STARTED
+  blueprint_portfolio_enrichment_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  module_index_state: NOT_STARTED
+  agents_md_state: NOT_STARTED
+  coordination_v0_4_1_readiness_state: NOT_STARTED
+  local_inventory_tooling_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  repository_evidence: REPO_EVIDENCE_PENDING
+  blockers: []
+  next_action: REPOSITORY_SIZE_RISK_TRIAGE
+next_action: BUILD_PORTFOLIO_TRIAGE_AND_FIRST_MODULE_ARCHIVE_PARTITION_PLAN

@@ -1,0 +1,58 @@
+schema_version: forprint_cf10_post_commit_worker_operator_decision_v0_1
+record_role: post_commit_operator_decision_not_candidate_promotion
+decision_id: cf10-u180j-a040-postcommit-accept-20261010
+decision: ACCEPT
+attempt_id: cf10-u180j-a040
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+operator_ref: forprint-blueprint-operator
+recorded_at: '2026-10-10T14:45:46.146986+00:00'
+supersedes_decision_id: null
+source_head: f4e84adfb3c30c61beb4e8eeda31495fb14dbe8c
+reviewed_commit_sha: 21b01fad19a5c11359e7f85e9a7059a53768300d
+exact_patch_sha256: 4dddadeb39ab95f074178e7600cdc7a77b27da0df70c4f04dfc6f5feff990356
+changed_paths:
+- Makefile
+- scripts/validation/run_validation_suite_v0_1.py
+- tests/validation/test_validation_suite_runner_v0_1.py
+review_binding_sha256: c36d9e45ce7e7c60e86b542483932ee81ecbe90261e02757e529eaa32d2abd35
+evidence_bindings:
+  terminal_ledger:
+    path: /srv/software_development/forprint-project/forprint_system_blueprint/coordination/continuity/execution_attempts/cf10-u180j-a040__818354d50735.yaml
+    sha256: 2a3e94993c182f22b0d0806e0d0b03ab2115c0fa018fb31baa6484de7679a04c
+  worker_result:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/result/worker_result.yaml
+    sha256: 5fe54ebb715ba522b47af06f974578a338c4b8940a2cc0b09d850f5c810715b2
+  result_return:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/evidence/governed_worker_cycle_result_return_v0_1.yaml
+    sha256: 8a1cc1ffc4fc491bab8265e52f3807f101c4a65adeabee2c03681bf04fdc36ae
+  work_front:
+    path: /srv/software_development/forprint-project/forprint_system_blueprint/coordination/work_fronts/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+    sha256: 7cade745dda1c9ec7231ce80eebf56f039767af5e2167a4ab8c36b828110de8b
+  operator_review:
+    path: /srv/software_development/forprint-project/forprint_system_blueprint/tmp/cf10_a040_exact_candidate_review_20261010_5e6bc1/operator_review.yaml
+    sha256: 1d49700300587698b51eece8fd26cc1230a6cfd4a08df0216216995a5a841dc4
+  exact_patch:
+    path: /srv/software_development/forprint-project/forprint_system_blueprint/tmp/cf10_a040_exact_candidate_review_20261010_5e6bc1/exact_three_file_candidate_vs_canonical.patch
+    sha256: 4dddadeb39ab95f074178e7600cdc7a77b27da0df70c4f04dfc6f5feff990356
+  worker_baseline:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/evidence/worker_baseline_v0_1.yaml
+    sha256: 15f1a6c63c7755f6d15b0816085c2c38529f4434d92deba9e09eea168816a9c5
+  worker_manifest:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/manifest.yaml
+    sha256: 186015840be598b20fc9d4a74f007cc02e8cd262040e33e5ef8374c3584d4a82
+  workspace_candidate:Makefile:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/workspace/repo/Makefile
+    sha256: 1032d2de70e640a63e96559b707dcc5a466e07566e8cfa62b972205962e8afd0
+  workspace_candidate:scripts/validation/run_validation_suite_v0_1.py:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/workspace/repo/scripts/validation/run_validation_suite_v0_1.py
+    sha256: 7c5670363d7d0ca94ff21c7b7f3d461fd6b731ba6179ce9ad27d0f8ee27ae1a3
+  workspace_candidate:tests/validation/test_validation_suite_runner_v0_1.py:
+    path: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/workspace/repo/tests/validation/test_validation_suite_runner_v0_1.py
+    sha256: 8ab6d7420638739fc861d2d503e08e9147529da5a7c759bfd562cf875c39dbd1
+candidate_promotion_reperformed: false
+execution_attempt_ledger_mutated: false
+automatic_accept: false
+commit_performed: false
+push_performed: false
+publication_state: NOT_ATTESTED
+governance_follow_up: SEPARATE_COMMIT_AND_PUBLICATION_BOUNDARY

@@ -1,0 +1,323 @@
+schema_version: forprint_module_roadmap_reconciliation_report_v0_1
+module_id: logistics_service
+state: REVIEW_READY_PENDING_CANONICAL_ROADMAP_APPLY
+authority: BLUEPRINT_RECONCILIATION_EVIDENCE_NOT_EXECUTION_AUTHORITY
+auto_apply_performed: false
+sources:
+  canonical_roadmap:
+    path: coordination/roadmaps/logistics_service.yaml
+    sha256: 609eadf93f88efb565ce34784077481fe07f2af6f8889a755a5bb268de12f956
+  module_inventory_state:
+    path: coordination/internal_work/blueprint/module_inventory/2026-09-04__module_inventory_program_state_v0_1.yaml
+    sha256: 2dc25adb6e98a2f39c863fb596ce25efc2a5fcd8141a9c64d13083b4838f1750
+  inventory_completion:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+    sha256: 60568bf819e0ec93bf02867f141239031b10fa37cc6fbbb804ec00ea8d8fde72
+  implementation_lineage:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+    sha256: 1d0395bce46c5d370ad30896ebd2585a75b1772f18e9d76143cb66db26dc793f
+  reconciliation_input:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+    sha256: 1e49628ed8d0a216a63c3ece0ff760bf0022ad611519f4ad21122f3100197927
+inventory_program_state_before:
+  inventory_state: COMPLETE_FIRST_PASS
+  consolidation_state: COMPLETE
+  roadmap_enrichment_state: RECONCILIATION_INPUT_READY_PENDING_CANONICAL_APPLY
+  module_index_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  agents_md_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  local_inventory_tooling_state: NOT_STARTED_BOOTSTRAP_REQUIRED
+  autonomous_readiness_state: NOT_READY_BOOTSTRAP_REQUIRED
+roadmap_summary:
+  roadmap_version: logistics_service_commercial_delivery_automation_v0_3
+  current_step_id: logistics_service_tracking_events_v0_1
+  current_step: &id001
+    sequence: 5
+    step_id: logistics_service_tracking_events_v0_1
+    title: Tracking events and notification contracts
+    status: accepted
+    priority: critical
+    evidence_present: true
+  step_count: 33
+  status_counts:
+    accepted: 5
+    deferred: 1
+    planned: 26
+    superseded: 1
+  steps:
+  - sequence: 1
+    step_id: logistics_service_bootstrap_and_coordination_foundation_v0_1
+    title: Bootstrap and coordination foundation
+    status: accepted
+    priority: critical
+    evidence_present: true
+  - sequence: 2
+    step_id: logistics_service_boundary_and_local_model_v0_1
+    title: Boundary and local model foundation
+    status: accepted
+    priority: high
+    evidence_present: true
+  - sequence: 3
+    step_id: logistics_service_test_address_book_v0_1
+    title: Test address book and recipient fixtures
+    status: accepted
+    priority: high
+    evidence_present: true
+  - sequence: 4
+    step_id: logistics_service_provider_adapter_contract_v0_1
+    title: Provider adapter contract
+    status: accepted
+    priority: high
+    evidence_present: true
+  - *id001
+  - sequence: 6
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    title: Local logistics persistence and migration boundary
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 7
+    step_id: logistics_service_telegram_notification_handoff_contract_v0_1
+    title: Legacy Telegram notification handoff intent
+    status: superseded
+    priority: reference
+    evidence_present: false
+  - sequence: 8
+    step_id: logistics_service_channel_interaction_contract_v0_1
+    title: Channel-neutral command, clarification, confirmation and result contract
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 9
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    title: Provider runtime registry and capability policy
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 10
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    title: Normalized quote, booking, tracking and cancellation operation contract
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 11
+    step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+    title: Nova Poshta read-only adapter foundation
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 12
+    step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
+    title: Ukrposhta read-only adapter foundation
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 13
+    step_id: logistics_service_taxi_provider_abstraction_v0_1
+    title: On-demand taxi and local courier abstraction
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 14
+    step_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
+    title: Uklon Delivery read-only/dry-run adapter foundation
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 15
+    step_id: logistics_service_delivery_quote_and_selection_v0_1
+    title: Delivery quote aggregation and explainable provider selection
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 16
+    step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    title: Shipment lifecycle orchestration preview
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 17
+    step_id: logistics_service_channel_interaction_orchestration_preview_v0_1
+    title: Channel interaction orchestration preview
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 18
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    title: Provider polling, reconciliation and idempotency
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 19
+    step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
+    title: Provider credential and environment profile boundary
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 20
+    step_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+    title: Booking confirmation and write authorization policy
+    status: planned
+    priority: critical
+    evidence_present: false
+  - sequence: 21
+    step_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1
+    title: Nova Poshta sandbox write adapter
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 22
+    step_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1
+    title: Ukrposhta sandbox write adapter
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 23
+    step_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1
+    title: Uklon Delivery sandbox/staging write adapter
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 24
+    step_id: logistics_service_booking_cancellation_retry_compensation_v0_1
+    title: Booking cancellation, retry and compensation workflow
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 25
+    step_id: logistics_service_webhook_polling_convergence_v0_1
+    title: Webhook and polling convergence
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 26
+    step_id: logistics_service_recipient_resolution_data_source_adapter_v0_1
+    title: Recipient resolution and canonical data-source adapter boundary
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 27
+    step_id: logistics_service_central_database_migration_rehearsal_v0_1
+    title: Central database repository migration rehearsal
+    status: planned
+    priority: normal
+    evidence_present: false
+  - sequence: 28
+    step_id: logistics_service_selection_policy_tuning_v0_1
+    title: Provider selection policy tuning and commercial constraints
+    status: planned
+    priority: normal
+    evidence_present: false
+  - sequence: 29
+    step_id: logistics_service_operator_audit_replay_diagnostics_v0_1
+    title: Operator audit, replay and diagnostics
+    status: planned
+    priority: normal
+    evidence_present: false
+  - sequence: 30
+    step_id: logistics_service_telegram_end_to_end_contract_preview_v0_1
+    title: Telegram ↔ Logistics end-to-end contract preview
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 31
+    step_id: logistics_service_commercial_readiness_gate_v0_1
+    title: Commercial delivery automation readiness gate
+    status: planned
+    priority: high
+    evidence_present: false
+  - sequence: 32
+    step_id: logistics_service_controlled_live_write_gate_v0_1
+    title: Controlled production live-write gate
+    status: deferred
+    priority: reference
+    evidence_present: false
+  - sequence: 33
+    step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    title: Authority, implementation lineage and fresh-context module bootstrap
+    status: planned
+    priority: critical
+    evidence_present: true
+evidence_alignment:
+  roadmap_step_ids_mentioned_by_inventory_lineage_or_reconciliation: []
+  step_like_ids_in_evidence_not_present_in_canonical_roadmap:
+  - forprint_logistics_first_wave_roadmap_reconciliation_input_v0_1
+  - forprint_module_implementation_lineage_baseline_v0_1
+  - forprint_module_inventory_completion_evidence_v0_1
+  canonical_roadmap_step_ids_not_mentioned_in_evidence_sources:
+  - logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  - logistics_service_booking_cancellation_retry_compensation_v0_1
+  - logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+  - logistics_service_bootstrap_and_coordination_foundation_v0_1
+  - logistics_service_boundary_and_local_model_v0_1
+  - logistics_service_central_database_migration_rehearsal_v0_1
+  - logistics_service_channel_interaction_contract_v0_1
+  - logistics_service_channel_interaction_orchestration_preview_v0_1
+  - logistics_service_commercial_readiness_gate_v0_1
+  - logistics_service_controlled_live_write_gate_v0_1
+  - logistics_service_delivery_quote_and_selection_v0_1
+  - logistics_service_local_persistence_and_migration_boundary_v0_1
+  - logistics_service_normalized_quote_booking_operation_contract_v0_1
+  - logistics_service_nova_poshta_read_only_foundation_v0_1
+  - logistics_service_nova_poshta_sandbox_write_adapter_v0_1
+  - logistics_service_operator_audit_replay_diagnostics_v0_1
+  - logistics_service_provider_adapter_contract_v0_1
+  - logistics_service_provider_credential_environment_profile_boundary_v0_1
+  - logistics_service_provider_polling_reconciliation_idempotency_v0_1
+  - logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+  - logistics_service_recipient_resolution_data_source_adapter_v0_1
+  - logistics_service_selection_policy_tuning_v0_1
+  - logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+  - logistics_service_taxi_provider_abstraction_v0_1
+  - logistics_service_telegram_end_to_end_contract_preview_v0_1
+  - logistics_service_telegram_notification_handoff_contract_v0_1
+  - logistics_service_test_address_book_v0_1
+  - logistics_service_tracking_events_v0_1
+  - logistics_service_uklon_delivery_read_only_foundation_v0_1
+  - logistics_service_uklon_delivery_sandbox_write_adapter_v0_1
+  - logistics_service_ukrposhta_read_only_foundation_v0_1
+  - logistics_service_ukrposhta_sandbox_write_adapter_v0_1
+  - logistics_service_webhook_polling_convergence_v0_1
+reconciliation_input_projection:
+  roadmap_related_scalar_fields:
+  - path: status
+    value: PROPOSED_RECONCILIATION_INPUT_NOT_CANONICAL_ROADMAP
+  - path: authority
+    value: HUMAN_CONFIRMED_DIRECTION_PLUS_PROPOSED_TECHNICAL_RECONCILIATION
+  - path: PROPOSED_reconciliation_sequence.0.capability
+    value: authority_lineage_and_fresh_context_bootstrap
+  - path: PROPOSED_reconciliation_sequence.1.capability
+    value: replaceable_local_survival_store
+  - path: PROPOSED_reconciliation_sequence.2.capability
+    value: pilot_recipient_directory
+  - path: PROPOSED_reconciliation_sequence.3.capability
+    value: parcel_provider_read_only_wave
+  - path: PROPOSED_reconciliation_sequence.4.capability
+    value: taxi_assisted_dispatch_wave
+  - path: PROPOSED_reconciliation_sequence.5.capability
+    value: telegram_channel_contract
+  - path: PROPOSED_reconciliation_sequence.6.capability
+    value: degraded_survival_modes
+  - path: PROPOSED_reconciliation_sequence.7.capability
+    value: first_wave_end_to_end_pilot
+  - path: PROPOSED_reconciliation_sequence.8.capability
+    value: current_event_persistence_and_gateway_handoff
+  - path: PROPOSED_reconciliation_sequence.9.capability
+    value: live_provider_write_gate
+  - path: canonical_roadmap_mutated_by_this_record
+    value: false
+semantic_invariants:
+  implementation_inventory_roadmap_alignment_required: true
+  blueprint_assigned_responsibility_must_be_roadmap_visible_or_evidenced: true
+  unknown_legacy_must_not_be_invented: true
+  roadmap_status_must_not_be_used_as_prompt_release_authority: true
+review_questions:
+- Which implemented capabilities are absent from the canonical roadmap?
+- Which roadmap items are already implemented but still projected as future work?
+- Which roadmap directions are stale, superseded or contradicted by implementation lineage?
+- Which discovered capabilities should become roadmap enrichment candidates?
+- Which Blueprint-assigned responsibilities are missing from the module roadmap?
+- Does current_step_id still represent the intended planning front?
+canonical_apply_gate:
+  required: true
+  automatic: false
+  requires_semantic_review: true

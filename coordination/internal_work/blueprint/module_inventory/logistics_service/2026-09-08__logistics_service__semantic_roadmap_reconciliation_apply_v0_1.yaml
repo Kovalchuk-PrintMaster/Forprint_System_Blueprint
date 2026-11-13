@@ -1,0 +1,153 @@
+schema_version: forprint_logistics_semantic_roadmap_reconciliation_apply_v0_1
+status: SEMANTIC_REVIEW_APPLIED_BOUNDED_CANONICAL_UPDATE
+authority: BLUEPRINT_SEMANTIC_ROADMAP_RECONCILIATION
+module_id: logistics_service
+reviewed_on: '2026-09-08'
+sources:
+  canonical_roadmap:
+    path: coordination/roadmaps/logistics_service.yaml
+    sha256: 609eadf93f88efb565ce34784077481fe07f2af6f8889a755a5bb268de12f956
+  module_inventory_state:
+    path: coordination/internal_work/blueprint/module_inventory/2026-09-04__module_inventory_program_state_v0_1.yaml
+    sha256: 2dc25adb6e98a2f39c863fb596ce25efc2a5fcd8141a9c64d13083b4838f1750
+  inventory_completion:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+    sha256: 60568bf819e0ec93bf02867f141239031b10fa37cc6fbbb804ec00ea8d8fde72
+  implementation_lineage:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+    sha256: 1d0395bce46c5d370ad30896ebd2585a75b1772f18e9d76143cb66db26dc793f
+  reconciliation_input:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+    sha256: 1e49628ed8d0a216a63c3ece0ff760bf0022ad611519f4ad21122f3100197927
+semantic_mapping:
+- order: 1
+  capability: authority_lineage_and_fresh_context_bootstrap
+  classification: COVERED
+  roadmap_steps:
+  - 33
+  step_ids:
+  - logistics_service_authority_lineage_and_module_bootstrap_v0_1
+- order: 2
+  capability: replaceable_local_survival_store
+  classification: COVERED
+  roadmap_steps:
+  - 6
+  step_ids:
+  - logistics_service_local_persistence_and_migration_boundary_v0_1
+- order: 3
+  capability: pilot_recipient_directory
+  classification: COVERED_CURRENT_PLUS_FUTURE_AUTHORITY
+  roadmap_steps:
+  - 3
+  - 26
+  step_ids:
+  - logistics_service_test_address_book_v0_1
+  - logistics_service_recipient_resolution_data_source_adapter_v0_1
+- order: 4
+  capability: parcel_provider_read_only_wave
+  classification: PARTIALLY_COVERED_REQUIRED_GAP
+  roadmap_steps:
+  - 11
+  - 12
+  step_ids:
+  - logistics_service_nova_poshta_read_only_foundation_v0_1
+  - logistics_service_ukrposhta_read_only_foundation_v0_1
+  missing_scope:
+  - meest_express
+- order: 5
+  capability: taxi_assisted_dispatch_wave
+  classification: PARTIALLY_COVERED_REVIEW_CANDIDATE
+  roadmap_steps:
+  - 13
+  - 14
+  step_ids:
+  - logistics_service_taxi_provider_abstraction_v0_1
+  - logistics_service_uklon_delivery_read_only_foundation_v0_1
+  review_scope:
+  - bolt
+  - uber
+- order: 6
+  capability: telegram_channel_contract
+  classification: COVERED
+  roadmap_steps:
+  - 8
+  - 30
+  step_ids:
+  - logistics_service_channel_interaction_contract_v0_1
+  - logistics_service_telegram_end_to_end_contract_preview_v0_1
+- order: 7
+  capability: degraded_survival_modes
+  classification: REQUIRED_ROADMAP_CANDIDATE
+  roadmap_steps: []
+  step_ids: []
+  required_modes:
+  - FULL
+  - DEGRADED_READ
+  - DEGRADED_QUEUE
+  - OFFLINE_SAFE
+  - MANUAL_REVIEW_REQUIRED
+- order: 8
+  capability: first_wave_end_to_end_pilot
+  classification: REQUIRED_ROADMAP_CANDIDATE
+  roadmap_steps: []
+  step_ids: []
+- order: 9
+  capability: current_event_persistence_and_gateway_handoff
+  classification: PARTIALLY_COVERED_REVIEW_CANDIDATE
+  roadmap_steps:
+  - 6
+  step_ids:
+  - logistics_service_local_persistence_and_migration_boundary_v0_1
+  review_scope:
+  - integration_gateway_handoff
+- order: 10
+  capability: live_provider_write_gate
+  classification: COVERED
+  roadmap_steps:
+  - 20
+  - 32
+  step_ids:
+  - logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+  - logistics_service_controlled_live_write_gate_v0_1
+canonical_apply:
+  roadmap_path: coordination/roadmaps/logistics_service.yaml
+  before_sha256: 609eadf93f88efb565ce34784077481fe07f2af6f8889a755a5bb268de12f956
+  after_sha256: 54808bbdba4e7a26f46fabf09efc5146cd8e0dc0e9844d66fd7aafd170b6537e
+  step_count_before: 33
+  step_count_after: 33
+  old_current_step_id: logistics_service_tracking_events_v0_1
+  new_current_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  numbered_steps_added: 0
+  numbered_steps_removed: 0
+  numbered_steps_reordered: 0
+  status_changes: []
+  reason: Previous current_step_id pointed to accepted step 5. Step 33 is the active bootstrap/preparation front and
+    an explicit dependency of planned step 6.
+required_roadmap_candidates:
+- candidate_id: logistics_service_meest_express_read_only_foundation_candidate_v0_1
+  capability: meest_express_read_only_foundation
+  state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+- candidate_id: logistics_service_degraded_survival_modes_candidate_v0_1
+  capability: degraded_survival_modes
+  state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+- candidate_id: logistics_service_first_wave_end_to_end_pilot_candidate_v0_1
+  capability: first_wave_end_to_end_pilot
+  state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+review_candidates:
+- candidate_id: logistics_service_bolt_uber_provider_specific_adapters_candidate_v0_1
+  capability: bolt_uber_provider_specific_adapters
+  state: REVIEW_CANDIDATE
+- candidate_id: logistics_service_integration_gateway_handoff_candidate_v0_1
+  capability: integration_gateway_handoff
+  state: REVIEW_CANDIDATE
+next:
+  control_plane: module_preparation_registry_and_queue_v0_1
+  logistics: continue bootstrap front; required candidates remain explicit until a separate canonical numbered-step
+    decision
+authority_boundaries:
+  prompt_release_performed: false
+  prompt_claim_performed: false
+  worker_started: false
+  human_accept_performed: false
+  next_prompt_released: false
+  logistics_repository_write_performed: false

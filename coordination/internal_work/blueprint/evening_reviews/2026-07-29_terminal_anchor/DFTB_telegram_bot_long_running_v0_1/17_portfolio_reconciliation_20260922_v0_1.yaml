@@ -1,0 +1,154 @@
+schema_version: forprint_telegram_bot_long_running_portfolio_reconciliation_v0_1
+terminal_anchor: '2026-07-29'
+reconciled_on: '2026-09-22'
+source_identity:
+  uploaded_filename: Asistant_Telegram_Bot_13.10.26.mhtml
+  primary_mhtml_sha256: 14c1e806fc913764c49658eaaca84262fbd4a189489863f45b0cc3baaec1a264
+  dftb_archive_sha256: 4886ad6d6f5fa588f62f282d484dee843570e7787df0fa8bcea4972ad36b5654
+  master_memory_v3_1_archive_sha256: 8069f0bbb97214a75720068be8e0a8c332ad17be895d7f6071a4cae640075c7d
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v3_1_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v3_1_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_date_trusted: false
+  filename_label: '2026-10-13'
+  mhtml_export_saved: Tue, 15 Sep 2026 14:27:07 +0300
+  terminal_visible_checkpoint: 2026-07-29 governance completion packet / dcd2b01
+  logical_position: Long-running Telegram history ending at governance-baseline closeout before later August/September
+    portfolio architecture work.
+source_quality:
+  classification: LARGE_SPARSE_LONG_RUNNING_ATTACHMENT_HEAVY_SOURCE
+  primary_turn_containers: 144
+  primary_message_roles:
+    user: 115
+    assistant: 42
+  normalized_items: 38
+  evidence_records: 42
+  relations: 10
+  anomalies: 10
+  open_loops: 8
+  artifact_reference_events: 317
+  attachment_bodies_complete: false
+  cyrillic_loss: false
+  implementation_verification_performed: false
+reuse_first_findings:
+- topic: behavior_model_before_runtime
+  item_refs:
+  - IT-TG1310-0001
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED
+- topic: low_confidence_escalation
+  item_refs:
+  - IT-TG1310-0002
+  - IT-TG1310-0004
+  classification: REUSE
+  reuse_target: telegram_bot_ai_escalation_pipeline_v0_1
+  disposition: NO_DUPLICATE
+- topic: historical_supabase_deberta_mistral_stack
+  item_refs:
+  - IT-TG1310-0003
+  - IT-TG1310-0023
+  classification: ADAPT
+  disposition: Historical implementation lineage only. Current provider/model/database authority requires live repo
+    and current architecture verification.
+- topic: customer_qualification_profile_enrichment
+  item_refs:
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_AND_CROSS_MODULE_CANDIDATE
+  current_boundary: Telegram collects/clarifies; CRM/identity owner validates and owns durable customer profile
+    truth.
+- topic: delivery_provider_execution
+  item_refs:
+  - IT-TG1310-0007
+  classification: REPLACE
+  disposition: SUPERSEDED_BY_LOGISTICS_SERVICE_OWNERSHIP
+  current_boundary: Telegram may collect delivery preference and render Logistics events; provider booking/routing/tracking
+    truth stays in Logistics Service.
+- topic: behavior_registry_operator_views
+  item_refs:
+  - IT-TG1310-0008
+  - IT-TG1310-0009
+  - IT-TG1310-0010
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_AND_DESIGN_CANDIDATE
+- topic: path_config_script_metadata
+  item_refs:
+  - IT-TG1310-0011
+  - IT-TG1310-0012
+  - IT-TG1310-0013
+  - IT-TG1310-0024
+  classification: REUSE
+  disposition: Reuse current configuration/script-metadata/repository-relative-path governance and the Telegram
+    ML path contract already captured from 14.10; no duplicate Telegram-only global standard.
+- topic: historical_classifier_template_inconsistency
+  item_refs:
+  - IT-TG1310-0014
+  - IT-TG1310-0015
+  classification: REUSE
+  disposition: Retain as negative evidence feeding existing ML quality/evaluation candidates; historical checkpoint
+    behavior is not current quality proof.
+- topic: artifact_false_success
+  item_refs:
+  - IT-TG1310-0018
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_POSTCONDITION_REQUIRED
+- topic: wizard_simulation_and_runtime_separation
+  item_refs:
+  - IT-TG1310-0019
+  - IT-TG1310-0020
+  - IT-TG1310-0021
+  - IT-TG1310-0022
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_AND_BEHAVIOR_RUNTIME_CANDIDATE
+- topic: git_make_blueprint_governance_adoption
+  item_refs:
+  - IT-TG1310-0025
+  - IT-TG1310-0026
+  - IT-TG1310-0027
+  - IT-TG1310-0028
+  - IT-TG1310-0029
+  - IT-TG1310-0030
+  - IT-TG1310-0031
+  - IT-TG1310-0032
+  - IT-TG1310-0035
+  - IT-TG1310-0036
+  - IT-TG1310-0037
+  classification: REUSE_GLOBAL_GOVERNANCE
+  disposition: Preserve as module-adoption history. Current Makefile functional-map policy, module-local evidence
+    ownership, truthful DEFERRED semantics and review/acceptance separation are governed globally.
+- topic: historical_feature_branch_closeout
+  item_refs:
+  - IT-TG1310-0033
+  - IT-TG1310-0034
+  - IT-TG1310-0036
+  classification: HISTORICAL_ENDPOINT
+  disposition: dcd2b01 / pushed clean / READY_FOR_BLUEPRINT_REVIEW is historical evidence only. This intake does
+    not claim later merge/acceptance/current branch fate.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  reuse_targets:
+  - telegram_bot_personalized_communication_orchestration_v0_1
+  - telegram_bot_customer_context_consumption_v0_1
+  - telegram_bot_structured_clarification_workspace_v0_1
+  - telegram_bot_ai_escalation_pipeline_v0_1
+  - telegram_bot_logistics_command_intake_preview_v0_1
+  - telegram_bot_logistics_notification_surface_v0_1
+  new_candidates:
+  - telegram_behavior_specification_runtime_boundary
+  - telegram_customer_qualification_profile_enrichment
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: The source exposes two meaningful gaps, but live Telegram behavior artifacts/runtime, CRM writable-profile
+    contracts and remaining source reconciliation are required before canonical roadmap insertion.
+master_memory_relationship:
+  uploaded_master: v3.1
+  v3_1_role: historical_derived_navigation_archive
+  v3_1_contains_this_dftb: true
+  v3_1_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

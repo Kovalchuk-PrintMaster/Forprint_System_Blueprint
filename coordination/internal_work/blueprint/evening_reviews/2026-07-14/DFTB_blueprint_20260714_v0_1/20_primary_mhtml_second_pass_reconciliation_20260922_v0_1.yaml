@@ -1,0 +1,219 @@
+schema_version: forprint_blueprint_20260714_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Forprint_Development - Forprint_System_Blueprint_14.07.26.mhtml
+  sha256: be4f9a7b332a1f078f96db0e4f9536a391ba6e08d1585df22598516760e12a25
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-07-14
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-07-14/DFTB_blueprint_20260714_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_VIRTUALIZED_CHAT_SNAPSHOT
+  total_turn_containers_from_existing_intake: 877
+  recoverable_turns_from_existing_intake: 133
+  recoverable_message_blocks_from_existing_intake:
+    user: 131
+    assistant: 4
+  lossy_cyrillic_after_correct_mime_decode: false
+  limitation: >
+    The MHTML encoding is valid and recoverable text is UTF-8-clean. The real limitation
+    is chat-page virtualization/partial DOM capture: most historical turn containers do
+    not contain recoverable message text, and assistant-side narrative is especially
+    sparse. Missing assistant reasoning must not be reconstructed by guesswork.
+  safe_to_use_for:
+    - exact source identity
+    - recoverable owner intent and corrections
+    - surviving assistant architecture proposals
+    - chronology and explicit named artifacts where present
+    - architecture-genesis provenance
+  unsafe_to_use_for:
+    - reconstructing absent assistant replies
+    - treating historical role proposals as current ownership authority
+    - projecting historical lifecycle/priority statements into current runtime state
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - Blueprint as top-level architectural/ideological coordination layer
+    - automation of print-shop operations as long-term north star
+    - Project Inspector as separate planned module
+    - Calculator, Telegram, Library, Website, Gateway and registry role genesis
+    - 1C interoperability as fundamental integration direction
+    - Website should not hard-own customer data
+    - controlled AI/tool permissions
+    - per-module manifest / discoverability direction
+    - Blueprint changes trigger affected-module review
+    - architecture decisions should be versioned in Git/ADR-like surfaces
+    - start with text/machine architecture before visual-editor ambitions
+    - generate module guidance from architecture truth
+    - Accounting Registry vs Operational Registry role ambiguity as historical open question
+    - Calculator and Telegram as historical priority fronts
+    - bounded temporary Calculator catalog as delivery aid
+    - coherent work packages rather than excessive micro-prompts
+    - durable prioritized execution queue
+    - assistants discover newly active directives
+    - Makefile lint/autofix pre-step
+    - Strategic Control Plane as separate planned component
+    - harvest proven prompt-reading mechanics without cloning one universal script
+    - continuous standards awareness
+    - completion packet tooling
+    - prefer project-relative paths
+    - avoid duplicate coordination paths
+    - automate reporting updates
+    - common assistant rules are global
+    - archive/close executed prompt drafts
+    - roadmap state must be explicitly maintained
+    - Logistics as historical assistant-workflow pilot
+    - living assistant productivity/operating standard
+    - gradual assistant rollout and coordination-overhead reduction
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: architecture_genesis_role_evolution
+    source_items:
+      - IT-BP1407-0001
+      - IT-BP1407-0003
+      - IT-BP1407-0004
+      - IT-BP1407-0005
+      - IT-BP1407-0006
+      - IT-BP1407-0007
+      - IT-BP1407-0013
+      - IT-BP1407-0015
+      - IT-BP1407-0022
+      - IT-BP1407-0029
+    existing_reconciliation_artifact: coordination/internal_work/blueprint/evening_reviews/2026-07-14/DFTB_blueprint_20260714_v0_1/18_architecture_genesis_role_evolution_map_v0_1.yaml
+    rule: >
+      Preserve these statements as role-genesis provenance. Later canonical module
+      policies, target states and current repository evidence own present boundaries.
+      Early architecture must explain evolution, not overwrite current ownership.
+    action: NO_DUPLICATE
+
+  - topic: living_assistant_standard_to_current_bootstrap_and_context
+    source_items:
+      - IT-BP1407-0031
+      - IT-BP1407-0032
+      - IT-BP1407-0033
+      - IT-BP1407-0034
+      - IT-BP1407-0035
+      - IT-BP1407-0038
+      - IT-BP1407-0039
+      - IT-BP1407-0043
+      - IT-BP1407-0046
+    source_rule: >
+      Common assistant behavior should be defined in shared project standards, improved
+      continuously from proven module practice and anti-patterns, expose standardized
+      interfaces rather than force one universal implementation, and reduce manual
+      coordination/rework.
+    current_connection:
+      - shared governance/standards surfaces
+      - module policy and instruction intake
+      - coordination/instruction_intake/assistant_reading_order.md
+      - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+      - assistant-context-pack
+      - completion/reporting protocols
+      - current bounded parallel-workstream onboarding snapshot design
+    authority_note: >
+      Shared assistant rules and context packages guide operation but do not confer
+      lifecycle, dispatch, release, acceptance or merge authority.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: directive_discovery_to_current_instruction_intake
+    source_items:
+      - IT-BP1407-0027
+      - IT-BP1407-0031
+    source_rule: >
+      Assistants should discover current directive/standard changes from governed
+      project sources rather than depend on every task prompt repeating the full policy.
+    current_connection:
+      - Blueprint prompt synchronization / instruction intake
+      - module received / active / archived prompt lifecycle
+      - module policy and governance checks
+      - zero-context bootstrap reading order
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: durable_queue_and_explicit_roadmap_to_current_execution_planning
+    source_items:
+      - IT-BP1407-0025
+      - IT-BP1407-0026
+      - IT-BP1407-0041
+    source_rule: >
+      Agreed work should live in an explicit durable roadmap/queue with meaningful
+      bounded work packages so commitments and sequencing do not disappear with chat
+      context.
+    current_connection:
+      - full-horizon module roadmaps
+      - roadmap/execution reconciliation
+      - append-only continuity/event state
+      - dependency/readiness planning
+      - Roadmap Enrichment / Knowledge Saturation
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: reporting_automation_to_generated_coordination_surfaces
+    source_items:
+      - IT-BP1407-0032
+      - IT-BP1407-0038
+    source_rule: >
+      Completion/report updates should be automated where possible instead of requiring
+      repeated manual edits across many coordination files.
+    current_connection:
+      - completion packet/report automation
+      - generated indexes and projections
+      - current-status/report surfaces
+      - machine-discoverable completion evidence
+    safety_note: >
+      Automation must preserve declared authority boundaries; generated outputs are
+      derived evidence/projections unless a canonical contract explicitly grants
+      stronger authority.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: makefile_historical_origin_and_current_operator_extension
+    source_items:
+      - IT-BP1407-0028
+    historical_source_rule: >
+      Blueprint's standard Makefile workflow should include a safe Ruff autofix/check
+      pre-step where appropriate.
+    historical_scope: NARROW_TOOLING_RULE
+    current_operator_extension_20260922:
+      status: PENDING_CONSOLIDATED_PROJECT_RULE_UPDATE
+      source: CURRENT_OPERATOR_DECISION_NOT_14_07_HISTORICAL_EVIDENCE
+      rule: >
+        Treat Makefile as an operator-facing functional map of the project. Supported
+        functionality with an operator workflow should be represented in the correct
+        Makefile section; newly implemented or newly discovered supported functionality
+        should trigger Makefile coverage review; obsolete targets for functionality that
+        no longer exists should be removed.
+      relation_to_historical_rule: EXTENDS_BUT_DOES_NOT_DERIVE_FROM_IT
+      mutation_in_this_second_pass: none
+    action: RECORD_SCOPE_SEPARATION_ONLY
+
+  - topic: historical_logistics_assistant_pilot
+    source_items:
+      - IT-BP1407-0042
+      - IT-BP1407-0043
+    source_rule: >
+      Logistics was proposed as a young controlled module for testing assistant workflow
+      and harvesting reusable practices before generalization.
+    current_reconciliation: >
+      Preserve as historical pilot provenance. It does not define current active work,
+      dispatch authority or current Logistics lifecycle state.
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required_from_14_07_source: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  current_operator_makefile_rule_pending_consolidated_apply: true
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - corrected source-quality classification: UTF-8 is intact; missing content is virtualized/partial DOM capture
+    - provenance bridge from living assistant standard to current shared bootstrap/context architecture
+    - provenance bridge from directive discovery to current instruction-intake discipline
+    - provenance bridge from durable queue/explicit roadmap to current roadmap-execution reconciliation
+    - provenance bridge from reporting automation to current generated coordination surfaces
+    - explicit separation between narrow historical Makefile rule and broader current operator functional-map rule

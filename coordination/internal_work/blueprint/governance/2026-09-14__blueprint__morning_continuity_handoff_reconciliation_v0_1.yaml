@@ -1,0 +1,72 @@
+schema_version: forprint_morning_continuity_handoff_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  evidence_id: forprint_morning_continuity_handoff_reconciliation_v0_1
+  created_at: '2026-09-14'
+  source_head: 4739fdcd8b213814f8440dd6a6681f596d8da456
+  status: ACCEPTED_OPERATOR_RECONCILIATION
+status: ACCEPTED_OPERATOR_RECONCILIATION
+date: '2026-09-14'
+project: forprint_system_blueprint
+authority: DURABLE_GOVERNANCE_AND_ROADMAP_INPUT_NOT_EXECUTION_AUTHORITY
+canonical_execution_boundary:
+  roadmap_id: control_foundation_near_horizon
+  step_id: CF-05
+  work_id: u180e
+  expected_lifecycle_state: ACTIVE
+  expected_lifecycle_sequence: 42
+  expected_previous_step: CF-04
+  expected_current_step: CF-05
+  expected_next_step: CF-06
+  expected_ready_step: CF-06
+  roadmap_sync_required: IN_SYNC
+accepted_lessons:
+- id: POST_CANONICAL_MUTATION_DERIVATION_REFRESH
+  statement: After every canonical mutation, affected generated projections/indexes
+    must be rebuilt before downstream validators or gates consume them.
+  roadmap_owners:
+  - CF-07
+- id: STALE_VS_CONFLICT_CLASSIFICATION
+  statement: A stale generated artifact is not the same failure class as a canonical
+    execution conflict; validators and recovery must distinguish them.
+  roadmap_owners:
+  - CF-07
+- id: STATE_AWARE_CONTINUATION
+  statement: If a prior attempt already appended an immutable lifecycle event or applied
+    a bounded canonical mutation, later execution resumes from the latest durable
+    stage rather than replaying that action.
+  roadmap_owners:
+  - CF-05
+  - CF-07
+- id: FRESH_ASSISTANT_RESUME_COORDINATES
+  statement: Fresh-assistant handoff must expose reconciled lifecycle/roadmap cursor
+    and resume coordinates and fail closed on required stale context.
+  roadmap_owners:
+  - CF-08
+startup_and_handoff_model:
+  mandatory_entry: coordination/bootstrap/START_HERE.md
+  agents_entry: AGENTS.md
+  broad_project_context_compatibility: make assistant-context-pack
+  deterministic_continuity_handoff: make assistant-pack
+  deterministic_handoff_validation: make assistant-handoff-check
+  strict_task_context: scripts/coordination/build_context_bundle.py --task-context
+  legacy_current_handoff_path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  legacy_current_handoff_is_current_execution_authority: false
+  chat_is_execution_authority: false
+authority_separation:
+  roadmap_spec: DESIRED_PLAN_AUTHORITY
+  lifecycle_event_store: ACTUAL_EXECUTION_AUTHORITY
+  work_front: EXECUTION_CONTRACT_AUTHORITY
+  generated_projections: NON_AUTHORITATIVE_DERIVED_STATE
+  assistant_handoff_pack: NON_AUTHORITATIVE_DERIVED_HANDOFF
+scope_exclusions:
+- no lifecycle transition
+- no CF-05 checkpoint/validation/close
+- no CF-06 activation
+- no worker dispatch
+- no release
+- no foreign repository write
+- no Blueprint AI trial
+next_action_after_reconciliation: Regenerate CF-05 implementation preflight against
+  the amended roadmap, then continue durable Workfront History + Execution Attempt
+  Ledger implementation.

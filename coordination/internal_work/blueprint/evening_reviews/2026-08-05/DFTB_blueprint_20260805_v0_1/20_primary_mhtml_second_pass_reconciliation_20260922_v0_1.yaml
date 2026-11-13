@@ -1,0 +1,186 @@
+schema_version: forprint_blueprint_20260805_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-08-05
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_PARTIAL_WITH_LOSSY_CYRILLIC_RENDERING
+  retained_turns_from_existing_intake: 107
+  text_bearing_turns_from_existing_intake: 107
+  message_blocks_from_existing_intake:
+    user: 103
+    assistant: 4
+  artifact_labels_from_existing_intake: 92
+  limitation: >
+    The supplied MHTML contains extensive Unicode replacement characters in rendered
+    Cyrillic spans. Exact corrupted wording must not be reconstructed. Paths, hashes,
+    counts, ASCII technical tokens, commands and recoverable structured evidence
+    remain usable. Historical PASS/READY/ACTIVE labels are not current runtime proof.
+  safe_to_use_for:
+    - exact source identity
+    - commands, paths, hashes, counts and ASCII technical tokens
+    - surviving artifact and execution chronology
+    - cross-checking normalized DFTB items
+  unsafe_to_use_for:
+    - invented reconstruction of corrupted Cyrillic quotations
+    - current implementation claims without live-repository verification
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - Repository Knowledge must be evidence-backed rather than scaffolding/file coverage
+    - confidence, provenance and unknown/conflicting knowledge stay explicit
+    - bounded external semantic assessment tied to request identity and checksum
+    - downloadable reports use project-local temporary workspace
+    - module assistants use module-owned scripts
+    - Blueprint inspects modules through Blueprint-owned tooling
+    - module completion updates status and produces evidence
+    - read-only checks must not be disguised mutations
+    - clean target architecture may supersede awkward legacy command behavior
+    - worktree/copy identity must be unambiguous
+    - completion-intake and acceptance-gate origins
+    - pilot and wider rollout remain separately authorized
+    - Blueprint needs discoverable status/prompts/reports surfaces
+    - governance workflow must be stable and unambiguous
+    - validator behavior is a contract
+    - mutation builder is bounded, fail-closed and rollback-aware
+    - transparency/status surfaces expose phase blockers boundaries dependencies and next action
+    - validation/readiness and authorization are distinct states
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: module_owned_execution_blueprint_owned_inspection_origin
+    source_items:
+      - IT-BP0508-0012
+      - IT-BP0508-0013
+      - IT-BP0508-0014
+      - IT-BP0508-0015
+    source_rule: >
+      Module assistants execute module work through module-owned workflow/tooling,
+      while Blueprint performs portfolio/coordination inspection through Blueprint-owned
+      tooling and consumes explicit completion evidence.
+    first_pass_status: EXPLICITLY_CAPTURED
+    current_connection:
+      - module-local governance and prompt intake
+      - Blueprint control-plane / project-inspection surfaces
+      - completion intake and repository-owned evidence exchange
+      - parallel-workstream collision boundaries
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: read_only_vs_mutation_command_semantics_origin
+    source_items:
+      - IT-BP0508-0004
+      - IT-BP0508-0016
+      - IT-BP0508-0017
+    promoted_human_intent: HI-FP-ORIGIN-20260805-002
+    source_rule: >
+      A command presented as check/status must remain read-only; durable mutation or
+      authority change must be explicit in command semantics and governed separately.
+    current_connection:
+      - Make operator command contracts
+      - explicit mutation tooling
+      - current assistant-context-pack as navigation/context generation only
+      - validation does not grant execution authority
+    action: NO_DUPLICATE
+
+  - topic: repository_knowledge_to_current_knowledge_saturation_origin
+    source_items:
+      - IT-BP0508-0001
+      - IT-BP0508-0002
+      - IT-BP0508-0003
+      - IT-BP0508-0008
+      - IT-BP0508-0009
+      - IT-BP0508-0010
+    promoted_human_intent: HI-FP-ORIGIN-20260805-001
+    source_rule: >
+      Repository knowledge is meaningful only when it represents evidence-backed
+      understanding with provenance/confidence and explicit unknowns, rather than
+      templates or file-presence coverage.
+    current_connection:
+      - Portfolio Knowledge Baseline
+      - Roadmap Enrichment / Knowledge Saturation
+      - Human Intent provenance
+      - Master Memory truth-layer separation
+      - Gate A structural coverage
+      - Gate B capability retrieval challenge
+    action: NO_DUPLICATE
+
+  - topic: transparency_and_handoff_to_current_context_bootstrap
+    source_items:
+      - IT-BP0508-0022
+      - IT-BP0508-0033
+      - IT-BP0508-0034
+      - IT-BP0508-0035
+      - IT-BP0508-0036
+      - IT-BP0508-0038
+      - IT-BP0508-0040
+    source_intent: >
+      Blueprint needs explicit current-state/status/index surfaces and a handoff that
+      exposes phase, blockers, boundaries, dependencies, forward context, next action
+      and a deterministic reading path; green validation must remain separate from
+      authorization.
+    first_pass_status: NORMALIZED_AND_MAPPED_TO_LATER_SURFACES
+    current_reconciliation:
+      status: MATERIALIZED_AND_EXTENDED
+      current_surfaces:
+        - coordination/instruction_intake/assistant_reading_order.md
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - coordination/bootstrap/START_HERE.md
+        - Makefile::assistant-context-pack
+        - scripts/coordination/build_project_context_archive.py
+        - tests/coordination/test_blueprint_context_pack_default_v0_1.py
+      validated_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+        - MANIFEST_SEMANTIC_DISCOVERY=true
+        - SCRIPT_DELIVERY_INTEGRITY=PASS
+      parallel_workstream_extension: >
+        A separate contract has now been handed to the active parallel assistant to
+        populate a bounded current-workstream snapshot for future assistant onboarding.
+        This artifact records the architectural lineage only and does not assume that
+        snapshot integration is already applied.
+      authority_note: >
+        Bootstrap/context surfaces are navigation and current-work context. They do
+        not grant roadmap, lifecycle, dispatch, release, acceptance, commit, push or
+        merge authority.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: validation_not_authorization_origin
+    source_items:
+      - IT-BP0508-0020
+      - IT-BP0508-0021
+      - IT-BP0508-0040
+    promoted_human_intent: HI-FP-ORIGIN-20260805-004
+    source_rule: >
+      Passing validators or canonical gates does not silently authorize a pilot,
+      rollout, release or wider autonomy.
+    current_connection:
+      - Control Foundation authority gates
+      - Dispatcher activation boundaries
+      - operator ACCEPT/RETURN/HOLD and release authority
+      - assistant-context-pack non-authority rule
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - lossy-rendering provenance limitation
+    - explicit early origin bridge for module-owned execution versus Blueprint-owned inspection
+    - explicit early origin bridge from transparency/handoff requirements to current validated assistant bootstrap/context package

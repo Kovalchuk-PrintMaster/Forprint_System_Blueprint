@@ -1,0 +1,118 @@
+work_front_id: wf-cf10-planning-projection-cursor-sync-audit-v0-1
+objective: >-
+  Verify the existing Blueprint NEXT_HORIZON and roadmap execution reconciliation
+  chain against canonical roadmap plus append-only continuity events. Prove
+  deterministic stale-detection, exact refresh, transition and consumer-freshness
+  behavior before making any code changes. Repair only an evidenced gap within
+  the existing Blueprint continuity adapter if the tests show one.
+scope:
+  - scripts/coordination/blueprint_continuity_adapter_v0_1.py
+  - tests/validation/test_continuity_projections_v0_1.py
+  - tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+  - tests/validation/test_assistant_handoff_compiler_v0_1.py
+exclusions:
+  - Do not create a second NEXT_HORIZON generator, projection store, task status registry, or reconciliation runtime.
+  - Do not change scripts/coordination/roadmap_execution_reconciliation.py or scripts/coordination/build_continuity_projections.py without a separately approved scope revision.
+  - Do not change Makefile, indexes, generator registries, global policy, training queue, or any roadmap specification in this Worker slice.
+  - Do not modify continuity event records, execution attempts, accepted Worker results, historical decisions, or publication evidence.
+  - Do not modify coordination/continuity/projections or coordination/roadmap_execution/projections as tracked sources; generated refresh is separately governed.
+  - Do not silently run refresh as a side effect of a check or treat generated projections as execution authority.
+  - Do not require pristine Git; preserve existing 20 unrelated dirty paths and their exact bytes.
+  - Do not modify GDL, Prepress Hub, or another ForPrint module repository.
+  - Do not launch, retry, dispatch, auto-ACCEPT, promote, commit, push, merge, or release another Worker.
+  - Do not infer that Task70 ACCEPT equals a CF-10 work lifecycle closure or a Task80 dispatch authorization.
+provenance:
+  source_refs:
+    - roadmap:control_foundation_near_horizon/CF-10
+    - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+    - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+    - training_task:planning_projection_cursor_sync_audit
+    - accepted_attempt:cf10-u180j-a040
+    - operator_decision:coordination/continuity/worker_result_decisions/cf10-u180j-a040-postcommit-accept-20261010__0c4744a32719.yaml
+    - reviewed_worker_commit:21b01fad19a5c11359e7f85e9a7059a53768300d
+    - owner_direction:coordination/internal_work/blueprint/governance/2026-10-11__blueprint__cf10_owner_discussion_reconciliation_v0_1.yaml
+    - scripts/coordination/roadmap_execution_reconciliation.py
+    - scripts/coordination/blueprint_continuity_adapter_v0_1.py
+    - scripts/coordination/build_continuity_projections.py
+    - tests/validation/test_continuity_projections_v0_1.py
+    - tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+    - coordination/registry/execution_dependency_registry_v0_1.yaml
+    - make:roadmap-sync-check
+    - make:continuity-projections-check
+  chat_is_authority: false
+dependencies:
+  - Task70 accepted Worker attempt cf10-u180j-a040 is bound to its exact Work Front and operator ACCEPT, and its required evidence SHA-256 checks passed on s01 on 2026-10-11.
+  - CF-10 work u180j remains ACTIVE; do not append a WORK_CLOSED event for the broader CF-10 contour.
+  - Roadmap reconciliation reports IN_SYNC at continuity event sequence 67; event store validation reports PASS.
+  - Existing roadmap projection check demonstrated PASS with 15 tests; continuity projection refresh then check demonstrated PASS with 13 tests.
+  - Existing NEXT_HORIZON already derives from roadmap_execution_reconciliation.compute, carries roadmap SHA and event sequence, and is not authoritative.
+  - Task current-state relevance is re-evaluated immediately before materialization and before execution; these historical facts are not an unlimited freshness waiver.
+  - Preserve the single active writable actor per module repository; use an isolated Worker workspace for test-driven execution.
+outputs:
+  - A current-state capability inventory mapping every Task80 acceptance criterion to existing production code, test evidence, or a precise missing test/behavior.
+  - Isolated deterministic tests showing roadmap revision and new continuity event can stale existing derived projections, without changing canonical sources in the real repo.
+  - Tests for non-mutating exact checks, explicitly authorized refresh, and unchanged generated-only/manual-edit-forbidden/no-auto-dispatch authority semantics.
+  - Proof that NEXT_HORIZON reflects the current roadmap execution cursor, including sequence, SHA, current and next step and action ordering.
+  - Proof that Handoff compilation derives current horizon rather than silently treating a saved stale YAML file as authority.
+  - At most one minimal adapter repair within the declared scope, and only after a demonstrated failing semantic test; otherwise an ALREADY_VERIFIED/NO_PRODUCTION_CHANGE result with evidence.
+  - A Worker/Handoff result with exact changed-path list, test outcomes, hashes, blockers and any explicitly deferred gaps.
+acceptance:
+  - Before Worker mutation, confirm Task70 evidence, current-state relevance, roadmap IN_SYNC, fresh source fingerprint and protected dirty baseline.
+  - All Task80 existing surfaces have REUSE or EXTEND evidence; no competing planning engine is introduced.
+  - A synthetic roadmap change and a synthetic event transition each cause stale output detection against the previous projection snapshot.
+  - Exact check never alters canonical roadmap, events, current HEAD, or generated files; refresh is separate and explicitly invoked.
+  - Recomputing from unchanged sources is deterministic and converges to PASS after the authorized refresh.
+  - NEXT_HORIZON current/next/ready state and action list are derived from canonical roadmap and continuity events rather than checkpoint historical intent.
+  - Generated projection files remain non-authoritative, generated_only=true and manual_edit_forbidden=true; no auto-activation or dispatch capability is introduced.
+  - Handoff cannot silently reuse a stale persisted NEXT_HORIZON as present operational truth.
+  - Existing roadmap reconciliation and continuity projection validations remain passing, including prior regression tests.
+  - Test fixtures are isolated; no live event is appended, historical result altered, or existing dirty file overwritten.
+  - Only files in the four-path scope may be changed by the future Worker; if a fix requires another path, stop and request an exact-scope amendment.
+  - A verified no-code-change outcome is acceptable if all criteria already pass; operator review still governs any Task80 ACCEPT or training progression.
+  - No lifecycle/roadmap mutation, GDL change, cross-module write, Worker launch, automatic ACCEPT, commit, push, merge or release.
+stop_conditions:
+  - Current source differs from the freshly reviewed execution/dirty baseline without a new controlled relevance review.
+  - Task70 accepted evidence is missing, contradictory or source bindings no longer validate.
+  - Roadmap or lifecycle is stale, conflicting or unknown at preparation or execution boundary.
+  - Another active canonical writable actor owns this module repository.
+  - The requested behavior is already proved and proposed code changes would only duplicate existing capability.
+  - A repair needs an additional write path, modifies semantics outside Task80, or touches protected dirty paths.
+  - An auto-refresh side effect would mask stale projection state or grant execution/dispatch authority.
+  - The test scenario requires changing real continuity events rather than fixture copies.
+  - A future Worker return lacks valid attempt-bound machine-readable result evidence.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/blueprint_continuity_adapter_v0_1.py
+    - tests/validation/test_continuity_projections_v0_1.py
+    - tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+    - tests/validation/test_assistant_handoff_compiler_v0_1.py
+  read_only_refs:
+    - scripts/coordination/roadmap_execution_reconciliation.py
+    - scripts/coordination/build_continuity_projections.py
+    - coordination/continuity/projections/NEXT_HORIZON.yaml
+    - coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+    - coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+    - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  searched_surfaces:
+    - scripts/coordination/blueprint_continuity_adapter_v0_1.py
+    - scripts/coordination/build_continuity_projections.py
+    - scripts/coordination/roadmap_execution_reconciliation.py
+    - tests/validation/test_continuity_projections_v0_1.py
+    - tests/validation/test_continuity_projection_dependency_registration_v0_1.py
+    - tests/validation/test_roadmap_execution_reconciliation_v0_1.py
+    - tests/validation/test_assistant_handoff_compiler_v0_1.py
+    - coordination/registry/generator_derivation_registry_v0_1.yaml
+    - coordination/registry/execution_dependency_registry_v0_1.yaml
+    - Makefile
+  rationale: >-
+    Reuse the existing event-sourced reconciliation, NEXT_HORIZON adapter and exact
+    projection checks. Extend tests first, and change only the existing adapter
+    when a demonstrated requirement is missing. No new subsystem is justified.

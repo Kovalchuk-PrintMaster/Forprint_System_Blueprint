@@ -1,0 +1,626 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-09
+warning: Historical intent is not current authority.
+queue:
+- item_id: IT-BP0909-0001
+  title: Release authority first
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0909-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0002
+  title: Generated task context preferred
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - context_compiler
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0003
+  title: Fail closed on missing evidence
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - release
+  - coordination
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0004
+  title: Unique archive names
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - handoff
+  - tooling
+  verification_targets:
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0909-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0005
+  title: Durable module self-knowledge
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - module_self_knowledge
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0909-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0006
+  title: Fresh worker per substantial prompt
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - worker_runtime
+  verification_targets:
+  - code
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0909-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0007
+  title: Generated strong worker snapshot
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - context_compiler
+  - worker_runtime
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0012
+  - EV-BP0909-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0008
+  title: Manual pilot before widening
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - automation_pilot
+  verification_targets:
+  - operations
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0009
+  title: Automatic within-pool loop
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP0909-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0010
+  title: Manual major-pool acceptance
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - operator_approval
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0909-0015
+  - EV-BP0909-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0011
+  title: Listener/dispatcher ownership
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - listener_dispatcher
+  verification_targets:
+  - docs
+  - code
+  - config
+  evidence_refs:
+  - EV-BP0909-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0012
+  title: Durable documentation of agreements
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - documentation
+  - governance
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0909-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0013
+  title: Clean nested repository structure
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - repository_structure
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0909-0018
+  - EV-BP0909-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0014
+  title: Blueprint avoids foreign-repo Git repair
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_repositories
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0909-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0015
+  title: Module-local baseline preflight
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - git_workflow
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0909-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0016
+  title: Automated inventory/index maintenance first
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - module_self_knowledge
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0017
+  title: Single canonical startup entry
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0909-0023
+  - EV-BP0909-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0018
+  title: Old continuity START_HERE becomes history
+  importance: critical
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - history
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0909-0024
+  - EV-BP0909-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0019
+  title: Stable mission separated from history
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - global_policy
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0909-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0020
+  title: Broad default context
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - context_compiler
+  - bootstrap
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0021
+  title: History excluded from default context
+  importance: high
+  dialogue_status: discussed
+  confidence: high
+  owner_or_domain:
+  - context_compiler
+  - knowledge
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0022
+  title: Task Context Compiler
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - task_context_compiler
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0037
+  - EV-BP0909-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0023
+  title: Operator Approval Gateway
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - operator_approval
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0039
+  - EV-BP0909-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0024
+  title: Console Worker Adapter
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - worker_runtime
+  - console_adapter
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0041
+  - EV-BP0909-0042
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0025
+  title: Central Listener / Dispatcher / Monitor
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - listener_dispatcher
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0043
+  - EV-BP0909-0044
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0026
+  title: Completion Intake + Inspector Conformance
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - completion_intake
+  - forprint_project_inspector
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0045
+  - EV-BP0909-0046
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0027
+  title: Approval-gated Logistics pilot preflight
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - logistics_service
+  - operator_approval
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0047
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0028
+  title: Prompt-scoped dependency readiness
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - dependency_readiness
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0048
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0029
+  title: Module bootstrap execution policy
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - bootstrap
+  - portfolio
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0049
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0030
+  title: Bootstrap task-context mode
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - bootstrap
+  - task_context_compiler
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0050
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0031
+  title: Worker runtime profile
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - worker_runtime
+  - governance
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0051
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0032
+  title: Project Inspector registry binding
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - forprint_project_inspector
+  - module_registry
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0052
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0033
+  title: Versioned Logistics bootstrap prompt
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - logistics_service
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0053
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0034
+  title: Self-knowledge / roadmap reconciliation
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - module_self_knowledge
+  - roadmap
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0054
+  - EV-BP0909-0055
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0035
+  title: Module preparation registry / queue
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - portfolio
+  - module_registry
+  - queue
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0056
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0036
+  title: Inspector provisioning gap resolution
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - forprint_project_inspector
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0057
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0037
+  title: Zero-context startup authority audit
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0909-0058
+  - EV-BP0909-0059
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0038
+  title: u175 safe failure and rollback
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0909-0030
+  - EV-BP0909-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.
+- item_id: IT-BP0909-0039
+  title: u175a rerun prepared
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0909-0032
+  - EV-BP0909-0060
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/owner first; verify in current code/tests/config/docs/runtime. Filename evidence alone is insufficient.

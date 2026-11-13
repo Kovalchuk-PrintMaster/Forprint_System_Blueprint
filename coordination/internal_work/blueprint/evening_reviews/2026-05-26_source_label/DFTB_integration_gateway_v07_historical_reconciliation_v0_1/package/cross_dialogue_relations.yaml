@@ -1,0 +1,47 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-integration-gateway-source-label-2026-05-26
+authority_class: module_history_non_blueprint_authority
+relations:
+- type: implements_bootstrap_intent_from
+  from_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: Gateway source begins with a Blueprint-style clean bootstrap and later standards visibility; 14.07 Blueprint architecture explicitly says to bootstrap
+    Gateway if absent.
+- type: precedes_refinement_by
+  from_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  to_bundle: DFTB-blueprint-preflight-2026-08-31
+  confidence: HIGH
+  note: Later Blueprint formalizes Contract Registry as agreement authority and Gateway as runtime validator/router, refining the early open contract-id
+    question.
+- type: supports_domain_boundary_of
+  from_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  to_bundle: DFTB-operational-registry-source-label-2026-05-29
+  confidence: HIGH
+  note: Operational Registry source independently says Gateway routes runtime commands rather than owning operational truth.
+item_relations:
+- type: supports
+  from_item: IT-GW2605-0001
+  to_item: IT-BP3108-0030
+  confidence: HIGH
+  note: Early Gateway role already matches later runtime validation/routing responsibility.
+- type: refined_by
+  from_item: IT-GW2605-0006
+  to_item: IT-BP3108-0029
+  confidence: HIGH
+  note: Early contract authority question is resolved later by dedicated Contract Registry ownership of versioned agreements.
+- type: supports
+  from_item: IT-GW2605-0022
+  to_item: IT-BP1407-0004
+  confidence: HIGH
+  note: Gateway does not make business workflow decisions; CRM/business orchestration remains separate.
+- type: supports
+  from_item: IT-GW2605-0001
+  to_item: IT-OPREG2905-0027
+  confidence: HIGH
+  note: Both module histories separate Gateway runtime routing from operational truth ownership.
+- type: supports
+  from_item: IT-GW2605-0020
+  to_item: IT-LIB0507-0026
+  confidence: HIGH
+  note: Module-local review readiness/completion remains separate from Blueprint acceptance.

@@ -1,0 +1,214 @@
+schema_version: forprint_cf10_worker_invocation_bridge_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: CF-10
+contour: CF10_WORKER_INVOCATION_BRIDGE
+title: worker_validation_mcp_invocation_bridge
+status: FROZEN_FOR_BOUNDED_BRIDGE_SLICE
+source_head: bb4ffeaa584e52b642b9f8a7d6822c4a6e2efd53
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+roadmap_position:
+  classification: ACTIVE_TASK70_BLOCKER_REPAIR
+  active_task: validation_check_pipeline_profile_and_optimization
+  active_task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  blocked_attempt: cf10-u180j-a028
+  roadmap_advancement_performed: false
+  a029_create_or_launch_now: false
+  oc01_reactivated: false
+  reason: Repair the second prerequisite of the already-active Task70 corridor by exposing only the registered validation_suite
+    capability to the Worker through a bounded session-only MCP transport.
+trigger:
+  attempt_id: cf10-u180j-a028
+  attempt_terminal_state: BLOCKED
+  attempt_publication_commit: 8007618ceaa3dd1c37d89692197dd6af6acf4859
+  worker_changed_path_count: 0
+  blocking_fact: VALIDATION_COMMAND_EXECUTION_UNAVAILABLE_TO_WORKER
+  foundation_implementation_commit: f8d1b3e26538b9c94e37caff042d1300b55cf5c3
+  foundation_closeout_commit: bb4ffeaa584e52b642b9f8a7d6822c4a6e2efd53
+  foundation_completion: coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_foundation_completion_v0_1.yaml
+runtime_observations:
+  github_copilot_cli_version: 1.0.88
+  additional_mcp_config_supported: true
+  available_tools_supported: true
+  allow_tool_supported: true
+  disable_builtin_mcps_supported: true
+  local_stdio_mcp_supported: true
+  python_mcp_sdk_present_before_slice: false
+  dependency_resolution_probe:
+    command: .venv_blueprint/bin/python -m pip install --dry-run 'mcp>=2.3,<3'
+    result: PASS
+    resolved_mcp_version: 2.3.0
+    environment_mutated: false
+    pip_check_before_probe: PASS
+architecture_decision:
+  transport: MCP_STDIO_SESSION_ONLY
+  transport_owner: CF10_CONTROL_PLANE
+  sdk_dependency: mcp>=2.3,<3
+  manual_mcp_protocol_implementation_allowed: false
+  persistent_user_mcp_config_allowed: false
+  workspace_mcp_config_allowed: false
+  additional_mcp_config_generated_per_attempt: true
+  shell: false
+  bash_available: false
+  arbitrary_shell_text_allowed: false
+  unrestricted_argv_passthrough_allowed: false
+  arbitrary_executable_selection_allowed: false
+  existing_worker_tools:
+  - view
+  - edit
+  - apply_patch
+  new_worker_tool: ForPrintValidation(run_validation_suite)
+  available_tool_universe_remains_explicit: true
+mcp_tool_contract:
+  server_name: ForPrintValidation
+  tool_name: run_validation_suite
+  worker_supplied_parameters:
+    required:
+    - suite_id
+    optional:
+    - require_tier
+    additional_properties: false
+  worker_forbidden_inputs:
+  - capability_id
+  - capability_version
+  - executable
+  - argv
+  - shell_text
+  - cwd
+  - execution_scope
+  - timeout_seconds
+  - evidence_destination
+  - consumer_id
+  - request_id
+  - execution_identity
+  - authorization_envelope
+  tool_result:
+    must_include:
+    - execution_id
+    - outcome
+    - return_code
+    - timed_out
+    - stdout_evidence
+    - stderr_evidence
+    - evidence_digest
+    stdout_stderr_diagnostics: BOUNDED_EXCERPT_ONLY
+    arbitrary_file_read: false
+    authority_fields_true: false
+attempt_session_binding:
+  startup_binding_owned_by: INVOCATION_ADAPTER
+  worker_cannot_override: true
+  bound_fields:
+  - attempt_id
+  - task_id
+  - work_front_id
+  - explicit_dispatch_decision_id
+  - workspace_repo
+  - external_evidence_root
+  workspace_repo: ATTEMPT_WORKSPACE_REPO
+  external_evidence_root: ATTEMPT_ROOT/evidence/structured_command
+  request_id_strategy: ATTEMPT_BOUND_SESSION_LOCAL_MONOTONIC_ORDINAL
+structured_executor_mapping:
+  backend: scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  capability_id: validation_suite
+  capability_version: 0.1.0
+  execution_scope_kind: GIT_REPOSITORY_ROOT
+  exact_cwd_source: BOUND_ATTEMPT_WORKSPACE_REPO
+  timeout_seconds: 900
+  timeout_worker_overridable: false
+  evidence_destination_source: BOUND_EXTERNAL_EVIDENCE_ROOT
+  consumer_id: cf10_worker_validation_mcp
+  execution_identity:
+  - attempt_id
+  - task_id
+  - work_front_id
+  - explicit_dispatch_decision_id
+  authorization_envelope:
+    schema_version: forprint_structured_execution_authorization_envelope_v0_1
+    decision: ALLOW_EXACT_STRUCTURED_EXECUTION
+    consumer_policy_validated: true
+    executor_grants_authority: false
+    canonical_write_allowed: false
+    safe_write_allowed: false
+    commit_allowed: false
+    push_allowed: false
+    merge_allowed: false
+    release_allowed: false
+    promotion_allowed: false
+    arbitrary_shell_allowed: false
+    all_execution_fields_exactly_bound: true
+dependency_decision:
+  canonical_source: pyproject.toml
+  classification: RUNTIME_DEPENDENCY
+  add_requirement: mcp>=2.3,<3
+  install_during_design_freeze: false
+  dependency_installation_before_tests: IMPLEMENTATION_PHASE_ONLY_AFTER_FREEZE_PUBLICATION
+bridge_slice:
+  implementation_write_set:
+  - pyproject.toml
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - Makefile
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  tests_first_required: true
+  acceptance:
+  - pyproject declares mcp>=2.3,<3 and environment resolves it
+  - MCP server exposes exactly one validation tool
+  - Worker controls only suite_id and optional require_tier
+  - attempt/workspace/evidence/identity/authorization are startup-bound and not Worker-overridable
+  - validation tool delegates only to registered validation_suite capability through structured_command_executor
+  - Copilot invocation injects session-only additional MCP config and exposes exactly the explicit bounded tool universe
+  - bash and arbitrary shell remain unavailable
+  - raw argv, arbitrary executable and arbitrary Make target remain unavailable
+  - structured executor, shared launcher, governed Worker cycle and capability registry remain unchanged
+  - MCP result returns bounded diagnostics plus canonical evidence references without authority widening
+  - focused MCP tests, invocation-adapter regression, structured-executor regression and launcher regression pass
+  - Makefile exposes one stable project-native bridge check/proof surface
+  - no real Worker retry a029 is created or launched
+  - OC01 remains paused
+deferred_required_before_task70_retry:
+- CF10_GOVERNED_WORKER_CONTEXT_DELIVERY
+task70_retry_gate:
+  next_attempt_candidate: cf10-u180j-a029
+  create_or_launch_now: false
+  requirements:
+  - shared executor foundation proven and published
+  - CF10 Worker invocation bridge proven and published
+  - governed Worker context delivery proven and published
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_retry_authority: false
+  automatic_dispatch_authority: false
+  automatic_promotion_authority: false
+  publication_authority: false
+audited_dependency_sha256:
+  pyproject.toml: 836f534b7467a84250fa33a7e1d60a8dcf5095c1e6e5cb086511cc4ed7aba66f
+  Makefile: a2a0f4926fa6a31357fb1386cf2c7fff327d6d1577be1a29aedd7290d510bc16
+  config/worker_runtime.yaml: ea2f0b2d97aa780d23caa6cbe97dfdccc15857f2e061a34f1f3d151e076ef46e
+  coordination/registry/worker_runtime_adapters_v0_1.yaml: 3a38725ab9beda4062382c25513e492b9d35ce18be92c9658d5f8a995532cea8
+  coordination/registry/structured_command_capabilities_v0_1.yaml: 58c3627cc617eb6215376433c96116bdf31dd028c40752eccc157277d6b1441e
+  scripts/coordination/control_plane/worker_runtime/registry.py: 153151093652d39df9e54c3ba6da12ecd6d60447d9665424563aa48cbadc036b
+  scripts/coordination/control_plane/worker_runtime/launcher.py: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+  scripts/coordination/control_plane/worker_runtime/invocation_adapter.py: 88385398c4a4602f975d78d9f6c31087ce17b2c559c089969636dc1b503df318
+  scripts/coordination/control_plane/worker_runtime/structured_command_executor.py: b40148b990d7b8334ec3d28531430b9aa5b6eba95a0e054e30c8f45dda578304
+  tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py: 9202e5c752e6290f65ffbaee32687f645e25763207c973c82c18f759389bbc35
+  ? coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_design_freeze_v0_1.yaml
+  : fa6823c91a8f26c36f0cd48c5db2f9f899a483dc9ba6ec1e85df2d5767654e06
+  ? coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_foundation_completion_v0_1.yaml
+  : 4246eb887d3d050bc1137621b10ac5f22c2fcebafe1399f0d89b0b998a0ad22e

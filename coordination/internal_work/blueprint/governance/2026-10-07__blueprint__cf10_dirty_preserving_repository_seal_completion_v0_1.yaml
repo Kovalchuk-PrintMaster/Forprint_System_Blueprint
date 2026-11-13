@@ -1,0 +1,139 @@
+schema_version: forprint_cf10_dirty_preserving_repository_seal_completion_v0_1
+layer: COMPLETION
+roadmap_position: PRE_A033_PROJECT_NATIVE_OPERATOR_HARDENING
+slice: CF10_DIRTY_PRESERVING_REPOSITORY_SEAL
+title: Project-native dirty-preserving exact repository seal hardening
+status: PASS
+closed_at: '2026-10-07T12:05:48.619807+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: c54db203783222603c16c9b4528d21a4015f15e1
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_dirty_preserving_repository_seal_design_freeze_v0_1.yaml
+  design_freeze_sha256: ba4f77b169d1527787baf1aac100ccc956f2a469b17b9551ff6c44d1cda6c8ed
+  work_front: coordination/work_fronts/cf10_dirty_preserving_repository_seal_v0_1.yaml
+  work_front_sha256: c0ac420ef32e068c051c1af51ac4693a6d27d6a7e28cbce9f17999afa49fecb0
+  freeze_publication_commit: 18ed82474ca9a974d69f0b2a8c9656c84d1e9dd1
+  implementation_publication_commit: c54db203783222603c16c9b4528d21a4015f15e1
+  provider_session_proof_closeout_commit: 46ceb5b140e53c444be33837fbd1ddf9dd345a53
+implementation:
+  path_count: 3
+  exact_frozen_scope_preserved: true
+  paths:
+  - Makefile
+  - scripts/coordination/control_plane/worker_runtime/repository_seal.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_dirty_preserving_repository_seal_v0_1.py
+  makefile_short_operator_surface_preserved: true
+  policy_and_mechanics_owner: scripts/coordination/control_plane/worker_runtime/repository_seal.py
+  seal_stage_exact_extended: true
+  seal_push_extended: true
+  seal_staged_review_semantics_changed: false
+  seal_commit_semantics_changed: false
+  new_optional_variable: SEAL_PRESERVE_PATHS
+  task70_modified: false
+  provider_session_proof_modified: false
+  worker_runtime_semantics_modified: false
+  lifecycle_modified: false
+  roadmap_modified: false
+tests_first:
+  red:
+    result: EXPECTED_RED
+    failure_count: 13
+    reason: Makefile lacked SEAL_PRESERVE_PATHS/delegation and canonical repository_seal.py did not yet exist.
+  green:
+    result: PASS
+    test_count: 13
+  production_mutated_before_red: false
+  contract_changed_after_green: false
+verification:
+  dirty_preserving_seal_focused:
+    result: PASS
+    test_count: 13
+  provider_session_proof_check:
+    result: PASS
+    test_count: 10
+  worker_invocation_bridge_check:
+    result: PASS
+    test_count: 50
+  governed_worker_cycle_check:
+    result: PASS
+    test_count: 84
+  staged_diff_check: PASS
+  publication_head_equals_upstream: true
+real_repository_acceptance:
+  stage_exact:
+    result: PASS
+    candidate_path_count: 3
+    candidate_paths:
+    - Makefile
+    - scripts/coordination/control_plane/worker_runtime/repository_seal.py
+    - tests/coordination/control_plane/worker_runtime/test_cf10_dirty_preserving_repository_seal_v0_1.py
+    preserved_dirty_path_count: 5
+    preserved_paths_unchanged: true
+    unexpected_staged_paths: false
+  commit:
+    result: PASS
+    commit: c54db203783222603c16c9b4528d21a4015f15e1
+    message: Add dirty-preserving repository seal
+  push:
+    result: PASS
+    operator_surface: make seal-push
+    branch: audit/blueprint-inventory-refresh-2026-07-29
+    local_head: c54db203783222603c16c9b4528d21a4015f15e1
+    remote_head: c54db203783222603c16c9b4528d21a4015f15e1
+    preserved_dirty_path_count: 5
+    preserved_paths_unchanged: true
+protected_dirty_state:
+  preserved: true
+  paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  all_unstaged_after_publication: true
+delivered_contract:
+  candidate_and_preserve_sets_must_be_disjoint: true
+  dirty_surface_must_equal_candidate_union_preserve_for_stage: true
+  protected_paths_must_remain_unstaged: true
+  only_candidate_paths_are_staged: true
+  unexpected_extra_dirty_paths_fail_closed: true
+  pre_staged_protected_paths_fail_closed: true
+  preserved_path_state_verified_unchanged_across_stage: true
+  push_requires_no_staged_changes: true
+  push_requires_exact_declared_preserved_dirty_surface: true
+  push_requires_current_branch_match: true
+  push_requires_local_remote_head_match: true
+  preserved_path_state_verified_unchanged_across_push: true
+  clean_worktree_backward_compatibility_preserved: true
+  reset_restore_checkout_stash_clean_merge_rebase_authority_added: false
+authority_boundary:
+  new_authority_source: false
+  automatic_commit_authority: false
+  automatic_push_authority: false
+  automatic_retry_authority: false
+  automatic_merge_authority: false
+  automatic_reset_restore_stash_clean_authority: false
+closeout:
+  slice_complete: true
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  a033_created: false
+  a033_launched: false
+  automatic_next_attempt_activation: false
+pre_a033_hardening:
+  project_native_provider_session_proof: CLOSED
+  dirty_preserving_repository_seal: CLOSED
+  mandatory_hardening_remaining: false
+next_boundary:
+  state: A033_PREPARATION_ALLOWED
+  candidate_attempt: cf10-u180j-a033
+  automatic_prepare: false
+  automatic_dispatch: false
+  automatic_launch: false
+  require_new_bounded_attempt_artifacts: true
+  task70_mutation_before_attempt_authority: false
+artifact_integrity:
+  freeze_commit: 18ed82474ca9a974d69f0b2a8c9656c84d1e9dd1
+  implementation_commit: c54db203783222603c16c9b4528d21a4015f15e1
+  implementation_head_equals_upstream: true

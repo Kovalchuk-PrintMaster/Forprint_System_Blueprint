@@ -1,0 +1,32 @@
+schema_version: forprint_worker_retry_telemetry_ramp_v0_1
+status: proposed
+phase_1_discovery:
+  retry_budget: looser_but_bounded
+  goal: discover hidden project friction
+  log:
+  - attempt_id
+  - worker_instance_id
+  - work_front_id
+  - procedure_revision
+  - procedure_node
+  - capability_or_tool
+  - failure_class
+  - failure_fingerprint
+  - repair_action
+  - retry_number
+  - elapsed_time
+  - resume_coordinates
+phase_2_tuning:
+  goal: improve project contracts and derive realistic thresholds from evidence
+  actions:
+  - rank repeated failures by capability and procedure node
+  - separate worker confusion from project contract defects
+  - assign self-hardening tasks for common friction
+  - tighten only deterministic paths
+phase_3_production:
+  goal: tight bounded retry and fast escalation
+  rules:
+  - same deterministic failure beyond threshold -> stall
+  - total repair budget bounded
+  - dispatcher restart uses resume state
+  - repeated restarts -> operator attention

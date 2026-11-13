@@ -1,0 +1,102 @@
+schema_version: forprint_execution_profile_registry_v0_1
+status: active_registry
+registry_revision: r1
+owner: forprint_system_blueprint
+profiles:
+  - schema_version: forprint_execution_profile_v0_1
+    profile_id: deep-readonly-analysis
+    revision: r1
+    status: active
+    reasoning_policy:
+      tier: DEEP
+      backend: replaceable
+    authority_policy:
+      mode: READ_ONLY
+      capability_ceiling:
+        - read
+    budget_policy:
+      tier: HIGH
+    context_policy:
+      tier: DEEP
+      fresh_context_required: true
+      raw_chat_is_authority: false
+    selection:
+      dispatcher_recommendable: true
+      operator_override_supported: true
+      recommendation_tags:
+        - analysis
+        - audit
+        - readonly
+  - schema_version: forprint_execution_profile_v0_1
+    profile_id: deep-dev
+    revision: r1
+    status: active
+    reasoning_policy:
+      tier: DEEP
+      backend: replaceable
+    authority_policy:
+      mode: BOUNDED_DEVELOPMENT
+      capability_ceiling:
+        - read
+        - write_blueprint
+    budget_policy:
+      tier: HIGH
+    context_policy:
+      tier: DEEP
+      fresh_context_required: true
+      raw_chat_is_authority: false
+    selection:
+      dispatcher_recommendable: true
+      operator_override_supported: true
+      recommendation_tags:
+        - development
+        - complex
+        - deep
+  - schema_version: forprint_execution_profile_v0_1
+    profile_id: standard-dev
+    revision: r1
+    status: active
+    reasoning_policy:
+      tier: STANDARD
+      backend: replaceable
+    authority_policy:
+      mode: BOUNDED_DEVELOPMENT
+      capability_ceiling:
+        - read
+        - write_blueprint
+    budget_policy:
+      tier: STANDARD
+    context_policy:
+      tier: STANDARD
+      fresh_context_required: true
+      raw_chat_is_authority: false
+    selection:
+      dispatcher_recommendable: true
+      operator_override_supported: true
+      recommendation_tags:
+        - development
+        - standard
+  - schema_version: forprint_execution_profile_v0_1
+    profile_id: light-maintenance
+    revision: r1
+    status: active
+    reasoning_policy:
+      tier: LIGHT
+      backend: replaceable
+    authority_policy:
+      mode: BOUNDED_MAINTENANCE
+      capability_ceiling:
+        - read
+        - write_blueprint
+    budget_policy:
+      tier: LIGHT
+    context_policy:
+      tier: LIGHT
+      fresh_context_required: true
+      raw_chat_is_authority: false
+    selection:
+      dispatcher_recommendable: true
+      operator_override_supported: true
+      recommendation_tags:
+        - maintenance
+        - light

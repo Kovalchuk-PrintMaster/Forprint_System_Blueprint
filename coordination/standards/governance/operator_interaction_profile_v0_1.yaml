@@ -1,0 +1,39 @@
+schema_version: forprint_operator_interaction_profile_v0_1
+status: current
+authority: forprint_system_blueprint
+language: uk
+assistant_gendered_style: feminine
+operator_gendered_address: masculine
+tone: friendly_informal_professional
+timezone: Europe/Kyiv
+terminal:
+  prefer_short_command_blocks: true
+  recommended_max_lines: 30
+  large_scripts_delivery: downloadable_file
+temporary_workspace:
+  root_directory: tmp
+  operator_exchange_directory: operator_exchange
+  report_subdirectory: reports
+  artifact_subdirectory: artifacts
+  work_directory: work
+  diagnostics_directory: diagnostics
+  backup_directory: backups
+  report_naming: report_%06d.txt
+assistant_operator_language_convention:
+  status: explicit_operator_preference
+  assistant_self_reference:
+    grammatical_gender: feminine
+    examples:
+      - зробила
+      - підготувала
+      - перевірила
+  operator_address:
+    grammatical_gender: masculine
+    examples:
+      - зробив
+      - передав
+      - перевірив
+  rule: In Ukrainian, the AI assistant uses feminine grammatical self-reference and addresses the human operator
+    with masculine grammatical forms. Do not invert or randomly alternate these roles without an explicit operator
+    update.
+  source: explicit_operator_clarification_2026_09_05

@@ -1,0 +1,232 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-operational-registry-source-label-2026-05-29
+authority_class: module_history_non_blueprint_authority_with_blueprint_governance_input
+queue:
+- item_id: IT-OPREG2905-0001
+  title: Operational Registry owns operational truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0001
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0002
+  title: Operational Registry must not absorb neighboring domain ownership
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0002
+  - EV-OPREG2905-0006
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0003
+  title: Bootstrap validates model/lifecycle/boundaries before production storage
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0003
+  - EV-OPREG2905-0008
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0004
+  title: Initial storage is abstracted behind a simple repository interface
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0004
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0005
+  title: Order lifecycle uses explicit allowed transitions
+  importance: high
+  dialogue_status: agreed
+  evidence_refs:
+  - EV-OPREG2905-0005
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0006
+  title: Accounting/1C truth is distinct from operational truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0006
+  - EV-OPREG2905-0009
+  - EV-OPREG2905-0012
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0007
+  title: Boundary tests must fail on domain ownership creep
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0007
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0008
+  title: Operational data foundation distinguishes master data facts events projections and external references
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0010
+  - EV-OPREG2905-0011
+  - EV-OPREG2905-0012
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0009
+  title: Operational Registry consumes Blueprint governance/module policy
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0013
+  - EV-OPREG2905-0014
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0010
+  title: Snapshot and completion automation must be idempotent
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0015
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0011
+  title: Approved prompts come from Blueprint module-specific outgoing_prompts directory
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0017
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0012
+  title: Make `check` is read-only while lint-fix is separate
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0018
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0013
+  title: Module-start historically performs a Blueprint pull
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0019
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0014
+  title: Generated report cleanup is non-failing and bounded
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0020
+  - EV-OPREG2905-0027
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0015
+  title: Historical make-first alignment gate reports 232 passing tests
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0021
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0016
+  title: Alignment checkpoint is separate from main business prompt implementation
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0028
+  - EV-OPREG2905-0030
+  - EV-OPREG2905-0032
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0017
+  title: Prompt discovery is narrow and approved-only
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0025
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0018
+  title: Prompt sync validates source before replacing local state
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0026
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0019
+  title: Historical alignment commit `a6ca69f` is pushed to Operational Registry origin/main
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0023
+  - EV-OPREG2905-0032
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0020
+  title: Blueprint snapshots and prompts are provenance-bound to an observed Blueprint commit
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0029
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0021
+  title: Completion finalization requires explicit packet identity
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0022
+  - EV-OPREG2905-0031
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0022
+  title: Filename 29.05 is only a source/start label
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0010
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0029
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0023
+  title: Operational Registry source is module history not Blueprint authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0014
+  - EV-OPREG2905-0029
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0024
+  title: Operational payment state naming must avoid accounting-authority ambiguity
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-OPREG2905-0009
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0025
+  title: CRM coordinates/displays but Operational Registry owns operational records
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0006
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0026
+  title: Library catalogs/contracts remain outside Operational Registry
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0006
+  - EV-OPREG2905-0007
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0027
+  title: Gateway routes runtime commands rather than owning operational truth
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0006
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0028
+  title: Make-first startup must succeed before main task execution
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0028
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0029
+  title: Current Blueprint prompt-directory topology may differ from this historical checkpoint
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0024
+  current_audit_status: not_audited
+- item_id: IT-OPREG2905-0030
+  title: Alignment findings are reported back to Blueprint as a separate checkpoint
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-OPREG2905-0032
+  current_audit_status: not_audited

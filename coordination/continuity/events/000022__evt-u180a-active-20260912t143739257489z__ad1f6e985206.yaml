@@ -1,0 +1,20 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180a-active-20260912t143739257489z
+event_type: WORK_ACTIVATED
+sequence: 22
+previous_event_id: evt-u180a-planned-20260912t143732530089z
+previous_event_sha256: b1cda60a2d79219a277b54ffdd18d1d03c124a94c45d1eb4a7d3e45d9c03feae
+work_id: u180a
+occurred_at: '2026-09-12T14:37:45.969267Z'
+actor: assistant_generated_operator_executed
+summary: Control Foundation repository reconciliation and baseline activated
+source_state_ref: 7949136995e6cf192265908dc60a81014ce07d0bd4a65f6cee3f17a296950be1
+bootstrap_historical_import: false
+lifecycle:
+  from_state: PLANNED
+  to_state: ACTIVE
+  reason: Bounded CF-01 source reconciliation is authorized; worker dispatch, release, foreign writes and Blueprint AI autonomy
+    remain forbidden.
+  remediation: false
+  prior_event_id: evt-u180a-planned-20260912t143732530089z
+  evidence: []

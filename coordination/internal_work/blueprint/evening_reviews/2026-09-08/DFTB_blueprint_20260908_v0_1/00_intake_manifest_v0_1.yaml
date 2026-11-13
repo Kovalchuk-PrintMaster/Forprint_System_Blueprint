@@ -1,0 +1,90 @@
+schema_version: forprint_dftb_blueprint_20260908_intake_manifest_v0_1
+source_date: '2026-09-08'
+intake_date: '2026-09-21'
+authority: historical_evidence_not_current_implementation_authority
+package_archive_sha256: 35b5b4cdc63ae12481f07af01207b983be99fdf3d29265d5b002f754d024509c
+source_dialogue_hash_sha256: a9440aa0451f60b0167f2f44bdc755d7aad4bbe0a2e87b4106ba396f1e930a47
+package_files:
+- path: package/ANOMALIES.md
+  sha256: 82a4adf8bb66c262bcca59c529ef8738927ac96e7af10485cbb74ee78bb4c925
+  bytes: 3547
+- path: package/DUPLICATE_CHECK.md
+  sha256: 28be3fc4c5afdc15d4b37868320fd91116e2dd4fa626557ad7c004a6552440b0
+  bytes: 326
+- path: package/PACKAGE_MANIFEST.yaml
+  sha256: 2dc9f06a9af80aa56474242c85dd2be1c83f331c35bc2f44cee43d3dffed2159
+  bytes: 1848
+- path: package/README.md
+  sha256: 999eaa79d6c6867dab650852a8e559b5e020c00742538d27726c88fff48e2ac7
+  bytes: 388
+- path: package/SOURCE_COVERAGE.md
+  sha256: ee474d2c0f5caf5a6de427f1532c794eda231f6caf460107064bca596bcfb87f
+  bytes: 489
+- path: package/cross_dialogue_relations.yaml
+  sha256: 7ce24a0c8840bb616575592c40d63d8f50cdef9bd4613575adc20c48e20bda1b
+  bytes: 1695
+- path: package/dialogue_memory.yaml
+  sha256: 0614b4d94b6b090698359bb8638307f6fe27b8babcdc1e926f5cfd91070c61fa
+  bytes: 77242
+- path: package/evidence_portfolio.md
+  sha256: b55443cfa6ba55b852476ae52dba3daf241f02fec0664a7e42b3cd30a1bc8269
+  bytes: 36332
+- path: package/execution_artifact_timeline.md
+  sha256: 5b3143ee13d20c4ec0829f9fb50b23f11212d513dfe5718520610bbd31fcea54
+  bytes: 3076
+- path: package/execution_artifact_timeline.yaml
+  sha256: a3ad23f0c07af7dac67117818e8ac5e3285b1941b17413c48c25702e511ec57a
+  bytes: 9707
+- path: package/implementation_audit.stub.yaml
+  sha256: 64fb0f7b245a9aa2c9d8e2fcaeb9166a016cef6335e5064a7d79b9658631f1a9
+  bytes: 196
+- path: package/session_digest.md
+  sha256: 7649bd523ac690cf1fae214d1ffae0b142574c4c1f2d0eeac092882eebac9a8a
+  bytes: 3521
+- path: package/source_manifest.yaml
+  sha256: 8b65b4ceae66e8362154ff0a8fa99eaf85f82e8f90053069c7290f3ea05059a6
+  bytes: 769
+- path: package/traceability_matrix.md
+  sha256: beee86095df552e095ca9babd32b1682d9cf8aa2adf274f99f2b76d256ac56bc
+  bytes: 5276
+- path: package/verification_queue.yaml
+  sha256: 68090733829e4fbef79ca7ae666e69fbcab72668fc533d286657911dd2e8892d
+  bytes: 11938
+- path: package/visible_transcript.md
+  sha256: 8b64745dfe4373e06b79749327c21cabda080dbab45187b4e9ced30f81c91db0
+  bytes: 30527
+separately_uploaded_files:
+- attachment: session_digest(1).md
+  package_member: session_digest.md
+  sha256: 7649bd523ac690cf1fae214d1ffae0b142574c4c1f2d0eeac092882eebac9a8a
+  byte_identical_to_package_member: true
+- attachment: dialogue_memory(1).yaml
+  package_member: dialogue_memory.yaml
+  sha256: 0614b4d94b6b090698359bb8638307f6fe27b8babcdc1e926f5cfd91070c61fa
+  byte_identical_to_package_member: true
+- attachment: evidence_portfolio(1).md
+  package_member: evidence_portfolio.md
+  sha256: b55443cfa6ba55b852476ae52dba3daf241f02fec0664a7e42b3cd30a1bc8269
+  byte_identical_to_package_member: true
+- attachment: DUPLICATE_CHECK(1).md
+  package_member: DUPLICATE_CHECK.md
+  sha256: 28be3fc4c5afdc15d4b37868320fd91116e2dd4fa626557ad7c004a6552440b0
+  byte_identical_to_package_member: true
+- attachment: cross_dialogue_relations(1).yaml
+  package_member: cross_dialogue_relations.yaml
+  sha256: 7ce24a0c8840bb616575592c40d63d8f50cdef9bd4613575adc20c48e20bda1b
+  byte_identical_to_package_member: true
+duplicate_storage_rule: Separately uploaded session_digest/dialogue_memory/evidence_portfolio/duplicate_check/cross_dialogue_relations
+  were byte-identical to package members and are not stored twice.
+source_boundary:
+  classification: PARTIAL_BUT_UNIQUE_DIALOGUE
+  recoverable_message_blocks: 13
+  missing_turns:
+  - 6
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 14
+  implementation_audit_in_bundle: NOT_PERFORMED

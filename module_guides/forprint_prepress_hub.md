@@ -47,7 +47,7 @@
 ## Incoming data flows
 
 - `library_capabilities_to_prepress`: `forprint_library` → `forprint_prepress_hub` via `library_to_prepress_capabilities.v1`; objects: `material_catalog`, `machine_capability`, `print_mode`; status: `active_development`; criticality: `high`
-- `operational_order_context_to_prepress`: `forprint_operational_registry` → `forprint_prepress_hub` via `operational_registry_to_prepress_order_context.v1`; objects: `order_context`; status: `planned`; criticality: `high`
+- `operational_order_context_to_prepress`: `forprint_operations_control_registry` → `forprint_prepress_hub` via `operations_control_registry_to_prepress_order_context.v1`; objects: `order_context`; status: `planned`; criticality: `high`
 
 ## Outgoing data flows
 
@@ -56,7 +56,7 @@
 ## Consumed contracts
 
 - `library_to_prepress_capabilities.v1`: provider `forprint_library`, consumer `forprint_prepress_hub`, status `active_development`; objects: `material_catalog`, `machine_capability`, `print_mode`
-- `operational_registry_to_prepress_order_context.v1`: provider `forprint_operational_registry`, consumer `forprint_prepress_hub`, status `planned`; objects: `order_context`
+- `operations_control_registry_to_prepress_order_context.v1`: provider `forprint_operations_control_registry`, consumer `forprint_prepress_hub`, status `planned`; objects: `order_context`
 
 ## Provided contracts
 

@@ -1,0 +1,544 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-08-27
+warning: Historical dialogue intent is not current authority.
+queue:
+- item_id: IT-BP2708-0001
+  title: Live authority after context loss
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - authority
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP2708-0001
+  - EV-BP2708-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0002
+  title: Governance evolves forward
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - architecture
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0006
+  - EV-BP2708-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0003
+  title: Significant project memory belongs in repository
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - project_memory
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0004
+  title: Persist decision rationale
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - project_memory
+  - governance
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP2708-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0005
+  title: Avoid documentation/directory proliferation
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - repository_structure
+  - documentation
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0010
+  - EV-BP2708-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0006
+  title: Roadmap and prompts are planning backbone
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP2708-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0007
+  title: Large scripts are files; terminal commands stay short
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - operator_ux
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP2708-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0008
+  title: Prevent stale/duplicate artifact identity
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - artifact_identity
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0014
+  - EV-BP2708-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0009
+  title: Automatic work cannot require globally clean trees
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - git_workflow
+  - automation
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP2708-0015
+  - EV-BP2708-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0010
+  title: Use bounded execution baselines
+  importance: critical
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - git_workflow
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0016
+  - EV-BP2708-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0011
+  title: Parallel-work semantics must be explicit
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - git_workflow
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0012
+  title: B2 explicitly accepted
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - B2
+  - phase_progression
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0013
+  title: Q2 explicitly activated
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - Q2
+  - phase_progression
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0014
+  title: Manual confirmation only at major phase boundaries
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - phase_progression
+  - operator_approval
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0015
+  title: Same-phase deterministic progression
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - phase_progression
+  - automation
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0016
+  title: Q2 concept-audit safe failure did not advance phase
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - Q2
+  - concept_audit
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP2708-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0017
+  title: Module concept audit retained as durable evidence
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - module_concepts
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0018
+  title: Operations Assistant enters portfolio concept space
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_operations_assistant
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0025
+  - EV-BP2708-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0019
+  title: Filters need top and bottom collapse controls
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ui
+  - product_editor
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP2708-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0020
+  title: Remove inconsistent filter background
+  importance: low
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ui
+  - product_editor
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP2708-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0021
+  title: Normalize related-product button styling
+  importance: low
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ui
+  - product_editor
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP2708-0029
+  - EV-BP2708-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0022
+  title: Identify owner of product-editor UI branch
+  importance: normal
+  dialogue_status: unclear
+  confidence: high
+  owner_or_domain:
+  - ui
+  - product_editor
+  verification_targets:
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP2708-0027
+  - EV-BP2708-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0023
+  title: Logistics is sole automation-validation pilot
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - portfolio
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0031
+  - EV-BP2708-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0024
+  title: Minimum two successful real automatic runs
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - automation_pilot
+  verification_targets:
+  - tests
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP2708-0032
+  - EV-BP2708-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0025
+  title: Expansion requires positive review and separate decision
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - operator_approval
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP2708-0033
+  - EV-BP2708-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0026
+  title: Maintain portfolio/module knowledge snapshot
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - knowledge
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0034
+  - EV-BP2708-0041
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0027
+  title: Maintain Blueprint self-knowledge snapshot
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - knowledge
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0034
+  - EV-BP2708-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0028
+  title: Logistics-only pilot documentation was published
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - H10
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP2708-0038
+  - EV-BP2708-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0029
+  title: H10 current, H11 inactive at checkpoint
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - H10
+  - H11
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0030
+  title: Module knowledge snapshot integrity passed
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - knowledge
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0041
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0031
+  title: Portfolio snapshot contained 21 module IDs
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - module_registry
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP2708-0042
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0032
+  title: Blueprint self-analysis is an ongoing workstream
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - knowledge
+  verification_targets:
+  - docs
+  - roadmap
+  evidence_refs:
+  - EV-BP2708-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0033
+  title: Mutation tooling must fail closed
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - safe_mutation
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP2708-0005
+  - EV-BP2708-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP2708-0034
+  title: Artifact identity should be checked before mutation
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - artifact_identity
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP2708-0036
+  - EV-BP2708-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime.

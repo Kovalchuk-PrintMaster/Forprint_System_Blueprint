@@ -1,0 +1,100 @@
+schema_version: blueprint_bounded_output_writer_contract_v0_1
+
+metadata:
+  evidence_id: blueprint_bounded_output_writer_contract_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-03"
+  status: verified_not_closed
+
+subject:
+  base_commit: 5faca550fbbceba5a606f9886714e4c7a2650503
+  source_review:
+    schema_version: blueprint_write_flow_recovery_bounded_review_v0_1
+    manual_blockers_before: 17
+  group: bounded_output_writers
+  flow_count: 15
+  flows:
+    - scripts/coordination/assess_repository_knowledge_freshness.py
+    - scripts/coordination/audit_artifact_retention_consistency.py
+    - scripts/coordination/compare_repository_knowledge_snapshots.py
+    - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+    - scripts/coordination/validate_artifact_authority_policy.py
+    - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+    - scripts/coordination/validate_blueprint_self_coordination.py
+    - scripts/coordination/validate_rci_semantic_enrichment.py
+    - scripts/coordination/validate_redm_dependency_enrichment.py
+    - scripts/coordination/validate_repository_knowledge_maintenance.py
+    - scripts/coordination/validate_repository_knowledge_reconciliation.py
+    - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+    - scripts/coordination/validate_semantic_coverage_closure.py
+    - scripts/generate_module_guides.py
+    - scripts/generate_module_policy_docs.py
+
+contract:
+  output_authority:
+    generated_or_validation_output_only: true
+    source_inputs_remain_authoritative: true
+    output_failure_does_not_authorize_state_transition: true
+    generated_output_may_be_rebuilt_from_sources: true
+  filesystem:
+    overwrite_on_rerun: true
+    append_mode_used: false
+    destructive_delete_move_or_rename_used: false
+    git_mutation_used: false
+    mutation_surface_matches_reviewed_source: true
+  recovery:
+    primary_mechanism: deterministic_rerun
+    partial_generated_outputs_are_non_authoritative: true
+    rerun_replaces_target_content: true
+    unrelated_paths_are_outside_writer_scope: true
+  generators:
+    module_guides_are_regenerated_from_module_sources: true
+    module_policy_docs_are_regenerated_from_policy_sources: true
+
+verification:
+  exact_source_hashes: PASSED
+  exact_mutation_surface: PASSED
+  destructive_operation_scan: PASSED
+  append_mode_scan: PASSED
+  git_mutation_scan: PASSED
+  existing_flow_tests: PASSED
+  previous_recovery_contract_tests: PASSED
+  metadata_validator: PASSED
+  canonical_gate:
+    total: 27
+    ok: 27
+    warnings: 0
+    failed: 0
+
+per_flow_state:
+  verified_bounded_output_writer_count: 15
+  remaining_manual_blocker_count_after_this_evidence: 2
+
+blocker_state:
+  write_flow_recovery_not_fully_verified: remains
+  closeout_eligible: false
+  next_unresolved_group:
+    explicit_recovery_contract_flows: 2
+  next_unresolved_paths:
+    - scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+    - scripts/validate_module_standards_template.py
+
+boundaries:
+  operational_readiness_review: in_progress
+  operational_readiness: blocked
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout: gated
+  production_logic_changed: false
+  cross_repository_writes: false
+  automatic_commit_push_or_merge: false
+  historical_evidence_rewritten: false
+
+next_required_step:
+  action: blueprint_explicit_recovery_contract_verification
+  scope_count: 2
+  external_module_action: none
+  pilot_action: none
+
+result: BLUEPRINT_BOUNDED_OUTPUT_WRITER_CONTRACT_VERIFIED_BLOCKED

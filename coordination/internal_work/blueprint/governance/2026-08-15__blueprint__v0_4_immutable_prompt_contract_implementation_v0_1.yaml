@@ -1,0 +1,88 @@
+schema_version: blueprint_internal_work_evidence_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_immutable_prompt_contract_implementation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-15T17:34:00+03:00'
+  owner: forprint_system_blueprint
+  source_head: 2f01bd423cbde60efa3140d3771de5eabf8717ee
+work:
+  roadmap_step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  active_prompt_remains_active: true
+  operator_decision_created: false
+outputs:
+  standard: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+  template: coordination/templates/module_prompt_contract_v0_4.example.yaml
+  self_contract: coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/source_prompt_snapshot.md
+  source_prompt_origin_at_capture: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_immutable_prompt_contract_v0_1.md
+  validator: scripts/coordination/validate_prompt_contract_v0_4.py
+  regression_test: tests/validation/test_v0_4_immutable_prompt_contract.py
+  make_target: prompt-contract-v0-4-validate
+integrity:
+  source_prompt_sha256: 474579f43ac98b4edfd32c5b7a3ca529a53533344fe773eff4b6d2113a86d335
+  source_prompt_snapshot_sha256: 474579f43ac98b4edfd32c5b7a3ca529a53533344fe773eff4b6d2113a86d335
+  contract_payload_sha256: 48c7ea73d255e7293bb297ed79c31bc417e12f65b273468a0be2c0b9ae8c4448
+contract_semantics:
+  instance_path: coordination/prompt_contracts/<module_id>/<prompt_id>/<contract_id>.yaml
+  duplicate_obligation_ids_rejected: true
+  unknown_mapping_targets_rejected: true
+  required_unmapped_source_obligations_rejected: true
+  obligation_categories_separate: true
+  human_semantic_fidelity_review_required: true
+  execution_fingerprint_complete_fidelity_proof: false
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  promotion_performed: false
+  step21_acceptance_is_not_global_v0_4_promotion: true
+boundaries:
+  completion_packet_v0_4_implemented: false
+  completion_outbox_implemented: false
+  discovery_or_review_automation_implemented: false
+  next_prompt_automation_implemented: false
+  active_step_advanced: false
+  active_prompt_moved_to_completed: false
+  module_repository_writes: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+validation:
+  state: passed
+  checks:
+    ? python -m py_compile scripts/coordination/validate_prompt_contract_v0_4.py tests/validation/test_v0_4_immutable_prompt_contract.py
+    : returncode: 0
+      result: passed
+    make -s prompt-contract-v0-4-validate:
+      returncode: 0
+      result: passed
+    make standards-index:
+      returncode: 0
+      result: passed
+    ? python scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract
+      coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+      --output-format yaml
+    : returncode: 0
+      result: passed
+    python -m pytest -q tests/validation/test_v0_4_immutable_prompt_contract.py:
+      returncode: 0
+      result: passed
+    ? python -m pytest -q tests/validation/test_v0_4_immutable_prompt_contract.py
+      tests/validation/test_v0_4_closed_loop_lifecycle_standard.py tests/validation/test_assistant_bootstrap_contract.py
+      tests/validation/test_completion_revision_registry_v0_1.py
+    : returncode: 0
+      result: passed
+    make roadmap-validate MODULE=forprint_system_blueprint:
+      returncode: 0
+      result: passed
+    make check-self-coordination-consistency:
+      returncode: 0
+      result: passed
+    python -m pytest -q:
+      returncode: 0
+      result: passed
+    make check:
+      returncode: 0
+      result: passed
+result: READY_FOR_OPERATOR_REVIEW

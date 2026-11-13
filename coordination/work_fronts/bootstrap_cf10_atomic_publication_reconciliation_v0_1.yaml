@@ -1,0 +1,146 @@
+work_front_id: wf-bootstrap-cf10-atomic-publication-reconciliation-v0-1
+objective: Publish, as one operator-controlled atomic repository transaction, the
+  already validated bootstrap historical publication bundle, the already validated
+  CF-10 worker-runtime predecessor publication bundle, and the canonical CF-10 continuity
+  plan/activate events 000066-000067 so that a clean checkout is self-contained at
+  lifecycle sequence 67.
+scope:
+- coordination/work_fronts/bootstrap_cf10_atomic_publication_reconciliation_v0_1.yaml
+- coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+- coordination/standards/automation/control_plane/module_bootstrap_execution_policy_v0_1.yaml
+- coordination/standards/automation/control_plane/bootstrap_task_context_mode_v0_1.yaml
+- coordination/standards/automation/control_plane/bootstrap_worker_runtime_profile_v0_1.yaml
+- coordination/standards/automation/control_plane/module_bootstrap_prompt_requirements_v0_1.yaml
+- scripts/coordination/control_plane/context/__init__.py
+- scripts/coordination/control_plane/context/bootstrap_task_context.py
+- scripts/coordination/control_plane/context/runtime.py
+- scripts/validation/control_plane/context/validate_bootstrap_task_context_mode_v0_1.py
+- scripts/validation/control_plane/context/validate_module_bootstrap_prompt_requirements_v0_1.py
+- scripts/validation/control_plane/worker_runtime/validate_bootstrap_worker_runtime_profile_v0_1.py
+- tests/coordination/control_plane/context/test_bootstrap_task_context_mode_v0_1.py
+- tests/coordination/control_plane/context/test_module_bootstrap_prompt_requirements_v0_1.py
+- coordination/standards/automation/worker_task_envelope_contract_v0_1.yaml
+- coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+- coordination/standards/automation/worker_runtime_adapter_registry_contract_v0_1.yaml
+- coordination/standards/automation/worker_runtime_benchmark_contract_v0_1.yaml
+- coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+- coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+- coordination/work_fronts/cf10_multi_provider_runtime_registry_v0_1.yaml
+- scripts/coordination/control_plane/tasking/__init__.py
+- scripts/coordination/control_plane/tasking/envelope.py
+- scripts/coordination/control_plane/tasking/runtime.py
+- scripts/coordination/control_plane/tasking/sources/__init__.py
+- scripts/coordination/control_plane/tasking/sources/external_prompt_queue.py
+- scripts/coordination/control_plane/tasking/sources/manual_internal.py
+- scripts/validation/validate_worker_runtime_foundation_v0_1.py
+- scripts/validation/validate_cf10_multi_provider_runtime_registry_v0_1.py
+- tests/coordination/control_plane/tasking/test_worker_task_envelope_v0_1.py
+- tests/validation/test_cf10_multi_provider_runtime_registry_contract_v0_1.py
+- coordination/standards/automation/index.yaml
+- coordination/continuity/events/000066__evt-u180j-plan-20260921t102727249527__4dd85ce6ef7f.yaml
+- coordination/continuity/events/000067__evt-u180j-activate-20260921t102955259861__ad000c7b9af2.yaml
+exclusions:
+- Do not publish coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_1.yaml.
+- Do not publish scripts/coordination/control_plane/context/task_context_adapter.py.
+- Do not publish generated continuity projections.
+- Do not publish generated roadmap-execution projections.
+- Do not modify coordination/standards/index.yaml.
+- For coordination/standards/automation/index.yaml, publish only the five validated
+  worker registrations named in publication_constraints.
+- Do not include unrelated dirty tracked or untracked worktree surfaces.
+- Do not consume Assistant ACK or create a new execution attempt.
+- Do not dispatch, retry, restart, kill, approve or promote a worker.
+- Do not widen CF-10 scope or modify Phase B semantics.
+- Do not allow worker self-promotion, commit, push, merge, release or automatic ACCEPT.
+- Do not use git add -A, git add ., git reset --hard, git clean, stash or rebase.
+provenance:
+  source_refs:
+  - coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+  - coordination/work_fronts/cf10_multi_provider_runtime_registry_v0_1.yaml
+  - coordination/continuity/events/000066__evt-u180j-plan-20260921t102727249527__4dd85ce6ef7f.yaml
+  - coordination/continuity/events/000067__evt-u180j-activate-20260921t102955259861__ad000c7b9af2.yaml
+  - coordination/standards/index.yaml
+  - scripts/coordination/roadmap_execution_reconciliation.py
+  chat_is_authority: false
+  validation_evidence: Exact isolated 33-path candidate passed all bounded Work Front,
+    standards, bootstrap, CF-10, pytest, Ruff, diff-check and roadmap sync/check gates
+    at latest_event_sequence=67 before this meta front.
+dependencies:
+- The bootstrap historical publication Work Front v0.2 validates.
+- The three CF-10 predecessor Work Fronts validate.
+- The exact 33-path isolated candidate has passed.
+- The canonical root standards index already registers the required bootstrap and
+  worker standards.
+- Roadmap execution projections are generated non-authoritative artifacts and are
+  not publication surfaces.
+- Main staging is empty before publication preparation.
+publication_constraints:
+  child_publication_path_count: 33
+  meta_work_front_path_count: 1
+  total_atomic_publication_path_count: 34
+  automation_index_path: coordination/standards/automation/index.yaml
+  automation_index_allowed_entries:
+  - worker_task_envelope_contract_v0_1.yaml
+  - worker_workspace_contract_v0_1.yaml
+  - worker_candidate_promotion_contract_v0_1.yaml
+  - worker_runtime_adapter_registry_contract_v0_1.yaml
+  - worker_runtime_benchmark_contract_v0_1.yaml
+  latest_event_sequence_required: 67
+  operator_controlled_publication: true
+  worker_publication_authority: false
+  automatic_accept: false
+outputs:
+- One canonical atomic commit containing exactly the meta Work Front plus the validated
+  33-path child publication packet.
+- A clean checkout whose roadmap execution reconciliation resolves latest_event_sequence=67.
+- A clean checkout whose root standards validation no longer depends on unpublished
+  bootstrap/worker standards.
+- Preservation of all unrelated parallel worktree changes outside the commit.
+acceptance:
+- This Work Front validates before staging.
+- The final isolated candidate contains exactly 34 publication paths.
+- The automation index cached diff contains only the five allowed worker registrations.
+- The bootstrap v0.1 superseded Work Front is absent.
+- task_context_adapter.py is absent.
+- Generated projection files are absent from the publication path set.
+- All previously passing bootstrap and CF-10 focused validators/tests remain green.
+- Roadmap sync/check returns IN_SYNC with latest_event_sequence=67.
+- git diff --check passes.
+- Main staging contains exactly the approved 34 paths before commit.
+- The atomic commit is operator-controlled.
+- Push is performed only after post-commit clean-checkout verification and upstream
+  freshness check.
+stop_conditions:
+- HEAD changes before staging and the exact candidate is not revalidated against the
+  new HEAD.
+- Main staging is non-empty before publication preparation.
+- Any unrelated worktree path would be staged.
+- automation/index.yaml requires staging any diff beyond the five allowed worker registrations.
+- Any bounded validator or focused test fails.
+- Roadmap reconciliation is not IN_SYNC at latest_event_sequence=67.
+- A generated projection would enter the publication set.
+- Publication would require task_context_adapter.py or the superseded bootstrap v0.1
+  Work Front.
+- Upstream diverges before push.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/work_fronts/* publication/reconciliation work fronts
+  - coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+  - coordination/work_fronts/cf10_multi_provider_runtime_registry_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+  - coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_runtime_standards_index_convergence_v0_1.yaml
+  - coordination/work_fronts/cf10_multi_provider_runtime_registry_v0_1.yaml

@@ -1,0 +1,86 @@
+schema_version: forprint_accounting_registry_1c_boundary_portfolio_reconciliation_v0_1
+source:
+  source_label: '2026-05-17'
+  authority: module_history_and_owner_intent_not_execution_authority
+  attachment_heavy: true
+  missing_attachment_content_invented: false
+
+historical_owner_intent:
+  core_direction:
+    - reduce_internal_operational_dependence_on_1c
+    - maintain_forprint_owned_material_and_business_data
+    - make_forprint_the_working_source_for_daily_operational_facts
+    - send_relevant_facts_to_1c_afterward
+  sync_frequency:
+    owner_position: configurable_not_principled
+    exact_schedule: not_canonical
+  future_accounting_replacement:
+    owner_position: possible_future_direction_not_current_scope
+
+current_stronger_owner_direction:
+  accounting_registry:
+    - operational_commercial_accounting_registry
+    - purchases_sales_invoices_payments_settlements_writeoffs
+    - documentary_accounting_movement_and_financial_value
+    - accounting_state_and_reconciliation
+    - primary_operational_commercial_system_long_term
+  one_c:
+    - accountant_statutory_reporting_contour
+    - compatibility_and_downstream_environment
+  warehouse:
+    - physical_stock_truth
+    - physical_quantity_and_location
+    - reservation_and_stock_movement_facts
+  gateway:
+    - communication_safety_validation_mapping_and_routing
+    - not_business_truth_owner
+
+supersession_and_reuse:
+  early_inventory_core_inside_accounting_conversation:
+    disposition: superseded_as_accounting_ownership
+    current_owner: warehouse_service_for_physical_fact
+  broad_forprint_independence_from_1c:
+    disposition: REUSE_CURRENT_STRONGER
+  v0_5_sandbox_acceptance:
+    disposition: REUSE_CURRENT_STATUS_CORROBORATED
+  no_live_1c_write_or_production_sync:
+    disposition: REUSE_CURRENT_ACTIVE_RESTRICTION
+  v0_6_sanitized_sample_gate:
+    disposition: REUSE_CURRENT_ACTIVE_GATE
+  test_files_must_not_be_empty:
+    disposition: REUSE_PROJECT_WIDE_TEST_DISCIPLINE
+  local_production_1c_artifacts_out_of_git:
+    disposition: REUSE_SECURITY_AND_REPOSITORY_HYGIENE
+  assistant_outbox_queue_design:
+    disposition: historical_design_candidate_only_not_owner_accepted_contract
+  assistant_fixed_sync_modes:
+    disposition: historical_design_candidate_only_not_current_policy
+  assistant_direct_1c_adapter_ownership:
+    disposition: historical_design_candidate_only_exact_owner_still_open
+
+historical_v0_5_evidence:
+  reported_commit: 95d4a55
+  reported_tests: 117
+  reported_check_report: green
+  interpretation: historical_implementation_provenance_not_current_repo_audit
+  accepted_status: sandbox_1c_import_export_ready
+  prohibited:
+    - live_1c_integration
+    - production_write
+    - automatic_posting
+    - production_synchronization
+  v0_6_gate:
+    - sanitized_counterparties
+    - sanitized_nomenclature
+    - sanitized_invoices
+    - sanitized_payments
+    - sanitized_balances
+
+reconciliation_result:
+  human_intents_appended: 0
+  human_intent_semantic_duplicate_reason: current_owner_review_is_stronger_and_more_precise
+  open_reconcile_before_implementation_candidates: 1
+  new_canonical_roadmap_step: none
+  roadmap_mutation: none
+  execution_authority_mutation: none
+  lifecycle_mutation: none

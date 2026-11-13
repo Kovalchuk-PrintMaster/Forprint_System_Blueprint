@@ -86,7 +86,7 @@ Example:
 
 ```text
 Gateway may validate that an order creation command envelope is structurally valid.
-Operational Registry decides whether the order command can be accepted as operational truth.
+Operations Control Registry decides whether the order command can be accepted as operational truth.
 ```
 
 ## Gateway failure

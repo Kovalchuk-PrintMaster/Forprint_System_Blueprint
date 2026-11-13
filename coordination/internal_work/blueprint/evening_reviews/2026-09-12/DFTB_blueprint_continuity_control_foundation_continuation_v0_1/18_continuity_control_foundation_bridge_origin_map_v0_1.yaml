@@ -1,0 +1,33 @@
+schema_version: forprint_dftb_blueprint_20260912_continuity_control_foundation_bridge_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-09-12
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1
+purpose: Preserve the historical bridge from the 10.09 Handoff Compiler boundary through Lifecycle Enforcement,
+  zero-context/module transfer, state-aware recovery and into CF-01/CF-02, while reconciling source-end unknowns
+  against later current Control Foundation closure.
+chain:
+- stage: 10_09_source_end
+  state: u179e5 prepared; final PASS absent; Step 10 conditional next
+- stage: 12_09_step9_closure
+  state: Assistant Handoff Compiler historically accepted
+- stage: lifecycle_enforcement
+  state: append-only lifecycle state machine and same-work checkpoint binding
+- stage: zero_context_and_module_transfer
+  state: fresh-assistant acceptance then reusable module continuity/handoff model
+- stage: step12_strategy_boundary
+  state: technical closure waits for strategy reconciliation rather than auto-progressing
+- stage: cf01
+  state: repository/control-plane baseline close with state-aware recovery and manual operator boundary
+- stage: cf02_origin
+  state: roadmap-as-plan / event-store-as-actual / generated execution cursor; source ends before corrected foundation
+    PASS
+- stage: later_current_cf02
+  state: closure accepted; event-sourced derived cursor proven; double-write removed; legacy terminal states retired;
+    reconciliation choke points hard-gated
+durable_rules:
+- durable current state outranks rolled-back candidate and chat
+- test harness exceptions must not weaken production invariants
+- execution dependency contracts model actual reads
+- validation/close bind to the same work checkpoint
+- legacy lifecycle migration is append-only
+- state-aware recovery repairs from actual post-failure boundary
+- reconciliation derives state but does not itself widen activation authority

@@ -1,0 +1,84 @@
+schema_version: forprint_module_knowledge_record_v0_1
+
+record:
+  capability_id: required
+  module: required
+  name: required
+  summary: required
+
+  implementation_state:
+    allowed:
+      - VERIFIED_CURRENT
+      - CURRENT_UNVERIFIED
+      - PARTIAL
+      - DUPLICATE_CANDIDATE
+      - LEGACY_CANDIDATE
+      - SUPERSEDED
+      - MIGRATION_CANDIDATE
+      - REUSE_CANDIDATE
+      - UNKNOWN
+
+  architecture_fit:
+    allowed:
+      - ALIGNED
+      - ALIGNED_WITH_GAPS
+      - LEGACY_ARCHITECTURE
+      - WRONG_OWNER_CANDIDATE
+      - REQUIRES_RECONCILIATION
+      - UNKNOWN
+
+  roadmap_maturity:
+    allowed:
+      - SYNTHETIC
+      - IDENTIFIED
+      - DISCUSSED
+      - ARCHITECTURE_AGREED
+      - PLANNED
+      - IMPLEMENTATION_READY
+      - NONE
+
+  novelty:
+    allowed:
+      - REUSE
+      - EXTEND
+      - ADAPT
+      - REPLACE
+      - NEW
+      - NOT_ASSESSED
+
+  evidence:
+    implementation_paths: []
+    entrypoints: []
+    tests: []
+    validators: []
+    operator_commands: []
+    documents: []
+    human_intent_refs: []
+    roadmap_refs: []
+
+  dependencies:
+    internal: []
+    external: []
+    cross_module: []
+
+  ownership:
+    current_module: null
+    recommended_owner_candidate: null
+    ownership_status:
+      allowed:
+        - CURRENT_OWNER
+        - SHARED_BOUNDARY
+        - WRONG_OWNER_CANDIDATE
+        - UNKNOWN
+
+  reconciliation:
+    duplicate_group_id: null
+    reuse_candidate_for: []
+    migration_candidate_to: null
+    unresolved_questions: []
+
+  confidence:
+    allowed:
+      - HIGH
+      - MEDIUM
+      - LOW

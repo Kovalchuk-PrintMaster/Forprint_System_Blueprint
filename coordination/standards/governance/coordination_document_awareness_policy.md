@@ -297,15 +297,22 @@ The operator may provide this as one generated Markdown bundle.
 
 Module Start Behavior
 
-After migration, a mature module make module-start should gradually include:
+After migration, a mature module `make module-start` should use the
+canonical H4 startup sequence:
 
-blueprint-pull
-prompt-dashboard
+coordination-sync-check
+module-sync
+module-status
+prompt-notify
 prompt-read-next
-document-awareness-dashboard
-module-policy-check
-coordination-check
-status-report
+
+`module-sync` remains network-independent and is responsible for module-local
+snapshot synchronization plus document-awareness, coordination, and status
+refresh. `governance-check` remains network-independent and covers module
+policy and governance validation.
+
+Module-side `blueprint-pull` is deprecated and must not be part of
+`module-start`.
 
 During transition, module assistants may still receive explicit context bundles or file contents from the operator.
 

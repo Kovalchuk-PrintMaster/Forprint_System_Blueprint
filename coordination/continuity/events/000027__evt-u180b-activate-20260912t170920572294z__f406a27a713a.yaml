@@ -1,0 +1,19 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180b-activate-20260912t170920572294z
+event_type: WORK_ACTIVATED
+sequence: 27
+previous_event_id: evt-u180b-plan-20260912t170912788869z
+previous_event_sha256: 008f36a0044f3efb77854918610e156fec6e9d66e6c2ad225a7f407c55161201
+work_id: u180b
+occurred_at: '2026-09-12T17:09:28.416864Z'
+actor: assistant_generated_operator_executed
+summary: CF-02 roadmap/execution reconciliation controller activated
+source_state_ref: 3807dd2a04770f81a35ecfb86bee298252b9e03f1735b61a6f0fe3f046c32cf7
+bootstrap_historical_import: false
+lifecycle:
+  from_state: PLANNED
+  to_state: ACTIVE
+  reason: Implement the read/derive/report/gate foundation without auto-activation, dispatch, release, or foreign writes.
+  remediation: false
+  prior_event_id: evt-u180b-plan-20260912t170912788869z
+  evidence: []

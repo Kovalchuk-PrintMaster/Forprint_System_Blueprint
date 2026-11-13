@@ -1,0 +1,43 @@
+schema_version: forprint_assistant_context_package_routing_audit_candidate_v0_1
+status: BOUNDED_READ_ONLY_AUDIT_CANDIDATE
+origin_source: DFTB-blueprint-2026-09-21
+problem: Operator requested Blueprint/assistant packaging but observed a forprint_library-specific project-context
+  archive. Historical target semantics say broad project context should remain unscoped unless MODULE is explicitly
+  selected.
+reuse_first:
+  classification: AUDIT_EXISTING_SURFACE_BEFORE_REPAIR
+  existing_surfaces:
+  - Makefile assistant-context-pack
+  - scripts/coordination/build_project_context_archive.py
+  - coordination/bootstrap/index_v0_1.yaml
+  - scripts/validation/validate_project_context_bootstrap_v0_1.py
+  - tests/coordination/test_project_context_bootstrap_v0_1.py
+  do_not_create:
+  - parallel context-package builder
+  - new top-level roadmap step
+  - Library work item merely because archive name contains forprint_library
+observed_risk:
+  operator_expected: Blueprint/project bootstrap or explicitly selected scope
+  unexpected_artifact: forprint_project_context__forprint_library__...zip
+  known_makefile_semantics: assistant-context-pack is scoped MODULE/TOPICS and conditionally passes --module when
+    MODULE is non-empty; the broader Makefile historically has a default MODULE=forprint_library.
+  hypothesis: Global MODULE default may leak into assistant-context-pack even when the operator did not explicitly
+    select a module.
+  hypothesis_is_current_fact: false
+read_only_acceptance_questions:
+- Does plain `make assistant-context-pack` produce module_detail=null / portfolio context?
+- Does `make assistant-context-pack MODULE=forprint_library` produce an explicitly Library-scoped manifest?
+- Can the builder distinguish an explicit Make command-line MODULE from a global/default Makefile MODULE value?
+- Does manifest/package filename expose package type, target module (or null), purpose and launch/use mode?
+- Do project-context validation tests fail when requested semantic identity and emitted manifest/filename disagree?
+- Can this be repaired without touching roadmap/lifecycle/dispatch/release authority?
+allowed_disposition_after_audit:
+- REUSE_AS_IS_IF_DEFAULT_IS_ALREADY_BROAD
+- EXTEND_TARGET_SCOPING_IF_DEFAULT_LEAK_CONFIRMED
+- ADAPT_MANIFEST_IDENTITY_VALIDATION
+forbidden:
+- roadmap redesign as a side effect
+- CF-10 lifecycle mutation
+- worker dispatch
+- foreign module write
+- automatic commit/push/merge

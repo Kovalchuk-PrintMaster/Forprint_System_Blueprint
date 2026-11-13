@@ -1,0 +1,40 @@
+schema_version: blueprint_q7_scope_and_acceptance_review_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T17:36:00+03:00'
+  status: PASS_TO_IMPLEMENTATION
+record_id: blueprint_q7_scope_and_acceptance_review_2026_08_25_v0_1
+hardening_slice: Q7
+stable_id: blueprint_v0_4_1_cross_module_question_routing_contract_v0_1
+review_result: PASS_TO_IMPLEMENTATION
+semantic_model:
+  canonical_route_directions: 3
+  q1_identity_preserved: true
+  routing_records_append_only: true
+  q2_five_round_limit_preserved: true
+  routing_alone_consumes_round: false
+  answer_evidence_required: true
+  strategic_ambiguity_escalates: true
+  access_may_route_directly_to_operator: true
+  cross_repository_writes: false
+  runtime_disabled: true
+acceptance_criteria:
+- exact three route directions are canonical
+- Q1 question identity is preserved across routing and rerouting
+- routing records are append-only evidence
+- reroute preserves question_id and correlation_id
+- Q2 remains owner of exact five-round per-thread budget
+- route/reroute/failure alone does not consume a round
+- routed answers require evidence refs
+- strategic ambiguity escalates to Blueprint/operator
+- access/secret questions may route directly to operator without secret values
+- routing/answer does not imply ACCEPT RETURN HOLD waiver or scope change
+- cross-repository writes remain disabled
+- Q5/Q6 integration is semantic only
+- Q8 remains deferred
+- validator is in canonical make check
+- focused Q6+Q7 tests pass
+- canonical make check passes
+closeout_not_performed_by_this_record: true
+manual_exception_authority_preserved: true

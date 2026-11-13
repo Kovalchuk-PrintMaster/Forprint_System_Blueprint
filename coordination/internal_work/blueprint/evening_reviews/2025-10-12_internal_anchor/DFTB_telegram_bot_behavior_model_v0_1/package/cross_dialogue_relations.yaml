@@ -1,0 +1,50 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+authority_class: telegram_module_history_non_blueprint_authority
+relations:
+- type: precedes
+  from_bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  to_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  confidence: HIGH
+  note: Internal behavior scaffold is dated 2025-10-12 and causally precedes the 2025-10-14..25 ML engineering/refactor root.
+- type: partially_embeds
+  from_bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  to_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  confidence: HIGH
+  note: Turn 1 contains embedded prior dialogue/scaffold text that overlaps the later long-running Telegram history; source roots remain distinct.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  to_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  confidence: HIGH
+  note: Later long-running Telegram history turns behavior modeling into a stronger behavior-first/spec-vs-runtime boundary and governance closeout.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  to_bundle: DFTB-accounting-registry-source-label-2026-05-17
+  confidence: HIGH
+  note: Later Accounting history gives 1C automation a bounded adapter/outbox/accounting-truth architecture.
+item_relations:
+- type: precedes
+  from_item: IT-TG1210B-0001
+  to_item: IT-TG1310-0001
+  confidence: HIGH
+  note: 2025 behavior scaffold precedes later explicit behavior-model-first architecture.
+- type: supports
+  from_item: IT-TG1210B-0011
+  to_item: IT-TG1310-0002
+  confidence: HIGH
+  note: Both sources preserve low-confidence escalation rather than confident guessing.
+- type: refined_by
+  from_item: IT-TG1210B-0022
+  to_item: IT-TG1410-0004
+  confidence: MEDIUM
+  note: Later ML source turns classifier ideas into structured train/classify/evaluate engineering.
+- type: constrained_by
+  from_item: IT-TG1210B-0019
+  to_item: IT-ACC1705-0003
+  confidence: HIGH
+  note: Current 1C synchronization/action path is bounded by Accounting queue/adapter architecture.
+- type: constrained_by
+  from_item: IT-TG1210B-0033
+  to_item: IT-BP1407-0011
+  confidence: HIGH
+  note: Telegram remains an operational interface rather than canonical business truth.

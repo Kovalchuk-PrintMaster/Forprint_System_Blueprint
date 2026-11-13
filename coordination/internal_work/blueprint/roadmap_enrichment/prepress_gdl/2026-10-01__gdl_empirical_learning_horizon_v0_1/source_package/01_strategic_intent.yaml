@@ -1,0 +1,72 @@
+schema_version: forprint_gdl_strategic_intent_v0_1
+intent_id: gdl_empirical_learning_strategy_20261001
+owner: human_owner
+module: forprint_prepress_hub
+capability: graphic_design_lab
+problem_statement: >
+  The Graphic Design Lab can accumulate contracts, scripts, validators and automation
+  faster than it accumulates evidence about what actually produces good design results.
+  The immediate strategic need is to learn from real customer requests, real Creator
+  prompts, real Creator outputs, revision cycles, operator assessment and customer
+  acceptance, then use those findings to guide later automation.
+strategic_goal: >
+  Build a continuously improving empirical knowledge base that helps ForPrint determine
+  the shortest, most stable and most controllable path from a real customer design
+  request to an acceptable design result, and use accumulated evidence to decide which
+  work belongs to Creator, which belongs to local deterministic tools, and which requires
+  human confirmation.
+operating_model:
+  lanes:
+    - id: empirical_learning_lane
+      actors: [human_owner, operator_or_manager, assistant, real_customer_context]
+      responsibility:
+        - capture_real_requests
+        - run_guided_intake_experiments
+        - observe_creator_behavior
+        - record_outcomes
+        - identify_strengths_weaknesses_and_failure_modes
+        - derive_patterns_and_antipatterns
+    - id: blueprint_and_roadmap_lane
+      actor: forprint_system_blueprint
+      responsibility:
+        - architecture_alignment
+        - ownership_alignment
+        - contour_registration
+        - dependency_ordering
+        - pre_activation_reconciliation
+        - executable_prompt_publication
+    - id: engineering_worker_lane
+      actor: governed_worker
+      responsibility:
+        - schemas
+        - validators
+        - indexes
+        - generated_views
+        - tests
+        - Makefile_operator_workflows
+        - deterministic_builders
+        - analytics_support
+        - adapters_when_authorized
+principles:
+  - empirical_evidence_before_broad_automation
+  - metadata_first_not_large_design_assets_in_git
+  - human_feedback_is_evidence_not_absolute_truth
+  - customer_acceptance_is_distinct_from_customer_satisfaction
+  - accepted_attempt_count_is_a_high_value_signal
+  - keep_failed_prompts_and_failed_results_as_learning_evidence
+  - do_not_optimize_only_for_one_provider_or_model
+  - design_creator_as_replaceable_execution_role
+  - local_tools_should_take_over_tasks_proven_unreliable_for_creator
+  - creator_should_keep_tasks_proven_strong_and_cost_effective
+  - every_far_horizon_contour_must_be_reconciled_before_execution
+long_term_learning_loop:
+  - customer_reality
+  - guided_intake
+  - creator_prompt
+  - creator_result
+  - operator_and_customer_outcome
+  - empirical_case
+  - reusable_findings
+  - prompt_and_workflow_pattern_improvement
+  - architecture_or_tooling_update
+  - next_customer_case

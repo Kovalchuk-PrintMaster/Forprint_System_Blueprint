@@ -1,0 +1,73 @@
+work_front_id: wf-cf10-worker-result-return-boundary-v0-1
+objective: Make a successful governed Worker process candidate-ready only when it returns one valid attempt-bound
+  Handoff v2 result through an exact machine-readable provider stdout protocol, and fail closed otherwise.
+scope:
+- Makefile
+- scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+exclusions:
+- Do not modify the Handoff v2 result schema or validator.
+- Do not modify the Execution Attempt Ledger contract.
+- Do not modify structured validation capability or MCP semantics.
+- Do not modify Task70 candidate implementation files.
+- Do not synthesize worker_result.yaml from prose, Git delta or structured-command evidence.
+- Do not relaunch a033.
+- Do not prepare or launch a034.
+- Do not add automatic promotion, commit, push, merge or release behavior.
+- Do not mutate inherited protected dirty paths.
+provenance:
+  source_refs:
+  - source_head:e46f12bb412690653ca8f4f51219c6c350cfa94a
+  - attempt:cf10-u180j-a033
+  - started_record:cf10-u180j-a033__09f17cb10a8d.yaml
+  - gap:SUCCESSFUL_PROCESS_WITHOUT_HANDOFF_V2_RESULT
+  - candidate_delta:3_paths_exact
+  - candidate_tests:15_passed
+  chat_is_authority: false
+dependencies:
+- a033 STARTED/PENDING record is published at e46f12bb412690653ca8f4f51219c6c350cfa94a.
+- a033 provider process completed with return code 0.
+- a033 exact Worker delta is limited to the three Task70 candidate paths.
+- a033 focused candidate test module passes 15 tests with the canonical Python override.
+- The existing Handoff v2 result validator and post-worker finalizer remain canonical and must be reused unchanged.
+outputs:
+- worker_result_return.py with framed stdout extraction, validation and immutable materialization.
+- Invocation prompt exact Handoff v2 result-return protocol.
+- Governed Worker post-process result gate.
+- Explicit result-return reconciliation for already-started missing-result attempts.
+- Focused unit/integration tests for valid, missing, malformed and failed result-return cases.
+- Short Make operator surfaces for result-return checks and explicit reconciliation.
+acceptance:
+- Tests-first RED proves the current runtime has no exact stdout result-return protocol or fail-closed result gate.
+- Focused parser tests accept exactly one valid framed Handoff v2 result.
+- Focused parser tests reject missing, duplicate, malformed or prose-surrounded frames.
+- Existing Handoff v2 validator is reused unchanged for schema, manifest and attempt binding.
+- Result materialization is create-only under the bound attempt result directory.
+- Invocation prompt carries the exact result-return protocol without granting filesystem or acceptance authority.
+- Successful process plus valid result materializes worker_result.yaml and remains eligible for candidate validation.
+- Successful process plus missing or invalid result becomes BLOCKED and cannot reach candidate validation.
+- Non-zero or timed-out process becomes BLOCKED and cannot reach candidate validation.
+- Blocked result return appends one terminal ledger record after the existing STARTED/PENDING record.
+- Explicit a033 reconciliation terminalizes the missing-result attempt without synthesizing a result artifact.
+- Reconciliation rejects already-terminal attempts and attempts that already have a valid result.
+- Task70 candidate files remain unchanged by this hardening slice.
+- No lifecycle, roadmap, promotion, commit, push, merge or release authority is added.
+- A034 remains unprepared and unlaunched until this slice and a033 reconciliation are closed and published.
+stop_conditions:
+- Implementation requires a path outside the exact six-file implementation write set.
+- Implementation requires changing the Handoff v2 result schema or validator semantics.
+- Implementation requires changing the Execution Attempt Ledger contract.
+- Implementation requires Worker writes outside the isolated workspace.
+- Implementation requires synthesizing a successful result from provider prose or validation evidence.
+- Implementation requires changing Task70 candidate files.
+- Implementation requires lifecycle or roadmap mutation.
+- Implementation requires automatic candidate promotion, commit, push, merge or release.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false

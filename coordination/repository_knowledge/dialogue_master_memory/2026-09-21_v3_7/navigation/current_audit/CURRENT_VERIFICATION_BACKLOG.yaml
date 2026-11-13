@@ -1,0 +1,1274 @@
+schema_version: forprint_master_current_verification_backlog_v1_0
+generated_on: '2026-09-21'
+warning: This is a deduplicated audit plan, not a statement that items are missing. `NOT_AUDITED` means current implementation has not been verified in this
+  master-package build.
+tasks:
+- audit_id: AUD-001
+  priority: CRITICAL
+  title: Authority/startup front door
+  question: Verify current `coordination/releases/current.yaml`, canonical startup chain, and eliminate stale current-looking START_HERE/handoff authority.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP0909-0017
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP0809-0002
+  - IT-BP0809-0007
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0006
+  - IT-OPREG2905-0009
+  - IT-OPREG2905-0020
+  - IT-OPREG2905-0023
+  last_known_review_refs:
+  - B01-F001
+  - B01-F002
+  - B02-F001
+  - B02-F002
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-002
+  priority: CRITICAL
+  title: Logistics H10 pilot runtime
+  question: Verify current H10 selector, Logistics-only connectivity, two successful real automatic runs, stability evidence and separate expansion decision.
+  concept: logistics_pilot_rollout
+  historical_item_refs:
+  - IT-BP2708-0023
+  - IT-BP2708-0024
+  - IT-BP2708-0025
+  - IT-BP0909-0027
+  - IT-BP0809-0006
+  - IT-BP0809-0023
+  - IT-BP0809-0025
+  - IT-LOG1006-0011
+  - IT-LOG1006-0013
+  - IT-LOG1006-0015
+  - IT-LOG1006-0019
+  last_known_review_refs:
+  - B02-F005
+  - B06-F002
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-003
+  priority: CRITICAL
+  title: Completion → acceptance → progression
+  question: Run one real module cycle and verify completion intake, deterministic checks, operator acceptance boundary, roadmap updates and same-phase/major-phase
+    progression rules.
+  concept: prompt_completion_cycle
+  historical_item_refs:
+  - IT-BP0508C-0019
+  - IT-BP1708-0009
+  - IT-BP2708-0014
+  - IT-BP2708-0015
+  - IT-BP0909-0009
+  - IT-BP0909-0010
+  last_known_review_refs:
+  - B06-F006
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-004
+  priority: HIGH
+  title: Prompt lifecycle / archive / Oracle binding
+  question: Verify prepared/released/completed/archive transitions, one-shot release fail-closed reset, Acceptance Oracle binding and durable inbound references.
+  concept: prompt_completion_cycle
+  historical_item_refs:
+  - IT-BP0508C-0021
+  - IT-BP0509-0024
+  - IT-BP0509-0025
+  - IT-BP0509-0027
+  - IT-BP0509-0028
+  - IT-LOG1006-0006
+  - IT-LOG1006-0009
+  - IT-LOG1006-0010
+  - IT-LIB0507-0021
+  - IT-LIB0507-0022
+  - IT-LIB0507-0024
+  - IT-LIB0507-0026
+  - IT-OPREG2905-0011
+  - IT-OPREG2905-0017
+  - IT-OPREG2905-0018
+  - IT-OPREG2905-0021
+  - IT-GW2605-0018
+  - IT-GW2605-0020
+  - IT-GW2605-0021
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-005
+  priority: CRITICAL
+  title: Fresh-worker pull runtime
+  question: Verify Blueprint-publish/module-pull ownership, listener/dispatcher, fresh worker per prompt, generated context, previous report inclusion and no
+    module writes into Blueprint.
+  concept: automation_workers_runtime
+  historical_item_refs:
+  - IT-BP0509-0016
+  - IT-BP0509-0017
+  - IT-BP0509-0018
+  - IT-BP0509-0019
+  - IT-BP0909-0022
+  - IT-BP0909-0025
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-006
+  priority: HIGH
+  title: Continuity stack end to end
+  question: Generate a fresh zero-context handoff and validate micro-roadmap, continuity contract, checkpoint store, projections, Handoff Compiler and Lifecycle
+    Enforcement status.
+  concept: continuity_project_memory
+  historical_item_refs:
+  - IT-BP1009-0021
+  - IT-BP1009-0022
+  - IT-BP1009-0023
+  - IT-BP1009-0024
+  - IT-BP1009-0025
+  - IT-BP1009-0028
+  - IT-BP1209-0001
+  - IT-BP1209-0005
+  - IT-BP1209-0010
+  - IT-BP1209-0016
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-007
+  priority: CRITICAL
+  title: Mutation/compiler safety
+  question: Verify canonical mutation entrypoint, read-only checks, project-aware repair boundaries, fail-closed rollback/checkpoint semantics and exact validator
+    contracts.
+  concept: mutation_validation_safety
+  historical_item_refs:
+  - IT-BP0508-0016
+  - IT-BP0508-0030
+  - IT-BP0508-0031
+  - IT-BP1009-0008
+  - IT-BP1009-0009
+  - IT-BP1009-0010
+  - IT-BP1209-0023
+  - IT-BP1209-0025
+  - IT-BP1409-0004
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  - IT-BP1409-0013
+  - IT-BP0709CF-0003
+  - IT-BP0709CF-0009
+  - IT-BP0709CF-0019
+  - IT-LIB0507-0005
+  - IT-LIB0507-0016
+  - IT-OPREG2905-0010
+  - IT-OPREG2905-0012
+  - IT-OPREG2905-0014
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-008
+  priority: CRITICAL
+  title: Explicit dependency contract / Make DAG
+  question: Verify no hidden execution dependencies, clean-room reproducibility, declared/generated prerequisites and dependency-order determinism.
+  concept: dependency_contracts
+  historical_item_refs:
+  - IT-BP1009-0011
+  - IT-BP1009-0012
+  - IT-BP1009-0013
+  - IT-BP1009-0014
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  last_known_review_refs:
+  - B02-F008
+  - B02-F014
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-009
+  priority: HIGH
+  title: Parallel work / baseline semantics
+  question: Verify current policy supports bounded module/local baselines and parallel work without requiring a globally clean tree; ensure foreign repo Git
+    boundaries are respected.
+  concept: git_worktree_parallelism
+  historical_item_refs:
+  - IT-BP2708-0009
+  - IT-BP2708-0010
+  - IT-BP2708-0011
+  - IT-BP0909-0014
+  - IT-BP0909-0015
+  - IT-LIB0507-0007
+  - IT-LIB0507-0018
+  - IT-LIB0507-0019
+  - IT-OPREG2905-0013
+  last_known_review_refs:
+  - B06-F010
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-010
+  priority: CRITICAL
+  title: Repository knowledge derivation and drift
+  question: Verify evidence-backed Repository Knowledge, semantic-vs-index coverage, derivation registry, faithful mirror, deterministic caches and generated-index
+    rebuild from reconciled sources.
+  concept: repository_knowledge
+  historical_item_refs:
+  - IT-BP0508-0001
+  - IT-BP0508-0008
+  - IT-BP3108-0012
+  - IT-BP1009-0006
+  - IT-BP1009-0019
+  - IT-BP1009-0020
+  - IT-BP0809-0003
+  - IT-BP0809-0004
+  - IT-BP0809-0023
+  - IT-BP0809-0033
+  - IT-BP0709CF-0013
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-011
+  priority: HIGH
+  title: Self-cleaning and deprecation lifecycle
+  question: Verify descriptive-document conformance checks, stale-artifact candidate registry, retirement from active validation, index/health closeout and durable
+    policy propagation.
+  concept: documentation_self_cleaning
+  historical_item_refs:
+  - IT-BP0509-0008
+  - IT-BP0509-0009
+  - IT-BP0509-0011
+  - IT-BP0509-0012
+  - IT-BP0509-0013
+  - IT-BP0509-0014
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-012
+  priority: HIGH
+  title: Human Intent and three-view portfolio
+  question: Verify stable Human Intent IDs, residual/dedup handling, quote/context provenance, synthetic labels and machine/balanced/human portfolio renderers.
+  concept: human_intent_portfolio_views
+  historical_item_refs:
+  - IT-BP3108-0013
+  - IT-BP3108-0015
+  - IT-BP3108-0016
+  - IT-BP0509-0001
+  - IT-BP0509-0002
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  last_known_review_refs:
+  - B02-F011
+  - B06-F013
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-013
+  priority: HIGH
+  title: Roadmap planning depth and prompt buffers
+  question: Verify current planning policy and machine health signals for forward roadmap depth, draft prompt buffer and no invented next front.
+  concept: roadmap_portfolio
+  historical_item_refs:
+  - IT-BP1406-0010
+  - IT-BP1406-0009
+  - IT-BP0508C-0011
+  - IT-BP0508C-0012
+  - IT-BP0508C-0013
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0024
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP0809-0005
+  - IT-BP0809-0027
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-014
+  priority: HIGH
+  title: Project Inspector semantic audit
+  question: Verify durable inspected baseline, deterministic-first checks, bounded risk-based LLM audit, CONTEXT_REQUIRED and non-authority/legal boundaries.
+  concept: project_inspector
+  historical_item_refs:
+  - IT-BP3108-0022
+  - IT-BP3108-0023
+  - IT-BP3108-0024
+  - IT-BP3108-0025
+  - IT-BP3108-0026
+  - IT-BP3108-0027
+  - IT-BP3108-0028
+  - IT-LIB1605-0007
+  - IT-LIB1605-0025
+  - IT-CRM1605-0019
+  - IT-CRM1605-0026
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-015
+  priority: HIGH
+  title: Contract Registry / Gateway / Job Specification
+  question: Verify target ownership split, contract record lifecycle/adoption metadata, transport neutrality, impact analysis and first Job Specification contract.
+  concept: contract_registry_gateway
+  historical_item_refs:
+  - IT-BP3108-0029
+  - IT-BP3108-0030
+  - IT-BP3108-0031
+  - IT-BP3108-0032
+  - IT-BP3108-0033
+  - IT-BP3108-0034
+  - IT-BP3108-0035
+  - IT-LIB1605-0002
+  - IT-LIB1605-0017
+  - IT-LIB1605-0023
+  - IT-LIB1605-0025
+  - IT-GW2605-0001
+  - IT-GW2605-0003
+  - IT-GW2605-0006
+  - IT-GW2605-0023
+  - IT-CRM1605-0020
+  - IT-CRM1605-0023
+  - IT-CRM1605-0025
+  - IT-CALC0910-0004
+  - IT-CALC0910-0022
+  - IT-CALC0910-0024
+  - IT-CALC0910-0038
+  - IT-TG1210-0025
+  - IT-TG1210-0030
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  - IT-TG1310-0007
+  last_known_review_refs:
+  - B01-F012
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-016
+  priority: HIGH
+  title: Canonical module identity/inventory
+  question: Resolve current module registry count/IDs, Accounting Registry mismatch, Operations Assistant/Identity coverage and double-counts before automated
+    portfolio selection.
+  concept: roadmap_portfolio
+  historical_item_refs:
+  - IT-BP3108-0006
+  - IT-BP2708-0031
+  - IT-LIB1605-0004
+  - IT-LIB1605-0015
+  - IT-LIB1605-0020
+  - IT-OPREG2905-0001
+  - IT-OPREG2905-0002
+  - IT-OPREG2905-0006
+  - IT-ACC1705-0001
+  - IT-ACC1705-0020
+  - IT-ACC1705-0025
+  - IT-CP0106-0002
+  - IT-CP0106-0020
+  - IT-CP0106-0025
+  last_known_review_refs:
+  - B01-F010
+  - B02-F009
+  - B06-F005
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-017
+  priority: HIGH
+  title: Artifact/revision identity
+  question: Verify unique script/archive IDs, revision/hash guards, tracking revision identity and schema-copy identity so stale artifacts cannot execute accidentally.
+  concept: artifact_identity
+  historical_item_refs:
+  - IT-BP2708-0008
+  - IT-BP2708-0034
+  - IT-BP0909-0004
+  - IT-BP1409-0008
+  - IT-LOG1006-0014
+  - IT-LOG1006-0017
+  - IT-LIB0507-0021
+  - IT-OPREG2905-0019
+  - IT-OPREG2905-0020
+  last_known_review_refs:
+  - B06-F007
+  - B06-F008
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-018
+  priority: NORMAL
+  title: Legacy print-file migration
+  question: Verify legacy filename/folder inventory, search compatibility, canonical target naming and cross-module adoption plan.
+  concept: legacy_file_migration
+  historical_item_refs:
+  - IT-BP3108-0018
+  - IT-BP3108-0019
+  - IT-BP3108-0020
+  - IT-BP3108-0021
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-019
+  priority: HIGH
+  title: Shared standards adoption and human/machine parity
+  question: Verify standards/doc decisions are represented in machine governance, adoption readiness is explicit, and UI Design System scope has migration qualifiers
+    where needed.
+  concept: standards_adoption
+  historical_item_refs:
+  - IT-BP3108-0021
+  - IT-BP0509-0013
+  - IT-BP0709CF-0014
+  - IT-LIB1605-0018
+  - IT-LIB1605-0026
+  - IT-GW2605-0010
+  - IT-GW2605-0012
+  - IT-GW2605-0024
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0036
+  - IT-TG1310-0026
+  - IT-TG1310-0027
+  - IT-TG1310-0031
+  - IT-TG1310-0032
+  - IT-BP1709-0005
+  - IT-BP1709-0006
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  last_known_review_refs:
+  - B02-F012
+  - B06-F003
+  - B06-F004
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-020
+  priority: HIGH
+  title: Transparency and operator status surface
+  question: Verify machine-readable current-state manifest/read-only status exposes HEAD, phase, blockers, boundaries, dependencies, next action, gates and forward
+    plan.
+  concept: reporting_operator_ux
+  historical_item_refs:
+  - IT-BP0508-0029
+  - IT-BP0508-0033
+  - IT-BP0508-0034
+  - IT-BP0508-0035
+  - IT-BP0508-0036
+  - IT-BP0809-0028
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-LOG1006-0007
+  - IT-LIB0507-0013
+  - IT-LIB0507-0027
+  - IT-GW2605-0011
+  - IT-GW2605-0025
+  - IT-CALC0910-0018
+  - IT-CALC0910-0019
+  - IT-CALC0910-0035
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-021
+  priority: HIGH
+  title: Decision rationale and correction/supersession discoverability
+  question: Verify major decisions have rationale/effective-state links, immutable corrections are discoverable, and obsolete rules are explicitly superseded/deprecated
+    rather than silently contradicted.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP2708-0002
+  - IT-BP2708-0003
+  - IT-BP2708-0004
+  - IT-CP0106-0001
+  - IT-CP0106-0024
+  - IT-CP0106-0026
+  - IT-CALC0910-0039
+  - IT-TG1210-0026
+  - IT-TG1210-0027
+  - IT-BP1709-0005
+  - IT-BP1709-0006
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  last_known_review_refs:
+  - B01-F008
+  - B06-F009
+  - B06-F011
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-022
+  priority: HIGH
+  title: Future program order
+  question: Reconcile H11, Knowledge Foundation, legacy retirement and AUT transition so broad autonomy cannot outrun knowledge/identity/dependency readiness.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP1009-0028
+  last_known_review_refs:
+  - B02-F006
+  - B02-F007
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-023
+  priority: CRITICAL
+  title: Control Foundation / roadmap execution-state reconciliation
+  question: 'Verify CF-01 current closure and complete/verify CF-02: continuity event store as actual execution authority, generated previous/current/next/ready/blocked
+    + ROADMAP_SYNC, migration off legacy manual execution-state fields, lifecycle hard gates, no automatic next activation/dispatch/release authority.'
+  concept: control_foundation_roadmap_reconciliation
+  historical_item_refs:
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0026
+  - IT-BP1209-0027
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP1209-0030
+  - IT-BP1209-0031
+  - IT-BP1209-0032
+  - IT-BP1209-0033
+  - IT-BP1209-0034
+  - IT-BP1409-0001
+  - IT-BP1409-0002
+  - IT-BP1409-0003
+  - IT-BP1409-0004
+  - IT-BP1409-0005
+  - IT-BP1409-0006
+  - IT-BP1409-0010
+  - IT-BP0709CF-0007
+  - IT-BP0709CF-0008
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0018
+  - IT-ACC1705-0015
+  - IT-ACC1705-0016
+  - IT-ACC1705-0017
+  - IT-ACC1705-0018
+  - IT-CP0106-0010
+  - IT-CP0106-0011
+  - IT-CP0106-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline; determine whether 0032 or a successor completed after the exported
+    dialogue.
+- audit_id: AUD-024
+  priority: CRITICAL
+  title: Portfolio forensic program and module-disposition control
+  question: 'Verify a durable machine-readable portfolio forensic workflow exists: Blueprint target-course baseline first, bounded static+live collectors, coverage
+    dashboard, unresolved registry, evidence-class deduplication, module disposition schema, and requirement that local health be reconciled with dependencies/runtime/project
+    course.'
+  concept: portfolio_forensics_alignment
+  historical_item_refs:
+  - IT-BP0809-0009
+  - IT-BP0809-0011
+  - IT-BP0809-0012
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  - IT-BP0809-0018
+  - IT-BP0809-0021
+  - IT-BP0809-0027
+  - IT-BP0809-0034
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint authority/target and determine whether this forensic workflow was implemented, replaced by Project Inspector/portfolio
+    tooling, or remains external analysis infrastructure.
+- audit_id: AUD-025
+  priority: CRITICAL
+  title: Diagnostic report freshness and non-mutating check materialization
+  question: Verify full-check diagnostics are bound to the current source/test hashes, current-tree full pytest is distinguishable from isolated non-mutating
+    `make check` materialization, stale logs are invalidated, and controlled-failure hash-pin updates cannot create false blockers.
+  concept: diagnostic_truth_and_isolation
+  historical_item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0012
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current HEAD and run fresh direct pytest plus the current non-mutating public check with report/source/test hash provenance; compare
+    results before mutating source.
+- audit_id: AUD-026
+  priority: CRITICAL
+  title: Stale-handoff revalidation and semantic candidate gate
+  question: Verify every substantial handoff/mutation flow revalidates live Git/release/lifecycle state before acting, refuses already-closed work, builds non-mutating
+    candidates first, and requires semantic/adversarial review of dependency/derivation/standards/authority/bootstrap/isolation/migration contracts before activation/apply.
+  concept: candidate_semantic_review_gate
+  historical_item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0003
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  - IT-BP0709CF-0009
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  - IT-BP0709CF-0015
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  - IT-BP0709CF-0018
+  - IT-BP0709CF-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current HEAD/release/lifecycle and trace the CF-02 v0.1 seven findings into v0.2/current implementation; confirm stale handoffs
+    cannot drive mutation.
+- audit_id: AUD-027
+  priority: HIGH
+  title: Logistics module-side H9 lineage and external freshness gate
+  question: Verify current Logistics history preserves coordination-only prompt intake, H9 publication/seal identity, non-recursive metadata sealing, separation
+    of module completion from Blueprint freshness, sealed-candidate immutability, and live-start gating on CURRENT coordination freshness.
+  concept: cross_module_freshness_and_sealing
+  historical_item_refs:
+  - IT-LOG1006-0009
+  - IT-LOG1006-0010
+  - IT-LOG1006-0012
+  - IT-LOG1006-0013
+  - IT-LOG1006-0014
+  - IT-LOG1006-0015
+  - IT-LOG1006-0016
+  - IT-LOG1006-0017
+  - IT-LOG1006-0018
+  - IT-LOG1006-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Logistics repository HEAD/branch/history and current Blueprint authority separately. Treat this source as module history
+    only; verify H9 commits/gates and current coordination-sync semantics without reopening sealed history.
+- audit_id: AUD-028
+  priority: CRITICAL
+  title: Library canonical-definition boundary and contract-authority evolution
+  question: Verify current ForPrint Library owns only the intended canonical catalogs/semantics/templates/versioning/migration responsibilities, excludes runtime
+    orders/payments/stock/production/file state, and is reconciled with the later domain-owner → Contract Registry → Gateway architecture so contract authority
+    is not duplicated.
+  concept: library_canonical_definition_boundary
+  historical_item_refs:
+  - IT-LIB1605-0002
+  - IT-LIB1605-0003
+  - IT-LIB1605-0004
+  - IT-LIB1605-0010
+  - IT-LIB1605-0015
+  - IT-LIB1605-0016
+  - IT-LIB1605-0017
+  - IT-LIB1605-0018
+  - IT-LIB1605-0019
+  - IT-LIB1605-0020
+  - IT-LIB1605-0021
+  - IT-LIB1605-0022
+  - IT-LIB1605-0023
+  - IT-LIB1605-0024
+  - IT-LIB1605-0025
+  - IT-LIB1605-0026
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/ADRs/module inventory, then audit current Library schemas/code/docs and dedicated Contract Registry/Gateway
+    contracts. Classify each early Library responsibility as retained, moved, superseded or deferred.
+- audit_id: AUD-029
+  priority: CRITICAL
+  title: Library make surface, repo boundary and completion-packet review flow
+  question: Verify current Library has a non-mutating `make check`, explicit Library-only write authority, safe Blueprint governance/reference consumption, bounded
+    scanners, explicit PACKET completion validation/apply with idempotency, provenance-separated implementation/completion/governance commits, and READY_FOR_BLUEPRINT_REVIEW
+    kept distinct from acceptance/merge.
+  concept: library_blueprint_integration_completion
+  historical_item_refs:
+  - IT-LIB0507-0005
+  - IT-LIB0507-0006
+  - IT-LIB0507-0007
+  - IT-LIB0507-0008
+  - IT-LIB0507-0017
+  - IT-LIB0507-0018
+  - IT-LIB0507-0019
+  - IT-LIB0507-0021
+  - IT-LIB0507-0022
+  - IT-LIB0507-0023
+  - IT-LIB0507-0024
+  - IT-LIB0507-0025
+  - IT-LIB0507-0026
+  - IT-LIB0507-0027
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Library HEAD/branch and current Blueprint module policy. Inspect Makefile/coordination scripts/completion-packet schema
+    before executing any historical command.
+- audit_id: AUD-030
+  priority: CRITICAL
+  title: Operational Registry truth boundary and current Accounting/CRM/Library ownership
+  question: Verify current Operational Registry is the intended owner of operational client/order/task/status/event truth, Accounting/1C owns accounting truth,
+    CRM coordinates without duplicating canonical facts, Library owns canonical reference definitions, Gateway routes runtime commands, and payment-status semantics
+    do not create dual authority. Also verify current make-first prompt/completion workflow is idempotent and uses current Blueprint paths without unsafe foreign-repo
+    mutation.
+  concept: operational_registry_truth_boundary
+  historical_item_refs:
+  - IT-OPREG2905-0001
+  - IT-OPREG2905-0002
+  - IT-OPREG2905-0006
+  - IT-OPREG2905-0008
+  - IT-OPREG2905-0010
+  - IT-OPREG2905-0011
+  - IT-OPREG2905-0012
+  - IT-OPREG2905-0013
+  - IT-OPREG2905-0017
+  - IT-OPREG2905-0018
+  - IT-OPREG2905-0020
+  - IT-OPREG2905-0021
+  - IT-OPREG2905-0024
+  - IT-OPREG2905-0025
+  - IT-OPREG2905-0026
+  - IT-OPREG2905-0027
+  - IT-CRM1605-0015
+  - IT-CRM1605-0016
+  - IT-CRM1605-0017
+  - IT-CRM1605-0018
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/ADRs/module inventory and exact Operational Registry/Accounting Registry repositories. Build an ownership
+    matrix for operational facts, accounting facts, payment state, customer identity, catalogs and routing before running historical workflows.
+- audit_id: AUD-031
+  priority: CRITICAL
+  title: Integration Gateway runtime boundary, Contract Registry relation and standards visibility
+  question: Verify current Gateway remains validation/normalization/routing/idempotency/audit only, consumes versioned agreements from the current Contract Registry/domain
+    authorities, keeps preview/readiness separate from live enablement, syncs Blueprint standards only into module-local projections, preserves local-completion
+    vs Blueprint-acceptance separation, and does not own pricing/accounting/order/client/stock truth.
+  concept: integration_gateway_runtime_boundary
+  historical_item_refs:
+  - IT-GW2605-0001
+  - IT-GW2605-0002
+  - IT-GW2605-0003
+  - IT-GW2605-0006
+  - IT-GW2605-0010
+  - IT-GW2605-0012
+  - IT-GW2605-0013
+  - IT-GW2605-0014
+  - IT-GW2605-0019
+  - IT-GW2605-0020
+  - IT-GW2605-0021
+  - IT-GW2605-0022
+  - IT-GW2605-0023
+  - IT-GW2605-0024
+  - IT-GW2605-0028
+  - IT-CRM1605-0020
+  - IT-CRM1605-0023
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  - IT-TG0710-0020
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/Contract Registry/Gateway authority plus current Gateway HEAD. Audit Gateway manifest, contract sources,
+    standards-sync paths and live-capability gates before running historical commands.
+- audit_id: AUD-032
+  priority: CRITICAL
+  title: Accounting Registry vs Operational Registry ownership and live-1C safety boundary
+  question: Verify current architecture assigns accounting/1C truth and production operational truth exactly once; Accounting Registry remains a controlled accounting/sanitized-staging
+    boundary unless newer authority explicitly expands it; live 1C integration, production write and automatic posting require separate current authorization;
+    and v0.6 parser work is grounded in real sanitized exports rather than guessed production schemas.
+  concept: accounting_1c_boundary
+  historical_item_refs:
+  - IT-ACC1705-0001
+  - IT-ACC1705-0002
+  - IT-ACC1705-0003
+  - IT-ACC1705-0011
+  - IT-ACC1705-0012
+  - IT-ACC1705-0014
+  - IT-ACC1705-0015
+  - IT-ACC1705-0016
+  - IT-ACC1705-0017
+  - IT-ACC1705-0018
+  - IT-ACC1705-0019
+  - IT-ACC1705-0020
+  - IT-ACC1705-0021
+  - IT-ACC1705-0022
+  - IT-ACC1705-0023
+  - IT-ACC1705-0025
+  - IT-TG0710-0014
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  - IT-TG0710-0018
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/ADRs/module manifests plus current Accounting and Operational Registry HEADs. Map accounting truth,
+    operational truth, warehouse/material movements, 1C adapter ownership and live-write authority before running historical integration steps.
+- audit_id: AUD-033
+  priority: CRITICAL
+  title: Strategic Control Plane existence, authority and Blueprint/Inspector boundary
+  question: Determine whether a current ForPrint Strategic/Control Plane exists or was renamed/superseded/absorbed; if it exists, define exactly whether it owns
+    strategic goals/priorities/autonomy/decision rights, how it submits changes to Blueprint, whether Blueprint remains architecture authority, how factual module
+    state comes from Inspector, and why the later Control Foundation is or is not the same component.
+  concept: strategic_control_plane_governance
+  historical_item_refs:
+  - IT-CP0106-0001
+  - IT-CP0106-0002
+  - IT-CP0106-0003
+  - IT-CP0106-0004
+  - IT-CP0106-0005
+  - IT-CP0106-0009
+  - IT-CP0106-0010
+  - IT-CP0106-0011
+  - IT-CP0106-0012
+  - IT-CP0106-0017
+  - IT-CP0106-0019
+  - IT-CP0106-0020
+  - IT-CP0106-0021
+  - IT-CP0106-0023
+  - IT-CP0106-0024
+  - IT-CP0106-0025
+  - IT-CP0106-0026
+  - IT-BP1407-0029
+  - IT-CRM1605-0027
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current releases/current, module inventory, ADRs and roadmap. Search for Control Plane/Strategic Control Plane/current successor
+    names before assuming this bootstrap proposal was ever implemented.
+- audit_id: AUD-034
+  priority: CRITICAL
+  title: CRM orchestration/dashboard boundary and canonical ownership
+  question: Verify current CRM is business orchestration + human dashboard, not canonical storage for operational/accounting/catalog/architecture/routing truth;
+    map current CRM-owned UI/projection/coordination records; resolve order creation/manual-decision commands through the current Operational Registry/Contract
+    Registry/Gateway design.
+  concept: crm_orchestration_boundary
+  historical_item_refs:
+  - IT-CRM1605-0013
+  - IT-CRM1605-0014
+  - IT-CRM1605-0015
+  - IT-CRM1605-0016
+  - IT-CRM1605-0017
+  - IT-CRM1605-0018
+  - IT-CRM1605-0019
+  - IT-CRM1605-0020
+  - IT-CRM1605-0021
+  - IT-CRM1605-0022
+  - IT-CRM1605-0023
+  - IT-CRM1605-0024
+  - IT-CRM1605-0025
+  - IT-CRM1605-0026
+  - IT-SMM2506-0005
+  - IT-SMM2506-0018
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/ownership/Contract Registry plus CRM and Operational Registry HEADs. Audit CRM models/contracts before
+    implementing any historical proposed contract.
+- audit_id: AUD-035
+  priority: NORMAL
+  title: Prepress Hub automation architecture and preset/adaptor boundary
+  question: Determine whether the current Prepress module retained the early unified local operator surface, declarative preset/workflow engine, worker/queue,
+    native application adapters and hot-folder mode, or adopted a different architecture.
+  concept: prepress_automation_hub
+  historical_item_refs:
+  - IT-CRM1605-0001
+  - IT-CRM1605-0002
+  - IT-CRM1605-0003
+  - IT-PRE2706-0001
+  - IT-PRE2706-0002
+  - IT-PRE2706-0003
+  - IT-PRE2706-0005
+  - IT-PRE2706-0018
+  - IT-PRE2005-0003
+  - IT-PRE2005-0004
+  - IT-PRE2005-0005
+  - IT-PRE2005-0006
+  - IT-PRE2005-0008
+  - IT-PRE2005-0009
+  - IT-PRE2005-0014
+  - IT-PRE2005-0017
+  - IT-PRE2005-0018
+  - IT-PRE2005-0021
+  - IT-PRE2005-0022
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Prepress repository/module authority and inspect its actual UI/backend/workflow/adaptor design; treat the May proposal
+    as historical intent only.
+- audit_id: AUD-036
+  priority: CRITICAL
+  title: Prepress capability decomposition, Unix-first execution and raster candidate safety
+  question: Verify current Prepress uses bounded product-specific assistants and shared factual tools without cyclic/domain creep; determine current Unix-vs-Windows
+    execution split; verify candidate preview/risk contracts; resolve authoritative DPI/aspect/bleed/color thresholds; and ensure Photoshop Station is only a
+    bounded executor with safe job/result contracts.
+  concept: prepress_unix_photoshop_execution
+  historical_item_refs:
+  - IT-PRE2706-0001
+  - IT-PRE2706-0002
+  - IT-PRE2706-0003
+  - IT-PRE2706-0004
+  - IT-PRE2706-0005
+  - IT-PRE2706-0007
+  - IT-PRE2706-0009
+  - IT-PRE2706-0010
+  - IT-PRE2706-0011
+  - IT-PRE2706-0012
+  - IT-PRE2706-0013
+  - IT-PRE2706-0014
+  - IT-PRE2706-0015
+  - IT-PRE2706-0016
+  - IT-PRE2706-0017
+  - IT-PRE2706-0019
+  - IT-PRE2706-0020
+  - IT-PRE2706-0021
+  - IT-PRE2706-0022
+  - IT-PRE2706-0023
+  - IT-PRE2706-0024
+  - IT-PRE2706-0026
+  - IT-PRE2706-0028
+  - IT-PRE2706-0029
+  - IT-PRE2005-0010
+  - IT-PRE2005-0011
+  - IT-PRE2005-0012
+  - IT-PRE2005-0015
+  - IT-PRE2005-0016
+  - IT-PRE2005-0019
+  - IT-PRE2005-0020
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release and current Prepress repository HEAD/manifest. Inventory current assistants/shared tools/runtime stations/config
+    thresholds before implementing any historical utility or constant.
+- audit_id: AUD-037
+  priority: NORMAL
+  title: SMM/marketing ownership, analytics, lead handoff and creative-tooling boundary
+  question: Determine whether SMM/marketing is a current module, CRM capability, operator process or external function; verify Website analytics/conversion measurement
+    and privacy configuration; define lead handoff into CRM/Operational Registry without duplicate canonical truth; define current creative-asset provenance/approval
+    and one-primary-tool policy; and treat channel budgets/provider rankings as measured replaceable business decisions rather than historical fixed rules.
+  concept: smm_local_acquisition_strategy
+  historical_item_refs:
+  - IT-SMM2506-0001
+  - IT-SMM2506-0002
+  - IT-SMM2506-0003
+  - IT-SMM2506-0004
+  - IT-SMM2506-0005
+  - IT-SMM2506-0007
+  - IT-SMM2506-0008
+  - IT-SMM2506-0009
+  - IT-SMM2506-0010
+  - IT-SMM2506-0013
+  - IT-SMM2506-0014
+  - IT-SMM2506-0015
+  - IT-SMM2506-0017
+  - IT-SMM2506-0018
+  - IT-SMM2507-0001
+  - IT-SMM2507-0004
+  - IT-SMM2507-0006
+  - IT-SMM2507-0007
+  - IT-SMM2507-0008
+  - IT-SMM2507-0009
+  - IT-SMM2507-0011
+  - IT-SMM2507-0012
+  - IT-SMM2507-0014
+  - IT-SMM2507-0015
+  - IT-SMM2507-0016
+  - IT-SMM2507-0017
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_SYSTEM_OR_BUSINESS_DATA
+  required_first_step: Resolve current Blueprint/module inventory plus current Website/CRM analytics and content-publication surfaces. Verify measurement/lead
+    ownership and current creative-provider/licensing/privacy requirements before converting historical SMM advice into an execution roadmap.
+- audit_id: AUD-038
+  priority: CRITICAL
+  title: Calculator Engine current authority, pricing contracts, catalog ownership and Blueprint sync
+  question: Verify current Calculator repository/HEAD and whether `eba5384` is historical ancestry only; confirm Calculator owns calculation math/output but
+    not canonical Library references; reconcile external quote/idempotency/error/report contracts with current Contract Registry/Gateway/channel routing; verify
+    admin/Alembic/backup ownership, test isolation, centralized portable paths, operational alerting, and Blueprint directive sync against the canonical `module_directives.active`
+    schema without cwd dependence.
+  concept: calculator_blueprint_coordination
+  historical_item_refs:
+  - IT-CALC0910-0001
+  - IT-CALC0910-0003
+  - IT-CALC0910-0004
+  - IT-CALC0910-0007
+  - IT-CALC0910-0008
+  - IT-CALC0910-0010
+  - IT-CALC0910-0011
+  - IT-CALC0910-0012
+  - IT-CALC0910-0013
+  - IT-CALC0910-0015
+  - IT-CALC0910-0016
+  - IT-CALC0910-0018
+  - IT-CALC0910-0019
+  - IT-CALC0910-0022
+  - IT-CALC0910-0023
+  - IT-CALC0910-0024
+  - IT-CALC0910-0025
+  - IT-CALC0910-0026
+  - IT-CALC0910-0027
+  - IT-CALC0910-0028
+  - IT-CALC0910-0029
+  - IT-CALC0910-0030
+  - IT-CALC0910-0031
+  - IT-CALC0910-0032
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0035
+  - IT-CALC0910-0036
+  - IT-CALC0910-0037
+  - IT-CALC0910-0038
+  - IT-CALC0910-0040
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/Contract Registry/Library Calculator Input Contract, then resolve current Calculator repo path/remote/branch/HEAD/worktree.
+    Do not restart from historical `eba5384` or historical prompts blindly.
+- audit_id: AUD-039
+  priority: CRITICAL
+  title: Telegram conversational taxonomy, training datasets and import/runtime contract
+  question: Verify current Telegram schema and ownership for intents/styles/sentiments/human-talk templates; determine current AI/model/template-selection runtime;
+    validate or regenerate multilingual datasets under exact taxonomies with row-level uniqueness/language/style checks; reproduce/resolve historical CSV import
+    compatibility against current DB migrations; and keep Telegram conversation/presentation data separate from canonical business truth and current Gateway/CRM
+    routing. Also reconcile the early HTML→CSV chat-log schema, synthetic metadata conventions and privacy/de-identification requirements for real customer conversations.
+  concept: telegram_conversation_templates
+  historical_item_refs:
+  - IT-TG1210-0001
+  - IT-TG1210-0002
+  - IT-TG1210-0003
+  - IT-TG1210-0004
+  - IT-TG1210-0005
+  - IT-TG1210-0006
+  - IT-TG1210-0007
+  - IT-TG1210-0008
+  - IT-TG1210-0009
+  - IT-TG1210-0010
+  - IT-TG1210-0011
+  - IT-TG1210-0012
+  - IT-TG1210-0013
+  - IT-TG1210-0014
+  - IT-TG1210-0015
+  - IT-TG1210-0016
+  - IT-TG1210-0017
+  - IT-TG1210-0018
+  - IT-TG1210-0019
+  - IT-TG1210-0020
+  - IT-TG1210-0021
+  - IT-TG1210-0022
+  - IT-TG1210-0023
+  - IT-TG1210-0024
+  - IT-TG1210-0025
+  - IT-TG1210-0028
+  - IT-TG1210-0029
+  - IT-TG1210-0030
+  - IT-TG1310-0001
+  - IT-TG1310-0002
+  - IT-TG1310-0003
+  - IT-TG1310-0004
+  - IT-TG1310-0014
+  - IT-TG1310-0015
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  - IT-TG1410-0001
+  - IT-TG1410-0002
+  - IT-TG1410-0015
+  - IT-TG1410-0016
+  - IT-TG1410-0029
+  - IT-TG0710-0001
+  - IT-TG0710-0002
+  - IT-TG0710-0006
+  - IT-TG0710-0007
+  - IT-TG0710-0008
+  - IT-TG0710-0009
+  - IT-TG0710-0010
+  - IT-TG0710-0011
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release/module manifest and current Telegram repo/database migrations. Export current lookup/template schema
+    and a known-good CSV header before validating or regenerating any large dataset.
+- audit_id: AUD-040
+  priority: CRITICAL
+  title: Telegram current behavior/runtime boundary, CRM/Logistics handoff and governance lineage
+  question: Resolve current Telegram repo/HEAD and fate of historical dcd2b01; classify behavior registries/Excel/wizards as spec/test/generator/runtime; verify
+    production app is config-driven and not dependent on design XLS artifacts; reconcile client qualification with CRM/Operational ownership and delivery with
+    Logistics; verify current AI/escalation/privacy policy; and rerun current canonical Make/Blueprint completion gates including truthful DEFERRED external-dependency
+    handling.
+  concept: telegram_governance_closeout
+  historical_item_refs:
+  - IT-TG1310-0001
+  - IT-TG1310-0002
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  - IT-TG1310-0007
+  - IT-TG1310-0011
+  - IT-TG1310-0012
+  - IT-TG1310-0013
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  - IT-TG1310-0018
+  - IT-TG1310-0019
+  - IT-TG1310-0020
+  - IT-TG1310-0021
+  - IT-TG1310-0022
+  - IT-TG1310-0023
+  - IT-TG1310-0024
+  - IT-TG1310-0025
+  - IT-TG1310-0026
+  - IT-TG1310-0027
+  - IT-TG1310-0028
+  - IT-TG1310-0029
+  - IT-TG1310-0030
+  - IT-TG1310-0031
+  - IT-TG1310-0032
+  - IT-TG1310-0033
+  - IT-TG1310-0034
+  - IT-TG1310-0035
+  - IT-TG1310-0036
+  - IT-TG1310-0037
+  - IT-TG1410-0005
+  - IT-TG1410-0007
+  - IT-TG1410-0019
+  - IT-TG1410-0027
+  - IT-TG1410-0030
+  - IT-TG1210B-0001
+  - IT-TG1210B-0004
+  - IT-TG1210B-0009
+  - IT-TG1210B-0010
+  - IT-TG1210B-0011
+  - IT-TG1210B-0012
+  - IT-TG1210B-0016
+  - IT-TG1210B-0022
+  - IT-TG1210B-0023
+  - IT-TG1210B-0024
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release plus Telegram repo path/remote/branch/HEAD/worktree and check whether dcd2b01 was merged/accepted/superseded.
+    Do not resume from the historical feature branch blindly.
+- audit_id: AUD-041
+  priority: CRITICAL
+  title: Telegram ML train/classify/evaluate pipeline, label contract and model revision state
+  question: Verify current intent/style/sentiment training datasets, metrics and acceptance thresholds; inventory train/classify/evaluate/audit scripts and remove
+    obsolete overlap; verify config/.env and entity-specific paths; test label-map/decoder compatibility end-to-end; resolve model revision/promotion ownership;
+    reproduce path/runtime failures under fixtures; and reconcile the historical Telegram script standard with current Blueprint engineering standards.
+  concept: telegram_ml_pipeline
+  historical_item_refs:
+  - IT-TG1410-0001
+  - IT-TG1410-0002
+  - IT-TG1410-0003
+  - IT-TG1410-0004
+  - IT-TG1410-0005
+  - IT-TG1410-0006
+  - IT-TG1410-0007
+  - IT-TG1410-0008
+  - IT-TG1410-0009
+  - IT-TG1410-0010
+  - IT-TG1410-0011
+  - IT-TG1410-0012
+  - IT-TG1410-0013
+  - IT-TG1410-0014
+  - IT-TG1410-0015
+  - IT-TG1410-0016
+  - IT-TG1410-0017
+  - IT-TG1410-0018
+  - IT-TG1410-0019
+  - IT-TG1410-0020
+  - IT-TG1410-0021
+  - IT-TG1410-0022
+  - IT-TG1410-0023
+  - IT-TG1410-0024
+  - IT-TG1410-0027
+  - IT-TG1410-0028
+  - IT-TG1410-0029
+  - IT-TG1410-0030
+  - IT-TG1410-0031
+  - IT-TG1610-0001
+  - IT-TG1610-0003
+  - IT-TG1610-0004
+  - IT-TG1610-0005
+  - IT-TG1610-0006
+  - IT-TG1610-0007
+  - IT-TG1210B-0025
+  - IT-TG1210B-0026
+  - IT-TG1210B-0027
+  - IT-TG1210B-0028
+  - IT-TG1210B-0029
+  - IT-TG1210B-0030
+  - IT-TG1210B-0031
+  - IT-TG1210B-0032
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint release and current Telegram repository HEAD, then inventory actual ML files/config/model artifacts. Do not
+    recreate scripts from attachment labels or historical paths before establishing live ownership and dependencies.
+- audit_id: AUD-042
+  priority: CRITICAL
+  title: Telegram Mentor/AI escalation, tool-execution permissions and operator-assistant boundary
+  question: Determine the current architecture for ambiguous-case escalation to Mentor/AI and for Telegram-mediated email/file/cloud/computer actions. Define
+    what context may be passed, credentials and least-privilege scopes, read vs write actions, operator approvals, audit/event logging, timeout/fallback behavior,
+    separation from customer-facing Telegram runtime, and the Accounting/Gateway boundary for any 1C action.
+  concept: telegram_ai_escalation_tooling
+  historical_item_refs:
+  - IT-TG1210B-0010
+  - IT-TG1210B-0011
+  - IT-TG1210B-0012
+  - IT-TG1210B-0013
+  - IT-TG1210B-0014
+  - IT-TG1210B-0015
+  - IT-TG1210B-0016
+  - IT-TG1210B-0017
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_ARCHITECTURE
+  required_first_step: Resolve current Blueprint release, Telegram/Operations Assistant role boundaries and approved connector/tool registry before granting
+    or implementing any cross-system action.
+- audit_id: AUD-043
+  priority: CRITICAL
+  title: Blueprint CF-05→CF-09 lineage, Dispatcher closure and generator-inventory project gate
+  question: Resolve current Blueprint release/repo/HEAD/worktree and reconstruct accepted lifecycle lineage from u180e/CF-05 through u180i/CF-09 using immutable
+    continuity events. Determine whether CF-09 was later closed; reproduce the 0254 project-gate blocker; classify stale generator_inventory as current-tree
+    drift vs isolation/materialization/cross-repo dependency issue; verify Makefile operator documentation/legacy target semantics; and confirm worker/CF-10
+    remain gated by current human/project closure authority.
+  concept: dispatcher_ack_closure
+  historical_item_refs:
+  - IT-BP1709-0001
+  - IT-BP1709-0002
+  - IT-BP1709-0003
+  - IT-BP1709-0004
+  - IT-BP1709-0005
+  - IT-BP1709-0006
+  - IT-BP1709-0007
+  - IT-BP1709-0008
+  - IT-BP1709-0009
+  - IT-BP1709-0010
+  - IT-BP1709-0011
+  - IT-BP1709-0012
+  - IT-BP1709-0013
+  - IT-BP1709-0014
+  - IT-BP1709-0015
+  - IT-BP1709-0016
+  - IT-BP1709-0017
+  - IT-BP1709-0018
+  - IT-BP1709-0019
+  - IT-BP1709-0020
+  - IT-BP1709-0021
+  - IT-BP1709-0022
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  - IT-BP1709-0025
+  - IT-BP1709-0026
+  - IT-BP1709-0027
+  - IT-BP1709-0028
+  - IT-BP2109-0019
+  - IT-BP2109-0033
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve `coordination/releases/current.yaml`, exact Blueprint branch/HEAD/worktree, lifecycle status, roadmap reconciliation and focused
+    generator-inventory check. Do not rerun 0254 or start CF-10/worker from historical state.
+- audit_id: AUD-044
+  priority: CRITICAL
+  title: CF-10 first-worker launch authority, work-id binding, Handoff v2 and package routing
+  question: Resolve current release/repo/HEAD/worktree and current CF-10 state. Reconstruct the actual CF-09 closure lineage; verify work-id uniqueness/allocation
+    authority; inspect and eliminate any stale u180h hardcode in Handoff v2; verify binding→WORK_PLANNED→activation choreography and operator approval; confirm
+    execution-profile recommendation cannot dispatch; validate the intended first zero-stage task; audit assistant/project-context package target-module routing
+    after the unexpected Library package; and ensure no worker launch occurs before all current gates pass.
+  concept: cf10_first_worker_pilot
+  historical_item_refs:
+  - IT-BP2109-0001
+  - IT-BP2109-0002
+  - IT-BP2109-0003
+  - IT-BP2109-0004
+  - IT-BP2109-0005
+  - IT-BP2109-0006
+  - IT-BP2109-0007
+  - IT-BP2109-0008
+  - IT-BP2109-0009
+  - IT-BP2109-0010
+  - IT-BP2109-0011
+  - IT-BP2109-0012
+  - IT-BP2109-0013
+  - IT-BP2109-0014
+  - IT-BP2109-0015
+  - IT-BP2109-0016
+  - IT-BP2109-0017
+  - IT-BP2109-0018
+  - IT-BP2109-0019
+  - IT-BP2109-0020
+  - IT-BP2109-0021
+  - IT-BP2109-0022
+  - IT-BP2109-0023
+  - IT-BP2109-0024
+  - IT-BP2109-0025
+  - IT-BP2109-0026
+  - IT-BP2109-0027
+  - IT-BP2109-0028
+  - IT-BP2109-0029
+  - IT-BP2109-0030
+  - IT-BP2109-0031
+  - IT-BP2109-0032
+  - IT-BP2109-0033
+  - IT-BP2109-0034
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve `coordination/releases/current.yaml`, exact branch/HEAD/worktree, continuity event store, ROADMAP_EXECUTION_STATUS and current
+    CF-10 work_id/state. Then inspect package-builder target identity and Handoff v2 binding before any mutation or worker invocation.

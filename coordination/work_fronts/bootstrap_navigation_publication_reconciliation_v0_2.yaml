@@ -1,0 +1,141 @@
+work_front_id: wf-bootstrap-navigation-publication-reconciliation-v0-2
+objective: Publish the stable Blueprint bootstrap navigation surfaces needed by clean checkouts, reconcile the active-question
+  projection against current implementation evidence, repair the missing published Assistant Handoff Compiler AGENTS binding
+  with its exact historical canonical block, and remove the stale HEAD-bound parallel-workstream snapshot from the publication
+  dependency set.
+scope:
+- AGENTS.md
+- coordination/bootstrap/ACTIVE_RECONCILIATION_QUESTIONS.yaml
+- coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+- coordination/bootstrap/index_v0_1.yaml
+- coordination/work_fronts/bootstrap_navigation_publication_reconciliation_v0_2.yaml
+read_only_refs:
+- coordination/bootstrap/parallel_workstream_current_snapshot_v0_1.yaml
+- scripts/validation/validate_assistant_handoff_compiler_v0_1.py
+- scripts/coordination/build_assistant_handoff_archive.py
+- scripts/coordination/build_project_context_archive.py
+- scripts/coordination/build_context_bundle.py
+- scripts/coordination/completion_intake_check.py
+- scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+- scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+- coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+- coordination/standards/automation/continuity_contract_v0_1.yaml
+- coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+exclusions:
+- Do not stage the complete local AGENTS.md worktree diff.
+- Do not alter the canonical Assistant Handoff Compiler AGENTS block.
+- Do not publish the stale HEAD-bound parallel_workstream_current_snapshot_v0_1.yaml.
+- Do not invent a generator for the snapshot or active-question projection.
+- 'Do not close Q-002 completely: exact `041 reporting/intake` lineage remains unresolved.'
+- 'Do not reopen Q-009: durable execution state/resume is implemented and validated.'
+- Do not modify START_HERE.md, README.md, indexes/* or machine/*.
+- Do not modify lifecycle events, roadmap authority or execution-attempt history.
+- Do not dispatch Task5 or consume cf10-u180j-a010.
+- Do not resume CF-10 Phase B.
+- Do not commit, push, merge, release or auto-ACCEPT in this helper.
+- Do not use broad reset, clean, stash, rebase, git add -A or git add .
+provenance:
+  source_refs:
+  - scripts/validation/validate_assistant_handoff_compiler_v0_1.py
+  - scripts/coordination/build_assistant_handoff_archive.py
+  - 'historical implementation source: forprint_u179e*_assistant_handoff_compiler*_v0_1.py / exact AGENTS block'
+  - coordination/internal_work/blueprint/governance/2026-09-15__blueprint__post_cf06_evening_handoff_reconciliation_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - coordination/standards/automation/continuity_contract_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+  - scripts/coordination/build_project_context_archive.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/completion_intake_check.py
+  - Makefile
+  chat_is_authority: false
+dependencies:
+- HEAD is 38845be70cb7dbabb0e79c97b67d60f0f1fbf5a8 and upstream must be fresh.
+- Roadmap reconciliation is IN_SYNC at lifecycle sequence 67.
+- The first bootstrap publication candidate passed project-context validation and dry-run.
+- That candidate failed only at Assistant Handoff Compiler AGENTS binding.
+- validate_assistant_handoff_compiler_v0_1.py requires FORPRINT_ASSISTANT_HANDOFF_COMPILER_START in AGENTS.md.
+- The exact historical canonical AGENTS block is known and must be appended to the published HEAD-based AGENTS view only.
+- index_v0_1.yaml and assistant_context_system_specs_v0_1.yaml are stable navigation surfaces, not execution authority.
+- Q-009 is satisfied by durable append-only execution-attempt history, continuity events and structured resume semantics.
+- 'Q-002 is only partially satisfied: onboarding/task-context/Handoff/completion-intake exist, but exact `041 reporting/intake`
+  lineage remains unresolved.'
+- parallel_workstream_current_snapshot_v0_1.yaml is stale at captured HEAD 6335666 and self-declares refresh on HEAD/a003
+  changes.
+- A tracked HEAD-bound CURRENT snapshot would become stale on its own publication commit, so it must not be a required clean-checkout
+  dependency.
+outputs:
+- Cached AGENTS.md equals published HEAD AGENTS.md plus the exact Assistant Handoff Compiler block.
+- The broad local AGENTS.md worktree diff remains unstaged and unchanged.
+- Tracked bootstrap index suitable for clean-checkout project-context construction.
+- Tracked assistant-context system navigation/specification.
+- Tracked active-question projection containing only Q-002 with the unresolved 041 remainder explicit.
+- Q-009 resolution evidence preserved in this reconciliation and projection metadata.
+- Parallel-workstream snapshot dependency changed from required to optional local navigation.
+- Stale untracked parallel-workstream snapshot removed locally only after isolated candidate validation succeeds.
+acceptance:
+- This Work Front validates.
+- Detached candidate contains no parallel_workstream_current_snapshot_v0_1.yaml.
+- Project-context bootstrap validator passes.
+- Project-context archive dry-run passes.
+- Assistant Handoff Compiler validator passes.
+- Continuity micro-roadmap validator passes.
+- Q-009 is absent from active_items and Q-002 remains active.
+- Bootstrap index marks the snapshot source required=false.
+- Assistant context specs classify the snapshot as optional local refreshable navigation.
+- Candidate AGENTS.md contains exactly one Assistant Handoff Compiler block.
+- git diff --check passes in the detached candidate.
+- Main staging contains exactly AGENTS.md, the three stable bootstrap surfaces, and this Work Front.
+- The local broad AGENTS worktree diff remains unstaged.
+stop_conditions:
+- HEAD differs from 38845be70cb7dbabb0e79c97b67d60f0f1fbf5a8.
+- Main staging is non-empty.
+- Any of the four bootstrap local source files is missing before reconciliation.
+- Q-002/Q-009 source projection shape differs from the audited two-question state.
+- The bootstrap index does not contain exactly one snapshot source reference.
+- Published HEAD already contains the handoff compiler AGENTS marker.
+- Local handoff compiler block exists but differs from the exact historical canonical block.
+- Any focused validator fails before staging.
+- Any unrelated path would enter staging.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/bootstrap/
+  - scripts/validation/validate_assistant_handoff_compiler_v0_1.py
+  - scripts/coordination/build_assistant_handoff_archive.py
+  - scripts/coordination/build_project_context_archive.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/validation/validate_project_context_bootstrap_v0_1.py
+  - scripts/validation/validate_continuity_micro_roadmap_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - AGENTS.md
+  - coordination/bootstrap/index_v0_1.yaml
+  - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+  - coordination/bootstrap/ACTIVE_RECONCILIATION_QUESTIONS.yaml
+reconciliation:
+  assistant_handoff_compiler_agents_binding:
+    decision: PUBLISH_EXACT_HISTORICAL_CANONICAL_BLOCK
+    partial_stage_only: true
+  q009:
+    decision: RESOLVED_REMOVE_FROM_ACTIVE_BOOTSTRAP_PROJECTION
+    reason: Durable execution state and resume are implemented outside disposable tmp via append-only Continuity Event Store,
+      Execution Attempt Ledger, retry linkage, latest accepted references, replay-forbidden refs and Handoff v2 structured
+      resume coordinates.
+  q002:
+    decision: KEEP_ACTIVE_BOUNDED_REMAINDER
+    proven:
+    - global onboarding archive via make assistant-context-pack / build_project_context_archive.py
+    - task execution context via build_context_bundle.py --task-context
+    - Assistant Handoff v2 runtime/result/freshness-resume surfaces
+    - completion intake surfaces and Makefile operator entrypoints
+    unresolved: Exact historical/current `041 reporting/intake` lineage remains unresolved.
+  parallel_snapshot:
+    decision: DO_NOT_PUBLISH_STALE_HEAD_BOUND_SNAPSHOT
+    clean_checkout_requirement: false
+    local_refresh_allowed: true

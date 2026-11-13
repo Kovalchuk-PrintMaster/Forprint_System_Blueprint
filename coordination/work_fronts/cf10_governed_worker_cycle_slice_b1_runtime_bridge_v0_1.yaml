@@ -1,0 +1,99 @@
+work_front_id: wf-cf10-governed-worker-cycle-slice-b1-runtime-bridge-v0-1
+objective: Add the missing execution-side Worker Runtime invocation bridge for the published CF-10 Governed Worker
+  Cycle foundation. The bridge must turn an already-authorized CF-10 explicit-dispatch decision plus the canonical
+  MANUAL_INTERNAL Task Envelope and runtime registry into one deterministic provider invocation plan without granting
+  authority or starting a process.
+scope:
+- coordination/work_fronts/cf10_governed_worker_cycle_slice_b1_runtime_bridge_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+- Makefile
+exclusions:
+- Do not modify scripts/coordination/control_plane/governed_worker_cycle.py in B1.
+- Do not modify scripts/coordination/control_plane/worker_runtime/launcher.py.
+- Do not modify scripts/coordination/control_plane/worker_runtime/registry.py.
+- Do not modify scripts/coordination/build_worker_invocation.py or weaken its DRY_RUN_ONLY_V0_1 boundary.
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py.
+- Do not modify Assistant Handoff v2 runtime or contracts.
+- Do not modify Execution Attempt Ledger runtime or contracts.
+- Do not materialize or launch Task60.
+- Do not start any Worker process.
+- Do not append any canonical Execution Attempt Ledger record.
+- Do not promote any candidate into the canonical repository.
+- Do not stage, commit, push, merge, release or automatically ACCEPT.
+- Do not mutate lifecycle or roadmap state.
+- Do not write any foreign repository.
+- Do not infer provider commands for NOT_CONFIGURED providers.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - commit:29b71c96265f71a83f93f832990a89b0e03af996
+  - coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  chat_is_authority: false
+dependencies:
+- Published Governed Worker Cycle Slice A commit 29b71c96265f71a83f93f832990a89b0e03af996.
+- Current runtime registry resolves exactly one READY provider.
+- config/worker_runtime.yaml keeps provider selection authority-neutral.
+- Runtime command representation remains ARGV_NO_SHELL.
+- Runtime config keeps exact_runtime_argv_deferred_to_launch_adapter=true.
+- MANUAL_INTERNAL Task Context exposes the normalized Worker Task Envelope.
+- CF-10 training dispatch remains the source of explicit process-launch authority.
+outputs:
+- One authority-neutral execution-side invocation adapter under worker_runtime.
+- One generic Worker prompt renderer driven by the normalized Task Envelope rather than Task50-specific prose.
+- One deterministic github_copilot_cli argv renderer owned by the launch adapter.
+- One invocation plan carrying prompt/argv hashes, log/evidence paths and launch timing policy without starting a
+  process.
+- Focused regressions proving authority, workspace, provider and task-binding fail-closed behavior.
+- One Makefile operator check for the runtime invocation bridge.
+acceptance:
+- No provider-specific argv is added to governed_worker_cycle.py.
+- The adapter consumes only an already-authorized explicit-dispatch decision and never creates authority.
+- Task Envelope identity, Work Front identity, profile, procedure, runtime provider, runtime model and workspace bindings
+  are cross-checked.
+- Only github_copilot_cli is renderable in v0.1; future NOT_CONFIGURED providers fail closed.
+- Provider-specific argv is isolated inside the launch adapter.
+- The adapter reads max_ai_credits and timeout from canonical runtime configuration.
+- The generated prompt is task-generic and contains the canonical normalized Task Envelope.
+- The adapter performs no filesystem mutation and no subprocess start.
+- Existing DRY_RUN_ONLY console-worker adapter semantics remain unchanged.
+- Focused tests, existing Governed Worker Cycle tests, runtime registry validation and git diff --check pass.
+stop_conditions:
+- The implementation would require changing Dispatcher, Handoff v2, Ledger or launcher semantics.
+- The implementation would require weakening the existing dry-run worker invocation contract.
+- Provider-specific command logic would have to be placed in governed_worker_cycle.py.
+- A future provider command/model/tool policy would need to be guessed.
+- Any process launch, attempt append, candidate promotion, acceptance or publication action would occur.
+- A path outside the exact Work Front scope becomes necessary.
+- Authority widening is requested or inferred.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/coordination/control_plane/context/
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - coordination/registry/
+  - config/worker_runtime.yaml
+  - tests/coordination/control_plane/
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/build_worker_invocation.py

@@ -1,0 +1,26 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u179h-validated-repair-20260912t141550598416z
+event_type: VALIDATION_PASSED
+sequence: 19
+previous_event_id: evt-u179h-checkpoint-repair-20260912t141543658396z
+previous_event_sha256: 15ece238a036be5264a9fc404b0e006a26f6f2befaf165e47fb9d795181b91f1
+work_id: u179h
+occurred_at: '2026-09-12T14:15:57.394048Z'
+actor: operator_executed_repair
+summary: u179h canonical recovery validated
+source_state_ref: 7949136995e6cf192265908dc60a81014ce07d0bd4a65f6cee3f17a296950be1
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u179h-checkpoint-repair-20260912t141543658396z
+  checkpoint_event_sha256: 15ece238a036be5264a9fc404b0e006a26f6f2befaf165e47fb9d795181b91f1
+  evidence:
+    - module continuity transfer validator PASS
+    - global standards index validator PASS
+    - full pytest zero failures
+    - public make check PASS
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: b97a47f4984cddfc96a401fd85581db199b3b9831871a2cf2554e30f2160554a
+    checkpoint_fingerprint: b97a47f4984cddfc96a401fd85581db199b3b9831871a2cf2554e30f2160554a

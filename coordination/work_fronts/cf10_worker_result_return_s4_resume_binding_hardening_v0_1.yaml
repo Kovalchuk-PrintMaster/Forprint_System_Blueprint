@@ -1,0 +1,126 @@
+work_front_id: wf-cf10-worker-result-return-s4-resume-binding-hardening-v0-1
+objective: >-
+  Extend the existing governed Worker result-return boundary so S3-valid provider
+  results are materialized only when their S4 resume bindings exactly match the
+  attempt-bound governed Worker context, while also hardening the Worker prompt
+  against cryptographic-value transcription drift.
+scope:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+exclusions:
+  - Do not modify the Handoff v2 result schema or S3 result validator.
+  - Do not weaken or replace the canonical S4 freshness/resume validator.
+  - Do not change the Execution Attempt Ledger contract or historical a034 records.
+  - Do not rewrite, repair, synthesize or normalize Worker result semantic values.
+  - Do not modify Task70 candidate implementation files.
+  - Do not relaunch or replay cf10-u180j-a034.
+  - Do not prepare or launch a035 in this slice.
+  - Do not mutate lifecycle or roadmap state.
+  - Do not modify Makefile; reuse the existing cf10-worker-result-return-check surface and run invocation-adapter regression separately.
+  - Do not add automatic acceptance, promotion, retry, commit, push, merge or release behavior.
+  - Do not touch inherited protected dirty paths.
+  - Do not broaden provider tools, shell, argv, environment or filesystem authority.
+provenance:
+  source_refs:
+    - source_head:c372f4581ba8f4ba22380cd3a4a74851d0e7f014
+    - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+    - roadmap:control_foundation_near_horizon/CF-10
+    - attempt:cf10-u180j-a034
+    - terminal_record:coordination/continuity/execution_attempts/cf10-u180j-a034__0fdca926740e.yaml
+    - failure_class:STALE_LIFECYCLE_ROADMAP_CURSOR
+    - prior_front:coordination/work_fronts/cf10_worker_result_return_boundary_v0_1.yaml
+    - prior_completion:coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_worker_result_return_boundary_hardening_completion_v0_1.yaml
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  chat_is_authority: false
+dependencies:
+  - CF10 work item u180j remains ACTIVE at lifecycle sequence 67.
+  - Roadmap reconciliation is IN_SYNC and CF-10 remains current.
+  - Attempt cf10-u180j-a034 is durably terminal BLOCKED with validator FAIL and failure class STALE_LIFECYCLE_ROADMAP_CURSOR.
+  - A034 result-return framing and S3 envelope validation passed before S4 resume validation rejected the returned lifecycle_roadmap_cursor.
+  - A034 source freshness remained valid after canonical STARTED-ledger normalization; only resume validation failed.
+  - The origin and governed lifecycle_roadmap_cursor were exactly equal while the Worker result cursor differed only in roadmap_status_sha256.
+  - The existing result-return boundary and canonical S4 resume validator remain the capability owners and must be extended/reused rather than replaced.
+  - AEM canonicalization is complete and published; HEAD and upstream are c372f4581ba8f4ba22380cd3a4a74851d0e7f014, and AEM-01 is not activated.
+outputs:
+  - Harden the Worker prompt so result resume bindings are copied verbatim from the governed Worker context and cryptographic values are never recomputed or reconstructed.
+  - Reuse canonical S4 resume validation semantics before worker_result.yaml materialization.
+  - Bind pre-materialization resume validation to the exact governed Worker context used by the explicit dispatch.
+  - Reject S3-valid but S4-resume-invalid result payloads before creating result/worker_result.yaml.
+  - Preserve downstream full S4 freshness validation as a separate fail-closed gate.
+  - Add focused regression evidence for exact cursor binding, source fingerprint binding, PARTIAL resume completeness, no materialization on mismatch and valid materialization on exact binding.
+acceptance:
+  - Worker prompt explicitly requires resume_coordinates.source_state_fingerprint to equal governed_worker_context.handoff_source_state_fingerprint verbatim.
+  - Worker prompt explicitly requires resume_coordinates.lifecycle_roadmap_cursor to equal governed_worker_context.lifecycle_roadmap_cursor verbatim.
+  - Worker prompt forbids recomputing, shortening, normalizing, inferring or rewriting cryptographic values inside bound resume data.
+  - PARTIAL, INTERRUPTED, BLOCKED and RETRYABLE_FAILURE result instructions preserve canonical required durable resume fields.
+  - worker_result_return reuses canonical S4 resume validation semantics rather than implementing a divergent semantic validator.
+  - governed_worker_cycle passes the exact attempt-bound governed Worker context into the result materialization boundary.
+  - One-character roadmap_status_sha256 drift reproducing a034 is rejected before materialization.
+  - source_state_fingerprint mismatch is rejected before materialization.
+  - Missing required PARTIAL resume fields are rejected before materialization.
+  - A fully valid bound result still materializes create-only worker_result.yaml exactly once.
+  - Invalid result return leaves candidate_validation_allowed false and candidate_promotion_allowed false.
+  - Worker result rewriting, synthesis and semantic repair remain forbidden.
+  - Existing S3 framing, schema, manifest binding and attempt binding behavior remains intact.
+  - Existing full S4 freshness validation remains fail closed and unchanged.
+  - Focused result-return, invocation-adapter and governed-cycle regressions pass.
+  - git diff --check passes for the exact six-path implementation set.
+  - Task70 candidate files and historical a034 artifacts remain unchanged.
+  - No lifecycle, roadmap, Handoff schema, ledger contract, Makefile, protected-dirty-path or authority widening occurs.
+stop_conditions:
+  - Implementation requires changing the Handoff v2 result schema or S3 result validator semantics.
+  - Implementation requires weakening or replacing canonical S4 freshness/resume semantics.
+  - Implementation requires modifying the Execution Attempt Ledger contract.
+  - Implementation requires changing Task70 candidate files.
+  - Implementation requires changing Makefile or adding a second result-return operator surface.
+  - Implementation requires lifecycle or roadmap mutation.
+  - Implementation requires editing historical a034 result, evidence or ledger records.
+  - Implementation requires result synthesis or semantic repair.
+  - Implementation requires automatic candidate acceptance, promotion, retry, commit, push, merge or release.
+  - Implementation requires authority or provider-tool widening.
+  - Implementation requires any seventh mutation path outside the declared six-path implementation scope.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - coordination/work_fronts/cf10_worker_result_return_boundary_v0_1.yaml
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+    - tests/coordination/control_plane/worker_runtime/
+    - tests/coordination/control_plane/
+    - Makefile:cf10-worker-result-return-check
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - coordination/work_fronts/cf10_worker_result_return_boundary_v0_1.yaml
+  read_only_refs:
+    - coordination/standards/automation/assistant_handoff_v2_result_contract_v0_1.yaml
+    - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+    - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - coordination/continuity/execution_attempts/cf10-u180j-a034__57173e21618b.yaml
+    - coordination/continuity/execution_attempts/cf10-u180j-a034__0fdca926740e.yaml
+    - Makefile
+  rationale: >-
+    The existing result-return boundary already owns provider framing, result
+    materialization and governed-cycle admission, while Handoff v2 S4 already
+    owns resume-binding semantics. This slice extends those existing owners
+    to enforce the canonical resume contract before materialization instead
+    of creating a second result schema, validator, transport or operator surface.

@@ -74,9 +74,9 @@
 ## Outgoing data flows
 
 - `integration_gateway_routes_to_calculator`: `forprint_integration_gateway` → `calculator_engine` via `integration_gateway_to_calculator_request.v1`; objects: `routed_module_request`, `product_configuration`, `correlation_context`; status: `planned`; criticality: `high`
-- `integration_gateway_routes_to_operational_registry`: `forprint_integration_gateway` → `forprint_operational_registry` via `integration_gateway_to_operational_registry_command.v1`; objects: `routed_module_request`, `quote_draft`, `product_configuration`, `correlation_context`; status: `planned`; criticality: `high`
+- `integration_gateway_routes_to_operations_control_registry`: `forprint_integration_gateway` → `forprint_operations_control_registry` via `integration_gateway_to_operations_control_registry_command.v1`; objects: `routed_module_request`, `quote_draft`, `product_configuration`, `correlation_context`; status: `planned`; criticality: `high`
 - `integration_gateway_routes_to_warehouse`: `forprint_integration_gateway` → `warehouse_service` via `integration_gateway_to_warehouse_reservation.v1`; objects: `routed_module_request`, `material_consumption_estimate`, `correlation_context`; status: `planned`; criticality: `high`
-- `integration_gateway_routes_to_accounting`: `forprint_integration_gateway` → `accounting_registry_service` via `integration_gateway_to_accounting_invoice_request.v1`; objects: `routed_module_request`, `quote_draft`, `client`, `order`, `correlation_context`; status: `planned`; criticality: `high`
+- `integration_gateway_routes_to_accounting`: `forprint_integration_gateway` → `forprint_accounting_registry_service` via `integration_gateway_to_accounting_invoice_request.v1`; objects: `routed_module_request`, `quote_draft`, `client`, `order`, `correlation_context`; status: `planned`; criticality: `high`
 - `integration_gateway_status_to_crm`: `forprint_integration_gateway` → `forprint_crm` via `integration_gateway_to_crm_status.v1`; objects: `integration_response`, `validation_error`, `integration_audit_event`; status: `planned`; criticality: `medium`
 - `integration_gateway_audit_to_inspector`: `forprint_integration_gateway` → `forprint_project_inspector` via `integration_gateway_to_inspector_audit.v1`; objects: `integration_audit_event`, `validation_error`, `security_filter_event`; status: `planned`; criticality: `medium`
 
@@ -91,9 +91,9 @@
 ## Provided contracts
 
 - `integration_gateway_to_calculator_request.v1`: provider `forprint_integration_gateway`, consumer `calculator_engine`, status `planned`; objects: `routed_module_request`, `product_configuration`, `correlation_context`
-- `integration_gateway_to_operational_registry_command.v1`: provider `forprint_integration_gateway`, consumer `forprint_operational_registry`, status `planned`; objects: `routed_module_request`, `quote_draft`, `product_configuration`, `correlation_context`
+- `integration_gateway_to_operations_control_registry_command.v1`: provider `forprint_integration_gateway`, consumer `forprint_operations_control_registry`, status `planned`; objects: `routed_module_request`, `quote_draft`, `product_configuration`, `correlation_context`
 - `integration_gateway_to_warehouse_reservation.v1`: provider `forprint_integration_gateway`, consumer `warehouse_service`, status `planned`; objects: `routed_module_request`, `material_consumption_estimate`, `correlation_context`
-- `integration_gateway_to_accounting_invoice_request.v1`: provider `forprint_integration_gateway`, consumer `accounting_registry_service`, status `planned`; objects: `routed_module_request`, `quote_draft`, `client`, `order`, `correlation_context`
+- `integration_gateway_to_accounting_invoice_request.v1`: provider `forprint_integration_gateway`, consumer `forprint_accounting_registry_service`, status `planned`; objects: `routed_module_request`, `quote_draft`, `client`, `order`, `correlation_context`
 - `integration_gateway_to_crm_status.v1`: provider `forprint_integration_gateway`, consumer `forprint_crm`, status `planned`; objects: `integration_response`, `validation_error`, `integration_audit_event`
 - `integration_gateway_to_inspector_audit.v1`: provider `forprint_integration_gateway`, consumer `forprint_project_inspector`, status `planned`; objects: `integration_audit_event`, `validation_error`, `security_filter_event`
 

@@ -1,0 +1,46 @@
+schema_version: forprint_assistant_handoff_v2_freshness_resume_contract_v0_1
+contract_id: assistant_handoff_v2_freshness_resume
+revision: 0.1.0
+status: active_cf08_s4
+implementation_slice: CF-08/S4
+family: assistant_handoff_v2
+source_contract: coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+runtime: scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+fresh_context_gate_reused: true
+execution_attempt_ledger_reused: true
+freshness:
+  source_state_fingerprint_required: true
+  source_state_fingerprint_must_match_live_state: true
+  lifecycle_roadmap_cursor_required: true
+  lifecycle_roadmap_cursor_must_match_live_state: true
+  stale_generated_context_blocks_return: true
+  accepted_manifest_hash_binding_preserved: true
+resume:
+  structured_mapping_required: true
+  attempt_binding_required: true
+  manifest_binding_required: true
+  source_state_binding_required: true
+  cursor_binding_required: true
+  retry_must_create_new_attempt_id: true
+  partial_requires_latest_completed_node: true
+  partial_requires_latest_accepted_ref: true
+  partial_requires_replay_forbidden_refs: true
+  central_resume_routing_deferred_to_cf09: true
+fail_closed_classes:
+- STALE_SOURCE_STATE_FINGERPRINT
+- STALE_LIFECYCLE_ROADMAP_CURSOR
+- STALE_GENERATED_CONTEXT
+- RESUME_ATTEMPT_BINDING_MISMATCH
+- RESUME_MANIFEST_BINDING_MISMATCH
+- RESUME_COORDINATES_INCOMPLETE
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  grants_cross_repository_write_authority: false
+  grants_lifecycle_mutation_authority: false
+deferred_to_cf09:
+- dispatcher_integration
+- worker_launch
+- central_resume_routing
+- central_attempt_result_routing

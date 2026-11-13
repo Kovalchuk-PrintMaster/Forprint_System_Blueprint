@@ -1,0 +1,211 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-17
+authority_class: blueprint_coordination_history
+queue:
+- item_id: IT-BP1709-0001
+  title: Source opens with u180e / CF-05 already ACTIVE
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0001
+  - EV-BP1709-0002
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0002
+  title: Do not re-activate an already ACTIVE lifecycle step
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0005
+  - EV-BP1709-0009
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0003
+  title: Morning reconciliation defect is a missing standard governance metadata mapping
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0003
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0004
+  title: Governance metadata mapping uses the standard five-field vocabulary
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0006
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0005
+  title: Generated indexes/projections are refreshed by canonical producers, not hand-edited
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0007
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0006
+  title: Final make check is validation-only and every new failure remains an acceptance blocker
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0008
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0007
+  title: Historical execution advances from CF-05 to CF-06 before the later morning intake
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0010
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0008
+  title: Context/intake packages are not automatically executable authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0011
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0009
+  title: Finish CF-06 before starting the Blueprint internal AI worker stream
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0012
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0010
+  title: CF-07 second-slice runtime conformance safe-fails before canonical mutation
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0013
+  - EV-BP1709-0014
+  - EV-BP1709-0015
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0011
+  title: Candidate/test construction failures fail closed before lifecycle advancement
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0015
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0012
+  title: Transition-strategy apply can fail after canonical planning mutation
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0013
+  title: Partial planning applies require state-aware recovery rather than blind rerun
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0014
+  title: Frequently required developer utilities should be provisioned explicitly
+  importance: normal
+  dialogue_status: proposed
+  evidence_refs:
+  - EV-BP1709-0018
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0015
+  title: Large evening/handoff packages are applied stepwise with identity confirmation
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0019
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0016
+  title: Makefile must be an operator-readable command map
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0020
+  - EV-BP1709-0021
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0017
+  title: Legacy or alternate-purpose Make targets must be explicitly classified
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0022
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0018
+  title: CF-09 ACK gate repair historically reaches 24/24 control-plane tests passing
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0023
+  - EV-BP1709-0024
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0019
+  title: Dispatcher closure requires a read-only requirement audit before the project boundary gate
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0025
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0020
+  title: CF-09 local closure-readiness is historically 9/9 with zero gaps
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0026
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0021
+  title: CF-09 remains ACTIVE at sequence 62 before project closure gate
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0027
+  - EV-BP1709-0028
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0022
+  title: Local Dispatcher readiness does not imply full-project closure acceptance
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0026
+  - EV-BP1709-0029
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0023
+  title: CF-09 full project gate is blocked by stale generator inventory
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0029
+  - EV-BP1709-0030
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0024
+  title: Cross-module validation can expose Blueprint generated-state drift
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0030
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0025
+  title: Failed CF-09 project closure must not start worker/CF-10 or mutate lifecycle
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0031
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0026
+  title: CF-09 failure returns to state-aware closure-gate recovery
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0032
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0027
+  title: Source ends before CF-09 recovery/closure result
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0033
+  current_audit_status: not_audited
+- item_id: IT-BP1709-0028
+  title: Human boundary acceptance remains between Dispatcher closure and first internal worker pilot
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-BP1709-0025
+  current_audit_status: not_audited

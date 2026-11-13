@@ -1,0 +1,34 @@
+schema_version: forprint_oc01_full_activation_readiness_v0_1
+created_at_utc: "2026-10-04T18:28:07.161414+00:00"
+source_head: "2a9678763cd36923c25cbb682f983c894b5dfcf8"
+authority: readiness_evidence_not_activation_authority
+
+mini:
+  required_work_front_count: 8
+  all_required_work_fronts_present: true
+  closeout_present: true
+  work_fronts:
+    - path: "coordination/work_fronts/oc01_mini_dependency_projection_session_boundary_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_protected_terminal_gateway_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_assistant_dev_sandbox_operator_workflow_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_sealed_result_and_checkpoint_projection_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_sandbox_to_canonical_promotion_surface_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_minimum_console_api_and_phone_laptop_ui_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_protected_terminal_real_proof_v0_1.yaml"
+      exists: true
+    - path: "coordination/work_fronts/oc01_mini_sandbox_to_canonical_real_proof_v0_1.yaml"
+      exists: true
+full_existing_refs:
+  []
+
+decision:
+  candidate: "OC01-FULL-1"
+  activation_authority: human_owner
+  do_not_repeat_mini_when_proven: true
+  current_execution_focus_mutation_required_for_this_write_pass: false

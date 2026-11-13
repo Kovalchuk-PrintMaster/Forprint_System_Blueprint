@@ -1,0 +1,114 @@
+metadata:
+  module_id: forprint_system_blueprint
+  evidence_id: forprint_post_cf06_evening_handoff_reconciliation_v0_1
+  created_at: '2026-09-15'
+  source_head: 4739fdcd8b213814f8440dd6a6681f596d8da456
+  status: ACCEPTED_OPERATOR_RECONCILIATION
+schema_version: forprint_post_cf06_evening_handoff_reconciliation_v0_1
+status: ACCEPTED_OPERATOR_RECONCILIATION
+module_id: forprint_system_blueprint
+created_at: '2026-09-15'
+source_evening_package_sha256: 60c48a1ad38fb9b8129858273f7ea687c0c32b3495ac3767e23f0413a6a94556
+source_cf06_close_sequence: 50
+authority: planning_and_governance_evidence_not_execution_authority
+decisions:
+  bootstrap_salience: front-load startup manifest, operator interaction mode, Z-package intake, contradiction handling,
+    human-readable roadmap reporting and active reconciliation questions
+  question_system: reuse clarification_question_lifecycle_v0_1; bootstrap active list is navigation/projection only
+  zero_stage: after CF-07/08/09 run one bounded Blueprint-internal manual/shadow worker before non-blocking foundation
+    work
+  logistics: Logistics remains first external/module pilot after Blueprint-internal stability
+  broad_rollout: remains blocked until external pilot evidence and later readiness/autonomy gates
+  telegram: small local Dispatcher Telegram bot is separate from the full telegram_bot module and is early worker-training
+    backlog unless a minimal subset is a launch blocker
+  human_intent_mutation: must use existing strict controlled Human Intent mutation/delta mechanism; direct ledger
+    edit is forbidden
+roadmap_renumbering:
+  insert: CF-10 blueprint_internal_worker_zero_stage_pilot
+  shift:
+    CF-10: CF-11
+    CF-11: CF-12
+    CF-12: CF-13
+    CF-13: CF-14
+    CF-14: CF-15
+    CF-15: CF-16
+    CF-16: CF-17
+    CF-17: CF-18
+    CF-18: CF-19
+    CF-19: CF-20
+  later_broad_readiness: CF-19
+  later_broad_trial_and_autonomy_review: CF-20
+package_decision_count: 20
+package_priority_group_count: 6
+package_active_question_count: 15
+execution_authority_granted: false
+worker_dispatch_authority_granted: false
+release_authority_granted: false
+foreign_repository_write_authority_granted: false
+accepted_at: '2026-09-15'
+test_reference_disposition:
+  tests/validation/test_roadmap_execution_reconciliation_v0_1.py:
+    disposition: SYNTHETIC_FIXTURE_UNAFFECTED
+    sha256: 6d7c397d5e10d072ca5ad5622c651287c222fd8d96572ecfbd17ae45b7f25446
+    reason: The three CF-10 references construct and exercise an isolated tmp_path roadmap fixture. They test generic
+      ready-candidate/WIP semantics and do not identify canonical roadmap order 10.
+    canonical_renumber_required: false
+question_reconciliation:
+  source_package_question_count: 15
+  bootstrap_active_question_count: 2
+  dispositions:
+  - question_id: Q-001
+    disposition: MAPPED_TO_CANONICAL_RECONCILIATION_OR_FUTURE_BACKLOG
+    reason: No current execution ambiguity remains after roadmap/bootstrap reconciliation; retain disposition evidence
+      outside startup context.
+  - question_id: Q-002
+    disposition: ACTIVE_UNRESOLVED_RECONCILIATION
+    reason: Requires fresh implementation evidence before it can be mapped or resolved safely.
+  - question_id: Q-003
+    disposition: MAPPED_TO_CANONICAL_RECONCILIATION_OR_FUTURE_BACKLOG
+    reason: No current execution ambiguity remains after roadmap/bootstrap reconciliation; retain disposition evidence
+      outside startup context.
+  - question_id: Q-004
+    disposition: MAPPED_TO_EXISTING_PUBLICATION_CONTROL_ROADMAP
+    reason: Existing publication ladder remains future governed work; zero-stage has no push/merge authority.
+  - question_id: Q-005
+    disposition: RESOLVED_BY_2026_09_15_PILOT_SEQUENCE_RECONCILIATION
+    reason: Blueprint internal zero-stage first; Logistics remains first external/module pilot.
+  - question_id: Q-006
+    disposition: MAPPED_TO_MODULE_PREPARATION_BASELINE_WORK
+    reason: Deep module audit/index baseline is required before external worker rollout and remains roadmap/planning
+      work.
+  - question_id: Q-007
+    disposition: MAPPED_TO_EXISTING_DEPENDENCY_AND_WAVE_ROADMAP
+    reason: Existing later roadmap owns dependency debt and wave balancing.
+  - question_id: Q-008
+    disposition: MAPPED_TO_CANONICAL_RECONCILIATION_OR_FUTURE_BACKLOG
+    reason: No current execution ambiguity remains after roadmap/bootstrap reconciliation; retain disposition evidence
+      outside startup context.
+  - question_id: Q-009
+    disposition: ACTIVE_UNRESOLVED_RECONCILIATION
+    reason: Requires fresh implementation evidence before it can be mapped or resolved safely.
+  - question_id: Q-010
+    disposition: MAPPED_TO_FUTURE_ROADMAP_VALIDATION_TIERS
+    reason: Existing roadmap step owns deterministic validation tiers.
+  - question_id: Q-011
+    disposition: MAPPED_TO_EARLY_WORKER_TRAINING_BACKLOG_WITH_BLOCKER_RECHECK
+    reason: Watchdog/service hardening is mapped after first bounded launch unless minimum liveness proves required.
+  - question_id: Q-012
+    disposition: MAPPED_TO_EARLY_WORKER_TRAINING_BACKLOG_WITH_BLOCKER_RECHECK
+    reason: Small local Dispatcher bot is separate from telegram_bot and is training backlog unless a minimal subset
+      becomes a launch blocker.
+  - question_id: Q-013
+    disposition: MAPPED_TO_EXISTING_REUSE_GATE_CF04
+    reason: Existing Work Front capability reuse gate is canonical.
+  - question_id: Q-014
+    disposition: MAPPED_TO_EARLY_WORKER_TRAINING_BACKLOG_WITH_BLOCKER_RECHECK
+    reason: Small local Dispatcher bot is separate from telegram_bot and is training backlog unless a minimal subset
+      becomes a launch blocker.
+  - question_id: Q-015
+    disposition: MAPPED_TO_EARLY_WORKER_TRAINING_BACKLOG
+    reason: Useful but not a pre-zero-stage launch blocker unless later evidence proves otherwise.
+human_intent_update:
+  mutation_method: scripts/coordination/human_intent_mutation_v0_1.py append/sync
+  direct_ledger_edit_allowed: false
+  source_marker: post_cf06_evening_handoff_reconciliation_v0_1

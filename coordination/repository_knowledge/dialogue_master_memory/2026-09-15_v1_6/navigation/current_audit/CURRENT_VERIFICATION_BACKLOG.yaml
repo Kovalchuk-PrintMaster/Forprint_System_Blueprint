@@ -1,0 +1,488 @@
+schema_version: forprint_master_current_verification_backlog_v1_0
+generated_on: '2026-09-15'
+warning: This is a deduplicated audit plan, not a statement that items are missing. `NOT_AUDITED` means current implementation has not been verified in
+  this master-package build.
+tasks:
+- audit_id: AUD-001
+  priority: CRITICAL
+  title: Authority/startup front door
+  question: Verify current `coordination/releases/current.yaml`, canonical startup chain, and eliminate stale current-looking START_HERE/handoff authority.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP0909-0017
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP0809-0002
+  - IT-BP0809-0007
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0006
+  last_known_review_refs:
+  - B01-F001
+  - B01-F002
+  - B02-F001
+  - B02-F002
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-002
+  priority: CRITICAL
+  title: Logistics H10 pilot runtime
+  question: Verify current H10 selector, Logistics-only connectivity, two successful real automatic runs, stability evidence and separate expansion decision.
+  concept: logistics_pilot_rollout
+  historical_item_refs:
+  - IT-BP2708-0023
+  - IT-BP2708-0024
+  - IT-BP2708-0025
+  - IT-BP0909-0027
+  - IT-BP0809-0006
+  - IT-BP0809-0023
+  - IT-BP0809-0025
+  last_known_review_refs:
+  - B02-F005
+  - B06-F002
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-003
+  priority: CRITICAL
+  title: Completion → acceptance → progression
+  question: Run one real module cycle and verify completion intake, deterministic checks, operator acceptance boundary, roadmap updates and same-phase/major-phase
+    progression rules.
+  concept: prompt_completion_cycle
+  historical_item_refs:
+  - IT-BP0508C-0019
+  - IT-BP1708-0009
+  - IT-BP2708-0014
+  - IT-BP2708-0015
+  - IT-BP0909-0009
+  - IT-BP0909-0010
+  last_known_review_refs:
+  - B06-F006
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-004
+  priority: HIGH
+  title: Prompt lifecycle / archive / Oracle binding
+  question: Verify prepared/released/completed/archive transitions, one-shot release fail-closed reset, Acceptance Oracle binding and durable inbound references.
+  concept: prompt_completion_cycle
+  historical_item_refs:
+  - IT-BP0508C-0021
+  - IT-BP0509-0024
+  - IT-BP0509-0025
+  - IT-BP0509-0027
+  - IT-BP0509-0028
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-005
+  priority: CRITICAL
+  title: Fresh-worker pull runtime
+  question: Verify Blueprint-publish/module-pull ownership, listener/dispatcher, fresh worker per prompt, generated context, previous report inclusion and
+    no module writes into Blueprint.
+  concept: automation_workers_runtime
+  historical_item_refs:
+  - IT-BP0509-0016
+  - IT-BP0509-0017
+  - IT-BP0509-0018
+  - IT-BP0509-0019
+  - IT-BP0909-0022
+  - IT-BP0909-0025
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-006
+  priority: HIGH
+  title: Continuity stack end to end
+  question: Generate a fresh zero-context handoff and validate micro-roadmap, continuity contract, checkpoint store, projections, Handoff Compiler and Lifecycle
+    Enforcement status.
+  concept: continuity_project_memory
+  historical_item_refs:
+  - IT-BP1009-0021
+  - IT-BP1009-0022
+  - IT-BP1009-0023
+  - IT-BP1009-0024
+  - IT-BP1009-0025
+  - IT-BP1009-0028
+  - IT-BP1209-0001
+  - IT-BP1209-0005
+  - IT-BP1209-0010
+  - IT-BP1209-0016
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-007
+  priority: CRITICAL
+  title: Mutation/compiler safety
+  question: Verify canonical mutation entrypoint, read-only checks, project-aware repair boundaries, fail-closed rollback/checkpoint semantics and exact
+    validator contracts.
+  concept: mutation_validation_safety
+  historical_item_refs:
+  - IT-BP0508-0016
+  - IT-BP0508-0030
+  - IT-BP0508-0031
+  - IT-BP1009-0008
+  - IT-BP1009-0009
+  - IT-BP1009-0010
+  - IT-BP1209-0023
+  - IT-BP1209-0025
+  - IT-BP1409-0004
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  - IT-BP1409-0013
+  - IT-BP0709CF-0003
+  - IT-BP0709CF-0009
+  - IT-BP0709CF-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-008
+  priority: CRITICAL
+  title: Explicit dependency contract / Make DAG
+  question: Verify no hidden execution dependencies, clean-room reproducibility, declared/generated prerequisites and dependency-order determinism.
+  concept: dependency_contracts
+  historical_item_refs:
+  - IT-BP1009-0011
+  - IT-BP1009-0012
+  - IT-BP1009-0013
+  - IT-BP1009-0014
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  last_known_review_refs:
+  - B02-F008
+  - B02-F014
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-009
+  priority: HIGH
+  title: Parallel work / baseline semantics
+  question: Verify current policy supports bounded module/local baselines and parallel work without requiring a globally clean tree; ensure foreign repo
+    Git boundaries are respected.
+  concept: git_worktree_parallelism
+  historical_item_refs:
+  - IT-BP2708-0009
+  - IT-BP2708-0010
+  - IT-BP2708-0011
+  - IT-BP0909-0014
+  - IT-BP0909-0015
+  last_known_review_refs:
+  - B06-F010
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-010
+  priority: CRITICAL
+  title: Repository knowledge derivation and drift
+  question: Verify evidence-backed Repository Knowledge, semantic-vs-index coverage, derivation registry, faithful mirror, deterministic caches and generated-index
+    rebuild from reconciled sources.
+  concept: repository_knowledge
+  historical_item_refs:
+  - IT-BP0508-0001
+  - IT-BP0508-0008
+  - IT-BP3108-0012
+  - IT-BP1009-0006
+  - IT-BP1009-0019
+  - IT-BP1009-0020
+  - IT-BP0809-0003
+  - IT-BP0809-0004
+  - IT-BP0809-0023
+  - IT-BP0809-0033
+  - IT-BP0709CF-0013
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-011
+  priority: HIGH
+  title: Self-cleaning and deprecation lifecycle
+  question: Verify descriptive-document conformance checks, stale-artifact candidate registry, retirement from active validation, index/health closeout
+    and durable policy propagation.
+  concept: documentation_self_cleaning
+  historical_item_refs:
+  - IT-BP0509-0008
+  - IT-BP0509-0009
+  - IT-BP0509-0011
+  - IT-BP0509-0012
+  - IT-BP0509-0013
+  - IT-BP0509-0014
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-012
+  priority: HIGH
+  title: Human Intent and three-view portfolio
+  question: Verify stable Human Intent IDs, residual/dedup handling, quote/context provenance, synthetic labels and machine/balanced/human portfolio renderers.
+  concept: human_intent_portfolio_views
+  historical_item_refs:
+  - IT-BP3108-0013
+  - IT-BP3108-0015
+  - IT-BP3108-0016
+  - IT-BP0509-0001
+  - IT-BP0509-0002
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  last_known_review_refs:
+  - B02-F011
+  - B06-F013
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-013
+  priority: HIGH
+  title: Roadmap planning depth and prompt buffers
+  question: Verify current planning policy and machine health signals for forward roadmap depth, draft prompt buffer and no invented next front.
+  concept: roadmap_portfolio
+  historical_item_refs:
+  - IT-BP1406-0010
+  - IT-BP1406-0009
+  - IT-BP0508C-0011
+  - IT-BP0508C-0012
+  - IT-BP0508C-0013
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0024
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP0809-0005
+  - IT-BP0809-0027
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-014
+  priority: HIGH
+  title: Project Inspector semantic audit
+  question: Verify durable inspected baseline, deterministic-first checks, bounded risk-based LLM audit, CONTEXT_REQUIRED and non-authority/legal boundaries.
+  concept: project_inspector
+  historical_item_refs:
+  - IT-BP3108-0022
+  - IT-BP3108-0023
+  - IT-BP3108-0024
+  - IT-BP3108-0025
+  - IT-BP3108-0026
+  - IT-BP3108-0027
+  - IT-BP3108-0028
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-015
+  priority: HIGH
+  title: Contract Registry / Gateway / Job Specification
+  question: Verify target ownership split, contract record lifecycle/adoption metadata, transport neutrality, impact analysis and first Job Specification
+    contract.
+  concept: contract_registry_gateway
+  historical_item_refs:
+  - IT-BP3108-0029
+  - IT-BP3108-0030
+  - IT-BP3108-0031
+  - IT-BP3108-0032
+  - IT-BP3108-0033
+  - IT-BP3108-0034
+  - IT-BP3108-0035
+  last_known_review_refs:
+  - B01-F012
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-016
+  priority: HIGH
+  title: Canonical module identity/inventory
+  question: Resolve current module registry count/IDs, Accounting Registry mismatch, Operations Assistant/Identity coverage and double-counts before automated
+    portfolio selection.
+  concept: roadmap_portfolio
+  historical_item_refs:
+  - IT-BP3108-0006
+  - IT-BP2708-0031
+  last_known_review_refs:
+  - B01-F010
+  - B02-F009
+  - B06-F005
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-017
+  priority: HIGH
+  title: Artifact/revision identity
+  question: Verify unique script/archive IDs, revision/hash guards, tracking revision identity and schema-copy identity so stale artifacts cannot execute
+    accidentally.
+  concept: artifact_identity
+  historical_item_refs:
+  - IT-BP2708-0008
+  - IT-BP2708-0034
+  - IT-BP0909-0004
+  - IT-BP1409-0008
+  last_known_review_refs:
+  - B06-F007
+  - B06-F008
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-018
+  priority: NORMAL
+  title: Legacy print-file migration
+  question: Verify legacy filename/folder inventory, search compatibility, canonical target naming and cross-module adoption plan.
+  concept: legacy_file_migration
+  historical_item_refs:
+  - IT-BP3108-0018
+  - IT-BP3108-0019
+  - IT-BP3108-0020
+  - IT-BP3108-0021
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-019
+  priority: HIGH
+  title: Shared standards adoption and human/machine parity
+  question: Verify standards/doc decisions are represented in machine governance, adoption readiness is explicit, and UI Design System scope has migration
+    qualifiers where needed.
+  concept: standards_adoption
+  historical_item_refs:
+  - IT-BP3108-0021
+  - IT-BP0509-0013
+  - IT-BP0709CF-0014
+  last_known_review_refs:
+  - B02-F012
+  - B06-F003
+  - B06-F004
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-020
+  priority: HIGH
+  title: Transparency and operator status surface
+  question: Verify machine-readable current-state manifest/read-only status exposes HEAD, phase, blockers, boundaries, dependencies, next action, gates
+    and forward plan.
+  concept: reporting_operator_ux
+  historical_item_refs:
+  - IT-BP0508-0029
+  - IT-BP0508-0033
+  - IT-BP0508-0034
+  - IT-BP0508-0035
+  - IT-BP0508-0036
+  - IT-BP0809-0028
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-021
+  priority: HIGH
+  title: Decision rationale and correction/supersession discoverability
+  question: Verify major decisions have rationale/effective-state links, immutable corrections are discoverable, and obsolete rules are explicitly superseded/deprecated
+    rather than silently contradicted.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP2708-0002
+  - IT-BP2708-0003
+  - IT-BP2708-0004
+  last_known_review_refs:
+  - B01-F008
+  - B06-F009
+  - B06-F011
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-022
+  priority: HIGH
+  title: Future program order
+  question: Reconcile H11, Knowledge Foundation, legacy retirement and AUT transition so broad autonomy cannot outrun knowledge/identity/dependency readiness.
+  concept: authority_governance
+  historical_item_refs:
+  - IT-BP1009-0028
+  last_known_review_refs:
+  - B02-F006
+  - B02-F007
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline before judging implementation.
+- audit_id: AUD-023
+  priority: CRITICAL
+  title: Control Foundation / roadmap execution-state reconciliation
+  question: 'Verify CF-01 current closure and complete/verify CF-02: continuity event store as actual execution authority, generated previous/current/next/ready/blocked
+    + ROADMAP_SYNC, migration off legacy manual execution-state fields, lifecycle hard gates, no automatic next activation/dispatch/release authority.'
+  concept: control_foundation_roadmap_reconciliation
+  historical_item_refs:
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0026
+  - IT-BP1209-0027
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP1209-0030
+  - IT-BP1209-0031
+  - IT-BP1209-0032
+  - IT-BP1209-0033
+  - IT-BP1209-0034
+  - IT-BP1409-0001
+  - IT-BP1409-0002
+  - IT-BP1409-0003
+  - IT-BP1409-0004
+  - IT-BP1409-0005
+  - IT-BP1409-0006
+  - IT-BP1409-0010
+  - IT-BP0709CF-0007
+  - IT-BP0709CF-0008
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0018
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve live current release/authority and exact repository baseline; determine whether 0032 or a successor completed after the exported
+    dialogue.
+- audit_id: AUD-024
+  priority: CRITICAL
+  title: Portfolio forensic program and module-disposition control
+  question: 'Verify a durable machine-readable portfolio forensic workflow exists: Blueprint target-course baseline first, bounded static+live collectors,
+    coverage dashboard, unresolved registry, evidence-class deduplication, module disposition schema, and requirement that local health be reconciled with
+    dependencies/runtime/project course.'
+  concept: portfolio_forensics_alignment
+  historical_item_refs:
+  - IT-BP0809-0009
+  - IT-BP0809-0011
+  - IT-BP0809-0012
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  - IT-BP0809-0018
+  - IT-BP0809-0021
+  - IT-BP0809-0027
+  - IT-BP0809-0034
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current Blueprint authority/target and determine whether this forensic workflow was implemented, replaced by Project Inspector/portfolio
+    tooling, or remains external analysis infrastructure.
+- audit_id: AUD-025
+  priority: CRITICAL
+  title: Diagnostic report freshness and non-mutating check materialization
+  question: Verify full-check diagnostics are bound to the current source/test hashes, current-tree full pytest is distinguishable from isolated non-mutating
+    `make check` materialization, stale logs are invalidated, and controlled-failure hash-pin updates cannot create false blockers.
+  concept: diagnostic_truth_and_isolation
+  historical_item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0012
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current HEAD and run fresh direct pytest plus the current non-mutating public check with report/source/test hash provenance;
+    compare results before mutating source.
+- audit_id: AUD-026
+  priority: CRITICAL
+  title: Stale-handoff revalidation and semantic candidate gate
+  question: Verify every substantial handoff/mutation flow revalidates live Git/release/lifecycle state before acting, refuses already-closed work, builds
+    non-mutating candidates first, and requires semantic/adversarial review of dependency/derivation/standards/authority/bootstrap/isolation/migration contracts
+    before activation/apply.
+  concept: candidate_semantic_review_gate
+  historical_item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0003
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  - IT-BP0709CF-0009
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  - IT-BP0709CF-0015
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  - IT-BP0709CF-0018
+  - IT-BP0709CF-0019
+  last_known_review_refs: []
+  status: NOT_AUDITED_AGAINST_CURRENT_REPOSITORY
+  required_first_step: Resolve current HEAD/release/lifecycle and trace the CF-02 v0.1 seven findings into v0.2/current implementation; confirm stale handoffs
+    cannot drive mutation.

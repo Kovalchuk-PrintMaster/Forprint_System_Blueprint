@@ -1,0 +1,35 @@
+schema_version: module_completion_outbox_event_v0_4
+protocol_version: module_completion_outbox_protocol_v0_4
+event_id: example_completion_event_v0_1
+event_type: module_completion_published_v0_4
+status: published_pending_blueprint_discovery
+module_id: forprint_system_blueprint
+repository_id: forprint_system_blueprint
+prompt_id: example_prompt_v0_1
+completion_id: example_completion_v0_1
+emitted_at: '2026-08-16T15:05:00+03:00'
+immutable: true
+completion_packet:
+  path: coordination/completion_packets/records/example_completion_v0_1.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+publication:
+  completion_subject_commit: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  remote_name: origin
+  branch: example/module-branch
+  remote_containment_verified: true
+  verified_at: '2026-08-16T15:00:00+03:00'
+  verification_evidence_path: coordination/completion_publication_verification/example_completion_v0_1.yaml
+  verification_evidence_sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+  outbox_event_commit_embedded_in_event: false
+  external_outbox_event_publication_verification_required: true
+  automatic_commit: false
+  automatic_push: false
+revision:
+  supersedes_event_id: null
+  supersedes_event_path: null
+  revision_reason: null
+governance:
+  blueprint_discovery_performed: false
+  blueprint_intake_performed: false
+  operator_decision_created: false
+  global_v0_4_promotion_performed: false

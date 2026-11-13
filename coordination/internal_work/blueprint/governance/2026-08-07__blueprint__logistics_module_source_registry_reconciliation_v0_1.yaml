@@ -1,0 +1,63 @@
+schema_version: blueprint_logistics_module_source_registry_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  subject_module_id: logistics_service
+  evidence_id: blueprint_logistics_module_source_registry_reconciliation_v0_1
+  created_at: '2026-08-07T13:38:00+03:00'
+  source_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
+  status: completed
+registry:
+  path: coordination/module_sources/module_git_sources.yaml
+  module_id: logistics_service
+  previously_registered: false
+  registered: true
+  canonical_resolution: canonical_module_source_registry
+  entry:
+    module_id: logistics_service
+    module_name: ForPrint Logistics Service
+    priority: p1
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/forprint_logistics_service
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Logistics_Service.git
+    branch: feature/logistics-tracking-events-contract-v01
+    coordination_root: coordination
+    status_file: coordination/status/current_status.yaml
+    prompt_index: coordination/prompts/index.yaml
+    report_index: coordination/reports/index.yaml
+    repo_status: confirmed
+    notes: Provider-neutral delivery and tracking truth owner. Canonical local repository path and origin were verified read-only
+      by Blueprint at registration. The branch field records the observed working branch for the current tracking-events slice;
+      module implementation and Git lifecycle remain owned by Logistics Service.
+read_only_repository_verification:
+  path: /srv/software_development/forprint-project/forprint_logistics_service
+  head: 2b7261038110c77295c13e49012e5d393f48a0e7
+  branch: feature/logistics-tracking-events-contract-v01
+  origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Logistics_Service.git
+  working_tree_clean: true
+  write_performed: false
+test_contract_reconciliation:
+  roadmap_reconciliation_test: tests/validation/test_blueprint_roadmap_context_reconciliation.py
+  historical_evidence_immutable: true
+  current_handoff_may_advance: true
+  hardcoded_handoff_head_removed: true
+consumer_contract:
+  loader: scripts.collect_module_coordination.load_module_sources
+  resolver: scripts.collect_module_coordination.find_module
+  module_id: logistics_service
+  sibling_discovery_required: false
+handoff:
+  debt_id: logistics_module_source_registry_local_path
+  debt_state: RESOLVED
+  next_focus: tracking_events_intake_preview
+boundaries:
+  module_repository_write: false
+  module_head_change: false
+  roadmap_step_advance: false
+  prompt_release: false
+  operator_accept_return_decision: false
+  automatic_acceptance: false
+  automatic_return: false
+  directive_activation: false
+  external_rollout: false
+  automatic_commit: false
+result: LOGISTICS_MODULE_SOURCE_REGISTRY_RECONCILED

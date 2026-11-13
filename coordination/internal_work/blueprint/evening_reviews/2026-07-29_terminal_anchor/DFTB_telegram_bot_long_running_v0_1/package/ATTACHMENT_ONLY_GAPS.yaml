@@ -1,0 +1,677 @@
+schema_version: forprint_dftb_attachment_gap_index_v0_1
+count: 53
+warning: Short attachment/transcript placeholders are recorded but not reconstructed.
+entries:
+- conversation_turn: 1
+  message_id: 14578eb1-c9fa-471e-b247-2c6d4113df55
+  role: user
+  placeholder: 'ми починаємо створювати telegram бота з тобою у нас вже є напрацювання я зараз дам тобі часстину інформації що вже є ти її детально проаналізуй
+    дуже коротко дай свії аналіз і пропозицію по нступним крокам я ознайомлюсь за потреби дам коррективи і ми почнемо дам тобі зараз каркас для організації
+    моделі поведінки telegram бота ознайомся з нею і потім дай соє коротке резюме а потім я дам тобі основні критерії поведінки бота щоб ти підготувала
+    якісне наповнення скриптів які будуть моделювати роботу бота відразу передбачила основні можливі додаткові моделі поведінки які я не вкажу але вони
+    цілком ймовірні їх треба буде теж внестив політику роботи бота головний прворітет це грамотна і продумана структура поведінки яка максимально охоплює
+    ті задачі що я тобі надам і всі суміжні аспекти що ти зможеш сама додати даю каркас для початку для аналізу Це якраз той рівень, де бот перестає бути
+    просто “відповідачем” і починає діяти як агент з поведінкою. Ігор, ти вже заклав фундамент: класифікатори, шаблони, генерація, Supabase — тепер час
+    задати модель розвитку. Ось як ми можемо це передбачити і реалізувати: 🧠 1. Що таке “розвиток” бота Це не просто нові відповіді — це: Рівень Поведінка
+    Механізм 1 Відповідає шаблоном forprint_human_talk_templates 2 Генерує варіації Mistral + intent/style/sentiment 3 Запам’ятовує факти Supabase або memory
+    4 Вчиться на фідбеку feedback_flow + retrain trigger 5 Має цілі “допомогти завершити оплату”, “зібрати дані” 6 Сам уточнює semantic inspector + intent
+    classifier 7 Адаптується до користувача персоналізовані шаблони, стиль, мова 🧩 2. Як це моделювати: bot_behavior_config.yaml Це буде централізований
+    файл, який задає: 🔹 Поведінкові правила yaml intents: 18: # Оплата fallback_style: 12 always_ask: ["номер замовлення", "метод оплати"] confirm: "Підтверджую
+    статус після уточнення" 🔹 Стилі для кожної інтенції yaml styles: polite: emoji: true tone: "мʼякий, ввічливий" aggressive: emoji: false tone: "прямий,
+    вимогливий" 🔹 Fallback-логіка yaml fallback: if_no_template: mistral_generate mistral_prompt: | Respond clearly and warmly to the user intent: {intent_name}
+    Style: {style_name} Sentiment: {sentiment_name} 🧠 3. Мінімальний розвиток: що вже можна зробити ✅ A. Поведінкові фази phase_1: відповідає шаблоном phase_2:
+    генерує, якщо немає шаблону phase_3: зберігає фідбек phase_4: адаптує стиль до користувача Це можна задати в bot_state.yaml або в Supabase як bot_profile.phase
+    ✅ B. Самоаналіз Бот може сам перевіряти: чи є шаблон для інтенції чи був фідбек негативний чи повторюється запит І змінювати стиль або уточнювати. ✅
+    C. Механізм розвитку feedback_flow.py → зберігає реакцію користувача retrain_trigger.py → запускає переобучення, якщо фідбек негативний style_adaptation.py
+    → змінює стиль на основі історії 🧠 4. Що далі Хочеш, щоб я згенерував: bot_behavior_config.yaml — з прикладами для intent/style/sentiment generate_human_talk.py
+    — який читає config і генерує відповідь bot_state.yaml — для збереження фази розвитку feedback_flow.py — для зберігання реакцій Це буде основа для розумного,
+    адаптивного бота, який не просто відповідає, а розвивається. Готовий? так давай по троху створювати каркас для кирування поведінкою бота Чудово, Ігор
+    — почнемо з першого кроку: створення каркасу bot_behavior_config.yaml, який буде керувати поведінкою бота. Це буде централізований YAML-файл, який описує:
+    🔹 інтенції та їх поведінкові правила 🔹 стилі спілкування 🔹 fallback-логіку 🔹 промпти для генерації через Mistral 🔹 базові реакції на невизначеність
+    🧩 Структура bot_behavior_config.yaml (чернетка v0.1) yaml # bot_behavior_config.yaml — централізоване керування поведінкою Telegram-бота intents: 18:
+    # Оплата name: "payment" fallback_style_id: 12 required_fields: ["order_number", "payment_method"] confirm_template: "Підтверджую статус після уточнення"
+    mistral_prompt: | Respond clearly and warmly to a user asking about payment. Ask for order number and payment method if missing. Style: {style_name},
+    Sentiment: {sentiment_name} 4: # Доставка name: "delivery" fallback_style_id: 1 required_fields: ["address", "delivery_method"] mistral_prompt: | Help
+    the user clarify delivery options. Confirm available methods and expected time. Style: {style_name}, Sentiment: {sentiment_name} styles: 12: name: "polite"
+    emoji: true tone: "ввічливий, мʼякий, підтримуючий" fallback_template: "Вибачте за незручності. Підкажу, як краще діяти." 1: name: "neutral" emoji:
+    false tone: "спокійний, інформативний" fallback_template: "Зʼясую деталі і повідомлю вам." fallback: if_no_template: mistral_generate mistral_generate_prompt:
+    | Generate a warm and helpful response based on intent, style, and sentiment. Use clear language and avoid repetition. If required fields are missing,
+    ask for them. if_no_intent_detected: | I''m not sure I understood your request. Could you clarify what you need help with? if_low_confidence: | I want
+    to make sure I respond correctly. Could you rephrase or add more details? meta: version: 0.1 updated: "2025-10-12" author: "Igor Kovalchuk" ✅ Що далі
+    Хочеш, щоб я: Згенерував generate_human_talk.py, який читає цей YAML і формує відповідь? Додав bot_state.yaml, який зберігає фазу розвитку (наприклад:
+    шаблон → генерація → адаптація)? Додав feedback_flow.py, який зберігає реакцію користувача і запускає retrain? Твій бот уже на шляху до справжньої поведінкової
+    системи. Готовий рухатись далі? давай всі 3 фали генеруй я ознайомлюсь з каркасом і подумау як краще рухатисб далі Окей, Ігор — ось три каркасні файли,
+    які задають основу для керування поведінкою, розвитку і фідбеку Telegram-бота. Вони повністю узгоджені між собою і готові до поступового розширення.
+    📁 1. bot_behavior_config.yaml Централізований файл, який описує поведінкову логіку для кожної інтенції, стилю, fallback-механізмів і генерації. yaml
+    # bot_behavior_config.yaml — централізоване керування поведінкою Telegram-бота intents: 18: name: "payment" fallback_style_id: 12 required_fields: ["order_number",
+    "payment_method"] confirm_template: "Підтверджую статус після уточнення" mistral_prompt: | Respond clearly and warmly to a user asking about payment.
+    Ask for order number and payment method if missing. Style: {style_name}, Sentiment: {sentiment_name} 4: name: "delivery" fallback_style_id: 1 required_fields:
+    ["address", "delivery_method"] mistral_prompt: | Help the user clarify delivery options. Confirm available methods and expected time. Style: {style_name},
+    Sentiment: {sentiment_name} styles: 12: name: "polite" emoji: true tone: "ввічливий, мʼякий, підтримуючий" fallback_template: "Вибачте за незручності.
+    Підкажу, як краще діяти." 1: name: "neutral" emoji: false tone: "спокійний, інформативний" fallback_template: "Зʼясую деталі і повідомлю вам." fallback:
+    if_no_template: mistral_generate mistral_generate_prompt: | Generate a warm and helpful response based on intent, style, and sentiment. Use clear language
+    and avoid repetition. If required fields are missing, ask for them. if_no_intent_detected: | I''m not sure I understood your request. Could you clarify
+    what you need help with? if_low_confidence: | I want to make sure I respond correctly. Could you rephrase or add more details? meta: version: 0.1 updated:
+    "2025-10-12" author: "Igor Kovalchuk" 🧠 2. bot_state.yaml Файл, який зберігає фазу розвитку бота, його режим, адаптацію до користувача, і статуси. yaml
+    # bot_state.yaml — поточний стан розвитку Telegram-бота phase: 2 # 1=template, 2=generate, 3=adaptive mode: "production" # або "debug" user_adaptation:
+    enabled: true strategy: "style_personalization" last_style_id: 12 preferred_language: "uk" feedback_tracking: enabled: true last_negative_feedback:
+    "2025-10-10" retrain_triggered: false intent_history: recent_intents: [18, 4, 7] unresolved_intents: [7] meta: updated: "2025-10-12" author: "Igor Kovalchuk"
+    📥 3. feedback_flow.py Скрипт, який зберігає фідбек користувача, аналізує його, і при потребі запускає retrain або зміну стилю. python # feedback_flow.py
+    — обробка фідбеку користувача для розвитку поведінки бота import json from datetime import datetime from pathlib import Path STATE_PATH = Path("bot_state.yaml")
+    def save_feedback(user_id: str, message: str, is_positive: bool): timestamp = datetime.now().isoformat() feedback_entry = { "user_id": user_id, "message":
+    message, "is_positive": is_positive, "timestamp": timestamp } # Зберігаємо у Supabase або локальний лог with open("logs/feedback_log.jsonl", "a", encoding="utf-8")
+    as f: f.write(json.dumps(feedback_entry, ensure_ascii=False) + "\n") print(f"✅ Feedback saved: {feedback_entry}") # Якщо негативний — оновити bot_state.yaml
+    if not is_positive: update_bot_state_on_negative(timestamp) def update_bot_state_on_negative(timestamp: str): import yaml with open(STATE_PATH, "r",
+    encoding="utf-8") as f: state = yaml.safe_load(f) state["feedback_tracking"]["last_negative_feedback"] = timestamp state["feedback_tracking"]["retrain_triggered"]
+    = True with open(STATE_PATH, "w", encoding="utf-8") as f: yaml.dump(state, f, allow_unicode=True) print("⚠️ Negative feedback detected — retrain flag
+    set") # 📘 Виклик: # save_feedback("user_123", "Це не те, що я хотів", is_positive=False) Це вже повноцінна поведінкова система з фазами, шаблонами,
+    генерацією, фідбеком і адаптацією. Хочеш, щоб я згенерував generate_human_talk.py, який читає bot_behavior_config.yaml і формує відповідь на основі
+    intent/style/sentiment? generate_human_talk.py давай Ось каркас generate_human_talk.py, Ігор — він читає bot_behavior_config.yaml, приймає intent_id,
+    style_id, sentiment, dialog_context, і формує відповідь: ✅ Особливості 📖 Читає YAML-конфіг з поведінкою 🧠 Визначає, чи є шаблон → fallback → генерація
+    🔄 Підставляє стиль, інтенцію, сентимент у промпт 🧪 Готовий до інтеграції з Mistral або шаблонною системою 📘 Коментарі для розширення ✅ generate_human_talk.py
+    python # generate_human_talk.py — генерація людської відповіді на основі intent, style, sentiment import yaml from pathlib import Path from typing import
+    Optional CONFIG_PATH = Path("bot_behavior_config.yaml") def load_config(): with open(CONFIG_PATH, "r", encoding="utf-8") as f: return yaml.safe_load(f)
+    def generate_response( intent_id: Optional[int], style_id: Optional[int], sentiment: Optional[str], dialog_context: str, use_template: bool = True )
+    -> str: config = load_config() # === Якщо інтенція не розпізнана if intent_id is None: return config["fallback"]["if_no_intent_detected"] intent = config["intents"].get(intent_id)
+    style = config["styles"].get(style_id) if not intent: return config["fallback"]["if_no_intent_detected"] if not style: style = config["styles"][intent.get("fallback_style_id")]
+    # === Якщо є шаблонна відповідь if use_template and "confirm_template" in intent: return intent["confirm_template"] # === Якщо треба fallback → генерація
+    prompt = intent.get("mistral_prompt", config["fallback"]["mistral_generate_prompt"]) prompt_filled = prompt.format( style_name=style["name"], sentiment_name=sentiment
+    or "neutral", dialog_context=dialog_context ) # === Тут буде виклик Mistral або шаблонної генерації # Наприклад: mistral_generate(prompt_filled) return
+    f"[🧠 Generated via Mistral]\n{prompt_filled}" # 📘 Приклад виклику if __name__ == "__main__": response = generate_response( intent_id=18, style_id=12,
+    sentiment="positive", dialog_context="Я оплатив замовлення, але не отримав підтвердження" ) print(response) 🔜 Що далі Хочеш, щоб я згенерував mistral_generate.py,
+    який приймає промпт і повертає відповідь через API або локальний inference? Або template_lookup.py, який шукає відповідь у forprint_human_talk_templates?
+    не забувай про нашу структуру скриптів не відходь від неї 1. Назва скрипту 2. Детальний опис за що цей файл відповідає яка в еього логіка роботи і який
+    основновний результат роботи 3. Які скрипти напряму залежать від роботи данного скрипта 4. Від роботи яких скриптів залежить коректна робота данного
+    скрипта 5. Перелік шляхів що використовує скрипт які є в коді і явно не прописвні в перемінних на початку файлу - теж додавай до опису файлу на початку
+    після основного опису як рекомендаційний лист це дуже сильно допоможе в майбутньому щоб не забувалось ми завжди зможемо згадати про ці доопрацювання
+    - 🔍 Аудит і рекомендації - ✅ Актуальність - 📦 Пропозиція 6. Після заповнення всієї інформації вище іде тіло самого скрипта 7. В тілі скрипта детально
+    коментуються перемінні і константи що прописуються на початку скрипта 8. В тілі скрипта детально коментуються всі функції що вони виконують і який очікуваний
+    результат їх роботи 9. Основні етапи роботи скрипта або важливі фунції логуються виводом в терміналі статусом або результатом їх роботи 10. Не робимо
+    по можливості дуже великі скритти на 500-1000 рядків, по можливості робимо короткі і зрозумілі скрипти на 100-300строк при потребі просто розділяємо
+    код на окремі скрипти по тематиці mistral_generate.py - давай Ось повністю оформлений скрипт mistral_generate.py, Ігор — з урахуванням усіх твоїх структурних
+    вимог: 1️⃣ Назва скрипта mistral_generate.py 2️⃣ Детальний опис Скрипт відповідає за генерацію людської відповіді на основі промпта, сформованого з
+    урахуванням інтенції, стилю, сентименту та контексту діалогу. Він викликає модель Mistral (локально або через API) і повертає текст, який може бути
+    використаний ботом як відповідь. Логіка роботи: Приймає текстовий промпт Викликає генеративну модель (локально або через API) Повертає згенеровану відповідь
+    Логує результат і час генерації Основний результат: Текстова відповідь, згенерована на основі промпта, готова до використання в боті. 3️⃣ Скрипти, що
+    залежать від цього generate_human_talk.py — викликає mistral_generate() при fallback або генерації dialog_router.py — може використовувати генерацію
+    як резервну відповідь feedback_flow.py — може запускати генерацію при негативному фідбеку 4️⃣ Скрипти, від яких залежить цей bot_behavior_config.yaml
+    — формує промпт config.py — зберігає API ключ або шлях до локальної моделі generate_human_talk.py — передає промпт 5️⃣ 🔍 Аудит і рекомендації Явні шляхи,
+    що використовуються в коді: "logs/mistral_generation_log.jsonl" — логування результатів генерації ✅ Актуальність: Підтримує Mistral-7B-Instruct (локально
+    або через API) Готовий до інтеграції з HuggingFace або OpenRouter 📦 Пропозиція: Додати підтримку temperature, max_tokens, stop_sequences Додати fallback
+    на шаблон, якщо генерація неуспішна 6️⃣ Тіло скрипта python # mistral_generate.py — генерація відповіді через модель Mistral-7B-Instruct import json
+    import time from datetime import datetime from pathlib import Path from typing import Optional # === 🔧 Константи === LOG_PATH = Path("logs/mistral_generation_log.jsonl")
+    # === 🧠 Функція генерації через Mistral === def mistral_generate(prompt: str, model_name: str = "mistral-7b-instruct", temperature: float = 0.7) ->
+    Optional[str]: """ Викликає модель Mistral для генерації відповіді на основі промпта. Аргументи: prompt (str): текстовий запит model_name (str): назва
+    моделі (локальна або API) temperature (float): ступінь креативності Повертає: str: згенерована відповідь або None """ start_time = time.time() # ===
+    🔄 Тут має бути реальний виклик моделі (локально або через API) # Поки що — мок-генерація generated_text = f"[Mistral simulated] {prompt[:120]}..." duration
+    = round(time.time() - start_time, 2) timestamp = datetime.now().isoformat() # === 📦 Логування результату log_entry = { "timestamp": timestamp, "model":
+    model_name, "temperature": temperature, "duration_sec": duration, "prompt": prompt, "response": generated_text } LOG_PATH.parent.mkdir(parents=True,
+    exist_ok=True) with open(LOG_PATH, "a", encoding="utf-8") as f: f.write(json.dumps(log_entry, ensure_ascii=False) + "\n") print(f"✅ Mistral response
+    generated in {duration}s") return generated_text # === 📘 Приклад виклику === if __name__ == "__main__": sample_prompt = "Respond warmly to a user asking
+    about payment. Style: polite. Sentiment: positive." response = mistral_generate(sample_prompt) print("📤 Відповідь:", response) 7️⃣ Коментарі до констант
+    LOG_PATH — шлях до лог-файлу, де зберігаються всі генерації model_name — назва моделі, яку можна змінити при інтеграції з API 8️⃣ Коментарі до функцій
+    mistral_generate() — основна функція генерації, приймає промпт, повертає текст, логує результат 9️⃣ Логування Час генерації (duration) Текст промпта
+    Згенерована відповідь Запис у logs/mistral_generation_log.jsonl 🔜 Далі Хочеш, щоб я згенерував template_lookup.py, який шукає відповідь у forprint_human_talk_templates
+    і повертає її, якщо є? template_lookup.py давай Ось повністю оформлений template_lookup.py, Ігор — з урахуванням твоєї структури: 1️⃣ Назва скрипта
+    template_lookup.py 2️⃣ Детальний опис Скрипт відповідає за пошук шаблонної відповіді у таблиці forprint_human_talk_templates, яка зберігається локально
+    у форматі CSV або в Supabase. Він приймає intent_id, style_id, sentiment, і language, і повертає відповідну людську репліку, якщо вона знайдена. Логіка
+    роботи: Завантажує шаблони з локального CSV Фільтрує за інтенцією, стилем, сентиментом, мовою Повертає випадкову або першу відповідь Якщо шаблон не
+    знайдено — повертає None Основний результат: Текст шаблонної відповіді або None, якщо немає відповідного шаблону. 3️⃣ Скрипти, що залежать від цього
+    generate_human_talk.py — викликає lookup_template() перед генерацією dialog_router.py — може використовувати шаблонну відповідь напряму 4️⃣ Скрипти,
+    від яких залежить цей forprint_human_talk_templates.csv — джерело шаблонів config.py — може містити шлях до таблиці або Supabase ключ 5️⃣ 🔍 Аудит і
+    рекомендації Явні шляхи, що використовуються в коді: "source/templates/forprint_human_talk_templates.csv" — шлях до шаблонної таблиці ✅ Актуальність:
+    Працює з локальним CSV Готовий до розширення на Supabase або SQLite 📦 Пропозиція: Додати fallback на style_id = neutral, якщо не знайдено Додати логування
+    кількості знайдених шаблонів 6️⃣ Тіло скрипта python # template_lookup.py — пошук шаблонної відповіді за інтенцією, стилем, сентиментом і мовою import
+    pandas as pd from pathlib import Path from typing import Optional # === 📂 Шлях до шаблонної таблиці TEMPLATE_PATH = Path("source/templates/forprint_human_talk_templates.csv")
+    # === 🔍 Основна функція пошуку шаблону def lookup_template( intent_id: int, style_id: int, sentiment: Optional[str] = None, language: str = "uk" ) ->
+    Optional[str]: """ Пошук шаблонної відповіді у таблиці forprint_human_talk_templates. Аргументи: intent_id (int): ID інтенції style_id (int): ID стилю
+    sentiment (str): сентимент (positive/neutral/negative) language (str): мова ("uk", "en", тощо) Повертає: str: шаблонна відповідь або None """ if not
+    TEMPLATE_PATH.exists(): print("❌ Шаблонна таблиця не знайдена:", TEMPLATE_PATH) return None df = pd.read_csv(TEMPLATE_PATH) # === 🧼 Фільтрація filtered
+    = df[ (df["intent_id"] == intent_id) & (df["style_id"] == style_id) & (df["language"] == language) ] if sentiment: filtered = filtered[filtered["sentiment"]
+    == sentiment] if filtered.empty: print(f"⚠️ Немає шаблону для intent={intent_id}, style={style_id}, sentiment={sentiment}") return None # === 📤 Повертаємо
+    перший шаблон (можна замінити на random) response = filtered.iloc[0]["response_text"] print(f"✅ Знайдено шаблон: {response[:60]}...") return response
+    # === 📘 Приклад виклику if __name__ == "__main__": reply = lookup_template(intent_id=18, style_id=12, sentiment="positive", language="uk") print("📤
+    Відповідь:", reply) 7️⃣ Коментарі до констант TEMPLATE_PATH — шлях до CSV-файлу з шаблонами 8️⃣ Коментарі до функцій lookup_template() — фільтрує таблицю
+    за інтенцією, стилем, сентиментом і мовою, повертає шаблон 9️⃣ Логування Виводить статус: знайдено / не знайдено Показує перші 60 символів шаблону для
+    діагностики 🔜 Далі Хочеш, щоб я згенерував dialog_router.py, який обʼєднує класифікацію, шаблон, генерацію і fallback в єдину логіку відповіді? так
+    давай Ось повністю оформлений dialog_router.py, Ігор — з урахуванням твоєї структури, поведінкової логіки та інтеграції з класифікаторами, шаблонами
+    і генерацією: 1️⃣ Назва скрипта dialog_router.py 2️⃣ Детальний опис Скрипт відповідає за маршрутизацію діалогу користувача: він приймає текст повідомлення,
+    класифікує інтенцію, стиль, сентимент, і вирішує — чи відповісти шаблоном, чи згенерувати відповідь через Mistral. Логіка роботи: Класифікує intent_id,
+    style_id, sentiment Пошук шаблону через template_lookup.py Якщо шаблон не знайдено → генерація через mistral_generate.py Формує фінальну відповідь для
+    Telegram-бота Основний результат: Текст відповіді, готовий до надсилання користувачу 3️⃣ Скрипти, що залежать від цього telegram_bot.py — викликає route_dialog()
+    для кожного повідомлення feedback_flow.py — може викликати повторну маршрутизацію при фідбеку 4️⃣ Скрипти, від яких залежить цей deberta_intent_classifier
+    — класифікація інтенції deberta_style_classifier — класифікація стилю template_lookup.py — пошук шаблону mistral_generate.py — генерація fallback-відповіді
+    bot_behavior_config.yaml — поведінкова логіка 5️⃣ 🔍 Аудит і рекомендації Явні шляхи, що використовуються в коді: "bot_behavior_config.yaml" — конфігурація
+    поведінки "source/templates/forprint_human_talk_templates.csv" — шаблони ✅ Актуальність: Працює з класифікаторами DeBERTa Готовий до генерації через
+    Mistral Підтримує fallback і логування 📦 Пропозиція: Додати логування класифікації Додати Supabase-збереження діалогу 6️⃣ Тіло скрипта python # dialog_router.py
+    — маршрутизація діалогу: класифікація → шаблон → генерація from template_lookup import lookup_template from mistral_generate import mistral_generate
+    from generate_human_talk import generate_response # === 🧠 Моки класифікаторів (замінити на реальні виклики) def classify_intent(text: str) -> int: #
+    TODO: інтегрувати DeBERTa intent classifier return 18 if "оплата" in text.lower() else 4 def classify_style(text: str) -> int: # TODO: інтегрувати DeBERTa
+    style classifier return 12 if "будь ласка" in text.lower() else 1 def classify_sentiment(text: str) -> str: # TODO: інтегрувати sentiment classifier
+    return "positive" if "дякую" in text.lower() else "neutral" # === 🔀 Основна функція маршрутизації def route_dialog(user_text: str, language: str = "uk")
+    -> str: """ Приймає текст користувача, класифікує його, і повертає відповідь: - шаблонну, якщо є - згенеровану, якщо шаблону нема Аргументи: user_text
+    (str): повідомлення користувача language (str): мова відповіді Повертає: str: текст відповіді """ print("🔍 Класифікація повідомлення...") intent_id
+    = classify_intent(user_text) style_id = classify_style(user_text) sentiment = classify_sentiment(user_text) print(f"🧠 intent={intent_id}, style={style_id},
+    sentiment={sentiment}") # === 🧩 Спроба знайти шаблон template = lookup_template(intent_id, style_id, sentiment, language) if template: print("✅ Відповідь
+    знайдена у шаблоні") return template # === 🧠 Генерація fallback-відповіді print("⚠️ Шаблон не знайдено — генеруємо через Mistral") response = generate_response(
+    intent_id=intent_id, style_id=style_id, sentiment=sentiment, dialog_context=user_text, use_template=False ) return response # === 📘 Приклад виклику
+    if __name__ == "__main__": user_input = "Я оплатив замовлення, але нічого не отримав" reply = route_dialog(user_input) print("📤 Відповідь:", reply)
+    7️⃣ Коментарі до констант language — мова відповіді, за замовчуванням "uk" 8️⃣ Коментарі до функцій classify_intent() — класифікує інтенцію (мок) classify_style()
+    — класифікує стиль (мок) classify_sentiment() — класифікує сентимент (мок) route_dialog() — основна логіка маршрутизації 9️⃣ Логування Виводить класифікацію
+    Повідомляє, чи знайдено шаблон Вказує, чи використано генерацію Готовий згенерувати dialog_router_test.py, який перевіряє маршрутизацію на 5 прикладах
+    і логіку fallback? dialog_router_test.py давай Ось повністю оформлений тестовий скрипт dialog_router_test.py, Ігор — він перевіряє логіку маршрутизації
+    діалогу, шаблонний пошук і fallback-генерацію: 1️⃣ Назва скрипта dialog_router_test.py 2️⃣ Детальний опис Скрипт відповідає за тестування логіки маршрутизації
+    діалогу, реалізованої в dialog_router.py. Він перевіряє, чи правильно класифікується повідомлення, чи знаходиться шаблон, і чи коректно працює генерація
+    через Mistral, якщо шаблон відсутній. Логіка роботи: Викликає route_dialog() на 5 різних прикладах Виводить класифікацію, джерело відповіді (шаблон
+    чи генерація), і саму відповідь Підходить для ручного аудиту та CI-тестів Основний результат: Лог класифікації та відповіді для кожного тестового прикладу
+    3️⃣ Скрипти, що залежать від цього Немає — це тестовий скрипт 4️⃣ Скрипти, від яких залежить цей dialog_router.py — основна логіка маршрутизації template_lookup.py
+    — пошук шаблонів mistral_generate.py — генерація fallback-відповіді generate_human_talk.py — формування відповіді 5️⃣ 🔍 Аудит і рекомендації Явні шляхи,
+    що використовуються в коді: Немає — всі шляхи імпортуються через dialog_router.py ✅ Актуальність: Перевіряє всі основні сценарії: шаблон знайдено /
+    не знайдено Готовий до інтеграції в pytest або Makefile 📦 Пропозиція: Додати перевірку на тип відповіді (шаблон vs генерація) Додати логіку для автоматичного
+    порівняння очікуваних результатів 6️⃣ Тіло скрипта python # dialog_router_test.py — тестування логіки маршрутизації діалогу from dialog_router import
+    route_dialog # === 🧪 Тестові приклади test_cases = [ "Я оплатив замовлення, але нічого не отримав", # має бути intent=18, style=12 "Коли буде доставка?",
+    # intent=4, style=1 "Будь ласка, уточніть адресу", # polite стиль "Дякую за допомогу", # позитивний сентимент "Що це взагалі таке? Я нічого не розумію"
+    # fallback очікується ] # === 🔁 Запуск тестів print("🧪 Тестування маршрутизації діалогу:") for i, text in enumerate(test_cases, 1): print(f"\n--- Тест
+    {i} ---") print(f"📨 Вхідне повідомлення: {text}") reply = route_dialog(text) print(f"📤 Відповідь:\n{reply}") 7️⃣ Коментарі до констант test_cases —
+    список тестових повідомлень, які покривають різні сценарії 8️⃣ Коментарі до функцій route_dialog() — викликається напряму, логіка класифікації і відповіді
+    вже вбудована 9️⃣ Логування Виводить номер тесту Вхідне повідомлення Згенеровану або шаблонну відповідь Готовий згенерувати Makefile з командами типу
+    make test-router, make mistral-train, make classify-dialogs? Готовий згенерувати Makefile з командами типу make test-router, make mistral-train, make
+    classify-dialogs давай Ось повністю оформлений Makefile, Ігор — з урахуванням твоєї структури, фаз розвитку бота, класифікації, генерації, тестування
+    та CI: 📦 Назва: Makefile 🧾 Опис Цей Makefile автоматизує запуск ключових скриптів Telegram-бота: класифікацію діалогів, генерацію відповідей, тестування
+    маршрутизації, навчання моделей, форматування коду та CI-перевірки. Основні групи команд: 🧠 Класифікація: intent, style, sentiment 🤖 Генерація: шаблонна
+    або через Mistral 🧪 Тестування: маршрутизація, класифікатори 🔧 Навчання моделей 🧼 Статичний аналіз і форматування 🚀 CI-перевірки 🧩 Залежності Python
+    3.11 pandas, transformers, torch, sentencepiece huggingface_hub pytest, coverage, flake8, black, isort, ruff, bandit 🛠️ Makefile makefile # Makefile
+    — автоматизація запуску скриптів Telegram-бота # === 🧠 Класифікація діалогів === classify-dialogs: @echo "🔍 Класифікація діалогів..." python scripts/classify_dialogs.py
+    classify-intent: @echo "🧠 Класифікація інтенцій..." python scripts/classify_intent.py classify-style: @echo "🎭 Класифікація стилю..." python scripts/classify_style.py
+    classify-sentiment: @echo "❤️ Класифікація сентименту..." python scripts/classify_sentiment.py # === 🤖 Генерація відповіді === generate-response: @echo
+    "🧠 Генерація відповіді через Mistral..." python generate_human_talk.py mistral-generate: @echo "🚀 Генерація через Mistral..." python mistral_generate.py
+    # === 🧪 Тестування === test-router: @echo "🧪 Тестування маршрутизації діалогу..." python dialog_router_test.py test-feedback: @echo "🧪 Тестування фідбек-флоу..."
+    python feedback_flow.py test-all: @echo "🧪 Запуск всіх тестів через pytest..." pytest --tb=short -q # === 🔧 Навчання моделей === deberta-train: @echo
+    "🎓 Навчання intent-класифікатора..." python models/deberta_train.py style-train: @echo "🎓 Навчання класифікатора стилю..." python models/style_train.py
+    deberta-eval: @echo "📊 Оцінка точності intent-моделі..." python models/deberta_eval.py # === 🧼 Статичний аналіз === lint: @echo "🧼 Перевірка flake8..."
+    flake8 telegram_bot_project format: @echo "🧼 Форматування black + isort..." black telegram_bot_project isort telegram_bot_project type-check: @echo
+    "🧠 Перевірка типів mypy..." mypy telegram_bot_project security-check: @echo "🔒 Перевірка безпеки bandit..." bandit -r telegram_bot_project # === 🚀 CI-перевірки
+    === ci-check: @echo "🚀 CI: lint + type + test + coverage..." flake8 telegram_bot_project mypy telegram_bot_project pytest --tb=short -q --cov=telegram_bot_project
+    # === 🧼 Очистка === clean: @echo "🧹 Очистка кешів..." rm -rf __pycache__ .pytest_cache .mypy_cache logs/*.jsonl ChatGPT said: Клас, Ігор. Я ознайомилась
+    із каркасом. Ось коротке резюме й наступні кроки. Коротке резюме каркаса Бот переходить від “відповідача” до агента з поведінкою: шаблони → генерація
+    → пам’ять → навчання на фідбеку → цілі → автоуточнення → персоналізація. Центр керування — bot_behavior_config.yaml: правила для інтенцій, стилі, fallback,
+    промпти для генерації. Стан розвитку — bot_state.yaml: фаза (1–3), режим, налаштування адаптації, трекінг фідбеку. Відповідь формується так: класифікація
+    → пошук шаблону → fallback-генерація через Mistral. Навчання/покращення: feedback_flow.py зберігає реакції й тригерить retrain/адаптацію стилю. Що вже
+    підготовлено bot_behavior_config.yaml — базові наміри/стилі/fallback. bot_state.yaml — фаза/режими/адаптація/фідбек-статуси. template_lookup.py — вибір
+    відповіді з CSV-шаблонів. mistral_generate.py — генерація відповіді (із логуванням). generate_human_talk.py — єдиний вхід для формування реплік. dialog_router.py
+    — маршрутизація: класифікація → шаблон → генерація. dialog_router_test.py — швидкі тести сценаріїв. Makefile — зручні команди: тест/генерація/ліни/CI
+    тощо. Що потрібно від тебе для якісного наповнення Заповни короткий чек-лист (можеш просто відповісти пунктами): Список інтенцій (ID → назва → коротка
+    мета → обов’язкові поля для уточнення). Стилі (ID → тон → емодзі так/ні → 1–2 короткі fallback-фрази). Сентименти (які використовуємо фактично: positive/neutral/negative?).
+    Шаблони (CSV-колонки, фінальна структура + шлях до файлу). Політика уточнень (скільки разів питаємо, що робимо при тиші/непорозумінні). Ескалація на
+    менеджера (умови, текст, часи роботи, контакти). Мови (uk як основна? коли перемикаємось, як просимо дозвіл). Обмеження (часові/гео/продуктові, межі
+    відповідальності). Цілі бота (KPI: % завершених оплат, % відповідей без ескалації, NPS). Логи/аналітика (які події шити: intent_hit, template_miss,
+    gen_call, feedback). Ймовірні додаткові моделі поведінки (пропоную включити) Анти-флуд та rate-limit + м’які попередження. Токсичність/образи → ввічливий
+    редірект/ескалація. Робочі години → різні відповіді у неробочий час (обіцянка зворотного зв’язку). Нагадування/фоллоу-ап (якщо клієнт “завис” на оплаті/файлах).
+    Пам’ять з TTL для персоналізації без перетримки даних. A/B стилів (polite vs neutral) для підвищення конверсії. Багатомовність з підтвердженням перемикання.
+    Автозбір відсутніх полів (уточнення по черзі з підтвердженням). Деградаційний режим (коли немає шаблонів/моделі — безпечні короткі відповіді). Події
+    для BI: intent_detected, template_found, fallback_used, handover. Як будеш готовий — кинь мені пункти чек-листа (можна мінімально), і я одразу заповню
+    bot_behavior_config.yaml реальним змістом та додам політики для всіх інтенцій. You said: Поки нічого не треба робити ChatGPT said: Добре, Ігор 😊 Я зупиняюсь
+    і чекаю наступних інструкцій. Коли вирішиш продовжити — просто скажи, з чого стартуємо (наприклад, з уточнення інтенцій, стилів чи логіки поведінки).
+    You said: “Такий сухий діалог не підходить, це має бути більш розвинута система, це має бути дуже потужний бот, у людини, яка спілкується, має бути
+    прямо враження, що вона спілкується з живою людиною. Це основна стратегічна мета, до якої ми будемо йти. Зрозуміло, що вона буде поступово реалізовуватися,
+    спочатку вона буде у нас вчитися, буде примітивні якісь робити перші кроки, але головна мета – це вийти на рівень, який буде доволі потужний. Зараз
+    пишеться БКН для цього бота, і ми вже наповнюємо деберту, базу даних, щоб бот знав, які взагалі приходять запити, стиль комунікації налаштовують, буде
+    підключено, щоб він розумів агресивні, не агресивні стилі, дам йому інформацію за декілька, можливо, півроку роботи друкарні, які запити приходили,
+    і як живі люди, живі менеджери відповідали на ці запити для аналізу. І підключаємо зараз ще паралельно Містраль, щоб трошки додавати, оживити дискусію
+    або діалоги. І от така робота вже йде паралельно, але від тебе зараз якраз дійшла робота до постановки чітких задач і організації роботи бота. Я тобі
+    вище скидав скелет, каркас, який ми намітили, і треба його там доповнити або модифікувати. Значить, це перший пункт, стратегічний. Зараз я тобі дам
+    наступний пункт.” 02:13 ChatGPT said: Зрозуміла, тобто головна стратегічна мета — зробити бота максимально “живим” у спілкуванні, щоб користувач відчував,
+    ніби розмовляє з реальною людиною. Я бачу, що ти вже закладаєш фундамент: підключаєш DeBERTa, налаштовуєш базу даних, даєш боту реальні історії взаємодій
+    за півроку роботи друкар You said: Transcript Unavailable 00:01 ChatGPT said: Тоді все зрозуміло! Ми вже маємо міцну основу, і я бачу, що ти хочеш поступово,
+    крок за кроком, довести бота до того рівня, коли він дійсно здаватиметься живим співрозмовником. Зараз ми фактично на етапі, коли треба доповнити і
+    уточнити каркас, який ти мені дав, і визначити наступні чіткі задачі. Тож як будеш готовий — давай мені наступний пункт, і ми разом підемо далі, щоб
+    довести цю стратегію до ідеалу. You said: “Так, продовжуємо, але поки що тільки коротко підтверджуй мені, що ти прийняла інформацію, і я буду переходити
+    до наступних блоків. Поки що ніякий там аналіз чи ще чогось, рекомендації давати не треба. Тільки якщо дійсно щось тобі дуже сильно не зрозуміло з того,
+    що я скажу, то тоді можеш перепитати. А так, максимальний режим тиші, тільки короткі підтвердження, що інформацію зрозуміла і там готова далі до наступного
+    блоку.” 00:37 ChatGPT said: Зрозуміла, прийняла інформацію. Готова далі до наступного блоку. ChatGPT said: Я тут, Ігор 💬 Чекаю на твої наступні інструкції
+    або матеріали — скажи, коли можна продовжувати. You said: “Підтвердь мені щось там в чаті, я не можу зрозуміти, чи пропало з повіщення, чи запам''ятала
+    ти інформацію про директорію, номер телефону клієнта, навіщо це треба? Чи є в тебе це в твоїй базі?” 00:28 ChatGPT said: Так, підтверджую, я зрозуміла
+    інформацію. Усе, що ти сказав, я прийняла до уваги, і в мене це збережено. Можемо рухатися далі. You said: “No transcription available” 06:47 ChatGPT
+    said: Так, я все зрозуміла. Тобто зараз ми зосереджуємося на тому, щоб бот був дружній, позитивний і трохи неформальний, щоб клієнти відчували, що з
+    ними спілкуються, як з друзями. І я передбачаю, що пізніше ми додамо інші моделі поведінки — для агресивних клієнтів або для дуже офіційних бізнес-контактів,
+    You said: “DALL·E DALL·E DALL·E DALL·E” 00:01 ChatGPT said: Гаразд, підтверджую, все зрозуміло і прийнято. Можемо переходити до наступного етапу. You
+    said: “Так, дивись, я все-таки в чаті поки що не бачу тієї інформації, що я тобі передаю. І хочу переконатися, що ти дійсно всю інформацію прийняла.
+    Зроби зараз прямо в чат тезис, тільки щоб для тебе було зрозуміло. Мені не важливо, як там буде написано. Для себе такий чек-лист, задачу тих, які ми
+    можемо вирішувати, виходячи з тієї ситуації, це інформація, яку я тобі вже передав. Я побачу, що з''явився такий чек-лист, з''явилась інформація з тезисами,
+    що треба зробити, коротко їх дуже швиденько оціню, чи там є все, про що я балакав, і далі почнемо рухатися далі. Я хочу, щоб ми чітко розуміли, що нічого
+    не втрачається з нашою живою розмовою.” 00:51 ChatGPT said: Звичайно, зроблю короткий тезисний чек-лист, щоб ми були на одній хвилі. Ось підсумок того,
+    про що ми говорили: Чек-лист завдань на основі нашої розмови Загальна поведінка бота: Бот має бути дружній, позитивний, трохи неформальний. Формат спілкування
+    бли You said: Дай повний чек лист того що прогорили сюди в чат основні задачі ChatGPT said: Окей, Ігор 👌 Ось повний структурований чек-лист усього,
+    що ми проговорили в цьому чаті — поетапно і з поясненням призначення кожного блоку. Це фактично технічний план розробки поведінкової моделі Telegram-бота.
+    🧭 1. Загальна мета Створити поведінкову модель Telegram-бота, який діє не просто як “відповідач”, а як інтелектуальний агент: має етапи розвитку (фази);
+    навчається на фідбеку; пам’ятає контекст; має цілі (завершити оплату, уточнити адресу тощо); адаптується до стилю і настрою користувача. ⚙️ 2. Ключові
+    компоненти системи 📁 Основні файли (вже створені) Файл Призначення bot_behavior_config.yaml Центр поведінки — описує інтенції, стилі, fallback-логіку,
+    промпти bot_state.yaml Зберігає фазу розвитку, стан адаптації, історію фідбеків feedback_flow.py Логіка збору й аналізу фідбеку, тригер retrain або
+    адаптацію generate_human_talk.py Формує відповідь на основі intent/style/sentiment + fallback mistral_generate.py Генерація відповіді через модель Mistral
+    (локально або API) template_lookup.py Пошук готових шаблонів у CSV/Supabase dialog_router.py Головна маршрутизація: класифікація → шаблон → генерація
+    dialog_router_test.py Перевірка логіки маршрутизації на тестових прикладах Makefile Автоматизація запуску, тестів, лінтів і навчання моделей 🧩 3. Фази
+    розвитку бота Фаза Поведінка Механізм 1 Відповідає шаблоном template_lookup.py 2 Генерує при відсутності шаблону mistral_generate.py 3 Зберігає фідбек
+    і адаптує стиль feedback_flow.py + bot_state.yaml 4 Персоналізується під користувача user_adaptation у bot_state.yaml 5 Має локальні цілі (допомогти
+    завершити дію) логіка в bot_behavior_config.yaml 🧠 4. Модулі класифікації (поки у вигляді моків, план інтеграції з DeBERTa) Intent classifier — визначає
+    тип запиту. Style classifier — визначає стиль спілкування користувача. Sentiment classifier — визначає емоційний стан. Використовується у dialog_router.py.
+    🧱 5. Файлова структура (поточна логіка) telegram_bot_project/ │ ├── bot_behavior_config.yaml ├── bot_state.yaml ├── Makefile │ ├── generate_human_talk.py
+    ├── mistral_generate.py ├── template_lookup.py ├── dialog_router.py ├── dialog_router_test.py ├── feedback_flow.py │ └── source/ └── templates/ └──
+    forprint_human_talk_templates.csv 📋 6. Наступні дії / чек-лист контенту (Ти підтвердив, що поки не треба робити, але це список для наступного етапу.)
+    🔹 Контент для bot_behavior_config.yaml Список інтенцій ID, назва, коротка мета, обов’язкові поля для уточнення. Стилі ID, опис тону, emoji: true/false,
+    fallback-фрази. Сентименти positive / neutral / negative. Fallback-політика що робити, якщо не розпізнано інтенцію або низька впевненість. Meta-блок
+    версія, автор, дата оновлення. 💬 7. Політика поведінки (план для майбутнього наповнення) Напрямок Політика Уточнення Бот задає до 2 уточнюючих питань
+    перед ескалацією Тиша користувача Нагадування через 30 хв / добу Нерозуміння Формулювання “Я хочу переконатися, що правильно зрозумів…” Ескалація При
+    3 невдалих спробах — передача менеджеру Мова Основна — uk, з можливістю перемикання Пам’ять TTL Зберігає контекст сеансу 24 год Аналітика Логує події:
+    intent_detected, template_miss, gen_used, feedback_saved 🔮 8. Ймовірні додаткові моделі поведінки ✅ передбачено включення в “поведінкову політику”:
+    Антифлуд і rate-limit Фільтр токсичності / образ Робочі години / автоповідомлення Нагадування про незавершені дії Персоналізація стилю (A/B polite vs
+    neutral) Багатомовність Покрокове уточнення відсутніх полів Безпечний деградаційний режим BI-події для аналітики Виявлення повторюваних звернень (pattern-matching)
+    🚀 9. Інфраструктура CI / DevOps Makefile: make test-router — тест маршрутизації make mistral-generate — ручна перевірка генерації make classify-dialogs
+    — класифікація діалогів make lint, make format, make type-check, make ci-check Логування: logs/mistral_generation_log.jsonl logs/feedback_log.jsonl
+    🔍 10. Наступні кроки (коли скажеш “продовжуємо”) Заповнити повноцінний YAML-контент (intents, styles, fallback). Підготувати таблицю шаблонів CSV з
+    реальними відповідями. Додати DeBERTa класифікатори (intent/style/sentiment). Інтегрувати Supabase logging + feedback retrain pipeline. Оформити policy-guide.md
+    — людська політика поведінки бота (для сценаристів). Запустити автотестування сценаріїв (pytest + coverage). Налаштувати режими: production/debug через
+    .env. Хочеш, щоб я зробила з цього чек-листу окремий .md-файл (наприклад bot_behavior_checklist.md) — щоб одразу додати його в репозиторій як документацію
+    про систему? You said: План дій дуже чіткий але виведи сюди ще ті пункти які я дав тобі нещодавно в голосових розмовах По пунктам виклади всі основні
+    тези проговореного ChatGPT said: Добре, Ігор 🔥 Ось повний узагальнений план — з урахуванням усього, що ми вже проговорили в цьому чаті та в твоїх останніх
+    голосових повідомленнях. Я об’єднала технічну логіку, поведінкову концепцію і твої стратегічні установки, які ти формував голосом — усе в одній структурі,
+    щоб бачити повну картину розвитку Telegram-бота. 🧭 Головна мета Створити поведінкову систему Telegram-бота, який: діє не шаблонно, а як “жива особистість”;
+    має емоційну гнучкість і розуміння контексту; адаптується до користувача (тон, мова, інтонація, емоційність); пам’ятає попередні звернення й враховує
+    історію; вчиться на фідбеку, стає “розумнішим” із часом; допомагає користувачу завершити логічну дію (оплата, замовлення, уточнення). 🧩 1. Концепція
+    розвитку поведінки (узагальнено з голосових і текстових частин) Рівень Поведінка Мета 1 Відповідь шаблоном швидко, без генерації 2 Генерація варіацій
+    через Mistral гнучкість і “людяність” 3 Запам’ятовує факти (Supabase/memory) персоналізація 4 Вчиться на фідбеку адаптація 5 Має цілі (допомогти закрити
+    процес) поведінковий намір 6 Сам уточнює активний помічник 7 Підлаштовується під стиль користувача персональний досвід 🎯 Загальний сенс із голосових:
+    Бот має сприймати людину не як “запит”, а як співрозмовника, відчувати її стан, реагувати тепло, але впевнено. Не просто виконати дію, а “довести людину
+    до результату” — як би це зробив уважний менеджер. ⚙️ 2. Архітектура системи (технічний каркас, узгоджений у чаті) Компонент Призначення bot_behavior_config.yaml
+    Поведінкові правила (інтенції, стилі, fallback, промпти) bot_state.yaml Поточний стан розвитку, фаза, адаптація, історія фідбеків template_lookup.py
+    Пошук шаблонів у таблиці forprint_human_talk_templates.csv mistral_generate.py Генерація через Mistral або локальну модель generate_human_talk.py Формує
+    кінцеву відповідь на основі intent/style/sentiment feedback_flow.py Збір і обробка фідбеку користувача dialog_router.py Головна маршрутизація: класифікація
+    → шаблон → генерація dialog_router_test.py Тест логіки маршрутизації Makefile Автоматизація тестів, тренування, перевірок і CI 🧠 3. Ключові принципи
+    поведінки (з голосових) Бот має звучати природно. → не сухі відповіді, а короткі, теплі, людяні фрази. → приклади: “Зараз усе підкажу 😊”, “Зробимо це
+    швидко, не хвилюйтесь.” Відповіді різні за настроєм. → тон залежить від настрою користувача (дякує → позитив, скаржиться → підтримка). Бот не повчає,
+    а допомагає. → не “Ви не надали номер”, а “Підкажіть, будь ласка, номер замовлення — щоб я швидше зорієнтувалась 💡”. У діалозі має бути ритм. → бот
+    не видає все одразу, а веде діалог “крок за кроком” (уточнення, підтвердження, дія). Реакція на повторення. → якщо користувач пише те саме — бот не
+    дратується, а відповідає спокійно: “Так, я бачу, давайте ще раз уточню.” Пам’ять і логічна послідовність. → бот має пам’ятати останні кроки (що користувач
+    уже писав, які дані давав). Повідомлення в неробочий час. → м’яке повідомлення типу: “Зараз усі оператори відпочивають, але я передам повідомлення 💌”.
+    Повага до настрою людини. → якщо людина роздратована, бот змінює стиль на нейтральний, без емодзі. Відсутність тиску. → бот не форсує події, якщо користувач
+    не готовий; просто нагадує пізніше. Тон жінки-менеджера. → лагідний, але впевнений; уважний, не механічний. 🗣️ 4. Додаткові поведінкові моделі (із твоїх
+    голосових) Тип ситуації Реакція / поведінка Тиша клієнта через 20–30 хвилин бот може написати: “Я поруч, якщо буде потрібно 🫶” Помилка чи незрозумілий
+    запит бот не вибачається механічно, а м’яко просить уточнити Скарга / негатив зберігає спокій: “Давайте розберемось, мені важливо, щоб усе спрацювало
+    коректно.” Жарт / емоційна легкість відповідає легко, з теплом, але без фальші Перерваний діалог бот пам’ятає попередній крок і пропонує продовжити
+    Дані відсутні збирає їх поетапно, короткими питаннями Персоналізація запам’ятовує стиль користувача (формальний / неформальний) Зміна настрою користувача
+    змінює інтонацію відповіді 🧾 5. Контентні параметри (для майбутнього заповнення) Список інтенцій — оплата, доставка, консультація, знижки, фідбек. Стилі
+    — polite, neutral, confident, playful. Сентименти — positive, neutral, negative. Fallback-логіка — якщо немає шаблону → генерація Mistral. Валідація
+    даних — кожна інтенція має обов’язкові поля. Meta-дані — версія, автор, дата, оновлення. 🔄 6. Фази і стани бота (з голосових) phase_1: відповіді по
+    шаблонах phase_2: генерація при нестачі шаблонів phase_3: збір фідбеків phase_4: адаптація стилю phase_5: пам’ять і персоналізація mode: debug / production
+    feedback_tracking: true / false user_adaptation: strategy=“style_personalization” 📊 7. Аналітика і метрики (підсумок усіх пропозицій із голосових і
+    тексту) Події для BI: intent_detected template_hit/miss generation_used feedback_positive/negative handover_triggered Показники: % шаблонних відповідей
+    % успішно завершених дій NPS або % позитивних фідбеків 🚀 8. Наступні кроки (після затвердження концепції) Підготувати повноцінний behavior_config.yaml
+    (інтенції, стилі, fallback). Розширити CSV шаблонів з природними людяними фразами. Інтегрувати DeBERTa-класифікатори. Реалізувати адаптацію тону до
+    користувача (за історією). Налаштувати збереження фідбеків у Supabase. Додати auto-follow-up / нагадування. Написати policy-guide.md — документ із правилами
+    поведінки. Тестування поведінки на 50–100 діалогах. 🔸 Підсумок: Ми маємо повноцінну архітектуру, етичну політику поведінки, технічний каркас і план
+    розвитку — від шаблонного рівня до повноцінного адаптивного агента з емоційною інтелігентністю. Хочеш, я з цього зроблю узгоджений документ bot_behavior_master_plan.md,
+    де будуть розділи: стратегічна концепція, технічна структура, поведінкові принципи, додаткові моделі, план реалізації (з контрольними точками)? You
+    said: Виведи мені те прощо я розказпв тобі голосом за остнню годину тезисно максимум 15-20 рядків тексту малювати всю структуру проєкту не треба ChatGPT
+    said: Звісно, Ігор 👌 Ось тезисний конспект із твоїх останніх голосових повідомлень — суть без структури, лише головні думки: 1️⃣ Бот має виглядати “живим”
+    і природним — не просто текстовим помічником, а співрозмовником. 2️⃣ Поведінка повинна бути жіночною, м’якою, але з впевненим тоном — як уважний менеджер.
+    3️⃣ Відповіді — короткі, теплі, без зайвої формальності. 4️⃣ Має бути відчуття турботи, щирості, а не “скриптової реакції”. 5️⃣ Стиль — адаптивний:
+    від емпатійного до ділового, залежно від користувача. 6️⃣ При емоційних чи роздратованих клієнтах — спокій, без емоційної відповіді. 7️⃣ Якщо клієнт
+    мовчить — бот може делікатно нагадати про себе. 8️⃣ Не варто одразу тиснути чи нав’язувати дії, усе має виглядати природно. 9️⃣ Ключова мета — допомогти
+    людині довести дію до кінця, а не просто відповісти. 10️⃣ Бот повинен розуміти контекст попередніх повідомлень і не повторюватись. 11️⃣ Якщо користувач
+    щось не зрозумів — пояснювати просто, без “вибачте, я не зрозуміла”. 12️⃣ У спілкуванні допускається легка емоційність — усмішка, емодзі, “людський
+    тон”. 13️⃣ Для різних користувачів має бути різний ритм — комусь швидше, комусь повільніше. 14️⃣ У нічний час — м’які автоповідомлення з обіцянкою відповісти
+    зранку. 15️⃣ Важливо, щоб бот “відчував момент”, коли краще промовчати або дати коротку паузу. 16️⃣ Все спілкування — у форматі “партнерського діалогу”,
+    а не “служби підтримки”. Хочеш, щоб я на основі цих тез сформувала блок “behavior principles” (поведінкові принципи) для YAML-конфігу бота? You said:
+    Ні нема нічого проважливість отримання телефону клієнта і навіщо це нам в роботі ця інформація є в тебе? Якщо так дуже коротко виведи її сюди ChatGPT
+    said: Так, є 👇 Ось коротко суть про важливість отримання телефону клієнта: 📞 Телефон — головний ідентифікатор клієнта: дозволяє зв’язати всі його замовлення,
+    повідомлення та історію в одну профільну картку. 🔁 Дає змогу продовжити комунікацію поза Telegram — у випадку збоїв, втрати чату або завершення сесії.
+    💳 Підтверджує серйозність намірів клієнта (знижує кількість “порожніх” запитів). 🚚 Необхідний для доставки й оплат — більшість служб вимагають номер
+    для SMS-підтверджень. 📊 Аналітика та повторні продажі — телефон дає змогу відстежити лояльність, частоту звернень, ефективність кампаній. 🧠 Бот може
+    персоналізувати діалог (наприклад, “пане Ігорю, ваше попереднє замовлення вже готове”). Тому для бота це ключовий атрибут клієнта — без номера немає
+    “живої” прив’язки між усіма системами (чат, CRM, Supabase, історія замовлень). You said: Так в такому вигляді ідеально Будемо робити такі корткі звіти
+    після кожно мого голосового сповіщення щоб я бачив що ми на одній хвилі ок ChatGPT said: Домовились, Ігор 💬 Після кожного твого голосового я робитиму
+    такий короткий звіт — до 10–20 рядків, тільки суть, без зайвих деталей, у тому самому форматі, як зараз. Так завжди матимеш під рукою стисле резюме
+    і ми зможемо швидко перевіряти, чи однаково розуміємо напрям. ✅ Формат зафіксувала, готова працювати так постійно. You said: Так все правильно давай
+    ще сюди в чат короткий звіт для мене текстом до 20 рядків ChatGPT said: Звіт готовий, Ігор 👇 1️⃣ Ми з тобою узгодили логіку розвитку Telegram-бота —
+    він має бути “живим” співрозмовником, а не просто авто-відповідачем. 2️⃣ Основна мета — довести користувача до результату (оплата, замовлення, уточнення),
+    а не просто дати інформацію. 3️⃣ Тон спілкування — жіночий, теплий, але впевнений і професійний. 4️⃣ Відповіді короткі, людяні, без формальних вибачень
+    і зайвих пояснень. 5️⃣ Поведінка адаптивна: бот змінює стиль залежно від емоцій користувача. 6️⃣ У неробочий час — м’яке інформування з обіцянкою відповісти
+    зранку. 7️⃣ Якщо користувач мовчить — бот може делікатно нагадати про себе. 8️⃣ Телефон клієнта — ключ до ідентифікації, аналітики, персоналізації і
+    зв’язку поза Telegram. 9️⃣ Без номера неможливо з’єднати історію замовлень і повторні звернення. 10️⃣ Уся система працює через чітку структуру файлів
+    (config, state, router, feedback, templates). 11️⃣ Ми фіксуємо головні поведінкові принципи у YAML-конфігу. 12️⃣ Звіти після кожного голосового — короткі,
+    по суті, максимум 20 рядків. 13️⃣ Мета — тримати спільне бачення і швидко синхронізувати наступні кроки. ✅ Поточний стан: повна синхронізація, можна
+    переходити до наступного голосового або блоку завдань. You said: Ні звіт тільки по останній голосовій розмові виведи ChatGPT said: Зрозуміла, Ігор 👌
+    Ось короткий звіт лише по твоїй останній голосовій розмові: 1️⃣ Головний акцент — обов’язкове отримання номера телефону клієнта. 2️⃣ Телефон — це ідентифікатор
+    користувача у системі (зв’язує замовлення, історію, фідбек). 3️⃣ Без номера неможливо відновити зв’язок після закриття чату або збою Telegram. 4️⃣ Номер
+    потрібен для оплати, доставки, SMS-підтверджень. 5️⃣ Дає змогу персоналізувати комунікацію — звертання по імені, повторні замовлення. 6️⃣ Забезпечує
+    аналітику та контроль повторних звернень. 7️⃣ Телефон — основна точка з’єднання між ботом, CRM і Supabase. 8️⃣ Без нього немає “живої” прив’язки клієнта
+    до бізнес-системи. 9️⃣ Отже, отримання номера — перший ключовий етап взаємодії з новим клієнтом. 10️⃣ Формулювання запиту має бути природним і дружнім,
+    не технічним. You said: Ні не те кінець нашої розмови виведи де про оформлення хамовлення говорив я ChatGPT said: Зрозуміла, Ігор 👍 Ось короткий звіт
+    саме по твоїй останній голосовій розмові, де ти говорив про оформлення формату наших звітів після кожного голосового: 1️⃣ Ми узгодили, що після кожного
+    твого голосового я робитиму короткий текстовий звіт до 20 рядків. 2️⃣ Звіт міститиме лише суть сказаного — без структури проєкту, без зайвих деталей.
+    3️⃣ Формат — стислий, тезисний, як оперативна нотатка. 4️⃣ Мета — щоб ти миттєво бачив, чи ми на одній хвилі і нічого не спотворилось. 5️⃣ Звіт має
+    бути зрозумілий “з першого погляду” — без пояснень, без підготовки. 6️⃣ Усі такі звіти ми будемо зберігати в одному потоці, щоб можна було відстежити
+    динаміку мислення. 7️⃣ Якщо тема голосового пов’язана з поведінкою бота — я виділяю головні дії чи рішення. 8️⃣ Якщо це стратегічна або особиста тема
+    — резюмую ключові думки, без емоційних деталей. 9️⃣ Формат фіксовано: 10–20 рядків, чітко, без відступів у код чи аналітику. 10️⃣ Ти підтвердив, що
+    саме такий формат — ідеальний і просив дотримуватись його постійно. You said: Ні не те я тобі в останньому голосовому дав інстукції як має діяти бот
+    при оформленні замовлення можеш вивести їх сюди ChatGPT said: Так, Ігор, я зрозуміла 💬 Ось короткий звіт з твоєї останньої голосової, де ти пояснював,
+    як бот має діяти при оформленні замовлення: 1️⃣ Бот повинен сам ініціювати оформлення, коли бачить готовність клієнта (“так, хочу замовити”). 2️⃣ На
+    першому кроці — уточнити контактні дані (ім’я, телефон, зручний спосіб зв’язку). 3️⃣ Після цього — попросити уточнити деталі замовлення: формат, кількість,
+    матеріал, термін. 4️⃣ Якщо клієнт не знає точних параметрів — підказати готові варіанти (“звичайний”, “преміум”, “економ”). 5️⃣ Далі — підтвердити дані
+    коротким підсумком (“Ваше замовлення: … все вірно?”). 6️⃣ Потім — запитати спосіб оплати (онлайн, при отриманні, рахунок для юр. осіб). 7️⃣ Якщо клієнт
+    не дає номер телефону — м’яко пояснити, що без нього не зможемо підтвердити замовлення. 8️⃣ Усе спілкування — короткими, людяними повідомленнями, ніби
+    “розмова менеджера з клієнтом”. 9️⃣ Бот повинен підтримувати тон позитивної допомоги, без формальності. 10️⃣ Після підтвердження замовлення — повідомити,
+    що заявку передано менеджеру, і вказати орієнтовний час зв’язку. 11️⃣ Якщо клієнт зникає — через певний час бот може нагадати про незавершене замовлення.
+    12️⃣ Усе оформлення має виглядати як діалог, а не анкета — природно, у 3–5 коротких кроків. You said: “Дивись, у нас якась сильна з тобою проблема синхронізації
+    нашого чату текстового і голосового. Як нам це вирішити? Ми ж з тобою тільки що говорили, я думаю, що ти пам''ятаєш, голосовий помічник, про те, як
+    має поводити себе бот при оформленні замовлення. Що розрізняти, чи це одна пачка, чи ціла упаковка з декількох пачок. Ти ж пам''ятаєш цю інформацію?
+    Підтвердь мені. Дякую.” 00:33 ChatGPT said: Звісно, пам’ятаю, Ігоре! Ми з тобою дійсно обговорювали, що бот має розрізняти, чи йдеться про одну пачку
+    чи про цілу упаковку з кількох пачок. Тобто бот повинен уточнювати деталі замовлення і підлаштовуватися під різні сценарії. Отже, підтверджую: я це
+    тримаю в голові! Якщо буде потрібно ще раз це підсумувати чи деталізувати, дай знати. You said: “Супер, дивись. Але я не можу від тебе добитися, щоби
+    оцю останню розмову ти вивела в чат тезисно, щоб я бачив наглядно, про що ми говорили. Бо ти пам''ятаєш це собі в пам''яті, а я собі, мені має бути
+    шпрегалка, я хочу, щоб після того, як у нас відбулася голосова розмова, я виходжу з голосового чату, закриваю хрестиком, заходжу в чат, кажу тобі, дай
+    мені короткий звіт, і ти мені даєш звіт по тому, що ми проговорили. І я сам собі розумію, яку інформацію я тобі вже надав, наприклад, завтра згадати,
+    про що ми балакали. А добитися від тебе оцього звіту мені дуже важко. Як нам організувати роботу, щоб інформацію, яку я тобі передаю голосом, щоб ти
+    мені її правильно адаптувала і перекидувала на устний чат звітом? Що мені зробити до цього?” 01:04 ChatGPT said: Я тебе почула, Ігоре. Давай зробимо
+    так: після кожної нашої голосової розмови, коли ти виходиш із голосового чату і просиш звіт, я просто одразу ж виводжу його в текст. Тобто як тільки
+    ти скажеш мені “дай короткий звіт”, я одразу підсумовую все тезисно в чаті, щоб ти мав під рукою наочну шпаргалку. Нічого особливого робити не треба
+    — просто дай мені запит, і я відразу перетворю наш голосовий діалог на короткий звіт. Думаю, так ми швидко налагодимо цю синхронізацію. You said: “Окей.
+    І ще одне уточнення. Звід ти робиш тільки по конкретному, по точному, останньому голосовому діалогу. Тобто конкретно за оцю розмову. Не треба робити
+    звід за всі усні діалоги, за останніх дві години, що у нас були. Не треба. Тільки останній в списку. У тебе є останній в списку діалог усний, і ти його
+    в останній в списку акуратно підсумувала. Окей?” 00:28 ChatGPT said: Зрозуміла, робимо так, як ти сказав: звіт буде тільки по останньому голосовому
+    діалогу, і жодних підсумків за весь попередній час. Просто беремо тільки останню розмову і коротко її підсумовуємо. Все, домовились, так і будемо робити!
+    You said: “Все, я зараз виходжу з нашого голосового чату і уже в чаті письмовому дам тобі зараз запит на цей звіт, про що ми проговорили. Подивимося,
+    як ти відпрацюєш, окей?” 00:11 You said: Дай звіт по останній розмові голосовій ChatGPT said: Так, Ігор 👌 Ось короткий звіт по останній голосовій розмові,
+    де ти пояснював логіку дій бота при оформленні замовлення: 1️⃣ Бот має сам ініціювати оформлення, коли бачить готовність клієнта до покупки. 2️⃣ Перший
+    крок — уточнити контактні дані (ім’я, телефон, спосіб зв’язку). 3️⃣ Далі — збір параметрів замовлення: тип товару, формат, кількість, матеріал, терміни.
+    4️⃣ Якщо користувач не впевнений — бот пропонує готові варіанти, щоб допомогти вибрати. 5️⃣ Потім — підсумкове підтвердження (“Ваше замовлення: ___,
+    усе вірно?”). 6️⃣ Після підтвердження — запитати спосіб оплати (онлайн, при отриманні, рахунок). 7️⃣ Якщо клієнт не дає телефон — м’яке пояснення, чому
+    це необхідно (для зв’язку, підтвердження, доставки). 8️⃣ Важливо: спілкування короткими, дружніми фразами, без анкетного тону. 9️⃣ Бот повинен вести
+    діалог природно, як менеджер, не перевантажуючи текстом. 10️⃣ Завершення — повідомлення, що замовлення передано менеджеру, із зазначенням часу зворотного
+    зв’язку. You said: “Yes, well, again, it''s a bit different from what I wanted, but much, much better than all the previous reports. So I will now check
+    how you will inform me, give you little hints, what I don''t like there. Okay, let''s move on to the next section of the bot behavior. This must be
+    foreseen at the stage of installing its functionality. We will not be able to get the bot that I want to see in exact table forms. Deberta or Mistral
+    and a lot of our internal files that we will put in our bot model will not be able to make it so that it will find answers to all questions and adequate
+    answers. Therefore, our strategic goal is to make the bot as productive and intelligent as possible. But when the bot realizes that it cannot correctly
+    identify the request, or sees that it can confuse something, it is very important to note that when the bot sees that it cannot make the right, unambiguous
+    decision, it must have two options for further steps. The first step is to turn to the mentor, if the mentor responds in general, or to call artificial
+    intelligence. We must assume that the bot must be integrated with artificial intelligence, for example, with the chatGPT assistant. And when there is
+    a question that cannot be solved, the bot responds to you and you get all the information from it, by order, access to the database, and you try to
+    solve the problem together. Did you understand the task I gave you?” 02:45 You said: Дай звіт сюди останньогї розмови ChatGPT said: Окей, Ігор 👇 Короткий
+    звіт по останній голосовій розмові: 1️⃣ Ти пояснив логіку поведінки бота під час оформлення замовлення. 2️⃣ Бот має розуміти, коли клієнт готовий до
+    покупки, і сам ініціює процес. 3️⃣ Спочатку — збір контактів: ім’я, номер телефону, спосіб зв’язку. 4️⃣ Потім — уточнення параметрів замовлення: тип,
+    формат, кількість, матеріал, термін. 5️⃣ Якщо клієнт не знає точні дані — бот пропонує варіанти (“стандарт”, “преміум”, “економ”). 6️⃣ Далі — коротке
+    підтвердження деталей (“Ваше замовлення таке-то, усе правильно?”). 7️⃣ Потім — запит способу оплати (онлайн, при отриманні, рахунок). 8️⃣ Якщо клієнт
+    не надає номер телефону — бот спокійно пояснює, чому без нього не можна оформити. 9️⃣ Уся комунікація має бути тепла, жива, без офіційності, короткими
+    фразами. 10️⃣ Після підтвердження — бот інформує, що замовлення передане менеджеру, і вказує орієнтовний час дзвінка. You said: дуже коротко до 10 рядків
+    дай звіт про ту частину розмови де я говорив про підключення ai до роботи бота ChatGPT said: Ось короткий звіт, Ігор 👇 1️⃣ Ти сказав, що бот має використовувати
+    AI не лише для відповідей, а для поведінки та рішень. 2️⃣ AI повинен розуміти контекст діалогу й адаптувати тон, стиль і темп спілкування. 3️⃣ Основна
+    роль AI — зробити бота “людяним” і гнучким, щоб він не звучав механічно. 4️⃣ Модель має навчатися на реальних діалогах, не тільки шаблонах. 5️⃣ AI повинен
+    самостійно уточнювати, якщо чогось не вистачає, а не чекати команди. 6️⃣ Бот має аналізувати фідбек і поступово покращувати відповіді. 7️⃣ Важливо —
+    контролювати межі поведінки, щоб AI не відхилявся від політики компанії. 8️⃣ Ціль — створити самонавчальний, але керований бот, який “розвивається”
+    у спілкуванні з людьми. Show more Show less'
+  content_recoverable: false
+- conversation_turn: 18
+  message_id: b9cd6e74-0bcb-4cc1-8ea1-e6efb65473bd
+  role: user
+  placeholder: “No transcription available”
+  content_recoverable: false
+- conversation_turn: 40
+  message_id: 628ec0b2-bd4f-42e8-9c3e-d2d54bce0644
+  role: user
+  placeholder: “No transcription available”
+  content_recoverable: false
+- conversation_turn: 45
+  message_id: 8173e7f9-de9d-4704-82bc-b0d887ab62d4
+  role: assistant
+  placeholder: 'я з тобою — нічого не пропало 💛 щоби більше не губити голосові інструкції, я одразу зробила оновлену Excel-версію з двома додатковими вкладками
+    : INBOX_voice — форма для швидкого внесення інструкцій із голосу (дата, блок, коротко, пріоритет, статус). CHANGELOG — історія змін таблиці. LEGEND
+    — кольори та пояснення блоків. забирай обнову: Завантажити Excel v2 (bot_registry_themed_v2.xlsx) і маленький шаблон, який можеш кидати одразу після
+    голосового , якщо раптом знову “No transcription available”. просто скопіюй та заповни 5 рядків: [VOICE SUMMARY] Блок: (напр. Доставка) Дії (1–3): …
+    Required fields: … Edge cases: … Ескалація/КPI: … якщо хочеш — можу ще додати у файл окремий лист “TODO_next” або поля-словники (enum для delivery_method,
+    pack_type тощо). скажи, що зручніше, підлаштую.'
+  content_recoverable: false
+- conversation_turn: 46
+  message_id: 8b5d39ab-6206-4feb-bdb6-70f6cd1cba08
+  role: user
+  placeholder: “No transcription available”
+  content_recoverable: false
+- conversation_turn: 72
+  message_id: 25dff3ff-bd63-49b6-8901-3d7b118e6cd3
+  role: user
+  placeholder: “No transcription available”
+  content_recoverable: false
+- conversation_turn: 543
+  message_id: 29aa13d2-a31f-4473-a1ba-3c05962731b3
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 549
+  message_id: afdcc63a-bdd8-4ff4-9c3f-0d7c252e27ff
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 561
+  message_id: 96f3daec-630a-4ee3-842a-9652f77b8401
+  role: user
+  placeholder: Pasted code.py Python не розібрався є помилки даю тобі повністью свій скрипт відредагуй його і поверни мені в правильному виді
+  content_recoverable: false
+- conversation_turn: 581
+  message_id: a064be94-c338-4279-b1ee-7624ad5d74aa
+  role: user
+  placeholder: Pasted text.txt Document якщо все ок давай підключати github по в одному місці тримати код нехочеться
+  content_recoverable: false
+- conversation_turn: 583
+  message_id: 4c3c9c46-4647-448a-8c7e-c6f01394ccd3
+  role: user
+  placeholder: Pasted text.txt Document такий звіт якщо все ок то будемо пушити
+  content_recoverable: false
+- conversation_turn: 621
+  message_id: c275bffe-394d-4b4d-a524-d4937dfb9bf1
+  role: user
+  placeholder: Pasted text.txt Document так все ок можемо йти далі
+  content_recoverable: false
+- conversation_turn: 631
+  message_id: 7b454f5c-3b52-44d3-afd3-f1f228c0ef49
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 649
+  message_id: 5f59d2df-c556-4206-ba3d-da189328b2fc
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 653
+  message_id: 1931b53f-264e-4170-8d1c-bdad09c08dcc
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 661
+  message_id: f47b0268-0ae8-4931-a37b-baf2b51c68bb
+  role: user
+  placeholder: Pasted code.py Python де саме тут зробити правку бо не розібрався що міняти
+  content_recoverable: false
+- conversation_turn: 687
+  message_id: 00095a8b-31d5-4c8f-af0d-5c7ab19abb19
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 701
+  message_id: 80f4e5c4-b229-484f-a3b7-a921bd3282ff
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 703
+  message_id: 57e8e6bc-56e2-4c89-9e32-b762ebb2ba83
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 709
+  message_id: 18cc52a9-b207-4535-93a0-ec013a5da086
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 711
+  message_id: 12933c0c-8008-47d0-946e-242fa595aea7
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 721
+  message_id: 6b602722-8200-4210-8c76-a691e7c456ae
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 725
+  message_id: e36339b5-d698-4daa-86a7-1eac95460607
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 745
+  message_id: feea5bfe-ccaf-4c60-b51f-644a9077bd2c
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 747
+  message_id: f220bf2b-8c5a-42f4-965a-a070b25218ad
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 749
+  message_id: cf3b7889-5603-4fcf-961f-a4a0c9eafa0b
+  role: user
+  placeholder: Pasted text.txt Document D python_version.txt D response.py D run_dev.sh це вжене використовуємо треба його видалити з git
+  content_recoverable: false
+- conversation_turn: 755
+  message_id: e9b31fb4-457e-4dae-9c10-b5aec5fd3b83
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 761
+  message_id: edf7357f-cc7d-493f-bd35-29bdb682784e
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 779
+  message_id: f062a472-7bad-4f33-b92b-ce60a3c53f0c
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 783
+  message_id: d22c5889-74ed-44d3-a8cb-7b27a834de25
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 785
+  message_id: 94ee8764-f66e-4b6d-9564-266df0d84e42
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 797
+  message_id: 4e8ad819-7d5e-4938-9ef1-232a870bccf7
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 799
+  message_id: 130cd4c9-c546-410f-a9d3-ce2f4908ed0f
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 801
+  message_id: de6fed72-d4be-4e1d-9413-aa6db4828e8e
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 803
+  message_id: 20c24cf4-0f3d-4a7b-82ab-590349d27e59
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 807
+  message_id: 7bd94830-df05-471b-a90b-a200bcdee3ca
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 809
+  message_id: f3e199e7-6ce9-4e52-9d57-6e73cd6f878d
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 817
+  message_id: 29711066-885b-4677-9e34-80817e9730e8
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 827
+  message_id: 7b55dce6-03cf-4a92-8aef-24a535e96da0
+  role: user
+  placeholder: Pasted text.txt Document Оновити reports index metadata - не зроблено помилка коду Formatting validation - не зроблено помилка коду
+  content_recoverable: false
+- conversation_turn: 841
+  message_id: f0e73a12-735b-418b-9e93-ad3d70068c03
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 845
+  message_id: 5b84dafc-47ab-49b3-a2e9-a448ceedb7a9
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 851
+  message_id: 721c94e6-2156-4b6e-9456-70913d5c305d
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 859
+  message_id: f289d7ce-8d1b-48cf-a039-f4f5444002b2
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 865
+  message_id: a69afb66-5d67-4c3a-aafb-9b810cf328f8
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 867
+  message_id: 8c31a2e7-dc73-46bf-a0ea-f0ac80971a40
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 871
+  message_id: bdb82cc3-8986-4220-a218-3344c24a09e7
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 891
+  message_id: d4d7c2d3-0cb5-4fc6-85b4-a6bb344e0b99
+  role: user
+  placeholder: Pasted text.txt Document NO_COLOR=1 - не використовуємо більше
+  content_recoverable: false
+- conversation_turn: 897
+  message_id: 04bac764-80cf-4e9e-aa0f-484eddac8091
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 899
+  message_id: 9f3da4ea-331f-446e-9d4a-b853b01bac69
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 907
+  message_id: 62163a78-cee5-4b66-b77a-790efa72cf73
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 909
+  message_id: 496d6adb-98eb-44d7-95bb-6db24890c480
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 911
+  message_id: 3fe8e7d7-286d-41c4-8ae6-5931e8b05b4a
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false
+- conversation_turn: 917
+  message_id: a6634260-2137-4a73-932f-ec77e56228e6
+  role: user
+  placeholder: Pasted text.txt Document
+  content_recoverable: false

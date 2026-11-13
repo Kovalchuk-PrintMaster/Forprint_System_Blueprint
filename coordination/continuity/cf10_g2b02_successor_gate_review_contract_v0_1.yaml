@@ -1,0 +1,42 @@
+schema_version: cf10_g2b02_successor_gate_review_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_02
+status: READ_ONLY_DESIGN_REVIEW_NON_AUTHORIZING
+published_source_base: 184782eacc6e5768eea06e69c97a0701734d7180
+original_historical_coverage:
+  sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+  observed_path: tmp/cf10_gate_rollover_7odYLfVr/tmp/cf10_writer_coverage_gate3d90143_170494.json
+  rule: preserve_exact_bytes_and_original_path
+pinned_historical_releases:
+  gate_head: 3d90143a240439d33833463d38ab0fb3497eac8f
+  writer_head: d5d1495c0a1ab25367c146b0f5379b015e03dd85
+  safety: do_not_modify_pinned_checkout_sources
+technical_findings:
+  - pinned_gate_verifier_requires_project_tmp_direct_child_and_dynamic_readback
+  - runtime_binding_v0_1_requires_gate_root_tmp_coverage_parent
+  - runtime_binding_v0_2_delegates_to_v0_1
+  - historical_plan_sha_is_not_signed_current_activation_authority
+  - signed_operator_decision_payload_and_signature_not_reviewed_in_this_phase
+  - changing_the_evidence_path_alone_cannot_authorize_runtime
+recommended_strategy: SEPARATELY_PUBLISHED_SUCCESSOR_INDEPENDENT_GATE_VERIFIER
+new_binding_requirements:
+  - provenance_must_reference_exact_original_evidence_sha_and_candidate_external_path
+  - independent_operator_review_of_root_owned_stable_external_evidence_location
+  - successor_verifier_must_validate_immutable_bytes_and_actual_runtime_state
+  - versioned_s01_runtime_binding_contract_must_remove_old_gate_tmp_dependency
+  - independent_signature_must_bind_new_deployment_head_and_runtime_source_sha256
+  - make_gate_reactivation_must_be_separate_explicit_change_after_acceptance
+  - negative_tests_must_fail_closed_on_wrong_sha_location_symlink_and_signed_expiry
+  - no_evidence_copy_or_signature_performed_by_this_review
+excluded_actions:
+  - copying_historical_coverage
+  - modifying_external_etc
+  - changing_git_branch_or_publication_without_operator_confirmation
+  - modifying_pinned_gate_or_writer_releases
+  - launching_worker_or_enabling_make_gate
+  - mutating_evidence_vault_or_ledger
+backup_dependency:
+  state: PENDING_EXTERNAL_INTEGRATION
+  not_a_blocker_to_readonly_planning: true
+  destructive_cleanup_permitted: false
+next_boundary: G2B03_SEPARATE_SUCCESSOR_VERIFIER_AND_OPERATOR_AUTHORITY_REVIEW

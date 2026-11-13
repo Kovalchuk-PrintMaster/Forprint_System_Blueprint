@@ -1,0 +1,1170 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-source-label-2026-09-07-control-foundation
+source:
+  source_id: SRC-blueprint-source-label-2026-09-07-control-foundation
+  title: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26 (date label conflicts with internal lineage)
+  source_type: chatgpt_mhtml_snapshot
+  source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  source_hash_sha256: 0c32059f0cc0787ae681b49747a96627965958ea76793ce519afa32b007d568b
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 12:08:45 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial
+  completeness_notes: 9 retained message blocks across turn numbers 1–12. Turns 5/7/9/11 are attachment/archive labels. Filename says 07.09.26 but internal
+    evidence includes 2026-09-12 strategy and CF-01/u180a already closed.
+extraction:
+  created_at: '2026-09-15T12:08:45+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_historical_reconstruction_with_temporal_conflict
+  implementation_verification_performed: false
+  notes: Chronology uses logical project lineage rather than filename date. Current repository/runtime not audited.
+evidence_index:
+- evidence_id: EV-BP0709CF-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    message_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 0004__roadmap_state_reconciliation_design_v0_1.yaml File talk.txt Document forprint_evening_strategy_2026-09-12_v0_1.zip Zip Archive Так дивись
+    ми починаємо продовжувати роботу після завершення сеансу з моїм попереднім помічником я тобі даю інформацію про те як ввійти в наш проект і останню
+    сесію останнє повідомлення від попереднього помічника ну якщо тобі треба буде більше інформації то ти можеш дати там запит ми працюємо через термінал
+    там сформувати команду і я там тобі архів щодо того що треба робити ну яка тобі інформація будь-яка
+  quote_whitespace_normalized: true
+  context_before: Opening package contains explicit Sep-12 strategy material despite 07.09 filename label.
+  context_after: null
+  evidence_role:
+  - provenance
+  - date_conflict
+- evidence_id: EV-BP0709CF-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    message_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'ічником Зараз ми вже в правильній точці: continuity/handoff опублікований, HEAD current = 804999ec... , а B1-P2 candidate з 7 файлів збережений
+    exact. У v86 також підтверджено, що release tooling і queue ще не мають prompt_contract binding , тобто саме це і є наступна функціональна корекція.
+    Далі рухаємося так: Зараз — одна bounded mutation F01–F04. Додаємо queue → immutable Prompt Contract binding; B1-aware CLAIMED → обов’язковий execution_identity
+    ; B1 completion → обов’язковий completion_provenance ; узгоджуємо revalida'
+  quote_whitespace_normalized: true
+  context_before: Owner-provided handoff initially says B1-P2 F01–F04 is the next bounded mutation.
+  context_after: null
+  evidence_role:
+  - handoff_state
+  - historical_plan
+- evidence_id: EV-BP0709CF-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    message_id: 7740d7c9-1e7a-4e37-ba97-207ad35617e3
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: '. Лише після цього — explicit B1 ACCEPT / seal / publication . Тільки тоді B1_COMPLETE=true . Наступна велика черга після B1: B2 → Q1…Q8 → H10
+    → H11 → AUT path → Logistics + Codex end-to-end pilot . Тобто зараз нам не треба більше інвентаризації чи архітектурних дискусій . Наступний конкретний
+    крок — я готую bounded correction script F01–F04 по anchors, які v86 щойно зафіксував. Після нього одразу semantic review. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner-provided prior handoff describes explicit B1 closure prerequisites before B1 complete.
+  context_after: null
+  evidence_role:
+  - handoff_state
+  - acceptance
+- evidence_id: EV-BP0709CF-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 2d36ee11-6430-4d87-abe0-0e030db36e84
+    message_id: 956d5795-616e-4941-a5f7-6504f7316dcc
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'Підхопила роботу. Поточну точку продовження фіксую саме так, як у handoff: не повертаємося до інвентаризації чи Control Foundation planning; активний
+    вузький фронт — B1-P2 і correction F01–F04 . Вечірній ZIP залишаю окремим planning/reconciliation input і не змішую його з цією mutation. Це відповідає
+    вашому правилу, що project-entry/handoff матеріали допомагають навігації, але не замінюють task-specific authority; актуальний Git/release state має
+    перевагу над старими snapshots і chat. Єдиного фрагмента, якого мені зараз реально брак'
+  quote_whitespace_normalized: true
+  context_before: Assistant initially accepts the handoff and narrows scope to B1-P2 F01–F04.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - scope
+- evidence_id: EV-BP0709CF-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 2d36ee11-6430-4d87-abe0-0e030db36e84
+    message_id: 956d5795-616e-4941-a5f7-6504f7316dcc
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: матеріали допомагають навігації, але не замінюють task-specific authority; актуальний Git/release state має перевагу над старими snapshots і chat.
+    Єдиного фрагмента, якого мені зараз реально бракує, — точного v86 anchor/evidence dump на HEAD 804999ec… . У наданих документах є B1-P2 tooling і тестовий
+    контур, зокрема окремий test-v0-4-1-b1-p2 , але немає останніх точних anchors, за якими попередній помічник збирався робити F01–F04. Тому я не буду
+    вигадувати patch по назвах функцій. Я підготувала read-only probe , який збере саме потрібний ко
+  quote_whitespace_normalized: true
+  context_before: Assistant states durable current Git/release state outranks stale snapshots/chat.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - authority
+- evidence_id: EV-BP0709CF-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 2d36ee11-6430-4d87-abe0-0e030db36e84
+    message_id: 956d5795-616e-4941-a5f7-6504f7316dcc
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: ми snapshots і chat. Єдиного фрагмента, якого мені зараз реально бракує, — точного v86 anchor/evidence dump на HEAD 804999ec… . У наданих документах
+    є B1-P2 tooling і тестовий контур, зокрема окремий test-v0-4-1-b1-p2 , але немає останніх точних anchors, за якими попередній помічник збирався робити
+    F01–F04. Тому я не буду вигадувати patch по назвах функцій. Я підготувала read-only probe , який збере саме потрібний контекст, знайде 0086__/v86 artifacts,
+    поточні release/queue/discovery surfaces, B1-P2 tests, semantic an
+  quote_whitespace_normalized: true
+  context_before: Assistant refuses to invent mutation anchors and requests an exact read-only context probe.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - exact_context
+- evidence_id: EV-BP0709CF-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'Архів розібрала. Він змінив нашу точку продовження суттєво. Попередній handoff про «зараз робимо F01–F04» виявився застарілим . 804999ec5cdc…
+    справді існує, але це commit від 23 серпня 2026 ( docs(blueprint): add v0.4.1 zero-context workstream handoff ). Поточний стан уже значно далі: HEAD=4739fdcd…
+    , upstream 0/0 , source fingerprint збігається з останнім checkpoint, u180a/CF-01 пройшов PLANNED → ACTIVE → CHECKPOINTED → VALIDATED → CLOSED , active
+    work зараз немає, blockers = 0. Ключове: у самому актуа'
+  quote_whitespace_normalized: true
+  context_before: Current-state reconciliation proves the previous F01–F04 handoff is stale.
+  context_after: null
+  evidence_role:
+  - assistant_correction
+  - authority
+- evidence_id: EV-BP0709CF-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'd v0.4.1 zero-context workstream handoff ). Поточний стан уже значно далі: HEAD=4739fdcd… , upstream 0/0 , source fingerprint збігається з останнім
+    checkpoint, u180a/CF-01 пройшов PLANNED → ACTIVE → CHECKPOINTED → VALIDATED → CLOSED , active work зараз немає, blockers = 0. Ключове: у самому актуальному
+    durable контексті B1-P2 вже має F01–F04 CLOSED , zero-finding v92 review, seal і publication. Тому повторно мутувати F01–F04 не можна — це був би дубль/регресія.
+    А нинішній Control Foundation roadmap прямо ставить'
+  quote_whitespace_normalized: true
+  context_before: Historical current state is reported much later than 804999ec and aligned with latest checkpoint.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - current_state
+- evidence_id: EV-BP0709CF-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'lockers = 0. Ключове: у самому актуальному durable контексті B1-P2 вже має F01–F04 CLOSED , zero-finding v92 review, seal і publication. Тому
+    повторно мутувати F01–F04 не можна — це був би дубль/регресія. А нинішній Control Foundation roadmap прямо ставить після завершеного CF-01 наступним
+    CF-02 — Roadmap Execution State Reconciliation Controller . Це також відповідає переданому тобою planning design: roadmap має залишати spec/dependencies/bindings,
+    execution truth має йти з append-only lifecycle events, а generat'
+  quote_whitespace_normalized: true
+  context_before: Durable context reports B1-P2 F01–F04 already closed with zero-finding review, seal and publication.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - b1_p2
+- evidence_id: EV-BP0709CF-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'вже має F01–F04 CLOSED , zero-finding v92 review, seal і publication. Тому повторно мутувати F01–F04 не можна — це був би дубль/регресія. А нинішній
+    Control Foundation roadmap прямо ставить після завершеного CF-01 наступним CF-02 — Roadmap Execution State Reconciliation Controller . Це також відповідає
+    переданому тобою planning design: roadmap має залишати spec/dependencies/bindings, execution truth має йти з append-only lifecycle events, а generated
+    status має давати IN_SYNC / PROJECTION_STALE / PLAN_CHANGE_REQUIRED / EXECUTION_CONF'
+  quote_whitespace_normalized: true
+  context_before: Repeating the old planned mutation is explicitly prohibited as duplicate/regression.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - mutation_safety
+- evidence_id: EV-BP0709CF-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'Control Foundation roadmap прямо ставить після завершеного CF-01 наступним CF-02 — Roadmap Execution State Reconciliation Controller . Це також
+    відповідає переданому тобою planning design: roadmap має залишати spec/dependencies/bindings, execution truth має йти з append-only lifecycle events,
+    а generated status має давати IN_SYNC / PROJECTION_STALE / PLAN_CHANGE_REQUIRED / EXECUTION_CONFLICT / UNKNOWN . Це добре збігається і з актуальним
+    AGENTS.md : continuity foundation u179h закрита, u180a/CF-01 — reconciliation baseline, а CF-02 є наступним Roadmap/Exec'
+  quote_whitespace_normalized: true
+  context_before: Current Control Foundation roadmap puts CF-02 next after CF-01 closure.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - control_foundation
+- evidence_id: EV-BP0709CF-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'rity gate: CURRENT_WORKFRONT зараз порожній, а CF-02 — NEXT_MANUAL , тобто READY ≠ ACTIVE . Сам design теж прямо забороняє auto-activate, auto-dispatch
+    та silent roadmap mutation. Тому я не буду самовільно створювати lifecycle ACTIVE або застосовувати mutation. Я вже підготувала наступний read-only
+    exact-context capture саме для CF-02 . Він зафіксований на поточному 4739fdcd… і поточному dirty-state fingerprint, збере micro-roadmap, lifecycle/event/projection
+    implementation, validators/tests, handoff/dispatcher ga'
+  quote_whitespace_normalized: true
+  context_before: CF-02 is NEXT_MANUAL and requires operator activation.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - authority_boundary
+- evidence_id: EV-BP0709CF-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 8
+    turn_id: f25f3910-e765-4d04-932e-8539be6ab642
+    message_id: a2820387-5f5a-4c2d-be37-45abcd732a76
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'liation Controller . Це також відповідає переданому тобою planning design: roadmap має залишати spec/dependencies/bindings, execution truth має
+    йти з append-only lifecycle events, а generated status має давати IN_SYNC / PROJECTION_STALE / PLAN_CHANGE_REQUIRED / EXECUTION_CONFLICT / UNKNOWN .
+    Це добре збігається і з актуальним AGENTS.md : continuity foundation u179h закрита, u180a/CF-01 — reconciliation baseline, а CF-02 є наступним Roadmap/Execution
+    reconciliation controller ; autonomous режим до окремого readiness gate забо'
+  quote_whitespace_normalized: true
+  context_before: CF-02 model separates roadmap desired spec from append-only lifecycle execution truth and generated status.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - cf02
+- evidence_id: EV-BP0709CF-0014
+  speaker: assistant
+  locator:
+    conversation_turn: 10
+    turn_id: 014b6ab6-5822-4056-87b0-27adb6602765
+    message_id: bebfbbe5-6bf6-417e-b1ef-c16ba1eefbff
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'в опрацювала. CF-02 candidate тепер побудований навколо правильної моделі: roadmap = desired spec, lifecycle events = execution truth, status
+    = generated projection , а READY не дорівнює ACTIVE і не обходить operator gate. Це точно відповідає зафіксованому CF-02 design. Також зберігається
+    поточний manual-control режим і append-only lifecycle. Підготувала builder; сам файл перевірений через py_compile , а його transformations додатково
+    прогнала на переданому exact-context snapshot — усі anchors знайшлися, усі proposed Python-файли компілюються. Завантажити cf02_implementation_candidate_bu'
+  quote_whitespace_normalized: true
+  context_before: Candidate builder preserves the intended CF-02 authority model.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - cf02
+- evidence_id: EV-BP0709CF-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 10
+    turn_id: 014b6ab6-5822-4056-87b0-27adb6602765
+    message_id: bebfbbe5-6bf6-417e-b1ef-c16ba1eefbff
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'tmp.py 2 >&1 | tee tmp/cf02_implementation_candidate_builder_v0_1.txt Він не активує u180b і не змінює canonical files . Він створить proposed
+    source tree, unified patch, manifest, tests і захопить актуальні dependency/generator/mutation-compiler surfaces для наступної перевірки. У фіналі очікуємо:
+    RESULT=CF02_IMPLEMENTATION_CANDIDATE_READY CANONICAL_MUTATION_PERFORMED=false CF02_ACTIVATION_PERFORMED=false PROPOSED_WORK_ID=u180b SEMANTIC_REVIEW_REQUIRED=true
+    DEPENDENCY_REGISTRY_CAPTURED=true MUTATION_COMPILER_CONTE'
+  quote_whitespace_normalized: true
+  context_before: Candidate builder is non-mutating and does not activate u180b.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - candidate
+- evidence_id: EV-BP0709CF-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 10
+    turn_id: 014b6ab6-5822-4056-87b0-27adb6602765
+    message_id: bebfbbe5-6bf6-417e-b1ef-c16ba1eefbff
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: =... Передай мені ZIP із ARCHIVE=... . Наступним кроком я зроблю read-only semantic/adversarial review candidate-а , особливо execution-dependency
+    registry, historical work bindings, mutation-compiler apply path і bypass probes. Лише після zero-finding review підготуємо окремий operator-controlled
+    u180b activation + bounded apply.
+  quote_whitespace_normalized: true
+  context_before: Candidate requires semantic/adversarial review before activation/apply.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - review_gate
+- evidence_id: EV-BP0709CF-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'EQUIRES_OPERATOR Але candidate ще не можна застосовувати . Review result = RETURN_FOR_CORRECTION , FINDING_COUNT=7 : BLOCKER: нові roadmap-sync*
+    targets і змінені assistant-pack/check-core/control-plane-step не внесені в execution_dependency_registry . BLOCKER: новий persistent generator reconcile_roadmap_execution_state.py
+    не зареєстрований у generator_derivation_registry . BLOCKER: новий automation standard не зареєстрований у standards/document-surface indexes. BLOCKER:
+    candidate без окремої authority наперед признача'
+  quote_whitespace_normalized: true
+  context_before: CF-02 candidate v0.1 is explicitly returned for correction.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - cf02
+- evidence_id: EV-BP0709CF-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'didate ще не можна застосовувати . Review result = RETURN_FOR_CORRECTION , FINDING_COUNT=7 : BLOCKER: нові roadmap-sync* targets і змінені assistant-pack/check-core/control-plane-step
+    не внесені в execution_dependency_registry . BLOCKER: новий persistent generator reconcile_roadmap_execution_state.py не зареєстрований у generator_derivation_registry
+    . BLOCKER: новий automation standard не зареєстрований у standards/document-surface indexes. BLOCKER: candidate без окремої authority наперед призначає
+    u180b…u180s для'
+  quote_whitespace_normalized: true
+  context_before: Semantic/adversarial review finds seven issues.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - cf02
+- evidence_id: EV-BP0709CF-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'argets і змінені assistant-pack/check-core/control-plane-step не внесені в execution_dependency_registry . BLOCKER: новий persistent generator
+    reconcile_roadmap_execution_state.py не зареєстрований у generator_derivation_registry . BLOCKER: новий automation standard не зареєстрований у standards/document-surface
+    indexes. BLOCKER: candidate без окремої authority наперед призначає u180b…u180s для всіх CF-02…CF-19. Це зайве розширення scope; майбутні work identities
+    так масово фіксувати не будемо. BLOCKER: bootstrap нового projecti'
+  quote_whitespace_normalized: true
+  context_before: New roadmap-sync targets and modified command surfaces are missing from execution dependency registry.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - dependency_registry
+- evidence_id: EV-BP0709CF-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'sistent generator reconcile_roadmap_execution_state.py не зареєстрований у generator_derivation_registry . BLOCKER: новий automation standard
+    не зареєстрований у standards/document-surface indexes. BLOCKER: candidate без окремої authority наперед призначає u180b…u180s для всіх CF-02…CF-19.
+    Це зайве розширення scope; майбутні work identities так масово фіксувати не будемо. BLOCKER: bootstrap нового projection layer неповний — після source
+    apply roadmap-sync-check закономірно бачить PROJECTION_MISSING , доки явно не зроблено перши'
+  quote_whitespace_normalized: true
+  context_before: Persistent reconciliation generator is missing from derivation registry.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - derivation_registry
+- evidence_id: EV-BP0709CF-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'rivation_registry . BLOCKER: новий automation standard не зареєстрований у standards/document-surface indexes. BLOCKER: candidate без окремої
+    authority наперед призначає u180b…u180s для всіх CF-02…CF-19. Це зайве розширення scope; майбутні work identities так масово фіксувати не будемо. BLOCKER:
+    bootstrap нового projection layer неповний — після source apply roadmap-sync-check закономірно бачить PROJECTION_MISSING , доки явно не зроблено перший
+    roadmap-sync ; цей порядок треба формально внести у dependency/generator/apply contract. H'
+  quote_whitespace_normalized: true
+  context_before: New automation standard is missing from standards/document indexes.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - document_registry
+- evidence_id: EV-BP0709CF-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'urface indexes. BLOCKER: candidate без окремої authority наперед призначає u180b…u180s для всіх CF-02…CF-19. Це зайве розширення scope; майбутні
+    work identities так масово фіксувати не будемо. BLOCKER: bootstrap нового projection layer неповний — після source apply roadmap-sync-check закономірно
+    бачить PROJECTION_MISSING , доки явно не зроблено перший roadmap-sync ; цей порядок треба формально внести у dependency/generator/apply contract. HIGH:
+    Control Plane отримав приховану залежність від ambient repository-r'
+  quote_whitespace_normalized: true
+  context_before: Candidate pre-assigns future work identities without separate authority, expanding scope.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - scope_authority
+- evidence_id: EV-BP0709CF-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'layer неповний — після source apply roadmap-sync-check закономірно бачить PROJECTION_MISSING , доки явно не зроблено перший roadmap-sync ; цей
+    порядок треба формально внести у dependency/generator/apply contract. HIGH: Control Plane отримав приховану залежність від ambient repository-root roadmap
+    projections, але існуючий unit test не адаптований. Це порушує ізоляцію тесту. HIGH: migration для старих Continuity steps 1–7 занадто грубо оформлена
+    як through_order: 7 . Треба прив''язати one-time migration до exact pre-mi'
+  quote_whitespace_normalized: true
+  context_before: 'Bootstrap order is incomplete: initial roadmap-sync must precede roadmap-sync-check after apply.'
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - bootstrap_order
+- evidence_id: EV-BP0709CF-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'rator/apply contract. HIGH: Control Plane отримав приховану залежність від ambient repository-root roadmap projections, але існуючий unit test
+    не адаптований. Це порушує ізоляцію тесту. HIGH: migration для старих Continuity steps 1–7 занадто грубо оформлена як through_order: 7 . Треба прив''язати
+    one-time migration до exact pre-migration roadmap SHA + explicit accepted step IDs + immutable evidence , а не лише до порядкового номера. Повний machine-readable
+    review: Завантажити 0003__cf02_semantic_adversarial_review_v0_1.yaml u180b не активуємо'
+  quote_whitespace_normalized: true
+  context_before: Control Plane gains hidden ambient repository-root dependency that breaks test isolation.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - test_isolation
+- evidence_id: EV-BP0709CF-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'HIGH: migration для старих Continuity steps 1–7 занадто грубо оформлена як through_order: 7 . Треба прив''язати one-time migration до exact pre-migration
+    roadmap SHA + explicit accepted step IDs + immutable evidence , а не лише до порядкового номера. Повний machine-readable review: Завантажити 0003__cf02_semantic_adversarial_review_v0_1.yaml
+    u180b не активуємо , canonical candidate не застосовуємо . Я підготувала вузький read-only capture саме для цих семи corrections. Він також запускає
+    поточні execution-dependency-'
+  quote_whitespace_normalized: true
+  context_before: Legacy migration is too coarse and must bind to exact pre-migration roadmap SHA + explicit accepted step IDs + immutable evidence.
+  context_after: null
+  evidence_role:
+  - assistant_review
+  - migration_provenance
+- evidence_id: EV-BP0709CF-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 12
+    turn_id: b906264c-595f-4c3a-bdea-0d4cde5e131b
+    message_id: 1a3d519f-b13a-48e0-bb48-e36c2bb997ea
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  quote: 'dable review: Завантажити 0003__cf02_semantic_adversarial_review_v0_1.yaml u180b не активуємо , canonical candidate не застосовуємо . Я підготувала
+    вузький read-only capture саме для цих семи corrections. Він також запускає поточні execution-dependency-check , generator-contract-check і safe-mutation-check
+    , бере повний continuity event stream та точні standards/index/validator surfaces, яких не вистачало в 0002 . Завантажити cf02_correction_context_capture_v0_1.py
+    Запусти: Bash cp cf02_correction_context_capture_v0_1'
+  quote_whitespace_normalized: true
+  context_before: No activation or canonical apply is allowed before the seven findings are corrected and review returns zero findings.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - authority
+items:
+- item_id: IT-BP0709CF-0001
+  kind: risk
+  title: Filename date conflicts with internal chronology
+  statement: The source filename says 07.09.26, but the opening package explicitly includes 2026-09-12 strategy material and a later Control Foundation
+    checkpoint. Filename date must not control chronology.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - indexes
+  evidence_refs:
+  - EV-BP0709CF-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0002
+  kind: process_rule
+  title: Live Git/release state outranks stale handoff plans
+  statement: A replacement assistant must verify current durable state before executing a handoff; chat/handoff instructions are planning evidence, not
+    execution authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0709CF-0002
+  - EV-BP0709CF-0005
+  - EV-BP0709CF-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0003
+  kind: process_rule
+  title: Do not invent mutation anchors when exact current context is missing
+  statement: If the handoff lacks exact current anchors, collect a read-only exact-context probe instead of guessing function/file targets.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - mutation_safety
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0004
+  kind: implementation_claim
+  title: Historical reconciliation reports handoff HEAD is stale
+  statement: The old 804999ec handoff is reported superseded by current historical HEAD 4739fdcd with source fingerprint aligned to the latest checkpoint.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - git_workflow
+  - continuity
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - reports
+  evidence_refs:
+  - EV-BP0709CF-0007
+  - EV-BP0709CF-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only.
+- item_id: IT-BP0709CF-0005
+  kind: implementation_claim
+  title: B1-P2 F01–F04 are historically reported closed
+  statement: Durable historical context reports F01–F04 CLOSED with zero-finding v92 review, seal and publication, so repeating the old mutation would be
+    a regression.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - B1
+  - prompt_contract
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP0709CF-0009
+  - EV-BP0709CF-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report; later/current repo must verify.
+- item_id: IT-BP0709CF-0006
+  kind: process_rule
+  title: Stale handoff work must be skipped when already closed
+  statement: If current durable state proves a handed-off mutation already completed, do not re-run it; move to the current authorized next front.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - mutation_safety
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0009
+  - EV-BP0709CF-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0007
+  kind: architecture_constraint
+  title: CF-02 separates desired roadmap spec from execution truth
+  statement: Roadmap remains desired specification; append-only lifecycle events are execution truth; current status is a generated projection.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - schemas
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0011
+  - EV-BP0709CF-0013
+  - EV-BP0709CF-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0008
+  kind: process_rule
+  title: READY does not equal ACTIVE
+  statement: CF-02 may be NEXT_MANUAL/ready while no work is active; activation requires explicit operator authority and cannot be inferred from readiness.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - control_foundation
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0009
+  kind: process_rule
+  title: CF-02 implementation is candidate-first and non-mutating
+  statement: Build a proposed source tree/patch/manifest first without canonical mutation or u180b activation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - mutation_safety
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0010
+  kind: process_rule
+  title: Semantic/adversarial review gates activation and apply
+  statement: A CF-02 candidate must pass a separate read-only semantic/adversarial review before operator-controlled activation and bounded canonical apply.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0016
+  - EV-BP0709CF-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0011
+  kind: implementation_claim
+  title: CF-02 candidate v0.1 returns seven findings
+  statement: Historical review result is RETURN_FOR_CORRECTION with FINDING_COUNT=7 despite focused tests and compilation passing.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - semantic_review
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  - tests
+  evidence_refs:
+  - EV-BP0709CF-0017
+  - EV-BP0709CF-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical review output only.
+- item_id: IT-BP0709CF-0012
+  kind: requirement
+  title: Execution dependency registry covers new and changed command surfaces
+  statement: New roadmap-sync targets and modified assistant-pack/check/control-plane command surfaces must declare their execution dependencies explicitly.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - dependency_contracts
+  - control_foundation
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP0709CF-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0013
+  kind: requirement
+  title: Persistent reconciliation generator is registered in derivation registry
+  statement: A new persistent generator such as `reconcile_roadmap_execution_state.py` must be represented in the generator derivation registry.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - control_foundation
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP0709CF-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0014
+  kind: requirement
+  title: New automation standards register in canonical document/index surfaces
+  statement: A new automation standard must be registered in standards/document-surface indexes instead of existing only as an unindexed file.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - standards_adoption
+  - documentation
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0709CF-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0015
+  kind: process_rule
+  title: Do not pre-assign future work IDs without authority
+  statement: A bounded candidate must not mass-reserve future work identities (u180b…u180s) without separate authority for those future steps.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - scope_control
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0709CF-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0016
+  kind: requirement
+  title: Projection bootstrap order is explicit
+  statement: After source apply, an initial roadmap-sync/materialization must occur before roadmap-sync-check; otherwise a valid new projection layer appears
+    as PROJECTION_MISSING.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - generated_projections
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0709CF-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0017
+  kind: architecture_constraint
+  title: Control Plane tests must not depend on ambient repository-root projections
+  statement: Hidden ambient dependency on repository-root roadmap projections breaks test isolation; tests/commands need explicit isolated inputs or setup.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - test_isolation
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - code
+  - dependency_contracts
+  evidence_refs:
+  - EV-BP0709CF-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0018
+  kind: requirement
+  title: Legacy migration binds to exact pre-migration evidence
+  statement: One-time Continuity migration must bind to exact pre-migration roadmap SHA, explicit accepted step IDs and immutable evidence rather than a
+    coarse `through_order` boundary.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - migration
+  - continuity
+  - provenance
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0709CF-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0019
+  kind: process_rule
+  title: Seven findings must close before u180b activation/apply
+  statement: u180b remains inactive and canonical candidate unapplied until a corrected v0.2 closes all seven findings and repeated adversarial review reaches
+    zero findings.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP0709CF-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0709CF-0020
+  kind: workflow
+  title: B1 closure sequence separates review seal publication reference validation and acceptance
+  statement: 'The stale handoff itself preserves a staged B1 flow: bounded correction → read-only semantic review → local seal → explicit publication →
+    Logistics reference validation → explicit B1 ACCEPT/seal/publication.'
+  dialogue_status: discussed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - B1
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0709CF-0002
+  - EV-BP0709CF-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical handoff plan; current reconciliation later proves this work already closed.
+relations:
+- relation_id: REL-BP0709CF-0001
+  from_item: IT-BP0709CF-0004
+  type: refines
+  to_item: IT-BP0709CF-0002
+  evidence_refs:
+  - EV-BP0709CF-0007
+  - EV-BP0709CF-0008
+  confidence: high
+- relation_id: REL-BP0709CF-0002
+  from_item: IT-BP0709CF-0004
+  type: enables
+  to_item: IT-BP0709CF-0006
+  evidence_refs:
+  - EV-BP0709CF-0007
+  - EV-BP0709CF-0010
+  confidence: high
+- relation_id: REL-BP0709CF-0003
+  from_item: IT-BP0709CF-0007
+  type: enables
+  to_item: IT-BP0709CF-0009
+  evidence_refs:
+  - EV-BP0709CF-0013
+  - EV-BP0709CF-0015
+  confidence: high
+- relation_id: REL-BP0709CF-0004
+  from_item: IT-BP0709CF-0010
+  type: blocks
+  to_item: IT-BP0709CF-0019
+  evidence_refs:
+  - EV-BP0709CF-0016
+  - EV-BP0709CF-0017
+  confidence: high
+- relation_id: REL-BP0709CF-0005
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0012
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0019
+  confidence: high
+- relation_id: REL-BP0709CF-0006
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0013
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0020
+  confidence: high
+- relation_id: REL-BP0709CF-0007
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0014
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0021
+  confidence: high
+- relation_id: REL-BP0709CF-0008
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0015
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0022
+  confidence: high
+- relation_id: REL-BP0709CF-0009
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0016
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0023
+  confidence: high
+- relation_id: REL-BP0709CF-0010
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0017
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0024
+  confidence: high
+- relation_id: REL-BP0709CF-0011
+  from_item: IT-BP0709CF-0011
+  type: derives_from
+  to_item: IT-BP0709CF-0018
+  evidence_refs:
+  - EV-BP0709CF-0018
+  - EV-BP0709CF-0025
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-BP0709CF-0001
+  type: filename_date_conflicts_with_internal_lineage
+  description: Filename says 07.09.26, but source opens with `forprint_evening_strategy_2026-09-12_v0_1.zip` and already-closed u180a/CF-01 state. Filename
+    date is not reliable chronology authority.
+  item_refs:
+  - IT-BP0709CF-0001
+  evidence_refs:
+  - EV-BP0709CF-0001
+  - EV-BP0709CF-0011
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP0709CF-0002
+  type: stale_handoff_would_duplicate_closed_work
+  description: Opening handoff says perform B1-P2 F01–F04 next, but exact current-state reconciliation reports those items already CLOSED/sealed/published.
+    Blind handoff execution would regress or duplicate work.
+  item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  evidence_refs:
+  - EV-BP0709CF-0002
+  - EV-BP0709CF-0007
+  - EV-BP0709CF-0009
+  - EV-BP0709CF-0010
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0003
+  type: partial_capture_attachment_gap
+  description: Turns 5, 7, 9 and 11 are only pasted-text/archive labels; detailed probe/candidate package contents are not embedded in the MHTML transcript.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0004
+  type: tests_compile_green_but_semantic_review_blocks
+  description: Candidate focused tests/compilation can pass while semantic/adversarial review still finds seven architecture/governance blockers.
+  item_refs:
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  evidence_refs:
+  - EV-BP0709CF-0017
+  - EV-BP0709CF-0018
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0005
+  type: hidden_dependency_registry_gap
+  description: Candidate adds/changes operational command surfaces without corresponding execution-dependency registry updates.
+  item_refs:
+  - IT-BP0709CF-0012
+  evidence_refs:
+  - EV-BP0709CF-0019
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0006
+  type: derivation_registry_gap
+  description: Persistent generated roadmap reconciliation output lacks generator-derivation registry registration.
+  item_refs:
+  - IT-BP0709CF-0013
+  evidence_refs:
+  - EV-BP0709CF-0020
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0007
+  type: unauthorized_future_work_identity_preallocation
+  description: Candidate assigns future u180b…u180s identities without explicit authority, widening scope beyond current CF-02.
+  item_refs:
+  - IT-BP0709CF-0015
+  evidence_refs:
+  - EV-BP0709CF-0022
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0008
+  type: projection_bootstrap_order_gap
+  description: After source apply, roadmap-sync-check would see PROJECTION_MISSING until explicit first roadmap-sync is run; bootstrap/apply ordering was
+    not formalized.
+  item_refs:
+  - IT-BP0709CF-0016
+  evidence_refs:
+  - EV-BP0709CF-0023
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0009
+  type: ambient_projection_dependency_breaks_test_isolation
+  description: Control Plane candidate implicitly depends on repository-root projections, creating hidden ambient state in unit tests.
+  item_refs:
+  - IT-BP0709CF-0017
+  evidence_refs:
+  - EV-BP0709CF-0024
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0709CF-0010
+  type: coarse_legacy_migration_boundary
+  description: 'Legacy migration uses `through_order: 7` instead of binding exact pre-migration roadmap SHA, accepted step IDs and immutable evidence.'
+  item_refs:
+  - IT-BP0709CF-0018
+  evidence_refs:
+  - EV-BP0709CF-0025
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP0709CF-0001
+  description: Verify B1-P2 F01–F04 closure/seal/publication in current history and ensure stale handoff does not remain executable.
+  item_refs:
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  last_known_state: Historical reconciliation says already closed; stale handoff still contained next-action wording.
+  recommended_verification: Check current handoff/index selectors and archived B1 acceptance/seal/publication evidence.
+- loop_id: LOOP-BP0709CF-0002
+  description: Verify the seven CF-02 candidate v0.1 findings were closed in v0.2/current implementation.
+  item_refs:
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  - IT-BP0709CF-0015
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  - IT-BP0709CF-0018
+  - IT-BP0709CF-0019
+  last_known_state: Candidate v0.1 RETURN_FOR_CORRECTION / FINDING_COUNT=7; no activation/apply allowed.
+  recommended_verification: Trace v0.2/later candidate and compare all seven review findings against current code/config/tests.
+- loop_id: LOOP-BP0709CF-0003
+  description: Verify CF-02 dependency and generator registries are complete and deterministic.
+  item_refs:
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0016
+  last_known_state: Missing registry entries and bootstrap-order contract blocked v0.1.
+  recommended_verification: Run current execution-dependency-check, generator-contract-check and roadmap-sync bootstrap tests.
+- loop_id: LOOP-BP0709CF-0004
+  description: Verify no future Control Foundation work IDs are pre-authorized by planning artifacts.
+  item_refs:
+  - IT-BP0709CF-0015
+  last_known_state: v0.1 candidate attempted u180b…u180s preallocation and was rejected.
+  recommended_verification: Inspect current roadmap/lifecycle identity generation and authority boundaries.
+- loop_id: LOOP-BP0709CF-0005
+  description: Verify Control Plane tests have no ambient repository-root projection dependency.
+  item_refs:
+  - IT-BP0709CF-0017
+  last_known_state: v0.1 review found hidden ambient projection dependence.
+  recommended_verification: Run tests in sterile/clean-room context with explicit projection inputs.
+- loop_id: LOOP-BP0709CF-0006
+  description: Verify legacy Continuity migration is bound to immutable exact evidence.
+  item_refs:
+  - IT-BP0709CF-0018
+  last_known_state: through_order:7 migration was rejected as too coarse.
+  recommended_verification: Inspect current migration contract for pre-migration SHA, accepted step IDs and immutable evidence.
+implementation_audit_ref: implementation_audit.stub.yaml

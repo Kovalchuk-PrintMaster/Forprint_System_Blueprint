@@ -49,7 +49,7 @@ def test_global_policy_mentions_core_module_roles() -> None:
         ROOT / "coordination" / "global_policy" / "forprint_project_doctrine.md"
     ).read_text(encoding="utf-8")
 
-    assert "Operational Registry" in content
+    assert "Operations Control Registry" in content
     assert "Library" in content
     assert "Calculator Engine" in content
     assert "Accounting Registry" in content
@@ -66,12 +66,12 @@ def test_configuration_policy_rejects_hardcoded_paths() -> None:
     assert "Secrets must not be committed to Git" in content
 
 
-def test_make_command_standard_mentions_future_blueprint_pull() -> None:
+def test_make_command_standard_mentions_coordination_sync_check() -> None:
     content = (
         ROOT / "coordination" / "standards" / "make_command_standard.md"
     ).read_text(encoding="utf-8")
 
-    assert "make blueprint-pull" in content
+    assert "make coordination-sync-check" in content
     assert "make coordination-check" in content
     assert "make status-report" in content
 

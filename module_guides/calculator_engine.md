@@ -55,7 +55,7 @@
 ## Outgoing data flows
 
 - `calculator_quote_to_crm`: `calculator_engine` → `forprint_crm` via `calculator_to_crm_quote.v1`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`; status: `active_development`; criticality: `high`
-- `calculator_quote_to_operational_registry`: `calculator_engine` → `forprint_operational_registry` via `calculator_to_registry_quote.v1`; objects: `quote_draft`, `product_configuration`; status: `planned`; criticality: `high`
+- `calculator_quote_to_operations_control_registry`: `calculator_engine` → `forprint_operations_control_registry` via `calculator_to_registry_quote.v1`; objects: `quote_draft`, `product_configuration`; status: `planned`; criticality: `high`
 - `calculator_result_to_integration_gateway`: `calculator_engine` → `forprint_integration_gateway` via `calculator_to_integration_gateway_result.v1`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`, `integration_response`; status: `planned`; criticality: `high`
 
 ## Consumed contracts
@@ -66,7 +66,7 @@
 ## Provided contracts
 
 - `calculator_to_crm_quote.v1`: provider `calculator_engine`, consumer `forprint_crm`, status `active_development`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`
-- `calculator_to_registry_quote.v1`: provider `calculator_engine`, consumer `forprint_operational_registry`, status `planned`; objects: `quote_draft`, `product_configuration`
+- `calculator_to_registry_quote.v1`: provider `calculator_engine`, consumer `forprint_operations_control_registry`, status `planned`; objects: `quote_draft`, `product_configuration`
 - `calculator_to_integration_gateway_result.v1`: provider `calculator_engine`, consumer `forprint_integration_gateway`, status `planned`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`, `integration_response`
 
 ## Prompt for module chat

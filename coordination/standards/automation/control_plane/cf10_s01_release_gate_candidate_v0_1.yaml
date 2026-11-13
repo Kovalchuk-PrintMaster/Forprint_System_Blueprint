@@ -1,0 +1,41 @@
+schema_version: cf10_s01_release_gate_candidate_contract_v0_1
+owner: forprint_system_blueprint
+status: CANDIDATE_ONLY_NON_AUTHORIZING
+source_base_commit: 3a3dfafca0ea534abcc2f45f258ae11a2f7b64a0
+scope:
+  - scripts/coordination/control_plane/cf10_s01_release_gate_candidate_v0_1.py
+  - tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
+  - coordination/standards/automation/control_plane/cf10_s01_release_gate_candidate_v0_1.yaml
+  - Makefile
+hard_boundaries:
+  current_launch_preflight_preserved: true
+  new_candidate_does_not_launch_worker: true
+  no_canonical_ledger_write: true
+  no_external_signature_or_protocol_change: true
+  no_automatic_commit_push: true
+  no_automatic_release: true
+  live_preflight_never_returns_zero: true
+required_independent_evidence:
+  - writer_entrypoints_and_callbacks
+  - active_and_short_lived_process_enrollment
+  - drain_restart_and_old_writer_exclusion
+  - systemd_cron_manual_ssh_remote_paths
+  - lock_inode_acl_mount_and_dac
+  - independent_dynamic_non_bypass_proof
+  - independent_signature_and_publication
+  - separate_release_quarantine_acceptance
+negative_checks:
+  - absent_or_invalid_writer_protocol
+  - expired_or_future_approval
+  - mismatched_git_head_and_remote
+  - mismatched_coverage_protocol_and_activation_hashes
+  - missing_or_tampered_independent_evidence
+  - signer_same_as_activation_operator
+  - missing_strict_direct_python_writer_guard
+  - attempted_unapproved_positive_launch_from_candidate
+source_requirement:
+  canonical_direct_writer: >-
+    Must fail closed if shared external protocol is absent, including direct Python
+    appends and canonical store_override aliases. Current legacy fallback blocks
+    independent launch release. Approval of source hardening is a separate step.
+next_boundary: INDEPENDENT_REVIEW_AND_CANONICAL_DIRECT_WRITER_HARDENING

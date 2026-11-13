@@ -1,0 +1,35 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a009
+work_front_id: wf-cf10-worker-watchdog-observability-self-hardening-v0-1
+recorded_at: '2026-09-24T14:07:54.328849Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a009/workspace/repo
+why: CF-10 worker-watchdog observability self-hardening training task launch.
+source_fingerprint: 9c0ef5a0cf2833a5c87237ee4a200ef09596fcab26742ddf823c48ef22cd862b
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: b340628cdeedda725f2cbb5596a4901c0e3a71d04fd0e446476d3f15ff326ae4
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a009/input/cf10_a009_provider_invocation_v0_1.yaml
+attempt_stage: FINISHED
+result_state: SUCCEEDED
+result_refs:
+- worker_process_result_sha256:844d52af49e157ad9709fa4f4310ea3699674788fe801cecc8af4fed01c9a7ad
+- worker_delta_sha256:605a46ce84c9156b228756d4c75d661a6fd7f5f2d9aa7c7917af8ec46e8bd9db
+- candidate_validation_sha256:09e1c44abf34afbceaa1f6801108db8a6b029fedfa397c1cfcf75ff0da46d700
+- post_worker_observation_sha256:14e653ad18fc88a13b19bfc3c1ce34b41cb818a99d474ddd6c3c89f056076ea0
+validator_outcome: PASS
+validator_evidence_refs:
+- candidate_validation_sha256:09e1c44abf34afbceaa1f6801108db8a6b029fedfa397c1cfcf75ff0da46d700
+- worker_delta_sha256:605a46ce84c9156b228756d4c75d661a6fd7f5f2d9aa7c7917af8ec46e8bd9db
+failure_or_retry_ref: null
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003
+  - attempt:cf10-u180j-a004
+  - attempt:cf10-u180j-a005
+  - attempt:cf10-u180j-a006
+  - attempt:cf10-u180j-a007
+  - attempt:cf10-u180j-a008

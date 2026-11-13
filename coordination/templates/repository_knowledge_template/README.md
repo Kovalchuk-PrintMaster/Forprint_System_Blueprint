@@ -42,3 +42,21 @@ It records the module assistant's own evidence-based view of the module, without
 ## Historical rule
 
 Every review creates new dated files. Historical snapshots are never overwritten.
+
+## Canonical-source / distribution rule
+
+This directory is a self-contained **distribution template**, not a second authority.
+
+For the protocol and shared assignment/template files that have canonical source copies
+under `coordination/repository_knowledge/`, derivation is declared in:
+
+`coordination/templates/repository_knowledge_template/derivation_manifest.yaml`
+
+Validate that distribution copies have not drifted:
+
+```bash
+.venv_blueprint/bin/python scripts/indexing/sync_repository_knowledge_distribution.py --check
+```
+
+To refresh only those declared distribution copies from their canonical sources, use the
+explicit `--apply` mode. No reverse synchronization is allowed.

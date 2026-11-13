@@ -1,0 +1,26 @@
+schema_version: forprint_telegram_deberta_context_provenance_bridge_v0_1
+bridge_id: telegram_deberta_context_filename_label_20261016
+status: HISTORICAL_CONTEXT_ONLY
+authority: none_navigation_only
+source:
+  primary_mhtml_sha256: 6e0b95682899aeb20550709bd3e9cfa0cde1f3c690a6f8bcf4d0fad7a713f3df
+  owner_prompt: deberta
+what_this_source_proves:
+- The owner opened a DeBERTa topic.
+- The assistant provided generic educational DeBERTa background.
+- The assistant connected DeBERTa conceptually to style/sentiment/intent classification.
+what_this_source_does_not_prove:
+- that DeBERTa was selected as the project classifier
+- that microsoft/deberta-v3-base was selected
+- that num_labels=3 is a project schema
+- that any training parameters were approved
+- that any training or runtime implementation happened
+reuse_first:
+  existing_behavior_ml_candidate: coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+  classification: REUSE_NO_EXTENSION_REQUIRED
+required_future_evidence:
+- later Telegram ML engineering historical source
+- later Telegram long-running historical source
+- live telegram_bot repository/config/model artifacts before implementation claims
+roadmap_authority: false
+execution_authority: false

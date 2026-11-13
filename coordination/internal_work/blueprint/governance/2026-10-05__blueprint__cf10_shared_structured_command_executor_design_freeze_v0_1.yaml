@@ -1,0 +1,207 @@
+schema_version: forprint_cf10_shared_structured_command_executor_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: CF-10
+contour: CF10_SHARED_COMMAND_EXECUTION
+title: shared_structured_command_capability_executor
+status: FROZEN_FOR_BOUNDED_FOUNDATION_SLICE
+source_head: 93a42fc7b6a196bcde2102a7781fe1f31df4a177
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+roadmap_position:
+  classification: ACTIVE_TASK70_BLOCKER_REPAIR
+  active_task: validation_check_pipeline_profile_and_optimization
+  active_task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  blocked_attempt: cf10-u180j-a028
+  roadmap_advancement_performed: false
+  future_lease_work_activated: false
+  future_cancel_work_activated: false
+  future_streaming_work_activated: false
+  reason: Repair a prerequisite of the already-active Task70 corridor before retry; do not advance to later CF10 capabilities.
+trigger:
+  attempt_id: cf10-u180j-a028
+  attempt_terminal_state: BLOCKED
+  attempt_publication_commit: 8007618ceaa3dd1c37d89692197dd6af6acf4859
+  worker_process_return_code: 0
+  worker_delta_exact: true
+  worker_changed_path_count: 0
+  blockers:
+  - VALIDATION_COMMAND_EXECUTION_UNAVAILABLE_TO_WORKER
+  - GOVERNED_LIFECYCLE_CONTEXT_NOT_VISIBLE_AT_WORKER_LAUNCH
+  retry_before_repairs_allowed: false
+oc01_reentry:
+  slice_c_state: COMPLETED_PASS
+  slice_c_closeout_commit: 93a42fc7b6a196bcde2102a7781fe1f31df4a177
+  writable_scope_released_to_cf10: true
+  oc01_state: PAUSED_DEPENDENCY_WAIT
+  reactivate_on_shared_executor_foundation_alone: false
+  reactivation_dependencies:
+  - CANONICAL_SESSION_AND_EXCLUSIVE_MODULE_LEASE
+  - GOVERNED_LIVE_CANCELLATION
+  - SHARED_STRUCTURED_STREAMING_OR_EXECUTION_PROGRESS_INTERFACE
+  capability_registry_alone_is_not_reactivation_reason: true
+  reactivation_readiness_requires:
+  - canonical implementation
+  - stable consumer contract
+  - green executable tests
+  - commit and publication
+  - known consumer entrypoint
+  - explicit authority owner
+architecture_decision:
+  shared_primitive_owner: CF10_CONTROL_PLANE
+  separate_oc01_execution_engine_required: false
+  command_representation: STRUCTURED_ARGV
+  shell: false
+  arbitrary_shell_text_allowed: false
+  unrestricted_argv_passthrough_allowed: false
+  arbitrary_executable_path_allowed: false
+  registration_equals_authorization: false
+  consumer_policy_remains_external: true
+shared_request_contract:
+  required_fields:
+  - capability_id
+  - capability_version
+  - execution_scope
+  - exact_cwd
+  - parameters
+  - timeout_seconds
+  - evidence_destination
+  - execution_identity
+  - consumer_id
+  - request_id
+  - authorization_envelope
+  invariants:
+  - capability_registered
+  - parameters_schema_bounded
+  - argv_built_by_executor
+  - shell_false
+  - arbitrary_command_text_rejected
+  - exact_cwd_bound
+  - request_immutable_for_launch
+  - result_bound_to_request_identity
+shared_result_contract:
+  required_fields:
+  - request_id
+  - capability_id
+  - capability_version
+  - execution_id
+  - exact_cwd
+  - argv_digest
+  - started_at
+  - finished_at
+  - return_code
+  - outcome
+  - timed_out
+  - stdout_evidence
+  - stderr_evidence
+  - heartbeat_evidence
+  - stall_detected
+  - cancellation_state
+  - execution_policy_result
+  - evidence_digest
+reuse_decisions:
+  process_launch:
+    disposition: REUSE_UNCHANGED
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  validation_suite_typed_argv:
+    disposition: ADAPT_AS_REGISTERED_CAPABILITY
+    source: scripts/validation/run_validation_suite_v0_1.py
+  validation_suite_registry:
+    disposition: READ_ONLY_PARAMETER_AUTHORITY
+    source: coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  oc01_protected_terminal:
+    disposition: READ_ONLY_CONSUMER_REFERENCE_IN_FOUNDATION_SLICE
+    source: scripts/coordination/control_plane/operator_console/protected_terminal.py
+    future_migration: SEPARATE_OC01_CONSUMER_SLICE_AFTER_SHARED_INTERFACE_PROVEN
+  cf10_worker_provider_invocation:
+    disposition: READ_ONLY_IN_FOUNDATION_SLICE
+    source: scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+    future_bridge: SEPARATE_CF10_CONSUMER_INVOCATION_SLICE_REQUIRED
+foundation_capability_set:
+- capability_id: repo_status
+  consumer_compatibility:
+  - OC01
+  parameter_model: FIXED_RECIPE
+  side_effect_class: NONE_EXPECTED
+- capability_id: repo_head
+  consumer_compatibility:
+  - OC01
+  parameter_model: FIXED_RECIPE
+  side_effect_class: NONE_EXPECTED
+- capability_id: repo_diff_check
+  consumer_compatibility:
+  - OC01
+  - CF10
+  parameter_model: FIXED_RECIPE
+  side_effect_class: NONE_EXPECTED
+- capability_id: validation_suite
+  consumer_compatibility:
+  - CF10
+  - OC01_FUTURE
+  parameter_model: SCHEMA_BOUNDED
+  parameters:
+  - registered_suite_id
+  - registered_verification_tier_optional
+  side_effect_class: READ_ONLY_VALIDATION
+foundation_slice:
+  implementation_write_set:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+  - Makefile
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  acceptance:
+  - registry definitions describe executable capabilities and never grant consumer authority
+  - requests accept registered capability identity plus schema-bounded parameters and never raw argv or shell text
+  - executor deterministically constructs argv and reuses worker_runtime.launcher.launch_process with shell=false
+  - exact cwd and external evidence destination are validated before launch
+  - validation_suite accepts only suite ids present in the existing canonical validation-suite registry
+  - unknown suite, unknown capability, arbitrary executable, raw argv and raw shell text fail closed
+  - repo_status, repo_head and repo_diff_check definitions remain compatible with current OC01 fixed recipes
+  - common result binds request/execution identity and exposes stdout/stderr refs, timeout, return code and heartbeat/stall
+    facts
+  - no SAFE_WRITE, canonical write, commit, push, merge, release or promotion authority is introduced
+  - Makefile exposes stable check/list/proof entrypoints over the shared backend
+  - focused executor tests and existing shared launcher regression tests pass
+deferred_required_before_task70_retry:
+- CF10_SHARED_EXECUTOR_WORKER_INVOCATION_BRIDGE
+- CF10_GOVERNED_WORKER_CONTEXT_DELIVERY
+task70_retry_gate:
+  next_attempt_candidate: cf10-u180j-a029
+  create_or_launch_now: false
+  requirements:
+  - shared executor foundation proven and published
+  - CF10 Worker invocation bridge proven and published
+  - governed Worker context delivery proven and published
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_retry_authority: false
+  automatic_dispatch_authority: false
+  automatic_promotion_authority: false
+  publication_authority: false
+audited_dependency_sha256:
+  scripts/coordination/control_plane/worker_runtime/launcher.py: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+  scripts/coordination/control_plane/worker_runtime/registry.py: 153151093652d39df9e54c3ba6da12ecd6d60447d9665424563aa48cbadc036b
+  scripts/coordination/control_plane/worker_runtime/invocation_adapter.py: 88385398c4a4602f975d78d9f6c31087ce17b2c559c089969636dc1b503df318
+  scripts/coordination/control_plane/operator_console/protected_terminal.py: 68164ba99ca5ac503da60ad0127e877a78918734ebcf4da5e151f4bee675fe93
+  scripts/validation/run_validation_suite_v0_1.py: 432131700f0baf401b89e2a8198a684295b767baa9ae78e178489aded62c2368
+  coordination/standards/automation/validation_suite_registry_v0_1.yaml: 3258764448bf11000f62e2d2addd53bc7abb8239a58e0c551350944e654ab53d
+  tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py: 9202e5c752e6290f65ffbaee32687f645e25763207c973c82c18f759389bbc35
+  tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py: 100174d905a67a51c4eb50ae0e56293e7d4536865f66a0fca43dc55e11470b91
+  tests/validation/test_validation_suite_runner_v0_1.py: 754e278f6a86cfef0045db025d44dd61427f08604ed004967958aa6d98549778
+  ? coordination/internal_work/blueprint/operator_console/2026-10-05__oc01_full1_slice_c_sensitive_elevation_approval_adapter_completion_v0_1.yaml
+  : efd87c33f7172f56198dabb1e28f460327b2adb6ea4cf5014498c94710326356
+  coordination/work_fronts/oc01_full1_sensitive_elevation_approval_adapter_v0_1.yaml: c523b728c88938923c6f9855bbf79161416e1f3159ad85d6027dc16eb9f34bf9
+  Makefile: e79a8a7f079cca1ba6487d2562eaded51cc611592b7769015dc299b3a6291aee

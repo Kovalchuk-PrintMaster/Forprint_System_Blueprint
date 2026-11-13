@@ -1,0 +1,21 @@
+schema_version: forprint_governed_procedure_registry_v0_1
+registry_id: forprint_governed_procedure_registry
+revision: 0.1.0
+status: ACTIVE_CF07_RUNTIME
+authority:
+  execution_authority: false
+  dispatch_authority: false
+  release_authority: false
+procedures:
+  - procedure_id: governed_canonical_mutation
+    procedure_revision: 0.1.0
+    graph_sha256: e17efe650324bb40a833c93c50dbb2c6a6135560a1618f6a1a83ecbcab7d7ddb
+    status: ACTIVE
+    graph_path: coordination/registry/governed_canonical_mutation_procedure_v0_1.yaml
+capabilities:
+  - capability_id: governed_canonical_mutation
+    classification: GRAPH_REQUIRED
+    reason: Canonical mutation has ordered gates, evidence and derived-refresh obligations.
+  - capability_id: read_only_non_authoritative_inventory
+    classification: NOT_REQUIRED
+    reason: Pure read-only inventory does not mutate canonical or execution state; higher authority constraints still apply.

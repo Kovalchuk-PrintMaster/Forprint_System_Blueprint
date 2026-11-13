@@ -1,0 +1,42 @@
+schema_version: blueprint_outgoing_prompt_one_shot_release_authorization_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-09-05T20:01:51+03:00'
+  status: ONE_SHOT_RELEASE_AUTHORIZATION
+  immutable_after_successful_release: true
+decision_id: blueprint_logistics_authority_lineage_bootstrap_one_shot_release_authorization_2026_09_05_v0_1
+hardening_slice: H10
+authorization:
+  mode: single_prompt_one_shot
+  module: logistics_service
+  prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  roadmap_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  explicit_user_execution_required: true
+  required_cli_confirmation: --authorize-one-shot-release
+  global_release_enabled: false
+  automatic_next_prompt_release: false
+authority_basis:
+  effective_release_authority: coordination/releases/current.yaml
+  effective_release_authority_sha256: 709a446c37f3de95430ac9af58a8df02873aa033cc7e64ae3a7c924b95c8359e
+  prepared_prompt: coordination/outgoing_prompts/logistics_service/drafts/2026-09-05__logistics_service_authority_lineage_and_module_bootstrap_v0_1.md
+  prepared_prompt_sha256: 630fe1082e95029019da171844779a57db503415bd99a2916f534ef4d29c42bb
+  prompt_contract: coordination/prompt_contracts/logistics_service/logistics_service_authority_lineage_and_module_bootstrap_v0_1/logistics_service_authority_lineage_and_module_bootstrap_v0_1__contract_v0_4_h10_inventory_v0_1.yaml
+  prompt_contract_sha256: 4400611b942bdf070ce269bb899dc9043b3bfd362cf7b83c1feac796697d5217
+  acceptance_oracle: coordination/acceptance_oracles/logistics_service/logistics_service_authority_lineage_and_module_bootstrap_v0_1__acceptance_oracle_v0_1.yaml
+  acceptance_oracle_sha256: 2515bfd21707569fd18f59438bea554c677b3d00b12241305537b9169583f9ab
+  logistics_only_h10_pilot: true
+boundaries:
+  blueprint_owned_release_transaction_only: true
+  module_repository_write: false
+  live_provider_write: false
+  telegram_repository_write: false
+  automatic_accept: false
+  automatic_return_hold: false
+  automatic_release_next_prompt: false
+  daemon_or_systemd_activation: false
+  commit_push_or_merge: false
+consumption:
+  policy_must_return_to_exact_fail_closed_before_post_release_checks: true
+  authorization_may_not_be_reused_for_another_prompt: true
+  release_manager: scripts/coordination/manage_outgoing_prompt.py

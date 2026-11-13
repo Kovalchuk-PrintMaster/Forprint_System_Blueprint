@@ -1,0 +1,70 @@
+project_root: /srv/software_development/forprint-project
+updated_at: '2026-05-21'
+purpose: Фактична карта директорій ForPrint-проєктів на сервері, щоб Blueprint бачив
+  не тільки ідеальну архітектуру, а й реальний ландшафт розробки.
+directories:
+- module_id: calculator_engine
+  path: /srv/software_development/forprint-project/calculator_engine
+  status: active_development
+  current_observation: Проєкт має вкладену app-структуру, власний pyproject.toml,
+    Makefile, тести, support/tests, logs, data, quarantine/state. Уже є значний робочий
+    код і технічний борг у вигляді legacy/quarantine директорій.
+  recommended_next_action: Пізніше додати forprint_module_manifest.yaml і звірити
+    контракти з Blueprint.
+- module_id: forprint_accounting_registry_service
+  path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+  status: active_development
+  current_observation: Є app, config, docs, Makefile, pyproject.toml, scripts/dev_check.sh,
+    tests/unit/integration/contract, tmp/one_c_raw і tmp/one_c_staging. Це вже окремий
+    сервіс із правильною тестовою структурою.
+  recommended_next_action: Описати контракт 1С/обліку й додати module manifest.
+- module_id: forprint_crm
+  path: /srv/software_development/forprint-project/forprint_crm
+  status: directory_created_empty
+  current_observation: Директорія створена, але поки без внутрішньої структури. За
+    Blueprint це бізнес-диригент і людський інтерфейс, а не фізичне сховище всіх даних.
+  recommended_next_action: Починати тільки після стабілізації Blueprint/Integration
+    Gateway/Operations Control Registry меж.
+- module_id: forprint_integration_gateway
+  path: /srv/software_development/forprint-project/forprint_integration_gateway
+  status: directory_created_empty
+  current_observation: Директорія створена, але реалізації ще немає. У Blueprint модуль
+    уже описаний як planned контрактно-транспортний шар.
+  recommended_next_action: Після коміту Blueprint зробити окремий стартовий scaffold
+    цього сервісу.
+- module_id: forprint_library
+  path: /srv/software_development/forprint-project/forprint_library
+  status: active_development
+  current_observation: Є app, config, docs, Makefile, pyproject.toml, scripts, tests.
+    У дереві видно backup_before_stage2, egg-info і __pycache__, які треба прибирати
+    перед commit/push.
+  recommended_next_action: Почистити службове сміття і додати module manifest.
+- module_id: forprint_prepress_hub
+  path: /srv/software_development/forprint-project/forprint_prepress_hub
+  status: directory_created_empty
+  current_observation: Директорія створена, але поки без структури. Модуль планується
+    для аналізу й підготовки файлів до друку.
+  recommended_next_action: Почати scaffold після фіксації контрактів із Library, CRM/Operational
+    Registry і Integration Gateway.
+- module_id: forprint_system_blueprint
+  path: /srv/software_development/forprint-project/forprint_system_blueprint
+  status: active_development
+  current_observation: Поточний верхній архітектурний шар уже має human/machine/diagrams/module_guides/coordination/adr/scripts/tests.
+    make check падав тільки на E501.
+  recommended_next_action: Додати lint policy для E501, виконати make clean, make
+    check і зробити перший commit/push.
+- module_id: telegram_bot
+  path: /srv/software_development/forprint-project/telegram_bot
+  status: active_development_legacy_rich
+  current_observation: Великий існуючий проєкт із bot.py, response.py, source/, docs_of_project/,
+    deploy/, services/, Makefile, pyproject.toml, requirements, venv. Має власну історію
+    і потребує обережної інтеграції через контракти.
+  recommended_next_action: 'Не переписувати різко. Спочатку додати manifest і визначити
+    межу: Bot як інтерфейс/оператор сценаріїв, а не джерело архітектурної правди.'
+- module_id: cloud_backup_manager
+  path: /opt/forprint-utils/cloud_backup_manager
+  status: external_active_development
+  current_observation: Розробляється поза /srv/software_development/forprint-project,
+    але архітектурно корисний для ForPrint як сервіс резервного копіювання.
+  recommended_next_action: У Blueprint тримати як external/support module і пізніше
+    описати інтеграційний контракт backup policy.

@@ -1,0 +1,72 @@
+schema_version: forprint_cf10_phase_b_self_hardening_planning_integration_v0_1
+metadata:
+  integration_id: cf10_phase_b_self_hardening_planning_integration_v0_1
+  module_id: forprint_system_blueprint
+  work_id: u180j
+  step_id: CF-10
+  created_at: '2026-10-01T20:14:50.019182Z'
+  status: PLANNING_INTEGRATED_NON_EXECUTING
+baseline:
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  head_before_mutation: 2cbeb0c59affec85fc708ce3446b7f79ec4bc5a1
+  upstream_before_mutation: 2cbeb0c59affec85fc708ce3446b7f79ec4bc5a1
+  published_intake_reconciliation: coordination/internal_work/blueprint/governance/2026-10-01__blueprint__cf10_worker_self_hardening_intake_reconciliation_v0_1.yaml
+  published_intake_reconciliation_sha256: 666eceb12f03a8e55c9b030e9d962a2d5b57e8813b64487df09daaf859835db4
+authority:
+  queue_is_execution_authority: false
+  execution_authority_source: WORK_FRONT
+  dispatch_granted: false
+  acceptance_granted: false
+  release_granted: false
+  cross_module_write_granted: false
+  automatic_accept_granted: false
+queue_integration:
+  preserved_orders:
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
+  - 70
+  - 80
+  - 85
+  - 90
+  - 100
+  task100_role_before: final_control_task
+  task100_role_after: control_core_prerequisite
+  known_phase_b_orders_materialized:
+  - 110
+  - 130
+  - 140
+  - 150
+  task120:
+    materialized: false
+    state: SEMANTICS_RECOVERY_REQUIRED
+    reason: No authoritative source recovered semantics; invention remains forbidden.
+  final_control_task_after_integration: 150
+self_hardening_absorption:
+  '110':
+  - candidate review before promotion / separate acceptance
+  '130':
+  - runtime preflight
+  - source freeze
+  - dirty-overlap
+  - fresh task context
+  '140':
+  - progression gates
+  - notification
+  - validation debt
+  - manual checkpoint
+  '150':
+  - complete runtime/review/error/logging/operator-flow stability proof
+supplemental_backlog: coordination/internal_work/blueprint/worker_training/cf10_worker_self_hardening_backlog_v0_1.yaml
+parallel_work_boundary:
+  unrelated_dirty_paths_preserved: true
+  known_unrelated_paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+result: CF10_PHASE_B_AND_SELF_HARDENING_PLANNING_INTEGRATED_WITHOUT_EXECUTION_AUTHORITY

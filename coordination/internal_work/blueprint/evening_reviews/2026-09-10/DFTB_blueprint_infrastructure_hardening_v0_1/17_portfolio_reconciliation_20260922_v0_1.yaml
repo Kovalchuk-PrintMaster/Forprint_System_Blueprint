@@ -1,0 +1,198 @@
+schema_version: forprint_dftb_blueprint_20260910_portfolio_reconciliation_v0_1
+source_date_label: '2026-09-10'
+reconciled_on: '2026-09-22'
+source_archive_sha256: 8db798d1d720d90ba6cbffae2b8412b26d8e99409312e03b6fbf5c59ea6c73db
+source_dialogue_hash_sha256: 91b71537fa8abe73a5be3d09de5a8730f75edc2fc60a2f002cb526214f43d70b
+source_authority: HISTORICAL_INFRASTRUCTURE_HARDENING_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL_HIGH_TURN_COVERAGE_VERY_LOW_ASSISTANT_NARRATIVE
+  retained_turn_containers: 56
+  text_bearing_turn_containers: 54
+  recoverable_message_blocks:
+    user: 52
+    assistant: 2
+  unique_handoff_zip_labels: 51
+  implementation_verification_in_bundle: false
+  rule: Handoff ZIP names reconstruct chronology only. Historical PASS/FAIL labels and implementation claims do
+    not establish current repository state.
+temporal_boundary:
+  source_label: '2026-09-10'
+  source_ended_at: '2026-09-12T16:49:40+03:00'
+  classification: MULTI_DAY_DIALOGUE_LABEL
+  rule: Use explicit handoff timestamps and causal lineage for execution chronology; filename label is only the
+    dialogue label.
+summary: This source starts with startup-authority normalization and continuity retirement, then becomes a broad
+  infrastructure-hardening session. It independently audits autogeneration and onboarding, establishes generator
+  derivation, develops the project-aware Mutation Compiler, hardens non-mutating checks, exposes hidden execution
+  dependencies through clean-room/sterile audits, builds an explicit execution-dependency contract/Make DAG, codifies
+  progress visibility, hardens knowledge/index determinism, and assembles the continuity stack from micro-roadmap
+  through handoff compiler. Later current evidence shows these lines materially continued into Mutation Compiler
+  usage, execution dependency/generator checks, execution-progress contract, Handoff/continuity projections and
+  Lifecycle Enforcement. No parallel subsystem or new roadmap step is required.
+topic_reconciliation:
+- topic: startup_authority_cleanup
+  item_refs:
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP1009-0003
+  - IT-BP1009-0004
+  - IT-BP1009-0031
+  - IT-BP1009-0032
+  disposition: MATERIALIZED_AND_LATER_REFRAMED
+  source_rules:
+  - current startup authority must be singular and explicit
+  - historical continuity remains evidence/history, not competing current authority
+  - generated indexes are derived outputs rebuilt after source reconciliation
+  - historical immutable records are not mass-rewritten during cleanup
+  current_reconciliation: Later bootstrap/Handoff architecture keeps current authority separate from history and
+    uses mode-specific PROJECT_ONBOARD / TASK_EXECUTION context rather than treating the historical broad-default
+    rule as universal current policy.
+- topic: autogeneration_and_generator_derivation
+  item_refs:
+  - IT-BP1009-0005
+  - IT-BP1009-0006
+  disposition: MATERIALIZED_DIRECTION_CURRENT_COMPLETENESS_SEPARATELY_AUDITABLE
+  source_rule: Generated indexes, knowledge/onboarding/current documents and other generated outputs should be independently
+    auditable and have explicit authoritative inputs, dependencies and derivation lineage.
+  current_connection:
+  - generator derivation registry
+  - generator inventory/contract checks
+  - repository knowledge
+  - current onboarding/bootstrap generators
+- topic: mutation_compiler
+  item_refs:
+  - IT-BP1009-0007
+  - IT-BP1009-0008
+  - IT-BP1009-0009
+  disposition: MATERIALIZED_AND_CURRENTLY_REUSED
+  source_target: Project-aware candidate -> isolated staging -> adapters -> bounded safe repair -> static/project
+    gates -> atomic bounded apply -> rollback/evidence; trivial repairable syntax/lint defects may be fixed inside
+    authorized bounds, while unsafe/ambiguous failures stop.
+  current_evidence: Later CF apply scripts invoke scripts.coordination.mutation_compiler and validate PASS_APPLIED/applied/rolled_back
+    semantics.
+  non_goal: Do not create a second safe-mutation or mutation-compiler subsystem.
+- topic: non_mutating_checks
+  item_refs:
+  - IT-BP1009-0010
+  disposition: MATERIALIZED_AND_ALREADY_PRESERVED
+  source_rule: A check/diagnostic surface must not silently mutate canonical project state.
+  current_connection:
+  - read-only Make safety annotations
+  - non-mutating check wrapper
+  - 05.08 command-semantics Human Intent
+- topic: explicit_execution_dependencies
+  item_refs:
+  - IT-BP1009-0011
+  - IT-BP1009-0012
+  - IT-BP1009-0013
+  - IT-BP1009-0014
+  - IT-BP1009-0015
+  disposition: MATERIALIZED_DIRECTION_RETAIN_DURABLE_INVARIANT
+  source_rules:
+  - execution must not work only because an undeclared file/cache/environment state happens to exist
+  - dependencies are declared and validated or deliberately generated through a supported mechanism
+  - critical paths are exercised in clean/sterile environments
+  - dependency order/prerequisites form an inspectable machine-checkable contract/DAG
+  current_connection:
+  - execution_dependency_registry
+  - execution-dependency-check
+  - generated execution dependency graph
+  - clean-room/mirror validation
+- topic: stepwise_hardening_sequence
+  item_refs:
+  - IT-BP1009-0016
+  disposition: RETAIN_AS_COORDINATION_INVARIANT_NOT_A_NEW_CAPABILITY
+  source_rule: Once a bounded infrastructure hardening sequence is agreed, complete/reconcile that sequence before
+    jumping to unrelated roadmap work.
+- topic: execution_progress_visibility
+  item_refs:
+  - IT-BP1009-0017
+  - IT-BP1009-0018
+  disposition: MATERIALIZED_AS_PROJECT_WIDE_STANDARD
+  source_rule: Long-running project/assistant scripts expose phase START, visible progress or heartbeat, and PASS/FAIL
+    while preserving detailed durable evidence; visible progress is operator UX and does not widen execution or
+    mutation authority.
+  current_evidence: Later execution_progress_visibility_contract_v0_1 defines a default 15-second heartbeat and
+    reusable execution-progress helper.
+- topic: knowledge_mirror_and_cache_determinism
+  item_refs:
+  - IT-BP1009-0019
+  - IT-BP1009-0020
+  disposition: RETAIN_AS_DERIVATION_AND_REPRODUCIBILITY_INVARIANT
+  source_rule: Generated knowledge/index mirrors and runtime caches must be reproducible from declared authoritative
+    inputs, detect drift, and not depend on accidental dependency order or stale cache residue.
+  current_connection:
+  - repository knowledge freshness/reconciliation
+  - generator derivation/inventory
+  - knowledge index validation
+  - clean-room rebuild checks
+- topic: continuity_stack
+  item_refs:
+  - IT-BP1009-0021
+  - IT-BP1009-0022
+  - IT-BP1009-0023
+  - IT-BP1009-0024
+  - IT-BP1009-0025
+  - IT-BP1009-0026
+  disposition: MATERIALIZED_AND_MATURED
+  source_chain: persistent micro-roadmap -> continuity contract -> immutable checkpoint store -> generated operational
+    projections -> Assistant Handoff Compiler
+  current_reconciliation: Current continuity projections, assistant-pack/Handoff v2, checkpoint/event history and
+    lifecycle enforcement extend this line. Generated projections/handoff packages remain non-authoritative.
+- topic: handoff_projection_payload_material_bug
+  item_refs:
+  - IT-BP1009-0027
+  disposition: HISTORICAL_SCHEMA_BUG_PROVENANCE_ONLY
+  source_rule: Canonical current-delta materiality was nested at payload.material rather than a root-level material
+    key.
+  current_reconciliation: Do not preserve the historical bug as a current contract beyond provenance; current schema
+    is authoritative.
+- topic: lifecycle_enforcement_after_handoff_compiler
+  item_refs:
+  - IT-BP1009-0028
+  - IT-BP1009-0030
+  disposition: LATER_MATERIALIZED
+  historical_boundary: The source ends without a preserved final PASS narrative for u179e5; therefore u179e5 itself
+    is not retrospectively marked PASS.
+  later_evidence: Later repository evidence contains Continuity Lifecycle Enforcement with append-only PLANNED ->
+    ACTIVE -> CHECKPOINTED -> VALIDATED -> CLOSED semantics.
+- topic: historical_hardening_lineage
+  item_refs:
+  - IT-BP1009-0029
+  - IT-BP1009-0030
+  disposition: HISTORICAL_EXECUTION_LINEAGE_ONLY
+  note: 51 handoff labels preserve bounded workfront chronology but do not independently prove current PASS/implementation
+    state.
+open_loop_reconciliation:
+- loop: LOOP-BP1009-0001
+  status: RESOLVED_DIRECTIONALLY_BY_LATER_BOOTSTRAP_HANDOFF_ARCHITECTURE
+  note: Current startup authority is governed by later bootstrap/Handoff surfaces; historical u175 labels are not
+    current proof.
+- loop: LOOP-BP1009-0002
+  status: MATERIALIZED_DIRECTION_CURRENT_END_TO_END_COMPLETENESS_SEPARATELY_AUDITABLE
+  note: Generator inventory/derivation and knowledge validations exist later; exact full autogeneration quality
+    remains current-state audit scope.
+- loop: LOOP-BP1009-0003
+  status: RESOLVED_DIRECTIONALLY_AND_CURRENTLY_REUSED
+  note: Later CF mutation applies invoke scripts.coordination.mutation_compiler.
+- loop: LOOP-BP1009-0004
+  status: MATERIALIZED_DIRECTION_CURRENT_CLEAN_ROOM_PROOF_SEPARATELY_AUDITABLE
+  note: Execution dependency registry/graph checks exist; absence of every hidden dependency remains an ongoing
+    verification property.
+- loop: LOOP-BP1009-0005
+  status: MATERIALIZED_AS_CURRENT_STANDARD
+  note: Execution progress visibility contract/helper and default heartbeat were later implemented.
+- loop: LOOP-BP1009-0006
+  status: MATERIALIZED_DIRECTION_REPRODUCIBILITY_REMAINS_A_CONTINUOUS_CONTROL
+  note: Knowledge freshness/derivation validation exists; deterministic rebuild remains something to re-check after
+    generator changes.
+- loop: LOOP-BP1009-0007
+  status: MATERIALIZED_AND_EXTENDED
+  note: Continuity stack progressed into Assistant Handoff/Handoff v2 and Lifecycle Enforcement.
+- loop: LOOP-BP1009-0008
+  status: HISTORICAL_U179E5_RESULT_UNKNOWN_BUT_NEXT_CAPABILITY_MATERIALIZED
+  note: Do not infer u179e5 PASS; later Lifecycle Enforcement proves the architecture progressed beyond that historical
+    boundary.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

@@ -28,3 +28,38 @@ It defines module-scoped workflow control, reusable Make/script automation,
 external-input handshakes and compact/full reporting.
 
 <!-- module-workflow-policy-v0-1:end -->
+
+<!-- mutation-builder-contract-v0-1:start -->
+
+## Mutation builder governance
+
+The governance group includes the normative human-readable standard:
+
+```text
+mutation_builder_contract_v0_1.md
+```
+
+Its machine-readable validation authority is:
+
+```text
+mutation_builder_contract_v0_1.yaml
+```
+
+The canonical final mutation-surface validator is:
+
+```text
+scripts/validation/validate_mutation_precommit_surface.py
+```
+
+Together they require preflight-before-write, typed exact path sets, no-op
+rejection, atomic bounded writes, file-mode preservation, focused tests before
+the canonical gate, temporary-index `git diff --cached --check` coverage for
+tracked and newly created files, a clean unchanged real Git index, and verified
+clean rollback after any failure.
+
+<!-- mutation-builder-contract-v0-1:end -->
+
+## Blueprint document taxonomy
+
+`blueprint_document_taxonomy.md` defines current document placement, the retired
+top-level `human/` rule, historical-path semantics and source→derived copy discipline.

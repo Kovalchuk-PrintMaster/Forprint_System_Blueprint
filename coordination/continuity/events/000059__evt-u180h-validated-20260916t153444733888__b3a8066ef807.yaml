@@ -1,0 +1,32 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180h-validated-20260916t153444733888
+event_type: VALIDATION_PASSED
+sequence: 59
+previous_event_id: evt-u180h-checkpoint-20260916t145042473139
+previous_event_sha256: bd0c2c7a08091ef18ce71a80a6842ff079b91a739c242bf289a76bed02d18eb2
+work_id: u180h
+occurred_at: '2026-09-16T15:35:01.047483Z'
+actor: assistant_generated_operator_executed
+summary: CF-08 Handoff v2 independently validated against exact checkpoint seq58
+source_state_ref: 531f7c6c0c12cc853cc8e6fcd051df2e45da33a25a6a8c3bccffd96fb5b71784
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180h-checkpoint-20260916t145042473139
+  checkpoint_event_sha256: bd0c2c7a08091ef18ce71a80a6842ff079b91a739c242bf289a76bed02d18eb2
+  evidence:
+    - exact CF-08 checkpoint seq58 source fingerprint verified
+    - S1 contract and exact ACK/result schema validation PASS
+    - S2 PROJECT_ONBOARD and TASK_EXECUTION runtime integration PASS
+    - S3 result manifest binding and bounded local self-repair PASS
+    - S4 live freshness and durable replay-safe resume binding PASS
+    - Fresh Context Gate, Execution Attempt Ledger and governed Procedure Graph reuse PASS
+    - focused CF08 validators and tests PASS
+    - full pytest PASS at CF08 checkpoint boundary
+    - public make check PASS at CF08 checkpoint boundary
+    - CF09 implementation worker dispatch central retry and central resume routing remain absent
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: 486b24546fbd941ff4193668c6460a18994c4b435767b7e55f957ef702b0cf42
+    checkpoint_fingerprint: 486b24546fbd941ff4193668c6460a18994c4b435767b7e55f957ef702b0cf42

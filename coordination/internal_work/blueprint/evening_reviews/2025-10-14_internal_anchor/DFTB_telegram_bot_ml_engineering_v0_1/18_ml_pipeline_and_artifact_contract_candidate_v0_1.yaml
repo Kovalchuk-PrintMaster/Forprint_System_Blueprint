@@ -1,0 +1,81 @@
+schema_version: forprint_telegram_ml_pipeline_and_artifact_contract_candidate_v0_1
+candidate_id: telegram_ml_pipeline_and_artifact_contract
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: telegram_bot
+supporting_or_adjacent_owners:
+- verification_lab
+- forprint_system_blueprint
+- forprint_system_administration
+related_existing_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/18_human_talk_template_contract_candidate_v0_1.yaml
+candidate_contract:
+  classifier_domains:
+  - intent
+  - style
+  - sentiment
+  shared_structural_stages:
+  - dataset_audit
+  - train_split_validation
+  - training
+  - model_artifact_write
+  - label_map_contract_validation
+  - classification
+  - evaluation
+  - reporting
+  - revision_management
+  dataset_quality:
+  - invalid_label_detection
+  - conflicting_duplicate_detection
+  - ordinary_duplicate_detection
+  - suspicious_example_review
+  - class_balance_evidence
+  - train_val_test_leakage_check
+  - augmentation_source_provenance
+  label_map_contract:
+  - read_existing_map_before_write
+  - document_supported_name_to_id_and_id_to_name_shapes
+  - preserve_decoder_compatibility
+  - no_silent_taxonomy_or_map_rewrite
+  path_and_config_contract:
+  - centralized_configuration_roots
+  - derived_paths_composed_from_canonical_roots
+  - existing_consumer_compatibility_during_refactor
+  - entity_specific_intent_style_sentiment_namespaces
+  - no_generic_archive_constant_collision
+  evaluation_contract:
+  - machine_readable_metrics
+  - human_readable_summary
+  - per_class_metrics_where_applicable
+  - confusion_evidence_where_applicable
+  - stable_artifact_filenames
+  - created_artifact_paths_reported
+  - utf8_machine_output
+  - optional_utf8_bom_human_csv_copy
+  revision_contract:
+  - explicit_model_revision_identity
+  - local_revision_retention_available
+  - remote_registry_optional_not_required
+  - entity_specific_revision_namespaces
+  end_to_end_health:
+  - training_success_does_not_imply_classifier_success
+  - single_artifact_repair_does_not_imply_pipeline_health
+  - validate_train_artifact_classify_evaluate_chain
+historical_non_authority:
+- historical directory layout is not current layout authority
+- historical specific script filenames are not automatically current implementation
+- owner-reported 0.6394 is not current model quality
+- assistant claims of repaired/generated attachments are not verified when bodies are absent
+- historical local revision manager is not mandatory permanent architecture
+reuse_first_checks_before_promotion:
+- remaining Telegram long-running/ML historical sources
+- live telegram_bot train/classify/evaluate scripts
+- live current config and path constants
+- live label-map formats and taxonomy owner
+- live model/revision artifact layout
+- Verification Lab evaluation responsibilities
+- current project script metadata/configuration standards
+promotion_gate: After remaining Telegram sources and live implementation audit, merge this contract into existing
+  roadmap steps/substeps or close as implemented; do not create a duplicate top-level AI/classifier capability.

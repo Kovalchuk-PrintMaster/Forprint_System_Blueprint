@@ -1,0 +1,48 @@
+schema_version: forprint_telegram_behavior_specification_runtime_boundary_candidate_v0_1
+candidate_id: telegram_behavior_specification_runtime_boundary
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: telegram_bot
+related_existing_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/18_human_talk_template_contract_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/18_ml_pipeline_and_artifact_contract_candidate_v0_1.yaml
+purpose: Define the durable boundary between behavior specification/operator simulation artifacts and the real Telegram
+  production runtime.
+candidate_contract:
+  canonical_behavior_registry:
+  - machine_readable_single_source
+  - behavior_ids_and_thematic_groups
+  - integrity_and_duplicate_checks
+  - coverage_or_kpi_metadata_without_business_authority
+  - version_and_provenance
+  operator_views:
+  - generated_excel_view_optional
+  - generated_html_view_optional
+  - derived_projection_not_manual_source_of_truth
+  simulation:
+  - scenario_modules_behind_small_dispatcher
+  - synthetic_phrases_are_fixtures_not_business_authority
+  - simulation_artifacts_classified_explicitly
+  - no_hidden_production_dependency_on_xls_or_wizard
+  mutation_integrity:
+  - artifact_level_postcondition_required
+  - exit_code_success_alone_insufficient
+  - content_or_structure_change_verified_when_expected
+  production_boundary:
+  - production_runtime_consumes_approved_runtime_contracts
+  - spec_fixture_generator_and_runtime_dependencies_are_distinguishable
+  - live_database_or_service_ownership_remains_outside_simulation_artifacts
+reuse_first_checks_before_promotion:
+- live telegram_bot behavior registries and wizard/XLS assets
+- live runtime imports/dependencies
+- current personalized communication and clarification implementations
+- current test/fixture/generator classification
+- Project Inspector or Verification Lab artifact-integrity capabilities
+non_goals:
+- restore historical Excel workbooks as production authority
+- restore historical wizard filenames or dispatcher implementation verbatim
+- treat KPI/coverage display values as business truth
+- duplicate existing ML evaluation candidates
+- mutate Telegram runtime from this planning intake

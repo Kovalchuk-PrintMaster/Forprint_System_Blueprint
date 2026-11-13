@@ -15,6 +15,7 @@ if __package__ is None or __package__ == "":
 
     _sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
 
+import argparse
 import sys
 from pathlib import Path
 from typing import Any
@@ -28,7 +29,9 @@ def _bullet_list(values: list[str]) -> str:
     return "\n".join(f"- `{value}`" for value in values)
 
 
-def _find_related_flows(module_id: str, flows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def _find_related_flows(
+    module_id: str, flows: list[dict[str, Any]]
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     incoming = [flow for flow in flows if flow.get("target") == module_id]
     outgoing = [flow for flow in flows if flow.get("source") == module_id]
     return incoming, outgoing
@@ -71,10 +74,14 @@ def render_module_guide(
 
     incoming_text = "\n".join(_render_flow(flow) for flow in incoming_flows) or "- Немає."
     outgoing_text = "\n".join(_render_flow(flow) for flow in outgoing_flows) or "- Немає."
-    consumed_contracts_text = "\n".join(_render_contract(c) for c in consumed_contracts) or "- Немає."
-    provided_contracts_text = "\n".join(_render_contract(c) for c in provided_contracts) or "- Немає."
+    consumed_contracts_text = (
+        "\n".join(_render_contract(c) for c in consumed_contracts) or "- Немає."
+    )
+    provided_contracts_text = (
+        "\n".join(_render_contract(c) for c in provided_contracts) or "- Немає."
+    )
 
-    return f"""# {module['title']}
+    return f"""# {module["title"]}
 
 > Generated from `machine/*.yaml`. Не редагувати вручну як джерело правди; правки вносити в YAML.
 
@@ -84,31 +91,31 @@ def render_module_guide(
 
 ## Type
 
-`{module.get('type', 'unknown')}`
+`{module.get("type", "unknown")}`
 
 ## Status
 
-`{module.get('status', 'unknown')}`
+`{module.get("status", "unknown")}`
 
 ## Role
 
-{module.get('role', '').strip()}
+{module.get("role", "").strip()}
 
 ## Owns
 
-{_bullet_list(module.get('owns', []))}
+{_bullet_list(module.get("owns", []))}
 
 ## Consumes
 
-{_bullet_list(module.get('consumes', []))}
+{_bullet_list(module.get("consumes", []))}
 
 ## Provides
 
-{_bullet_list(module.get('provides', []))}
+{_bullet_list(module.get("provides", []))}
 
 ## Must not own
 
-{_bullet_list(module.get('must_not_own', []))}
+{_bullet_list(module.get("must_not_own", []))}
 
 ## Incoming data flows
 
@@ -140,8 +147,8 @@ def render_module_guide(
 """
 
 
-def generate(root: Path | None = None) -> list[Path]:
-    """Generate all module guides."""
+def expected_outputs(root: Path | None = None) -> dict[Path, str]:
+    """Render expected module-guide outputs without writing project state."""
 
     root = root or project_root()
     machine = root / "machine"
@@ -151,18 +158,52 @@ def generate(root: Path | None = None) -> list[Path]:
     flows = load_yaml(machine / "data_flows.yaml").get("data_flows", [])
     contracts = load_yaml(machine / "contracts.yaml").get("contracts", [])
 
-    written: list[Path] = []
-    for module in modules:
-        content = render_module_guide(module, flows, contracts)
-        path = module_guides / f"{module['id']}.md"
-        write_text(path, content)
-        written.append(path)
+    return {
+        module_guides / f"{module['id']}.md": render_module_guide(
+            module,
+            flows,
+            contracts,
+        )
+        for module in modules
+    }
 
-    return written
+
+def generate(root: Path | None = None) -> list[Path]:
+    """Generate all module guides."""
+
+    outputs = expected_outputs(root)
+    for path, content in outputs.items():
+        write_text(path, content)
+    return list(outputs)
+
+
+def check_generated(root: Path | None = None) -> bool:
+    """Return True only when durable module guides match their source YAML."""
+
+    ok = True
+    for path, expected in expected_outputs(root).items():
+        if not path.is_file():
+            print(f"DRIFT missing={path}")
+            ok = False
+            continue
+        if path.read_text(encoding="utf-8") != expected:
+            print(f"DRIFT stale={path}")
+            ok = False
+    return ok
 
 
 def main() -> int:
     """CLI entry point."""
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+
+    if args.check:
+        if check_generated():
+            print("MODULE_GUIDES_GENERATION_CHECK=PASS")
+            return 0
+        return 1
 
     paths = generate()
     for path in paths:

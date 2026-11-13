@@ -1,0 +1,96 @@
+schema_version: blueprint_worker_runtime_and_invocation_contract_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED_MACHINE_CONTRACT
+  implementation_target: blueprint_console_worker_adapter_v0_1
+worker_runtime:
+  schema_version: forprint_worker_runtime_v0_1
+  authority: MODULE_LOCAL_OR_HOST_BOUND_RUNTIME_POLICY
+  provider_adapter_enum_v0_1:
+  - CONSOLE_COMMAND
+  network_policy_enum:
+  - DENY
+  - ALLOWLIST
+  - ALLOW
+  required_fields:
+  - module_id
+  - provider_adapter
+  - model
+  - working_directory
+  - timeout_seconds
+  - network_policy
+  - budget
+  - environment_allowlist
+  - required_environment
+  - command
+  - completion
+  secrets:
+    values_in_git_allowed: false
+    runtime_env_values_serialized: false
+    committed_config_contains_names_only: true
+  budget_required_fields:
+  - max_input_tokens
+  - max_output_tokens
+  - max_total_tokens
+  - max_cost
+  - currency
+worker_invocation:
+  schema_version: forprint_worker_invocation_v0_1
+  states:
+  - BLOCKED
+  - DRY_RUN_READY
+  must_bind:
+  - operator approval decision
+  - launch request
+  - task context
+  - Blueprint HEAD
+  - module HEAD
+  - runtime policy
+  - provider adapter
+  - model
+  - budget
+  - timeout
+  - network policy
+  - working directory
+  v0_1_execution:
+    worker_process_start_allowed: false
+    shell_execution_allowed: false
+    prompt_claim_allowed: false
+    module_repository_write_allowed: false
+completion_capture:
+  schema_version: forprint_worker_completion_capture_v0_1
+  expected_artifacts:
+  - worker_completion_report.yaml
+  - stdout.log
+  - stderr.log
+  - invocation_manifest.yaml
+  unknown_telemetry: not_observable
+  semantic_acceptance_owner: INSPECTOR_AND_HUMAN_GATE
+  adapter_may_blueprint_accept: false
+provider_adapter_interface:
+  v0_1: CONSOLE_COMMAND
+  command_representation: ARGV_NO_SHELL
+  provider_is_architectural_authority: false
+  future_provider_specific_adapters_must_preserve_invocation_contract: true
+
+# cf10-first-worker-launch-extension-v0-1
+cf10_first_actual_worker_launch_extension_v0_1:
+  extends_historical_console_worker_adapter_without_rewriting_v0_1: true
+  exact_scope: CF10_U180J_FIRST_BLUEPRINT_INTERNAL_ATTEMPT_ONLY
+  provider_neutral_launcher: true
+  provider_selection_per_attempt: true
+  argv_no_shell: true
+  cwd_must_be_attempt_workspace_repo: true
+  stdout_stderr_capture_required: true
+  timeout_required: true
+  process_start_callback_required: true
+  environment_source: inherited_process_environment
+  environment_values_serialized: false
+  secret_discovery: false
+  secret_values_in_git: false
+  release_authority: false
+  external_dispatch_authority: false
+  foreign_repository_write_authority: false
+  commit_push_merge_release: false
+  automatic_accept: false

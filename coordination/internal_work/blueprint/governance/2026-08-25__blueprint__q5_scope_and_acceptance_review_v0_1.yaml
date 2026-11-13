@@ -1,0 +1,39 @@
+schema_version: blueprint_q5_scope_and_acceptance_review_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T14:32:00+03:00'
+  status: PASS_TO_IMPLEMENTATION
+record_id: blueprint_q5_scope_and_acceptance_review_2026_08_25_v0_1
+hardening_slice: Q5
+stable_id: blueprint_v0_4_1_common_coordination_event_envelope_v0_1
+review_result: PASS_TO_IMPLEMENTATION
+semantic_model:
+  canonical_envelope_fields: 17
+  initial_event_families: 8
+  events_immutable_observations: true
+  current_state_is_projection: true
+  correlation_required: true
+  causation_nullable: true
+  idempotency_conflict_fail_closed: true
+  q6_attention_semantics_deferred: true
+  live_runtime_disabled: true
+acceptance_criteria:
+- exact seventeen Q5 envelope fields are canonical
+- exact eight initial event families are canonical
+- event_type follows family.action
+- events are immutable observations and corrections are new events
+- current state is derived projection and is not independent truth
+- correlation is required and causation is nullable immediate-parent identity
+- idempotency key is required and collision fails closed
+- occurred_at is offset-aware UTC
+- blocking does not imply RETURN HOLD ACCEPT or whole-prompt block
+- severity does not imply operator notification or authority
+- Q1-Q4 histories and Git project truth cannot be silently rewritten
+- Q6-Q8 remain deferred
+- live SQLite daemon projection runtime remains disabled
+- validator is in canonical make check
+- focused Q4+Q5 tests pass
+- canonical make check passes
+closeout_not_performed_by_this_record: true
+manual_exception_authority_preserved: true

@@ -1,0 +1,51 @@
+schema_version: forprint_module_current_state_reconciliation_closeout_v0_1
+status: CLOSED
+module: forprint_accounting_registry_service
+reconciliation_subject: 1c_sandbox_import_export_and_sync_boundary
+historical:
+  candidate_source_id: dftb_accounting_registry_1c_boundary_v05_20260517_sync_candidate
+  shared_ledger_commit: 507c230e510ded79e598853e2e29e0f92602c290
+live_module:
+  repository: /srv/software_development/forprint-project/forprint_accounting_registry_service
+  branch: main
+  head: 7315a7a6bd0a8f4e08385bdbd676edaf8aa25bb5
+  upstream: origin/main
+  upstream_head: 7315a7a6bd0a8f4e08385bdbd676edaf8aa25bb5
+  worktree_clean: true
+evidence:
+  sandbox_evidence: true
+  boundary_test_evidence: true
+  safe_boundary_guard_lines: 122
+  broad_apparent_live_write_signals: 40
+  focused_signal_review:
+    non_actionable_evidence_surfaces: 34
+    comment_or_docstring_signals: 3
+    guarded_or_sandbox_context: 2
+    reference_only_or_ambiguous: 1
+    makefile_manual_review: 0
+    executable_write_sync_reference_review: 0
+    actionable_enablement_candidates: 0
+    disposition: NO_BOUNDARY_VIOLATION_FOUND_BROAD_AUDIT_FALSE_POSITIVES
+decision:
+  disposition: CURRENT_SANDBOX_BOUNDARY_CONFIRMED
+  historical_sync_candidate_closed: true
+  implementation_gap: false
+  live_1c_integration_authorized: false
+  production_write_authorized: false
+  automatic_posting_authorized: false
+  external_sync_authorized: false
+  future_live_integration_requires_new_explicit_authority: true
+  authority_effect: evidence_only_no_execution_activation
+safety:
+  live_integration_executed: false
+  production_write_executed: false
+  automatic_posting_executed: false
+  sync_executed: false
+  live_module_mutated: false
+  source_map_mutated: false
+  human_intent_ledger_mutated: false
+  roadmap_mutated: false
+  cf10_touched: false
+next:
+  work_mode: continue_module_current_state_analysis_and_reconciliation
+  accounting_registry_candidate: closed

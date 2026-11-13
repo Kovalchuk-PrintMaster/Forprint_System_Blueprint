@@ -20,7 +20,7 @@ A module profile is a small set of composable traits.
 ## Example: core active module
 
 ```yaml
-module_id: forprint_operational_registry
+module_id: forprint_operations_control_registry
 profile:
   maturity: active_development
   business_criticality: core

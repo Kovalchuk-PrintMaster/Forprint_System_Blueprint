@@ -1,0 +1,30 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180f-validated-20260915t091833852864z
+event_type: VALIDATION_PASSED
+sequence: 49
+previous_event_id: evt-u180f-checkpoint-20260915t090339614348z
+previous_event_sha256: 2fbecdf33cb35803cf07108225411469db0935734d251010fef9b49ba0a7c60f
+work_id: u180f
+occurred_at: '2026-09-15T09:18:47.648013Z'
+actor: assistant_generated_operator_executed
+summary: CF-06 Execution Profiles independently validated against checkpoint seq48
+source_state_ref: 1bba8439e4e5c47ea1dc020d25731f043fc3ba278a14a87a49746a26e1b7b7a6
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180f-checkpoint-20260915t090339614348z
+  checkpoint_event_sha256: 2fbecdf33cb35803cf07108225411469db0935734d251010fef9b49ba0a7c60f
+  evidence:
+    - checkpoint-bound CF-06 source fingerprint verified
+    - Execution Profile Registry validator PASS
+    - Project Constitution and Work Front validators PASS
+    - Execution Attempt Ledger linkage validator PASS
+    - focused CF-06 pytest PASS after checkpoint
+    - full pytest PASS after checkpoint
+    - public make check PASS after checkpoint
+    - worker dispatch release and foreign-write authority remain false
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: 90c78c4c138a55fc932c675095f606100852dcc93f417b9910dbd5cdb6aaaa7f
+    checkpoint_fingerprint: 90c78c4c138a55fc932c675095f606100852dcc93f417b9910dbd5cdb6aaaa7f

@@ -1,0 +1,30 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-smm-assistant-source-label-2026-07-25
+authority_class: business_marketing_history_only
+relations:
+- type: continues
+  from_bundle: DFTB-smm-assistant-source-label-2026-07-25
+  to_bundle: DFTB-smm-assistant-source-label-2026-06-25
+  confidence: HIGH
+  note: June SMM focuses on traffic acquisition/learning loop; July SMM moves into creative content-production tooling and simplification.
+- type: related_to
+  from_bundle: DFTB-smm-assistant-source-label-2026-07-25
+  to_bundle: DFTB-crm-source-label-2026-05-16
+  confidence: MEDIUM
+  note: Generated Website/social assets support business presentation but do not change CRM canonical ownership or orchestration boundaries.
+item_relations:
+- type: refines
+  from_item: IT-SMM2507-0017
+  to_item: IT-SMM2506-0018
+  confidence: HIGH
+  note: Marketing history evolves from acquisition/distribution strategy into repeatable content-production tooling.
+- type: supports
+  from_item: IT-SMM2507-0011
+  to_item: IT-SMM2506-0014
+  confidence: MEDIUM
+  note: Cross-channel reuse of one content asset supports the earlier reuse/distribution strategy.
+- type: constrains
+  from_item: IT-SMM2507-0015
+  to_item: IT-CRM1605-0015
+  confidence: HIGH
+  note: SMM creative workflow must not become canonical customer/order or business-data ownership.

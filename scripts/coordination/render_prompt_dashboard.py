@@ -3,16 +3,27 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
 import yaml
 
+from scripts.coordination.prompt_execution_events_v0_1 import (
+    discover_execution_events,
+)
 from scripts.reporting.table_renderer import TableRow, render_boxed_table_lines
 
 PROMPT_QUEUE_SCHEMA_VERSION = "prompt_queue_v0_2"
 OUTGOING_PROMPTS_DIR = Path("coordination/outgoing_prompts")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BLUEPRINT_MODULE = "forprint_system_blueprint"
+BLUEPRINT_STATUS_SCRIPT = (
+    PROJECT_ROOT
+    / "scripts/coordination/"
+    "render_blueprint_self_coordination_status.py"
+)
 
 COLOR_RESET = "\033[0m"
 COLOR_BRIGHT_GREEN = "\033[92m"
@@ -65,7 +76,12 @@ def resolve_next_prompt(data: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
-def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
+def render_dashboard(
+    index_path: Path,
+    *,
+    use_color: bool = True,
+    execution_report: dict[str, Any] | None = None,
+) -> str:
     data = _load_yaml(index_path)
     module = data.get("module", index_path.parent.name)
     schema_version = data.get("schema_version")
@@ -97,6 +113,15 @@ def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
             f"({next_prompt.get('file')})"
         )
 
+    if execution_report is not None:
+        observed = _render_execution_observation(
+            execution_report,
+            str(module),
+        )
+        if observed:
+            lines.append("")
+            lines.extend(observed)
+
     lines.append("")
     lines.append("Draft / Planned Prompts")
     lines.extend(_render_draft_prompt_table(index_path, use_color=use_color))
@@ -108,6 +133,47 @@ def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
     )
 
     return _finalize_output(lines, use_color=use_color)
+
+
+def _render_execution_observation(
+    report: dict[str, Any],
+    module: str,
+) -> list[str]:
+    projections = [
+        item
+        for item in report.get("projections", [])
+        if isinstance(item, dict) and item.get("module_id") == module
+    ]
+    attention = report.get("result_state") == "ATTENTION_REQUIRED"
+    if not projections and not attention:
+        return []
+
+    lines = [
+        "Module Execution Observation",
+        f"state: {report.get('result_state', 'unknown')}",
+    ]
+    if projections:
+        for item in projections:
+            lines.append(
+                "observed: "
+                f"{item.get('prompt_id')}={item.get('observed_status')} "
+                f"(queue={item.get('queue_recorded_status')}, "
+                f"event={item.get('event_id')})"
+            )
+    else:
+        lines.append("observed: -")
+
+    if attention:
+        summary = report.get("summary", {})
+        lines.append(
+            "attention: "
+            f"invalid={summary.get('invalid_events', 0)}, "
+            f"transitions={summary.get('transition_errors', 0)}, "
+            f"queue_state={summary.get('queue_state_errors', 0)}, "
+            f"wip={summary.get('wip_errors', 0)}, "
+            f"sources={summary.get('source_errors', 0)}"
+        )
+    return lines
 
 
 def _render_active_prompt_table(
@@ -342,6 +408,21 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    if args.module == BLUEPRINT_MODULE:
+        command = [
+            sys.executable,
+            str(BLUEPRINT_STATUS_SCRIPT),
+            "--module",
+            args.module,
+            "--view",
+            "prompts",
+        ]
+        return subprocess.run(
+            command,
+            cwd=PROJECT_ROOT,
+            check=False,
+        ).returncode
+
     root = Path(args.root).resolve()
     index_path = root / OUTGOING_PROMPTS_DIR / args.module / "index.yaml"
 
@@ -350,7 +431,17 @@ def main() -> int:
         return 1
 
     try:
-        print(render_dashboard(index_path, use_color=not args.no_color))
+        execution_report = discover_execution_events(
+            blueprint_root=root,
+            module_filter={args.module},
+        )
+        print(
+            render_dashboard(
+                index_path,
+                use_color=not args.no_color,
+                execution_report=execution_report,
+            )
+        )
     except Exception as exc:
         print(f"FAILED: {exc}")
         return 1

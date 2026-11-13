@@ -1,0 +1,139 @@
+work_front_id: wf-oc01-mini-protected-terminal-real-proof-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-7
+name: protected_terminal_real_proof
+
+objective: >-
+  Prove the published Protected Terminal path end-to-end without manual SSH
+  command copying by dispatching three real read-only repository capabilities
+  through the published Console API bridge and existing Protected Terminal
+  gateway/worker launcher. Capture durable external evidence and prove that
+  canonical HEAD, staging, worktree status and canonical diff bytes remain
+  unchanged by the terminal actions.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_7_BOUNDED_IMPLEMENTATION_AND_REAL_PROOF_ONLY
+  runtime_projection:
+    console_is_state_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    canonical_write_authority: false
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+
+reuse_adapt_new:
+  session_projection:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/session_projection.py
+  protected_terminal_gateway:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/protected_terminal.py
+  console_api_terminal_bridge:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/console_api.py
+  console_ui_terminal_control:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/console_ui.py
+  worker_launcher:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  proof_orchestrator:
+    disposition: NEW
+    rationale: >-
+      MINI-7 needs one bounded reusable proof workflow that invokes the existing
+      Console API terminal action bridge, captures before/after canonical evidence,
+      and emits a sealed proof artifact without introducing another terminal engine.
+
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_protected_terminal_real_proof_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/protected_terminal_proof.py
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_real_proof_v0_1.py
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - Makefile
+
+protected_reuse_only_components:
+  - scripts/coordination/control_plane/operator_console/session_projection.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - scripts/coordination/control_plane/operator_console/console_api.py
+  - scripts/coordination/control_plane/operator_console/console_ui.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+
+proof_contract:
+  flow: console_api_dispatch_to_existing_protected_terminal_gateway
+  actor_type: human_terminal
+  manual_ssh_command_copying_required: false
+  capabilities:
+    - repo_head
+    - repo_status
+    - repo_diff_check
+  capability_class: READ_ONLY
+  arbitrary_shell: false
+  evidence_location: OUTSIDE_CANONICAL_REPOSITORY
+  evidence_fields:
+    - capability_id
+    - actor
+    - exact_scope
+    - argv_sha256
+    - stdout_path
+    - stderr_path
+    - stdout_sha256
+    - stderr_sha256
+    - return_code
+    - timed_out
+    - outcome
+    - shell
+  canonical_invariants:
+    - HEAD identical before and after proof
+    - staged path set identical before and after proof
+    - porcelain status identical before and after proof
+    - unstaged diff bytes identical before and after proof
+    - staged diff bytes identical before and after proof
+  authority:
+    state_authority: false
+    canonical_write: false
+    commit: false
+    push: false
+    merge: false
+    release: false
+    promotion: false
+
+acceptance:
+  - all three registered read-only capabilities execute through Console API dispatch
+  - each command exits without timeout and with return code zero
+  - repo_head stdout equals canonical HEAD observed before proof
+  - repo_status stdout equals canonical porcelain status observed before proof
+  - repo_diff_check passes
+  - stdout and stderr evidence remain outside canonical repository
+  - proof package is immutable and outside canonical repository
+  - canonical repository evidence is byte-stable across the proof
+  - no stage, commit, push, merge, release or promotion is performed
+  - protected reuse-only components remain byte-identical
+  - focused and prior terminal/console regressions pass
+  - stable Makefile proof workflow exists
+  - roadmap and document-surface validations pass
+  - git diff check passes
+
+non_goals:
+  - modify Protected Terminal gateway
+  - modify Console API terminal dispatch
+  - add SAFE_WRITE capability
+  - add arbitrary shell execution
+  - create module lease authority
+  - stage
+  - commit
+  - push
+  - merge
+  - release
+  - promotion
+  - activate OC01-MINI-8
+
+source_design_freeze:
+  slice: OC01-MINI-7
+  name: protected_terminal_real_proof
+  rule: bounded end-to-end proof without manual SSH command copying

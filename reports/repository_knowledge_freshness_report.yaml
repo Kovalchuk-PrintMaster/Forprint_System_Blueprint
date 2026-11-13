@@ -1,0 +1,967 @@
+schema_version: repository_knowledge_freshness_report_v0_1
+metadata:
+  result: PASSED
+  head_commit: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  external_rollout_state: gated
+summary:
+  snapshot_count: 4
+  fresh_snapshot_count: 0
+  bounded_refresh_snapshot_count: 4
+  failed_snapshot_count: 0
+  changed_path_union_count: 90
+  knowledge_relevant_changed_path_union_count: 85
+  policy_error_count: 0
+  release_decision: PROCEED_WITH_BOUNDED_REFRESH
+policy_errors: []
+change_class_counts:
+  decision_evidence: 28
+  executable_control: 24
+  generated_view: 5
+  repository_knowledge: 7
+  self_coordination: 26
+changed_path_union:
+- Makefile
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+- coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+- coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+- coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+- coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+- coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+- coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+- coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+- coordination/self_coordination/README.md
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+- coordination/self_coordination/module_plans/forprint_library.yaml
+- coordination/self_coordination/module_plans/logistics_service.yaml
+- coordination/self_coordination/module_plans/telegram_bot.yaml
+- coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+- coordination/self_coordination/prompt_queue/index.yaml
+- coordination/self_coordination/roadmap.yaml
+- reports/artifact_retention_consistency_report.yaml
+- reports/blueprint_inventory_status_consistency_report.yaml
+- reports/blueprint_self_coordination_consistency_report.yaml
+- reports/module_registry_consistency_report.yaml
+- reports/repository_knowledge_snapshot_comparison_report.yaml
+- scripts/coordination/audit_artifact_retention_consistency.py
+- scripts/coordination/compare_repository_knowledge_snapshots.py
+- scripts/coordination/render_blueprint_inventory_status.py
+- scripts/coordination/render_blueprint_self_coordination_status.py
+- scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+- scripts/coordination/validate_artifact_authority_policy.py
+- scripts/coordination/validate_blueprint_inventory_status_consistency.py
+- scripts/coordination/validate_blueprint_self_coordination.py
+- scripts/coordination/validate_module_registry_resolution.py
+- scripts/coordination/validate_repository_knowledge_maintenance.py
+- scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+- tests/test_audit_artifact_retention_consistency.py
+- tests/test_compare_repository_knowledge_snapshots.py
+- tests/test_module_registry_consistency_ci_gate.py
+- tests/test_render_blueprint_inventory_status.py
+- tests/test_render_blueprint_self_coordination_status.py
+- tests/test_render_repository_knowledge_coverage_dashboard.py
+- tests/test_validate_artifact_authority_policy.py
+- tests/test_validate_blueprint_inventory_status_consistency.py
+- tests/test_validate_blueprint_self_coordination.py
+- tests/test_validate_module_registry_resolution.py
+- tests/test_validate_repository_knowledge_maintenance.py
+- tests/test_validate_repository_knowledge_snapshot_comparisons.py
+knowledge_relevant_changed_path_union:
+- Makefile
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+- coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+- coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+- coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+- coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+- coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+- coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+- coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+- coordination/self_coordination/README.md
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+- coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+- coordination/self_coordination/module_plans/forprint_library.yaml
+- coordination/self_coordination/module_plans/logistics_service.yaml
+- coordination/self_coordination/module_plans/telegram_bot.yaml
+- coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+- coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+- coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+- coordination/self_coordination/prompt_queue/index.yaml
+- coordination/self_coordination/roadmap.yaml
+- scripts/coordination/audit_artifact_retention_consistency.py
+- scripts/coordination/compare_repository_knowledge_snapshots.py
+- scripts/coordination/render_blueprint_inventory_status.py
+- scripts/coordination/render_blueprint_self_coordination_status.py
+- scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+- scripts/coordination/validate_artifact_authority_policy.py
+- scripts/coordination/validate_blueprint_inventory_status_consistency.py
+- scripts/coordination/validate_blueprint_self_coordination.py
+- scripts/coordination/validate_module_registry_resolution.py
+- scripts/coordination/validate_repository_knowledge_maintenance.py
+- scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+- tests/test_audit_artifact_retention_consistency.py
+- tests/test_compare_repository_knowledge_snapshots.py
+- tests/test_module_registry_consistency_ci_gate.py
+- tests/test_render_blueprint_inventory_status.py
+- tests/test_render_blueprint_self_coordination_status.py
+- tests/test_render_repository_knowledge_coverage_dashboard.py
+- tests/test_validate_artifact_authority_policy.py
+- tests/test_validate_blueprint_inventory_status_consistency.py
+- tests/test_validate_blueprint_self_coordination.py
+- tests/test_validate_module_registry_resolution.py
+- tests/test_validate_repository_knowledge_maintenance.py
+- tests/test_validate_repository_knowledge_snapshot_comparisons.py
+snapshots:
+- comparison_id: rci_v0_2_to_v0_3
+  artifact_type: repository_capability_inventory
+  current_snapshot: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  expected_sha256: 3b9278a9bea091ae83f045a2fb5028c97f5fbd00a69b2be173a92a6d9d58d9aa
+  actual_sha256: 3b9278a9bea091ae83f045a2fb5028c97f5fbd00a69b2be173a92a6d9d58d9aa
+  baseline_commit: 7b34b4426057ade4f587cbaa20b5ae55914abc3f
+  head_commit: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  changed_path_count: 90
+  knowledge_relevant_changed_path_count: 85
+  change_class_counts:
+    decision_evidence: 28
+    executable_control: 24
+    generated_view: 5
+    repository_knowledge: 7
+    self_coordination: 26
+  changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - reports/blueprint_inventory_status_consistency_report.yaml
+  - reports/blueprint_self_coordination_consistency_report.yaml
+  - reports/module_registry_consistency_report.yaml
+  - reports/repository_knowledge_snapshot_comparison_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  knowledge_relevant_changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  freshness: BOUNDED_REFRESH_REQUIRED
+  status: PASSED
+  errors: []
+- comparison_id: redm_v0_2_to_v0_3
+  artifact_type: repository_execution_dependency_map
+  current_snapshot: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  expected_sha256: 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70
+  actual_sha256: 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70
+  baseline_commit: a97e8c6889086bbcd1c99cdbe512d92da7ecc66f
+  head_commit: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  changed_path_count: 89
+  knowledge_relevant_changed_path_count: 84
+  change_class_counts:
+    decision_evidence: 28
+    executable_control: 24
+    generated_view: 5
+    repository_knowledge: 6
+    self_coordination: 26
+  changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - reports/blueprint_inventory_status_consistency_report.yaml
+  - reports/blueprint_self_coordination_consistency_report.yaml
+  - reports/module_registry_consistency_report.yaml
+  - reports/repository_knowledge_snapshot_comparison_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  knowledge_relevant_changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  freshness: BOUNDED_REFRESH_REQUIRED
+  status: PASSED
+  errors: []
+- comparison_id: blueprint_coordination_sdrs_v0_1_to_v0_2
+  artifact_type: state_direction_rationale_snapshot
+  current_snapshot: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  expected_sha256: 4a8ab7d457986ba54167d2dd5ba8af9e209fd4107e7c38f31b63b6e275ffcb14
+  actual_sha256: 4a8ab7d457986ba54167d2dd5ba8af9e209fd4107e7c38f31b63b6e275ffcb14
+  baseline_commit: f6fcd334ce09ba361fe17482223b373290420ceb
+  head_commit: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  changed_path_count: 88
+  knowledge_relevant_changed_path_count: 83
+  change_class_counts:
+    decision_evidence: 28
+    executable_control: 24
+    generated_view: 5
+    repository_knowledge: 5
+    self_coordination: 26
+  changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - reports/blueprint_inventory_status_consistency_report.yaml
+  - reports/blueprint_self_coordination_consistency_report.yaml
+  - reports/module_registry_consistency_report.yaml
+  - reports/repository_knowledge_snapshot_comparison_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  knowledge_relevant_changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  freshness: BOUNDED_REFRESH_REQUIRED
+  status: PASSED
+  errors: []
+- comparison_id: system_portfolio_sdrs_v0_1_to_v0_2
+  artifact_type: state_direction_rationale_snapshot
+  current_snapshot: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  expected_sha256: 835cb27b07ad7b8ce985e54ff434f27048593f3552f8866c7a41f9b68c0e2d43
+  actual_sha256: 835cb27b07ad7b8ce985e54ff434f27048593f3552f8866c7a41f9b68c0e2d43
+  baseline_commit: 2d1ba5ae83b5e70456ce6b20e2b6fd72e6d0ef92
+  head_commit: 7859a4037b60f70baa258c3a8d406c48bcb1ef58
+  changed_path_count: 87
+  knowledge_relevant_changed_path_count: 82
+  change_class_counts:
+    decision_evidence: 28
+    executable_control: 24
+    generated_view: 5
+    repository_knowledge: 4
+    self_coordination: 26
+  changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - reports/blueprint_inventory_status_consistency_report.yaml
+  - reports/blueprint_self_coordination_consistency_report.yaml
+  - reports/module_registry_consistency_report.yaml
+  - reports/repository_knowledge_snapshot_comparison_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  knowledge_relevant_changed_paths:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_plan_sequence_correction_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__inventory_status_human_readability_refinement_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_structure_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+  - coordination/self_coordination/README.md
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.yaml
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  - coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_baseline_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__semantic_inventory_unknowns_triage_v0_1.md
+  - coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__snapshot_comparison_ci_gate_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
+  - coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_blueprint_inventory_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - scripts/coordination/validate_blueprint_inventory_status_consistency.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - tests/test_render_blueprint_inventory_status.py
+  - tests/test_render_blueprint_self_coordination_status.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_artifact_authority_policy.py
+  - tests/test_validate_blueprint_inventory_status_consistency.py
+  - tests/test_validate_blueprint_self_coordination.py
+  - tests/test_validate_module_registry_resolution.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_snapshot_comparisons.py
+  freshness: BOUNDED_REFRESH_REQUIRED
+  status: PASSED
+  errors: []

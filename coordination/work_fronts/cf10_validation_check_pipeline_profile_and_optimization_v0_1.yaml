@@ -1,0 +1,115 @@
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+objective: >-
+  Extend the existing generic validation-suite operator surface with opt-in profiling,
+  measure validation cost before any optimization, identify the measured critical path,
+  and apply at most one evidence-backed safe optimization only if it preserves
+  same-or-stronger validation semantics.
+scope:
+  - scripts/validation/run_validation_suite_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  - Makefile
+exclusions:
+  - Do not modify coordination/standards/automation/validation_suite_registry_v0_1.yaml; its registered steps, verification tier and ordering are read-only for this task.
+  - Do not modify scripts/validation/run_non_mutating_make_check.py or duplicate its isolation implementation.
+  - Do not create a CF10-specific or Task70-specific Make target; extend the existing generic validation-suite surface only.
+  - Do not remove, skip, reorder or weaken any registered validator or pytest step.
+  - Do not change cf10-worker-pipeline verification_tier from LOCAL_FOCUSED.
+  - Do not make profiling mandatory for normal validation-suite execution; profiling must be opt-in.
+  - Do not use elapsed-time thresholds as test assertions or acceptance criteria.
+  - Do not create a persistent timing/status truth store; profiling output is derived diagnostic evidence only.
+  - Do not parallelize or otherwise change registered step execution semantics unless current measurement proves a safe optimization inside this exact three-file scope; if not, report NO_SAFE_OPTIMIZATION.
+  - Do not modify Dispatcher, Worker runtime, lifecycle, roadmap, Handoff, execution ledger or Operator Console implementation.
+  - Do not write another ForPrint repository.
+  - Do not commit, push, merge, release, dispatch, retry or automatically ACCEPT Worker results.
+provenance:
+  source_refs:
+    - roadmap:control_foundation_near_horizon/CF-10
+    - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+    - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+    - training_task:validation_check_pipeline_profile_and_optimization
+    - acceptance:coordination/internal_work/blueprint/governance/2026-09-30__blueprint__cf10_task50_local_dispatcher_telegram_operator_surface_acceptance_v0_1.yaml
+    - acceptance:coordination/internal_work/blueprint/governance/2026-10-02__blueprint__cf10_task60_human_dashboard_self_hardening_acceptance_v0_1.yaml
+    - scripts/validation/run_validation_suite_v0_1.py
+    - tests/validation/test_validation_suite_runner_v0_1.py
+    - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+    - coordination/work_fronts/validation_suite_operator_surface_foundation_v0_1.yaml
+    - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+    - Makefile:validation-suite
+    - publication:2a9678763cd36923c25cbb682f983c894b5dfcf8
+  chat_is_authority: false
+dependencies:
+  - Task50 local_dispatcher_telegram_operator_surface is explicitly operator-accepted and its publication is an ancestor of the current HEAD.
+  - Task60 human_dashboard_self_hardening is explicitly operator-accepted and its acceptance record allows Task70 materialization but grants no Worker launch authority.
+  - At least two accepted CF10 self-hardening tasks therefore exist before Task70 materialization.
+  - The existing generic validation-suite mechanism is published and closed, reuses disposable isolation, and exposes make validation-suite SUITE=cf10-worker-pipeline.
+  - Task30 verification-tier semantics remain current; cf10-worker-pipeline is LOCAL_FOCUSED and its registered command list is unchanged.
+  - Current Task70 queue semantics require measurement first, an operator-facing profiling result, Makefile functional-map coverage, no validation weakening and no speed-only acceptance.
+outputs:
+  - Add an opt-in profiling mode to the existing generic validation-suite runner; default execution remains semantically unchanged.
+  - Report human-readable total and per-step elapsed time using a monotonic clock when profiling is enabled.
+  - Emit one deterministic machine-readable profile summary containing suite id, tier, step identity/kind, elapsed seconds, return code, total elapsed time and measured critical step.
+  - Preserve fail-fast behavior; when a profiled step fails, emit bounded partial profiling evidence before returning the same failure result.
+  - Extend the existing generic Makefile validation-suite surface so an operator can invoke profiling as make validation-suite SUITE=cf10-worker-pipeline PROFILE=1.
+  - Capture reproducible baseline and after-change timing/evidence in the Worker result; timing evidence is diagnostic and not a new project truth store.
+  - If measurement supports one safe optimization inside the exact scope, implement at most one and remeasure; otherwise return NO_SAFE_OPTIMIZATION with evidence.
+acceptance:
+  - Only scripts/validation/run_validation_suite_v0_1.py, tests/validation/test_validation_suite_runner_v0_1.py and Makefile are changed by the Worker.
+  - Baseline measurement occurs before optimization and records the existing suite command/subprocess shape plus reproducible total timing evidence.
+  - Profiling is opt-in and normal make validation-suite SUITE=cf10-worker-pipeline behavior remains available with the same registered validators and pytest paths in the same order.
+  - make validation-suite SUITE=cf10-worker-pipeline PROFILE=1 is a documented supported operator command.
+  - Profile output exposes human-readable per-step and total timing plus a deterministic machine-readable summary.
+  - The measured critical path is identified from actual timing evidence rather than guessed from file size or code inspection.
+  - Timing implementation uses a monotonic clock and focused tests use controlled/fake timing rather than wall-clock speed assertions.
+  - Failure semantics remain fail-fast and non-zero; profiling cannot hide or convert a validator/test failure.
+  - No registry step, validator, pytest path, verification tier, isolation boundary or proof requirement is removed, skipped, reordered or weakened.
+  - At most one optimization is applied and only when measurement demonstrates a safe candidate inside the declared scope; NO_SAFE_OPTIMIZATION is an acceptable outcome.
+  - Speed improvement alone is never sufficient for acceptance.
+  - Existing validation-suite focused tests pass, new profiling tests pass and make validation-suite SUITE=cf10-worker-pipeline passes.
+  - git diff --check passes in the isolated Worker workspace.
+  - No lifecycle/roadmap mutation, cross-module write, commit, push, merge, release, automatic ACCEPT or implicit next-task dispatch occurs.
+stop_conditions:
+  - Profiling or a proposed optimization requires modifying the validation-suite registry, isolation runner or any fourth mutation path.
+  - A registered validator/test must be skipped, removed, reordered or weakened.
+  - A profiling design requires a persistent mutable timing/status store.
+  - A reliable critical-path result would require guessed or fabricated timing evidence.
+  - A proposed optimization changes failure semantics, isolation semantics, verification tier or authority boundaries.
+  - More than one optimization would be needed to claim a useful result.
+  - A path outside the three declared mutation targets must be modified.
+  - Dispatcher, Worker runtime, lifecycle, roadmap, Handoff, ledger or Operator Console mutation becomes necessary.
+  - Any cross-module write, commit, push, merge, release, automatic ACCEPT or implicit next-task dispatch is requested.
+  - Required governed context becomes stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+    - scripts/validation/run_validation_suite_v0_1.py
+    - tests/validation/test_validation_suite_runner_v0_1.py
+    - Makefile
+  read_only_refs:
+    - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+    - scripts/validation/run_non_mutating_make_check.py
+    - coordination/work_fronts/validation_suite_operator_surface_foundation_v0_1.yaml
+    - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+    - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+    - coordination/internal_work/blueprint/governance/2026-09-30__blueprint__cf10_task50_local_dispatcher_telegram_operator_surface_acceptance_v0_1.yaml
+    - coordination/internal_work/blueprint/governance/2026-10-02__blueprint__cf10_task60_human_dashboard_self_hardening_acceptance_v0_1.yaml
+  searched_surfaces:
+    - scripts/validation/run_validation_suite_v0_1.py
+    - tests/validation/test_validation_suite_runner_v0_1.py
+    - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+    - scripts/validation/run_non_mutating_make_check.py
+    - coordination/work_fronts/
+    - coordination/internal_work/blueprint/worker_training/
+    - coordination/internal_work/blueprint/governance/
+    - Makefile
+  rationale: >-
+    The generic validation-suite runner, tests and Makefile operator entrypoint already
+    own this capability boundary. Task70 extends those existing surfaces with opt-in
+    profiling and measurement-first evidence instead of creating a second profiler,
+    registry or dedicated CF10 command.

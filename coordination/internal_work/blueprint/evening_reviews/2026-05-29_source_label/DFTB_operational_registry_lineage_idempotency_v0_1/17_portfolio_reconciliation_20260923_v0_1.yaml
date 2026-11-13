@@ -1,0 +1,99 @@
+schema_version: forprint_operational_registry_portfolio_reconciliation_v0_1
+source:
+  source_label: '2026-05-29'
+  visible_internal_date_max: '2026-06-19'
+  classification: operational_registry_module_history_attachment_heavy
+  authority: module_history_with_blueprint_governance_input_not_execution_authority
+
+identity_reconciliation:
+  historical_module_id: forprint_operational_registry
+  current_canonical_module_id: forprint_operations_control_registry
+  current_module_name: ForPrint Operations Control Registry
+  github_transport_endpoint: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
+  disposition: current_identity_migration_already_authoritative
+  historical_prompt_ids_paths:
+    disposition: preserve_as_lineage_not_current_topology
+
+domain_boundary_reconciliation:
+  historical_operational_registry:
+    owned:
+      - operational_client_identity
+      - orders
+      - operational_tasks
+      - operational_statuses
+      - operational_events_and_history
+  current_operations_control_registry:
+    role: canonical_operational_party_order_task_control_registry_and_write_boundary
+    owns:
+      - stable_operational_party_and_order_identity
+      - operational_orders_requests_events_tasks_blockers
+      - job_ticket_and_production_lifecycle_state
+      - authorized_operational_write_boundary
+  crm:
+    role: human_business_cockpit_and_relationship_workflow_views
+    operational_truth_owner: false
+  accounting_registry:
+    role: documentary_accounting_movement_financial_value_accounting_state_and_reconciliation
+    operational_order_truth_owner: false
+  warehouse:
+    role: physical_stock_truth
+  gateway:
+    role: communication_safety_transport_validation_and_routing
+    business_truth_owner: false
+  library:
+    role: canonical_semantic_reference_truth
+    active_order_truth_owner: false
+  disposition: REUSE_CURRENT_STRONGER
+
+historical_data_foundation:
+  visible_file_names:
+    - data_foundation_strategy.md
+    - master_data_policy.md
+    - operational_fact_policy.md
+    - event_log_policy.md
+    - reporting_projection_policy.md
+    - external_reference_policy.md
+    - raw_normalized_value_policy.md
+    - data_history_versioning_policy.md
+    - one_c_adapter_boundary_policy.md
+    - entity_card_design_policy.md
+  exact_file_contents_recoverable_from_source: false
+  current_repository_presence_verified_by_this_intake: false
+  disposition: evidence_for_existing_forensic_inventory_gate
+
+historical_make_first_alignment:
+  blueprint_commit_observed: 88db68d
+  module_alignment_commit: a6ca69f
+  module_alignment_commit_reported_pushed: true
+  historical_tests: 232_passed
+  main_business_prompt: local_operator_command_query_readiness_v0_1
+  main_business_prompt_implementation_proven_by_source: false
+  task_specific_completion_packet_proven_by_source: false
+  disposition: alignment_provenance_only_existing_forensic_inventory_must_resolve_current_state
+
+governance_reconciliation:
+  make_check_read_only:
+    disposition: REUSE_EXISTING
+    current_human_intent: HI-FP-SYSTEM-BLUEPRINT-006
+  module_specific_approved_prompt_discovery:
+    disposition: historical_topology_current_prompt_queue_and_governance_win
+  prompt_source_validation_before_local_replacement:
+    disposition: valuable_historical_safety_principle_current_governance_reconciliation_only
+  module_start_blueprint_pull:
+    disposition: historical_behavior_not_current_authority
+    current_direction: module_observes_blueprint_read_only_and_must_not_foreign_mutate
+  completion_packet_explicit_identity:
+    disposition: REUSE_CURRENT_COMPLETION_STANDARDS
+  generated_snapshot_completion_idempotency:
+    disposition: NEW_HUMAN_INTENT_PLUS_RECONCILE_CANDIDATE
+
+reconciliation_result:
+  human_intents_appended: 1
+  human_intent_id: HI-FP-GOV-IDEMPOTENT-GENERATED-20260529-001
+  open_reconcile_before_implementation_candidates: 1
+  existing_forensic_inventory_gate_reused: true
+  duplicate_module_state_candidate_created: false
+  new_canonical_roadmap_step: none
+  roadmap_mutation: none
+  execution_authority_mutation: none
+  lifecycle_mutation: none

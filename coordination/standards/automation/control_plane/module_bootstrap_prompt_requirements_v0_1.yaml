@@ -1,0 +1,60 @@
+schema_version: forprint_module_bootstrap_prompt_requirements_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+metadata:
+  standard_id: module_bootstrap_prompt_requirements_v0_1
+  title: ForPrint Module Bootstrap Prompt Requirements v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+purpose: >-
+  Define the reusable first-worker contract used to bring a discovered or partially
+  prepared module to a self-maintaining, independently reviewable bootstrap baseline.
+execution_class: MODULE_BOOTSTRAP
+stage_0:
+  required: true
+  owner: MODULE_ASSISTANT
+  requirements:
+    - read root AGENTS.md and available module self-knowledge
+    - inspect branch HEAD upstream and git status
+    - classify all pre-existing local changes before modifying them
+    - reconcile intentional valid local preparation changes
+    - run module validation before entering assigned bootstrap implementation
+    - commit intentional module-local preparation changes
+    - push the current module branch
+    - verify upstream synchronization
+    - begin bootstrap implementation only after local hygiene is complete
+  forbidden:
+    - force push
+    - git reset --hard
+    - git clean used to manufacture cleanliness
+    - blind revert
+    - rebase without explicit prompt authority
+    - cross-repository writes
+    - production provider writes unless separately authorized
+bootstrap_outcomes:
+  - root AGENTS.md is an accurate authority/navigation front door
+  - deterministic module inventory/index is present and maintainable
+  - implementation lineage is explicit
+  - documentation authority is reconciled
+  - roadmap state is explicit
+  - generated freshness/state surfaces are deterministic and self-maintaining
+  - HEAD-bound generated freshness does not create a tracked self-reference cycle
+  - module validation covers self-knowledge freshness
+  - module-owned non-secret config/worker_runtime.yaml exists for normal development
+  - compatibility paths remain stable unless explicitly migrated
+  - full module validation passes
+finalization:
+  - regenerate runtime-generated freshness after the final module commit
+  - verify generated freshness binds the final module HEAD
+  - verify worktree clean
+  - verify upstream synchronized
+  - publish completion evidence
+  - do not claim Blueprint ACCEPT
+  - do not release the next prompt
+authority:
+  module_local_commit_allowed: true
+  module_local_push_allowed: true
+  blueprint_foreign_repo_commit_push: false
+  human_acceptance_required: true
+  automatic_accept: false
+  automatic_next_prompt_release: false

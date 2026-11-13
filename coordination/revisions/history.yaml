@@ -1,0 +1,34 @@
+schema_version: completion_exchange_revision_history_v0_1
+revisions:
+  - revision: v0_1
+    status: legacy
+    prompt_contract: prose_prompt
+    completion_packet: module_completion_packet_v0_1
+    completion_intake: blueprint_completion_intake_v0_1
+    notes:
+      - historical recognition only
+  - revision: v0_2
+    status: operational_current_transition
+    prompt_contract: prose_prompt
+    completion_packet: module_completion_packet_v0_2
+    completion_intake: blueprint_completion_intake_v0_2
+    notes:
+      - structured packet, Git publication, safety and Blueprint control checks
+      - does not prove full prompt requirement/check coverage
+  - revision: v0_3
+    status: candidate_reference_validation
+    prompt_contract: module_prompt_contract_v0_3
+    completion_packet: module_completion_packet_v0_3
+    completion_intake: blueprint_completion_intake_v0_3
+    supersedes_revision: v0_2
+    breaking_changes:
+      - machine-readable requirement ids
+      - machine-readable required check ids
+      - explicit implementation base/tip range
+      - packet/report consistency validation
+      - superseding packet path validation
+      - prompt source hash binding
+    promotion_gate:
+      reference_module: logistics_service
+      reference_prompt: logistics_service_tracking_events_v0_1
+      required_result: REFERENCE_VALIDATION_READY

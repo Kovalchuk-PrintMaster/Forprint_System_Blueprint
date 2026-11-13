@@ -1,0 +1,228 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-telegram-bot-filename-label-2026-10-12
+authority_class: telegram_module_history_non_blueprint_authority
+queue:
+- item_id: IT-TG1210-0001
+  title: Telegram human-talk layer uses classified response templates
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0001
+  - EV-TG1210-0004
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0002
+  title: Historical training plan references Mistral-7B-Instruct
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0001
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0003
+  title: Human-talk schema evolves from textual style/sentiment to normalized foreign keys
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0002
+  - EV-TG1210-0005
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0004
+  title: Telegram intent taxonomy contains ten supplied intents
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0006
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0005
+  title: Allowed styles are warm formal casual neutral
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0007
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0006
+  title: Allowed sentiments are positive neutral negative
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0008
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0007
+  title: Templates support uk ru en
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0009
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0008
+  title: Template priority is bounded 0–10
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0010
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0009
+  title: Template text must be short natural style-consistent and non-repetitive
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0004
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0010
+  title: Initial dataset should cover at least 100 balanced examples
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0003
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0011
+  title: Assistant claims a 360-row full Cartesian baseline dataset
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0012
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0012
+  title: Assistant claims an additional 500-row dataset
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0015
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0013
+  title: Assistant claims an additional 1000-row dataset
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0019
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0014
+  title: Generated-dataset uniqueness and balance are not independently verifiable
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0013
+  - EV-TG1210-0014
+  - EV-TG1210-0015
+  - EV-TG1210-0019
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0015
+  title: Assistant introduces unsupported style labels friendly/playful
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0016
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0016
+  title: Assistant introduces unsupported aggressive/urgent labels
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0017
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0017
+  title: Historical generated-count narrative is inconsistent
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0012
+  - EV-TG1210-0015
+  - EV-TG1210-0019
+  - EV-TG1210-0020
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0018
+  title: CSV is the historical import/delivery format
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0011
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0019
+  title: A historical CSV import failed on incompatible headers
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0021
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0020
+  title: A prior template CSV was known to import successfully
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0022
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0021
+  title: Root cause of historical CSV import failure is unresolved
+  importance: critical
+  dialogue_status: unclear
+  evidence_refs:
+  - EV-TG1210-0021
+  - EV-TG1210-0023
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0022
+  title: Import payload should use only columns supported by the target schema
+  importance: high
+  dialogue_status: proposed
+  evidence_refs:
+  - EV-TG1210-0024
+  - EV-TG1210-0025
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0023
+  title: Large template imports should begin with a small smoke test
+  importance: high
+  dialogue_status: proposed
+  evidence_refs:
+  - EV-TG1210-0026
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0024
+  title: CSV generation should validate encoding quoting and row shape
+  importance: high
+  dialogue_status: proposed
+  evidence_refs:
+  - EV-TG1210-0023
+  - EV-TG1210-0027
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0025
+  title: Human-talk templates are presentation/conversation data, not canonical customer/order truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0001
+  - EV-TG1210-0005
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0026
+  title: Filename 12.10.26 is not trustworthy chronology
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0001
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0027
+  title: Turns 5–7 are missing from the export
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0015
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0028
+  title: Current owner of conversational taxonomies/templates is unresolved
+  importance: high
+  dialogue_status: unclear
+  evidence_refs:
+  - EV-TG1210-0005
+  - EV-TG1210-0006
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0029
+  title: Current generative-model/fine-tuning strategy is unresolved
+  importance: normal
+  dialogue_status: unclear
+  evidence_refs:
+  - EV-TG1210-0001
+  current_audit_status: not_audited
+- item_id: IT-TG1210-0030
+  title: This Telegram source is module history and cannot supersede current Blueprint/Gateway/CRM authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1210-0001
+  - EV-TG1210-0021
+  current_audit_status: not_audited

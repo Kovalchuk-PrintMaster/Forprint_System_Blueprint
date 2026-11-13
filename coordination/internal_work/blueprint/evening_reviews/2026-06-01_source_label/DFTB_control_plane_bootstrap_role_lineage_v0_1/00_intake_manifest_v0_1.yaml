@@ -1,0 +1,32 @@
+schema_version: forprint_control_plane_bootstrap_lineage_intake_manifest_v0_1
+source_identity:
+  source_label: '2026-06-01'
+  primary_file: ForPrint Control Plane_01.06.26.mhtml
+  primary_sha256: cdd481e1607a395007f10995622396eab4db50c00fc9d311fdbf4d1ec8a20b08
+  dftb_file: DFTB_control-plane-source-label-2026-06-01.zip
+  dftb_sha256: de5d99bd14a589ab403cb1afa8429860e0326594978dd0407843e132103a841f
+  master_memory_v2_3_sha256: bef38175d7b0fbd491c3a25c09c9e00981ae8a7a9c2295922369db29d1427c27
+  master_memory_preferred: v3.7
+source_quality:
+  classification: UNIQUE_EXTREMELY_PARTIAL_HISTORICAL_BOOTSTRAP_PROPOSAL
+  visible_message_blocks: 2
+  message_roles: user_1_assistant_1
+  direct_owner_prompt_recoverable: false
+  owner_turn_content: attachment_placeholder_only
+  implementation_evidence_recoverable: false
+  authority_class: historical_assistant_proposal_non_blueprint_authority
+master_memory_verification:
+  expanded_bundle_byte_identical: true
+  nested_dftb_zip_byte_identical: true
+  master_memory_reingested: false
+intake_policy:
+  human_intent_from_source_allowed: false
+  reason: direct_owner_prompt_missing_and_no_owner_acceptance_survives
+  assistant_proposals_promoted_to_current_policy: false
+  canonical_roadmap_mutation: none
+  execution_authority_mutation: none
+  lifecycle_mutation: none
+  commit_push_merge_performed: false
+artifacts:
+  reconciliation: 17_portfolio_reconciliation_20260922_v0_1.yaml
+  role_lineage: 18_control_plane_role_bifurcation_lineage_map_v0_1.yaml

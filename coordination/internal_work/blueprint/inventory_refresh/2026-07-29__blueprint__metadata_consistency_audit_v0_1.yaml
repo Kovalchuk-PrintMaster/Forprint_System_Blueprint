@@ -1,0 +1,148 @@
+schema_version: blueprint_metadata_consistency_audit_v0_1
+metadata:
+  audit_id: 2026-07-29__blueprint__metadata_consistency_audit_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T16:33:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: 2d1ba5ae83b5e70456ce6b20e2b6fd72e6d0ef92
+  mode: read_only_evidence_generation
+  result: READY_WITH_CONFLICTS
+  plan_step_id: blueprint_metadata_consistency_audit_v0_1
+scope:
+  roadmap_directory: coordination/roadmaps
+  prompt_queue_root: coordination/outgoing_prompts
+  review_packet_root: coordination/review_packets
+  completion_report_root: coordination/reports/completion
+  current_focus: coordination/global_policy/current_execution_focus.md
+  modules_audited:
+  - forprint_library
+  - logistics_service
+  - telegram_bot
+  - website
+  write_policy: No queue, roadmap, review, completion or current-focus source is modified by this audit.
+summary:
+  modules_audited: 4
+  modules_with_findings: 3
+  finding_count: 4
+  severity_counts:
+    critical: 0
+    high: 4
+    medium: 0
+    low: 0
+    info: 0
+  result: READY_WITH_CONFLICTS
+module_results:
+- module_id: forprint_library
+  roadmap: coordination/roadmaps/forprint_library.yaml
+  prompt_queue: coordination/outgoing_prompts/forprint_library/index.yaml
+  current_step_id: library_configurable_product_workbench_business_card_skeleton_v0_1
+  active_step_ids:
+  - library_configurable_product_workbench_business_card_skeleton_v0_1
+  roadmap_step_count: 17
+  actionable_steps_ahead: 5
+  prompt_count: 6
+  open_prompt_ids: []
+  completed_prompt_ids: []
+  accepted_prompt_ids: []
+  completion_evidence_files: []
+  current_focus_mentions:
+    module_id: false
+    current_step_id: false
+- module_id: logistics_service
+  roadmap: coordination/roadmaps/logistics_service.yaml
+  prompt_queue: coordination/outgoing_prompts/logistics_service/index.yaml
+  current_step_id: logistics_service_tracking_events_v0_1
+  active_step_ids:
+  - logistics_service_tracking_events_v0_1
+  roadmap_step_count: 42
+  actionable_steps_ahead: 8
+  prompt_count: 5
+  open_prompt_ids: []
+  completed_prompt_ids: []
+  accepted_prompt_ids: []
+  completion_evidence_files:
+  - coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  current_focus_mentions:
+    module_id: false
+    current_step_id: false
+- module_id: telegram_bot
+  roadmap: coordination/roadmaps/telegram_bot.yaml
+  prompt_queue: coordination/outgoing_prompts/telegram_bot/index.yaml
+  current_step_id: telegram_bot_dialogue_audit_events_v0_1
+  active_step_ids:
+  - telegram_bot_dialogue_audit_events_v0_1
+  roadmap_step_count: 14
+  actionable_steps_ahead: 4
+  prompt_count: 4
+  open_prompt_ids: []
+  completed_prompt_ids: []
+  accepted_prompt_ids: []
+  completion_evidence_files: []
+  current_focus_mentions:
+    module_id: false
+    current_step_id: false
+- module_id: website
+  roadmap: coordination/roadmaps/website.yaml
+  prompt_queue: null
+  current_step_id: website_scaffolding_first_safe_commit_v0_4
+  active_step_ids:
+  - website_scaffolding_first_safe_commit_v0_4
+  - website_legacy_base_inventory_v0_4_1
+  roadmap_step_count: 22
+  actionable_steps_ahead: 16
+  prompt_count: 0
+  open_prompt_ids: []
+  completed_prompt_ids: []
+  accepted_prompt_ids: []
+  completion_evidence_files:
+  - coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  current_focus_mentions:
+    module_id: false
+    current_step_id: false
+findings:
+- module_id: forprint_library
+  code: planning_horizon_below_policy
+  severity: high
+  message: Roadmap has fewer than eight actionable steps after the current step.
+  evidence:
+  - coordination/roadmaps/forprint_library.yaml
+  expected: 8 to 10
+  observed: '5'
+- module_id: telegram_bot
+  code: planning_horizon_below_policy
+  severity: high
+  message: Roadmap has fewer than eight actionable steps after the current step.
+  evidence:
+  - coordination/roadmaps/telegram_bot.yaml
+  expected: 8 to 10
+  observed: '4'
+- module_id: website
+  code: prompt_queue_index_missing
+  severity: high
+  message: Roadmap exists but the module has no prompt queue index.
+  evidence:
+  - coordination/roadmaps/website.yaml
+  - coordination/outgoing_prompts/website/index.yaml
+- module_id: website
+  code: roadmap_active_step_count
+  severity: high
+  message: Roadmap must have exactly one active or ready step.
+  evidence:
+  - coordination/roadmaps/website.yaml
+  expected: '1'
+  observed: '2'
+interpretation:
+  critical: Canonical reference is missing or structurally impossible; must be resolved before metadata acceptance.
+  high: Coordination state is materially inconsistent or violates planning policy.
+  medium: Evidence linkage is incomplete or current-step alignment is not represented.
+  low: Freshness or visibility concern that does not independently block execution.
+quality_checks:
+  audit_is_read_only: true
+  roadmaps_scanned: true
+  prompt_queues_scanned_when_present: true
+  completion_evidence_scanned: true
+  current_focus_scanned_when_present: true
+  unknowns_preserved: true
+  no_automatic_repairs: true
+  yaml_validated: true

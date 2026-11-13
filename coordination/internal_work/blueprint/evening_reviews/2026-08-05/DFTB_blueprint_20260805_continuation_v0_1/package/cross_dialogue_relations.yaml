@@ -1,0 +1,17 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-blueprint-2026-08-05-continuation
+relations:
+- type: continues
+  from_bundle: DFTB-blueprint-2026-08-05-continuation
+  to_bundle: DFTB-blueprint-2026-08-05
+  confidence: high
+  note: This source starts from the prior bundle's final mutation-builder/transparency checkpoint at historical HEAD 9caf511...
+- type: precedes
+  from_bundle: DFTB-blueprint-2026-08-05-continuation
+  to_bundle: DFTB-blueprint-2026-08-17
+  confidence: high
+  note: This source ends with STEP26 seal pending / STEP27 active; the later 17.08 source begins from the subsequent STEP26 sealed/STEP27 state.
+important_chain_notes:
+- 'Prior 05.08 package: mutation-builder contract -> transparency next.'
+- 'This continuation: transparency/self-audit/roadmap/completion-intake -> v0.4 closed-loop design -> STEP20..STEP26 -> STEP27 ready_for_module_pull.'
+- '17.08 package: resolves STEP26 seal historically, then executes STEP27 review/acceptance and later v0.4.1 hardening.'

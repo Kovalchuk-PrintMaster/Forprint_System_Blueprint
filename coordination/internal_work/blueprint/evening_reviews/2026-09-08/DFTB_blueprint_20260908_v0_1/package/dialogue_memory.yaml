@@ -1,0 +1,1749 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-09-08
+source:
+  source_id: SRC-blueprint-2026-09-08
+  title: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26
+  source_type: chatgpt_mhtml_snapshot
+  source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  source_hash_sha256: a9440aa0451f60b0167f2f44bdc755d7aad4bbe0a2e87b4106ba396f1e930a47
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 12:08:51 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial
+  completeness_notes: 13 message blocks across turn numbers 1–20; turns 6, 8–12 and 14 are absent. Filename labels 08.09.26; export saved Tue, 15 Sep
+    2026 12:08:51 +0300.
+extraction:
+  created_at: '2026-09-15T12:23:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_dialogue_reconstruction
+  implementation_verification_performed: false
+  notes: Historical reconstruction only; current repository/runtime not audited.
+evidence_index:
+- evidence_id: EV-BP0809-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: c79d9ddf-1a71-4c87-a625-c11ed869b3d8
+    message_id: c79d9ddf-1a71-4c87-a625-c11ed869b3d8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: B10__reports_generated_diagrams__semantic_review.zip Zip Archive B10__legacy_misc_catchall_part_05_of_05__semantic_review.zip Zip Archive
+    B10__legacy_misc_catchall_part_04_of_05__semantic_review.zip Zip Archive B10__legacy_misc_catchall_part_03_of_05__semantic_review.zip Zip Archive
+    B10__legacy_misc_catchall_part_01_of_05__semantic_review.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Five B10 semantic-review archives are supplied; part 02 is absent.
+  context_after: null
+  evidence_role:
+  - artifact_input
+  - semantic_review
+- evidence_id: EV-BP0809-0002
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: 56cf2f6f-9eef-43e9-9a96-dba5ada9bf5b
+    message_id: 56cf2f6f-9eef-43e9-9a96-dba5ada9bf5b
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: виконай сама самостійно promt і всі інсрукції які є в архівах і дай звіт
+  quote_whitespace_normalized: true
+  context_before: Owner authorizes autonomous execution of instructions inside supplied review archives.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - semantic_review
+- evidence_id: EV-BP0809-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'іх 5 наданих архівів , не змінюючи SOURCE/ та SHARED_CONTEXT/ . Перевірено 216 source-файлів , усі SHA-256 збіглися з BATCH_MANIFEST.json
+    . Сформовано 28 semantic findings : 14 HIGH, 12 NORMAL, 2 LOW, 0 BLOCKING . Найважливіше, що виявлено: старий coordination/self_coordination/roadmap.yaml
+    прямо називає себе керуючим roadmap, хоча актуальний coordination/releases/current.yaml вже оголошує його historical/non-authoritative ; старі
+    execution queue т'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports hash-validated semantic review over received archives.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - semantic_review
+- evidence_id: EV-BP0809-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: '16 source-файлів , усі SHA-256 збіглися з BATCH_MANIFEST.json . Сформовано 28 semantic findings : 14 HIGH, 12 NORMAL, 2 LOW, 0 BLOCKING .
+    Найважливіше, що виявлено: старий coordination/self_coordination/roadmap.yaml прямо називає себе керуючим roadmap, хоча актуальний coordination/releases/current.yaml
+    вже оголошує його historical/non-authoritative ; старі execution queue та alignment plans усе ще виглядають як активні й ведуть у напрямок травня–липня'
+  quote_whitespace_normalized: true
+  context_before: Historical B10 review reports 28 findings.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - semantic_review
+- evidence_id: EV-BP0809-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: '14 HIGH, 12 NORMAL, 2 LOW, 0 BLOCKING . Найважливіше, що виявлено: старий coordination/self_coordination/roadmap.yaml прямо називає себе
+    керуючим roadmap, хоча актуальний coordination/releases/current.yaml вже оголошує його historical/non-authoritative ; старі execution queue та
+    alignment plans усе ще виглядають як активні й ведуть у напрямок травня–липня, тоді як реальний current state — H10 / Logistics-only pilot ; artifact_retention_consistency_report.yaml
+    помилково кла'
+  quote_whitespace_normalized: true
+  context_before: Legacy self-roadmap still looks governing despite current release authority.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - authority_drift
+- evidence_id: EV-BP0809-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: leases/current.yaml вже оголошує його historical/non-authoritative ; старі execution queue та alignment plans усе ще виглядають як активні
+    й ведуть у напрямок травня–липня, тоді як реальний current state — H10 / Logistics-only pilot ; artifact_retention_consistency_report.yaml помилково
+    класифікує старий self-roadmap як canonical_control і ставить PASSED ; self-coordination/inventory consistency reports дають PASSED , але використовують
+    уже заста
+  quote_whitespace_normalized: true
+  context_before: Old execution/alignment plans still look active.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - stale_planning
+- evidence_id: EV-BP0809-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'tracking_events_reference_v0_1 як current step; у RCI та REDM comparison є previous_snapshot_link_matches: false , хоча сусідні validation
+    reports залишаються PASSED — lineage фактично не закрита; reports/forprint_module_status.json — 0 байт , тобто не містить жодного status evidence;
+    generated module guides і Mermaid diagrams не мають достатньої provenance/freshness прив’язки до source commit/current release; Website guide показує
+    existing_basic , але не повідомляє к'
+  quote_whitespace_normalized: true
+  context_before: Lineage mismatch coexists with PASSED reports.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - lineage
+- evidence_id: EV-BP0809-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'ASSED — lineage фактично не закрита; reports/forprint_module_status.json — 0 байт , тобто не містить жодного status evidence; generated module
+    guides і Mermaid diagrams не мають достатньої provenance/freshness прив’язки до source commit/current release; Website guide показує existing_basic
+    , але не повідомляє критичне current правило: Website paused/excluded until explicit operator resume ; старі статуси типу active_development/planned
+    з'
+  quote_whitespace_normalized: true
+  context_before: Module-status report is empty.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - evidence_quality
+- evidence_id: EV-BP0809-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'guide показує existing_basic , але не повідомляє критичне current правило: Website paused/excluded until explicit operator resume ; старі
+    статуси типу active_development/planned змішують різні поняття: фактичну реалізацію, roadmap state, execution permission і dispatch eligibility;
+    у наданому evidence немає підтвердження двох реальних успішних automatic Logistics prompt runs, тому розширення H10 за межі Logistics поки не можна
+    вважати доказано дозволеним'
+  quote_whitespace_normalized: true
+  context_before: Generated Website guide misses current pause/exclusion.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - projection_drift
+- evidence_id: EV-BP0809-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'ebsite paused/excluded until explicit operator resume ; старі статуси типу active_development/planned змішують різні поняття: фактичну реалізацію,
+    roadmap state, execution permission і dispatch eligibility; у наданому evidence немає підтвердження двох реальних успішних automatic Logistics
+    prompt runs, тому розширення H10 за межі Logistics поки не можна вважати доказано дозволеним . Також я склала 10-крокову чергу reconciliation .
+    Першими йдуть: відрізати le'
+  quote_whitespace_normalized: true
+  context_before: Status vocabulary collapses multiple state dimensions.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - status_model
+- evidence_id: EV-BP0809-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'permission і dispatch eligibility; у наданому evidence немає підтвердження двох реальних успішних automatic Logistics prompt runs, тому розширення
+    H10 за межі Logistics поки не можна вважати доказано дозволеним . Також я склала 10-крокову чергу reconciliation . Першими йдуть: відрізати legacy
+    self-roadmap від current selectors/checks → виправити generated PASSED reports → позначити старі execution/alignment plans HISTORICAL → розділити
+    status dimensions → тільки після цього регенерува'
+  quote_whitespace_normalized: true
+  context_before: No evidence of required two real Logistics automatic runs.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - pilot_gate
+- evidence_id: EV-BP0809-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'межі Logistics поки не можна вважати доказано дозволеним . Також я склала 10-крокову чергу reconciliation . Першими йдуть: відрізати legacy
+    self-roadmap від current selectors/checks → виправити generated PASSED reports → позначити старі execution/alignment plans HISTORICAL → розділити
+    status dimensions → тільки після цього регенерувати module guides/diagrams. Важливе обмеження: серед переданих архівів немає legacy_misc_catchall_part_02_of_05
+    . Тому я завершила'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes ordered reconciliation before regeneration.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - reconciliation
+- evidence_id: EV-BP0809-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: eb0ab921-98f7-4c85-b661-71fb60697f27
+    message_id: 3de9425e-015c-4c2f-b865-341a0005a38d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'ams. Важливе обмеження: серед переданих архівів немає legacy_misc_catchall_part_02_of_05 . Тому я завершила 100% перевірку всіх отриманих
+    архівів , але не називаю весь B10 catch-all повністю закритим без part 02. Повний пакет із усіма 5 контрактними return-папками ( REPORT.md , FINDINGS.yaml
+    , FILE_ASSESSMENTS.md , CROSS_BATCH_REQUESTS.md , RETURN_MANIFEST.json ) можна забрати тут: Завантажити повний B10 semantic review ZIP Окремо головний
+    звед'
+  quote_whitespace_normalized: true
+  context_before: B10 catch-all remains incomplete without part 02.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - coverage
+- evidence_id: EV-BP0809-0014
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ролюємо інші модулі і у нас зараз поточна задача наступна ми маємо зробити аналітику відповідності стану відповідності задачам відповідності
+    прогнозам загального політичного курсу нашого цього проекту for print і наскільки поточні модулі реалізували вже або знають куди рухаються відносно
+    цієї політичної стратегії нам треба зібрати ці дані і скажімо так у нас вже є roadmap я тобі прям даю прямі пряме посилання тут є народмат ти можеш
+    його там знайти якщо треба
+  quote_whitespace_normalized: true
+  context_before: Owner defines global portfolio alignment audit.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - portfolio_forensics
+- evidence_id: EV-BP0809-0015
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ься в серйозних проектах у нас ці всі модулі вони розвивались самостійно і деякі пішли вперед деякі зупинилися в деяких мінялася концепція
+    там десятки разів і особливо це калькулятор і telegram бот там змінювались концепції тобто там можуть бути документи які противоречать один одному
+    які там або які вже реалізації які вже давним-давно не підтримується архітектурою але історично ще висять в пам'яті тобто нам треба зробити так
+    таку значить що нам треба зробити нам тр
+  quote_whitespace_normalized: true
+  context_before: Modules evolved unevenly.
+  context_after: null
+  evidence_role:
+  - owner_observation
+  - portfolio_drift
+- evidence_id: EV-BP0809-0016
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: калькулятор і telegram бот там змінювались концепції тобто там можуть бути документи які противоречать один одному які там або які вже реалізації
+    які вже давним-давно не підтримується архітектурою але історично ще висять в пам'яті тобто нам треба зробити так таку значить що нам треба зробити
+    нам треба зробити якийсь якусь модель ну по-перше це має бути промт для наступного АІ помічника бо я не думаю що нашого з тобою контекстного вікна
+    вистачить щоб закрити ці всі питан
+  quote_whitespace_normalized: true
+  context_before: Contradictory/obsolete docs are a first-class target.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - semantic_conflict
+- evidence_id: EV-BP0809-0017
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: м щоб я не пояснював заново те саме там тисячу разів в мене має бути такий потужний загрузочний промт прям мегапромт який описує нашу задачу
+    я йому даю цей пром нічого не просто даю от кидаю туди цей пром жодного слова не дописую оце дуже важливо і після цього фронту або відразу з цим
+    пунктом це це немає взагалі мати жодного значення або з цим пронтом або відразу після цього пункту я кидаю наступний пакет даних про той об'єкт
+    який ми аналізуємо і наступний
+  quote_whitespace_normalized: true
+  context_before: Replacement assistant needs one self-sufficient loading prompt.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - continuity
+- evidence_id: EV-BP0809-0018
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ільки які будуть крутити якусь логіку нема проблем але саме головне щоб ця логіка не була залежна від проекту тобто і від нашої дискусії тобто
+    якщо ця логіка втратиться то в нас в промті є чіткі відновлювальні інструкції і будь-який помічник може відновити цю логіку і побудувати знову
+    нові скрипти вони знову будуть крутитися і ми маємо що зробити ми маємо зробити такий ну спершу перша хвиля да тобто аналіз чуткий нашого власного
+    модуля принт визначити кінцеву мету
+  quote_whitespace_normalized: true
+  context_before: Temporary tooling must be reconstructible and session-independent.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - tooling
+- evidence_id: EV-BP0809-0019
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ву будуть крутитися і ми маємо що зробити ми маємо зробити такий ну спершу перша хвиля да тобто аналіз чуткий нашого власного модуля принт
+    визначити кінцеву мету синтетичну хоча би прочитавши всі roadmap всіх помічників далі зафіксувати цей як фінішну ціль і далі ми вже починаємо аналізувати
+    всіх інших помічників які реалізовані дивимося наскільки є дубльований код шукаємо семантично схожі або саме головне для мене це документи які
+    противореч
+  quote_whitespace_normalized: true
+  context_before: Wave 1 starts with Blueprint self-analysis and synthetic target.
+  context_after: null
+  evidence_role:
+  - owner_plan
+  - wave1
+- evidence_id: EV-BP0809-0020
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ємо аналізувати всіх інших помічників які реалізовані дивимося наскільки є дубльований код шукаємо семантично схожі або саме головне для мене
+    це документи які противоречать один одному робимо певні таблиці тобто ми маємо зробити такий скажімо так рентген ну всіх помічників і привести
+    його до такого легкого машиночитам читаємо його ну тобто всі помічники зараз мають хаотичний стан хтось більш продвинутий хтось менш придвинутий
+    хтось має більше суп
+  quote_whitespace_normalized: true
+  context_before: Audit should find duplicated code/semantics and conflicting implementations.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - forensics
+- evidence_id: EV-BP0809-0021
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: навести в цьому лад і надати такий звіт от наша кінцева мета надати такий машиноподібний звіт в наступному помічнику сказати дивись у тебе
+    є підпорядкування стільки модулів там ситуація Ось така зараз відносно мого бачення там наприклад кінцевої мети форпринт от мають бути залишені
+    оці інструменти оці зайві ці дубліруючі ці мають бути модернізовані тобто має бути якийсь звіт машиноподібний дуже потужний і вже потім ми будемо
+    там приймати рішення там
+  quote_whitespace_normalized: true
+  context_before: Primary deliverable is a machine-readable module state/action report.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - machine_output
+- evidence_id: EV-BP0809-0022
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: або приблизно якийсь такий дашборд який описує скільки ми вже пропрацювали процентів від всього необхідного обсягу і скільки нам ще треба
+    пропрацювати і поки що третій ну там їх буде більше але тоже можливо буде далі я буду формувати третій - це перелік ну таких документів які постійно
+    поповнюється перелік пунктів які взагалі неможливо бо нормалізувати формалізувати або визначити і їх треба ну скажімо так оцінювати незалежно більш
+    глибокими
+  quote_whitespace_normalized: true
+  context_before: Coverage/progress should be quantified.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - coverage_dashboard
+- evidence_id: EV-BP0809-0023
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ну таких документів які постійно поповнюється перелік пунктів які взагалі неможливо бо нормалізувати формалізувати або визначити і їх треба
+    ну скажімо так оцінювати незалежно більш глибокими помічниками теж такі от оце має бути вообще на сформовано і далі ми рухаємось я тобі просто
+    даю посилання ну тут ми будемо так працювати я тобі даю дерево проекту який ми аналізуємо а ти дальше мені генеруєш просто команди які будуть в
+    тимчасову папочку тмп там кидати
+  quote_whitespace_normalized: true
+  context_before: Maintain unresolved/unnormalizable issue registry.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - unresolved_registry
+- evidence_id: EV-BP0809-0024
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: совий файлик python і знову в мене є генерація звіту в мене є архів я тобі архів ти мені новий скрипт і так полетів це все треба писати це
+    все має бути дуже чітко так прописано щоб я це не повторював і надалі це я тобі даю дерево яке ми аналізуємо і ми маємо зробити такий аналіз кожного
+    модуля щоб ми могли там саме головне щоб була така машина то отут мені людської форми багато не треба мені треба саме машина досконала форма щоби
+    я другій машин
+  quote_whitespace_normalized: true
+  context_before: Iterative collector ZIP → analysis → next script workflow.
+  context_after: null
+  evidence_role:
+  - owner_workflow
+  - collector_loop
+- evidence_id: EV-BP0809-0025
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: кидаю твій текст а дальше такий у нас папка директорія тмп там можуть бути під директорія розбиті по тематичним класифікаторам але ну не треба
+    їх там робити 100 штук там мають бути мінімально має бути кількість там вони якось підв'язані під хвилю якусь проект ну от так вони мають бути
+    і звідти я тобі кидаю архіви в чати ти аналізуєш що тобі до тебе дійшло і далі даєш мені наступний скрипт я його закидую в свій тимчасовий файлик
+    python і знову в
+  quote_whitespace_normalized: true
+  context_before: Temporary workspace should remain minimally partitioned.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - workspace_hygiene
+- evidence_id: EV-BP0809-0026
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    message_id: 440b1b84-3067-4fcb-b010-dbbd4ec1b48a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ла така машина то отут мені людської форми багато не треба мені треба саме машина досконала форма щоби я другій машині другому модулю це передав
+    і він дуже швидко дуже чітко зрозумів в якому стані знаходиться модуль і що треба оптимізувати що треба скажімо так пустити вперед на доробку що
+    призупинити а що поставити на видалення да на таке якесь легке там дебрикетів і тому подібне так дуже глибоко в інтернеті як потужні системи це
+    вирішують питання і дай
+  quote_whitespace_normalized: true
+  context_before: Machine-readable precision outranks verbose human output.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - machine_output
+- evidence_id: EV-BP0809-0027
+  speaker: user
+  locator:
+    conversation_turn: 13
+    turn_id: e437c28f-751d-41aa-a741-be836ead8d20
+    message_id: e437c28f-751d-41aa-a741-be836ead8d20
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 0001__logistics_service__L1_full_module_forensic_baseline.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Logistics L1 baseline is supplied.
+  context_after: null
+  evidence_role:
+  - artifact_input
+  - logistics_l1
+- evidence_id: EV-BP0809-0028
+  speaker: user
+  locator:
+    conversation_turn: 15
+    turn_id: 86af7159-efe6-4735-8342-a69670a0f33d
+    message_id: 86af7159-efe6-4735-8342-a69670a0f33d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 0001__logistics_service__L2_live_validation_probe.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Logistics L2 live package is supplied.
+  context_after: null
+  evidence_role:
+  - artifact_input
+  - logistics_l2
+- evidence_id: EV-BP0809-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'local-model boundary, tracking-events contract і повний pytest проходять. 238 tests PASS . Git clean на 438af211… . А от control/self-knowledge
+    layer реально має дефект: make fresh-context-check падає з RC=2 і прямо каже, що current_state.yaml та fresh_context_manifest.yaml stale. Одночасно
+    module-memory-check і document-authority-check дають PASS . Тобто ми доказово підтвердили ситуацію: structural validation = PASS, semantic freshness
+    = FAIL.'
+  quote_whitespace_normalized: true
+  context_before: Historical L2 reports healthy Logistics code/tests.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - live_validation
+- evidence_id: EV-BP0809-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'на 438af211… . А от control/self-knowledge layer реально має дефект: make fresh-context-check падає з RC=2 і прямо каже, що current_state.yaml
+    та fresh_context_manifest.yaml stale. Одночасно module-memory-check і document-authority-check дають PASS . Тобто ми доказово підтвердили ситуацію:
+    structural validation = PASS, semantic freshness = FAIL. Також live module-status підтвердив v0.4.1 ACTIVE_CURRENT , READY_PROMPT , ready_count=1
+    , а self-knowled'
+  quote_whitespace_normalized: true
+  context_before: Fresh-context check fails while structural checks pass.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - semantic_freshness
+- evidence_id: EV-BP0809-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'ument-authority-check дають PASS . Тобто ми доказово підтвердили ситуацію: structural validation = PASS, semantic freshness = FAIL. Також
+    live module-status підтвердив v0.4.1 ACTIVE_CURRENT , READY_PROMPT , ready_count=1 , а self-knowledge-status називає цим prompt саме logistics_service_authority_lineage_and_module_bootstrap_v0_1
+    при PAUSED_BY_OPERATOR . Отже наш L1 finding про lifecycle mismatch Prompt #6 теж залишається чинним: prompt формально ready/not-started, хоча
+    значна частина'
+  quote_whitespace_normalized: true
+  context_before: Structural correctness is explicitly separated from semantic freshness.
+  context_after: null
+  evidence_role:
+  - assistant_interpretation
+  - validation_model
+- evidence_id: EV-BP0809-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'shness = FAIL. Також live module-status підтвердив v0.4.1 ACTIVE_CURRENT , READY_PROMPT , ready_count=1 , а self-knowledge-status називає
+    цим prompt саме logistics_service_authority_lineage_and_module_bootstrap_v0_1 при PAUSED_BY_OPERATOR . Отже наш L1 finding про lifecycle mismatch
+    Prompt #6 теж залишається чинним: prompt формально ready/not-started, хоча значна частина його deliverables уже присутня в HEAD. Оновлений verdict
+    Logistics: KEEP_'
+  quote_whitespace_normalized: true
+  context_before: Historical module status/lifecycle signals conflict.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - lifecycle_mismatch
+- evidence_id: EV-BP0809-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'астина його deliverables уже присутня в HEAD. Оновлений verdict Logistics: KEEP_MODULE_AND_RECONCILE_CONTROL_PLANE Код/архітектуру не треба
+    ламати чи переписувати. Першочергово треба привести до одного truth coordination, fresh-context semantics, prompt lifecycle і current documentation.
+    Покриття Logistics forensic тепер приблизно 72% з confidence 0.91 . Те, чого ще принципово бракує, — cross-repository consumers, production/runtime
+    truth і, найважливіше, поточний Bluep'
+  quote_whitespace_normalized: true
+  context_before: Logistics verdict is keep implementation and reconcile control plane.
+  context_after: null
+  evidence_role:
+  - assistant_verdict
+  - module_disposition
+- evidence_id: EV-BP0809-0034
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'cycle і current documentation. Покриття Logistics forensic тепер приблизно 72% з confidence 0.91 . Те, чого ще принципово бракує, — cross-repository
+    consumers, production/runtime truth і, найважливіше, поточний Blueprint target/portfolio course . Повний L2 пакет: Завантажити Logistics L2 results
+    Основний live-звіт: LOGISTICS L2 LIVE VALIDATION REPORT Оновлений scorecard: LOGISTICS MODULE SCORECARD v0.2 Тепер переходимо саме туди, куди'
+  quote_whitespace_normalized: true
+  context_before: Historical forensic coverage estimate is ~72%.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - coverage
+- evidence_id: EV-BP0809-0035
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'c тепер приблизно 72% з confidence 0.91 . Те, чого ще принципово бракує, — cross-repository consumers, production/runtime truth і, найважливіше,
+    поточний Blueprint target/portfolio course . Повний L2 пакет: Завантажити Logistics L2 results Основний live-звіт: LOGISTICS L2 LIVE VALIDATION
+    REPORT Оновлений scorecard: LOGISTICS MODULE SCORECARD v0.2 Тепер переходимо саме туди, куди й планували: Blueprint Wave 1 — встановити реальний
+    політичний/архітектурний ку'
+  quote_whitespace_normalized: true
+  context_before: Remaining evidence gaps are explicitly named.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - coverage
+- evidence_id: EV-BP0809-0036
+  speaker: assistant
+  locator:
+    conversation_turn: 16
+    turn_id: 089dafe7-2d6f-47f9-8bc1-2b4c36efe3aa
+    message_id: 8741141d-5ed3-4d0e-acc3-51e8c7b3b948
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'нень. Саме після цього ми зможемо побудувати першу справжню вісь: ForPrint mission → current policy → target architecture → module roles
+    → dependencies → actual Logistics state → alignment/gap.'
+  quote_whitespace_normalized: true
+  context_before: Blueprint Wave 1 axis is defined.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - portfolio_axis
+- evidence_id: EV-BP0809-0037
+  speaker: user
+  locator:
+    conversation_turn: 17
+    turn_id: ee575cd4-3386-43ea-ba0d-0d1e3fecbd29
+    message_id: ee575cd4-3386-43ea-ba0d-0d1e3fecbd29
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: ck PASS command=document_authority_check rc=0 elapsed=0.057s START command=fresh_context_check PASS command=fresh_context_check rc=2 elapsed=0.122s
+    START command=module_status PASS command=module_status rc=0 elapsed=0.104s START command=project_policy_check PASS command=project_policy_check
+    rc=0 elapsed=0.156s START command=provider_contract_check PASS command=provider_contract_check rc=0 elapsed=0.097s START command=local_model_boundary_check
+    PASS command=local_model_boundary_check rc=0
+  quote_whitespace_normalized: true
+  context_before: Raw output exposes misleading PASS label.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - collector_semantics
+- evidence_id: EV-BP0809-0038
+  speaker: assistant
+  locator:
+    conversation_turn: 18
+    turn_id: a9c00536-e9d3-4e4e-afd8-b8413c0c0dc1
+    message_id: 0e2b38f7-7646-4685-85a7-9c8577069931
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'пті: рядок PASS command=fresh_context_check rc=2 виглядає суперечливо. Тут PASS означало лише “команда виконалась і результат був записаний”,
+    але rc=2 фактично означає FAIL самого check . У наступних collectors я це виправляю: rc != 0 буде явно друкуватися як FAIL . Наш forensic-висновок
+    при цьому правильний — fresh-context-check падає. Тепер виходимо з forprint_logistics_service і переходимо в Blueprint . Виконай: Bash cd /srv/software_development/'
+  quote_whitespace_normalized: true
+  context_before: Assistant acknowledges collector semantics bug.
+  context_after: null
+  evidence_role:
+  - assistant_correction
+  - collector_semantics
+- evidence_id: EV-BP0809-0039
+  speaker: assistant
+  locator:
+    conversation_turn: 18
+    turn_id: a9c00536-e9d3-4e4e-afd8-b8413c0c0dc1
+    message_id: 0e2b38f7-7646-4685-85a7-9c8577069931
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'актично означає FAIL самого check . У наступних collectors я це виправляю: rc != 0 буде явно друкуватися як FAIL . Наш forensic-висновок
+    при цьому правильний — fresh-context-check падає. Тепер виходимо з forprint_logistics_service і переходимо в Blueprint . Виконай: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    Перевір: Bash pwd Має бути: /srv/software_development/forprint-project/forprint_system_blueprint Д'
+  quote_whitespace_normalized: true
+  context_before: Nonzero return codes must print FAIL.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - collector_semantics
+- evidence_id: EV-BP0809-0040
+  speaker: assistant
+  locator:
+    conversation_turn: 18
+    turn_id: a9c00536-e9d3-4e4e-afd8-b8413c0c0dc1
+    message_id: 0e2b38f7-7646-4685-85a7-9c8577069931
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'ше цей tmp.py у Logistics запускати не треба. Ти просто двічі повторив L2; другий запуск не дає нам нового класу доказів. Є ще маленький
+    технічний нюанс у моєму L2-скрипті: рядок PASS command=fresh_context_check rc=2 виглядає суперечливо. Тут PASS означало лише “команда виконалась
+    і результат був записаний”, але rc=2 фактично означає FAIL самого check . У наступних collectors я це виправляю: rc != 0 буде явно друкуватися
+    як FAIL . Наш forensic-'
+  quote_whitespace_normalized: true
+  context_before: Repeated L2 adds no new evidence class.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - deduplication
+- evidence_id: EV-BP0809-0041
+  speaker: assistant
+  locator:
+    conversation_turn: 18
+    turn_id: a9c00536-e9d3-4e4e-afd8-b8413c0c0dc1
+    message_id: 0e2b38f7-7646-4685-85a7-9c8577069931
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'овторно передавати не потрібно — перший L2 я вже проаналізувала. Тепер наш фокус переходить із одного модуля на центральну вісь всього ForPrint:
+    mission → policy → target state → module roles → dependencies → sequencing .'
+  quote_whitespace_normalized: true
+  context_before: Focus shifts to Blueprint portfolio axis.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - wave1
+- evidence_id: EV-BP0809-0042
+  speaker: user
+  locator:
+    conversation_turn: 19
+    turn_id: 2072d776-b14b-4526-aaf9-4068510038d8
+    message_id: 2072d776-b14b-4526-aaf9-4068510038d8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: cs_service# python -u tmp.py 2>&1 | tee tmp/report.txt Run from forprint_system_blueprint repository root. (.venv_logistics_service) root@s01:/srv/software_development/forprint-project/forprint_logistics_service#
+  quote_whitespace_normalized: true
+  context_before: Blueprint collector fails closed in wrong repo.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - repo_identity
+- evidence_id: EV-BP0809-0043
+  speaker: assistant
+  locator:
+    conversation_turn: 20
+    turn_id: 37da7bb0-37d5-48a6-be46-eb88034d91e8
+    message_id: 1f2c5c75-6db4-4810-9597-79b83dee192c
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: 'все ще знаходишся в forprint_logistics_service , тому Blueprint collector правильно відмовився запускатися. Зроби рівно так: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    pwd Має показати: /srv/software_development/forprint-project/forprint_system_blueprint Після цього запусти той самий tmp.py : Bash python -u tmp.py
+    2 >&1 | tee tmp/report.txt Якщо tmp.py ти поклав лише в Logistics, просто скопіюй його в Blueprint: Bash'
+  quote_whitespace_normalized: true
+  context_before: Repo-root refusal is intentional.
+  context_after: null
+  evidence_role:
+  - assistant_interpretation
+  - repo_identity
+- evidence_id: EV-BP0809-0044
+  speaker: assistant
+  locator:
+    conversation_turn: 20
+    turn_id: 37da7bb0-37d5-48a6-be46-eb88034d91e8
+    message_id: 1f2c5c75-6db4-4810-9597-79b83dee192c
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  quote: '.py 2 >&1 | tee tmp/report.txt Правильний запуск має початися приблизно з: START git_and_control_state Після завершення кидай сюди ZIP, який
+    він надрукує останнім рядком.'
+  quote_whitespace_normalized: true
+  context_before: Correct Blueprint collector starts from git/control state.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - blueprint_collector
+items:
+- item_id: IT-BP0809-0001
+  kind: implementation_claim
+  title: B10 semantic review reports received archives processed
+  statement: Historical assistant report says five supplied B10 archives were reviewed, 216 source files hash-validated and 28 findings generated without
+    SOURCE/SHARED_CONTEXT mutation.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - semantic_review
+  - B10
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0002
+  - EV-BP0809-0003
+  - EV-BP0809-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report; return packages not independently audited here.
+- item_id: IT-BP0809-0002
+  kind: risk
+  title: Legacy self-roadmap still presents as governing
+  statement: Legacy self-roadmap and old queue/alignment plans still look active although current release authority marks them historical/non-authoritative.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0809-0005
+  - EV-BP0809-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0003
+  kind: risk
+  title: Generated PASS reports can conceal lineage/current-step defects
+  statement: Stale current-step assumptions and broken snapshot lineage can coexist with PASSED derived reports.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - reports
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0809-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0004
+  kind: risk
+  title: Status evidence/projections may be empty or stale
+  statement: Empty status evidence and generated guides/diagrams without sufficient freshness/provenance make portfolio projections unreliable.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - reports
+  - generated_projections
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0809-0008
+  - EV-BP0809-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0005
+  kind: process_rule
+  title: Separate implementation roadmap execution and dispatch status dimensions
+  statement: Do not collapse implementation maturity, roadmap state, execution permission and dispatch eligibility into one status label.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - status_model
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0809-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0006
+  kind: process_rule
+  title: H10 expansion requires real pilot evidence
+  statement: Do not infer expansion beyond Logistics without evidence of required real automatic runs and applicable stability/approval gates.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - H10
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - reports
+  - config
+  evidence_refs:
+  - EV-BP0809-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0007
+  kind: process_rule
+  title: Reconcile authority sources before regenerating projections
+  statement: Remove stale authority from selectors, fix misleading PASS reports, mark old plans historical and split status dimensions before regenerating
+    guides/diagrams.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - generated_projections
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - reports
+  - docs
+  evidence_refs:
+  - EV-BP0809-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0008
+  kind: risk
+  title: B10 review coverage incomplete without catch-all part 02
+  statement: The received evidence set cannot be called full catch-all coverage because part 02_of_05 is missing.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - semantic_review
+  - coverage
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  evidence_refs:
+  - EV-BP0809-0001
+  - EV-BP0809-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0009
+  kind: requirement
+  title: Build portfolio forensic analytics against global ForPrint course
+  statement: Compare actual module state, tasks and forecasts against project strategic/architectural course.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0010
+  kind: risk
+  title: Independent module evolution creates strategic drift
+  statement: Modules can be ahead, stopped or conceptually divergent because they evolved independently and changed design repeatedly.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - roadmap
+  evidence_refs:
+  - EV-BP0809-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0011
+  kind: requirement
+  title: Detect contradictory obsolete and duplicated implementations
+  statement: Find contradictory docs, dead/obsolete implementations, duplicate code/semantics and remnants outside current architecture.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - semantic_review
+  - code_health
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0016
+  - EV-BP0809-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0012
+  kind: requirement
+  title: One self-sufficient mega-prompt hands off the forensic program
+  statement: A replacement assistant should receive one loading prompt plus the next package and resume goals/workflow/tools without extra explanation.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - portfolio_forensics
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0809-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0013
+  kind: architecture_constraint
+  title: Temporary forensic tooling is reconstructible from durable instructions
+  statement: Temporary scripts must not depend on fragile chat/session state; any assistant should rebuild them from durable instructions.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - scripts
+  evidence_refs:
+  - EV-BP0809-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0014
+  kind: plan
+  title: Wave 1 starts with Blueprint self-analysis and synthetic target
+  statement: Establish Blueprint/ForPrint target course from current project/roadmap evidence before judging dependent modules.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0015
+  kind: requirement
+  title: Produce machine-readable disposition for every module
+  statement: Forensic output should expose state/conflicts and recommended disposition such as keep, reconcile/modernize, pause, deprecate/remove or
+    advance.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - machine_output
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-BP0809-0021
+  - EV-BP0809-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0016
+  kind: requirement
+  title: Track forensic coverage quantitatively
+  statement: Maintain coverage/progress metrics for analyzed versus remaining evidence/work.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - coverage
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0017
+  kind: requirement
+  title: Maintain unresolved/unnormalizable issue registry
+  statement: Issues that cannot be confidently normalized/formalized should be queued for deeper independent review rather than guessed.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - semantic_review
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0018
+  kind: workflow
+  title: Use iterative collector-package-analysis-next-collector loop
+  statement: Operator runs collector, sends ZIP, assistant analyzes it and returns the next collector across modules/waves.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - portfolio_forensics
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-BP0809-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0019
+  kind: process_rule
+  title: Keep forensic temporary workspace compact by wave/theme
+  statement: Temporary collector artifacts may use thematic/wave subfolders but should avoid excessive directory fragmentation.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - scripts
+  evidence_refs:
+  - EV-BP0809-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0020
+  kind: architecture_constraint
+  title: Machine readability outranks verbose human presentation
+  statement: Canonical forensic state should be precise and machine-consumable; human prose is secondary.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - machine_output
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-BP0809-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0021
+  kind: workflow
+  title: Logistics forensic uses static baseline then live validation
+  statement: Useful module forensics combine bounded static collection with live read-only checks.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - forensics
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - reports
+  - tests
+  evidence_refs:
+  - EV-BP0809-0027
+  - EV-BP0809-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0022
+  kind: implementation_claim
+  title: Historical Logistics live validation reports healthy code baseline
+  statement: L2 reports clean Git, 238 tests passing and key policy/provider/local-model/tracking checks passing.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP0809-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only.
+- item_id: IT-BP0809-0023
+  kind: risk
+  title: Logistics structural validation can pass while semantic freshness fails
+  statement: Module-memory/document-authority and tests pass while fresh-context semantic freshness fails.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0809-0030
+  - EV-BP0809-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0024
+  kind: risk
+  title: Prompt lifecycle can disagree with implemented deliverables
+  statement: Prompt/control status can say READY/not-started/paused while substantial deliverables already exist in HEAD.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0809-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0025
+  kind: decision
+  title: Keep Logistics implementation and reconcile its control plane
+  statement: Historical forensic verdict is to keep healthy Logistics code and reconcile coordination, freshness, prompt lifecycle and current docs.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  - control_plane
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0809-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant verdict; verify later/current authority before acting.
+- item_id: IT-BP0809-0026
+  kind: implementation_claim
+  title: Historical Logistics forensic coverage estimated around 72 percent
+  statement: Assistant estimates ~72% coverage with 0.91 confidence and names remaining gaps.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  - coverage
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  evidence_refs:
+  - EV-BP0809-0034
+  - EV-BP0809-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Heuristic historical estimate.
+- item_id: IT-BP0809-0027
+  kind: requirement
+  title: Portfolio alignment axis is mission to actual state to gap
+  statement: Blueprint Wave 1 should establish mission → current policy → target architecture → module roles → dependencies → actual module state →
+    alignment/gap.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-BP0809-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0028
+  kind: process_rule
+  title: Collector output distinguishes command execution from check success
+  statement: Do not print PASS merely because a command ran; nonzero return codes must be represented as check failure.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-BP0809-0037
+  - EV-BP0809-0038
+  - EV-BP0809-0039
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0029
+  kind: process_rule
+  title: Do not repeat collector runs that add no new evidence class
+  statement: Repeated identical live-validation collection should be avoided once the evidence class is captured.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - evidence
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-BP0809-0040
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0030
+  kind: plan
+  title: After Logistics shift to Blueprint authority/target Wave 1
+  statement: After Logistics L1/L2, move to Blueprint current authority, mission, target architecture, module roles and dependency surfaces.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - reports
+  evidence_refs:
+  - EV-BP0809-0041
+  - EV-BP0809-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0031
+  kind: process_rule
+  title: Forensic collectors fail closed on repository identity
+  statement: Module-specific collectors verify expected repository root and refuse foreign-module execution.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-BP0809-0042
+  - EV-BP0809-0043
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0032
+  kind: plan
+  title: Blueprint collector starts from Git/control state
+  statement: Prepared Blueprint Wave 1 collector should begin with Git/control-state, continuity/handoff checks and bounded authority/portfolio evidence
+    collection.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - reports
+  evidence_refs:
+  - EV-BP0809-0044
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0033
+  kind: risk
+  title: Generated guides/diagrams must not regenerate from unreconciled sources
+  statement: Generated portfolio docs can amplify stale authority when source reconciliation/provenance checks are skipped.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - generated_projections
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0009
+  - EV-BP0809-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0809-0034
+  kind: process_rule
+  title: Final module verdict requires local plus project-course evidence
+  statement: A module can be locally healthy yet strategically misaligned; disposition needs cross-repository consumers, runtime truth and current
+    Blueprint target/course.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - dependencies
+  evidence_refs:
+  - EV-BP0809-0033
+  - EV-BP0809-0035
+  - EV-BP0809-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-BP0809-0001
+  from_item: IT-BP0809-0007
+  type: enables
+  to_item: IT-BP0809-0033
+  evidence_refs:
+  - EV-BP0809-0012
+  confidence: high
+- relation_id: REL-BP0809-0002
+  from_item: IT-BP0809-0009
+  type: motivates
+  to_item: IT-BP0809-0014
+  evidence_refs:
+  - EV-BP0809-0014
+  - EV-BP0809-0019
+  confidence: high
+- relation_id: REL-BP0809-0003
+  from_item: IT-BP0809-0012
+  type: enables
+  to_item: IT-BP0809-0018
+  evidence_refs:
+  - EV-BP0809-0017
+  - EV-BP0809-0024
+  confidence: high
+- relation_id: REL-BP0809-0004
+  from_item: IT-BP0809-0017
+  type: enables
+  to_item: IT-BP0809-0015
+  evidence_refs:
+  - EV-BP0809-0023
+  - EV-BP0809-0021
+  confidence: high
+- relation_id: REL-BP0809-0005
+  from_item: IT-BP0809-0021
+  type: enables
+  to_item: IT-BP0809-0025
+  evidence_refs:
+  - EV-BP0809-0027
+  - EV-BP0809-0028
+  - EV-BP0809-0033
+  confidence: high
+- relation_id: REL-BP0809-0006
+  from_item: IT-BP0809-0023
+  type: refines
+  to_item: IT-BP0809-0004
+  evidence_refs:
+  - EV-BP0809-0030
+  - EV-BP0809-0031
+  confidence: high
+- relation_id: REL-BP0809-0007
+  from_item: IT-BP0809-0028
+  type: refines
+  to_item: IT-BP0809-0018
+  evidence_refs:
+  - EV-BP0809-0038
+  - EV-BP0809-0039
+  confidence: high
+- relation_id: REL-BP0809-0008
+  from_item: IT-BP0809-0030
+  type: depends_on
+  to_item: IT-BP0809-0025
+  evidence_refs:
+  - EV-BP0809-0041
+  confidence: medium
+- relation_id: REL-BP0809-0009
+  from_item: IT-BP0809-0034
+  type: refines
+  to_item: IT-BP0809-0025
+  evidence_refs:
+  - EV-BP0809-0035
+  - EV-BP0809-0036
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-BP0809-0001
+  type: new_unique_dialogue
+  description: No message IDs or normalized message texts overlap any of the eleven unique master v1.3 source dialogues.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP0809-0002
+  type: partial_conversation_capture
+  description: Only 13 message blocks survive across turn numbers 1–20; turns 6, 8–12 and 14 are absent.
+  item_refs:
+  - IT-BP0809-0012
+  - IT-BP0809-0018
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0003
+  type: b10_missing_part02
+  description: B10 catch-all review lacks part 02_of_05, so full catch-all coverage is not proven.
+  item_refs:
+  - IT-BP0809-0008
+  evidence_refs:
+  - EV-BP0809-0013
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0004
+  type: generated_pass_false_confidence
+  description: PASSED reports coexist with stale current-step assumptions/broken snapshot lineage.
+  item_refs:
+  - IT-BP0809-0003
+  - IT-BP0809-0007
+  evidence_refs:
+  - EV-BP0809-0007
+  - EV-BP0809-0012
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0005
+  type: status_dimension_collapse
+  description: Status labels mix implementation, roadmap, execution permission and dispatch eligibility.
+  item_refs:
+  - IT-BP0809-0005
+  evidence_refs:
+  - EV-BP0809-0010
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0006
+  type: structural_vs_semantic_validation_split
+  description: Logistics passes structural checks/tests while fresh-context semantic freshness fails.
+  item_refs:
+  - IT-BP0809-0023
+  evidence_refs:
+  - EV-BP0809-0030
+  - EV-BP0809-0031
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0007
+  type: collector_pass_label_bug
+  description: Collector prints PASS for fresh_context_check despite rc=2 because PASS meant command capture, not check result.
+  item_refs:
+  - IT-BP0809-0028
+  evidence_refs:
+  - EV-BP0809-0037
+  - EV-BP0809-0038
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0008
+  type: duplicate_live_collection
+  description: Logistics L2 is run twice; second run adds no new evidence class.
+  item_refs:
+  - IT-BP0809-0029
+  evidence_refs:
+  - EV-BP0809-0040
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP0809-0009
+  type: prompt_lifecycle_vs_head_mismatch
+  description: Prompt/control state says ready/not-started while substantial deliverables already exist and operator pause also applies.
+  item_refs:
+  - IT-BP0809-0024
+  evidence_refs:
+  - EV-BP0809-0032
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0809-0010
+  type: repo_identity_mislaunch
+  description: Blueprint collector is launched from Logistics root and correctly refuses to run.
+  item_refs:
+  - IT-BP0809-0031
+  evidence_refs:
+  - EV-BP0809-0042
+  - EV-BP0809-0043
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP0809-0011
+  type: heuristic_coverage_metric
+  description: 72% / 0.91 coverage score is historical heuristic; its calculation method is not preserved.
+  item_refs:
+  - IT-BP0809-0026
+  evidence_refs:
+  - EV-BP0809-0034
+  severity: normal
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP0809-0001
+  description: Find/review B10 catch-all part 02 and reconcile with existing findings.
+  item_refs:
+  - IT-BP0809-0008
+  last_known_state: Part 02_of_05 missing.
+  recommended_verification: Locate missing batch or prove retirement/merge.
+- loop_id: LOOP-BP0809-0002
+  description: Verify legacy self-roadmap/queues are excluded from current selectors and stale PASSED reports are corrected.
+  item_refs:
+  - IT-BP0809-0002
+  - IT-BP0809-0003
+  - IT-BP0809-0007
+  - IT-BP0809-0033
+  last_known_state: Historical B10 review says stale authority/projections remain current-looking.
+  recommended_verification: Audit live selectors, reports and derivation/effective-state links.
+- loop_id: LOOP-BP0809-0003
+  description: Verify portfolio forensic mega-prompt, machine schema, coverage dashboard and unresolved registry exist durably.
+  item_refs:
+  - IT-BP0809-0012
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  last_known_state: Owner defines them; construction turns are missing.
+  recommended_verification: Search current Blueprint docs/schemas/scripts.
+- loop_id: LOOP-BP0809-0004
+  description: Verify Logistics freshness and prompt lifecycle mismatch were reconciled without rewriting healthy business code.
+  item_refs:
+  - IT-BP0809-0023
+  - IT-BP0809-0024
+  - IT-BP0809-0025
+  last_known_state: Structural PASS / semantic freshness FAIL.
+  recommended_verification: Run current Logistics freshness/status checks.
+- loop_id: LOOP-BP0809-0005
+  description: Verify collector result semantics and evidence-class deduplication.
+  item_refs:
+  - IT-BP0809-0028
+  - IT-BP0809-0029
+  last_known_state: Nonzero RC printing and redundant rerun behavior were identified for correction.
+  recommended_verification: Inspect/test current collector/reporting code.
+- loop_id: LOOP-BP0809-0006
+  description: Verify Blueprint Wave 1 authority/target/portfolio collector and resulting alignment model.
+  item_refs:
+  - IT-BP0809-0014
+  - IT-BP0809-0027
+  - IT-BP0809-0030
+  - IT-BP0809-0032
+  last_known_state: Collector prepared; no successful Blueprint W1 ZIP/result preserved.
+  recommended_verification: Find later result or rerun bounded current collector from Blueprint root.
+- loop_id: LOOP-BP0809-0007
+  description: Verify current module dispositions use local plus project-course evidence.
+  item_refs:
+  - IT-BP0809-0034
+  - IT-BP0809-0015
+  last_known_state: Local health alone is explicitly insufficient.
+  recommended_verification: Require cross-repo/runtime/target-course evidence before disposition.
+implementation_audit_ref: implementation_audit.stub.yaml

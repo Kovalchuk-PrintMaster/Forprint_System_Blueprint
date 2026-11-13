@@ -1,0 +1,82 @@
+schema_version: forprint_cf10_worker_self_hardening_backlog_v0_1
+metadata:
+  backlog_id: cf10_worker_self_hardening_backlog_v0_1
+  module_id: forprint_system_blueprint
+  work_id: u180j
+  step_id: CF-10
+  created_at: '2026-10-01T20:14:50.019182Z'
+  status: PLANNED_NON_EXECUTING
+authority:
+  execution_authority: false
+  dispatch_authority: false
+  acceptance_authority: false
+  publication_authority: false
+  roadmap_authority: false
+  cross_module_write_authority: false
+materialization_policy:
+  refresh_against_current_project_state: REQUIRED
+  reuse_extend_adapt_replace_new_reconciliation: REQUIRED
+  final_numeric_order_assigned_here: false
+  automatic_materialization: false
+absorbed_into_phase_b:
+  task110:
+  - candidate_review_surface_and_pre_promotion_review_policy
+  task130:
+  - runtime_preflight_and_source_freeze_hardening
+  task140:
+  - dispatcher_gate_and_notification_policy
+  - manual_checkpoint_and_validation_debt
+  task150:
+  - final runtime/review/error/logging/operator-flow exit proof
+reserved_unmaterialized:
+  order: 120
+  state: SEMANTICS_RECOVERY_REQUIRED
+  rule: Do not invent, repurpose or dispatch Task120 until evidence-backed semantics recovery is completed.
+independent_bounded_work:
+- candidate_id: cf10_canonical_gwc_operator_cycle_and_error_resume_hardening
+  scope:
+  - canonical GWC operator/Dispatcher entrypoint
+  - structured result/error taxonomy
+  - resume/idempotency behavior
+  - CLI contract normalization
+  - event/metric integration where it belongs to the same execution path
+  - ad-hoc orchestration defect conversion regression rule
+  reuse_first:
+  - governed_worker_cycle.py
+  - candidate_promotion.py
+  - worker_runtime launcher/invocation/workspace
+  - attempt ledger
+  - Handoff v2 result/freshness-resume
+  - Makefile operator functional map
+  depends_on:
+  - Phase B Task110/130 semantics as applicable
+- candidate_id: cf10_exchange_0_4_0_4_1_and_module_bootstrap_reconciliation
+  scope:
+  - producer/consumer/wrapper/payload revision audit
+  - 0.4 versus 0.4.1 namespace/role reconciliation
+  - canonical module bootstrap package consolidation
+  - module bootstrap conformance/reference proof
+  reuse_first:
+  - v0.4 closed-loop coordination stack
+  - v0.4.1 bootstrap requirements
+  - module bootstrap execution policy
+  - Task85 freshness/change-impact control
+  depends_on:
+  - Task85 accepted or current-state evidence proving equivalent prerequisite coverage
+- candidate_id: cf10_governed_cross_repo_prompt_publication_and_activation_runner
+  scope:
+  - repository-owned governed cross-repo transition runner
+  - pre-activation reconciliation
+  - exact write-set publication/sync
+  - UTF-8/mojibake and copy-integrity gates
+  - lifecycle/validator consistency
+  - checkpoint/resume and partial-failure behavior
+  - real GDL/Prepress regression fixture
+  phase_1_cross_repo_write: false
+  phase_2_requires_separate_bounded_cross_repo_authority: true
+  depends_on:
+  - canonical GWC operator-cycle/error-resume hardening sufficiently stable
+  - exchange/bootstrap reconciliation where shared lifecycle semantics are consumed
+exit_relationship:
+  phase_b_task150_is_final_cf10_control_task: true
+  supplemental_work_must_be: accepted_or_explicitly_deferred_with_governed_evidence_before_Task150_exit_claim

@@ -60,3 +60,58 @@ A young core module may prioritize foundation functionality.
 A mature module may prioritize standardization, cleanup, governance and structure.
 
 A lightweight helper may keep a simple structure while still respecting global policy.
+
+## Blueprint assistant bootstrap handoff entrypoint
+
+For a fresh assistant session or context handoff, read these machine-oriented bootstrap and roadmap-enrichment surfaces before continuing the normal reading order:
+
+1. `coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml`
+2. `coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml`
+3. `coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md`
+4. `coordination/repository_knowledge/roadmap_enrichment/README.md`
+5. `coordination/repository_knowledge/roadmap_enrichment/source_map.yaml`
+
+The bootstrap file defines the stable operating model and routing. The current handoff file defines the latest observed coordination state and is a baseline snapshot, not a substitute for Git, roadmap, prompt, audit, release, or governance checks.
+
+For bulk roadmap enrichment, the operating guide defines the stable method while the living field guide and source map provide reusable navigation, fast paths, pitfalls, provenance, and source-role hints. Living knowledge is advisory navigation and does not grant implementation, binding, activation, release, or publication authority.
+
+<!-- fp-assistant-context-system-specs-route-v0-1:start -->
+## Blueprint assistant operating context
+
+After this canonical reading-order document, read:
+
+`coordination/bootstrap/assistant_context_system_specs_v0_1.yaml`
+
+This system-spec file is a navigation supplement for current Blueprint work.
+It does not replace this document, current lifecycle/workfront authority,
+canonical governance, or live repository verification.
+<!-- fp-assistant-context-system-specs-route-v0-1:end -->
+
+<!-- module-analysis-lifecycle-methodology-v0-2:start -->
+## Portfolio module analysis lifecycle
+
+When the task is module analysis, current-state reconstruction, module snapshot,
+roadmap enrichment, architecture conformance review, knowledge saturation or
+preparation for roadmap rebuild:
+
+1. read `coordination/bootstrap/module_analysis_methodology_current.yaml`;
+2. read the current methodology revision named there;
+3. locate the module's latest durable snapshot before creating new temporary evidence.
+
+Current revision v0.2 is explicitly evolving and invites recorded methodology
+improvement proposals. It does not authorize implementation by itself.
+
+Historical predecessor:
+`coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md`.
+<!-- module-analysis-lifecycle-methodology-v0-2:end -->
+
+<!-- fp-project-native-execution-policy-route-v0-1:start -->
+## Project-native execution policy route
+
+Before designing or changing a repeatable workflow, read:
+
+`coordination/global_policy/project_native_execution_policy_v0_1.yaml`
+
+Then prefer existing project-native entrypoints and canonical implementation
+surfaces over chat-owned runtime scripts.
+<!-- fp-project-native-execution-policy-route-v0-1:end -->

@@ -1,0 +1,174 @@
+schema_version: forprint_dftb_blueprint_20260905_portfolio_reconciliation_v0_1
+source_date: '2026-09-05'
+reconciled_on: '2026-09-21'
+source_package_sha256: a495fbc4845f668e353d34ea3b6936a9af5772f5acea8d40f2e047390e41923c
+source_dialogue_id: DFTB-blueprint-2026-09-05
+source_dialogue_hash_sha256: d7caa4e5fc43321c58de5bde1b7184bc15624411e6e046df59d44127b183fb2f
+source_authority: HISTORICAL_EVIDENCE_NOT_CURRENT_IMPLEMENTATION_AUTHORITY
+source_completeness:
+  classification: PARTIAL_CONVERSATIONAL_CAPTURE
+  retained_turn_containers: 103
+  text_bearing_containers: 102
+  preserved_assistant_narrative_messages: 3
+  archive_handoff_timeline_entries: 14
+  rule: Do not reconstruct missing assistant reasoning by inference. Uploaded archives/reports provide historical
+    lineage but do not prove current repository implementation.
+summary: The 2026-09-05 dialogue is a primary provenance source for semantic Human Intent package reconciliation,
+  project self-cleaning/normalization, Blueprint-owned prompt publication with module-side pull, fresh-worker continuity,
+  explicit separation of execution from business acceptance, and several prompt-release semantic edge cases. Most
+  major directions are already represented in current Blueprint governance and runtime/planning surfaces; no new
+  roadmap step is justified by this source.
+topic_reconciliation:
+- topic: human_intent_memory_package_reconciliation
+  item_refs:
+  - IT-BP0509-0001
+  - IT-BP0509-0002
+  - IT-BP0509-0003
+  disposition: REUSE_CURRENT_ROADMAP_ENRICHMENT_AND_HUMAN_INTENT_PROVENANCE_RULES
+  source_rule: When multiple packages describe the same prior dialogue under different IDs, select the stronger
+    normalized package and perform residual semantic comparison rather than blindly merging all IDs.
+  historical_detail: v1.1 was selected as primary; v1.0 was retained as residual/historical evidence. Initial v1.1
+    integration safe-failed on Ruff and reported rollback.
+  current_rule: Preserve history without duplicating equivalent intent semantics.
+- topic: document_schema_normalization
+  item_refs:
+  - IT-BP0509-0004
+  - IT-BP0509-0005
+  - IT-BP0509-0006
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connections:
+  - project cleanliness/normalization Human Intent
+  - normalization work surfaces
+  - registered canonical schemas/generator-source relationships/validators
+  source_rule: Normalize semantically equivalent descriptive documents/status vocabulary in controlled batches;
+    historically SYNTHETIC was normalized toward PROPOSED.
+  caution: Do not rewrite current vocabulary merely because the historical source used a prior label.
+- topic: project_self_cleaning_and_deprecation_lifecycle
+  item_refs:
+  - IT-BP0509-0008
+  - IT-BP0509-0009
+  - IT-BP0509-0010
+  - IT-BP0509-0011
+  - IT-BP0509-0012
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connections:
+  - Blueprint project cleanliness objective
+  - module-local cleanliness responsibility
+  - discoverable cleanliness controls
+  - architecture hygiene/repository structure consolidation direction
+  source_rules:
+  - self-cleaning is a permanent governance capability, not a one-time cleanup
+  - descriptive-document conformance should be checkable
+  - stale/deprecated/removal candidates should be tracked explicitly
+  - retired artifacts must stop participating in ordinary active validation
+- topic: governance_closeout_propagation
+  item_refs:
+  - IT-BP0509-0013
+  - IT-BP0509-0014
+  disposition: REUSE_CURRENT_GOVERNANCE_AND_INDEX_HEALTH_CHECKS
+  source_rule: A change is not fully rolled out merely because one code/document mutation exists; closeout verifies
+    documentation/instruction propagation, index discoverability and project/module health.
+- topic: bounded_logistics_inventory
+  item_refs:
+  - IT-BP0509-0015
+  disposition: SUPERSEDED_BY_CURRENT_MODULE_INVENTORY_AND_PORTFOLIO_ENRICHMENT_WORKFLOW
+  historical_value: Six bounded repository evidence batches demonstrated a practical way to review a large module
+    without one giant dump.
+  current_rule: Use bounded evidence classes/batches when useful; do not recreate the historical batch layout as
+    authority.
+- topic: blueprint_publish_module_pull_boundary
+  item_refs:
+  - IT-BP0509-0016
+  - IT-BP0509-0017
+  - IT-BP0509-0018
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connections:
+  - Blueprint outgoing/approved prompt surfaces
+  - module prompt synchronization and received/active/archived intake
+  - module-side listener/pull semantics
+  source_rule: Blueprint publishes on Blueprint-owned surfaces; module-side intake may read/pull that release into
+    the module flow but must not make foreign writes back into Blueprint.
+- topic: fresh_worker_context_and_acceptance_boundary
+  item_refs:
+  - IT-BP0509-0019
+  - IT-BP0509-0020
+  - IT-BP0509-0021
+  - IT-BP0509-0022
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connections:
+  - fresh-worker per prompt Human Intent
+  - Handoff/assistant context compiler direction
+  - prompt/report history and previous completion evidence
+  - explicit ACCEPT/RETURN/HOLD governance separation
+  source_rule: Prompt execution/completion evidence does not itself equal business/Blueprint acceptance; fresh workers
+    reconstruct continuity from repository-owned current authority, prompt/contract/oracle, indexes and previous
+    completion evidence.
+- topic: one_shot_release_fail_closed
+  item_refs:
+  - IT-BP0509-0023
+  - IT-BP0509-0024
+  disposition: PRESERVE_AS_RUNTIME_SAFETY_INVARIANT_CURRENT_IMPLEMENTATION_REAUDIT_IF_TOUCHED
+  historical_claim: A historical generic-health release reached ready_for_module_pull and policy returned fail-closed.
+  current_rule: One-shot authorization must not silently become standing release authority.
+- topic: post_release_acceptance_oracle_binding
+  item_refs:
+  - IT-BP0509-0025
+  - IT-BP0509-0026
+  disposition: PRESERVE_SEMANTIC_INVARIANT_REUSE_AUDIT_BEFORE_PROMPT_RELEASE_CHANGES
+  source_rule: After release, membership in prepared drafts and durable roadmap Acceptance Oracle binding are different
+    sets; release must not accidentally erase the roadmap's acceptance contract.
+  current_action: If prompt release/queue/oracle code is changed, inspect current implementation and tests instead
+    of reusing historical assumptions.
+- topic: durable_inbound_reference_for_current_governance
+  item_refs:
+  - IT-BP0509-0027
+  - IT-BP0509-0028
+  disposition: REUSE_CURRENT_SEMANTIC_STRUCTURE_AND_REFERENCE_VALIDATION_DIRECTION
+  source_rule: A current governance document/evidence surface should have durable inbound semantic reference; repair
+    canonical references rather than weakening a validator merely to suppress an orphan finding.
+- topic: self_inventory_and_portfolio_context_snapshots
+  item_refs:
+  - IT-BP0509-0029
+  - IT-BP0509-0030
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connections:
+  - assistant context/bootstrap packages
+  - portfolio knowledge baseline/source pack
+  - module inventory/repository knowledge surfaces
+  source_rule: Portable current-state snapshots are navigation/evidence projections, not a replacement for current
+    authority.
+- topic: foreign_ui_task
+  item_refs:
+  - IT-BP0509-0007
+  disposition: REJECTED_SCOPE_PRESERVED_AS_NEGATIVE_EVIDENCE
+  source_rule: Do not promote explicitly rejected foreign-scope material into Blueprint requirements.
+historical_open_loop_reconciliation:
+- loop: LOOP-BP0509-0001
+  status: HISTORICAL_MEMORY_RECONCILIATION_RULE_PRESERVED
+  note: Do not re-run v1.0/v1.1 blind integration from this source; use residual/provenance comparison only if a
+    concrete missing intent is discovered.
+- loop: LOOP-BP0509-0002
+  status: DIRECTION_MATERIALIZED_COMPLETENESS_NOT_ASSERTED
+  note: Current normalization/cleanliness surfaces exist; a live repository audit is needed before claiming all
+    variants are eliminated.
+- loop: LOOP-BP0509-0003
+  status: DIRECTION_MATERIALIZED_COMPLETENESS_NOT_ASSERTED
+  note: Current project has cleanliness/normalization direction; stale/deprecation implementation details should
+    be audited only when relevant.
+- loop: LOOP-BP0509-0004
+  status: DIRECTION_MATERIALIZED_END_TO_END_RUNTIME_NOT_PROVEN_BY_THIS_SOURCE
+  note: Current module intake uses Blueprint-sync/pull semantics, but this historical bundle does not prove today's
+    live runtime.
+- loop: LOOP-BP0509-0005
+  status: SEMANTIC_INVARIANT_RETAINED_CURRENT_REAUDIT_IF_TOUCHED
+  note: Prepared-set and Acceptance-Oracle binding must remain distinct after release.
+- loop: LOOP-BP0509-0006
+  status: REFERENCE_INTEGRITY_INVARIANT_RETAINED
+  note: If an orphan-current-document failure reappears, repair inbound semantics rather than weaken the validator.
+- loop: LOOP-BP0509-0007
+  status: MATERIALIZED_DIRECTION_REUSE
+  note: Context/snapshot tooling is now broader; snapshots remain projections/navigation rather than authority.
+roadmap_mutation_required: false
+new_roadmap_step_required: false
+reason_no_new_step: The source concepts are either already materialized in current governance/runtime/planning direction,
+  historical implementation claims requiring live audit, or semantic invariants best bound to existing surfaces.

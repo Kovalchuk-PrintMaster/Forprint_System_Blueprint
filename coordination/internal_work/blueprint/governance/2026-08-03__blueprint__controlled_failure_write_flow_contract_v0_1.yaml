@@ -1,0 +1,95 @@
+schema_version: blueprint_controlled_failure_write_flow_contract_v0_1
+
+metadata:
+  evidence_id: blueprint_controlled_failure_write_flow_contract_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-03"
+  status: verified_not_closed
+
+subject:
+  base_commit: a925f989535ae543bbd870121048e8ba08062918
+  source_review:
+    schema_version: blueprint_write_flow_recovery_bounded_review_v0_1
+    manual_blockers_before: 21
+  flows:
+    - path: scripts/coordination/build_context_bundle.py
+      control: --no-write
+      output_type: generated_markdown_bundle
+      source_sha256: f41b17d6347330f2c5b71c2b4fca4c52563e28d6f0857eb8c07b236757676de0
+    - path: scripts/coordination/build_document_manifest.py
+      control: --no-write
+      output_type: generated_json_and_markdown_reports
+      source_sha256: bb56666df0cba827c84c4709af357e3878f5e3df1eeea7827dde90072b58e09f
+    - path: scripts/coordination/run_inventory_acceptance_dry_run.py
+      control: simulated_business_actions_only
+      output_type: caller_supplied_yaml_report
+      source_sha256: 87442206774034056f921bb203fd81b08e64fc4e56290e88d1c0e4ca79529790
+    - path: scripts/coordination/validate_inventory_acceptance_evidence_index.py
+      control: validation_only
+      output_type: caller_supplied_yaml_report
+      source_sha256: 3b4310b0268955bb2956ea18c64520b94c8a10bb9b1269f9754f77f80bf35941
+
+contract:
+  no_write_controls:
+    context_bundle_skips_writer: true
+    document_manifest_skips_writer: true
+  write_failure_behavior:
+    exceptions_propagate: true
+    unrelated_sibling_files_preserved: true
+    canonical_coordination_state_mutated: false
+    git_state_mutated: false
+  recovery:
+    generated_outputs_are_non_authoritative: true
+    context_bundle_failure_leaves_no_completed_bundle: true
+    document_manifest_partial_report_is_bounded_to_output_directory: true
+    document_manifest_rerun_rebuilds_complete_report_pair: true
+    dry_run_report_failure_leaves_business_actions_simulated: true
+    evidence_index_report_failure_leaves_validation_inputs_unchanged: true
+    caller_may_rerun_after_output_failure: true
+
+verification:
+  exact_source_hashes: PASSED
+  no_write_cli_tests: PASSED
+  failure_injection_tests: PASSED
+  rerun_recovery_tests: PASSED
+  existing_flow_tests: PASSED
+  metadata_validator: PASSED
+  canonical_gate:
+    total: 27
+    ok: 27
+    warnings: 0
+    failed: 0
+
+per_flow_state:
+  scripts_coordination_build_context_bundle_py: verified_controlled_failure
+  scripts_coordination_build_document_manifest_py: verified_controlled_failure
+  scripts_coordination_run_inventory_acceptance_dry_run_py: verified_controlled_failure
+  scripts_coordination_validate_inventory_acceptance_evidence_index_py: verified_controlled_failure
+  remaining_manual_blocker_count_after_this_evidence: 17
+
+blocker_state:
+  write_flow_recovery_not_fully_verified: remains
+  closeout_eligible: false
+  next_unresolved_groups:
+    bounded_output_writers: 15
+    explicit_recovery_contract_flows: 2
+
+boundaries:
+  operational_readiness_review: in_progress
+  operational_readiness: blocked
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout: gated
+  production_logic_changed: false
+  cross_repository_writes: false
+  automatic_commit_push_or_merge: false
+  historical_evidence_rewritten: false
+
+next_required_step:
+  action: blueprint_bounded_output_writer_contract_review
+  scope_count: 15
+  external_module_action: none
+  pilot_action: none
+
+result: BLUEPRINT_CONTROLLED_FAILURE_WRITE_FLOW_CONTRACT_VERIFIED_BLOCKED

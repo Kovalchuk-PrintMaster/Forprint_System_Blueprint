@@ -1,0 +1,132 @@
+schema_version: forprint_telegram_bot_data_ingest_portfolio_reconciliation_v0_1
+source_label: filename-label-2026-10-07
+reconciled_on: '2026-09-22'
+source_identity:
+  primary_mhtml_sha256: 1964f07d75dc66862ddb04740956dda47f8948d599b0d089fc4f94396368cbe6
+  dftb_archive_sha256: 3d12a567b113fe23854d82fbaec1ee9497caebbb90be64b33261389f53b4f66d
+  master_memory_v3_3_archive_sha256: 837627a25d9ef8ab0a69b0f7fad394888a99645abfb70ec1d3d691710faac462
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v3_3_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+chronology:
+  filename_date_trusted: false
+  filename_label: '2026-10-07'
+  mhtml_export_saved: Tue, 15 Sep 2026 22:31:58 +0300
+  logical_date: unknown_before_export
+  rule: Use causal/source lineage, not filename date, for ordering.
+source_quality:
+  classification: VERY_SPARSE_PARTIAL_WITH_LARGE_MIDDLE_GAP
+  retained_turn_sections: 15
+  message_blocks: 16
+  roles_independent_primary_decode:
+    user: 7
+    assistant: 9
+  missing_turn_span: 5-50
+  known_good_csv_attachment_bodies_recoverable: false
+  cyrillic_loss: false
+  implementation_verification_performed: false
+current_module_boundary:
+  telegram_role: tier_1_client_communication_channel_and_intake_assistant
+  owns:
+  - telegram_channel_adapter
+  - telegram_dialog_flow
+  - telegram_message_ui
+  - channel_local_context_and_drafts
+  must_not_own:
+  - canonical_clients
+  - canonical_products
+  - canonical_orders
+  - canonical_prices
+  - accounting_or_1c_truth
+  - stock_or_operational_truth
+  current_flow: Telegram Bot -> Integration Gateway -> approved downstream owner
+topic_reconciliation:
+- topic: html_to_structured_dialogue_corpus
+  item_refs:
+  - IT-TG0710-0001
+  - IT-TG0710-0004
+  - IT-TG0710-0005
+  classification: EXTEND
+  disposition: PRESERVE_AS_DURABLE_TRAINING_DATA_ORIGIN
+  current_rule: Deterministic source-to-example transformation is useful, but current schema, identity, retention
+    and taxonomy contracts must be resolved before implementation.
+- topic: historical_20_field_supabase_contract
+  item_refs:
+  - IT-TG0710-0002
+  classification: ADAPT
+  disposition: HISTORICAL_SCHEMA_EVIDENCE_NOT_CURRENT_CONTRACT
+  note: Known-good historical imports are compatibility evidence. Do not freeze the old 20-column shape as current
+    authority without live Telegram/database audit.
+- topic: customer_identity_mapping
+  item_refs:
+  - IT-TG0710-0003
+  classification: ADAPT
+  disposition: REUSE_CURRENT_CRM_IDENTITY_OWNERSHIP
+  current_rule: Phone/name from exported chats may be lookup evidence, not canonical identity. Telegram must consume
+    approved customer identity references.
+- topic: known_good_before_synthetic_expansion
+  item_refs:
+  - IT-TG0710-0009
+  - IT-TG0710-0010
+  classification: REUSE
+  disposition: RETAIN
+  current_rule: Schema compatibility is established from known-good current examples/contracts before large synthetic
+    generation; synthetic order_modification remains useful training coverage.
+- topic: early_style_and_sentiment_taxonomies
+  item_refs:
+  - IT-TG0710-0006
+  - IT-TG0710-0007
+  classification: REPLACE
+  disposition: SUPERSEDED_BY_LATER_NORMALIZED_LOOKUPS
+  roadmap_effect: none
+- topic: synthetic_metadata_vs_observed_facts
+  item_refs:
+  - IT-TG0710-0008
+  classification: EXTEND
+  disposition: RETAIN_AS_DATA_GOVERNANCE_INVARIANT
+  current_rule: Generated confidence, response_time or feedback defaults must be marked synthetic/derived and never
+    presented as observed production telemetry.
+- topic: pii_and_real_chat_reuse
+  item_refs:
+  - IT-TG0710-0011
+  classification: EXTEND
+  disposition: RECONCILE_WITH_PRIVACY_RETENTION_POLICY
+  current_rule: Names, phone numbers and real conversation content require privacy/retention/sanitization controls
+    before training, fixtures or broad repository storage.
+  human_intent_append: false
+  reason: This is an architectural/data-governance inference, not a direct owner request in this source.
+- topic: normalized_business_entity_storage
+  item_refs:
+  - IT-TG0710-0012
+  - IT-TG0710-0013
+  classification: REUSE
+  disposition: CURRENT_DOMAIN_OWNERSHIP_WINS
+  current_rule: The relational normalization principle is retained; Telegram-local supplier/product/service master
+    data is not.
+- topic: telegram_1c_mirror_and_sync
+  item_refs:
+  - IT-TG0710-0014
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  - IT-TG0710-0018
+  classification: REPLACE
+  disposition: SUPERSEDED_BY_ACCOUNTING_GATEWAY_DOMAIN_OWNER_ARCHITECTURE
+  current_rule: Telegram consumes approved projections/contracts. Accounting Registry owns the 1C/accounting boundary;
+    Integration Gateway owns runtime transport/validation/routing; operational/catalog/customer owners retain their
+    truth.
+  owner_approval_for_historical_sync_implementation: false
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  candidate: telegram_dialogue_corpus_ingest_governance
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: Current Telegram roadmap does not visibly carry a dedicated training-corpus ingest/sanitization capability,
+    but later Telegram sources 12/13/14/16 and live repository state must be reconciled before canonical insertion.
+master_memory_relationship:
+  uploaded_master: v3.3
+  v3_3_role: historical_derived_navigation_archive
+  v3_3_contains_this_dftb: true
+  v3_3_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

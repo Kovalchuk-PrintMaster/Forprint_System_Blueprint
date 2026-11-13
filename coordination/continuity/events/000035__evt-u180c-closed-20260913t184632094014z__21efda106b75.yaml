@@ -1,0 +1,35 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180c-closed-20260913t184632094014z
+event_type: WORK_CLOSED
+sequence: 35
+previous_event_id: evt-u180c-validated-20260913t184529135053z
+previous_event_sha256: 318a263f4568a9c9b17af117d9758d7a4f5d00c86ae4e9b6c13cdd330378cc34
+work_id: u180c
+occurred_at: '2026-09-13T18:46:57.703456Z'
+actor: assistant_generated_operator_executed
+summary: CF-03 Project Constitution and machine-enforceable authority hierarchy canonically closed
+source_state_ref: 3ef6aaf532fd3556f4e28ba19c9426f5b290413d834ab8b62ef4d27875fbb986
+bootstrap_historical_import: false
+lifecycle:
+  from_state: VALIDATED
+  to_state: CLOSED
+  checkpoint_event_id: evt-u180c-checkpoint-20260913t184436229697z
+  validation_event_id: evt-u180c-validated-20260913t184529135053z
+  evidence:
+    - validated exact CF-03 checkpoint
+    - Project Constitution is canonical highest project authority
+    - lower authority layers may narrow but cannot silently widen
+    - AI cannot modify and self-certify its own guardrails
+    - roadmap execution remains event-sourced and IN_SYNC
+    - CF-04 activation remains explicit operator authority
+  close_gate:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    current_source_delta_reconciled: true
+    current_fingerprint: c6aaa4868e357322cf600dfa6cc1b987140195dee35e62eebd04d70e8cbf4952
+    checkpoint_fingerprint: c6aaa4868e357322cf600dfa6cc1b987140195dee35e62eebd04d70e8cbf4952
+    blocker_count: 0
+    blockers_explicitly_deferred: false
+    deferred_blockers: []
+    defer_rationale: ''

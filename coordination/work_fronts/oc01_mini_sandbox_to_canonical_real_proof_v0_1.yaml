@@ -1,0 +1,149 @@
+work_front_id: wf-oc01-mini-sandbox-to-canonical-real-proof-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-8
+name: sandbox_to_canonical_real_proof
+
+objective: >-
+  Prove the published Assistant Dev Sandbox -> checkpoint -> sealed result ->
+  immutable promotion preview -> explicit hash-bound promotion -> post-apply
+  validation path end-to-end against one dedicated proof target. Reuse the
+  existing workspace engine and CF10 candidate-promotion runtime without
+  introducing a second sandbox, promotion engine, execution truth or lease
+  authority.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_8_BOUNDED_IMPLEMENTATION_AND_REAL_PROOF_ONLY
+  runtime_projection:
+    console_is_state_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    canonical_write_authority: false
+    promotion_authority_owner: OPERATOR_CONTROLLED_CF10
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+
+reuse_adapt_new:
+  session_projection:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/session_projection.py
+  assistant_dev_sandbox:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  workspace_engine:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/workspace/provision.py
+  worker_baseline_and_delta:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/workspace/provision.py
+  checkpoint_and_sealed_result:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/sealed_result.py
+  promotion_preview_surface:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/promotion_surface.py
+  candidate_promotion_engine:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+  source_freshness_changed_path_recovery:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+  real_proof_orchestrator:
+    disposition: NEW
+    rationale: >-
+      MINI-8 requires one bounded workflow that composes already-published
+      sandbox, result sealing and promotion surfaces and records durable proof.
+  canonical_proof_probe:
+    disposition: NEW
+    rationale: >-
+      A dedicated non-production text target provides a narrow observable
+      canonical mutation that can only reach canonical through explicit
+      hash-bound candidate promotion during this proof.
+
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_sandbox_to_canonical_real_proof_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/sandbox_to_canonical_proof.py
+  - tests/coordination/control_plane/operator_console/test_oc01_sandbox_to_canonical_real_proof_v0_1.py
+  - coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - Makefile
+
+protected_reuse_only_components:
+  - scripts/coordination/control_plane/operator_console/session_projection.py
+  - scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  - scripts/coordination/control_plane/operator_console/sealed_result.py
+  - scripts/coordination/control_plane/operator_console/promotion_surface.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/workspace/provision.py
+
+proof_contract:
+  base_head_binding: EXACT
+  local_sandbox_commit_required: false
+  canonical_probe_path: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+  probe_created_in_sandbox_first: true
+  direct_sandbox_write_to_canonical: false
+  checkpoint_projection_required: true
+  deterministic_sealed_result_required: true
+  immutable_promotion_preview_required: true
+  explicit_apply_token_required: true
+  exact_preview_sha256_required: true
+  shared_cf10_candidate_promotion_engine_required: true
+  post_apply_validation_required: true
+  recovery_root_outside_canonical_required: true
+  proof_package_outside_canonical_required: true
+  expected_canonical_mutation:
+    operation: CREATE
+    path_count: 1
+    path: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+  forbidden_implicit_actions:
+    staging: true
+    commit: true
+    push: true
+    merge: true
+    release: true
+
+acceptance:
+  - isolated sandbox is created from exact BASE_HEAD
+  - dedicated proof target is created in sandbox and absent in canonical before promotion
+  - exact worker delta contains only the dedicated proof target
+  - checkpoint and deterministic sealed result are produced
+  - sealed result recommended canonical write-set equals the proof target
+  - immutable promotion preview is produced outside canonical
+  - explicit apply token and exact preview sha256 are required
+  - apply delegates to the existing CF10 candidate-promotion runtime
+  - post-apply canonical validation passes
+  - canonical HEAD is unchanged by promotion
+  - canonical staging is unchanged by promotion
+  - all pre-existing dirty path bytes remain unchanged
+  - canonical status gains only the dedicated proof target
+  - promotion performs no commit, push, merge or release
+  - external durable proof package is emitted
+  - protected reuse-only components remain byte-identical
+  - focused and regression tests pass
+  - stable Makefile proof workflow exists
+  - roadmap, Work Front and document-surface validations pass
+
+non_goals:
+  - local sandbox commits
+  - modify workspace engine
+  - modify sealed result implementation
+  - modify promotion surface
+  - modify CF10 candidate-promotion runtime
+  - create automatic promotion
+  - stage
+  - commit
+  - push
+  - merge
+  - release
+  - claim OC01_FULL_COMPLETE
+
+source_design_freeze:
+  slice: OC01-MINI-8
+  name: sandbox_to_canonical_real_proof
+  rule: bounded end-to-end sandbox, seal, preview, explicit promotion and validation proof
+  completion_meaning_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01

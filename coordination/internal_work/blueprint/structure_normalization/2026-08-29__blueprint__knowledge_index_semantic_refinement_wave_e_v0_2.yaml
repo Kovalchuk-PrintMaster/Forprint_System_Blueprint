@@ -1,0 +1,49 @@
+schema_version: forprint_blueprint_knowledge_index_semantic_refinement_wave_e_v0_1
+date: '2026-08-29'
+scope: forprint_system_blueprint_only
+status: local_implementation_candidate
+basis:
+  - ForPrint_Blueprint_Knowledge_Index_Review_Bundle_v0_1
+  - ForPrint_Blueprint_Knowledge_Index_Semantic_Review_v1_0
+depends_on:
+  - blueprint_normalization_foundation_wave_a
+  - blueprint_normalization_wave_b_identity_routing
+  - blueprint_semantic_normalization_consolidated_wave_c_v1_3
+  - blueprint_full_knowledge_index_wave_d_v0_2
+purpose:
+  - reduce false-positive unresolved-reference findings through scope-aware classification
+  - classify intentional exact duplicates semantically
+  - remove internal-work evidence from current no-inbound review semantics
+  - add specialized prompt/roadmap/governance/contract/source-coverage query indexes
+  - repair stale Tracking Events immutable-source Makefile locator
+semantic_decisions:
+  unresolved_reference_is_automatic_defect: false
+  internal_work_is_current_authority: false
+  historical_reference_is_automatic_defect: false
+  target_module_relative_reference_is_blueprint_missing_file: false
+  planned_module_runtime_surface_is_blueprint_missing_file: false
+  harmful_exact_duplicate_default_class: review_exact_duplicate
+  prompt_contract_source_snapshot_is_harmful_duplicate: false
+specialized_indexes:
+  - indexes/prompts.yaml
+  - indexes/roadmaps.yaml
+  - indexes/governance.yaml
+  - indexes/contracts.yaml
+  - indexes/source_coverage.yaml
+current_defect_fix:
+  make_variable: TRACKING_EVENTS_SOURCE_PROMPT
+  old_path: coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  replacement: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
+protected:
+  current_release: coordination/releases/current.yaml
+  module_identity: machine/module_identity_registry.yaml
+  module_architecture: machine/modules.yaml
+  operations_current_queue: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
+safety:
+  git_commit: false
+  git_push: false
+  git_network: false
+  external_repo_write: false
+  current_release_change: false
+  h10_authority_change: false
+  released_prompt_rewrite: false

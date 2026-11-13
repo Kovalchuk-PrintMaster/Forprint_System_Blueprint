@@ -1,0 +1,78 @@
+work_front_id: wf-cf10-parallel-coordination-and-worker-training-queue-v0-1
+objective: Add one temporary two-workstream collision-avoidance convention to the existing Blueprint bootstrap entrypoint
+  and persist the complete CF-10 Worker Training Queue without creating a new orchestration or execution-authority framework.
+scope:
+- coordination/bootstrap/START_HERE.md
+- coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+- coordination/work_fronts/cf10_parallel_coordination_and_training_queue_v0_1.yaml
+- scripts/validation/validate_cf10_parallel_coordination_and_training_queue_v0_1.py
+- tests/validation/test_cf10_parallel_coordination_and_training_queue_v0_1.py
+- tmp/project_context_archives/
+exclusions:
+- Do not create a new dispatcher.
+- Do not create a multi-assistant registry.
+- Do not create a locking framework.
+- Do not create a new handoff schema.
+- Do not create current_handoff_v0_2.yaml.
+- Do not create separate context-pack modes for each assistant.
+- Do not change canonical authority precedence.
+- Do not mutate lifecycle or roadmap state.
+- Do not enrich the global portfolio roadmap in this workstream.
+- Do not launch or retry a worker.
+- Do not append the Execution Attempt Ledger.
+- Do not commit, push, merge, release or automatically ACCEPT.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/bootstrap/START_HERE.md
+  - coordination/standards/automation/work_front_contract_v0_1.yaml
+  - CF10 first real worker attempt cf10-u180j-a001
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- existing bootstrap START_HERE entrypoint
+- existing assistant-context-pack mechanism
+- existing Work Front governance
+outputs:
+- Temporary parallel-assistant coordination section in START_HERE.
+- Machine-readable CF-10 Worker Training Queue.
+- Focused validator/test.
+- Evidence that assistant-context-pack contains updated START_HERE byte-exact.
+acceptance:
+- Temporary coordination names both active workstreams and their boundaries.
+- Cross-workstream notice requires path, reason, expected mutation and collision risk.
+- Silence from the other assistant never grants write authority.
+- Queue tasks carry order, complexity, training goal, prerequisites, acceptance, retry policy and final_control_task.
+- Exactly one final_control_task exists and is highest-order.
+- Final control task is Blueprint-local and does not grant global roadmap enrichment or other-module dispatch.
+- No forbidden framework/current_handoff_v0_2 artifact is created.
+- make assistant-context-pack MODULE=forprint_system_blueprint succeeds.
+- Generated context archive contains updated START_HERE byte-exact.
+- No lifecycle, roadmap, worker-attempt or release mutation occurs.
+stop_conditions:
+- Implementation requires a new execution-authority framework.
+- START_HERE bootstrap entrypoint is missing.
+- assistant-context-pack no longer includes START_HERE.
+- A path outside this Work Front becomes necessary.
+- The change would require global roadmap enrichment or another workstream rewrite.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/bootstrap/
+  - coordination/internal_work/blueprint/worker_training/
+  - coordination/work_fronts/
+  - scripts/coordination/work_front_v0_1.py
+  - scripts/coordination/build_project_context_archive.py
+  - Makefile
+  disposition: EXTEND
+  target_refs:
+  - coordination/bootstrap/START_HERE.md
+  - make assistant-context-pack
+  - coordination/standards/automation/work_front_contract_v0_1.yaml

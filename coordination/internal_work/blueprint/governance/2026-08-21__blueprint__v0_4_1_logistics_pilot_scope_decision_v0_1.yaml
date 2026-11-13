@@ -1,0 +1,66 @@
+schema_version: blueprint_v0_4_1_pilot_scope_decision_v0_1
+metadata:
+  decision_id: blueprint_v0_4_1_logistics_pilot_scope_decision_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-21T09:59:00+03:00'
+  source_head: 58e346858235aaf025904a110cbe540fa6d3e64d
+  status: recorded
+  subject_module_id: logistics_service
+decision:
+  decision_id: blueprint_v0_4_1_logistics_pilot_scope_decision_v0_1
+  operator_decision: USE_SINGLE_MODULE_PILOT
+  explicit_operator_input: true
+  pilot_module_id: logistics_service
+  decision_basis: New coordination model is to be polished end-to-end on the Logistics module first; other
+    modules are intentionally left at their current heterogeneous adoption levels until the pilot is stable
+    and proven.
+pilot_scope:
+  pilot_module: logistics_service
+  enforcement_scope:
+  - H7 roadmap horizon health
+  - H7 prompt buffer health
+  - new coordination-state semantics introduced after H6
+  - pilot acceptance and operational proof
+  non_pilot_modules:
+    forprint_library:
+      pilot_enforcement: false
+      lifecycle_change: false
+      treatment: observe_only_until_rollout
+    telegram_bot:
+      pilot_enforcement: false
+      lifecycle_change: false
+      treatment: observe_only_until_rollout
+    website:
+      pilot_enforcement: false
+      lifecycle_change: false
+      treatment: existing_paused_excluded_decision_remains_authoritative
+operating_rules:
+  do_not_bulk_migrate_modules: true
+  do_not_normalize_non_pilot_roadmaps_during_pilot: true
+  do_not_normalize_non_pilot_prompt_queues_during_pilot: true
+  do_not_make_non_pilot_health_debt_block_H7: true
+  non_pilot_health_may_be_reported_as_advisory: true
+  pilot_failures_are_blocking_for_H7: true
+  rollout_requires_explicit_operator_decision: true
+pilot_exit_criteria:
+  required:
+  - Logistics coordination lifecycle operates predictably end-to-end
+  - Logistics roadmap health semantics are stable and test-covered
+  - Logistics prompt buffer semantics are stable and test-covered
+  - WIP=1 and explicit operator decision invariants remain intact
+  - accept/advance and next-work selection compose without drift
+  - health output is understandable and operationally useful
+  - full Blueprint regression suite remains green
+  - operator explicitly approves rollout beyond Logistics
+rollout:
+  state: not_authorized
+  target: all remaining modules after pilot approval
+  method: gradual adoption using proven Logistics reference model
+boundaries:
+  module_repository_write: false
+  module_roadmap_mutation: false
+  module_prompt_queue_mutation: false
+  automatic_commit: false
+  automatic_push: false
+result: LOGISTICS_ONLY_PILOT_SCOPE_ACTIVE

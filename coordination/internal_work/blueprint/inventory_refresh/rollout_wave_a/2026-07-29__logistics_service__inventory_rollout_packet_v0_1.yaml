@@ -1,0 +1,83 @@
+schema_version: module_repository_inventory_rollout_packet_v0_1
+metadata:
+  packet_id: 2026-07-29__logistics_service__inventory_rollout_packet_v0_1
+  module_id: logistics_service
+  created_at: '2026-07-29T18:30:00+03:00'
+  source_blueprint_commit: be53d0103c2816bcfdc7ee15d467dfdb0041a25c
+  wave_id: ecosystem_inventory_rollout_wave_a_v0_1
+  state: scheduled_after_current_contract_acceptance
+coordination_context:
+  portfolio_state: active
+  current_work: logistics_service_tracking_events_v0_1
+  roadmap:
+    roadmap: coordination/roadmaps/logistics_service.yaml
+    current_step_id: logistics_service_tracking_events_v0_1
+    current_step_status: ready
+  prompt_queue:
+    prompt_queue: coordination/outgoing_prompts/logistics_service/index.yaml
+    open_prompt_ids: []
+    accepted_prompt_ids: []
+rollout_decision:
+  decision: scheduled_after_current_contract_acceptance
+  gate: Blueprint accepts logistics_service_tracking_events_v0_1
+  reason: Do not split the module across contract implementation and repository inventory at the same time.
+  parallel_execution_allowed: false
+scope:
+  mode: read_only_inventory
+  repository_mutation: Only module-local inventory artifacts may be created after the gate opens.
+  cross_repository_writes: false
+  network_io_required: false
+  runtime_behavior_changes: false
+  business_logic_changes: false
+deliverables:
+- deliverable_id: logistics_service_self_audit_v0_1
+  title: Repository self-audit assessment
+  requirements:
+  - Git-visible tracked scope
+  - purpose-understood count
+  - dependency-mapped count
+  - fully-verified count
+  - explicit unknowns
+  - clean working-tree evidence
+- deliverable_id: logistics_service_rci_v0_1
+  title: Repository Capability Inventory
+  requirements:
+  - dated immutable snapshot
+  - previous snapshot link when available
+  - current tracked-file count
+  - capability ownership
+  - purpose and authority evidence
+- deliverable_id: logistics_service_redm_v0_1
+  title: Repository Execution Dependency Map
+  requirements:
+  - entrypoints
+  - inputs and outputs
+  - reads and writes
+  - dependencies
+  - failure modes
+  - recovery paths
+  - explicit network and cross-repository behavior
+- deliverable_id: logistics_service_sdrs_v0_1
+  title: State Direction Rationale Snapshot
+  requirements:
+  - current state
+  - direction
+  - rationale
+  - risks
+  - confirmed unknowns
+  - comparison to prior state when available
+acceptance_gates:
+- Exact module branch and HEAD are reported.
+- Module working tree is clean.
+- Upstream divergence is reported.
+- Module test and lint evidence is green.
+- Historical snapshots are not overwritten.
+- Unknowns are explicit.
+- No cross-repository writes occurred.
+- Blueprint preview is GREEN before acceptance.
+execution_policy:
+  start_only_after_gate: true
+  one_active_module_prompt_at_a_time: true
+  no_parallel_contract_and_inventory_work: true
+  completion_packet_required: true
+  blueprint_preview_required: true

@@ -1,0 +1,515 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-08
+warning: Historical evidence is not current authority.
+queue:
+- item_id: IT-BP0809-0001
+  title: B10 semantic review reports received archives processed
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - semantic_review
+  - B10
+  verification_targets:
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0002
+  - EV-BP0809-0003
+  - EV-BP0809-0004
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0002
+  title: Legacy self-roadmap still presents as governing
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - authority
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0809-0005
+  - EV-BP0809-0006
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0003
+  title: Generated PASS reports can conceal lineage/current-step defects
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - reports
+  - repository_knowledge
+  verification_targets:
+  - reports
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0809-0007
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0004
+  title: Status evidence/projections may be empty or stale
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - reports
+  - generated_projections
+  verification_targets:
+  - reports
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0809-0008
+  - EV-BP0809-0009
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0005
+  title: Separate implementation roadmap execution and dispatch status dimensions
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - status_model
+  verification_targets:
+  - schemas
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0809-0010
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0006
+  title: H10 expansion requires real pilot evidence
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - H10
+  - governance
+  verification_targets:
+  - operations
+  - reports
+  - config
+  evidence_refs:
+  - EV-BP0809-0011
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0007
+  title: Reconcile authority sources before regenerating projections
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - generated_projections
+  - authority
+  verification_targets:
+  - code
+  - reports
+  - docs
+  evidence_refs:
+  - EV-BP0809-0012
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0008
+  title: B10 review coverage incomplete without catch-all part 02
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - semantic_review
+  - coverage
+  verification_targets:
+  - reports
+  evidence_refs:
+  - EV-BP0809-0001
+  - EV-BP0809-0013
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0009
+  title: Build portfolio forensic analytics against global ForPrint course
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - blueprint
+  verification_targets:
+  - docs
+  - code
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0014
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0010
+  title: Independent module evolution creates strategic drift
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - architecture
+  verification_targets:
+  - reports
+  - roadmap
+  evidence_refs:
+  - EV-BP0809-0015
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0011
+  title: Detect contradictory obsolete and duplicated implementations
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - semantic_review
+  - code_health
+  verification_targets:
+  - code
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0016
+  - EV-BP0809-0020
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0012
+  title: One self-sufficient mega-prompt hands off the forensic program
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - portfolio_forensics
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0809-0017
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0013
+  title: Temporary forensic tooling is reconstructible from durable instructions
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - continuity
+  verification_targets:
+  - docs
+  - scripts
+  evidence_refs:
+  - EV-BP0809-0018
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0014
+  title: Wave 1 starts with Blueprint self-analysis and synthetic target
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  - roadmap
+  verification_targets:
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0019
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0015
+  title: Produce machine-readable disposition for every module
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - machine_output
+  verification_targets:
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-BP0809-0021
+  - EV-BP0809-0026
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0016
+  title: Track forensic coverage quantitatively
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - coverage
+  verification_targets:
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0022
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0017
+  title: Maintain unresolved/unnormalizable issue registry
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - semantic_review
+  - portfolio
+  verification_targets:
+  - reports
+  - schemas
+  evidence_refs:
+  - EV-BP0809-0023
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0018
+  title: Use iterative collector-package-analysis-next-collector loop
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - portfolio_forensics
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-BP0809-0024
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0019
+  title: Keep forensic temporary workspace compact by wave/theme
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - repository_hygiene
+  verification_targets:
+  - docs
+  - scripts
+  evidence_refs:
+  - EV-BP0809-0025
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0020
+  title: Machine readability outranks verbose human presentation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - machine_output
+  - portfolio
+  verification_targets:
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-BP0809-0026
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0021
+  title: Logistics forensic uses static baseline then live validation
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - forensics
+  verification_targets:
+  - scripts
+  - reports
+  - tests
+  evidence_refs:
+  - EV-BP0809-0027
+  - EV-BP0809-0028
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0022
+  title: Historical Logistics live validation reports healthy code baseline
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  verification_targets:
+  - git
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP0809-0029
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0023
+  title: Logistics structural validation can pass while semantic freshness fails
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - repository_knowledge
+  verification_targets:
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0809-0030
+  - EV-BP0809-0031
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0024
+  title: Prompt lifecycle can disagree with implemented deliverables
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics
+  - prompt_lifecycle
+  verification_targets:
+  - config
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP0809-0032
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0025
+  title: Keep Logistics implementation and reconcile its control plane
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  - control_plane
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0809-0033
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0026
+  title: Historical Logistics forensic coverage estimated around 72 percent
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - logistics
+  - coverage
+  verification_targets:
+  - reports
+  evidence_refs:
+  - EV-BP0809-0034
+  - EV-BP0809-0035
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0027
+  title: Portfolio alignment axis is mission to actual state to gap
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  - architecture
+  verification_targets:
+  - reports
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-BP0809-0036
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0028
+  title: Collector output distinguishes command execution from check success
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - reporting
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-BP0809-0037
+  - EV-BP0809-0038
+  - EV-BP0809-0039
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0029
+  title: Do not repeat collector runs that add no new evidence class
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - evidence
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-BP0809-0040
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0030
+  title: After Logistics shift to Blueprint authority/target Wave 1
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - portfolio
+  verification_targets:
+  - scripts
+  - reports
+  evidence_refs:
+  - EV-BP0809-0041
+  - EV-BP0809-0036
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0031
+  title: Forensic collectors fail closed on repository identity
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - git_workflow
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-BP0809-0042
+  - EV-BP0809-0043
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0032
+  title: Blueprint collector starts from Git/control state
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - tooling
+  verification_targets:
+  - scripts
+  - reports
+  evidence_refs:
+  - EV-BP0809-0044
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0033
+  title: Generated guides/diagrams must not regenerate from unreconciled sources
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - generated_projections
+  - repository_knowledge
+  verification_targets:
+  - code
+  - docs
+  - reports
+  evidence_refs:
+  - EV-BP0809-0009
+  - EV-BP0809-0012
+  current_audit_status: not_audited
+- item_id: IT-BP0809-0034
+  title: Final module verdict requires local plus project-course evidence
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - architecture
+  verification_targets:
+  - reports
+  - dependencies
+  evidence_refs:
+  - EV-BP0809-0033
+  - EV-BP0809-0035
+  - EV-BP0809-0036
+  current_audit_status: not_audited

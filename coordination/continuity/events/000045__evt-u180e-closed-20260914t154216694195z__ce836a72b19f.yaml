@@ -1,0 +1,36 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180e-closed-20260914t154216694195z
+event_type: WORK_CLOSED
+sequence: 45
+previous_event_id: evt-u180e-validated-20260914t154019117798z
+previous_event_sha256: 5049f8e25c8af51657b4cb61a1ddd2e2cdf19bee6d76e3ce1e5df6339a35332d
+work_id: u180e
+occurred_at: '2026-09-14T15:42:48.046650Z'
+actor: assistant_generated_operator_executed
+summary: CF-05 durable Workfront History and Execution Attempt Ledger closed
+source_state_ref: 58104002e1180c94415c2245af7cd1b27b50806e13c3a23802ea04c331bfbcc9
+bootstrap_historical_import: false
+lifecycle:
+  from_state: VALIDATED
+  to_state: CLOSED
+  checkpoint_event_id: evt-u180e-checkpoint-20260914t144822267695z
+  validation_event_id: evt-u180e-validated-20260914t154019117798z
+  evidence:
+    - validated exact existing CF-05 checkpoint seq43
+    - validation seq44 is checkpoint-bound
+    - Workfront History and Execution Attempt Ledger remain separate append-only fact histories
+    - failed attempts retries and durable resume coordinates preserved
+    - Work Front and Continuity lifecycle execution authorities preserved
+    - CF-06 remains manual next step and is not auto-activated
+    - worker dispatch release and foreign writes remain blocked
+  close_gate:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    current_source_delta_reconciled: true
+    current_fingerprint: d6cffca9ba5bcdb517554b1b7e2c03f4d87478d3779acde536c9a6cc6f206b15
+    checkpoint_fingerprint: d6cffca9ba5bcdb517554b1b7e2c03f4d87478d3779acde536c9a6cc6f206b15
+    blocker_count: 0
+    blockers_explicitly_deferred: false
+    deferred_blockers: []
+    defer_rationale: ''

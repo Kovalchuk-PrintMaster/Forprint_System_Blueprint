@@ -1,0 +1,26 @@
+schema_version: blueprint_project_entry_context_bootstrap_aut_02_04_adoption_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-08'
+  status: IMPLEMENTED
+roadmap_alignment:
+  AUT-02: IMPLEMENTED
+  AUT-03: IMPLEMENTED
+  AUT-04: IMPLEMENTED
+implementation:
+  entrypoint: coordination/bootstrap/START_HERE.md
+  bootstrap_index: coordination/bootstrap/index_v0_1.yaml
+  builder: scripts/coordination/build_project_context_archive.py
+  operator_command: make assistant-context-pack
+  default_context_scope: portfolio
+  task_context_primitive_preserved: scripts/coordination/build_context_bundle.py
+  project_entry_archive_replaces_task_context: false
+authority:
+  archive_is_execution_authority: false
+  automatic_prompt_release: false
+  automatic_worker_start: false
+  automatic_accept: false
+next_parallel_reconciliation:
+- module_self_knowledge_inventory_operating_model_reconciliation
+- module_roadmap_reconciliation_rule_and_logistics_reconciliation
+next_control_plane_implementation: module_preparation_registry_and_queue_v0_1

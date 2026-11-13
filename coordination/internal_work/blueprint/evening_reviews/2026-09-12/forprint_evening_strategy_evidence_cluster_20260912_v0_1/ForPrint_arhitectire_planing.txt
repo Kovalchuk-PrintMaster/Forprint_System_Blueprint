@@ -1,0 +1,1059 @@
+Загальний зміст вечірньої сесії
+
+Сьогодні ми фактично переглянули сам підхід до керування ForPrint.
+
+Раніше проєкт розвивався так, що ти особисто тримав у голові більшу частину контексту, вручну рухав окремі модулі, сам вирішував, кому що робити, і міг досить глибоко орієнтуватися в коді. Коли модулів було два — Telegram і Calculator — це було реально. Але із розростанням системи до великої кількості взаємозалежних модулів цей спосіб перестає масштабуватися.
+
+Саме тому Blueprint поступово перетворюється з просто «модуля, де ми тримаємо roadmap» у центральний control plane усього ForPrint.
+
+Головний висновок вечора такий:
+
+Blueprint повинен перестати залежати від пам’яті конкретної людини або конкретного AI-помічника. Стан, правила, процедури, залежності, історія рішень і критерії виконання повинні існувати окремо від будь-якої розмови.
+
+У перспективі Blueprint має стати керованою людиною, але значною мірою операційно автоматизованою AI-системою.
+
+Ти залишаєш за собою кінцеву бізнес-мету, стратегічні рішення, зміну фундаментальних правил, прийняття ризикових або неоднозначних рішень і підвищення рівня автономії. Але рутинне підтримання знань, підготовка завдань, аналіз залежностей, перевірка виконання, формування зрізу знань і балансування модулів поступово передаються автоматичним механізмам і AI.
+
+Перша велика тема — «тунелі» виконання робіт
+
+Ми домовилися, що одних текстових інструкцій недостатньо.
+
+Якщо написати в prompt:
+
+«Перед виконанням роботи прочитай документи A, B і C»
+
+це ще нічого реально не гарантує.
+
+Тому для важливих процесів потрібні Governed Procedure Graphs — машинно-читані, версійовані маршрути виконання роботи.
+
+Такий graph повинен описувати не тільки послідовність:
+
+A → B → C → D
+
+а й умовні переходи, operator gates, allowed deviations, required contracts і evidence.
+
+Наприклад, ранкове внесення вечірніх домовленостей не повинно залежати від того, чи згадаю я через 20 поколінь помічників, що перед roadmap mutation треба перевірити дублікати.
+
+Це буде частина процедури:
+
+розібрати вечірній діалог
+→ знайти існуючі capabilities
+→ знайти схожі roadmap items
+→ визначити affected modules
+→ адаптувати intent до реальної архітектури
+→ сформувати semantic diff
+→ отримати approval для destructive changes
+→ оновити roadmap
+→ оновити rationale/history
+→ перевірити результат
+
+Ми також уточнили дуже важливу річ: є два різні типи control points.
+
+Hard gate — те, що система може фізично заборонити. Наприклад неправильний lifecycle transition, foreign-repository write або mutation за межами дозволених paths.
+
+Observed gate — те, що неможливо на 100% перевірити внутрішньо. Наприклад ми не можемо математично довести, що AI «уважно прочитав документ». Але можемо вимагати, щоб йому була передана конкретна revision документа, щоб він задекларував її використання, а результат пройшов незалежний validator.
+
+До кожного проходження procedure повинен створюватися Run Manifest — запис, що саме було виконано, яка revision процедури використовувалася, які steps були DONE, NOT_APPLICABLE, FAILED, WAIVED тощо.
+
+Це дозволить бачити не лише:
+
+«робота завершена»,
+
+а:
+
+«робота завершена за процедурою revision 7, пройдено всі required steps, один conditional step був не потрібен, використані такі-то contracts».
+
+Друга велика тема — система знань і уникнення дублювання
+
+Ми кілька разів самі натрапили на проблему: повторно проговорювали речі, які, ймовірно, вже десь існують у проєкті.
+
+Найяскравіший приклад — restricted shell і foreign repository writes. Ми знаємо, що це вже обговорювалося раніше, але в поточному AI-контексті немає простого способу миттєво знайти це правило.
+
+Тому майбутня система знань повинна відповідати не тільки на запит:
+
+«знайди текст зі словом shell»,
+
+а:
+
+«які правила існують для worker shell, де вони canonical, яка revision актуальна, які procedures їх використовують і на які roadmap items вони впливають?»
+
+Ми умовно розділили знання на три взаємопов’язані graph-шари:
+
+Capability Graph відповідає на питання: що система вміє і хто owner.
+
+Procedure Graph відповідає: як правильно виконується важлива робота.
+
+Dependency Graph відповідає: від чого це залежить і які модулі зачіпає.
+
+Навколо них повинні існувати Project Constitution, module manifests, contracts, roadmaps, decision history, health data і future/horizon items.
+
+Третя тема — вечірні розмови й ранкове внесення домовленостей
+
+Ми вирішили, що вечірня розмова не повинна автоматично перетворюватися на roadmap.
+
+Ти формулюєш проблему і бажаний результат людською мовою. Це intent, а не implementation specification.
+
+Ранковий процес має обов’язково перевірити:
+
+чи така capability вже існує;
+чи є схожий roadmap item;
+чи цей функціонал взагалі належить Blueprint;
+який модуль є owner;
+чи наша нова думка розширює стару;
+чи звужує її;
+чи суперечить раніше прийнятому;
+чи вже існує кращий технічний primitive.
+
+Тільки після цього intent стає roadmap change.
+
+Ми ввели для цього ідею Semantic Roadmap Diff.
+
+Він має показувати не просто зміну YAML-файлу, а змістовну зміну:
+
+ADDED
+ENRICHED
+DUPLICATE_NO_CHANGE
+DEPENDENCY_CHANGED
+NARROWED
+REMOVED
+BREAKING
+OWNER_CHANGED
+
+Особливо важливо: NARROWED, REMOVED і BREAKING не можна тихо застосовувати.
+
+Вони повинні вимагати твого явного підтвердження, щоб випадкова неповна вечірня розмова не стерла ширший задум, прийнятий пів року тому.
+
+Четверта тема — повна історія розмов і rationale
+
+Ми прийшли до висновку, що короткого summary недостатньо для довгоживучого проєкту.
+
+Через три роки може виникнути питання:
+
+«Чому Logistics читає саме primary address і не використовує secondary?»
+
+Roadmap і код покажуть що зроблено, але не обов’язково чому саме так.
+
+Тому потрібні три окремі рівні:
+
+Canonical Project State
+↓
+Decision / Rationale Ledger
+↓
+Raw Conversation Evidence
+
+Canonical state — це прийнята правда проєкту.
+
+Rationale Ledger — коротко пояснює, чому рішення з’явилося, які альтернативи розглядалися і звідки воно прийшло.
+
+Raw Conversation Evidence — повна первинна розмова.
+
+Сира розмова не є authority. Вона — historical evidence.
+
+Якщо через три роки сухого rationale недостатньо, AI зможе підняти відповідні частини повної історичної розмови й відновити хід думки.
+
+Ми також домовилися, що не треба дублювати один діалог у десять модулів. Один conversation ID повинен мати посилання з Blueprint, Logistics, Telegram тощо.
+
+Технологію сховища зараз не фіксуємо. Це може бути локальний archive, Google Drive, object storage, NAS тощо. Головне — stable ID, hash, immutable evidence і можливість retrieval.
+
+П’ята тема — Portfolio
+
+Portfolio ми перестаємо розглядати як документ, який хтось вручну підтримує.
+
+Він має стати generated human-readable projection.
+
+Тобто з machine roadmaps, implementation state, continuity history, decisions, rationale і conversation references автоматично створюється людська версія.
+
+Ми визначили щонайменше три режими.
+
+Current → Target — де модуль зараз і що лишилося до кінцевої мети.
+
+Full Historical Portfolio — повна історія: що планувалося, що виконано, що скасовано, що було superseded і чому.
+
+Decision / Change Review — наприклад: «що змінилося після wave 12» або «покажи історію рішення ARCH-DATA-001».
+
+Таким чином через кілька років можна буде не тільки бачити стан проєкту, а й відновлювати біографію архітектурних рішень.
+
+Шоста тема — стандартизація функцій між модулями
+
+Ми окремо проговорили проблему, коли Telegram, Logistics, Calculator або Storefront можуть по-різному реалізувати одну бізнес-сутність.
+
+Наприклад:
+
+customer
+product
+delivery address
+order
+shipment status
+
+Ми не хочемо, щоб у Telegram була одна семантика Customer, а в Logistics — інша.
+
+Але й не хочемо складати весь код в одну величезну загальну library.
+
+Тому базова модель:
+
+Single Canonical Capability — Multiple Adapters.
+
+Тобто є одна canonical business capability і contract, а конкретні модулі можуть мати свої adapters.
+
+Перед створенням нової capability майбутній assistant повинен пройти gate:
+
+REUSE
+EXTEND
+ADAPT
+REPLACE
+NEW
+
+І лише якщо справді потрібне NEW, створюється нова реалізація.
+
+Це повинно сильно скоротити дублюючий код.
+
+Ролі Library / Registry / Gateway / Inspector ми навмисно не зафіксували остаточно, бо завтра треба прочитати їхні існуючі документи. Ми не хочемо поверх реальних домовленостей вигадати нові ролі.
+
+Сьома тема — міжмодульна взаємодія
+
+Ми погодили дуже хороший баланс:
+
+OBSERVE → QUERY → PROPOSE, але не FOREIGN MUTATE.
+
+Наприклад Logistics може:
+
+побачити capability Telegram;
+прочитати його public contract;
+поставити bounded question;
+запропонувати нову інтеграцію.
+
+Але Logistics не може самостійно піти і переписати Telegram.
+
+Пропозиції workers повинні збиратися централізовано.
+
+У результаті кроку worker може повернути:
+
+LOCAL_IMPROVEMENT
+CROSS_MODULE_INTEGRATION
+PORTFOLIO_IMPROVEMENT
+CONTRACT_GAP
+RISK
+
+Dispatcher/Blueprint агрегує ці пропозиції в Wave Proposal Digest, і вже ми вирішуємо, що приймати.
+
+Це дає нам 20+ додаткових джерел ідей, але не створює хаосу.
+
+Восьма тема — waves і балансування модулів
+
+Ми підтвердили, що майбутній Dispatcher не повинен просто брати «наступну задачу».
+
+Він повинен бачити стан всього портфеля.
+
+При формуванні wave враховуються:
+
+dependency readiness;
+critical path;
+WIP;
+lead/lag між модулями;
+temporary dependency debt;
+knowledge completeness;
+strategic priority.
+
+Telegram, Calculator і Logistics отримують підвищений strategic weight, але не право обійти dependency constraints.
+
+Якщо модуль залежить від іншого і потрібна capability ще не готова, робота не повинна просто зупинятися. Можна створити bounded temporary stub і machine-readable dependency debt:
+
+provider
+required capability
+temporary strategy
+target provider step
+replacement trigger
+
+Коли provider capability стане VALIDATED, система відкриє replacement work.
+
+Дев’ята тема — ручні semantic reviews
+
+Ми чітко розділили дві речі.
+
+Машина може перевіряти синтаксис, dependency references, contracts, schemas, required fields.
+
+Але вона не може гарантовано знайти всі семантичні суперечності типу:
+
+документ A дозволяє видаляти клієнта,
+
+а:
+
+документ B забороняє видаляти клієнта.
+
+Тому такі ревізії частково лишаються ручними.
+
+Але система повинна автоматизувати обов’язок не забути їх зробити.
+
+Наприклад:
+
+Telegram semantic review
+last: wave 3
+current: wave 6
+required every: 2 waves
+state: OVERDUE
+
+І це потрапляє в Project Health.
+
+Десята тема — tests і швидкість розробки
+
+Повний make check уже стає занадто дорогим для кожної дрібної зміни.
+
+Ми домовились не ламати існуючу семантику make check. Він лишається повною system validation.
+
+Але додаємо рівні:
+
+check-local
+check-affected
+check-core
+make check
+
+check-affected повинен визначати тести не на око assistant-а, а через dependency/validation-domain registry.
+
+Також ми ввели ідею Full Check Debt.
+
+Не просто:
+
+«змінилось 12 файлів — запускай full check».
+
+А враховувати:
+
+critical surfaces;
+dependency fan-out;
+час від останнього check;
+canonical contracts;
+lifecycle/core changes;
+checkpoint/wave/publication context.
+
+Project Health тоді показує:
+
+FULL_CHECK_DEBT=GREEN/YELLOW/RED
+Одинадцята тема — Project Health і dashboard
+
+Ми не хочемо, щоб кожен script сам малював свої таблиці й по-своєму рахував health.
+
+Повинен існувати один canonical machine snapshot:
+
+PROJECT_HEALTH
+
+Він містить:
+
+module health;
+knowledge freshness;
+procedure conformance;
+graph drift;
+tests;
+dependency debt;
+semantic review obligations;
+publication state;
+wave balance;
+worker/context health.
+
+А вже з нього генеруються:
+
+make status
+make status-full
+make dashboard
+Assistant Pack
+Telegram alerts
+historical reports
+
+Machine-команди повинні бути non-interactive.
+
+Interactive operator menu/dashboard — окремо.
+
+Дванадцята тема — майбутній функціонал, який ще зарано реалізовувати
+
+Це одна з важливих ідей вечора.
+
+Ми не хочемо ні:
+
+overengineering зараз,
+
+ні:
+
+через пів року забути, що потрібна технологія вже дозріла.
+
+Тому виникла ідея окремого:
+
+Architecture / Capability Horizon Registry.
+
+Він відрізняється від roadmap.
+
+Roadmap:
+
+це ми вирішили реалізувати.
+
+Horizon:
+
+це може бути корисно, але зараз ще рано; ось критерії, коли треба переоцінити.
+
+Наприклад SQLite.
+
+Не записуємо:
+
+«через 20 кроків встановити SQLite».
+
+Записуємо:
+
+«якщо file-based registries досягнуть такого рівня складності, кількість зв’язків/запитів/конфліктів перевищить такі критерії — підняти architecture review».
+
+Через рік система сама скаже:
+
+«тригер виконаний, пора повторно оцінити рішення».
+
+Причому не обов’язково SQLite. Може виявитися, що на той момент PostgreSQL або зовсім інший інструмент буде правильнішим.
+
+Тринадцята тема — AI-friendly architecture
+
+Ми уточнили, що не треба будувати проект просто «так, як AI очікує».
+
+Це надто нестабільний критерій.
+
+Правильна мета:
+
+Deterministic Machine Discoverability.
+
+Новий assistant повинен дуже швидко й без здогадок знаходити:
+
+purpose
+owner
+capabilities
+entrypoints
+commands
+tests
+contracts
+procedures
+dependencies
+deprecated surfaces
+roadmap
+authority
+
+Для цього модулі повинні мати чіткий machine entrypoint / manifest.
+
+Але ми не будемо зараз масово перейменовувати Telegram і Calculator.
+
+Домовлена стратегія:
+
+до inventory → визначити стандарт
+під час inventory → виміряти проблеми
+нові модулі → strict compliance
+старі модулі → touch it, improve it
+Чотирнадцята тема — нові модулі
+
+Нові модулі простіше зробити правильно відразу.
+
+Після стабілізації стандартів майбутній новий модуль повинен створюватися не вручну, а через умовний:
+
+PROC-MODULE-BOOTSTRAP
+
+який створює canonical skeleton:
+
+manifest
+AGENTS
+src
+tests
+contracts
+validation
+roadmap link
+knowledge integration
+health integration
+
+Тоді 24-й або 30-й module уже не зможе мати випадкову структуру, вигадану конкретним AI.
+
+П’ятнадцята тема — raw shell і authority
+
+Ми окремо зафіксували, що restricted shell і foreign write rules уже раніше обговорювались і завтра їх треба знайти, а не придумати заново.
+
+Стратегічно ми хочемо перейти від:
+
+assistant має shell і просто обіцяє поводитись правильно
+
+до:
+
+assistant
+↓
+approved operation
+↓
+authority/policy check
+↓
+bounded mutation
+↓
+validator
+↓
+evidence
+
+Особливо це стосується:
+
+roadmap mutation;
+worker dispatch;
+lifecycle;
+publication;
+module creation;
+cross-module writes;
+authority changes.
+
+Шістнадцята тема — Handoff v1 і Handoff v2
+
+Тут ми прийняли чітку послідовність.
+
+Поточний Handoff v1 не треба зараз напихати майбутніми concept-ами, які ще не реалізовані.
+
+Спочатку закриваємо нинішній Step 12.
+
+Потім будуємо Control Foundation.
+
+І тільки після цього Handoff Compiler v2 починає реально включати:
+
+Project Laws slice
+Procedure slice
+Capability slice
+Dependency slice
+Health state
+Relevant rationale
+Relevant horizon items
+Authority
+Budget
+Expected result schema
+
+Тоді новий assistant не буде шукати graph, якого ще не існує.
+
+Сімнадцята і найважливіша тема — AI у самому Blueprint
+
+Наприкінці ми підняли фундаментальне питання: чи Blueprint повинен назавжди лишатися 100% ручним.
+
+Висновок — ні.
+
+Ти вже бачиш природну межу людського масштабування.
+
+Але ми так само не хочемо:
+
+«завтра створити blueprint_agent.py і віддати йому весь проєкт».
+
+Тому ми сформували progressive rollout.
+
+Shadow — AI нічого не змінює, тільки аналізує й формує candidate рішення.
+Copilot — ти вручну даєш prompt або файл; AI виконує роботу й готує mutation, significant changes підтверджуються.
+Bounded Operator — безпечні deterministic operations він уже може виконувати сам через approved choke points і сам запускати локальні тести.
+Autonomous Routine Coordinator — routine coordination у межах затвердженої wave.
+High Autonomy by Capability — лише окремі capabilities, які статистично довели стабільність.
+
+Тобто не існує одного прапорця:
+
+BLUEPRINT_AI_AUTONOMOUS=true
+
+Кожна capability має власний рівень автономії.
+
+Причому чим більший blast radius, тим повільніше автономія підвищується.
+
+Blueprint AI ніколи не повинен мати право:
+
+сам змінити rule, що обмежує його самого → сам його перевірити → сам сказати PASS.
+
+Для control-plane guardrails залишається separation of duties.
+
+Що фактично лежить у сформованому ZIP
+
+Поточний пакет не є проектним patch.
+
+Він є ранковим integration input.
+
+У ньому збережено:
+
+короткий executive summary;
+прийняті стратегічні рішення;
+Control Foundation scope;
+proposed roadmap sequence;
+Portfolio/history/raw-evidence model;
+test/status/horizon model;
+AI-legibility rollout;
+Blueprint AI Coordinator candidate;
+morning reconciliation checklist;
+unresolved/open questions;
+hashes і manifest.
+
+І окремо чесно вказано:
+
+ZIP не є exact raw transcript archive.
+
+Він містить структуровану вижимку сьогоднішньої розмови. Майбутній exact conversation archive ще треба реалізувати.
+
+Який порядок ми фактично погодили на завтра і далі
+Не чіпати Logistics.
+Закрити поточний Step 12 / Handoff v1.
+Прочитати існуючий Blueprint index і знайти те, що вже існує.
+Порівняти вечірній пакет із реальними standards/roadmaps/modules.
+Знайти дублікати й старі домовленості.
+Побудувати semantic roadmap diff.
+Внести Control Foundation у правильні roadmaps — не тільки Blueprint, але й Inspector/Registry/Library/Gateway/інші affected modules.
+Реалізовувати foundation поступово.
+Побудувати Portfolio Renderer.
+Зробити Handoff v2 уже поверх реально реалізованого foundation.
+Окремо детально спроєктувати Blueprint AI Coordinator і подати тобі roadmap на погодження.
+Почати з максимально простого ручного режиму: ти даєш prompt/файл → AI виконує bounded роботу → сам перевіряє локально → ми оцінюємо якість → поступово підвищуємо автономію.
+
+І це добре стикується з інвентаризацією інших модулів: поки ми відпрацьовуємо Blueprint AI на власному модулі, паралельно формується більш повна карта всього ForPrint. Коли Dispatcher буде готовий активніше працювати з незалежними workers, ми вже матимемо відтестований власний приклад правильного AI workflow.
+
+Якщо спробувати всю сьогоднішню розмову стиснути до однієї центральної думки, я б сформулювала її так:
+
+Ми переводимо ForPrint від проєкту, який тримається на пам’яті й ручній координації людини, до проєкту, де знання, рішення, процедури, залежності, історія й контроль існують як формальна система; людина визначає напрямок і межі, а AI поступово бере на себе виконання всередині цих меж.
+Так, тут уже видно не окрему помилку, а архітектурну прогалину. У нас зараз execution state і roadmap progress частково живуть як дві окремі речі, і тому вони можуть роз’їхатися. Саме це треба прибрати системно, а не ще одним правилом «не забудь оновити roadmap».
+
+Я подивилася і наш поточний repair bundle, і як такі проблеми закривають у великих системах. Найближчий до нас технічний патерн — це Kubernetes/GitOps reconciliation, доповнений нашим уже наявним Event Sourcing.
+
+Kubernetes навмисно розділяє spec — бажаний стан — і status — фактично спостережений стан; controllers постійно їх звіряють. Там є ще дуже корисна для нас концепція observedGeneration: status явно каже, для якої саме версії spec він був розрахований; якщо spec уже новіший — status вважається застарілим. OpenGitOps формулює це ще простіше: desired state має бути декларативним і versioned, а фактичний стан — continuously reconciled із ним. Argo CD поверх цього прямо показує OutOfSync, порівнює desired/live state і не приховує drift.
+
+Для нас це лягає дуже природно, тому що lifecycle event store уже майже дає другу половину архітектури: append-only events можуть бути джерелом фактичного стану, а read models/projections — перебудовуваними представленнями. Це стандартна модель Event Sourcing: event stream — system of record, матеріалізовані views можна відновити з нього.
+
+Що саме зараз неправильно
+
+Наш Continuity micro-roadmap має приблизно таке:
+
+steps:
+  - id: zero_context_acceptance
+    state: complete
+    work: u179g
+
+  - id: module_transfer_reference_implementation
+    state: next
+
+А lifecycle окремо має:
+
+u179g = CLOSED
+u179h = PLANNED / ACTIVE / ...
+
+Тобто complete/next у roadmap — це другий запис того самого mutable факту.
+
+У repair bundle я ще й бачу, що roadmap validator перевіряє конкретні complete/next значення. Тобто сьогодні він фактично перевіряє «чи правильно вручну оновлений snapshot», а не «чи відповідає roadmap реальному execution state».
+
+Ось це і є корінь проблеми.
+
+Нам треба перейти до моделі:
+
+ROADMAP SPEC
+що ми плануємо
+порядок / dependencies / gates / work binding
+                 │
+                 │
+                 ▼
+        ROADMAP RECONCILER
+                 ▲
+                 │
+                 │
+LIFECYCLE EVENT STORE
+що реально відбулося
+PLANNED → ACTIVE → CHECKPOINTED → VALIDATED → CLOSED
+                 │
+                 ▼
+GENERATED ROADMAP STATUS
+previous / current / next / blocked / ready / drift
+
+Тоді roadmap більше не треба вручну “пересувати” після кожної виконаної роботи.
+
+Roadmap повинен мати spec, а не вручну підтримуваний execution status
+
+У canonical roadmap залишаються речі типу:
+
+step_id: module_transfer_reference_implementation
+work_id: u179h
+
+depends_on:
+  - zero_context_acceptance
+
+activation_policy: OPERATOR
+
+acceptance_policy:
+  lifecycle_state: CLOSED
+
+А ось це:
+
+state: next
+
+або:
+
+state: complete
+
+не повинно бути самостійним джерелом truth.
+
+Це має генеруватися.
+
+Наприклад:
+
+roadmap_id: continuity_assistant_handoff
+
+observed_roadmap_sha256: abc...
+observed_latest_event_sequence: 21
+
+sync_state: IN_SYNC
+
+steps:
+  module_transfer_reference_implementation:
+    work_id: u179h
+    execution_state: CLOSED
+    roadmap_status: COMPLETE
+
+current_step: null
+
+next_ready_step:
+  id: control_plane_repository_reconciliation
+  work_id: u180a
+
+next_activation:
+  authority: OPERATOR_REQUIRED
+І це вирішує відразу дві проблеми
+
+Перша — коли робота реально закрилася, нам більше не треба згадувати:
+
+«а тепер ще онови roadmap».
+
+Lifecycle event уже відбувся. Reconciler бачить його й сам будує:
+
+Step 12 = COMPLETE
+
+Друга — якщо assistant сказав:
+
+u179h = CLOSED
+
+а canonical event store каже:
+
+u179h = PLANNED
+
+reconciler не повірить assistant-у.
+
+Він покаже:
+
+ROADMAP_SYNC=IN_SYNC
+ACTUAL_WORK_STATE=PLANNED
+
+А fake completion report буде відкинутий іншим evidence validator.
+
+Попередній YAML справді заявляв, що checkpoint/validation/close для u179h відбулися, але це виявилося лише заявою у result-файлі, а не canonical evidence.
+
+Нам потрібен окремий Roadmap Reconciliation Controller
+
+Я б саме так його й назвала.
+
+Він не виконує roadmap. Це важлива відмінність від повного Kubernetes controller.
+
+На нашому поточному рівні він лише:
+
+READ
+DERIVE
+COMPARE
+REPORT
+BLOCK IF INCONSISTENT
+
+Ніякого:
+
+AUTO ACTIVATE
+AUTO DISPATCH
+AUTO CHANGE ROADMAP
+
+поки немає.
+
+Його алгоритм буде детермінований:
+
+roadmap spec
+        +
+roadmap revision/hash
+        +
+lifecycle events
+        +
+work_id bindings
+        +
+dependency graph
+        ↓
+reconcile
+        ↓
+step statuses
+current cursor
+next ready step
+conflicts
+roadmap sync state
+
+Причому треба ввести аналог Kubernetes observedGeneration, тільки для файлового Blueprint нам навіть краще hash:
+
+roadmap_sha256: 82ab...
+observed_roadmap_sha256: 82ab...
+
+latest_event_sequence: 28
+observed_event_sequence: 28
+
+Це означає:
+
+цей roadmap status гарантовано розрахований саме для цієї версії roadmap і саме до цього lifecycle event.
+
+Якщо:
+
+latest_event_sequence=29
+observed_event_sequence=28
+
+ми точно знаємо:
+
+PROJECTION_STALE
+
+а не гадатимемо.
+
+Я б зробила п'ять sync-state
+
+Цього достатньо:
+
+IN_SYNC
+PROJECTION_STALE
+PLAN_CHANGE_REQUIRED
+EXECUTION_CONFLICT
+UNKNOWN
+
+Наприклад, PROJECTION_STALE — абсолютно автоматично виправна ситуація: event store нормальний, roadmap нормальний, просто projection ще не перебудований.
+
+А:
+
+WORK_NOT_BOUND_TO_ROADMAP
+
+вже дає:
+
+PLAN_CHANGE_REQUIRED
+
+і блокує наступний work.
+
+Наприклад:
+
+DEPENDENCY_ORDER_VIOLATION
+DUPLICATE_WORK_BINDING
+CLOSED_STEP_WITH_OPEN_REQUIRED_PREDECESSOR
+MULTIPLE_ACTIVE_WORK_VIOLATES_WIP_POLICY
+SOURCE_EVIDENCE_MISSING
+
+→ EXECUTION_CONFLICT.
+
+Що відбувається при закритті кроку
+
+Оце якраз відповідає твоєму формулюванню «закрили попередній — пересунулися на наступний».
+
+Не так:
+
+close work
+↓
+assistant пам'ятає, що треба відредагувати roadmap
+↓
+редагує roadmap
+
+а так:
+
+VALIDATED
+↓
+CLOSE event
+↓
+event accepted
+↓
+Roadmap Reconciler
+↓
+previous step = COMPLETE
+↓
+dependency graph evaluated
+↓
+next step = READY
+↓
+projection refreshed
+↓
+STOP
+
+Для нашого ручного режиму фінал буде приблизно:
+
+LIFECYCLE_CLOSE=PASS
+ROADMAP_RECONCILIATION=PASS
+
+CLOSED_STEP=12
+CLOSED_WORK=u179h
+
+NEXT_READY_STEP=CF-01
+NEXT_ACTIVATION=REQUIRES_OPERATOR
+
+ROADMAP_SYNC=IN_SYNC
+
+Оце вже дуже зручна модель.
+
+Причому READY ≠ ACTIVE.
+
+Ми автоматизуємо правильне пересування курсора roadmap, але не автоматизуємо рішення починати роботу.
+
+Де мають стояти gates
+
+Ось тут система стане реально надійною.
+
+Після кожного accepted lifecycle transition — reconciliation refresh.
+Перед PLAN/ACTIVATE наступного work — roadmap-sync-check.
+Перед створенням Assistant Pack — roadmap-sync-check.
+Перед Dispatcher launch — roadmap-sync-check.
+Перед checkpoint/close — перевірка work_id ↔ roadmap_step ↔ roadmap revision.
+make check — read-only перевірка, яка падає при невиявленому roadmap drift.
+
+Тобто навіть якщо automatic projection refresh колись зламається, помилка не житиме тихо тиждень.
+
+Наступна meaningful operation просто зупиниться:
+
+ROADMAP_RECONCILIATION=FAIL
+SYNC_STATE=PROJECTION_STALE
+NEXT_WORK_ACTIVATION_ALLOWED=false
+Але є тонкий момент: не треба робити roadmap ще одним event store
+
+Тут дуже легко перегнути.
+
+Я не рекомендую після кожного CLOSED фізично переписувати canonical roadmap:
+
+state: complete
+
+Це знову залишає нам double-write.
+
+Roadmap має відповідати на:
+
+Що ми збираємося робити, у якій послідовності, за яких залежностей і gates?
+
+Lifecycle відповідає:
+
+Що реально сталося?
+
+Generated roadmap status відповідає:
+
+Де ми зараз відносно плану?
+
+Це три різні речі.
+
+Canonical roadmap змінюємо лише якщо змінився сам план:
+
+додали step
+змінили dependencies
+переставили порядок
+звузили scope
+скасували роботу
+змінили owner
+
+І тоді вже operator gate.
+
+Це ще допомагає з нашим майбутнім Portfolio
+
+Тоді Portfolio взагалі не потрібно самому придумувати progress.
+
+Він читає:
+
+Roadmap Spec
++
+Roadmap Execution Status
++
+Decision/Rationale
++
+Health
+
+і показує:
+
+✓ закрито
+▶ активне
+○ ready
+⊘ blocked
+◇ planned
+
+але сам нічого не вирішує.
+
+Те саме майбутній dashboard.
+
+Що міняємо в Control Foundation
+
+Я вважаю це P0, а не далеким enhancement.
+
+І оскільки попередній u180a baseline не був застосований взагалі — він зупинився ще на precondition — у нас ідеальний момент вставити це правильно, без historical rewrite.
+
+Я б змінила найближчу послідовність на:
+
+CF-01
+Repository / control-plane reconciliation
+
+        ↓
+
+CF-02
+Roadmap Execution State Reconciliation Controller
+
+        ↓
+
+CF-03
+Project Constitution + Authority Hierarchy
+
+        ↓
+
+CF-04
+Work Front Contract
+
+...
+
+Тобто попередні майбутні CF-02…CF-18 просто зміщуються на один номер. Оскільки вони ще не були canonical-accepted, це не переписування історії.
+
+І фінальний readiness gate Blueprint AI обов'язково отримує ще одну умову:
+
+ROADMAP_SYNC=IN_SYNC
+
+Якщо roadmap і execution хоч трохи семантично розійшлися:
+
+BLUEPRINT_AI_TRIAL_READY=false
+А поточний u179h я б цим не забруднювала
+
+Це теж важливо.
+
+Зараз:
+
+u179h canonical repair
+
+має зробити тільки те, що Step 12 мав зробити спочатку.
+
+Не треба зараз у repair u179h тягнути новий Roadmap Controller — інакше ми змінимо scope заднім числом.
+
+Правильний порядок:
+
+repair u179h
+↓
+real CLOSED
+↓
+u180a / CF-01 reconciliation
+↓
+CF-02 Roadmap Reconciliation Controller
+↓
+далі Control Foundation
+
+Але вимогу ми вже зафіксували зараз, щоб вона не загубилася.
+
+Я підготувала один невеликий machine-readable planning addendum саме для нашої поточної horizon-папки:
+
+0004__roadmap_state_reconciliation_design_v0_1.yaml
+
+SHA256:
+
+1b90ca80f5d20408659b21ca47328696d160454f1164c2ad8bde2329d04e0b4c
+
+Його можна просто покласти поруч із твоїм 0003:
+
+tmp/assistant_work/control_foundation_near_horizon/
+
+0003__u179h_canonical_repair_inputs_v0_1.zip
+0004__roadmap_state_reconciliation_design_v0_1.yaml
+
+Виконувати його не треба. Це planning input для наступного canonical roadmap apply.
+
+Кінцева ціль
+
+Коли ми це реалізуємо, ти більше не маєш думати:
+
+«Ми точно перевели roadmap?»
+
+Система сама відповідатиме:
+
+ROADMAP_SYNC=IN_SYNC
+
+LAST_CLOSED=u179h
+CURRENT_WORK=none
+NEXT_READY=u180a
+NEXT_ACTIVATION=OPERATOR_REQUIRED
+
+А якщо щось роз'їхалося:
+
+ROADMAP_SYNC=OUT_OF_SYNC
+REASON=...
+NEXT_ACTIVATION_ALLOWED=false
+
+Саме це я вважаю правильним закриттям цієї прогалини: не дисципліна помічника, а reconciliation як окремий системний механізм.

@@ -1,0 +1,284 @@
+from __future__ import annotations
+import datetime as dt
+import json
+import os
+import subprocess
+import time
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock
+import pytest
+
+from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as c
+
+TASK = 'cf10-validation-check-pipeline-profile-and-optimization-v0-1'
+ATTEMPT = 'cf10-u180j-a049'
+
+def state(name):
+    return {'derived_non_authoritative':True,'state':name,'next_boundary':'FAKE_TEST_BOUNDARY'}
+
+def test_invalid_ids_rejected():
+    with pytest.raises(c.ConsoleBlocked):c.ids('../escape', ATTEMPT)
+    with pytest.raises(c.ConsoleBlocked):c.ids(TASK, '../escape')
+    c.ids(TASK,ATTEMPT)
+
+def test_no_selection_fails_closed(tmp_path):
+    with pytest.raises(c.ConsoleBlocked,match='NO_SELECTION'):c.resolve_selection(tmp_path,'','')
+
+def test_selection_is_temporary_and_reusable(tmp_path):
+    (tmp_path/'tmp').mkdir()
+    c.save_selection(tmp_path,TASK,ATTEMPT)
+    assert c.resolve_selection(tmp_path,'','')==(TASK,ATTEMPT)
+    assert 'NOT_AUTHORITY' in c.selection_path(tmp_path).read_text()
+    c.save_selection(tmp_path,TASK,ATTEMPT)
+
+def test_selection_symlink_refused(tmp_path):
+    (tmp_path/'tmp').mkdir()
+    (tmp_path/'tmp/cf10_operator_console').symlink_to(tmp_path)
+    with pytest.raises(c.ConsoleBlocked):c.save_selection(tmp_path,TASK,ATTEMPT)
+
+def test_select_requires_both_ids(tmp_path):
+    with pytest.raises(c.ConsoleBlocked,match='TOGETHER'):
+        c.resolve_selection(tmp_path,TASK,'')
+
+def test_password_is_never_accepted_when_sudo_is_passwordless():
+    calls=[]
+    def runner(argv,**kwargs):
+        calls.append(argv)
+        return SimpleNamespace(returncode=0)
+    with pytest.raises(c.ConsoleBlocked,match='PASSWORDLESS'):
+        c.authenticate_operator(process=runner,geteuid=lambda:0,isatty=lambda fd:True)
+    assert len(calls)==1
+
+def test_password_pam_must_succeed():
+    calls=[]
+    def runner(argv,**kwargs):
+        calls.append(argv)
+        return SimpleNamespace(returncode=1)
+    with pytest.raises(c.ConsoleBlocked,match='AUTHENTICATION_FAILED'):
+        c.authenticate_operator(process=runner,geteuid=lambda:0,isatty=lambda fd:True)
+    assert len(calls)==2
+
+def test_password_pam_interactive_success():
+    calls=[]
+    def runner(argv,**kwargs):
+        calls.append((argv,kwargs))
+        return SimpleNamespace(returncode=1 if len(calls)==1 else 0)
+    c.authenticate_operator(process=runner,geteuid=lambda:0,isatty=lambda fd:True)
+    assert 'sudo' in calls[0][0]
+    assert calls[1][0][-2:]==['-k','-v']
+    assert 'input' not in calls[1][1]
+
+def test_root_and_tty_required():
+    with pytest.raises(c.ConsoleBlocked,match='ROOT'):
+        c.authenticate_operator(process=Mock(),geteuid=lambda:1000,isatty=lambda fd:True)
+    with pytest.raises(c.ConsoleBlocked,match='TTY'):
+        c.authenticate_operator(process=Mock(),geteuid=lambda:0,isatty=lambda fd:False)
+
+def test_failed_pam_refuses_stage():
+    def rejected():
+        raise c.ConsoleBlocked('OPERATOR_PAM_AUTHENTICATION_FAILED')
+    with pytest.raises(c.ConsoleBlocked,match='AUTHENTICATION_FAILED'):
+        c.decision('ACK',TASK,ATTEMPT,'a'*40,authenticate=rejected)
+
+def test_operator_positive_calls_auth_once():
+    auth=Mock()
+    c.decision('ACK',TASK,ATTEMPT,'a'*40,authenticate=auth)
+    auth.assert_called_once_with()
+
+def test_pipeline_prepare_two_gates_and_owner_launch(tmp_path,monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+    sequence=iter(['RESOLVE_TASK','AWAITING_ASSISTANT_ACK',
+                   'READY_FOR_EXPLICIT_DISPATCH','READY_FOR_WORKER_LAUNCH',
+                   'AWAITING_OPERATOR_REVIEW'])
+    steps=[];auth=Mock();launched=Mock(return_value={'state':'LAUNCH_RETURNED_REQUIRES_WORKER_RESULT_REVIEW'})
+    monkeypatch.setattr(owner,'launch_once',launched)
+    def statusfn(*args):return state(next(sequence))
+    def stepfn(*args):steps.append(args[-1])
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+        state_fn=statusfn,step_fn=stepfn,auth_fn=auth,
+        postworker_inspect_fn=lambda *a:{'governed_state':'AWAITING_OPERATOR_REVIEW',
+            'classification':'OPERATOR_GATE','evidence_validated_by_s1':True},
+        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+            'report_artifact':'/isolated/operator.zip'})
+    assert result['state']=='AWAITING_OPERATOR_REVIEW'
+    assert result['completed']==['prepare','ack','authorize-dispatch','launch']
+    assert steps==['prepare','ack','authorize-dispatch']
+    assert auth.call_count==2  # launch authenticates in the owner corridor, not here
+    launched.assert_called_once()
+
+
+def test_resume_at_launch_must_use_owner_corridor(tmp_path,monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+    launch=Mock(return_value={'state':'LAUNCH_RETURNED_REQUIRES_WORKER_RESULT_REVIEW'})
+    monkeypatch.setattr(owner,'launch_once',launch)
+    step=Mock();auth=Mock()
+    states=iter(['READY_FOR_WORKER_LAUNCH','OBSERVE_WORKER'])
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+        state_fn=lambda *args:state(next(states)),step_fn=step,
+        auth_fn=auth)
+    assert result['completed']==['launch'] and result['state']=='OBSERVE_WORKER'
+    step.assert_not_called();auth.assert_not_called();launch.assert_called_once()
+
+def test_partial_prepare_not_retried(tmp_path):
+    a=tmp_path/'forprint_system_blueprint'/'worker-01'/ATTEMPT
+    a.mkdir(parents=True);(a/'manifest.yaml').write_text('value: old\n')
+    step=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,state_fn=lambda *args:state('RESOLVE_TASK'),step_fn=step)
+    assert result['state']=='BLOCKED'
+    assert result['blocker']=='PARTIAL_ATTEMPT_REQUIRES_OPERATOR_REVIEW'
+    step.assert_not_called()
+
+def test_unknown_and_blocked_cannot_mutate(tmp_path):
+    for name in ['BLOCKED','UNKNOWN','OBSERVE_WORKER','AWAITING_OPERATOR_REVIEW','PUBLISHED']:
+        step=Mock()
+        result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,state_fn=lambda *args:state(name),step_fn=step)
+        assert result['completed']==[];step.assert_not_called()
+
+def test_no_duplicate_without_state_progress(tmp_path):
+    step=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,state_fn=lambda *args:state('RESOLVE_TASK'),step_fn=step)
+    assert result['blocker']=='NO_PROGRESS_OR_REPEATED_STATE'; assert step.call_count==1
+
+def test_wrong_projection_rejected(tmp_path):
+    with pytest.raises(c.ConsoleBlocked,match='UNTRUSTED'):
+        c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,state_fn=lambda *args:{'state':'RESOLVE_TASK'},step_fn=Mock())
+
+def test_disposable_report_no_secrets(tmp_path):
+    (tmp_path/'tmp').mkdir()
+    report=c.record(tmp_path,TASK,ATTEMPT,{'state':'BLOCKED','blocker':'TEST'})
+    data=json.loads(report.read_text());assert data['password_or_credential_collected'] is False
+    assert data['authority_granted_by_report'] is False
+    assert (report.stat().st_mode & 0o777)==0o600
+
+def test_cleanup_only_own_old_reports(tmp_path):
+    (tmp_path/'tmp').mkdir()
+    old=c.record(tmp_path,TASK,ATTEMPT,{'state':'PAUSED'})
+    other=old.parent/'do_not_delete.txt';other.write_text('keep')
+    oldtime=dt.datetime(2020,1,1,tzinfo=dt.timezone.utc).timestamp()
+    os.utime(old,(oldtime,oldtime))
+    assert c.cleanup(tmp_path,days=7)==1
+    assert other.is_file()
+
+def test_source_guard_rejects_wrong_root(tmp_path):
+    with pytest.raises(c.ConsoleBlocked,match='CANONICAL_ROOT_REQUIRED'):
+        c.source_guard(tmp_path)
+
+def test_step_dispatch_uses_native_entrypoint(monkeypatch,tmp_path):
+    from scripts.coordination.control_plane import governed_worker_cycle as gwc
+    called=Mock(return_value={'state':'READY_FOR_WORKER_LAUNCH'})
+    monkeypatch.setattr(gwc,'authorize_dispatch',called)
+    c._step(tmp_path,tmp_path,TASK,ATTEMPT,'authorize-dispatch')
+    assert called.call_args.kwargs['confirm'] is True
+
+def test_never_touch_legacy_make_or_signed_keys():
+    assert 'launch' not in [x[0] for x in c.GATES.values()]
+    assert 'reconcile-result-return' not in [x[0] for x in c.GATES.values()]
+    assert 'cf10_s01_live_pilot_corridor' in c.CRITICAL[2]
+
+def test_postworker_advance_password_then_s3_make_delegation(tmp_path):
+    auth=Mock();step=Mock();calls=[]
+    states=iter(['VALIDATE_CANDIDATE', 'AWAITING_OPERATOR_REVIEW'])
+    def s3_advance(*args):
+        calls.append(args)
+        return {'execution_performed': True, 'governed_state': 'AWAITING_OPERATOR_REVIEW',
+                'classification': 'OPERATOR_GATE'}
+    n={'n':0}
+    def inspect_state(*a):
+        n['n']+=1
+        if n['n']==1:
+            return {'governed_state':'VALIDATE_CANDIDATE',
+                    'classification':'READY_FOR_BOUND_POSTWORKER_ADVANCE'}
+        return {'governed_state':'AWAITING_OPERATOR_REVIEW',
+                'classification':'OPERATOR_GATE','evidence_validated_by_s1':True}
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state(next(states)),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=inspect_state,
+                        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+                            'report_artifact':'/isolated/operator.zip'},
+                        preflight_fn=lambda *a:(True, 'PASS'), postworker_advance_fn=s3_advance)
+    assert result['state']=='AWAITING_OPERATOR_REVIEW'
+    assert result['completed']==['postworker-advance-via-existing-make']
+    assert len(calls)==1 and calls[0][2:]==(TASK, ATTEMPT)
+    auth.assert_called_once();step.assert_not_called()
+
+
+def test_postworker_advance_blocked_without_automatic_retry(tmp_path):
+    step=Mock();auth=Mock();run=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state('VALIDATE_CANDIDATE'),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=lambda *a:{'governed_state':'VALIDATE_CANDIDATE',
+                           'classification':'READY_FOR_BOUND_POSTWORKER_ADVANCE'},
+                        preflight_fn=lambda *a:(False, 'QUARANTINED_NEEDS_INDEPENDENT_REBIND'),
+                        postworker_advance_fn=run)
+    assert result['state']=='BLOCKED' and result['blocker']=='POSTWORKER_MAKE_PREFLIGHT_DENIED'
+    step.assert_not_called();run.assert_not_called();auth.assert_not_called()
+
+
+def test_operator_review_not_automatically_accepted(tmp_path):
+    step=Mock();auth=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state('AWAITING_OPERATOR_REVIEW'),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=lambda *a:{'governed_state':'AWAITING_OPERATOR_REVIEW',
+                            'classification':'OPERATOR_GATE','evidence_validated_by_s1':True},
+                        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+                            'report_artifact':'/isolated/operator.zip'})
+    assert result['state']=='AWAITING_OPERATOR_REVIEW' and result['completed']==[]
+    step.assert_not_called();auth.assert_not_called()
+
+
+def test_owner_pam_identity_is_dedicated_and_never_server_login():
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    assert console.OPERATOR_ACCOUNT == 'forprint-operator'
+    assert console.RUNNER_ACCOUNT == 'forprint-runner'
+    assert console.OPERATOR_ACCOUNT != 's01'
+    assert console.OPERATOR_ACCOUNT != console.RUNNER_ACCOUNT
+    source = Path(console.__file__).read_text()
+    assert "OPERATOR_ACCOUNT = 's01'" not in source
+
+def test_dedicated_identity_contract_matches_canonical_pam_policy():
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    import yaml
+    root = Path(__file__).resolve().parents[3]
+    console.assert_operator_identity_contract(root)
+    p = yaml.safe_load((root/console.IDENTITY_POLICY_REL).read_text())
+    assert p['accounts']['host_login_not_forprint_operator'] == 's01'
+    assert p['no_privilege_changes_to_host_login'] is True
+    assert p['accounts']['owner_pam'] == 'forprint-operator'
+    assert p['accounts']['worker_execution'] == 'forprint-runner'
+
+def test_guard_fails_closed_on_host_login_pam_drift(tmp_path, monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    import yaml
+    base=tmp_path/'coordination/continuity'
+    base.mkdir(parents=True)
+    identity={'schema_version':'cf10_operator_identity_policy_v0_1',
+        'status':'OWNER_APPROVED_DEDICATED_IDENTITIES',
+        'accounts':{'owner_pam':'s01','worker_execution':'forprint-runner',
+                    'host_login_not_forprint_operator':'s01'},
+        'deny_host_login_for_owner_pam':True,
+        'deny_runner_for_owner_pam':True,
+        'no_privilege_changes_to_host_login':True}
+    (base/'cf10_operator_identity_policy_v0_1.yaml').write_text(yaml.safe_dump(identity))
+    (base/'cf10_sole_owner_pam_launch_policy_v0_1.yaml').write_text(yaml.safe_dump(
+        {'scope':{'operator_unprivileged_account':'forprint-operator'}}))
+    with pytest.raises(console.ConsoleBlocked, match='OPERATOR_IDENTITY_CONTRACT_MISMATCH'):
+        console.assert_operator_identity_contract(tmp_path)
+    identity['accounts']['owner_pam']='forprint-operator'
+    (base/'cf10_operator_identity_policy_v0_1.yaml').write_text(yaml.safe_dump(identity))
+    with pytest.raises(console.ConsoleBlocked, match='PAM_LEGACY_POLICY_OPERATOR_DRIFT'):
+        doc={'scope':{'operator_unprivileged_account':'s01'}}
+        (base/'cf10_sole_owner_pam_launch_policy_v0_1.yaml').write_text(yaml.safe_dump(doc))
+        console.assert_operator_identity_contract(tmp_path)
+
+def test_authentication_commands_target_only_dedicated_operator():
+    from types import SimpleNamespace
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    commands=[]
+    def runner(argv,**_):
+        commands.append(argv)
+        return SimpleNamespace(returncode=1 if len(commands)==1 else 0)
+    console.authenticate_operator(process=runner,geteuid=lambda:0,isatty=lambda fd:True)
+    assert len(commands)==2
+    assert all(argv[:3]==['runuser','-u','forprint-operator'] for argv in commands)
+    assert all('s01' not in argv and 'forprint-runner' not in argv for argv in commands)

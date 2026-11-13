@@ -1,0 +1,59 @@
+schema_version: forprint_generated_coordination_artifact_idempotency_candidate_v0_1
+candidate_id: generated_coordination_artifact_semantic_idempotency
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+authority: planning_candidate_not_execution_authority
+scope: cross_project_coordination_governance
+
+recovered_human_requirement:
+  statement: repeated verification or regeneration against unchanged semantic inputs must not create tracked Git changes solely because timestamps or equivalent volatile metadata were regenerated
+  source_role: owner_relay_of_blueprint_clarification
+  source_label: '2026-05-29'
+  exact_logical_turn_date_asserted: false
+
+current_related_surfaces:
+  - deterministic_context_pack_generation
+  - module_snapshot_or_projection_generation
+  - completion_packet_generation
+  - completion_outbox_or_event_generation
+  - standards_or_instruction_snapshots
+  - derived_indexes_and_status_projections
+
+required_semantics:
+  semantic_idempotency:
+    - unchanged_semantic_inputs_produce_identical_canonical_bytes_or_reuse_existing_artifact
+    - check_or_verify_paths_do_not_rewrite_tracked_files
+    - timestamp_only_changes_do_not_count_as_material_state_change
+  legitimate_time_fields:
+    - immutable_event_emitted_at_may_exist_when_a_new_event_is_semantically_created
+    - generated_at_may_exist_in_ephemeral_or_non_authoritative_outputs
+    - rerunning_a_check_must_not_create_a_new_event_without_a_new_semantic_transition
+    - existing_completion_or_event_artifacts_are_not_rewritten_just_to_refresh_time
+  proof:
+    - run_the_same_generator_twice_from_unchanged_inputs
+    - compare_hashes_of_canonical_outputs
+    - verify_git_diff_is_empty_after_second_run
+    - add_regression_tests_for_timestamp_only_churn
+    - verify_read_only_checks_remain_non_mutating
+
+must_reconcile_before_project_wide_rollout:
+  - identify_each_current_generator_that_writes_tracked_coordination_artifacts
+  - classify_timestamp_fields_as_semantic_event_time_or_volatile_generation_metadata
+  - define_stable_clock_or_time_omission_rules_for_deterministic_outputs
+  - preserve_current_event_identity_and_audit_requirements
+  - avoid_rewriting_historical_completion_or_outbox_events
+  - confirm_compatibility_with_current_completion_packet_and_outbox_standards
+
+explicit_non_authorizations:
+  - no_rewrite_of_historical_events
+  - no_removal_of_required_event_timestamps_without_standard_review
+  - no_hidden_autofix_inside_make_check
+  - no_canonical_roadmap_mutation
+  - no_execution_authority_mutation
+  - no_cross_repository_write
+
+closure_evidence_needed:
+  - inventory_of_current_generators
+  - per_surface_idempotency_policy
+  - repeated_run_hash_and_git_diff_tests
+  - current_completion_event_timestamp_compatibility_review
+  - project_wide_governance_acceptance_if_promoted_beyond_planning_candidate

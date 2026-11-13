@@ -33,7 +33,7 @@ Example:
 
 ```text
 forprint_core_db
-  operational_registry.*
+  operations_control_registry.*
   accounting_registry.*
   library.*
   calculator.*
@@ -94,7 +94,7 @@ Canonical truth belongs to owner modules.
 Examples:
 
 ```text
-Operational Registry owns operational clients, requests, orders, tasks and operational events.
+Operations Control Registry owns operational clients, requests, orders, tasks and operational events.
 Accounting Registry owns invoices, payments, accounting documents and 1C staging.
 Library owns semantic and catalog meaning.
 Calculator owns calculation packages, quotes and drafts.
@@ -138,7 +138,7 @@ A foreign reference is not ownership.
 Example:
 
 ```text
-Calculator may store operational_order_reference after Operational Registry accepts an order creation command.
+Calculator may store operational_order_reference after Operations Control Registry accepts an order creation command.
 Accounting Registry may store operational_order_reference for invoice mapping.
 CRM may store client_reference for UI view state.
 ```
@@ -217,3 +217,29 @@ This policy does not define detailed message retry logic.
 Message reliability is defined in `module_interaction_reliability_policy.md`.
 
 Gateway storage responsibility is defined in `gateway_responsibility_policy.md`.
+
+<!-- central-postgres-stable-identities-2026-09-01:start -->
+## 2026-09-01 canonical clarification
+
+The existing schema-per-module strategy is confirmed:
+`one primary PostgreSQL platform + logical domain schemas + separate roles + reporting`.
+
+Distinguish permanently:
+- physical persistence/platform ownership: System Administration operates PostgreSQL;
+- semantic/write ownership: each domain module controls meaning and approved mutation of its logical records.
+
+Central physical storage does not authorize every module to write every table.
+
+Use stable shared IDs:
+- one Business Partner/Person/Organization identity rather than unrelated duplicate customer/supplier/carrier masters;
+- one stable operational order_id;
+- stable job/resource IDs where required.
+
+A Business Partner may hold CUSTOMER, SUPPLIER, SUBCONTRACTOR and CARRIER roles.
+
+Operations Control Registry remains the current operational registry/write boundary for shared party/order
+state unless a later explicit ownership revision replaces it.
+
+Heavy cross-domain reporting should use reporting views/materialized views/read models rather than
+live fan-out queries.
+<!-- central-postgres-stable-identities-2026-09-01:end -->

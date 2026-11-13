@@ -1,0 +1,38 @@
+schema_version: blueprint_q4_scope_and_acceptance_review_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T14:17:00+03:00'
+  status: PASS_TO_IMPLEMENTATION
+record_id: blueprint_q4_scope_and_acceptance_review_2026_08_25_v0_1
+hardening_slice: Q4
+stable_id: blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1
+review_result: PASS_TO_IMPLEMENTATION
+semantic_model:
+  released_prompt_immutable: true
+  post_release_changes_use_correlated_artifacts: true
+  canonical_artifact_types: 9
+  unexecuted_requirement_may_disappear: false
+  append_only_decision_history: true
+  scope_change_and_waiver_preserve_manual_authority: true
+  completion_deviations_section_required: true
+  q5_event_envelope_deferred: true
+acceptance_criteria:
+- released prompt is immutable
+- exact nine Q4 artifact types are canonical
+- requirements never disappear without explicit disposition
+- decision artifacts require correlation, target, execution effect, acceptance effect and evidence
+- published decision artifacts are append-only
+- scope adjustment and waiver remain manual authority
+- clarification/blocker resolution cannot silently change scope
+- execution and acceptance effect vocabularies are bounded
+- completion deviations/operator-decisions section is mandatory or explicit none
+- follow-up prompt is not automatically released
+- automatic module/business ACCEPT and RETURN/HOLD remain disabled
+- Q5-Q8 remain deferred
+- runtime/autonomy remain disabled
+- validator is in canonical make check
+- focused Q3+Q4 tests pass
+- canonical make check passes
+closeout_not_performed_by_this_record: true
+manual_exception_authority_preserved: true

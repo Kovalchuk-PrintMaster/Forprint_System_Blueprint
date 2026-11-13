@@ -1,0 +1,78 @@
+schema_version: forprint_module_snapshot_registration_v0_1
+record_id: 2026-09-25__forprint_library__snapshot_registration_v0_1
+module_id: forprint_library
+snapshot_date: '2026-09-25'
+registered_at_utc: '2026-09-25T16:30:47.062560+00:00'
+
+classification:
+  record_type: historical_module_knowledge_snapshot
+  analysis_status: complete
+  historical_analysis_ready: true
+  action_now: none
+  implementation_authority_created: false
+  roadmap_mutation_authority_created: false
+  execution_authority_created: false
+
+analysis_stages:
+  L0_preflight: closed
+  L1_inventory_segmentation: closed
+  L2_sequential_block_analysis: closed
+  L3_capability_synthesis: closed
+  L4_document_artifact_authority: closed
+  L5_capability_reconciliation: closed
+  L6_realization_strategic_divergence: closed
+
+repository_snapshot:
+  repository_role: external_module_repository_read_only_reference
+  repository_name: forprint_library
+  branch: 'feature/library-calculator-input-contract-v01'
+  head: '3b6ed117e81147932a17b47e9c6041e007c90501'
+  upstream: 'origin/feature/library-calculator-input-contract-v01'
+  upstream_head: '3b6ed117e81147932a17b47e9c6041e007c90501'
+  remote_synced_at_registration: true
+  durable_evidence_file_count: 982
+
+module_local_durable_surfaces:
+  human_snapshot: 'coordination/reports/analysis/2026-09-25__forprint_library__module_snapshot_v0_1.md'
+  roadmap_rebuild_input: 'coordination/reports/analysis/2026-09-25__forprint_library__roadmap_rebuild_input_v0_1.yaml'
+  analysis_index: 'coordination/reports/analysis/index.yaml'
+  snapshot_manifest: 'coordination/repository_knowledge/module_snapshots/forprint_library/2026-09-25/snapshot_manifest.yaml'
+  dependency_snapshot_registry: 'coordination/repository_knowledge/module_snapshots/forprint_library/2026-09-25/related_module_snapshots.yaml'
+  module_snapshot_index: 'coordination/repository_knowledge/module_snapshots/forprint_library/index.yaml'
+  durable_evidence_root: 'coordination/repository_knowledge/module_snapshots/forprint_library/2026-09-25/analysis_evidence'
+
+blueprint_interpretation:
+  authority: historical_evidence_and_portfolio_rebuild_input_only
+  overrides_active_policy: false
+  overrides_module_policy: false
+  overrides_module_roadmap: false
+  overrides_prompt_queue: false
+  overrides_machine_architecture: false
+  cross_repository_write_performed: false
+  future_use:
+    - cross_module_current_state_synthesis
+    - historical_module_comparison
+    - portfolio_roadmap_rebuild
+    - dependency_snapshot_reconciliation
+    - later_bounded_execution_contour_definition
+
+dependency_snapshot_semantics:
+  baseline_owner: forprint_library
+  baseline_date: '2026-09-25'
+  registry_location_in_module:
+    'coordination/repository_knowledge/module_snapshots/forprint_library/2026-09-25/related_module_snapshots.yaml'
+  rule: >
+    Preserve what dependent-module snapshots were available at Library closeout;
+    later dependent snapshots may be linked without rewriting the historical baseline.
+
+source_protocol:
+  analysis_mode:
+    coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md
+  stabilization_program:
+    coordination/repository_knowledge/module_knowledge_stabilization/
+    library_pilot_execution_plan_v0_1.md
+
+notes:
+  - The Library snapshot is complete and durable in the Library Git repository.
+  - The original temporary analysis tree is not required for historical retrieval.
+  - This registration does not close or modify any CF-10 execution work.

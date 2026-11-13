@@ -1,0 +1,108 @@
+work_front_id: wf-cf10-worker-invocation-bridge-v0-1
+objective: Repair the active Task70 Worker validation-execution blocker by adapting the existing GitHub Copilot CLI
+  invocation to launch one session-only CF10-owned stdio MCP validation server that delegates exclusively to the published
+  structured validation_suite capability. This is blocker repair, not roadmap advancement.
+scope:
+- coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_worker_invocation_bridge_design_freeze_v0_1.yaml
+- coordination/work_fronts/cf10_worker_invocation_bridge_v0_1.yaml
+- pyproject.toml
+- scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+- Makefile
+exclusions:
+- Do not expose bash, raw shell text, arbitrary argv, arbitrary executables or arbitrary Make targets.
+- Do not modify the structured command executor or capability registry.
+- Do not modify the shared process launcher or worker runtime registry.
+- Do not modify governed_worker_cycle.py in this slice.
+- Do not modify validation-suite registry or validation runner.
+- Do not write persistent user MCP configuration or workspace .mcp.json/.github/mcp.json.
+- Do not enable SAFE_WRITE or canonical repository mutation authority.
+- Do not create or launch Worker retry a029.
+- Do not implement governed Worker lifecycle/context delivery in this Work Front.
+- Do not implement canonical session/module lease, governed live cancellation or structured streaming.
+- Do not reactivate OC01.
+- Do not automatically stage, commit, push, merge, release, promote or ACCEPT.
+- Do not touch unrelated dirty paths.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a028
+  - publication:8007618ceaa3dd1c37d89692197dd6af6acf4859
+  - implementation:f8d1b3e26538b9c94e37caff042d1300b55cf5c3
+  - closeout:bb4ffeaa584e52b642b9f8a7d6822c4a6e2efd53
+  - coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_design_freeze_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_foundation_completion_v0_1.yaml
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  chat_is_authority: false
+  human_owner_scope_confirmation_received: true
+  roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+dependencies:
+- Task70 remains active but blocked after published attempt a028.
+- Shared Structured Command Executor foundation is implemented at f8d1b3e26538b9c94e37caff042d1300b55cf5c3 and closed/published
+  at bb4ffeaa584e52b642b9f8a7d6822c4a6e2efd53.
+- GitHub Copilot CLI 1.0.88 supports session-only additional MCP config and explicit tool filtering.
+- Python MCP SDK is not currently installed; dry-run resolution of mcp>=2.3,<3 succeeds without environment mutation.
+- The registered validation_suite capability is version 0.1.0, READ_ONLY_VALIDATION, shell=false, timeout default
+  900/max 1200.
+outputs:
+- Canonical project dependency declaration for the Python MCP SDK.
+- One CF10-owned stdio MCP validation adapter exposing exactly run_validation_suite.
+- Invocation-adapter integration using per-attempt additional MCP config and an explicit bounded tool universe.
+- Focused MCP and invocation-adapter regression tests.
+- Stable Makefile check/proof surface for the Worker Invocation Bridge.
+acceptance:
+- pyproject declares mcp>=2.3,<3 and environment resolves it
+- MCP server exposes exactly one validation tool
+- Worker controls only suite_id and optional require_tier
+- attempt/workspace/evidence/identity/authorization are startup-bound and not Worker-overridable
+- validation tool delegates only to registered validation_suite capability through structured_command_executor
+- Copilot invocation injects session-only additional MCP config and exposes exactly the explicit bounded tool universe
+- bash and arbitrary shell remain unavailable
+- raw argv, arbitrary executable and arbitrary Make target remain unavailable
+- structured executor, shared launcher, governed Worker cycle and capability registry remain unchanged
+- MCP result returns bounded diagnostics plus canonical evidence references without authority widening
+- focused MCP tests, invocation-adapter regression, structured-executor regression and launcher regression pass
+- Makefile exposes one stable project-native bridge check/proof surface
+- no real Worker retry a029 is created or launched
+- OC01 remains paused
+stop_conditions:
+- A path outside the frozen implementation write-set becomes necessary.
+- Structured command executor or shared launcher modification becomes necessary.
+- Governed Worker Cycle modification becomes necessary.
+- Persistent MCP configuration becomes necessary.
+- Manual MCP protocol implementation becomes necessary.
+- Bash, unrestricted argv, arbitrary executable selection or arbitrary Make target exposure becomes necessary.
+- SAFE_WRITE or canonical mutation authority becomes necessary.
+- Lifecycle/context delivery must be implemented to prove this slice.
+- A real Worker retry or attempt-ledger mutation would occur during implementation validation.
+- Concurrent committed or dirty changes intersect the audited dependency cone.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - tests/coordination/control_plane/worker_runtime/
+  - pyproject.toml
+  - Makefile
+  disposition: ADAPT
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  rationale: Adapt the existing provider invocation into a narrow consumer bridge over the already-published structured
+    executor; do not create a second command runtime.

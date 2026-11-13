@@ -1,0 +1,39 @@
+{
+  "schema_version": "cf10_r080_multi_ready_catalog_migration_v0_1",
+  "base_head": "7ca02a62ee7d6e780de4f57def4b315e37fd372c",
+  "status": "MULTI_READY_CATALOG_ALLOWED_NO_LIVE_DISPATCH_CHANGE",
+  "intent": "Remove one legacy single-READY registry constraint while freezing explicit source/catalog binding as a non-authorizing candidate",
+  "boundaries": {
+    "registry_minimum_ready": 1,
+    "registry_multiple_ready": true,
+    "exact_default_provider_current": "github_copilot_cli",
+    "per_attempt_selection_candidate": "cf10_r080_attempt_provider_catalog_binding_v0_1",
+    "legacy_copilot_dispatch_still_pinned": true,
+    "catalog_source_sha256_bound": true,
+    "runtime_config_sha256_bound": true,
+    "selected_provider_descriptor_sha256_bound": true,
+    "nondefault_provider_auto_launch": false,
+    "provider_credentials_verified": false,
+    "remote_job_enabled": false,
+    "second_provider_ready_in_actual_catalog": false,
+    "automatic_provider_fallback": false,
+    "current_pilot_compatibility": "COPILOT_DEFAULT_UNCHANGED",
+    "operator_claim_written": false,
+    "canonical_ledger_written": false,
+    "worker_launched": false,
+    "a054_changed": false
+  },
+  "not_yet_implemented": [
+    "frozen per-attempt provider selection at canonical prepare/dispatch",
+    "provider-owned command builder and model policy",
+    "provider-neutral result normalization",
+    "provider-specific credentials and sandbox profile",
+    "Codex CLI or Claude Code auth/functional smoke",
+    "parallel worker scheduler and per-provider quotas",
+    "remote cloud job lifecycle/attestation"
+  ],
+  "next_gate": "R081_COPILOT_COMPATIBLE_PROVIDER_DISPATCH_FREEZE_AND_ADAPTER_SEAM",
+  "no_tmp_runtime_dependency": true,
+  "no_hestia_or_sudoers_change": true,
+  "no_worker_or_claim": true
+}

@@ -1,0 +1,164 @@
+schema_version: module_prompt_contract_v0_4
+metadata:
+  contract_id: blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1
+  module_id: forprint_system_blueprint
+  prompt_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  created_at: '2026-08-15'
+  status: candidate_reference_only
+  immutable: true
+source_prompt:
+  path: coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/source_prompt_snapshot.md
+  sha256: 474579f43ac98b4edfd32c5b7a3ca529a53533344fe773eff4b6d2113a86d335
+  origin_path_at_capture: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_immutable_prompt_contract_v0_1.md
+  origin_sha256_at_capture: 474579f43ac98b4edfd32c5b7a3ca529a53533344fe773eff4b6d2113a86d335
+integrity:
+  algorithm: sha256
+  payload_sha256: 48c7ea73d255e7293bb297ed79c31bc417e12f65b273468a0be2c0b9ae8c4448
+  payload_hash_scope: canonical JSON of entire document excluding integrity.payload_sha256
+source_obligations:
+- obligation_id: SRC-001
+  source_locator: Required scope 1
+  required: true
+  summary: Use immutable per-module/per-prompt/per-contract instance path.
+- obligation_id: SRC-002
+  source_locator: Required scope 2
+  required: true
+  summary: Carry contract identity/schema/hash and source prompt hash.
+- obligation_id: SRC-003
+  source_locator: Required scope 3
+  required: true
+  summary: Maintain source-obligation fidelity ledger.
+- obligation_id: SRC-004
+  source_locator: Required scope 4
+  required: true
+  summary: Reject duplicate obligation IDs.
+- obligation_id: SRC-005
+  source_locator: Required scope 5
+  required: true
+  summary: Reject mappings to unknown target obligations.
+- obligation_id: SRC-006
+  source_locator: Required scope 6
+  required: true
+  summary: Reject required source obligations that are unmapped.
+- obligation_id: SRC-007
+  source_locator: Required scope 7
+  required: true
+  summary: Keep implementation, verification, and completion evidence separate.
+- obligation_id: SRC-008
+  source_locator: Required scope 8
+  required: true
+  summary: Preserve human semantic fidelity review.
+- obligation_id: SRC-009
+  source_locator: Required scope 9
+  required: true
+  summary: Do not treat execution fingerprints as complete fidelity proof.
+- obligation_id: SRC-010
+  source_locator: Required scope 10
+  required: true
+  summary: Remain candidate/reference-only until explicit promotion.
+- obligation_id: SRC-B01
+  source_locator: Boundaries paragraph 1
+  required: true
+  summary: Do not implement later v0.4 lifecycle slices in STEP21.
+- obligation_id: SRC-B02
+  source_locator: Boundaries paragraph 2
+  required: true
+  summary: No automatic Git/operator/rollout/module mutations.
+implementation_obligations:
+- obligation_id: IMP-001
+  summary: Define immutable instance-path and supersession rules.
+- obligation_id: IMP-002
+  summary: Define identity and SHA-256 integrity contract.
+- obligation_id: IMP-003
+  summary: Define source-obligation fidelity ledger and mapping model.
+- obligation_id: IMP-004
+  summary: Enforce duplicate-ID rejection.
+- obligation_id: IMP-005
+  summary: Enforce unknown mapping-target rejection.
+- obligation_id: IMP-006
+  summary: Enforce required-unmapped source-obligation rejection.
+- obligation_id: IMP-007
+  summary: Model implementation/verification/completion-evidence separately.
+- obligation_id: IMP-008
+  summary: Require human semantic fidelity review.
+- obligation_id: IMP-009
+  summary: Declare execution fingerprints insufficient as full fidelity proof.
+- obligation_id: IMP-010
+  summary: Keep v0.4 contract candidate/reference-only.
+- obligation_id: IMP-B01
+  summary: Exclude STEP22+ functionality from this implementation slice.
+verification_obligations:
+- obligation_id: VER-001
+  summary: Validate canonical instance path and identity.
+- obligation_id: VER-002
+  summary: Verify source prompt SHA-256.
+- obligation_id: VER-003
+  summary: Verify canonical payload SHA-256.
+- obligation_id: VER-004
+  summary: Negative-test duplicate obligation IDs.
+- obligation_id: VER-005
+  summary: Negative-test unknown mapping targets.
+- obligation_id: VER-006
+  summary: Negative-test required unmapped source obligations.
+completion_evidence_obligations:
+- obligation_id: CE-001
+  summary: Record validator/test/full-gate results for operator review.
+- obligation_id: CE-002
+  summary: Record that no promotion, module writes, ACCEPT/RETURN, commit or push
+    occurred.
+source_obligation_fidelity_ledger:
+- source_obligation_id: SRC-001
+  target_obligation_ids:
+  - IMP-001
+  - VER-001
+- source_obligation_id: SRC-002
+  target_obligation_ids:
+  - IMP-002
+  - VER-002
+  - VER-003
+- source_obligation_id: SRC-003
+  target_obligation_ids:
+  - IMP-003
+- source_obligation_id: SRC-004
+  target_obligation_ids:
+  - IMP-004
+  - VER-004
+- source_obligation_id: SRC-005
+  target_obligation_ids:
+  - IMP-005
+  - VER-005
+- source_obligation_id: SRC-006
+  target_obligation_ids:
+  - IMP-006
+  - VER-006
+- source_obligation_id: SRC-007
+  target_obligation_ids:
+  - IMP-007
+  - CE-001
+- source_obligation_id: SRC-008
+  target_obligation_ids:
+  - IMP-008
+  - CE-001
+- source_obligation_id: SRC-009
+  target_obligation_ids:
+  - IMP-009
+- source_obligation_id: SRC-010
+  target_obligation_ids:
+  - IMP-010
+  - CE-002
+- source_obligation_id: SRC-B01
+  target_obligation_ids:
+  - IMP-B01
+  - CE-002
+- source_obligation_id: SRC-B02
+  target_obligation_ids:
+  - CE-002
+semantic_fidelity:
+  human_review_required: true
+  execution_fingerprint_sufficient: false
+  review_state: pending_operator_review
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false

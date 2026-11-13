@@ -203,7 +203,7 @@ Other keys are allowed.
 
 ## Module-local extension examples
 
-Operational Registry may use:
+Operations Control Registry may use:
 
 ```yaml
 validation:

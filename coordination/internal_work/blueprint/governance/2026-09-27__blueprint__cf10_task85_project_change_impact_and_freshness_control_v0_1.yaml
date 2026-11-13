@@ -1,0 +1,294 @@
+schema_version: forprint_cf10_worker_task_candidate_v0_1
+task_id: project_change_impact_and_freshness_control
+recommended_order: 85
+recommended_position:
+  after: planning_projection_cursor_sync_audit
+  before: automatic_task_materialization
+  reason: Task80 establishes freshness/staleness semantics; before Task90 automatically materializes work, Blueprint
+    should know whether the standards/templates/docs/bootstrap inputs it may reuse are current, affected, or require
+    review.
+status: PLANNED_CF10_TRAINING_TASK_NOT_DISPATCHABLE_YET
+module_id: forprint_system_blueprint
+work_id: u180j
+step_id: CF-10
+complexity: HIGH
+final_control_task: false
+execution_authority: false
+automatic_dispatch: false
+automatic_accept: false
+cross_module_write: false
+operator_intent:
+  problem: The project evolves faster than many descriptive standards, templates, onboarding documents and module-bootstrap
+    artifacts. A downstream module can therefore consume a document that is syntactically valid but semantically stale
+    and implement an older architecture. As module count and parallel work increase, this can cause version drift
+    between modules and incompatible local architectures.
+  concrete_example: Blueprint's live Makefile gains supported operator workflows, while the reusable Makefile template/standard
+    or module-start documentation remains older. A fresh module assistant receives the stale standard and implements
+    the obsolete model.
+  desired_outcome: Changes to important project surfaces should deterministically identify affected dependent artifacts.
+    Machine-checkable dependents should be checked automatically; semantic dependents should enter an explicit review-required
+    state. Critical stale artifacts must not be exported to or trusted by a new module.
+core_design_thesis:
+  name: Project Change Impact & Freshness Control
+  principles:
+  - Treat staleness as a relationship between a source concept/surface and a dependent artifact, not as document age.
+  - Reuse/extend existing dependency graph, repository-knowledge freshness, indexes and validation infrastructure
+    before creating a new framework.
+  - Compute reverse impact from changed sources to affected dependents.
+  - Prefer logical capability/contract nodes over naïve file-to-file coupling when possible.
+  - Keep canonical relationship metadata separate from derived graph views.
+  - Use typed edges so the system knows why a dependent may be affected.
+  - Do not require every change to update every document; classify impact and review mode precisely.
+  - Fail closed at high-risk consumption/export boundaries rather than blocking every unrelated local commit.
+  - Machine evidence may prove freshness only where semantics are mechanically checkable.
+  - Semantic alignment that cannot be proven mechanically requires bounded human/assistant review evidence.
+existing_surfaces_to_reconcile_first:
+- coordination/standards/automation/execution_dependency_contract_v0_1.yaml
+- existing execution dependency registry and indexes/execution_dependency_graph.yaml
+- scripts/indexing/build_execution_dependency_graph.py
+- scripts/coordination/explain_execution_dependency.py
+- repository knowledge freshness/check surfaces
+- repository capability inventory and semantic/dependency enrichment
+- Makefile operator functional map policy
+- generator/derivation registry
+- module bootstrap/context-pack surfaces
+- module templates and project structure/naming standards
+- worker task-context compilation and onboarding surfaces
+- existing indexes and future dependency/convergence graph work
+mandatory_reuse_rule:
+  disposition_vocabulary:
+  - REUSE
+  - EXTEND
+  - ADAPT
+  - REPLACE
+  - NEW
+  new_parallel_graph_forbidden_without_gap_proof: true
+  worker_must_document_search: true
+proposed_information_model:
+  node_kinds:
+  - CAPABILITY
+  - CONTRACT_OR_STANDARD
+  - OPERATOR_SURFACE
+  - TEMPLATE
+  - BOOTSTRAP_INPUT
+  - DOCUMENTATION
+  - GENERATED_PROJECTION
+  - VALIDATOR
+  - INDEX_OR_CATALOG
+  - MODULE_INTERFACE
+  edge_types_candidate_set:
+  - IMPLEMENTS
+  - DESCRIBES
+  - DERIVED_FROM
+  - GENERATED_FROM
+  - TEMPLATE_FOR
+  - BOOTSTRAPS_WITH
+  - VALIDATES
+  - OPERATOR_MAP_OF
+  - MUST_TRACK
+  - CONSUMES
+  - SUPERSEDES
+  edge_metadata:
+  - source_ref
+  - target_ref
+  - relation_type
+  - impact_facets
+  - freshness_mode
+  - criticality
+  - consumer_boundary
+  - owner_or_review_role
+  impact_facets_examples:
+  - operator_workflows
+  - directory_layout
+  - naming_rules
+  - bootstrap
+  - worker_runtime
+  - validation
+  - module_template
+  - dependency_model
+  - architecture_policy
+  rationale_for_facets: A one-line unrelated Makefile edit should not mark every Makefile-related document stale.
+    Relations should bind to the semantic facet/capability when practical.
+freshness_modes:
+  GENERATED_EXACT: Dependent is deterministically generated and can be rebuilt/compared automatically.
+  STRUCTURAL_CHECK: Schema/registration/path/target coverage can be checked deterministically.
+  SEMANTIC_REVIEW_REQUIRED: Meaning may have drifted and requires assistant/human review against current source facts.
+  MANUAL_CONFIRMATION: Only an explicit operator/owner confirmation can close the impact.
+candidate_states:
+- FRESH
+- AFFECTED_MACHINE_CHECK_REQUIRED
+- AFFECTED_SEMANTIC_REVIEW_REQUIRED
+- AFFECTED_MANUAL_CONFIRMATION_REQUIRED
+- STALE_BLOCKING
+- DEFERRED_WITH_REASON
+- SUPERSEDED
+change_impact_algorithm:
+- Determine changed source nodes/facets from bounded Git/source-state delta.
+- Resolve reverse dependency closure over registered typed relations.
+- Classify each affected dependent by freshness mode and criticality.
+- Run deterministic checks/rebuilds for machine-checkable dependents.
+- Create a review item for semantic/manual dependents rather than guessing freshness.
+- Produce an impact packet showing changed sources, affected dependents, evidence, unresolved review and blocking
+  boundaries.
+- Do not mark semantic dependents FRESH solely because their file was touched.
+freshness_evidence_candidate:
+  fields:
+  - dependent_ref
+  - source_ref_or_capability_ref
+  - relation_type
+  - impact_facets
+  - reviewed_source_revision_or_digest
+  - dependent_revision_or_digest
+  - verification_mode
+  - verification_result
+  - verified_at
+  - evidence_refs
+  - reviewer_or_validator
+  warning: Whole-file hashes alone are insufficient for semantically broad sources; use scoped capability/facet relations
+    where possible.
+gate_policy_candidate:
+  ordinary_local_change: Report unresolved affected dependents; do not automatically block unrelated development unless
+    an existing contract requires it.
+  bounded_work_acceptance: For critical directly-related dependents, require resolved impact or explicit deferred
+    debt.
+  template_or_standard_publication: Block publication when a required source relation is stale/unreviewed.
+  new_module_bootstrap_or_export: Hard block consumption/export of a critical template/standard/bootstrap document
+    whose required freshness evidence is missing or stale.
+  worker_task_context_generation: Do not silently feed known-stale critical context to a Worker; surface the condition
+    as blocked/deferred/review-required.
+  future_ci_or_push_gate: May run as a required check for selected critical classes, but should not rely only on path
+    filters or file timestamps.
+makefile_use_case:
+  source_chain_example:
+  - supported operator capability changes
+  - live Makefile operator map must remain covered
+  - Makefile template/standard may become affected
+  - module-bootstrap guidance that consumes the template may become affected
+  expected_behavior:
+  - Detect the changed capability/operator-workflow facet.
+  - Verify live Makefile coverage using existing Makefile policy/checks.
+  - Mark reusable Makefile template/standard affected if its semantics may differ.
+  - Automatically compare mechanical structure where possible.
+  - Require semantic review for non-mechanical differences.
+  - Block exporting the stale template to a new module until resolved or explicitly superseded.
+graph_views:
+  rule: Prefer one relationship substrate/registry with multiple derived views rather than one giant hand-maintained
+    graph or multiple competing truth stores.
+  possible_views:
+  - execution dependency view
+  - artifact/document freshness view
+  - module bootstrap dependency view
+  - governance/standard dependency view
+  - operator workflow coverage view
+  derived_graph_is_authority: false
+operator_visibility:
+  required: true
+  impact_report_should_show:
+  - what changed
+  - why it matters
+  - which dependents are affected
+  - which were auto-verified
+  - which require semantic/manual review
+  - which boundaries are blocked
+  - what evidence clears each block
+worker_required_work:
+- Perform a bounded reuse audit of all listed existing surfaces.
+- Produce a current-state map showing what can be reused and where the real gap is.
+- Choose REUSE/EXTEND/ADAPT/REPLACE/NEW explicitly for each proposed mechanism.
+- Design the minimal canonical relationship/freshness model.
+- Implement or extend a deterministic affected/reverse-dependency resolver.
+- Implement machine-checkable freshness modes without pretending to solve semantic review automatically.
+- Implement an operator-readable change-impact report.
+- Add a gate that prevents known-stale critical bootstrap/template inputs from being handed to a new module.
+- Demonstrate the mechanism on the Makefile -> reusable Makefile/template/standard example and at least one non-Makefile
+  example.
+- Integrate with existing dependency/graph/index/validation surfaces rather than creating an unrelated parallel subsystem.
+- Add focused deterministic tests and relevant regression validation.
+- Check Makefile operator-functional-map coverage for any supported command added by this task.
+explicit_non_goals:
+- Do not create a universal semantic AI oracle that claims to understand all document meaning.
+- Do not mark every document stale after any repository change.
+- Do not require every commit to update all potentially-related documents.
+- Do not use file modification time as freshness truth.
+- Do not create a second roadmap, second execution status store or second execution dependency authority.
+- Do not grant Worker automatic acceptance, release, push, merge or cross-module write authority.
+- Do not automatically rewrite descriptive documents merely because an upstream file changed.
+- Do not block new-module work on low-criticality unrelated documentation debt.
+acceptance:
+- A changed critical source/capability deterministically yields a bounded affected-dependent set.
+- Reverse dependency reasoning is explainable to the operator.
+- At least one generated/structural dependent is automatically verified.
+- At least one semantic dependent is classified REVIEW_REQUIRED rather than guessed FRESH.
+- Known-stale critical template/standard/bootstrap input cannot be exported to a new module.
+- Resolved review produces durable freshness evidence bound to source and dependent revisions.
+- Makefile example is demonstrated end-to-end.
+- At least one unrelated change proves the system avoids broad false-positive invalidation.
+- Existing execution dependency and repository-knowledge mechanisms are reused or explicitly reconciled.
+- No duplicate authority store or parallel graph framework is introduced without proven necessity.
+- Operator impact report is human-readable and machine-readable.
+- Focused and relevant regression validation pass.
+- No automatic dispatch/accept/push/merge/release/cross-module mutation is introduced.
+stop_conditions:
+- Implementation requires rewriting current authoritative dependency/history data instead of extending/reconciling
+  it.
+- A second competing dependency truth source would be created without proof that existing infrastructure cannot be
+  extended.
+- Semantic freshness would be inferred solely from timestamps, file-touch, or an LLM assertion without evidence.
+- The proposed gate would block unrelated work globally instead of only declared critical boundaries.
+- Cross-module writes or automatic module migration become necessary.
+- The task would need to widen execution or acceptance authority.
+demonstration_requirements:
+- scenario: Makefile functional-map drift
+  proof: Introduce/use a controlled fixture representing a newly supported operator workflow and show the impact resolver
+    identifying the live Makefile coverage relation and the reusable template/standard as affected; show automatic
+    vs semantic review split.
+- scenario: Unrelated change
+  proof: A change outside registered facets must not make the Makefile standard or bootstrap template stale.
+- scenario: New-module bootstrap safety
+  proof: A bootstrap/export preflight must refuse a known-stale critical input and explain exactly what review/evidence
+    is missing.
+external_patterns_considered:
+- pattern: affected/reverse dependency analysis
+  examples:
+  - Nx affected
+  - Bazel rdeps
+  adopt: Compute bounded reverse impact from changed nodes instead of scanning everything.
+- pattern: typed catalog relations
+  examples:
+  - Backstage Software Catalog relations
+  adopt: Use typed entity relations and derive graph views from metadata.
+- pattern: architecture fitness functions / required checks
+  examples:
+  - CI architecture fitness checks
+  - GitHub required status checks
+  adopt: Make selected critical freshness invariants executable at controlled gates.
+expected_outputs:
+- reuse/reconciliation report
+- relationship/freshness contract or extension candidate
+- registry/model changes only if justified
+- affected/reverse-impact resolver
+- machine-readable impact packet
+- human-readable impact report
+- critical-consumer freshness gate
+- focused tests and regression evidence
+- operator demonstration report
+publication_and_authority:
+  candidate_task_grants_execution_authority: false
+  worker_self_dispatch: false
+  worker_self_accept: false
+  cross_module_write: false
+  roadmap_mutation: false
+  registration_into_cf10_queue_requires_separate_controlled_reconciliation: false
+  registered_in_cf10_queue_by_this_transaction: true
+canonical_registration:
+  date: '2026-09-27'
+  training_queue: coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  task_order: 85
+  parent_roadmap_step: CF-14
+  parent_roadmap_capability: Change Impact Resolver
+  relationship: CF10_WORKER_SELF_HARDENING_IMPLEMENTATION_PROOF
+  source_candidate: tmp/cf10_project_change_impact_and_freshness_control_task_candidate_v0_1.yaml
+  execution_authority: false
+  dispatch_authority: false
+  acceptance_authority: false
+  roadmap_authority: false

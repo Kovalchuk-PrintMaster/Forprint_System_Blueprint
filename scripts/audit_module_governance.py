@@ -43,7 +43,7 @@ REQUIRED_TARGETS = [
     "check",
     "check-report",
     "status-report",
-    "blueprint-pull",
+    "coordination-sync-check",
     "blueprint-check",
     "blueprint-sync-directives",
     "coordination-check",

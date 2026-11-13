@@ -1,0 +1,115 @@
+work_front_id: wf-oc01-mini-assistant-dev-sandbox-operator-workflow-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-3
+name: assistant_dev_sandbox_operator_workflow
+
+objective: >-
+  Add a bounded Operator Console workflow over the existing CF10 isolated workspace
+  and exact BASE_HEAD mechanics. Reuse the canonical workspace engine; do not create
+  a parallel sandbox, delta, promotion, lease or checkpoint authority.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_3_BOUNDED_IMPLEMENTATION_ONLY
+  sandbox_adapter:
+    originates_execution_truth: false
+    originates_lease_authority: false
+    originates_canonical_write_authority: false
+    originates_promotion_authority: false
+    originates_release_authority: false
+
+reuse_adapt_new:
+  isolated_workspace:
+    disposition: REUSE
+    source:
+      - scripts/coordination/control_plane/workspace/runtime.py
+      - scripts/coordination/control_plane/workspace/provision.py
+  base_head:
+    disposition: REUSE
+    canonical_field: source_head
+  source_state_fingerprint:
+    disposition: REUSE
+  continuity_dirty_overlay:
+    disposition: REUSE
+    canonical_field: durable_dirty_paths
+  assistant_dev_sandbox_operator_adapter:
+    disposition: NEW
+    rationale: >-
+      A thin operator-facing create/open/status and Environment Delta projection
+      is not currently exposed for OC01.
+  local_sandbox_commits:
+    disposition: EXTEND
+    owner: CF10_SHARED_WORKSPACE_CONTRACT
+    state: DEPENDENCY_PENDING_CF10
+  checkpoint_pause_resume:
+    disposition: DEFER
+    target_slice: OC01-MINI-4
+  deterministic_result_seal:
+    disposition: DEFER
+    target_slice: OC01-MINI-4
+  canonical_promotion:
+    disposition: DEFER
+    target_slice: OC01-MINI-5
+
+sandbox_contract:
+  actor_type: operator_assistant
+  exact_base_head_required: true
+  isolated_workspace_required: true
+  canonical_write_allowed: false
+  environment_delta_projection_authority: false
+  create_supported: true
+  open_supported: true
+  status_supported: true
+  local_commit_support: DEPENDENCY_PENDING_CF10
+  checkpoint_pause_resume: NEXT_SLICE_OC01_MINI_4
+  result_seal: NEXT_SLICE_OC01_MINI_4
+  promotion: NEXT_SLICE_OC01_MINI_5
+
+exact_write_set:
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+  - coordination/work_fronts/oc01_mini_assistant_dev_sandbox_operator_workflow_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  - tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - Makefile
+
+must_not_modify:
+  - scripts/coordination/control_plane/workspace/runtime.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - unrelated dirty paths
+
+acceptance:
+  - MINI2 EOF hygiene repaired without semantic change
+  - rollout bundle reconciliation is embedded in the existing registered roadmap owners without duplicate policy
+  - stale bundle Phase 0 preserved as historical only
+  - sandbox create pins exact BASE_HEAD
+  - sandbox open/status reuse shared workspace manifest binding
+  - canonical_write_allowed remains false
+  - Environment Delta is a non-authoritative projection
+  - local commits are not falsely claimed supported
+  - shared workspace runtime remains byte-identical
+  - Makefile exposes stable MINI3 operator entrypoints
+  - focused tests pass
+  - work-front contract passes
+  - roadmap detail validation passes
+  - git diff check passes
+
+non_goals:
+  - shared workspace runtime mutation
+  - local sandbox commit authority
+  - checkpoint or pause/resume implementation
+  - deterministic result seal implementation
+  - canonical promotion
+  - remote push
+  - merge
+  - release
+  - production mutation
+  - OC01-MINI-4 activation
+
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-01__oc01_mini_design_freeze_v0_1.yaml

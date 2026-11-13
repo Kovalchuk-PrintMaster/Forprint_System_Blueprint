@@ -1,0 +1,29 @@
+schema_version: blueprint_logistics_semantic_roadmap_reconciliation_apply_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-08'
+  status: IMPLEMENTED
+canonical_apply:
+  roadmap_path: coordination/roadmaps/logistics_service.yaml
+  before_sha256: 609eadf93f88efb565ce34784077481fe07f2af6f8889a755a5bb268de12f956
+  after_sha256: 54808bbdba4e7a26f46fabf09efc5146cd8e0dc0e9844d66fd7aafd170b6537e
+  step_count_before: 33
+  step_count_after: 33
+  old_current_step_id: logistics_service_tracking_events_v0_1
+  new_current_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  numbered_steps_added: 0
+  numbered_steps_removed: 0
+  numbered_steps_reordered: 0
+  status_changes: []
+  reason: Previous current_step_id pointed to accepted step 5. Step 33 is the active bootstrap/preparation front and
+    an explicit dependency of planned step 6.
+required_roadmap_candidates:
+- logistics_service_meest_express_read_only_foundation_candidate_v0_1
+- logistics_service_degraded_survival_modes_candidate_v0_1
+- logistics_service_first_wave_end_to_end_pilot_candidate_v0_1
+review_candidates:
+- logistics_service_bolt_uber_provider_specific_adapters_candidate_v0_1
+- logistics_service_integration_gateway_handoff_candidate_v0_1
+next:
+  control_plane: module_preparation_registry_and_queue_v0_1
+  logistics: continue bootstrap front; candidate numbering remains a separate semantic decision

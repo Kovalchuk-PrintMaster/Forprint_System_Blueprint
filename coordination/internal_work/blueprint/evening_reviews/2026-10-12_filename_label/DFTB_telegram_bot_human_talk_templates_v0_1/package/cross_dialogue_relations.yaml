@@ -1,0 +1,35 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-filename-label-2026-10-12
+authority_class: telegram_module_history_non_blueprint_authority
+relations:
+- type: supports
+  from_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  to_bundle: DFTB_blueprint-source-label-2026-06-14
+  confidence: MEDIUM
+  note: The source provides concrete conversational-data work behind the historically high-priority Telegram module.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint clarifies Telegram as an operational interface rather than canonical truth authority.
+- type: requires_reconciliation_with
+  from_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  to_bundle: DFTB-integration-gateway-source-label-2026-05-26
+  confidence: MEDIUM
+  note: Human-response generation is Telegram-local presentation logic; business execution/routing should remain aligned with Gateway/channel-neutral contracts.
+item_relations:
+- type: supports
+  from_item: IT-TG1210-0001
+  to_item: IT-BP1406-0007
+  confidence: MEDIUM
+  note: Humanized response data is concrete historical work for the priority Telegram operational module.
+- type: constrained_by
+  from_item: IT-TG1210-0025
+  to_item: IT-BP1407-0011
+  confidence: HIGH
+  note: Telegram response templates are presentation/operational interface data and must not make Telegram canonical business truth.
+- type: related_to
+  from_item: IT-TG1210-0030
+  to_item: IT-GW2605-0005
+  confidence: MEDIUM
+  note: Telegram conversation layer should remain separable from channel-neutral execution routing.

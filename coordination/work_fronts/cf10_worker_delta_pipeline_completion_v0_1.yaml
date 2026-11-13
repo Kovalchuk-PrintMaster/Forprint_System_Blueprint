@@ -1,0 +1,126 @@
+work_front_id: wf-cf10-worker-delta-pipeline-completion-v0-1
+objective: >-
+  Govern the prospective completion of the CF-10 isolated-workspace worker-delta
+  result pipeline after recording the already-published hardening sequence as
+  historical fact, with no retroactive authority claim and no live worker
+  launch unless separately approved by the operator.
+
+scope:
+  - coordination/internal_work/blueprint/governance/2026-09-23__blueprint__cf10_worker_delta_hardening_reconciliation_v0_1.yaml
+  - coordination/work_fronts/cf10_worker_delta_pipeline_completion_v0_1.yaml
+  - scripts/validation/validate_cf10_worker_delta_governance_reconciliation_v0_1.py
+  - tests/validation/test_cf10_worker_delta_governance_reconciliation_v0_1.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/control_plane/workspace/__init__.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
+  - tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py
+  - scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py
+  - tests/coordination/control_plane/test_cf10_post_worker_result_collection_v0_1.py
+
+exclusions:
+  - Do not modify the completed operator-status Work Front.
+  - Do not rewrite cf10-u180j-a003 immutable FAILED attempt history.
+  - Do not claim retroactive Work Front authority for commits already published.
+  - Do not mutate lifecycle or roadmap state in this Work Front.
+  - Do not launch or retry a live worker without a separate explicit operator decision.
+  - Do not append a live Execution Attempt Ledger record as part of governance reconciliation.
+  - Do not modify Handoff v2 schema unless a new bounded Work Front explicitly authorizes it.
+  - Do not create a parallel mutable execution-status store.
+  - Do not create automatic candidate promotion, release, push, merge or ACCEPT authority.
+  - Do not write another ForPrint module repository.
+  - Do not modify coordination/internal_work/blueprint/evening_reviews/.
+  - Do not modify historical-enrichment checkpoints or source materials.
+  - Do not modify coordination/repository_knowledge/roadmap_enrichment/source_map.yaml.
+  - Do not modify coordination/human_intent/modules/forprint_system_blueprint.yaml.
+
+provenance:
+  source_refs:
+    - roadmap:control_foundation_near_horizon/CF-10
+    - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+    - commit:cf4f1889f60951f868c85dec3890716ee9c2f091
+    - commit:49c49b9569f647be41bd35c1c092505085a0f470
+    - commit:a9042872d9667742dddea718dd2d625de2efaf7c
+    - commit:a4606deaa895ea8953a3cdab676a6f802693fca8
+    - commit:970d459956b8414d88294e3cf6a567c3701a9d47
+    - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/control_plane/workspace/provision.py
+  chat_is_authority: false
+  operator_scope_confirmation_received: true
+
+dependencies:
+  - CF-10/u180j ACTIVE sequence 67
+  - operator-status task completed at cf4f1889f60951f868c85dec3890716ee9c2f091
+  - isolated workspace foundation published at 49c49b9569f647be41bd35c1c092505085a0f470
+  - baseline-aware worker delta published at a9042872d9667742dddea718dd2d625de2efaf7c
+  - finalization verification published at a4606deaa895ea8953a3cdab676a6f802693fca8
+  - automatic bound-workspace delta derivation published at 970d459956b8414d88294e3cf6a567c3701a9d47
+  - historical dialogue enrichment remains a separate parallel workstream
+
+outputs:
+  - Machine-readable governance reconciliation for the published CF-10 hardening sequence.
+  - Prospective authority boundary for further worker-delta pipeline completion.
+  - Focused reconciliation validator and regression test.
+  - One bounded post-worker result-collection proof if additional implementation is required.
+  - Explicit evidence that no historical or shared roadmap/human-intent surface was mutated.
+
+acceptance:
+  - The four published hardening commits are recorded in exact ancestry order after cf4f188.
+  - The original operator-status Work Front remains byte-identical to its published reference.
+  - Reconciliation explicitly denies retroactive authority.
+  - cf10-u180j-a003 immutable FAILED history remains preserved.
+  - Future CF-10 delta reports remain bound to both attempt_id and workspace_repo.
+  - Canonical CF-10 finalization continues to reject changed_paths mismatch before ledger append.
+  - Any new post-worker result-collection adapter derives delta from the bound isolated workspace.
+  - Focused pytest passes.
+  - Focused validator passes.
+  - git diff --check passes for the bounded write-set.
+  - No lifecycle, roadmap, historical-dialogue, shared source-map, shared human-intent or cross-module mutation occurs.
+  - No live worker launch, release, merge, automatic ACCEPT or force push occurs.
+
+stop_conditions:
+  - A path outside this Work Front becomes necessary.
+  - lifecycle or roadmap mutation becomes necessary.
+  - Handoff v2 schema mutation becomes necessary.
+  - The original operator-status Work Front would need to be rewritten.
+  - cf10-u180j-a003 history would need to be rewritten.
+  - A shared historical-enrichment path must be modified.
+  - A new mutable status authority or duplicate execution-state source is required.
+  - Live worker dispatch is required without a separate explicit operator decision.
+  - Cross-module write, release, merge, automatic ACCEPT or force push is requested.
+
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  retroactive_authority: false
+  live_worker_dispatch_authorized: false
+  lifecycle_mutation_authorized: false
+  roadmap_mutation_authorized: false
+  release_authorized: false
+  merge_authorized: false
+  automatic_accept_authorized: false
+
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - coordination/work_fronts/
+    - coordination/internal_work/blueprint/governance/
+    - scripts/coordination/control_plane/
+    - scripts/coordination/control_plane/workspace/
+    - scripts/validation/
+    - tests/coordination/control_plane/
+    - tests/validation/
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/control_plane/workspace/provision.py
+    - scripts/coordination/control_plane/workspace/__init__.py
+  read_only_refs:
+    - coordination/work_fronts/cf10_operator_status_surface_self_hardening_v0_1.yaml
+    - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+    - scripts/coordination/execution_attempt_ledger_v0_1.py

@@ -1,0 +1,39 @@
+schema_version: forprint_telegram_behavior_and_ml_quality_governance_candidate_v0_1
+candidate_id: telegram_behavior_and_ml_quality_governance
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: telegram_bot
+supporting_or_adjacent_owners:
+- verification_lab
+- forprint_crm
+- forprint_marketing_orchestrator
+- forprint_system_blueprint
+related_existing_candidate: coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+reuse_first_findings:
+  ai_escalation: REUSE telegram_bot_ai_escalation_pipeline_v0_1
+  conversation_target_state: REUSE current conversational operating interface
+  training_corpus_ingest: EXTEND prior 07.10 candidate
+  evaluation_harness_owner: UNRESOLVED_VERIFY_VERIFICATION_LAB
+candidate_capabilities:
+- sales/refusal/objection classifier semantics
+- versioned modular dataset registry by behavior/domain
+- dataset merge/weighting provenance
+- targeted weak-domain enrichment
+- scheduled classifier evaluation
+- hidden holdout policy
+- fresh versioned challenge pools
+- independent expected-label oracle or reviewer path
+- train/test leakage detection
+- promotion/retraining thresholds
+- evaluation report with confusion/error domains
+provider_rule: External LLMs may optionally generate challenge candidates, but provider output is not the expected-label
+  oracle and no specific provider/free-tier claim is durable architecture.
+non_goals:
+- duplicate the existing AI escalation roadmap step
+- freeze DeBERTa, Mistral or any external provider as permanent architecture
+- automatically retrain/promote from raw evaluation output without governed thresholds
+- use one repeatedly tuned static test set as long-running quality proof
+- move canonical CRM/accounting/product truth into Telegram
+- mutate the Telegram repository from this planning intake
+promotion_gate: Reconcile remaining Telegram historical sources, live Telegram model/data pipeline, current Verification
+  Lab capabilities and current taxonomy/schema contracts before canonical roadmap insertion.

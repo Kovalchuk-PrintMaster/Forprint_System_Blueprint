@@ -1,0 +1,207 @@
+schema_version: forprint_blueprint_20260907_control_foundation_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26.mhtml
+  sha256: 0c32059f0cc0787ae681b49747a96627965958ea76793ce519afa32b007d568b
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-07_source_label/DFTB_blueprint_control_foundation_bridge_v0_1
+
+chronology:
+  filename_label: '2026-09-07'
+  classification: SOURCE_LABEL_TEMPORALLY_UNSAFE
+  logical_position: after_CF01_closure_before_later_CF02_hardening
+  rule: >
+    Place this source by causal Control Foundation lineage, not by filename date.
+    The source begins from CF-01 already CLOSED / CF-02 NEXT_MANUAL and includes
+    later strategy/context material.
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_UNIQUE_PARTIAL_TEMPORAL_LABEL_CONFLICT
+  message_blocks: 9
+  roles:
+    user: 5
+    assistant: 4
+  artifact_labels_from_existing_intake: 28
+  lossy_cyrillic_after_correct_mime_decode: false
+  mime_note: >
+    The HTML MIME payload decodes cleanly as UTF-8. The source file is not
+    Cyrillic-lossy. This is a small unique partial dialogue rather than a
+    large virtualized capture.
+  limitation: >
+    Historical candidate/review/PASS/RETURN states are not current runtime authority.
+    Current implementation and lifecycle must be revalidated from live repository
+    evidence before action.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - stale handoff correction through live authority revalidation
+    - roadmap plan versus append-only execution truth
+    - candidate-first non-mutating Control Plane change pattern
+    - focused/mechanical checks are necessary but not sufficient
+    - semantic/adversarial review before activation or canonical apply
+    - CF-02 candidate v0.1 returned with seven findings
+    - execution-dependency registration for new/changed command surfaces
+    - persistent generator derivation registration
+    - canonical standards/document/index discoverability
+    - future work IDs remain unbound until authorized
+    - explicit persistent-projection bootstrap/materialization order
+    - focused Control Plane tests use explicit fixtures/state inputs
+    - exact immutable legacy migration evidence
+    - historical B1 closure lineage only
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: stale_handoff_to_live_authority_revalidation
+    source_items:
+      - IT-BP0709CF-0002
+      - IT-BP0709CF-0003
+      - IT-BP0709CF-0004
+      - IT-BP0709CF-0005
+      - IT-BP0709CF-0006
+    source_rule: >
+      Live Git/release/lifecycle state outranks stale handoff text. If exact current
+      evidence proves planned work already closed, skip it rather than replay or
+      regress it. Missing exact mutation anchors require read-only capture, not guesses.
+    current_connection:
+      - Handoff/continuity revalidation
+      - state-aware recovery
+      - current assistant bootstrap/context non-authority rule
+      - dirty-tree/baseline snapshots
+      - Reuse-first / Pre-Implementation Reconciliation
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: candidate_first_semantic_gate_to_current_preimplementation_discipline
+    source_items:
+      - IT-BP0709CF-0009
+      - IT-BP0709CF-0010
+      - IT-BP0709CF-0011
+      - IT-BP0709CF-0019
+    source_rule: >
+      Control-plane changes are built as bounded non-mutating candidates first.
+      Compile/tests/hash integrity are necessary but insufficient; semantic/adversarial
+      review must clear before activation or canonical apply.
+    historical_result: CF-02 candidate v0.1 RETURN_FOR_CORRECTION with seven findings
+    current_connection:
+      - Reuse-first gate
+      - pre-implementation reconciliation
+      - bounded candidate/apply split
+      - semantic validation before mutation
+      - no roadmap/execution authority mutation from analysis artifacts
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: registry_completeness_for_operational_surfaces
+    source_items:
+      - IT-BP0709CF-0012
+      - IT-BP0709CF-0013
+      - IT-BP0709CF-0014
+    promoted_human_intent: HI-FP-CF02-ORIGIN-20260907-001
+    historical_rule: >
+      New or changed operational command surfaces must register execution dependencies;
+      persistent generators must register derivation lineage; new governance/automation
+      standards must be discoverable from canonical document/index surfaces.
+    current_connection:
+      - execution-dependency checks
+      - generator inventory/derivation contracts
+      - standards/index discoverability
+      - Project Inspector / repository knowledge audits
+    makefile_extension_20260922:
+      status: PENDING_CONSOLIDATED_PROJECT_RULE_UPDATE
+      rule: >
+        Because Makefile is now explicitly treated as an operator-facing functional map,
+        live operational command surfaces must also be checked for Makefile coverage.
+        Implemented operator workflows missing from Makefile are coverage gaps; stale
+        Make targets for removed functionality are cleanup defects.
+      relation_to_historical_rule: CURRENT_OPERATOR_EXTENSION_COMPATIBLE_WITH_CF02_ORIGIN
+      mutation_in_this_second_pass: none
+    action: RECORD_MAKEFILE_AUDIT_SEED_ONLY
+
+  - topic: work_identity_authority
+    source_items:
+      - IT-BP0709CF-0015
+    promoted_human_intent: HI-FP-CF02-ORIGIN-20260907-002
+    source_rule: >
+      Future Control Foundation work may be planned while remaining unbound, but
+      lifecycle/work IDs must not be silently pre-assigned beyond currently authorized
+      scope; identity binding is authority-bearing.
+    current_connection:
+      - Work Front / lifecycle binding
+      - Dispatcher active-work authority
+      - planning versus execution separation
+    action: NO_DUPLICATE
+
+  - topic: projection_bootstrap_order
+    source_items:
+      - IT-BP0709CF-0016
+    promoted_human_intent: HI-FP-CF02-ORIGIN-20260907-003
+    source_rule: >
+      Register source/producer/dependencies first, materialize the initial persistent
+      projection second, then run read-only freshness/sync checks and broader gates.
+    current_connection:
+      - generated projection contracts
+      - derivation/freshness validation
+      - roadmap execution reconciliation
+    action: NO_DUPLICATE
+
+  - topic: explicit_test_isolation
+    source_items:
+      - IT-BP0709CF-0017
+    promoted_human_intent: HI-FP-CF02-ORIGIN-20260907-004
+    source_rule: >
+      Focused Control Plane tests use explicit projection/state inputs or controlled
+      fixtures rather than silently reading ambient repository-root generated state.
+    current_connection:
+      - sterile/isolated test gates
+      - deterministic runtime/context validation
+      - current-tree versus materialized-report diagnostic truth
+    action: NO_DUPLICATE
+
+  - topic: exact_legacy_migration_evidence
+    source_items:
+      - IT-BP0709CF-0018
+    promoted_human_intent: HI-FP-CF02-ORIGIN-20260907-005
+    source_rule: >
+      One-time legacy migration binds to exact immutable pre-migration evidence,
+      including roadmap identity and accepted step identities, rather than only a
+      coarse ordinal boundary.
+    current_connection:
+      - migration provenance
+      - event-sourced lifecycle truth
+      - immutable evidence/fingerprint discipline
+    action: NO_DUPLICATE
+
+  - topic: master_memory_v16_navigation_status
+    historical_master:
+      archive_sha256: 368c40fb721c5ec629c6fce449d7e706b2230427c5a68bd3d5a68357f3f065bb
+      role: derived_duplicate_aware_dialogue_navigation_archive
+      authority: derived_aggregate_not_current_runtime_authority
+    current_status:
+      preferred_navigation: false
+      superseded_by: Master Memory v3.7
+      retention: historical_navigation_archive_retained
+    rule: >
+      Do not delete or rewrite v1.6 as historical evidence, but do not use it as the
+      preferred current navigation layer. Master Memory v3.7 is the preferred derived
+      navigation surface and remains non-authoritative for current runtime truth.
+    action: RECORD_NAVIGATION_SUPERSESSION_ONLY
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  makefile_functional_map_rule_pending_consolidated_apply: true
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - corrected source-quality interpretation: UTF-8 Cyrillic is intact
+    - explicit temporal-label caution confirmed
+    - provenance bridge from stale-handoff correction to current live-authority revalidation
+    - provenance bridge from candidate-first semantic gate to current pre-implementation discipline
+    - Makefile functional-coverage audit seed attached to CF-02 operational-surface registry rule
+    - Master Memory v1.6 retained historically but superseded as preferred navigation by v3.7

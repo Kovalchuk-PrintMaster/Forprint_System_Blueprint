@@ -1,0 +1,78 @@
+work_front_id: wf-cf10-worker-watchdog-observability-self-hardening-v0-1
+objective: Extend the existing worker process launcher with deterministic watchdog/heartbeat observability so running
+  progress, bounded stall evidence and timeout outcomes are distinguishable without granting retry, dispatch or
+  remediation authority.
+scope: &id001
+- scripts/coordination/control_plane/worker_runtime/launcher.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+exclusions:
+- Do not create a new worker launcher, dispatcher or daemon.
+- Do not modify Execution Attempt Ledger semantics or history.
+- Do not modify lifecycle, roadmap, Work Front authority, Handoff, provider registry or task materialization surfaces.
+- Do not add autonomous retry, restart, dispatch, kill-on-stall or remediation behavior.
+- Timeout handling may remain the existing bounded termination path; stall evidence must be observational only.
+- Do not modify Makefile.
+- Do not write another repository.
+- Do not commit, push, merge, release or automatically ACCEPT results.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - training_task:worker_watchdog_observability_self_hardening
+  - accepted_predecessor:verification_tier_self_hardening/commit-5ba8cfcdf16284487dc1b6dba12ce3c925761793
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+  chat_is_authority: false
+dependencies:
+- verification_tier_self_hardening is accepted and published at 5ba8cfcdf16284487dc1b6dba12ce3c925761793.
+- cf10-u180j-a007 is terminal FINISHED/SUCCEEDED with validator PASS.
+- Existing launcher already owns process start, heartbeat callback, timeout termination and final process result.
+- Existing launcher tests already prove argv/no-shell launch, callback failure termination and timeout evidence.
+outputs:
+- Preserve the existing launch_process path and extend its heartbeat/watchdog evidence rather than introducing a
+  parallel runtime.
+- Expose deterministic heartbeat evidence sufficient to observe running state and whether observable output progress
+  changed.
+- Expose bounded stall evidence derived from an explicit configured threshold; stall evidence must never terminate,
+  retry or redispatch.
+- Make timeout outcome explicitly distinguishable from stall evidence in the final returned process result.
+- Preserve current timeout termination behavior and existing callback compatibility.
+- Add focused deterministic tests for active progress, stall evidence, timeout distinction and no automatic remediation.
+acceptance:
+- Only the two declared scope files are changed by the worker.
+- Existing launcher callers remain compatible unless they opt into the bounded stall-observability parameter.
+- Heartbeat evidence includes deterministic runtime/progress fields.
+- A configured no-observed-output interval can produce explicit stall evidence while the process remains running.
+- Stall evidence does not terminate, restart, retry or dispatch anything.
+- Timeout remains a separate explicit outcome and existing timeout termination semantics remain intact.
+- Existing launcher tests remain passing and new watchdog tests pass.
+- git diff --check passes in the isolated worker workspace.
+- No lifecycle mutation, authority widening, cross-module write, commit, push, merge, release or automatic ACCEPT
+  occurs.
+stop_conditions:
+- Implementation requires dispatcher, lifecycle, roadmap, Handoff, ledger, provider-registry or Makefile mutation.
+- A path outside the two declared scope files must be modified.
+- Stall observation would require autonomous recovery or retry.
+- Existing timeout semantics would need to be weakened.
+- Compatibility with existing launch_process callers cannot be preserved.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs: *id001
+  read_only_refs:
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/
+  - tests/coordination/control_plane/worker_runtime/
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml

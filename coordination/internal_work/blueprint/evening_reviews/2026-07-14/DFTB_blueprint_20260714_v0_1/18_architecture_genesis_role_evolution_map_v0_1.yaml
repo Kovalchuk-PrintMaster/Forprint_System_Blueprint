@@ -1,0 +1,105 @@
+schema_version: forprint_architecture_genesis_role_evolution_map_v0_1
+source_date: '2026-07-14'
+source_bundle: DFTB-blueprint-2026-07-14
+purpose: Preserve how early ForPrint module roles evolved into the later mature portfolio. This is provenance/evolution
+  evidence, not current ownership authority.
+roles:
+- module: forprint_system_blueprint
+  early_role: top-level architecture/ideology control layer
+  current_role: architecture/coordination/control truth with bounded control-plane execution support
+  evolution: RETAINED_AND_MATURED
+- module: forprint_project_inspector
+  early_role: cross-check modules against goals and integration compatibility
+  current_role: independent verification/reporting of drift, conformance and evidence; not domain truth owner
+  evolution: RETAINED_AND_NARROWED_TO_VERIFICATION
+- module: forprint_crm
+  early_role: broad business orchestration/top applied layer
+  current_role: business UI/coordination/customer context and policy surface; operational truth remains in domain
+    registries
+  evolution: NARROWED_AND_CLARIFIED
+- module: forprint_library
+  early_role: very broad single truth store for references/data
+  current_role: canonical semantic/catalog/reference and shared UI publication authority, excluding business workflows
+  evolution: NARROWED_SUBSTANTIALLY
+- module: calculator_engine
+  early_role: all applied calculation mathematics
+  current_role: pricing/calculation logic and planned calculation outputs
+  evolution: RETAINED_AND_CLARIFIED
+- module: forprint_prepress_hub
+  early_role: client file intake, readiness analysis, automatic preparation and preview
+  current_role: prepress technical file readiness/facts/preparation evidence; operational truth stays elsewhere
+  evolution: RETAINED_AND_BOUNDARIED
+- module: forprint_accounting_registry_service
+  early_role: 1C-like internal database/accounting direction with required 1C synchronization
+  current_role: operational/commercial accounting registry, accounting documents/reconciliation and 1C compatibility
+    boundary
+  evolution: SPLIT_FROM_OPERATIONAL_TRUTH_AND_MATURED
+- module: forprint_operations_control_registry
+  early_role: implicit inside broad database/business-control concept
+  current_role: canonical operational party/order/request/event/task/blocker registry and write boundary
+  evolution: EXPLICITLY_SPLIT_OUT_LATER
+- module: website
+  early_role: presentation plus light customer account/history
+  current_role: web/customer presentation surface consuming canonical customer/order/business truth rather than
+    hard-owning it
+  evolution: RETAINED_WITH_DATA_OWNERSHIP_NARROWING
+- module: telegram_bot
+  early_role: central operational interface doing much of applied project work and escalating unknowns to AI
+  current_role: personalized communication orchestrator/routing/rendering layer; domain facts and durable workflow
+    truth remain outside
+  evolution: NARROWED_FROM_OPERATIONAL_CENTER_TO_COMMUNICATION_ORCHESTRATOR
+- module: logistics_service
+  early_role: separate logistics service
+  current_role: shipment-specific workflow/state/reconciliation service consuming parent operational/process truth
+  evolution: RETAINED_AND_MATURED
+- module: warehouse_service
+  early_role: separate warehouse capability
+  current_role: physical stock/warehouse fact domain with reconciliation boundaries to accounting/operations
+  evolution: RETAINED_AND_CLARIFIED
+- module: cloud_backup_manager
+  early_role: reuse powerful backup/storage tool inside ForPrint
+  current_role: backup/storage capability in canonical portfolio
+  evolution: RETAINED
+- module: production_runtime_inspector
+  early_role: future production inspection capability
+  current_role: production/runtime inspection evidence and operational visibility
+  evolution: RETAINED_AND_CLARIFIED
+- module: forprint_integration_gateway
+  early_role: to be bootstrapped; reusable prompt-reading/integration scripts considered
+  current_role: transport/integration boundary, not domain semantics or workflow truth
+  evolution: BOOTSTRAPPED_AND_NARROWED_TO_TRANSPORT
+- module: forprint_strategic_control_plane
+  early_role: planned separate strategic control component
+  current_role: strategic direction/portfolio-policy layer distinct from bounded Blueprint/Dispatcher execution
+  evolution: RETAINED_AND_BOUNDARY_CLARIFIED
+governance_primitives_origin:
+- source_items:
+  - IT-BP1407-0016
+  - IT-BP1407-0018
+  - IT-BP1407-0020
+  origin: per-module manifest, Git/ADR decisions, generated module guidance
+  later_form: module manifests, architecture decision history, deterministic machine discoverability and bootstrap/context
+    generation
+- source_items:
+  - IT-BP1407-0017
+  origin: Blueprint changes trigger affected-module review
+  later_form: change-impact/dependency-aware affected validation and convergence planning
+- source_items:
+  - IT-BP1407-0025
+  - IT-BP1407-0026
+  - IT-BP1407-0041
+  origin: coherent work packages plus durable priority queue and explicit roadmap
+  later_form: Work Front / roadmap / continuity / dispatcher planning surfaces
+- source_items:
+  - IT-BP1407-0031
+  - IT-BP1407-0032
+  - IT-BP1407-0038
+  - IT-BP1407-0039
+  origin: continuous standards awareness, completion packets, automated reports, global assistant rules
+  later_form: governed procedures, completion evidence, global standards, reporting/index refresh and assistant
+    handoff contracts
+- source_items:
+  - IT-BP1407-0033
+  - IT-BP1407-0035
+  origin: standardize interfaces rather than one universal script; do not duplicate established coordination paths
+  later_form: behavioral/contract standardization plus Reuse-First / Pre-Implementation Reconciliation Gate

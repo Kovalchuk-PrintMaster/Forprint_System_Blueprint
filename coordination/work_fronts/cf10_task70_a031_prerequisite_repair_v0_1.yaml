@@ -1,0 +1,75 @@
+work_front_id: wf-cf10-task70-a031-prerequisite-repair-v0-1
+objective: 'Repair the two infrastructure prerequisites exposed by blocked Task70 attempt a031: provide bounded pre-mutation
+  whole-suite elapsed evidence plus typed post-mutation profiling transport through the existing validation capability,
+  and make the already-delivered hash-bound governed context explicitly consumable as attempt-scoped freshness proof.'
+scope:
+- coordination/registry/structured_command_capabilities_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+- scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+- Makefile
+exclusions:
+- Do not modify Task70 runner or its focused tests during this repair.
+- Do not modify the validation-suite registry or isolation runner.
+- Do not modify governed_worker_cycle, lifecycle, roadmap, Handoff, attempt ledger or Operator Console.
+- Do not add shell, arbitrary argv, arbitrary executable selection or arbitrary environment injection.
+- Do not create a second validation/profiling runner or a second MCP tool.
+- Do not launch a032 during implementation or validation.
+- Do not commit, push, merge, release or automatically accept from any Worker process.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a031/BLOCKED
+  - publication:5dbb94261e53cbba5e8a8d33b5c8cedca5cc671e
+  - blocker:PROFILE_EXECUTION_CAPABILITY_UNAVAILABLE
+  - blocker:GOVERNED_CONTEXT_CONSUMPTION_MISMATCH
+  - task:cf10-validation-check-pipeline-profile-and-optimization-v0-1@0.1.1
+  - capability:validation_suite@0.1.0
+  chat_is_authority: false
+dependencies:
+- a031 STARTED and BLOCKED ledger facts are published at source HEAD.
+- Existing structured executor already records elapsed_seconds in immutable external evidence.
+- Existing Worker validation MCP exposes only suite_id and require_tier and omits elapsed_seconds from Worker-visible
+  structured content.
+- Existing governed Worker context already contains roadmap_sync=IN_SYNC, u180j ACTIVE and bound resume coordinates.
+outputs:
+- Bump validation_suite shared capability contract to 0.2.0.
+- Expose existing execution-layer elapsed_seconds to the Worker without introducing a new profiler.
+- Add optional typed profile:boolean transport; absent/false preserves current argv and true adds only --profile to
+  the canonical validation-suite runner argv.
+- Keep profile=true unusable until the task-scoped runner itself implements --profile; the repair does not implement
+  Task70 profiling semantics.
+- Clarify in the Worker prompt that the hash-bound governed context is the attempt-scoped freshness verification snapshot
+  and must not be regenerated through unavailable shell commands.
+acceptance:
+- Only the eight declared implementation paths change in the implementation slice.
+- validation_suite capability version is 0.2.0 and optional profile is strictly boolean.
+- profile absent or false produces the exact pre-repair validation-suite argv.
+- profile true adds exactly --profile and grants no shell/environment/executable authority.
+- Non-boolean profile is rejected before process launch.
+- Worker MCP exposes profile as the only new Worker-controlled input and still rejects hidden execution fields.
+- Worker-visible structured result includes elapsed_seconds already measured by the shared launcher.
+- Existing evidence digest, stdout/stderr evidence and authority-false semantics remain intact.
+- Worker prompt explicitly treats a hash-bound IN_SYNC/ACTIVE governed cursor as sufficient attempt-scoped freshness
+  verification unless internally inconsistent.
+- Prompt continues to state that governed context is non-authoritative and cannot widen execution authority.
+- structured-command-executor-check passes.
+- cf10-worker-invocation-bridge-check passes.
+- governed-worker-cycle-check passes.
+- A normal real MCP proof still passes with shell=false and authority_widened=false.
+- No Task70 runner, validation registry, lifecycle/roadmap, ledger or Worker attempt mutation occurs.
+stop_conditions:
+- A path outside the exact eight-file implementation scope becomes necessary.
+- The repair would need to implement Task70 profiling logic in run_validation_suite_v0_1.py.
+- A general shell/environment passthrough becomes necessary.
+- A second MCP tool or arbitrary command execution becomes necessary.
+- Governed context would need to become an authority source rather than verification context.
+- A real Worker retry becomes necessary before repair closeout.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false

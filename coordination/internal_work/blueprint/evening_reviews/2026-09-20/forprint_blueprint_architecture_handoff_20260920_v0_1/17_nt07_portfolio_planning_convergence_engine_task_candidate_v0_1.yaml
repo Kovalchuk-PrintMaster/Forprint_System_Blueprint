@@ -1,0 +1,382 @@
+schema_version: forprint_blueprint_nt07_portfolio_planning_convergence_task_candidate_v0_1
+task_id: BP-NT07-PORTFOLIO-PLANNING-CONVERGENCE
+title: Portfolio Planning, Dependency Intelligence and Convergence Engine
+status: CANDIDATE_REQUIRES_REPOSITORY_RECONCILIATION_AND_FORMAL_ACTIVATION
+authority:
+  execution_authority: false
+  roadmap_activation_authority: false
+  strategic_priority_change_authority: false
+  automatic_module_distribution_authority: false
+  automatic_git_publication_authority: false
+host:
+  initial: forprint_system_blueprint
+  design: hosted_but_extraction_ready
+  standalone_module_now: false
+operator_intent:
+  primary_goal: After the portfolio roadmap is sufficiently enriched, maintain a living project-planning model that
+    automatically recalculates dependencies, dependency matrices, affected chains, readiness/frontier, derived ordering
+    information and planning projections whenever canonical roadmap knowledge changes.
+  secondary_goal: Provide machine-readable status/reporting and human dashboards so the operator and assistants
+    can see what is ready, blocked, stale, conflicting, dependent, high-impact, or in need of review without reconstructing
+    the portfolio manually.
+  important_interpretation: Automatic convergence means automatic recomputation of derived planning knowledge. It
+    does NOT mean automatic strategic reprioritization, work activation, ACCEPT, release, push or merge unless separately
+    authorized by current governance.
+mandatory_pre_execution_reconciliation:
+  rule: AUDIT_BEFORE_CREATION
+  required: true
+  first_action: READ_ONLY_REPOSITORY_RECONCILIATION
+  required_dispositions:
+  - REUSE
+  - EXTEND
+  - ADAPT
+  - REPLACE
+  - NEW
+  new_requires:
+  - search_evidence
+  - adjacent_candidate_review
+  - explicit_rationale
+  must_reconcile_at_minimum:
+  - CF-02 roadmap/execution reconciliation controller
+  - CF-07 governed procedure/projection refresh semantics
+  - CF-14 change impact resolver / affected validation direction
+  - current roadmap schemas and generators
+  - dependency matrix seed and dependency/prioritization standard
+  - portfolio execution dashboard concept
+  - Human Intent and target-state/approval projections
+  - continuity/lifecycle event store actual-execution truth
+  - Dispatcher execution-state/lease responsibilities
+  - Project Inspector conformance boundaries
+  - publication/promotion responsibilities
+  - repository indexes/graphs and stable ID conventions
+  task_enrichment_required_before_code: true
+  enrichment_instruction: Before implementation, update/refine this candidate from current repository evidence.
+    Preserve operator intent, but do not freeze obsolete file names, schemas, ownership or mechanisms merely because
+    they are listed in this handoff.
+  stop_conditions:
+  - parallel control plane would be created
+  - canonical owner conflict unresolved
+  - actual execution truth would be duplicated
+  - generated projection would become a second source of truth
+  - current repository mechanisms materially differ and no reconciliation decision exists
+architectural_invariants:
+- coverage_first_ordering_later_during_knowledge_saturation
+- canonical_sources_beat_generated_projections
+- planning_desired_state_is_distinct_from_execution_actual_state
+- planner_must_not_invent_execution_facts
+- dispatcher_must_not_invent_strategic_work
+- dashboard_is_projection_not_source_of_truth
+- indexes_graphs_and_human_views_are_complementary_derived_surfaces
+- stable_ids_required_for_modules_capabilities_steps_work_and_relations
+- all_inferred_relations_preserve_provenance_and_confidence
+- automatic_recomputation_never_implies_automatic_activation
+- far_horizon_methods_are_reference_only_until_deliberately_promoted
+canonical_input_families:
+- family: portfolio_structure
+  examples:
+  - module charters
+  - module identity/ownership
+  - capability catalogs
+  - target states
+- family: planning
+  examples:
+  - roadmap steps
+  - work items
+  - milestones
+  - strategic horizons
+  - review obligations
+- family: intent_and_evidence
+  examples:
+  - Human Intent
+  - owner decisions
+  - provenance/evidence references
+  - confidence/maturity
+- family: dependency_and_contract
+  examples:
+  - module dependencies
+  - step dependencies
+  - contracts
+  - data/provider/consumer relations
+- family: execution_actual
+  examples:
+  - lifecycle/continuity events
+  - dispatcher state
+  - accepted completion evidence
+- family: economics_resources_risk
+  examples:
+  - resource pools
+  - cost/velocity evidence
+  - risk
+  - external constraints
+  note: Use only where evidence exists; do not invent false precision.
+normalized_model:
+  node_types:
+  - module
+  - capability
+  - roadmap_step
+  - work_item
+  - milestone
+  - artifact
+  - policy
+  - decision
+  - resource_pool
+  - risk
+  - external_dependency
+  edge_types:
+  - requires
+  - blocks
+  - enables
+  - produces
+  - consumes
+  - invalidates
+  - derived_from
+  - supersedes
+  - conflicts_with
+  - competes_for_resource
+  - gated_by
+  - implements
+  - evidence_for
+  dependency_minimum_fields:
+  - provider_module
+  - consumer_module
+  - dependency_type
+  - capability_contract_or_data
+  - earliest_stage_where_it_matters
+  - latest_safe_stage_for_readiness
+  - blocking_severity
+  - fallback_if_any
+  - confidence
+  - provenance
+  dependency_types:
+  - hard_dependency
+  - soft_dependency
+  - data_dependency
+  - contract_dependency
+  - runtime_dependency
+  - ux_dependency
+  - operational_dependency
+  - external_provider_dependency
+  blocking_classes:
+  - BLOCKING_NOW
+  - PHASE_GATE_BLOCKING
+  - DEPENDENCY_CRITICAL_LATER
+  - NON_BLOCKING_SUPPORT
+  - OPTIONAL_DEFERRED
+  - TBD_REVIEW_REQUIRED
+convergence_transaction_on_canonical_change:
+  goal: One canonical planning change should deterministically converge all affected derived planning surfaces.
+  steps:
+  - validate_changed_canonical_source_and_stable_identity
+  - capture_source_fingerprint_provenance_authority_and_plan_revision_candidate
+  - resolve_impacted_modules_capabilities_steps_and_relations
+  - update_or_rebuild_the_affected_normalized_graph_slice
+  - detect_dangling_references_owner_conflicts_and_invalid_relations
+  - recompute_affected_dependency_closure
+  - detect_cycles_and_strongly_connected_components
+  - recompute_topological_generations_for_affected_subgraph
+  - recompute_readiness_blocking_classes_and_execution_frontier_projection
+  - recompute_blast_radius_bottleneck_bridge_and_downstream_waiting_views
+  - compare_desired_planning_state_with_actual_execution_watermark
+  - classify_IN_SYNC_PROJECTION_STALE_PLAN_CHANGE_REQUIRED_EXECUTION_CONFLICT_or_UNKNOWN
+  - derive_planning_control_signals_with_severity_without_automatically_pausing_every_running_work
+  - invalidate_only_derived_surfaces_whose_dependencies_changed
+  - rebuild_machine_reports_indexes_matrices_chains_and_dashboard_snapshot
+  - run_deterministic_validators_and_projection_freshness_checks
+  - emit_immutable_or_append_only_plan_revision_change_evidence
+  - require_governed_apply_for_any_canonical_planning_mutation_beyond_safe_derived_rebuild
+change_triggers:
+- roadmap_step_added_removed_or_materially_changed
+- dependency_discovered_resolved_changed_or_invalidated
+- module_or_capability_owner_changed
+- capability_added_deprecated_superseded_or_split
+- contract_or_data_boundary_changed
+- module_reaches_or_leaves_a_gate
+- accepted_execution_event_changes_actual_state
+- cost_velocity_quality_or_executor_evidence_materially_changes
+- external_constraint_or_risk_changes
+- strategic_objective_or_operator_decision_changes
+- source_freshness_or_projection_dependency_changes
+derived_outputs_near_term:
+- portfolio_graph_snapshot
+- module_dependency_matrix
+- step_dependency_matrix
+- dependency_timing_view
+- cycle_scc_report
+- topological_generation_view
+- near_horizon_candidate_chain
+- execution_frontier
+- ready_blocked_waiting_report
+- provider_consumer_impact_report
+- blast_radius_report
+- bottleneck_bridge_report
+- plan_revision_diff
+- desired_vs_actual_reconciliation_status
+- projection_freshness_report
+- planning_control_signal_feed
+- dashboard_machine_snapshot
+- human_readable_portfolio_status_report
+dashboard_projection:
+  principle: projection_only
+  potential_module_fields:
+  - module
+  - current_phase_or_roadmap_step
+  - total_weighted_scope
+  - accepted_completed_weight
+  - progress_percentage
+  - confidence
+  - blockers
+  - dependencies_waiting_for_this_module
+  - dependencies_this_module_waits_for
+  - portfolio_priority
+  - blocking_class
+  - current_executor_provider_model
+  - spend
+  - weighted_work_delivered
+  - cost_per_weighted_unit
+  - lead_time
+  - rework_rate
+  - acceptance_quality_rate
+  - report_quality
+  - monthly_velocity
+  - trend_30_90_day
+  - plan_revision
+  - freshness_status
+  false_precision_rule: Do not display invented percentages, timing, cost or confidence as facts. Every metric must
+    have evidence/provenance and may remain UNKNOWN/TBD.
+  questions_it_should_answer:
+  - who_is_blocking_whom
+  - which_dependency_is_needed_soonest
+  - which_modules_are_ready_or_not_ready
+  - where_budget_or_attention_has_highest_portfolio_effect
+  - which_module_can_safely_remain_paused
+  - what_changed_since_previous_plan_revision
+  - which_projection_is_stale
+  - whether_automation_is_improving_measurable_throughput_quality_or_cost
+scenario_and_apply_model:
+  dry_run_required: true
+  scenario_must_not_mutate_canonical_plan: true
+  scenario_outputs:
+  - dependency_diff
+  - affected_chain_diff
+  - readiness_diff
+  - priority_recommendation_diff
+  - resource_conflict_diff
+  - risk_diff
+  - projection_diff
+  apply_requires:
+  - validated_change_set
+  - authority_check
+  - provenance
+  - conflict_check
+  - post_apply_rebuild_and_validation
+priority_and_ordering:
+  automatic: derive recommendations and affected ordering information
+  not_automatic: change strategic priority or activate work without authority
+  inputs:
+  - downstream_blocker_count_and_severity
+  - dependency_timing
+  - business_value
+  - technical_uncertainty
+  - risk_reduction
+  - dependent_module_readiness
+  - cost_velocity_executor_evidence
+  - opportunity_cost
+  - operational_or_release_gate_relevance
+  recompute_when:
+  - dependency_resolved_or_newly_discovered
+  - module_reaches_gate
+  - cost_velocity_changes
+  - executor_underperforms
+  - requirements_or_technology_change
+  - new_external_constraint_appears
+worker_context_and_control_signals:
+  worker_receives:
+  - broad_relevant_module_strategy
+  - relevant_cross_module_dependencies
+  - current_plan_revision
+  - open_gaps
+  - near_horizon_expectations
+  roadmap_visibility_grants_execution_authority: false
+  revision_bound_context_required: true
+  not_every_change_pauses_execution: true
+  severity_policy_required: true
+query_surface_examples:
+- what_depends_on_X
+- what_blocks_module_Y
+- what_is_ready_now
+- what_changed_since_plan_revision_N
+- why_is_step_Z_blocked
+- which_dependencies_are_needed_within_next_stage
+- what_is_the_blast_radius_of_changing_capability_C
+- which_derived_surfaces_are_stale
+- what_planning_conflicts_with_actual_execution
+- which_operator_decisions_are_still_required
+validation_and_invariants:
+- all_canonical_nodes_have_stable_ids
+- all_dependency_edges_have_provenance_and_confidence
+- no_dangling_canonical_references
+- cycles_are_detected_and_explicitly_classified
+- generated_surfaces_are_reproducible_from_canonical_inputs
+- generated_surfaces_carry_source_revision_and_freshness_watermark
+- rebuild_is_idempotent
+- read_only_check_targets_do_not_mutate_canonical_sources
+- planner_does_not_write_actual_execution_facts
+- dispatcher_does_not_write_strategic_intent
+- dashboard_does_not_become_authority
+- scenario_dry_run_produces_no_canonical_mutation
+- canonical_apply_is_transactional_or_recoverable
+- plan_revision_diff_is_auditable
+- unknown_data_remains_unknown_instead_of_being_fabricated
+implementation_sequence_candidate:
+- phase: P0_RECONCILE
+  result: repository-grounded reuse/overlap matrix and refined architecture
+  code_mutation_allowed: false
+- phase: P1_MODEL
+  result: minimal normalized portfolio model, stable IDs, dependency schema and provenance/freshness contracts
+- phase: P2_IMPORT
+  result: read-only import adapters over current canonical roadmap/human-intent/module/dependency surfaces
+- phase: P3_GRAPH_AND_VALIDATION
+  result: dependency integrity, dangling refs, SCC/cycle detection, affected subgraph and deterministic validation
+- phase: P4_CONVERGENCE
+  result: plan revision, invalidation/rebuild, topological generations, readiness/frontier and desired-vs-actual
+    reconciliation
+- phase: P5_REPORTING
+  result: machine-readable reports and dashboard data projection
+- phase: P6_SCENARIOS
+  result: dry-run change sets and explicit governed apply boundary
+- phase: P7_HISTORY_AND_CALIBRATION
+  result: baseline/variance and planning-quality history after reliable evidence accumulates
+- phase: DEFERRED
+  result: CPM/CCPM/PERT/Monte Carlo/sensitivity/system-dynamics only after data maturity and deliberate promotion
+acceptance_for_foundation:
+- adding_a_test_roadmap_step_updates_all_affected_derived_dependency_and_readiness_projections_without_manual_duplicate_edits
+- changing_a_dependency_recomputes_only_affected_graph_and_reports_or_proves_safe_full_rebuild
+- cycle_introduction_is_detected_before_apply_or_activation
+- stale_projection_is_detected_with_explicit_reason_and_source_revision
+- fresh_assistant_can_query_previous_current_next_ready_blocked_from_repository_state_without_chat_memory
+- desired_vs_actual_conflict_is_visible_and_blocks_unsafe_activation
+- dashboard_snapshot_is_reproducible_and_non_authoritative
+- scenario_dry_run_can_show_effects_without_mutating_canonical_plan
+- strategic_priority_is_not_silently_changed_by_derived_analytics
+- all_new_architectural_mechanisms_have_REUSE_EXTEND_ADAPT_REPLACE_NEW_disposition
+- full_regression_and_governance_checks_pass_without_weakening_existing_authority_boundaries
+explicit_non_goals_initially:
+- standalone_planning_microservice
+- automatic_strategic_priority_changes
+- automatic_work_activation
+- automatic_ACCEPT
+- automatic_release_push_merge
+- full_Jira_or_MS_Project_clone
+- full_manual_C4_UML_BPMN_model_maintenance
+- multi_mutation_worker_optimization
+- Monte_Carlo_or_system_dynamics_before_data_maturity
+- neural_world_model
+handoff_output_required_from_implementing_assistant_before_first_code_change:
+- current_repository_mechanism_inventory
+- reuse_overlap_matrix
+- proposed_canonical_owner_and_boundaries
+- current_source_of_truth_map
+- minimal_data_model_candidate
+- migration_compatibility_plan
+- conflicts_and_open_questions
+- refined_bounded_first_implementation_step

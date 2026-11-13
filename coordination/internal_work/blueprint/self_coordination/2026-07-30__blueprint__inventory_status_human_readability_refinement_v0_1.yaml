@@ -1,0 +1,34 @@
+schema_version: blueprint_inventory_status_human_readability_refinement_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T11:58:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: b5fae45
+  result: GREEN
+renderer: scripts/coordination/render_blueprint_inventory_status.py
+tests: tests/test_render_blueprint_inventory_status.py
+corrections:
+  combined_wave_1_wave_2_metrics_used: true
+  wave_2_local_metrics_no_longer_used_as_repository_totals: true
+  previous_lower_bound: 6.75%
+  corrected_lower_bound: 10.88%
+human_readability:
+  readiness_summary: true
+  nested_reviewed_quality: true
+  repository_wide_coverage: true
+  metric_dependency_table: true
+  blocker_and_drift_table: true
+  interpretation_guide: true
+current_metrics:
+  tracked: 726
+  reviewed: 80
+  purpose_evidenced: 79
+  dependencies_mapped: 80
+  fully_verified: 79
+  repository_semantic_lower_bound: 0.10881542699724518
+  quality_inside_reviewed_lower_bound: 0.9875
+safety:
+  roadmap_transition: false
+  prompt_transition: false
+  managed_module_controls_modified: false
+  external_rollout_state: gated

@@ -1,0 +1,31 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180a-closed-recovery-20260912t151655438814z
+event_type: WORK_CLOSED
+sequence: 25
+previous_event_id: evt-u180a-validated-recovery-20260912t151647396653z
+previous_event_sha256: 7040a95c4cc895bfde3ee393fe360e87926d8b4afef1bb18103397f4c010c8aa
+work_id: u180a
+occurred_at: '2026-09-12T15:17:03.338171Z'
+actor: assistant_generated_operator_executed
+summary: CF-01 Control Foundation repository reconciliation and baseline closed
+source_state_ref: 3807dd2a04770f81a35ecfb86bee298252b9e03f1735b61a6f0fe3f046c32cf7
+bootstrap_historical_import: false
+lifecycle:
+  from_state: VALIDATED
+  to_state: CLOSED
+  checkpoint_event_id: evt-u180a-checkpoint-20260912t151420854594z
+  validation_event_id: evt-u180a-validated-recovery-20260912t151647396653z
+  evidence:
+    - validation bound to corrected canonical checkpoint
+    - CF-02 remains the next manual roadmap item
+  close_gate:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    current_source_delta_reconciled: true
+    current_fingerprint: 44299586ab567c4d71c617089bda53c92d6e182591d9734f44d10b88667785c1
+    checkpoint_fingerprint: 44299586ab567c4d71c617089bda53c92d6e182591d9734f44d10b88667785c1
+    blocker_count: 0
+    blockers_explicitly_deferred: false
+    deferred_blockers: []
+    defer_rationale: ''

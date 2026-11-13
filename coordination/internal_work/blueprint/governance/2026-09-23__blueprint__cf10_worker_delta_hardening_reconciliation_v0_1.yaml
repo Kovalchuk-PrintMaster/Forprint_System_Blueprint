@@ -1,0 +1,112 @@
+schema_version: forprint_cf10_worker_delta_hardening_reconciliation_v0_1
+metadata:
+  reconciliation_id: cf10_worker_delta_hardening_reconciliation_v0_1
+  created_at: '2026-09-23'
+  module_id: forprint_system_blueprint
+  work_id: u180j
+  step_id: CF-10
+  status: RECONCILED_AS_HISTORICAL_FACT_WITH_PROSPECTIVE_AUTHORITY_ONLY
+  baseline_published_head: 970d459956b8414d88294e3cf6a567c3701a9d47
+  operator_authorized_reconciliation: true
+
+original_work_front:
+  work_front_id: wf-cf10-operator-status-surface-self-hardening-v0-1
+  path: coordination/work_fronts/cf10_operator_status_surface_self_hardening_v0_1.yaml
+  immutable_reference_blob: e2bf19dd967cd81177835eb33ef13fc11e6f9e0e
+  original_worker_mutation_scope:
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - tests/validation/test_execution_attempt_ledger_v0_1.py
+  completion_commit: cf4f1889f60951f868c85dec3890716ee9c2f091
+  rewritten_by_this_reconciliation: false
+
+trigger:
+  historical_attempt_id: cf10-u180j-a003
+  historical_terminal_result: FAILED
+  classification: VALIDATOR_FALSE_POSITIVE
+  cause: inherited_dirty_workspace_was_misclassified_as_worker_delta
+  immutable_attempt_history_preserved: true
+  rewrite_attempt_history: false
+
+published_hardening_sequence:
+  base_commit: cf4f1889f60951f868c85dec3890716ee9c2f091
+  commits:
+    - commit: 49c49b9569f647be41bd35c1c092505085a0f470
+      description: Add isolated worker workspace foundation
+      classification: OPERATOR_DRIVEN_CF10_HARDENING
+    - commit: a9042872d9667742dddea718dd2d625de2efaf7c
+      description: Harden worker delta against inherited dirty state
+      classification: OPERATOR_DRIVEN_CF10_HARDENING
+    - commit: a4606deaa895ea8953a3cdab676a6f802693fca8
+      description: Verify CF10 worker delta before result finalization
+      classification: OPERATOR_DRIVEN_CF10_HARDENING
+    - commit: 970d459956b8414d88294e3cf6a567c3701a9d47
+      description: Auto-derive CF10 worker delta from isolated workspace
+      classification: OPERATOR_DRIVEN_CF10_HARDENING
+  expected_ancestry_exact: true
+  retroactive_work_front_authority_claimed: false
+  git_history_rewrite_required: false
+  force_push_required: false
+
+published_hardening_surfaces:
+  - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/workspace/__init__.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/control_plane/workspace/runtime.py
+  - scripts/validation/validate_cf10_isolated_workspace_dispatch_preflight_v0_1.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
+  - tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py
+  - tests/coordination/control_plane/workspace/test_worker_workspace_contract_v0_1.py
+
+reconciled_technical_state:
+  isolated_worker_workspace_foundation: true
+  immutable_pre_worker_baseline: true
+  inherited_dirty_state_excluded_unless_worker_mutates_content: true
+  inherited_dirty_path_worker_mutation_detected: true
+  workspace_head_drift_fails_closed: true
+  baseline_recapture_forbidden: true
+  worker_delta_attempt_binding: true
+  worker_delta_workspace_binding: true
+  changed_paths_verified_before_terminal_ledger_append: true
+  worker_delta_auto_derived_from_bound_workspace_manifest: true
+  handoff_v2_schema_widened: false
+  parallel_mutable_status_store_created: false
+  automatic_candidate_promotion_created: false
+  external_dispatch_authority_created: false
+  automatic_release_authority_created: false
+  automatic_accept_authority_created: false
+
+governance_decision:
+  historical_implementation_recognized_as_repository_fact: true
+  historical_implementation_reclassified_as_original_work_front_execution: false
+  original_work_front_mutated: false
+  retroactive_authority_granted: false
+  a003_terminal_history_mutated: false
+  future_cf10_control_plane_mutation_requires_prospective_front: true
+  prospective_work_front:
+    work_front_id: wf-cf10-worker-delta-pipeline-completion-v0-1
+    path: coordination/work_fronts/cf10_worker_delta_pipeline_completion_v0_1.yaml
+
+parallel_workstream_boundary:
+  historical_dialogue_enrichment_in_scope: false
+  evening_reviews_mutation_allowed: false
+  historical_enrichment_checkpoint_mutation_allowed: false
+  shared_roadmap_source_map_mutation_allowed: false
+  shared_blueprint_human_intent_mutation_allowed: false
+  excluded_shared_paths:
+    - coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+    - coordination/human_intent/modules/forprint_system_blueprint.yaml
+
+boundaries:
+  lifecycle_mutation_performed: false
+  roadmap_mutation_performed: false
+  dispatch_performed: false
+  worker_launched: false
+  attempt_ledger_appended: false
+  release_performed: false
+  merge_performed: false
+  automatic_accept_performed: false
+  cross_module_write_performed: false
+  historical_files_rewritten: false
+
+result: CF10_WORKER_DELTA_HARDENING_RECONCILED_WITHOUT_RETROACTIVE_AUTHORITY

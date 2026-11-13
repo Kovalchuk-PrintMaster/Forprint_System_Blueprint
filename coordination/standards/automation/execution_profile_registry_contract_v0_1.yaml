@@ -1,0 +1,83 @@
+schema_version: forprint_execution_profile_registry_contract_v0_1
+status: active_standard
+owner: forprint_system_blueprint
+authority: none
+purpose: >-
+  Define reusable, versioned Execution Profiles composed from reasoning,
+  authority, budget and context policies without creating a new execution,
+  dispatch, release or foreign-write authority.
+authority_precedence:
+  order:
+    - PROJECT_CONSTITUTION
+    - MODULE_POLICY
+    - EXECUTION_PROFILE
+    - WORK_FRONT
+  lower_layer_may_narrow: true
+  lower_layer_may_silently_widen: false
+  effective_authority_is_intersection: true
+  profile_permissions_are_ceiling_not_grant: true
+  widening_requires_explicit_external_escalation: true
+registry:
+  canonical_path: coordination/registry/execution_profiles_v0_1.yaml
+  registry_schema_version: forprint_execution_profile_registry_v0_1
+  profile_schema_version: forprint_execution_profile_v0_1
+  stable_profile_id_required: true
+  explicit_revision_required: true
+  duplicate_profile_id_revision_forbidden: true
+  immutable_revision_semantics: true
+  profile_ref_format: "<profile_id>@<revision>"
+composition:
+  required_components:
+    - reasoning_policy
+    - authority_policy
+    - budget_policy
+    - context_policy
+reasoning_policy:
+  abstract_tiers:
+    - DEEP
+    - STANDARD
+    - LIGHT
+  provider_or_model_identity_in_canonical_profile: forbidden
+  backend_replaceable: true
+authority_policy:
+  known_profile_capabilities:
+    - read
+    - write_blueprint
+  forbidden_profile_capabilities:
+    - dispatch
+    - release
+    - foreign_repository_write
+  effective_resolution: intersection
+  dispatcher_recommendation_is_authority: false
+budget_policy:
+  abstract_tiers:
+    - LIGHT
+    - STANDARD
+    - HIGH
+  concrete_provider_limits_in_registry: forbidden
+  effective_resolution: most_restrictive_tier
+  higher_budget_requires_explicit_escalation: true
+context_policy:
+  abstract_tiers:
+    - LIGHT
+    - STANDARD
+    - DEEP
+  fresh_context_gate_preserved: true
+  raw_chat_is_authority: false
+selection:
+  dispatcher_may_recommend: true
+  dispatcher_recommendation_is_dispatch_authority: false
+  operator_override_supported: true
+  override_that_widens_authority_or_budget_requires_escalation: true
+  override_never_bypasses_higher_authority: true
+attempt_history_integration:
+  execution_attempt_field: profile_ref_or_revision
+  stable_profile_ref_recordable: true
+scope_exclusions:
+  procedure_graphs: CF-07
+  handoff_compiler_v2: CF-08
+  dispatcher_launch_integration: CF-09
+  actual_worker_launch: false
+  autonomous_dispatch: false
+  release_authority: false
+  foreign_repository_write_authority: false

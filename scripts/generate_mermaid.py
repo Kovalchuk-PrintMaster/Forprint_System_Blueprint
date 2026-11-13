@@ -16,6 +16,7 @@ if __package__ is None or __package__ == "":
 
     _sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -66,8 +67,8 @@ def render_ownership_map(ownership: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def generate(root: Path | None = None) -> list[Path]:
-    """Generate Mermaid files and return written paths."""
+def expected_outputs(root: Path | None = None) -> dict[Path, str]:
+    """Render expected Mermaid outputs without writing project state."""
 
     root = root or project_root()
     machine = root / "machine"
@@ -76,20 +77,48 @@ def generate(root: Path | None = None) -> list[Path]:
     flows_yaml = load_yaml(machine / "data_flows.yaml")
     ownership_yaml = load_yaml(machine / "ownership.yaml")
 
-    module_graph = render_module_graph(flows_yaml.get("data_flows", []))
-    ownership_map = render_ownership_map(ownership_yaml.get("ownership", {}))
+    return {
+        diagrams / "module_graph.mmd": render_module_graph(flows_yaml.get("data_flows", [])),
+        diagrams / "ownership_map.mmd": render_ownership_map(ownership_yaml.get("ownership", {})),
+    }
 
-    module_graph_path = diagrams / "module_graph.mmd"
-    ownership_map_path = diagrams / "ownership_map.mmd"
 
-    write_text(module_graph_path, module_graph)
-    write_text(ownership_map_path, ownership_map)
+def generate(root: Path | None = None) -> list[Path]:
+    """Generate Mermaid files and return written paths."""
 
-    return [module_graph_path, ownership_map_path]
+    outputs = expected_outputs(root)
+    for path, content in outputs.items():
+        write_text(path, content)
+    return list(outputs)
+
+
+def check_generated(root: Path | None = None) -> bool:
+    """Return True only when durable generated Mermaid files are fresh."""
+
+    ok = True
+    for path, expected in expected_outputs(root).items():
+        if not path.is_file():
+            print(f"DRIFT missing={path}")
+            ok = False
+            continue
+        if path.read_text(encoding="utf-8") != expected:
+            print(f"DRIFT stale={path}")
+            ok = False
+    return ok
 
 
 def main() -> int:
     """CLI entry point."""
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+
+    if args.check:
+        if check_generated():
+            print("MERMAID_GENERATION_CHECK=PASS")
+            return 0
+        return 1
 
     paths = generate()
     for path in paths:

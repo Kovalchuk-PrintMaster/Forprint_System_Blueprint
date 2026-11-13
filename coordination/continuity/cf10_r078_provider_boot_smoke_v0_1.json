@@ -1,0 +1,39 @@
+{
+  "schema_version": "cf10_r078_provider_boot_smoke_v0_1",
+  "status": "OFFLINE_DISPOSABLE_CLI_VERSION_GATE_NON_AUTHORIZING",
+  "base_head": "354f3a9ca4fee49821373a3d261dd95973d2c8ed",
+  "provider": "github_copilot_cli",
+  "executable_source": [
+    "config/worker_runtime.yaml",
+    "coordination/registry/worker_runtime_adapters_v0_1.yaml"
+  ],
+  "scope": "version-only no Worker's prompt, no MCP, no provider request, no claim",
+  "make_targets": {
+    "source_binary_inspect": "cf10-pilot-provider-cli-inspect",
+    "source_tests": "cf10-pilot-provider-cli-tests",
+    "offline_disposable_version": "cf10-pilot-provider-cli-smoke"
+  },
+  "systemd": {
+    "StateDirectory": "forprint-runner",
+    "StateDirectoryMode": "0700",
+    "ProtectSystem": "strict",
+    "ProtectHome": "yes",
+    "IPAddressDeny": "any",
+    "transient_unit_prefix": "forprint-cf10-clismoke-",
+    "collect": true,
+    "no_readwritepaths": true
+  },
+  "not_validated": [
+    "Copilot authentication under worker identity",
+    "GitHub network connectivity",
+    "AI model access or credits",
+    "MCP startup or task execution",
+    "Full Worker Result or terminal bridge"
+  ],
+  "a054": "CONSUMED_NO_RETRY_STARTED_PENDING_FAILED_EXIT_1_REQUIRES_MANUAL_RECONCILIATION",
+  "no_attempt_created": true,
+  "no_existing_worker_attempt_modified": true,
+  "no_tmp_runtime_dependency": true,
+  "no_pam_or_claim": true,
+  "no_hestia_or_sudoers_change": true
+}

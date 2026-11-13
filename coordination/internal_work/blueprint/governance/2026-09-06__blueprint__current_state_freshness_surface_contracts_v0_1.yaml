@@ -1,0 +1,73 @@
+schema_version: blueprint_current_state_freshness_surface_contracts_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: ACTIVE_INTERNAL_CONTROL_PLANE_REFERENCE
+  authority: BLUEPRINT_INTERNAL_OPERATIONAL_REFERENCE_NOT_RELEASE_AUTHORITY
+  scope: read_only_impact_and_freshness_v0_1
+principles:
+  - Authority and projection remain distinct.
+  - A changed dependency identifies impact but does not prove staleness without a coherence evaluator.
+  - The resolver is read-only and never repairs authority or projections.
+  - Existing governance transparency, repository knowledge freshness and context bundle primitives are reused.
+surfaces:
+  - surface_id: agents_current_state_projection
+    path: AGENTS.md
+    role: front_door_current_state_projection
+    staleness_policy: blocking_for_fresh_worker_context
+    evaluator: agents_current_state
+    depends_on_patterns:
+      - coordination/releases/current.yaml
+      - coordination/standards/governance/outgoing_prompt_release_policy_v0_1.yaml
+      - coordination/outgoing_prompts/logistics_service/index.yaml
+      - coordination/human_intent/index.yaml
+      - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+  - surface_id: blueprint_knowledge_indexes
+    path: indexes/
+    role: derived_navigation_and_evidence
+    staleness_policy: validator_owned
+    evaluator: future_index_coherence
+    depends_on_patterns:
+      - AGENTS.md
+      - coordination/**
+      - scripts/**
+  - surface_id: repository_knowledge_snapshots
+    path: coordination/repository_knowledge/
+    role: repository_knowledge_evidence
+    staleness_policy: existing_snapshot_gate
+    evaluator: existing_repository_knowledge_freshness
+    depends_on_patterns:
+      - Makefile
+      - coordination/**
+      - scripts/**
+      - tests/**
+  - surface_id: task_context_bundle
+    path: scripts/coordination/build_context_bundle.py
+    role: assistant_context_delivery_primitive
+    staleness_policy: task_context_check_required
+    evaluator: future_task_context_compiler
+    depends_on_patterns:
+      - coordination/releases/current.yaml
+      - coordination/human_intent/**
+      - coordination/outgoing_prompts/**
+      - indexes/**
+  - surface_id: module_memory_current_state
+    path: coordination/internal_work/blueprint/module_inventory/
+    role: inventory_and_lineage_planning_evidence
+    staleness_policy: inventory_validator_and_review
+    evaluator: module_memory_schema_contract
+    depends_on_patterns:
+      - coordination/internal_work/blueprint/module_inventory/**
+      - coordination/repository_knowledge/**
+      - scripts/**
+      - tests/**
+    module_memory_schema: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_memory_schema_v0_1.yaml
+  - surface_id: control_plane_planning_program
+    path: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+    role: internal_planning_direction
+    staleness_policy: planning_review
+    evaluator: future_planning_projection
+    depends_on_patterns:
+      - coordination/internal_work/blueprint/governance/**
+      - coordination/human_intent/**
+      - AGENTS.md

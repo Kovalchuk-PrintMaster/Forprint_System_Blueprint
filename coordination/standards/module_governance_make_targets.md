@@ -15,7 +15,6 @@ make governance-check
 
 Recommended implementation:
 
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check
@@ -28,7 +27,7 @@ Active modules should eventually expose:
 check
 check-report
 status-report
-blueprint-pull
+coordination-sync-check
 blueprint-check
 blueprint-sync-directives
 coordination-check
@@ -45,8 +44,8 @@ check-report
 status-report
   Prints or updates the current module coordination status.
 
-blueprint-pull
-  Pulls the current ForPrint System Blueprint repository.
+coordination-sync-check
+  Verifies Blueprint remote freshness with a network read-only check.
 
 blueprint-check
   Verifies that required Blueprint paths, global policy, standards and module policy are readable.
@@ -107,9 +106,20 @@ Reporting targets follow these rules:
   a module produces them.
 - artifact paths and check results belong in the completion packet.
 - `coordination-check` and `module-policy-check` are read-only.
-- `coordination-fix`, `blueprint-pull`, synchronization targets and composite
-  workflows that invoke them may mutate documented coordination state.
+- `coordination-fix`, module-local synchronization targets and composite
+  workflows that invoke them may mutate documented module coordination state.
+- `coordination-sync-check` is network read-only; retained `blueprint-pull`
+  compatibility guards must fail closed without mutation.
 - modules preserve existing target names and exit-code semantics.
 
 The standard defines behavior, not implementation language. Modules are not
 required to import the Blueprint Python reporting package.
+
+
+## v0.4.1 coordination freshness command
+
+`make coordination-sync-check` supersedes module-side Blueprint pulling.
+
+It performs explicit network read-only freshness validation. Normal governance
+checks remain local and network-independent. A retained `blueprint-pull`
+compatibility target must fail closed and never mutate Blueprint.

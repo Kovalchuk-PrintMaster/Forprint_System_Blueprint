@@ -1,0 +1,87 @@
+schema_version: forprint_mutation_compiler_contract_v0_1
+status: current_foundation
+authority: forprint_system_blueprint
+module: forprint_mutation_compiler
+toolchain_registry: coordination/registry/mutation_compiler_toolchains_v0_1.yaml
+subsystem_readme: scripts/coordination/mutation_compiler/README.md
+purpose: Language-agnostic mutation preparation and bounded apply layer between generated candidate changes and
+  durable project state.
+invariants:
+- id: candidate_before_durable
+  rule: Candidate files are validated in isolated staging before durable apply.
+- id: bounded_targets_only
+  rule: Only explicitly declared target paths may be mutated.
+- id: protected_internal_paths
+  rule: Mutation Compiler must reject protected repository-internal targets such as .git and its own evidence tree
+    before durable apply.
+- id: dirty_baseline_is_valid
+  rule: Pre-existing dirty working-tree state is valid and must be preserved outside declared targets.
+- id: safe_repairs_only
+  rule: Automatic repair is limited to adapter-declared safe mechanical transformations.
+- id: project_relative_python_repair
+  rule: Python safe repair is finalized against canonical repository-relative target paths inside the isolated
+    verification workspace before durable apply; staging-path Ruff success alone is not sufficient.
+- id: unsafe_repairs_forbidden
+  rule: Unsafe or semantic-changing repair requires a separate explicit future authority; v0.1 never enables it.
+- id: check_is_non_mutating
+  rule: Check mode never mutates candidate or durable target state.
+- id: rollback_removes_created_parent_directories
+  rule: If apply created parent directories for new targets and later fails, rollback must remove compiler-created
+    empty parent directories as well as restore target files.
+- id: atomic_apply
+  rule: Durable file replacement begins only after all staged-file and isolated project verification gates pass;
+    any failure after the first target apply begins rolls back every declared target to the exact pre-apply state.
+- id: project_gates_are_isolated
+  rule: Caller-supplied project verification commands execute only in a disposable copy of the durable project.
+    They never run with the durable repository as cwd.
+- id: external_state_preserved
+  rule: Durable paths outside declared targets are hash/status verified unchanged.
+- id: evidence_always
+  rule: Every compile/apply attempt emits machine-readable evidence.
+- id: no_git_side_effects
+  rule: Mutation Compiler never git-adds, commits, pushes, rebases, stashes, resets or force-updates.
+- id: adapters_are_capabilities
+  rule: Language/tool behavior is supplied by adapters; the compiler core is language agnostic.
+phases:
+- intake
+- path_and_boundary_preflight
+- staging
+- adapter_detection
+- syntax_or_parse_check
+- safe_repair_fixpoint
+- format_and_static_check
+- verification_workspace_copy
+- baseline_project_gates
+- candidate_overlay_in_verification_workspace
+- project_context_language_repair
+- candidate_project_gates
+- atomic_apply
+- external_baseline_verification
+- evidence_publication
+result_states:
+- PASS_CHECK
+- PASS_REPAIRED
+- PASS_APPLIED
+- BLOCKED_UNSUPPORTED
+- FAIL_CANDIDATE
+- FAIL_PROJECT_GATE
+- SAFE_FAIL_ROLLED_BACK
+v0_1_scope:
+  built_in_adapters:
+  - python
+  - json
+  - yaml
+  - shell
+  - javascript
+  - generic
+  future_adapter_targets:
+  - typescript
+  - go
+  - rust
+  - java
+  - kotlin
+  - swift
+  - php
+  - ruby
+  - c_cpp
+  - dotnet

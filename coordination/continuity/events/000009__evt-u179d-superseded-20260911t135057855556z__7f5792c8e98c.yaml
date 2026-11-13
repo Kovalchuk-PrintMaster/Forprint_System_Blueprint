@@ -1,0 +1,20 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u179d-superseded-20260911t135057855556z
+event_type: WORK_SUPERSEDED
+sequence: 9
+previous_event_id: evt-u179f-closed-20260911t135057855556z
+previous_event_sha256: 6afe745dd93ab20e8a1332d900cd3e4d96d4e05141108d24bb263bb8df39cb28
+work_id: u179d
+occurred_at: '2026-09-11T13:55:31.886707Z'
+actor: assistant_generated_operator_executed
+summary: Pre-enforcement projections work migrated closed
+source_state_ref: 42d9f2a90b279e19911dc45856863fe05ac3f35773b344525183c8daee781dde
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: CLOSED
+  migration_only: true
+  enforcement_boundary_sequence: 3
+  superseded_by_work_id: u179f
+  reason: Accepted work completed before lifecycle enforcement activation
+  evidence: []

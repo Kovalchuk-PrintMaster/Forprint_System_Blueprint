@@ -1,0 +1,347 @@
+schema_version: module_prompt_contract_v0_4
+metadata:
+  contract_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__contract_v0_4_h10_inventory_v0_1
+  module_id: logistics_service
+  prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  created_at: '2026-09-05'
+  status: candidate_reference_only
+  immutable: true
+source_prompt:
+  path: coordination/prompt_contracts/logistics_service/logistics_service_authority_lineage_and_module_bootstrap_v0_1/source_prompt_snapshot.md
+  sha256: 630fe1082e95029019da171844779a57db503415bd99a2916f534ef4d29c42bb
+  origin_path_at_capture: coordination/outgoing_prompts/logistics_service/drafts/2026-09-05__logistics_service_authority_lineage_and_module_bootstrap_v0_1.md
+  origin_sha256_at_capture: 630fe1082e95029019da171844779a57db503415bd99a2916f534ef4d29c42bb
+execution_baseline_policy:
+  schema_version: module_execution_baseline_policy_v0_1
+  release_baseline:
+    blueprint_commit: 4739fdcd8b213814f8440dd6a6681f596d8da456
+    module_commit: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+    module_branch: feature/logistics-tracking-events-contract-v01
+    release_authority:
+      path: coordination/releases/current.yaml
+      sha256: 709a446c37f3de95430ac9af58a8df02873aa033cc7e64ae3a7c924b95c8359e
+      hardening_release: v0.4.1
+  required_inputs:
+    - input_id: logistics_inventory_completion_evidence_v0_1
+      repository: blueprint
+      path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+      sha256: 60568bf819e0ec93bf02867f141239031b10fa37cc6fbbb804ec00ea8d8fde72
+      material: true
+    - input_id: logistics_implementation_lineage_baseline_v0_1
+      repository: blueprint
+      path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+      sha256: 1d0395bce46c5d370ad30896ebd2585a75b1772f18e9d76143cb66db26dc793f
+      material: true
+    - input_id: logistics_first_wave_reconciliation_input_v0_1
+      repository: blueprint
+      path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+      sha256: 1e49628ed8d0a216a63c3ece0ff760bf0022ad611519f4ad21122f3100197927
+      material: true
+    - input_id: aut_context_worker_boundary_alignment
+      repository: blueprint
+      path: coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
+      sha256: c68329ed5ec9da155bc1499d74b583f3341463e8b95ad68699c603011105e0fe
+      material: true
+  compatibility:
+    allow_blueprint_forward_descendant: true
+    allow_module_forward_descendant: true
+    material_inputs_must_match: true
+    require_clean_module_worktree: true
+    require_module_upstream_synced: true
+integrity:
+  algorithm: sha256
+  payload_sha256: af587149662dffd376981abc98a1de1ae17bb80010f89a7812e1548525c6af46
+  payload_hash_scope: canonical JSON of entire document excluding integrity.payload_sha256
+source_obligations:
+  - obligation_id: SRC-001
+    source_locator: machine_prompt.objective
+    required: true
+    summary: Reconcile fresh-context authority, lineage and self-knowledge.
+  - obligation_id: SRC-002
+    source_locator: machine_prompt.authority.module_repo_only
+    required: true
+    summary: Authority boundary module_repo_only=True
+  - obligation_id: SRC-003
+    source_locator: machine_prompt.authority.blueprint_repo_writes
+    required: true
+    summary: Authority boundary blueprint_repo_writes=False
+  - obligation_id: SRC-004
+    source_locator: machine_prompt.authority.live_provider_write
+    required: true
+    summary: Authority boundary live_provider_write=False
+  - obligation_id: SRC-005
+    source_locator: machine_prompt.authority.automatic_cross_repository_write
+    required: true
+    summary: Authority boundary automatic_cross_repository_write=False
+  - obligation_id: SRC-006
+    source_locator: machine_prompt.authority.automatic_accept
+    required: true
+    summary: Authority boundary automatic_accept=False
+  - obligation_id: SRC-007
+    source_locator: machine_prompt.authority.automatic_release_next_prompt
+    required: true
+    summary: Authority boundary automatic_release_next_prompt=False
+  - obligation_id: SRC-008
+    source_locator: machine_prompt.implementation_obligations.IMP-001
+    required: true
+    summary: Create root AGENTS.md with canonical fresh-context navigation and stop rules.
+  - obligation_id: SRC-009
+    source_locator: machine_prompt.implementation_obligations.IMP-002
+    required: true
+    summary: Create deterministic module-local inventory/index surfaces.
+  - obligation_id: SRC-010
+    source_locator: machine_prompt.implementation_obligations.IMP-003
+    required: true
+    summary: Create explicit implementation lineage for tracking, notification and coordination families.
+  - obligation_id: SRC-011
+    source_locator: machine_prompt.implementation_obligations.IMP-004
+    required: true
+    summary: Reconcile current versus compatibility/historical documentation authority.
+  - obligation_id: SRC-012
+    source_locator: machine_prompt.implementation_obligations.IMP-005
+    required: true
+    summary: Clarify compatibility exports without breaking known consumers.
+  - obligation_id: SRC-013
+    source_locator: machine_prompt.implementation_obligations.IMP-006
+    required: true
+    summary: Add deterministic inventory/check and fresh-context validation using existing tooling patterns.
+  - obligation_id: SRC-014
+    source_locator: machine_prompt.implementation_obligations.IMP-007
+    required: true
+    summary: Preserve H9 module-start and document future listener events as wake-up signals only.
+  - obligation_id: SRC-015
+    source_locator: machine_prompt.implementation_obligations.IMP-008
+    required: true
+    summary: Preserve tested compatibility unless separately reviewed for retirement.
+  - obligation_id: SRC-016
+    source_locator: machine_prompt.verification_obligations.VER-001
+    required: true
+    summary: Run the module canonical make check and require zero blockers.
+  - obligation_id: SRC-017
+    source_locator: machine_prompt.verification_obligations.VER-002
+    required: true
+    summary: Run the complete module test suite with no new unexplained skips.
+  - obligation_id: SRC-018
+    source_locator: machine_prompt.verification_obligations.VER-003
+    required: true
+    summary: Prove inventory/index build/check is deterministic and idempotent.
+  - obligation_id: SRC-019
+    source_locator: machine_prompt.verification_obligations.VER-004
+    required: true
+    summary: Prove fresh-context validation resolves exactly one current authority chain.
+  - obligation_id: SRC-020
+    source_locator: machine_prompt.verification_obligations.VER-005
+    required: true
+    summary: Prove no provider/network/Blueprint/cross-repository authority widening.
+  - obligation_id: SRC-021
+    source_locator: machine_prompt.verification_obligations.VER-006
+    required: true
+    summary: Prove documentation authority is unambiguous and compatibility history is preserved.
+  - obligation_id: SRC-022
+    source_locator: machine_prompt.completion_evidence_obligations.CE-001
+    required: true
+    summary: exact changed-file inventory
+  - obligation_id: SRC-023
+    source_locator: machine_prompt.completion_evidence_obligations.CE-002
+    required: true
+    summary: exact test and make-check command/results
+  - obligation_id: SRC-024
+    source_locator: machine_prompt.completion_evidence_obligations.CE-003
+    required: true
+    summary: implementation lineage/current-vs-compatibility table
+  - obligation_id: SRC-025
+    source_locator: machine_prompt.completion_evidence_obligations.CE-004
+    required: true
+    summary: documentation authority reclassification table
+  - obligation_id: SRC-026
+    source_locator: machine_prompt.completion_evidence_obligations.CE-005
+    required: true
+    summary: fresh-context validation output
+  - obligation_id: SRC-027
+    source_locator: machine_prompt.completion_evidence_obligations.CE-006
+    required: true
+    summary: module-side completion report and v0.4-compatible completion evidence
+  - obligation_id: SRC-028
+    source_locator: machine_prompt.completion_evidence_obligations.CE-B01
+    required: true
+    summary: boundary confirmations proving no forbidden widening or retirement
+  - obligation_id: SRC-029
+    source_locator: machine_prompt.forbidden
+    required: true
+    summary: Preserve all declared forbidden-output and no-widening boundaries.
+  - obligation_id: SRC-030
+    source_locator: machine_prompt.completion_protocol
+    required: true
+    summary: Produce module-owned completion evidence without Blueprint acceptance/release claims.
+  - obligation_id: SRC-031
+    source_locator: machine_prompt.acceptance_handoff
+    required: true
+    summary: Bind completion evidence to Prompt Contract and Acceptance Oracle.
+implementation_obligations:
+  - obligation_id: IMP-001
+    summary: Create root AGENTS.md with canonical fresh-context navigation and stop rules.
+  - obligation_id: IMP-002
+    summary: Create deterministic module-local inventory/index surfaces.
+  - obligation_id: IMP-003
+    summary: Create explicit implementation lineage for tracking, notification and coordination families.
+  - obligation_id: IMP-004
+    summary: Reconcile current versus compatibility/historical documentation authority.
+  - obligation_id: IMP-005
+    summary: Clarify compatibility exports without breaking known consumers.
+  - obligation_id: IMP-006
+    summary: Add deterministic inventory/check and fresh-context validation using existing tooling patterns.
+  - obligation_id: IMP-007
+    summary: Preserve H9 module-start and document future listener events as wake-up signals only.
+  - obligation_id: IMP-008
+    summary: Preserve tested compatibility unless separately reviewed for retirement.
+verification_obligations:
+  - obligation_id: VER-001
+    summary: Run the module canonical make check and require zero blockers.
+  - obligation_id: VER-002
+    summary: Run the complete module test suite with no new unexplained skips.
+  - obligation_id: VER-003
+    summary: Prove inventory/index build/check is deterministic and idempotent.
+  - obligation_id: VER-004
+    summary: Prove fresh-context validation resolves exactly one current authority chain.
+  - obligation_id: VER-005
+    summary: Prove no provider/network/Blueprint/cross-repository authority widening.
+  - obligation_id: VER-006
+    summary: Prove documentation authority is unambiguous and compatibility history is preserved.
+completion_evidence_obligations:
+  - obligation_id: CE-001
+    summary: exact changed-file inventory
+  - obligation_id: CE-002
+    summary: exact test and make-check command/results
+  - obligation_id: CE-003
+    summary: implementation lineage/current-vs-compatibility table
+  - obligation_id: CE-004
+    summary: documentation authority reclassification table
+  - obligation_id: CE-005
+    summary: fresh-context validation output
+  - obligation_id: CE-006
+    summary: module-side completion report and v0.4-compatible completion evidence
+  - obligation_id: CE-B01
+    summary: boundary confirmations proving no forbidden widening or retirement
+source_obligation_fidelity_ledger:
+  - source_obligation_id: SRC-001
+    target_obligation_ids:
+      - IMP-001
+      - IMP-002
+      - IMP-003
+      - IMP-004
+      - IMP-005
+      - IMP-006
+      - IMP-007
+      - IMP-008
+  - source_obligation_id: SRC-002
+    target_obligation_ids:
+      - IMP-001
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-003
+    target_obligation_ids:
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-004
+    target_obligation_ids:
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-005
+    target_obligation_ids:
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-006
+    target_obligation_ids:
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-007
+    target_obligation_ids:
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-008
+    target_obligation_ids:
+      - IMP-001
+  - source_obligation_id: SRC-009
+    target_obligation_ids:
+      - IMP-002
+  - source_obligation_id: SRC-010
+    target_obligation_ids:
+      - IMP-003
+  - source_obligation_id: SRC-011
+    target_obligation_ids:
+      - IMP-004
+  - source_obligation_id: SRC-012
+    target_obligation_ids:
+      - IMP-005
+  - source_obligation_id: SRC-013
+    target_obligation_ids:
+      - IMP-006
+  - source_obligation_id: SRC-014
+    target_obligation_ids:
+      - IMP-007
+  - source_obligation_id: SRC-015
+    target_obligation_ids:
+      - IMP-008
+  - source_obligation_id: SRC-016
+    target_obligation_ids:
+      - VER-001
+  - source_obligation_id: SRC-017
+    target_obligation_ids:
+      - VER-002
+  - source_obligation_id: SRC-018
+    target_obligation_ids:
+      - VER-003
+  - source_obligation_id: SRC-019
+    target_obligation_ids:
+      - VER-004
+  - source_obligation_id: SRC-020
+    target_obligation_ids:
+      - VER-005
+  - source_obligation_id: SRC-021
+    target_obligation_ids:
+      - VER-006
+  - source_obligation_id: SRC-022
+    target_obligation_ids:
+      - CE-001
+  - source_obligation_id: SRC-023
+    target_obligation_ids:
+      - CE-002
+  - source_obligation_id: SRC-024
+    target_obligation_ids:
+      - CE-003
+  - source_obligation_id: SRC-025
+    target_obligation_ids:
+      - CE-004
+  - source_obligation_id: SRC-026
+    target_obligation_ids:
+      - CE-005
+  - source_obligation_id: SRC-027
+    target_obligation_ids:
+      - CE-006
+  - source_obligation_id: SRC-028
+    target_obligation_ids:
+      - CE-B01
+  - source_obligation_id: SRC-029
+    target_obligation_ids:
+      - IMP-008
+      - VER-005
+      - CE-B01
+  - source_obligation_id: SRC-030
+    target_obligation_ids:
+      - CE-006
+      - CE-B01
+  - source_obligation_id: SRC-031
+    target_obligation_ids:
+      - VER-001
+      - VER-002
+      - CE-006
+      - CE-B01
+semantic_fidelity:
+  human_review_required: true
+  execution_fingerprint_sufficient: false
+  review_state: pending_operator_review
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false

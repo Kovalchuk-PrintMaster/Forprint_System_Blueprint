@@ -137,7 +137,8 @@ Tests should cover the module's real current scope.
 All active modules should gradually support:
 
 ```text
-make blueprint-pull;
+make module-start;
+make coordination-sync-check;
 make blueprint-check;
 make blueprint-sync-directives;
 make coordination-check;
@@ -146,15 +147,17 @@ make coordination-fix.
 
 ## Directive import rule
 
-Blueprint pull and Blueprint check are not directive import.
+Blueprint freshness, Blueprint readability, and directive import are distinct.
 
 The standard distinction is:
 
 ```text
-blueprint-pull = update local Blueprint repository
-blueprint-check = verify Blueprint paths
+coordination-sync-check = remote read-only Blueprint freshness gate
+blueprint-check = verify Blueprint paths locally
 blueprint-sync-directives = import active module directives
 ```
+
+Module-side `blueprint-pull` is deprecated and must not update Blueprint.
 
 Active module directives should be read from:
 

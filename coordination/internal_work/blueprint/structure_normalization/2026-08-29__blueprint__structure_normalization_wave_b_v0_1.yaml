@@ -1,0 +1,38 @@
+schema_version: forprint_blueprint_structure_normalization_wave_b_v0_1
+date: '2026-08-29'
+scope: forprint_system_blueprint_only
+status: local_implementation_candidate
+depends_on:
+  - forprint_blueprint_structure_normalization_foundation_wave_a_v0_1
+owner_decisions_applied:
+  OD-01:
+    selected_option: B
+    state: promoted
+    canonical_identity_source: machine/module_identity_registry.yaml
+wave_b_scope:
+  - reconcile accounting_registry_service current machine identity
+  - preserve accounting legacy prompt paths as history
+  - retire current authority from forprint_operational_registry legacy prompt queue
+  - create canonical forprint_operations_control_registry prompt queue
+  - repoint coordination source registry to canonical Operations Control Registry queue
+  - promote module identity registry from candidate to canonical
+  - regenerate derived indexes, module guides and machine-generated diagrams
+deferred_to_wave_c:
+  - human_to_docs_tree_normalization
+  - authored_document_legacy_alias_cleanup
+  - repository_knowledge_source_to_derived_conversion
+  - broad file_document_dependency_indexes
+protected_surfaces:
+  current_release: coordination/releases/current.yaml
+  prompt_dispatch_history: machine/prompt_dispatch_index.yaml
+  released_operations_prompt: >-
+    coordination/outgoing_prompts/forprint_operational_registry/approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
+  released_accounting_prompt: >-
+    coordination/outgoing_prompts/accounting_registry_service/approved/2026-05-28-accounting-registry-boundary-correction.md
+safety:
+  git_commit: false
+  git_push: false
+  git_remote_change: false
+  released_prompt_rewrite: false
+  current_release_change: false
+  h10_authority_change: false

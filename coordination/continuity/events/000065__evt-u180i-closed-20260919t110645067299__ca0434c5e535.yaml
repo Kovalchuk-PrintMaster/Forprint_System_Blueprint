@@ -1,0 +1,35 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180i-closed-20260919t110645067299
+event_type: WORK_CLOSED
+sequence: 65
+previous_event_id: evt-u180i-validated-20260919t105814027484
+previous_event_sha256: 39874c8533cb4a051aa258b2da5b0fe70fcf973084807aacd22a0bd14dd1d32f
+work_id: u180i
+occurred_at: '2026-09-19T11:07:28.716949Z'
+actor: assistant_generated_operator_executed
+summary: CF-09 Dispatcher integration closed after checkpoint-bound validation and roadmap reconciliation
+source_state_ref: 7039f422a676ec00a30e8f4312282c3529c3f28076ee092665c88bdb7d3ab74d
+bootstrap_historical_import: false
+lifecycle:
+  from_state: VALIDATED
+  to_state: CLOSED
+  checkpoint_event_id: evt-u180i-checkpoint-20260919t105204708265
+  validation_event_id: evt-u180i-validated-20260919t105814027484
+  evidence:
+    - checkpoint_event_id=evt-u180i-checkpoint-20260919t105204708265
+    - checkpoint_event_sha256=e831383c83557b5d44d3380793d7dbd000485367376af8f060a37ffb5b159241
+    - validation_event_id=evt-u180i-validated-20260919t105814027484
+    - validation_event_sha256=39874c8533cb4a051aa258b2da5b0fe70fcf973084807aacd22a0bd14dd1d32f
+    - cf09_closure_readiness_sha256=24cf6d69c6d36d59bddd24b96e5827755417754bc47ee8dc24e40773f2e5613a
+    - final_make_check_sha256=a447e6d8eafc3fa88f73ac1e481738a1d5b837ad62508e3db1a9f8a31dca2354
+  close_gate:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    current_source_delta_reconciled: true
+    current_fingerprint: 59f70b8cf3f297b5cb5d952e1093518249f67163900e681ca43e8c78eb20ca1b
+    checkpoint_fingerprint: 59f70b8cf3f297b5cb5d952e1093518249f67163900e681ca43e8c78eb20ca1b
+    blocker_count: 0
+    blockers_explicitly_deferred: false
+    deferred_blockers: []
+    defer_rationale: ''

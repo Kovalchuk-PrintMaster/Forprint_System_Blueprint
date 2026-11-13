@@ -1,0 +1,236 @@
+schema_version: blueprint_assistant_bootstrap_v0_2
+metadata:
+  module_id: forprint_system_blueprint
+  artifact_role: stable_assistant_bootstrap
+  machine_first: true
+  stateful_snapshot: false
+  successor_of: coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml
+  successor_role: stable_operating_model_and_roadmap_enrichment_router
+coordination_role:
+  system_role: central coordination and governance control plane for the entire ForPrint
+    project ecosystem and all modules governed or coordinated by Blueprint
+  primary_responsibilities:
+  - maintain coherent multi-module execution order and dependency balance
+  - keep roadmaps, module plans, prompts, review evidence, and governance state aligned
+  - review module completion evidence without repairing module-owned implementation
+  - preserve explicit operator gates for ACCEPT, RETURN, rollout, pilot, and production
+    exposure
+  - maintain repository knowledge, self-audit, governance evidence, and handoff continuity
+  portfolio_scope:
+    scope: all_forprint_project_modules
+    active_development_subset_is_exhaustive: false
+    rule: Any module names shown in current_handoff are a time-bounded active-development
+      subset or examples, never the authoritative full module inventory.
+    authoritative_inventory_sources:
+    - coordination/global_policy/ecosystem_module_map.md
+    - coordination/module_sources/module_git_sources.yaml
+    - coordination/roadmaps/*.yaml
+    - coordination/self_coordination/module_plans/*.yaml
+startup_protocol:
+  required_order:
+  - step: 1
+    action: read
+    path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  - step: 2
+    action: read_declared_workstream_bootstrap
+    source: current_handoff_v0_1.yaml:current_workstream_bootstrap.path
+    rule: Read the declared workstream bootstrap when present; it is continuation
+      context, not an executable prompt.
+  - step: 3
+    action: read
+    path: coordination/instruction_intake/assistant_reading_order.md
+  - step: 4
+    action: verify_runtime_state
+    commands:
+    - git branch --show-current
+    - git rev-parse HEAD
+    - git status --short
+  - step: 5
+    action: reconcile_handoff_baseline
+    rule: If current HEAD differs from handoff metadata.state_observed_at_head, inspect
+      intervening commits and coordination changes before acting.
+  - step: 6
+    action: inspect_control_state
+    make_targets:
+    - blueprint-governance-status
+    - roadmap-status
+    - prompts-status
+    - inventory-status
+    - blueprint-self-status
+authority_boundaries:
+  blueprint_may:
+  - read module repositories and committed evidence
+  - maintain Blueprint-owned roadmaps, prompts, directives, review records, coordination
+    evidence, and tooling
+  - prepare operator findings and exact module remediation instructions
+  - coordinate module dependencies and execution order
+  blueprint_must_not:
+  - repair or rewrite module-owned implementation, tests, reports, completion packets,
+    or module Git history
+  - infer ACCEPT or RETURN from a green or red automated check
+  - activate planned directives without a separate explicit decision
+  - release pilot, rollout, live integration, production API, production writes, or
+    external side effects without explicit authorization
+  - treat tmp diagnostics as source of truth
+  module_ownership_rule: Implementation corrections and superseding completion packets
+    are produced by the owning module.
+source_of_truth_map:
+  project_doctrine: coordination/global_policy/forprint_project_doctrine.md
+  strategic_control_plane_policy: coordination/global_policy/forprint_strategic_control_plane_policy.md
+  current_execution_focus: coordination/global_policy/current_execution_focus.md
+  directives_index: coordination/directives/global/index.yaml
+  blueprint_module_policy: coordination/module_policy/forprint_system_blueprint/module_policy.md
+  assistant_reading_order: coordination/instruction_intake/assistant_reading_order.md
+  instruction_sources: coordination/instruction_intake/instruction_sources.yaml
+  blueprint_roadmap: coordination/self_coordination/roadmap.yaml
+  managed_module_roadmaps: coordination/roadmaps/*.yaml
+  managed_module_plans: coordination/self_coordination/module_plans/*.yaml
+  outgoing_prompt_indexes: coordination/outgoing_prompts/*/index.yaml
+  processed_review_records: coordination/review_packets/*/processed/*.yaml
+  repository_knowledge: coordination/repository_knowledge/
+  repository_knowledge_protocol: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_3.md
+  blueprint_self_audit_workflow: coordination/modules/forprint_system_blueprint/workflows/definitions/blueprint_self_audit.md
+  workflow_manifest: coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  governance_history: coordination/internal_work/blueprint/governance/
+  completion_intake_tool: scripts/coordination/completion_intake_check.py
+  historical_acceptance_reconciler: scripts/coordination/historical_acceptance_reconciliation.py
+  canonical_check_runner: scripts/run_blueprint_checks.py
+  canonical_makefile: Makefile
+  generated_reports: reports/
+  ephemeral_diagnostics: tmp/
+  git_history_command: git log --oneline --decorate --graph -n 40
+  ecosystem_module_map: coordination/global_policy/ecosystem_module_map.md
+  module_source_registry: coordination/module_sources/module_git_sources.yaml
+  blueprint_prompt_queue: coordination/self_coordination/prompt_queue/index.yaml
+  current_assistant_handoff: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  current_workstream_bootstrap_pointer: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml:current_workstream_bootstrap.path
+  coordination_source_registry: coordination/registry/coordination_source_registry_v0_1.yaml
+  coordination_health_policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  prompt_contract_v0_4_standard: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+  prompt_contract_v0_4_validator: scripts/coordination/validate_prompt_contract_v0_4.py
+  completion_packet_v0_4_standard: coordination/standards/governance/module_completion_packet_v0_4.yaml
+  completion_packet_v0_4_template: coordination/templates/module_completion_packet_v0_4.example.yaml
+  completion_packet_v0_4_validator: scripts/coordination/validate_completion_packet_v0_4.py
+  completion_outbox_v0_4_standard: coordination/standards/governance/module_completion_outbox_v0_4.yaml
+  completion_outbox_v0_4_template: coordination/templates/module_completion_outbox_v0_4.example.yaml
+  completion_outbox_v0_4_validator: scripts/coordination/validate_completion_outbox_v0_4.py
+  completion_discovery_intake_v0_4_tool: scripts/coordination/completion_discovery_and_intake_v0_4.py
+  completion_discovery_intake_v0_4_test: tests/validation/test_v0_4_completion_discovery_and_intake.py
+  completion_discovery_intake_v0_4_implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_implementation_v0_1.yaml
+  review_roadmap_queue_transaction_v0_4_tool: scripts/coordination/review_roadmap_queue_transaction_v0_4.py
+  review_roadmap_queue_transaction_v0_4_test: tests/validation/test_v0_4_review_roadmap_queue_transaction.py
+  review_roadmap_queue_transaction_v0_4_implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_review_roadmap_queue_transaction_implementation_v0_1.yaml
+  next_prompt_selection_activation_v0_4_tool: scripts/coordination/next_prompt_selection_activation_v0_4.py
+  next_prompt_selection_activation_v0_4_test: tests/validation/test_v0_4_next_prompt_selection_activation.py
+  next_prompt_selection_activation_v0_4_implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_next_prompt_selection_activation_implementation_v0_1.yaml
+  roadmap_enrichment_operating_guide: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+  roadmap_enrichment_living_field_guide: coordination/repository_knowledge/roadmap_enrichment/README.md
+  roadmap_enrichment_source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+make_interface:
+  discovery_command: make help
+  canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
+  canonical_targets:
+  - help
+  - check
+  - check-report
+  - roadmap-validate
+  - roadmap-dashboard
+  - roadmap-summary
+  - roadmap-status
+  - prompts-status
+  - inventory-status
+  - blueprint-self-audit
+  - blueprint-self-status
+  - blueprint-governance-status
+  - module-governance-audit
+  - completion-intake-check
+  - completion-intake-preview
+  - completion-accept
+  - completion-return
+  - next-work-suggestion
+  - check-module-registry-consistency
+  - check-self-coordination-consistency
+  - check-repository-knowledge-freshness
+  - repository-knowledge-reconciliation-status
+  - coordination-pulse
+  - prompt-contract-v0-4-validate
+  - completion-packet-v0-4-validate
+  coordination_pulse:
+    target: coordination-pulse
+    mode: local_read_only
+    network_independent: true
+    source_of_truth: dynamic_view_not_persisted_artifact
+  operator_decision_targets:
+    completion-accept: manual decision surface; never invoke automatically
+    completion-return: manual decision surface; never invoke automatically
+  parameterized_target_rule: Read Makefile/help and required variables before invoking
+    completion, prompt, module, or document targets.
+state_model:
+  separate_dimensions:
+  - observed_state
+  - automated_check_result
+  - governance_classification
+  - operator_decision
+  - authorization_evidence
+  - module_execution_state
+  - dependency_gate_state
+  critical_non_equivalences:
+  - READY_FOR_OPERATOR_REVIEW != ACCEPTED
+  - PENDING_OPERATOR_REVIEW != RETURNED
+  - green_check != operator_acceptance
+  - red_check != operator_return
+  - planned_directive != active_directive
+  - roadmap_ready != production_authorized
+  - historical_control_signal != historical_acceptance without processed review evidence
+handoff_protocol:
+  current_snapshot: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  snapshot_semantics: The handoff records state observed at a specific Git commit.
+    Reconcile later commits before continuing.
+  required_handoff_fields:
+  - state_observed_at_head
+  - current_blueprint_plan
+  - active_blueprint_step
+  - recent_completed_governance
+  - managed_module_state
+  - pending_operator_decisions
+  - dependency_gates
+  - known_governance_debt
+  - next_10_steps
+  - current_workstream_bootstrap
+roadmap_enrichment_protocol:
+  stable_method: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+  living_knowledge:
+    field_guide: coordination/repository_knowledge/roadmap_enrichment/README.md
+    source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+  current_state_snapshot: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  before_bulk_enrichment:
+  - revalidate_git_and_current_authority
+  - read_stable_operating_method
+  - read_living_field_guide
+  - read_machine_source_map
+  - discover_existing_canonical_owner_before_new_artifact
+  authority_rules:
+    roadmap_entry_is_work_authority: false
+    living_knowledge_is_execution_authority: false
+    current_handoff_is_runtime_authority: false
+    activation_requires_separate_authority: true
+living_knowledge_contribution_protocol:
+  update_required_every_session: false
+  update_when: verified_reusable_lesson_discovered
+  required_fields:
+  - discovery_or_lesson
+  - why_reusable
+  - source_or_evidence
+  - scope
+  - authority_level
+  - known_caveat
+  - recommended_sequence_or_fast_path
+  - last_verified_commit
+  - supersedes_or_conflicts_with
+  rules:
+  - do_not_copy_raw_session_transcript
+  - do_not_promote_unverified_guess
+  - preserve_provenance
+  - prefer_correction_over_duplicate_entry
+  - mark_stale_or_superseded_guidance
+  - do_not_convert_navigation_hint_into_execution_authority

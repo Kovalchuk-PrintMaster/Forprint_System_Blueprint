@@ -1,0 +1,60 @@
+schema_version: forprint_marketing_creative_toolchain_operating_profile_candidate_v0_1
+candidate_id: marketing_creative_toolchain_operating_profile
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: forprint_marketing_orchestrator
+expected_disposition: EXTEND_EXISTING_MARKETING_ROADMAP_STEPS_NOT_NEW_TOP_LEVEL_CAPABILITY
+reuse_targets:
+- forprint_marketing_orchestrator_text_image_video_creative_brief_and_prompt_model_v0_1
+- forprint_marketing_orchestrator_external_ai_media_provider_adapter_boundary_v0_1
+- forprint_marketing_orchestrator_asset_review_versioning_and_publication_readiness_v0_1
+- forprint_marketing_orchestrator_instagram_youtube_publishing_foundations_v0_1
+- forprint_marketing_orchestrator_cost_model_provider_experiments_and_optimization_dashboard_v0_1
+owner_accepted_operating_preference:
+  one_primary_video_generator_at_a_time: true
+  purpose:
+  - reduce_tool_switching
+  - accumulate_prompt_patterns
+  - accumulate_operator_skill
+  - improve_repeatability
+  permanent_provider_lock_in: false
+provider_selection_gate:
+  historical_veo_selected: false
+  historical_provider_recommendations_are_current_policy: false
+  explicit_operator_choice_required: true
+  current_review_dimensions:
+  - output_quality
+  - consistency
+  - cost
+  - licensing_and_commercial_rights
+  - privacy_and_data_handling
+  - export_fit
+  - api_or_automation_fit_if_needed
+  - workflow_fit
+historical_proposed_asset_flow:
+  status: SOURCE_PROPOSED_NOT_OWNER_FINALIZED
+  stages:
+  - product_image_or_creative_source
+  - short_generated_clip_approximately_5_to_10_seconds
+  - optional_montage_or_branding_edit
+  - review_version_and_publication_readiness
+  - reuse_across_approved_website_and_social_surfaces
+  postproduction_mandatory: false
+asset_governance_if_promoted:
+- source_and_generation_provenance
+- provider_and_model_or_version_when_material
+- prompt_or_brief_reference
+- rights_or_license_notes
+- approval_state
+- asset_version
+- publication_targets
+- cross_channel_reuse_links
+non_goals:
+- select Google Veo from historical recommendation
+- freeze ChatGPT or any specialist image provider as permanent policy
+- create a second provider-routing roadmap capability
+- make Website a Marketing-owned implementation surface
+- make generated media canonical product/customer/order truth
+- mutate Marketing runtime from this planning intake
+promotion_gate: Reconcile the June SMM acquisition source, any remaining SMM sources, current Marketing Orchestrator
+  module policy, and current provider needs before extending the existing roadmap steps.

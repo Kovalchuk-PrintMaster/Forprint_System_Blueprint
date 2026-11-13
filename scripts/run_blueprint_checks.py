@@ -127,6 +127,7 @@ def write_reports(results: list[CheckResult]) -> None:
         include_full_log=summary.failed > 0 or summary.warnings > 0,
     )
 
+
 def build_checks() -> list[CheckDefinition]:
     """Return the authoritative Blueprint check catalog."""
 
@@ -144,6 +145,21 @@ def build_checks() -> list[CheckDefinition]:
             title="Pytest",
             expected_result="All tests pass",
             command=(python, "-m", "pytest", "-q"),
+            group="core_quality",
+        ),
+        CheckDefinition(
+            check_id="current_release_projection_validation",
+            title="Current release projection",
+            expected_result=(
+                "Authoritative current coordination release is valid and "
+                "legacy compatibility is non-blocking"
+            ),
+            command=(
+                python,
+                "scripts/coordination/current_release_projection_v0_1.py",
+                "--root",
+                ".",
+            ),
             group="core_quality",
         ),
         CheckDefinition(
@@ -165,10 +181,10 @@ def build_checks() -> list[CheckDefinition]:
             group="core_quality",
         ),
         CheckDefinition(
-            check_id="prompt_dispatch_validation",
-            title="Prompt dispatch",
-            expected_result="Prompt dispatch index is valid",
-            command=(python, "scripts/validate_prompt_dispatch_index.py"),
+            check_id="semantic_structure_validation",
+            title="Semantic structure",
+            expected_result="Current, derived and historical Blueprint surfaces are separated",
+            command=(python, "scripts/indexing/validate_semantic_structure.py"),
             group="coordination",
         ),
         CheckDefinition(
@@ -284,6 +300,22 @@ def build_checks() -> list[CheckDefinition]:
             group="coordination",
         ),
         CheckDefinition(
+            check_id="completion_intake_check_tests",
+            title="Completion discovery/intake v0.4",
+            expected_result="Promoted v0.4 completion discovery/intake and review boundary are read-only",
+            command=(
+                python,
+                "-m",
+                "pytest",
+                "-q",
+                "tests/validation/test_v0_4_completion_discovery_and_intake.py",
+                "tests/validation/test_v0_4_completion_packet.py",
+                "tests/validation/test_v0_4_completion_outbox.py",
+                "tests/validation/test_v0_4_review_transaction_module_schema_plan.py",
+            ),
+            group="coordination",
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit is clean and read-only",
@@ -315,7 +347,7 @@ def build_checks() -> list[CheckDefinition]:
             check_id="mermaid_generation",
             title="Mermaid generation",
             expected_result="Architecture diagrams generate",
-            command=(python, "scripts/generate_mermaid.py"),
+            command=(python, "scripts/generate_mermaid.py", "--check"),
             group="documentation",
         ),
         CheckDefinition(
@@ -329,7 +361,7 @@ def build_checks() -> list[CheckDefinition]:
             check_id="module_guides_generation",
             title="Module guides",
             expected_result="Module guides generate",
-            command=(python, "scripts/generate_module_guides.py"),
+            command=(python, "scripts/generate_module_guides.py", "--check"),
             group="documentation",
         ),
         CheckDefinition(
@@ -347,6 +379,171 @@ def build_checks() -> list[CheckDefinition]:
             title="Standards index",
             expected_result="Standards index is valid",
             command=(python, "scripts/validate_standards_index.py"),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="module_workflow_adoption_matrix_validation",
+            title="Workflow adoption matrix",
+            expected_result="Command adoption matrix semantics are valid",
+            command=(
+                python,
+                "scripts/validation/validate_module_workflow_adoption_matrix.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="mutation_builder_contract_validation",
+            title="Mutation builder contract",
+            expected_result=("Mutation builders follow predictable preflight and rollback rules"),
+            command=(
+                python,
+                "scripts/validation/validate_mutation_builder_contract.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="b2_persistence_boundary_validation",
+            title="B2 persistence boundary",
+            expected_result=(
+                "Source-of-truth, migration, retention and disabled-runtime boundaries are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_b2_persistence_boundary.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q1_clarification_question_lifecycle_validation",
+            title="Q1 clarification lifecycle",
+            expected_result=(
+                "Question lifecycle, identity, prompt-coupling and deferred-boundary "
+                "semantics are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q1_clarification_question_lifecycle.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q2_bounded_clarification_and_escalation_validation",
+            title="Q2 bounded clarification",
+            expected_result=(
+                "Five unresolved rounds are bounded per question thread and "
+                "round-five escalation is deterministic/evidence-complete"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q2_bounded_clarification_and_escalation.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q3_execution_blocker_taxonomy_validation",
+            title="Q3 execution blocker taxonomy",
+            expected_result=(
+                "Execution blocker reasons, scope blocking and separation from "
+                "unable-to-execute/RETURN/HOLD are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q3_execution_blocker_taxonomy.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q4_immutable_prompt_adjustment_and_decision_validation",
+            title="Q4 immutable prompt decisions",
+            expected_result=(
+                "Released prompts stay immutable while correlated decisions/adjustments "
+                "preserve explicit execution and acceptance effects"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q4_immutable_prompt_adjustment_and_decision.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q5_common_coordination_event_envelope_validation",
+            title="Q5 coordination event envelope",
+            expected_result=(
+                "Common immutable coordination event envelope, correlation/causation "
+                "and idempotency semantics are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q5_common_coordination_event_envelope.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q6_operator_attention_semantics_validation",
+            title="Q6 operator attention semantics",
+            expected_result=(
+                "Operator-attention reasons, lifecycle and transport-independent semantics are valid"
+            ),
+            command=(python, "scripts/validation/validate_q6_operator_attention_semantics.py"),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q7_cross_module_question_routing_validation",
+            title="Q7 cross-module question routing",
+            expected_result=(
+                "Cross-module question routing preserves Q1/Q2 identity and round semantics, "
+                "requires evidence-backed answers and forbids cross-repository writes"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q7_cross_module_question_routing_contract.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="q8_logistics_clarification_reference_validation",
+            title="Q8 Logistics clarification reference",
+            expected_result=(
+                "Accepted Logistics reference proves the composed Q1-Q7 clarification, blocker, "
+                "decision, attention and routing semantics while Q->H10 remains manual"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q8_logistics_clarification_reference_validation.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="phase_boundary_progression_gate_validation",
+            title="Phase-boundary progression gate",
+            expected_result=(
+                "Manual progress approval is phase-boundary-only while same-phase "
+                "progression remains deterministic and fail-closed"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_phase_boundary_progression_gate_policy.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="blueprint_command_applicability_validation",
+            title="Blueprint command applicability",
+            expected_result=("Blueprint command applicability and readiness blockers are valid"),
+            command=(
+                python,
+                "scripts/validation/validate_blueprint_command_applicability.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
+            check_id="project_transparency_control_layer_validation",
+            title="Project transparency control layer",
+            expected_result=("Current governance sources agree and status rendering is read-only"),
+            command=(
+                python,
+                "scripts/validation/validate_project_transparency_control_layer.py",
+            ),
             group="documentation",
         ),
         CheckDefinition(

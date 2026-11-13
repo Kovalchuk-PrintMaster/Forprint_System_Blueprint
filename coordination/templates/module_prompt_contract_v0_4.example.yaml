@@ -1,0 +1,68 @@
+schema_version: module_prompt_contract_v0_4
+metadata:
+  contract_id: <contract_id>
+  module_id: <module_id>
+  prompt_id: <prompt_id>
+  created_at: <YYYY-MM-DD>
+  status: candidate_reference_only
+  immutable: true
+source_prompt:
+  path: <immutable_source_prompt_snapshot_path>
+  sha256: <sha256>
+  origin_path_at_capture: <queue_prompt_path_at_capture>
+  origin_sha256_at_capture: <sha256>
+execution_baseline_policy:
+  schema_version: module_execution_baseline_policy_v0_1
+  release_baseline:
+    blueprint_commit: <40-character lowercase git commit>
+    module_commit: <40-character lowercase git commit>
+    module_branch: <expected module branch>
+    release_authority:
+      path: coordination/releases/current.yaml
+      sha256: <64-character lowercase sha256>
+      hardening_release: v0.4.1
+  required_inputs:
+    - input_id: <stable material input id>
+      repository: blueprint
+      path: <repository-relative material input path>
+      sha256: <64-character lowercase sha256>
+      material: true
+  compatibility:
+    allow_blueprint_forward_descendant: true
+    allow_module_forward_descendant: true
+    material_inputs_must_match: true
+    require_clean_module_worktree: true
+    require_module_upstream_synced: true
+integrity:
+  algorithm: sha256
+  payload_sha256: <canonical_payload_sha256>
+  payload_hash_scope: canonical JSON of entire document excluding integrity.payload_sha256
+source_obligations:
+  - obligation_id: SRC-001
+    source_locator: <prompt section/item>
+    required: true
+    summary: <source obligation>
+implementation_obligations:
+  - obligation_id: IMP-001
+    summary: <implementation obligation>
+verification_obligations:
+  - obligation_id: VER-001
+    summary: <verification obligation>
+completion_evidence_obligations:
+  - obligation_id: CE-001
+    summary: <completion evidence obligation>
+source_obligation_fidelity_ledger:
+  - source_obligation_id: SRC-001
+    target_obligation_ids:
+      - IMP-001
+      - VER-001
+      - CE-001
+semantic_fidelity:
+  human_review_required: true
+  execution_fingerprint_sufficient: false
+  review_state: pending_operator_review
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false

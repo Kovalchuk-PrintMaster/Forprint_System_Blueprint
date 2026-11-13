@@ -1,0 +1,31 @@
+schema_version: blueprint_tmp_independence_policy_v0_1
+status: OWNER_APPROVED_GLOBAL_RULE
+scope: FORPRINT_SYSTEM_BLUEPRINT_ALL_MODULES_AND_CF_CONTOUR
+principle: TMP_IS_DISPOSABLE_NOT_A_RUNTIME_DEPENDENCY
+source_code:
+  canonical: GIT_TRACKED_BLUEPRINT_MODULES
+  temp_zip_is_never_approved_execution_source: true
+durable_worker_root: /srv/software_development/forprint-worker-runtime
+worker_scope: forprint_system_blueprint/worker-01
+durable_receipt_candidate: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/control_plane/root_receipts
+prohibited_production_dependencies:
+  - /tmp
+  - /var/tmp
+  - BLUEPRINT_REPOSITORY/tmp
+  - ZIP_STAGING_CODE
+  - TMP_ONLY_LEDGER_OR_RECEIPTS
+  - TMP_ONLY_CREDENTIALS_OR_RECOVERY
+allowed_temporary_use:
+  - ZIP_TRANSPORT
+  - STAGING_FOR_REVIEW
+  - DISPOSABLE_TEST_FIXTURE
+  - REGENERABLE_DEBUG_REPORT
+release_gates:
+  - PERSISTENT_PATH_SCOPE_CHECK
+  - CANONICAL_CODE_IMPORT_PROOF
+  - WORKER_LAUNCH_WITH_TMP_UNAVAILABLE_TEST
+  - RECOVERY_WITH_TMP_UNAVAILABLE_TEST
+  - INDEPENDENT_OPERATOR_ACCEPTANCE
+hestia_out_of_scope: true
+authorizes_launch: false
+authorizes_release: false

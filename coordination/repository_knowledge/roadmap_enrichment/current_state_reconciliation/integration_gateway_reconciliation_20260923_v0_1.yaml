@@ -1,0 +1,62 @@
+schema_version: forprint_module_current_state_reconciliation_closeout_v0_1
+status: CLOSED
+module: forprint_integration_gateway
+reconciliation_subject: transport_validation_routing_correlation_idempotency_delivery_boundary
+historical:
+  source_id: dftb_integration_gateway_v07_history_20260526
+  reconciliation_source_id: dftb_integration_gateway_v07_history_20260526_reconciliation
+  candidate_source_id: dftb_integration_gateway_v07_history_20260526_state_candidate
+live_module:
+  repository: /srv/software_development/forprint-project/forprint_integration_gateway
+  branch: main
+  head: 2f362561e788815ec1924da98162b669dd2083a4
+  upstream: origin/main
+  upstream_head: 2f362561e788815ec1924da98162b669dd2083a4
+  worktree_clean: true
+evidence:
+  transport_lines: 468
+  validation_lines: 1062
+  routing_lines: 185
+  correlation_lines: 134
+  idempotency_lines: 324
+  delivery_lines: 428
+  boundary_lines: 168
+  test_transport_lines: 43
+  test_validation_lines: 83
+  test_routing_lines: 38
+  test_correlation_lines: 32
+  test_idempotency_lines: 58
+  test_delivery_lines: 18
+  test_boundary_lines: 2
+  all_gateway_mechanics_present: true
+  gateway_mechanics_with_test_evidence: 6
+  explicit_boundary_evidence: true
+  boundary_test_evidence: true
+  business_ownership_review_candidates: 0
+decision:
+  disposition: CURRENT_GATEWAY_BOUNDARY_CONFIRMED
+  historical_candidate_closed: true
+  implementation_gap: false
+  new_gateway_implementation_required: false
+  gateway_business_truth_owner: false
+  gateway_business_decision_authority: false
+  gateway_role: transport_validation_routing_correlation_idempotency_delivery
+  authority_effect: evidence_only_no_execution_activation
+boundary:
+  operational_truth_owner: forprint_operations_control_registry
+  accounting_truth_owner: forprint_accounting_registry_service
+  warehouse_truth_owner: forprint_warehouse_service
+  catalog_semantics_owner: forprint_library
+  pricing_owner: calculator_engine
+  crm_role: human_facing_orchestration_not_gateway_truth
+safety:
+  integration_execution_performed: false
+  external_delivery_performed: false
+  live_module_mutated: false
+  source_map_mutated: false
+  human_intent_ledger_mutated: false
+  roadmap_mutated: false
+  cf10_touched: false
+next:
+  work_mode: continue_module_current_state_analysis_and_reconciliation
+  integration_gateway_candidate: closed

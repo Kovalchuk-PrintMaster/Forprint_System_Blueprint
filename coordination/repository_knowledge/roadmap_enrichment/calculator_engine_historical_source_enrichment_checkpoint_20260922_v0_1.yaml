@@ -1,0 +1,55 @@
+schema_version: forprint_calculator_engine_historical_source_enrichment_checkpoint_v0_1
+captured_on: '2026-09-22'
+status: CALCULATOR_HISTORICAL_SOURCE_ENRICHMENT_BOUNDARY_REACHED
+module_id: calculator_engine
+authority: repository_knowledge_checkpoint_not_execution_or_release_authority
+processed_source_groups:
+- label: long-running Calculator pricing/catalog/quote/coordination history
+  primary_sha256: 89ebb98618d86b0fa928d5c3f1748c68db81292f68b75698c19c2711689921fb
+  dftb_sha256: 2ba7c3b2e5082dfc7e1dd8b0591e13faaf386efd1abc8fa4d28081f5ddaa9ecc
+  master_memory_v2_9_sha256: b55ef2cdf8208fb434723d2cb0cace76c91d613a0fe58237a72c976e70cd00de
+  terminal_directive_anchor: '2026-06-03'
+  historical_terminal_commit: eba5384
+  human_intents_appended: 6
+aggregate:
+  source_groups_processed: 1
+  human_intents_appended: 6
+  canonical_roadmap_mutations: 0
+  execution_authority_mutations: 0
+  master_memory_reingests: 0
+  preferred_master_memory_navigation: v3.7
+open_reconcile_before_implementation_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/18_pricing_policy_and_admin_surface_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/19_channel_neutral_quote_contract_candidate_v0_1.yaml
+candidate_summary:
+- Calculator pricing policy and bounded admin surface
+- Channel-neutral Calculator quote request/result contract
+key_owner_boundaries:
+- Calculator owns calculation, pricing, quote-item and Job Specification semantics.
+- Library owns canonical product/material/service/operation semantics and labels.
+- CRM owns customer identity and approved customer/segment context.
+- Contract Registry owns versioned inter-module contract form and compatibility lifecycle.
+- Integration Gateway owns runtime validation/routing/delivery mechanics and transport correlation.
+key_supersessions:
+- Calculator-local canonical catalog ownership is superseded by Library.
+- Direct Calculator-to-Telegram/Website coupling is superseded by Contract Registry/Gateway/domain contracts.
+- Historical whole-project Calculator admin is narrowed to Calculator-owned pricing/calculation policy administration.
+- Historical Alembic/Django/admin/path mechanics remain implementation evidence, not current architecture authority.
+recovered_new_intent_summary:
+- data-driven B2B/B2C pricing modifiers
+- filtered bulk repricing
+- Library-backed applicability rules
+- bounded Calculator administration
+- fail-safe quote idempotency/correlation contract
+- structured machine + human quote outputs with provenance
+next_required_action_for_calculator: No action required before switching modules. Revisit the two candidates after
+  all relevant Calculator historical sources are exhausted or during deliberate live-repository / Library / CRM
+  / Contract Registry / Gateway reconciliation.
+mutations_not_granted:
+- canonical_roadmap
+- execution_authority
+- lifecycle
+- dispatch
+- acceptance
+- release
+- commit_push_merge

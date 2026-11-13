@@ -1,0 +1,86 @@
+work_front_id: wf-cf10-runtime-standards-index-convergence-v0-1
+objective: Converge the canonical root standards index before the first CF-10 worker launch. Repair the currently observed
+  missing root registrations for the already-created CF-10 worker foundation contracts and the existing roadmap enrichment
+  operating guide, then permit the same bounded root-index mutation surface to register the two Slice 5A multi-provider runtime
+  standards when they are created. Do not weaken or bypass standards validation.
+scope:
+- coordination/standards/index.yaml
+- coordination/standards/automation/worker_task_envelope_contract_v0_1.yaml
+- coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+- coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+- coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+- coordination/standards/automation/worker_runtime_adapter_registry_contract_v0_1.yaml
+- coordination/standards/automation/worker_runtime_benchmark_contract_v0_1.yaml
+- scripts/validate_standards_index.py
+exclusions:
+- Do not modify the content of existing worker foundation contracts.
+- Do not modify the roadmap enrichment operating guide.
+- Do not weaken scripts/validate_standards_index.py.
+- Do not add blanket ignores, baseline exemptions or allowlists for unindexed standards.
+- Do not rebuild unrelated indexes as part of the root registration repair.
+- Do not modify lifecycle or roadmap state.
+- Do not consume Assistant ACK.
+- Do not create explicit dispatch authority.
+- Do not append the Execution Attempt Ledger.
+- Do not launch a worker.
+- Do not commit, push, merge, release or auto-ACCEPT.
+- Do not write foreign repositories.
+provenance:
+  source_refs:
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_multi_provider_runtime_registry_v0_1.yaml
+  - scripts/validate_standards_index.py
+  - observed-validator-output:2026-09-21
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- roadmap sync IN_SYNC
+- current root standards index validator fails only on known missing registrations before Slice 5A is applied
+- root standards index row schema remains standard_id,file,title,status,adoption_mode
+outputs:
+- Root standards registration for worker_task_envelope_contract_v0_1.
+- Root standards registration for worker_workspace_contract_v0_1.
+- Root standards registration for worker_candidate_promotion_contract_v0_1.
+- Root standards registration for roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.
+- Permission for the same bounded mutation to register worker_runtime_adapter_registry_contract_v0_1 when Slice 5A creates
+  it.
+- Permission for the same bounded mutation to register worker_runtime_benchmark_contract_v0_1 when Slice 5A creates it.
+- scripts/validate_standards_index.py PASS after the combined repair.
+acceptance:
+- Before mutation, the current validator missing set is exactly the known pre-existing set.
+- Existing root index rows remain byte/semantic preserved except bounded appended rows.
+- Each target standard is registered exactly once.
+- No unrelated root standard entry is added, removed or modified.
+- Existing foundation contract contents remain unchanged.
+- Existing roadmap guide contents remain unchanged.
+- Slice 5A standards are registered only if their files exist in the same transaction.
+- scripts/validate_standards_index.py returns zero after convergence.
+- No validator weakening or exemption is introduced.
+- u180j remains ACTIVE sequence 67.
+- Assistant ACK remains unconsumed and no worker launches.
+stop_conditions:
+- Current baseline missing set contains an unexpected standard.
+- Any known baseline missing standard disappears without an explained canonical mutation.
+- Root standards index row schema differs from standard_id,file,title,status,adoption_mode.
+- Repair would require modifying existing standard contents.
+- Repair would require weakening the standards validator.
+- Repair would require lifecycle/roadmap mutation.
+- Any ACK, dispatch or worker launch would occur.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/standards/index.yaml
+  - coordination/standards/automation/index.yaml
+  - scripts/validate_standards_index.py
+  - prior root-index registration/recovery tooling
+  disposition: EXTEND
+  target_refs:
+  - canonical root standards index
+  - existing standards index validator

@@ -45,7 +45,7 @@ def test_residual_wrappers_are_removed() -> None:
 
 def test_shared_renderer_is_called_directly() -> None:
     source = ROADMAP.read_text(encoding="utf-8")
-    assert source.count("render_boxed_table_lines(") == 2
+    assert source.count("render_boxed_table_lines(") == 3
     assert source.count("tuple(TableRow(values=row) for row in table_rows)") == 2
     assert "from scripts.reporting.statuses import colorize" in source
     assert "return colorize(value, semantic_token, use_color=True)" in source

@@ -1,0 +1,259 @@
+schema_version: forprint_continuity_assistant_handoff_micro_roadmap_v0_1
+status: completed_execution_micro_roadmap
+authority: blueprint_coordination_execution_plan
+owner: forprint_system_blueprint
+date: 2026-09-10
+purpose: Preserve the bounded execution sequence for the Continuity / Assistant Handoff foundation in repository
+  state so progress does not depend on chat memory.
+startup_authority_boundary:
+  canonical_startup_entry:
+  - AGENTS.md
+  - coordination/bootstrap/START_HERE.md
+  - coordination/bootstrap/index_v0_1.yaml
+  - make assistant-context-pack
+  roadmap_role: execution_sequence_only
+  roadmap_is_not_release_authority: true
+  roadmap_is_not_queue_authority: true
+  chat_transcript_is_source_of_truth: false
+accepted_foundations:
+- id: mutation_compiler_v0_1
+  state: accepted
+  meaning: bounded candidate repair, verification, atomic apply, rollback and evidence
+- id: execution_progress_visibility_v0_1
+  state: accepted
+  meaning: long-running tasks expose START/HEARTBEAT/PASS/FAIL by default
+- id: knowledge_runtime_cache_determinism_v0_1
+  state: accepted
+  meaning: runtime cache history cannot change resolved_pattern knowledge output
+- id: execution_dependency_and_non_mutating_check_v0_1
+  state: accepted
+  meaning: explicit producer-consumer DAG and isolated public make check
+- id: continuity_contract_v0_1
+  state: accepted
+  meaning: immutable event/checkpoint, source-state, projection, handoff and lifecycle semantics
+- id: immutable_checkpoint_store_v0_1
+  state: accepted
+  meaning: content-addressed append-only checkpoints with deterministic source-state fingerprints
+- id: generated_operational_projections_v0_1
+  state: accepted
+  meaning: eight deterministic non-authoritative continuity projections with visible unreconciled delta
+- id: assistant_handoff_compiler_v0_1
+  state: accepted
+  meaning: deterministic zero-context runtime handoff archive compiler bound to continuity evidence
+- id: lifecycle_enforcement_v0_1
+  state: accepted
+  meaning: append-only enforced PLANNED→ACTIVE→CHECKPOINTED→VALIDATED→CLOSED lifecycle with close gates, remediation,
+    closed-state immutability, and pre-enforcement migration boundary
+- id: zero_context_acceptance_v0_1
+  state: accepted
+  meaning: fresh assistant reconstructed mission, rules, accepted past, current workfront, blockers/unknowns, reconciled
+    source state and next horizon from one deterministic Assistant Handoff pack without chat history or outside
+    sources
+- id: module_transfer_reference_implementation_v0_1
+  state: accepted
+  meaning: authority-neutral module continuity transfer contract, sterile Catalog/Warehouse portability proof, deterministic
+    handoff reuse and zero accepted-core modification
+execution_rules:
+  dirty_working_tree_is_valid_baseline: true
+  clean_git_required: false
+  reset_stash_rebase_for_cleanliness_forbidden: true
+  source_mutation_via_mutation_compiler: true
+  public_make_check_must_be_non_mutating: true
+  hidden_execution_dependency_is_defect: true
+  assistant_scripts_show_progress_by_default: true
+  automatic_commit_push_release_forbidden: true
+  automatic_worker_dispatch_forbidden: true
+  foreign_module_write_requires_explicit_authority: true
+  checkpoint_hashes_bind_final_applied_artifacts: true
+steps:
+- order: 1
+  id: dependency_closure_audit
+  work: u178a
+  outcome: sterile dynamic audit exposed real hidden runtime/report dependencies
+- order: 2
+  id: execution_dependency_contract
+  work: u178b5
+  outcome: dependency classes and hidden-dependency rules are explicit
+- order: 3
+  id: dependency_registry_graph_explain
+  work: u178b5
+  outcome: curated registry, deterministic graph and explain surface are available
+- order: 4
+  id: normalize_make_check_dag
+  work: u178b5
+  outcome: derived consumers have explicit direct producer prerequisites
+- order: 5
+  id: non_mutating_public_make_check_acceptance
+  work: u178b5
+  outcome: public make check passes in a faithful disposable mirror and preserves source repos
+- order: 6
+  id: continuity_contract
+  work: u179b
+  outcome: immutable event/checkpoint, source-state, projection, handoff and lifecycle semantics are explicit
+- order: 7
+  id: immutable_checkpoints
+  work: u179c
+  depends_on:
+  - continuity_contract
+  outcome: content-addressed append-only checkpoint events bind evidence, source state and final applied hashes
+- order: 8
+  id: generated_operational_projections
+  work: u179d
+  depends_on:
+  - immutable_checkpoints
+  outcome: eight deterministic operational projections derive from immutable events and current source state
+- order: 9
+  id: assistant_handoff_compiler
+  depends_on:
+  - generated_operational_projections
+  outcome: one deterministic bounded archive can onboard a zero-context assistant from repository evidence
+  work: u179e
+- order: 10
+  id: lifecycle_enforcement
+  depends_on:
+  - assistant_handoff_compiler
+  outcome: append-only lifecycle events enforce transitions, validation, close gates, remediation and closed-state
+    immutability
+  work: u179f
+- order: 11
+  id: zero_context_acceptance
+  depends_on:
+  - lifecycle_enforcement
+  outcome: fresh assistant reconstructs mission, past, present, blockers and next 5-10 actions from one pack
+  work: u179g
+- order: 12
+  id: module_transfer_reference_implementation
+  depends_on:
+  - zero_context_acceptance
+  outcome: Blueprint continuity model becomes reusable for Library, Inspector, Warehouse, Storefront, Mobile and
+    workers
+  work: u179h
+  accepted_close_event: evt-u179h-closed-repair-20260912t141557412734z
+zero_context_acceptance_questions:
+- What project is this and what is its mission?
+- What interaction and mutation rules are currently binding?
+- What meaningful work was completed and why?
+- What is active now?
+- What blockers and unknowns remain?
+- What are the next 5-10 bounded actions?
+continuity_target_model:
+  event_state_machine:
+  - PLANNED
+  - ACTIVE
+  - CHECKPOINTED
+  - VALIDATED
+  - CLOSED
+  forbidden_transition:
+  - ACTIVE->CLOSED
+  checkpoint_must_capture:
+  - what_changed
+  - why
+  - evidence
+  - decision_rationale
+  - rejected_alternative_when_material
+  - blockers
+  - unknowns
+  - next_5_to_10_actions
+  - source_state_fingerprint
+  - final_applied_artifact_hashes
+  generated_projections:
+  - CURRENT_WORKFRONT
+  - RECENT_ACTIVITY
+  - DECISIONS
+  - BLOCKERS
+  - NEXT_HORIZON
+  - SOURCE_STATE
+  - WORKER_PORTFOLIO
+  emergency_projection:
+  - UNRECONCILED_CURRENT_DELTA
+deferred_after_continuity_foundation:
+- explicit knowledge source modes: working_tree vs git_tracked vs commit_snapshot
+- Git-state provenance on knowledge records
+- unresolved_pattern suppression and exemption contract
+- repository-knowledge current/freshness projection hardening
+- Project Context archive determinism, provenance, safety and atomicity
+- Project Context broad/module/topic semantic acceptance
+- generator semantic coverage closure for remaining visible candidates
+next_action:
+  step: null
+  id: control_foundation_near_horizon
+  source: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+  mutation_required: true
+  activation_requires_operator: true
+  worker_dispatch_allowed: false
+  release_allowed: false
+completion:
+  foundation_state: complete
+  last_completed_step: 12
+  last_completed_id: module_transfer_reference_implementation
+  last_completed_work_id: u179h
+  close_event_id: evt-u179h-closed-repair-20260912t141557412734z
+  successor_program: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+
+historical_completion_evidence:
+  schema_version: forprint_legacy_roadmap_completion_evidence_v0_1
+  authority: HISTORICAL_ACCEPTANCE_EVIDENCE_NOT_EXECUTION_STATE
+  immutable_after_retirement: true
+  step_state_fields_retired: true
+  completed_step_ids:
+  - dependency_closure_audit
+  - execution_dependency_contract
+  - dependency_registry_graph_explain
+  - normalize_make_check_dag
+  - non_mutating_public_make_check_acceptance
+  - continuity_contract
+  - immutable_checkpoints
+  - generated_operational_projections
+  - assistant_handoff_compiler
+  - lifecycle_enforcement
+  - zero_context_acceptance
+  - module_transfer_reference_implementation
+  pre_enforcement_accepted_step_ids:
+  - dependency_closure_audit
+  - execution_dependency_contract
+  - dependency_registry_graph_explain
+  - normalize_make_check_dag
+  - non_mutating_public_make_check_acceptance
+  - continuity_contract
+  - immutable_checkpoints
+  event_backed_completed_steps:
+    generated_operational_projections:
+      work_id: u179d
+      event_id: evt-u179d-superseded-20260911t135057855556z
+      event_type: WORK_SUPERSEDED
+      sequence: 9
+    assistant_handoff_compiler:
+      work_id: u179e
+      event_id: evt-u179e-superseded-20260911t135057855556z
+      event_type: WORK_SUPERSEDED
+      sequence: 10
+    lifecycle_enforcement:
+      work_id: u179f
+      event_id: evt-u179f-closed-20260911t135057855556z
+      event_type: WORK_CLOSED
+      sequence: 8
+    zero_context_acceptance:
+      work_id: u179g
+      event_id: evt-u179g-closed-20260911t150223964046z
+      event_type: WORK_CLOSED
+      sequence: 15
+    module_transfer_reference_implementation:
+      work_id: u179h
+      event_id: evt-u179h-closed-repair-20260912t141557412734z
+      event_type: WORK_CLOSED
+      sequence: 20
+  supporting_nonterminal_events:
+    immutable_checkpoints:
+      work_id: u179c
+      event_id: evt-u179c-genesis-checkpoint-20260910t152642478002z
+      event_type: CHECKPOINT_RECORDED
+      sequence: 1
+  terminal_completion:
+    step_id: module_transfer_reference_implementation
+    work_id: u179h
+    event_id: evt-u179h-closed-repair-20260912t141557412734z
+    event_type: WORK_CLOSED
+    sequence: 20
+  interpretation: Historical completion evidence for the already-completed pre-CF-02
+    Continuity roadmap. It is not live execution state; current/future execution state
+    comes only from the append-only lifecycle event store.

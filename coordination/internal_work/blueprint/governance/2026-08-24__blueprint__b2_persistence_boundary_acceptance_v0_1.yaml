@@ -1,0 +1,40 @@
+schema_version: blueprint_b2_persistence_boundary_acceptance_v0_1
+metadata:
+  created_at: '2026-08-24T16:57:39+03:00'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: LOCAL_ACCEPTANCE_SEAL_RECORDED
+record_id: blueprint_b2_persistence_boundary_acceptance_2026_08_24_v0_1
+operator_decision:
+  decision: ACCEPT_B2
+  explicit_operator_input: true
+  confirmation_token: ACCEPT B2
+  automatic_acceptance: false
+target:
+  display_id: B2
+  stable_id: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
+  release: v0.4.1
+  implementation_commit: b0bf657677e1cde9e624fe81c85adf0dcba44d79
+evidence:
+  acceptance_readiness: PASS
+  implementation_published: true
+  focused_tests: 7 passed
+  make_check: 31/31 passed
+  semantic_review: PASS
+acceptance_effect:
+  b2_operator_accepted: true
+  b2_local_sealed: true
+  publication_required_as_separate_transaction: true
+  q1_activated_by_this_transaction: false
+boundaries:
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  autonomous_execution_enabled: false
+  automatic_acceptance: false
+  automatic_push: false
+  business_prompt_release: false
+  module_repository_writes: false
+next_transition:
+  id: B2-ACCEPT-PUBLISH
+  objective: Publish this exact B2 acceptance seal, then separately activate Q1.

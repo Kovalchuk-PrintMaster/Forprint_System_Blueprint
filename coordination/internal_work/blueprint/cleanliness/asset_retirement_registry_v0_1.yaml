@@ -1,0 +1,89 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_ASSET_RETIREMENT_REGISTRY
+title: Blueprint Asset Retirement Registry v0.1
+scope: forprint_system_blueprint
+captured_on: "2026-09-02"
+default_dormancy_days: 365
+automatic_deletion_allowed: false
+automatic_archive_allowed: false
+assets:
+  - asset_id: deprecated_completion_intake_check
+    path: tests/coordination/test_completion_intake_check.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+  - asset_id: deprecated_completion_intake_protocol_v0_2
+    path: tests/test_completion_intake_check_protocol_v0_2.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+  - asset_id: deprecated_completion_intake_protocol_v0_3
+    path: tests/test_completion_intake_check_protocol_v0_3.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+  - asset_id: deprecated_completion_revision_registry_v0_1
+    path: tests/validation/test_completion_revision_registry_v0_1.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+  - asset_id: deprecated_v0_4_completion_discovery_and_intake
+    path: tests/validation/test_v0_4_completion_discovery_and_intake.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+  - asset_id: deprecated_v0_4_completion_packet
+    path: tests/validation/test_v0_4_completion_packet.py
+    asset_type: TEST
+    owner: forprint_system_blueprint
+    lifecycle_status: DEPRECATED
+    disposition: KEEP
+    reason: deprecated compatibility test retained for historical/manual migration use
+    evidence:
+      - canonical pytest skip inventory
+      - excluded from current release gate
+    review_after: "2027-09-02"
+    removal_or_archive_condition: explicit owner/operator review after migration-history need is retired
+summary:
+  registered_asset_count: 6
+  retirement_candidate_count: 0
+  needs_owner_review_count: 0
+  remove_approved_count: 0
+  archive_approved_count: 0
+  preserved_deprecated_compatibility_count: 6

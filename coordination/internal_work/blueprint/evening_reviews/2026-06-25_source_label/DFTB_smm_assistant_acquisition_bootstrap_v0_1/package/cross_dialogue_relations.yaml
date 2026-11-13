@@ -1,0 +1,40 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-smm-assistant-source-label-2026-06-25
+authority_class: business_marketing_history_non_blueprint_authority
+relations:
+- type: operational_context_for
+  from_bundle: DFTB-smm-assistant-source-label-2026-06-25
+  to_bundle: DFTB-crm-source-label-2026-05-16
+  confidence: MEDIUM
+  note: SMM traffic/content strategy produces business-facing interactions that should integrate with CRM without making SMM canonical client/order authority.
+- type: constrained_by
+  from_bundle: DFTB-smm-assistant-source-label-2026-06-25
+  to_bundle: DFTB_blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint architecture states Website is not canonical customer truth; marketing acquisition cannot override that ownership boundary.
+- type: does_not_override
+  from_bundle: DFTB-smm-assistant-source-label-2026-06-25
+  to_bundle: DFTB_blueprint-2026-08-17
+  confidence: HIGH
+  note: Historical website promotion advice does not supersede the later technical Website-paused release state.
+item_relations:
+- type: related_to
+  from_item: IT-SMM2506-0018
+  to_item: IT-CRM1605-0014
+  confidence: HIGH
+  note: Marketing/SMM can feed the business orchestration surface, but CRM remains the business management layer.
+- type: constrained_by
+  from_item: IT-SMM2506-0018
+  to_item: IT-BP1407-0009
+  confidence: HIGH
+  note: Website/marketing surfaces must not become canonical customer truth owners.
+- type: does_not_override
+  from_item: IT-SMM2506-0001
+  to_item: IT-BP1708-0017
+  confidence: HIGH
+  note: Business desire to promote a site does not itself reactivate a technically paused Website workfront.
+- type: related_to
+  from_item: IT-SMM2506-0005
+  to_item: IT-CRM1605-0015
+  confidence: MEDIUM
+  note: Existing-customer/channel promotion should not imply CRM or SMM becomes universal canonical data owner.

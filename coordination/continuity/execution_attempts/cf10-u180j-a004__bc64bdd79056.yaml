@@ -1,0 +1,29 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a004
+work_front_id: wf-cf10-verification-tier-self-hardening-v0-1
+recorded_at: '2026-09-23T19:20:43.083006Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a004/workspace/repo
+why: CF-10 verification-tier self-hardening training task launch.
+source_fingerprint: 7e9534d03efa2de4d67b923a142b306d259da75bdfc3c3d2ccc13e9d60f2ff5f
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: d941440c7a090602c76373a910c8b0f68dbd862b370d3cee6e4559c01f6be784
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a004/input/cf10_a004_provider_invocation_v0_1.yaml
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- runtime:/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a004/result/cf10_a004_blocked_no_mutation_v0_1.yaml#sha256=c9559f2a51a118d9b3b8914a7c2fd043b223fc206bd05685e9da438a83b3137a
+- runtime:/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a004/result/copilot_process_result.yaml#sha256=a04036f843d624efcb52c2c31f4e5069d20f79dd5471300e3696a9db5d6312d2
+- runtime:/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a004/evidence/cf10_a004_worker_delta_v0_1.yaml#sha256=064f5a5889d6e346ec1a167dc10afa9b0e946739ff3c975fc1c8e9c35bc75f4a
+validator_outcome: NOT_RUN
+validator_evidence_refs:
+- worker_delta_sha256:064f5a5889d6e346ec1a167dc10afa9b0e946739ff3c975fc1c8e9c35bc75f4a
+- worker_stdout_sha256:5f198a4b0d686b9c076272d743cdff2ac0bea4da43d86fc51032010a1700abc9
+failure_or_retry_ref: failure:cf10-a004-worker-edit-capability-unavailable
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003

@@ -1,0 +1,24 @@
+schema_version: blueprint_managed_module_plan_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-06T17:36:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_head: a23b8dc011920f0d9cb2dad25053908a907737b5
+  result: GREEN
+self_prompt: blueprint_managed_module_plan_reconciliation_v0_1
+next_self_prompt: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+reconciliation_evidence: coordination/internal_work/blueprint/inventory_refresh/2026-08-06__blueprint__managed_module_plan_reconciliation_v0_1.yaml
+inspection_source:
+  path: tmp/blueprint_managed_module_plan_reconciliation_inspection/managed_module_plan_reconciliation.json
+  sha256: 641f274739ca376f34d2239d1cbac1f075a34004ddc1e7e714de8ab942874806
+roadmap_transition:
+  completed_step: blueprint_managed_module_plan_reconciliation_v0_1
+  current_step: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  actionable_steps_after_current: 8
+  dependency_debt_remaining: 0
+safety:
+  managed_module_controls_modified: false
+  external_prompts_released: false
+  external_rollout_state: gated
+  cross_repository_writes: false
+  historical_completion_rewritten: false

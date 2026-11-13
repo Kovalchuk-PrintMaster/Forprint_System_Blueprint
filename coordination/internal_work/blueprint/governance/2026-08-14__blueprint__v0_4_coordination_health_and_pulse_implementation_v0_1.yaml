@@ -1,0 +1,87 @@
+schema_version: blueprint_internal_work_evidence_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_coordination_health_and_pulse_implementation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-14T19:41:00+03:00'
+  owner: forprint_system_blueprint
+  source_head: 863dca2a3151373390ee42ad666fb0b0efe14b27
+work:
+  roadmap_step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  active_prompt_remains_active: true
+  operator_decision_created: false
+outputs:
+  command: make coordination-pulse
+  script: scripts/coordination/coordination_pulse.py
+  regression_test: tests/validation/test_v0_4_coordination_health_and_pulse.py
+  policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+pulse_contract:
+  read_only: true
+  network_independent: true
+  generated_current_artifact: false
+  roadmap_future_horizon:
+    actual: 9
+    minimum: 5
+    target: 8
+  active_prompt_count: 1
+  physical_drafts: 10
+  dispatchable_drafts: 3
+  pending_completions: null
+  completion_outbox_present_sources: 0
+  completion_outbox_not_present_yet_sources: 8
+  queue_roadmap_drift: 0
+  pending_completions_state: not_available_yet
+  pending_completions_semantics: unknown_until_completion_outbox_sources_exist
+  transition_safe_regression_tests: true
+metadata_alignment:
+  roadmap_actionable_steps_after_current: 9
+  roadmap_current_phase: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  roadmap_last_operator_acceptance: blueprint_v0_4_coordination_source_registry_v0_1
+  queue_last_operator_acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_acceptance_v0_1.yaml
+policy:
+  status_preserved: candidate_v0_4
+  promotion_performed: false
+boundaries:
+  active_step_advanced: false
+  active_prompt_moved_to_completed: false
+  module_repository_writes: false
+  real_git_index_changed: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+validation:
+  state: passed
+  checks:
+    ? python -m py_compile scripts/coordination/coordination_pulse.py tests/validation/test_v0_4_coordination_health_and_pulse.py
+    : returncode: 0
+      result: passed
+    python scripts/coordination/coordination_pulse.py --root . --output-format yaml:
+      returncode: 0
+      result: passed
+    make -s coordination-pulse:
+      returncode: 0
+      result: passed
+    ? python -m pytest -q tests/validation/test_v0_4_coordination_health_and_pulse.py
+      tests/validation/test_v0_4_coordination_source_registry.py tests/validation/test_v0_4_closed_loop_lifecycle_standard.py
+      tests/validation/test_v0_4_closed_loop_reconciliation.py tests/validation/test_assistant_bootstrap_contract.py
+    : returncode: 0
+      result: passed
+    make roadmap-validate MODULE=forprint_system_blueprint:
+      returncode: 0
+      result: passed
+    make check-self-coordination-consistency:
+      returncode: 0
+      result: passed
+    python -m pytest -q:
+      returncode: 0
+      result: passed
+    make check:
+      returncode: 0
+      result: passed
+result: READY_FOR_OPERATOR_REVIEW
+review_repairs:
+  pending_completions_zero_replaced_with_unknown: true
+  regressions_made_transition_safe: true
+  bootstrap_formatting_churn_removed: true
+  operator_decision_created: false

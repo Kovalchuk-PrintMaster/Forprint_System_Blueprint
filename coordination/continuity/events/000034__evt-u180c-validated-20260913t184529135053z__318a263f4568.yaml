@@ -1,0 +1,29 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180c-validated-20260913t184529135053z
+event_type: VALIDATION_PASSED
+sequence: 34
+previous_event_id: evt-u180c-checkpoint-20260913t184436229697z
+previous_event_sha256: 178bd2c49a53448c12700ded295cd61b83ad33e96a80d82600b6f785fa6b4882
+work_id: u180c
+occurred_at: '2026-09-13T18:45:39.412382Z'
+actor: assistant_generated_operator_executed
+summary: CF-03 Project Constitution and authority hierarchy validated against the final checkpoint
+source_state_ref: 3ef6aaf532fd3556f4e28ba19c9426f5b290413d834ab8b62ef4d27875fbb986
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180c-checkpoint-20260913t184436229697z
+  checkpoint_event_sha256: 178bd2c49a53448c12700ded295cd61b83ad33e96a80d82600b6f785fa6b4882
+  evidence:
+    - Project Constitution validator PASS
+    - Standards index validator PASS
+    - focused authority and reconciliation tests PASS
+    - full pytest zero failures immediately before checkpoint
+    - public make check PASS immediately before checkpoint
+    - roadmap reconciliation IN_SYNC
+    - checkpoint binds final CF-03 source fingerprint and carried post-CF-02 corrective delta
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: c6aaa4868e357322cf600dfa6cc1b987140195dee35e62eebd04d70e8cbf4952
+    checkpoint_fingerprint: c6aaa4868e357322cf600dfa6cc1b987140195dee35e62eebd04d70e8cbf4952

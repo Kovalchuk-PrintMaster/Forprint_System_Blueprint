@@ -1,0 +1,153 @@
+schema_version: forprint_crm_architecture_genesis_portfolio_reconciliation_v0_1
+source_label: '2026-05-16'
+embedded_alignment_anchor: '2026-05-22'
+reconciled_on: '2026-09-22'
+source_identity:
+  uploaded_filename: Forprint_CRM_16.05.26.mhtml
+  primary_mhtml_sha256: 31a758dd7a34c5c416272a4fada7e532642ea9a1af6a9b8f952a1da0ff2f4e61
+  dftb_archive_sha256: 7bd6f53b16fedf727a3d80bab2709ac0c66a2ee914913237ca8c2eb85b2482d6
+  master_memory_v2_4_archive_sha256: 5104ffb6ac19d53f9b72b74ec39f601dde1ca35aac619d447fb185b576fb4593
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v2_4_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v2_4_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_source_label: '2026-05-16'
+  embedded_alignment_path_date: '2026-05-22'
+  mhtml_export_saved: Tue, 15 Sep 2026 13:47:02 +0300
+  exact_missing_turn_chronology_invented: false
+  rule: Treat this as a partial cross-module architecture-genesis dialogue spanning at least through the dated 2026-05-22
+    CRM alignment prompt.
+source_quality:
+  classification: UNIQUE_PARTIAL_CRM_CROSS_MODULE_ARCHITECTURE_GENESIS_SOURCE
+  visible_message_blocks: 11
+  roles:
+    user: 3
+    assistant: 8
+  retained_turn_numbers:
+  - 1
+  - 2
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  missing_turn_span: 3-25
+  items: 28
+  evidence_records: 37
+  relations: 10
+  anomalies: 7
+  open_loops: 6
+  artifact_reference_labels: 112
+  cyrillic_loss: false
+  implementation_verification_performed: false
+current_repository_lineage:
+  approved_alignment_prompt_expected_path: coordination/outgoing_prompts/forprint_crm/approved/2026-05-22-align-crm-with-blueprint.md
+  approved_alignment_prompt_present_at_apply_time: true
+  incoming_alignment_report_expected_path: coordination/incoming_requests/forprint_crm/new/2026-05-23-forprint-crm-alignment-report.md
+  incoming_alignment_report_present_at_apply_time: true
+  interpretation: The historical prompt/report lineage is already represented in the Blueprint repository; this
+    intake adds original-dialogue provenance and cross-module reconciliation rather than recreating that lifecycle.
+reuse_first_findings:
+- topic: prepress_unified_operator_surface
+  item_refs:
+  - IT-CRM1605-0001
+  classification: EXTEND_CROSS_MODULE
+  disposition: 'NEW_PREPRESS_HUMAN_INTENT_CAPTURED. Reconciled with later product-specific-assistant architecture:
+    one operator surface may orchestrate several specialized adapters/assistants without becoming one universal
+    domain assistant.'
+- topic: assistant_proposed_prepress_python_web_preset_scaffold
+  item_refs:
+  - IT-CRM1605-0002
+  - IT-CRM1605-0003
+  classification: HISTORICAL_SECONDARY_PROPOSAL
+  disposition: Preserve as early Prepress lineage only. Later 27.06 and additional PDF/Prepress primary sources
+    plus current Prepress planning remain stronger authority.
+- topic: project_control_to_project_inspector
+  item_refs:
+  - IT-CRM1605-0004
+  - IT-CRM1605-0005
+  - IT-CRM1605-0006
+  classification: REUSE_EXISTING_BLUEPRINT_INSPECTOR_LINEAGE
+  disposition: 'Owner correction is historical origin evidence: early Project Control verification concept becomes
+    ForPrint Project Inspector, scoped to conformance rather than architecture design.'
+- topic: system_blueprint_genesis
+  item_refs:
+  - IT-CRM1605-0007
+  - IT-CRM1605-0008
+  - IT-CRM1605-0009
+  - IT-CRM1605-0010
+  - IT-CRM1605-0011
+  - IT-CRM1605-0012
+  classification: REUSE_EXISTING_BLUEPRINT_AUTHORITY_AND_HISTORY
+  disposition: Strong provenance for machine+human architecture, living impact-aware ownership/flow maps and Blueprint-vs-Inspector
+    separation. No duplicate Blueprint Human Intent is created.
+- topic: early_client_order_ownership_in_crm_example
+  item_refs:
+  - IT-CRM1605-0013
+  classification: REPLACE
+  disposition: Early illustrative CRM ownership is explicitly superseded. Current CRM planning still forbids CRM
+    from being the canonical client registry or order/operational truth owner.
+- topic: historical_operational_registry_clients_assignment
+  item_refs:
+  - IT-CRM1605-0016
+  classification: ADAPT_CURRENT_AUTHORITY_WINS
+  disposition: Do not freeze the 2026-05 statement that Operational Registry owns all clients as current canon.
+    Current CRM planning preserves person/organization/context semantics while CRM still must not own the canonical
+    client registry; the current portfolio owner map governs exact persistence authority.
+- topic: crm_business_orchestration_human_cockpit
+  item_refs:
+  - IT-CRM1605-0014
+  - IT-CRM1605-0015
+  - IT-CRM1605-0021
+  - IT-CRM1605-0022
+  - IT-CRM1605-0026
+  classification: REUSE
+  disposition: 'Already strongly represented by current CRM Human Intent and roadmap: human/business cockpit, cross-domain
+    projections, composite workflows and no foreign-domain truth ownership.'
+- topic: accounting_library_inspector_boundaries
+  item_refs:
+  - IT-CRM1605-0017
+  - IT-CRM1605-0018
+  - IT-CRM1605-0019
+  classification: REUSE
+  disposition: Current module boundaries already preserve Accounting truth, Library semantics and Inspector conformance
+    logic outside CRM.
+- topic: crm_gateway_command_routing
+  item_refs:
+  - IT-CRM1605-0020
+  - IT-CRM1605-0023
+  classification: ADAPT
+  disposition: Historical direct CRM->Gateway command lineage is retained, but exact modern transport/routing path
+    must follow current Contract Registry/Gateway/OCR contracts rather than freezing old contract names.
+- topic: order_creation_boundary
+  item_refs:
+  - IT-CRM1605-0025
+  classification: CURRENT_PLANNING_SUBSTANTIALLY_RESOLVES
+  disposition: Current CRM horizon explicitly defines request/order handoff through Operations Control Registry
+    and keeps cross-domain writes contract-bound. Exact command/event schemas remain implementation-contract work.
+- topic: early_project_control_vs_later_strategic_control_plane
+  item_refs:
+  - IT-CRM1605-0027
+  classification: RETAIN_IDENTITY_SEPARATION
+  disposition: Early Project Control verification lineage belongs to Project Inspector. It must not be merged by
+    name with the later Strategic Control Plane.
+crm_human_intent_reconciliation:
+  new_crm_human_intent_required: false
+  reason: Current CRM ledger already captures human cockpit/workspace, dashboards, cross-domain read projections,
+    structured commands and foreign-truth boundaries more strongly than this historical source.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_crm_step: null
+  new_crm_candidate: null
+  crm_current_surface_reused: true
+  cross_module_prepress_intent_append: 1
+  reason: CRM alignment is already represented by current planning and historical prompt/report lifecycle; only
+    the direct owner Prepress operator-surface requirement is genuinely new to the recovered ledger.
+master_memory_relationship:
+  uploaded_master: v2.4
+  v2_4_role: historical_derived_navigation_archive
+  v2_4_contains_this_dftb: true
+  v2_4_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

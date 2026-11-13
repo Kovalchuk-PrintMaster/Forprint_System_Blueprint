@@ -1,0 +1,46 @@
+schema_version: blueprint_tracking_events_control_state_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  subject_module_id: logistics_service
+  prompt_id: logistics_service_tracking_events_v0_1
+  created_at: '2026-08-07T19:40:00+03:00'
+  source_head: 0cfce0cf17bd232c8a82d92840b601919b9c89ce
+  status: completed
+module_evidence:
+  completion_commit: 1f0b73df4dd7f5dc2cf04ffddff11fc8465c741a
+  implementation_commit: bbc298e294bd9e7e6cca976d4a8077c52c4a51ff
+  packet: coordination/completion_packets/records/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.yaml
+  report: coordination/reports/completion/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.md
+  packet_schema: module_completion_packet_v0_2
+control_state_before:
+  roadmap_status: ready
+  module_execution_status: ready_for_module_pull
+  blueprint_review_status: not_started
+control_state_after:
+  roadmap_status: active
+  module_execution_status: completed_by_module
+  blueprint_review_status: not_started
+  meaning: module execution is complete while the Blueprint roadmap step remains active until explicit review decision
+intake_after_reconciliation:
+  status: READY_FOR_OPERATOR_REVIEW
+  result: passed
+  decision: null
+  automatic_acceptance: false
+  automatic_return: false
+operator_gate:
+  decision: null
+  automatic_acceptance: false
+  automatic_return: false
+  processed_review_record_created: false
+dependency_state:
+  telegram_bot: GATED
+  change_authorized: false
+boundaries:
+  module_repository_write: false
+  module_head_change: false
+  historical_packet_rewrite: false
+  operator_decision_created: false
+  roadmap_next_step_activated: false
+  telegram_dependency_change: false
+  automatic_commit: false
+result: TRACKING_EVENTS_BLUEPRINT_CONTROL_STATE_RECONCILED

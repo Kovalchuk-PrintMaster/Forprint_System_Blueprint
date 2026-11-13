@@ -1,0 +1,88 @@
+schema_version: forprint_dialogue_master_memory_v3_6_intake_manifest_v0_1
+source_archive_sha256: 7020ff54c92b3fcc3bc08bb4373c984f2f6e1016c6f28434a5d52ac938e803df
+source_generated_at: '2026-09-18T11:20:09+03:00'
+ingested_on: '2026-09-22'
+authority: DERIVED_AGGREGATE_NAVIGATION_NOT_CURRENT_RUNTIME_AUTHORITY
+source_counts:
+  source_dialogue_bundles: 34
+  unique_conversation_roots: 33
+  overlapping_continuation_layers: 1
+  items: 1002
+  evidence: 1168
+  relations: 426
+  anomalies: 278
+  source_open_loops: 231
+  artifact_events: 2345
+truth_layers:
+  A_dialogue_evidence: Literal recoverable historical statements/evidence.
+  B_normalized_history: Historical requirement/decision/plan/risk interpretation supported by A.
+  C_current_implementation: Must be verified against the live repository; not supplied by historical dialogue alone.
+embedded_17_09_source:
+  sha256: d9f7d00dcdd60fa4d423f905a899a3d057b1502bb5188264c3b8a3d6dc155412
+  byte_identical_to_supplied_primary_source: true
+  rule: Primary 17.09 source is expanded once in the historical-review area; the master archive retains its immutable
+    embedded copy.
+supersedes_preferred_navigation:
+  previous_version: 2026-09-15_v1_6
+  previous_archive_sha256: 368c40fb721c5ec629c6fce449d7e706b2230427c5a68bd3d5a68357f3f065bb
+  disposition: SUPERSEDED_AS_PREFERRED_MASTER_NAVIGATION_BUT_RETAINED_HISTORICALLY
+  reason: v3.6 expands the master from 13 unique roots / 14 history layers to 33 unique roots / 34 dialogue bundles
+    and adds broad cross-module history. The older archive remains immutable historical evidence but is no longer
+    the preferred master navigation entry.
+storage_policy: Store the v3.6 immutable archive once plus a thin extraction of primary navigation files. Do not
+  separately expand every embedded source bundle into this master directory.
+processing_boundary:
+  already_individually_integrated_blueprint_sources:
+  - DFTB_blueprint-source-label-2026-06-14
+  - DFTB_blueprint-2026-07-14
+  - DFTB_blueprint-2026-08-05
+  - DFTB_blueprint-2026-08-05-continuation
+  - DFTB_blueprint-2026-08-17
+  - DFTB_blueprint-2026-08-27
+  - DFTB_blueprint-preflight-2026-08-31
+  - DFTB_blueprint-2026-09-05
+  - DFTB_blueprint-2026-09-08
+  - DFTB_blueprint-2026-09-09
+  - DFTB_blueprint-2026-09-10
+  - DFTB_blueprint-2026-09-12
+  - DFTB_blueprint-2026-09-14-continuation
+  - DFTB-blueprint-source-label-2026-09-07-control-foundation
+  - DFTB-blueprint-2026-09-17
+  master_bundles_not_bulk_promoted_by_this_intake:
+  - DFTB-logistics-service-source-label-2026-06-10
+  - DFTB-library-source-label-2026-05-16
+  - DFTB-library-source-label-2026-07-05
+  - DFTB-operational-registry-source-label-2026-05-29
+  - DFTB-integration-gateway-source-label-2026-05-26
+  - DFTB-accounting-registry-source-label-2026-05-17
+  - DFTB-control-plane-source-label-2026-06-01
+  - DFTB-crm-source-label-2026-05-16
+  - DFTB-prepress-hub-source-label-2026-06-27
+  - DFTB-prepress-hub-source-label-2026-05-20
+  - DFTB-smm-assistant-source-label-2026-06-25
+  - DFTB-smm-assistant-source-label-2026-07-25
+  - DFTB-calculator-engine-filename-label-2026-10-09
+  - DFTB-telegram-bot-filename-label-2026-10-12
+  - DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  - DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  - DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  - DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+  - DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  reason: Master Memory is a navigation/index layer. Cross-module/business/history bundles must be reconciled source-by-source
+    before any Human Intent, roadmap or ownership conclusion is promoted.
+selected_extracted_navigation_files:
+- README.md
+- START_HERE.md
+- MASTER_MEMORY.yaml
+- AUTHORITY_EVOLUTION.md
+- DUPLICATE_EXCLUSION_POLICY.md
+- STANDARDS_AND_METHOD.md
+- SOURCE_COVERAGE_ROLLUP.yaml
+- chronology/DIALOGUE_CHRONOLOGY.md
+- chronology/DIALOGUE_CHRONOLOGY.yaml
+- concepts/CONCEPT_CHAINS.md
+- concepts/CONCEPT_CHAINS.yaml
+- concepts/CONFLICT_CLUSTERS.md
+- concepts/CONFLICT_CLUSTERS.yaml
+- current_audit/CURRENT_VERIFICATION_BACKLOG.md
+- current_audit/CURRENT_VERIFICATION_BACKLOG.yaml

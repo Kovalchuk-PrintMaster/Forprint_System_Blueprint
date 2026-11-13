@@ -1,0 +1,30 @@
+schema_version: blueprint_validation_baseline_portability_repair_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: "2026-07-31"
+  owner: forprint_system_blueprint
+  status: completed
+baseline:
+  source_commit: 8096b0151a386255098c83d70a8ddeadae7d07f9
+  branch: governance/module-workflow-command-architecture-v01
+findings:
+  - finding_id: fresh_worktree_runtime_report_bootstrap
+    severity: blocker
+    description: >-
+      The retention audit required ignored generated reports to exist before
+      the first full check could create them.
+  - finding_id: absolute_checkout_path_in_tracked_report
+    severity: blocker
+    description: >-
+      The tracked registry report embedded absolute manifest and checkout
+      paths and changed when validation ran from another Git worktree.
+repairs:
+  - generated rebuildable views may be absent before first generation
+  - tracked registry report paths are repository-relative
+  - regression tests cover fresh generation and worktree portability
+boundaries:
+  makefile_modified: false
+  module_make_template_modified: false
+  cross_repository_writes: false
+  external_rollout_released: false
+result: PASSED

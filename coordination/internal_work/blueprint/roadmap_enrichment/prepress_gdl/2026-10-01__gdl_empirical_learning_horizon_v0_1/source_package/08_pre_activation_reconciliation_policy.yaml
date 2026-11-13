@@ -1,0 +1,45 @@
+schema_version: forprint_gdl_pre_activation_reconciliation_policy_v0_1
+status: BLUEPRINT_POLICY_REQUEST_CANDIDATE
+purpose: >
+  Prevent a planned future contour from being executed blindly after the module,
+  roadmap, empirical evidence or architecture has changed.
+applies_to:
+  - every_future_GDL_contour_after_the_first
+  - optionally_first_contour_if_Blueprint_detects_material_drift_before_publication
+required_before_executable_prompt_publication:
+  inspect:
+    - current_prepress_HEAD_and_branch
+    - current_prepress_worktree_state
+    - current_module_status
+    - current_GDL_roadmap
+    - current_capability_catalog
+    - current_contract_inventory
+    - current_prompt_lifecycle_state
+    - current_empirical_findings
+    - current_product_playbooks
+    - prior_completed_GDL_contours
+    - current_Blueprint_directives
+    - current_Human_Intent
+    - pending_contour_amendments
+  reconcile:
+    - ownership
+    - naming
+    - dependencies
+    - already_implemented_equivalents
+    - newly_discovered_conflicts
+    - newly_proven_empirical_requirements
+    - explicit_deferrals
+    - worker_scope
+    - Makefile_operator_surface
+required_disposition:
+  allowed: [REUSE, EXTEND, ADAPT, REPLACE, NEW]
+release_decision:
+  if_no_material_drift: {publish_refined_execution_prompt: true}
+  if_material_drift:
+    execute_original_planned_text_verbatim: false
+    require_refresh_or_reconciliation: true
+  if_scope_no_longer_needed: {allow_supersede: true}
+  if_dependency_missing: {keep_queued: true}
+principle: >
+  A planned contour preserves intent, goal, boundary, dependencies and rationale.
+  It is not a frozen implementation instruction.

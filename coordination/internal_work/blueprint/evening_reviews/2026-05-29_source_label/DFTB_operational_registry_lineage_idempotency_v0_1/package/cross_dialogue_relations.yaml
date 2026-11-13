@@ -1,0 +1,42 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-operational-registry-source-label-2026-05-29
+authority_class: module_history_non_blueprint_authority_with_blueprint_governance_input
+relations:
+- type: module_history_precedes
+  from_bundle: DFTB-operational-registry-source-label-2026-05-29
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: Operational Registry bootstrap explicitly separates operational truth from Accounting/1C truth before later Blueprint dialogue records Accounting-vs-Operational
+    Registry ambiguity.
+- type: supports
+  from_bundle: DFTB-operational-registry-source-label-2026-05-29
+  to_bundle: DFTB-blueprint-2026-08-05
+  confidence: HIGH
+  note: Historical Operational Registry make-first/check/completion surfaces prefigure later project-wide command/completion governance.
+- type: supports
+  from_bundle: DFTB-operational-registry-source-label-2026-05-29
+  to_bundle: DFTB-blueprint-2026-09-05
+  confidence: MEDIUM
+  note: Timestamp-only churn avoidance and generated snapshot idempotency align with later self-cleaning/deterministic artifact governance.
+item_relations:
+- type: clarifies
+  from_item: IT-OPREG2905-0006
+  to_item: IT-BP1407-0019
+  confidence: HIGH
+  note: Early module history explicitly separates operational truth from Accounting/1C truth, informing later unresolved Accounting-vs-Operational Registry
+    architecture.
+- type: supports
+  from_item: IT-OPREG2905-0012
+  to_item: IT-BP0508-0012
+  confidence: HIGH
+  note: Operational Registry corrected Make check is non-mutating, consistent with later project-wide read-only check invariant.
+- type: supports
+  from_item: IT-OPREG2905-0010
+  to_item: IT-BP0509-0016
+  confidence: MEDIUM
+  note: No timestamp-only churn anticipates later deterministic/self-cleaning generated-state rules.
+- type: supports
+  from_item: IT-OPREG2905-0021
+  to_item: IT-BP0508C-0010
+  confidence: MEDIUM
+  note: Explicit task packet finalization supports later standardized completion packet lifecycle.

@@ -1,0 +1,264 @@
+schema_version: central_listener_dispatcher_monitor_contract_v0_1
+status: implemented_reference_v0_1
+authority: forprint_system_blueprint
+architecture:
+  owner: BLUEPRINT_CONTROL_PLANE
+  central_runtime_count: 1
+  per_module_listener: false
+  separate_ai_assistant: false
+  separate_module_or_repo: false
+  implementation_package: scripts/coordination/control_plane
+  initial_execution_mode: EXPLICIT_ONE_SHOT_CLI_STEP
+  daemon_required: false
+  systemd_required: false
+  telegram_required: false
+artifacts:
+  event_cursor: {schema_version: forprint_control_plane_event_cursor_v0_1, runtime_state_authority: derived_projection}
+  dispatch_intent:
+    schema_version: forprint_dispatch_intent_v0_1
+    states: [BLOCKED, READY_FOR_EXPLICIT_DISPATCH]
+    ready_is_dispatch: false
+  monitor_projection: {schema_version: forprint_execution_monitor_projection_v0_1, source_of_truth: false, unknown_telemetry: not_observable}
+eligibility:
+  module_wip_limit: 1
+  blocked_launch_request_prevents_ready_intent: true
+  valid_approve_required_for_ready_intent: true
+  dry_run_ready_worker_invocation_required: true
+  module_prompt_identity_alignment_required: true
+  module_head_alignment_required: true
+event_integration:
+  q5_contract_reused: true
+  q5_existing_family_set_preserved: true
+  q5_new_family_emission_allowed_by_v0_1: false
+  future_new_event_family_requires_versioned_q5_review: true
+operator_attention:
+  q6_semantics_reused: true
+  attention_is_authority: false
+execution_boundaries:
+  worker_process_start_allowed: false
+  prompt_claim_allowed: false
+  module_repository_write_allowed: false
+  blueprint_accept_allowed: false
+  next_prompt_release_allowed: false
+  daemon_start_allowed: false
+semantic_acceptance:
+  owner: INSPECTOR_AND_HUMAN_GATE
+  monitor_may_accept: false
+
+cf09_task_execution_preflight:
+  version: v0_1
+  purpose: >-
+    Prepare one bounded TASK_EXECUTION package by reusing Work Front,
+    Execution Profile and Handoff v2 gates before any worker launch.
+  implementation: scripts/coordination/control_plane/dispatch_intent.py::prepare_cf09_task_execution
+  binding_policy:
+    work_front:
+      required: true
+      source: explicit_dispatcher_input
+    execution_profile:
+      required: true
+      source: explicit_dispatcher_input
+      work_front_derivation_allowed_only_where_contracted: true
+    task_prompt_id:
+      required: true
+      source: explicit_dispatcher_input
+      implicit_work_front_derivation: false
+    task_module_root:
+      required: true
+      source: explicit_dispatcher_input
+      implicit_work_front_derivation: false
+    module:
+      required: false
+      source: optional_explicit_dispatcher_input
+    procedure:
+      exactly_one_required:
+        - procedure_id
+        - procedure_not_required_reason
+      implicit_work_front_derivation: false
+  required_state: READY_FOR_EXPLICIT_DISPATCH
+  ready_is_dispatch: false
+  worker_dispatch_allowed: false
+  external_dispatch_allowed: false
+  release_push_merge_authority: false
+  canonical_attempt_ledger_write_in_first_slice: false
+  derived_dry_attempt_evidence_root: tmp/dispatcher_attempts/
+  required_safety_markers:
+    EXECUTION_AUTHORITY_GRANTED: "false"
+    DISPATCH_AUTHORITY_GRANTED: "false"
+    WORKER_DISPATCH_PERFORMED: "false"
+  human_boundary: EXPLICIT_DISPATCH_DECISION
+
+cf09_attempt_result_integration:
+  version: v0_1
+  purpose: >-
+    Integrate Dispatcher with existing Handoff v2 result/freshness validation,
+    the canonical Execution Attempt Ledger, structured telemetry projection,
+    bounded retry decisions and durable resume coordinates.
+  implementation: scripts/coordination/control_plane/dispatch_intent.py::finalize_cf09_task_execution
+  reuse_before_create:
+    assistant_handoff_v2_result_validation: true
+    assistant_handoff_v2_freshness_resume: true
+    execution_attempt_ledger: true
+    governed_procedure_run_evidence: true
+  canonical_attempt_history:
+    runtime: scripts/coordination/execution_attempt_ledger_v0_1.py
+    append_api: append_record
+    fact_authority_only: true
+    parallel_ledger_created: false
+  result_validation:
+    runtime: scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+    api: validate_result_for_return
+    bounded_self_repair_reused: true
+    freshness_resume_reused: true
+    invalid_result_appended_to_attempt_ledger: false
+  telemetry:
+    projection_root: tmp/dispatcher_telemetry/
+    source_of_truth: false
+    attempt_id_binding_required: true
+    manifest_binding_required: true
+  retry:
+    status_eligible_for_automatic_retry_decision:
+      - RETRYABLE_FAILURE
+    retry_creates_new_attempt_id: true
+    explicit_dispatch_required_after_retry_decision: true
+    retry_launch_performed_by_this_slice: false
+    budget_source: assistant_handoff_v2_result_contract_v0_1.yaml
+    hard_ceiling_must_not_be_exceeded: true
+    observation_first: true
+  resume:
+    durable_resume_coordinates_reused_from_validated_result: true
+    full_conversation_replay: false
+    manifest_and_attempt_binding_required: true
+    completed_procedure_nodes_and_evidence_may_be_reused_where_present: true
+  authority:
+    worker_launch: false
+    external_dispatch: false
+    release: false
+    push: false
+    merge: false
+    cf10_started: false
+
+cf09_assistant_ack_gate:
+  version: v0_1
+  canonical_ack_contract:
+    path: coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+    section: ack_envelope
+    parallel_ack_schema_created: false
+    exact_fields_reused: true
+    aliases_allowed: false
+    additional_fields_allowed: false
+  state_transition:
+    before_ack: AWAITING_ASSISTANT_ACK
+    after_valid_ack: READY_FOR_EXPLICIT_DISPATCH
+    ready_before_ack: false
+    explicit_dispatch_required_after_ack: true
+  trusted_expectation:
+    accepted_sources:
+      - TRUSTED_HANDOFF_PACK
+      - DISPATCHER_CANONICAL_BINDING
+    exact_match_required: true
+    dispatcher_interprets_ack_field_value_schema: false
+  binding_checks:
+    manifest_hash_matches_prepared_execution: true
+    launch_mode_must_be_TASK_EXECUTION: true
+    all_other_ack_fields_exact_match_trusted_expected_ack: true
+  authority:
+    ack_grants_execution_authority: false
+    ack_grants_dispatch_authority: false
+    worker_launch: false
+    external_dispatch: false
+    release: false
+    push: false
+    merge: false
+    cf10_started: false
+
+cf10_internal_zero_stage_exception:
+  version: v0_1
+  purpose: Permit exactly one early Blueprint-internal CF-10 zero-stage pilot to proceed through existing TASK_EXECUTION preparation
+    while the future broad BLUEPRINT_AI_TRIAL_READY gate remains false. This exception is eligibility only and never substitutes
+    for Assistant ACK, explicit dispatch decision or launch.
+  broad_trial_gate:
+    signal: BLUEPRINT_AI_TRIAL_READY
+    required_value_for_this_exception: false
+    mutation_allowed_by_cf10_exception: false
+    cf19_cf20_gate_bypassed_globally: false
+  exact_binding:
+    work_id: u180j
+    module: forprint_system_blueprint
+    work_front: coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+    task_prompt_id: cf10-zero-stage-dispatch-boundary-regression-v0-1
+    task_module_root: .
+    execution_profile: light-maintenance
+    procedure_id: governed_canonical_mutation
+    worker_id: worker-01
+    attempt_id: cf10-u180j-a001
+  mode:
+    operator_mode: MANUAL
+    worker_mode: SHADOW
+    candidate_only: true
+    generalization_allowed: false
+  choke_points_preserved:
+    work_front_validation: true
+    execution_profile_resolution: true
+    governed_procedure_binding: true
+    handoff_v2_task_execution: true
+    assistant_ack_required: true
+    ready_before_ack: false
+    explicit_dispatch_decision_required_after_ack: true
+    exception_itself_is_dispatch: false
+  slice4_boundary:
+    real_workspace_provisioning: true
+    workspace_state: PROVISIONED_NOT_DISPATCHED
+    assistant_ack_validation: false
+    explicit_dispatch_decision: false
+    worker_process_launch: false
+    canonical_attempt_ledger_append: false
+    result_ingest: false
+  authority:
+    execution_authority_granted: false
+    dispatch_authority_granted: false
+    worker_launch: false
+    external_dispatch: false
+    release: false
+    push: false
+    merge: false
+    foreign_repository_write: false
+    automatic_accept: false
+
+# cf10-first-worker-launch-extension-v0-1
+cf10_first_internal_actual_worker_launch_v0_1:
+  purpose: >-
+    Authorize exactly one Blueprint-internal CF-10 zero-stage worker process only
+    after the existing TASK_EXECUTION preparation and Assistant ACK gates.
+  exact_scope:
+    work_id: u180j
+    module: forprint_system_blueprint
+    worker_id: worker-01
+    attempt_id: cf10-u180j-a001
+    work_front_id: wf-cf10-zero-stage-dispatch-boundary-regression-v0-1
+    profile_ref: light-maintenance@r1
+    procedure_id: governed_canonical_mutation
+    runtime_provider: github_copilot_cli
+  state_sequence:
+    - AWAITING_ASSISTANT_ACK
+    - READY_FOR_EXPLICIT_DISPATCH
+    - EXPLICIT_DISPATCH_DECISION_RECORDED
+    - PROCESS_START
+  ack:
+    expectation_source: DISPATCHER_CANONICAL_BINDING
+    exact_match_required: true
+    grants_authority: false
+  process_launch:
+    implementation: scripts/coordination/control_plane/worker_runtime/launcher.py
+    argv_no_shell: true
+    cwd_is_isolated_attempt_workspace_repo: true
+    append_attempt_fact_only_after_process_start: true
+    exactly_one_process_for_a001: true
+  authority:
+    broad_dispatch: false
+    external_dispatch: false
+    release: false
+    push: false
+    merge: false
+    foreign_repository_write: false
+    automatic_accept: false

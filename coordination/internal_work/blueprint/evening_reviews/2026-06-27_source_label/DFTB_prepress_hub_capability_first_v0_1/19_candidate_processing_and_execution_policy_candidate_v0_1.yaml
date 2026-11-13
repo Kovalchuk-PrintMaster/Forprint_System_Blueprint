@@ -1,0 +1,70 @@
+schema_version: forprint_prepress_candidate_processing_execution_policy_candidate_v0_1
+candidate_id: prepress_candidate_processing_and_execution_policy
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: forprint_prepress_hub
+supporting_or_adjacent_owners:
+- forprint_system_administration
+- verification_lab
+- calculator_engine
+- forprint_library
+purpose: Define controlled multi-candidate file processing, risk-aware tool selection and the Unix-first / bounded
+  Windows quality-executor split.
+candidate_contract:
+  candidate_processing:
+  - one_input_can_generate_multiple_controlled_candidates
+  - candidate_identity_and_strategy
+  - output_asset_reference
+  - preview_reference
+  - warnings
+  - visual_or_content_loss_risk
+  - automation_confidence
+  - operator_or_client_selection_when_required
+  tool_order_policy:
+  - file_type
+  - task
+  - risk_score
+  - capability_and_quality_evidence
+  - no_global_tool_superiority_assumption
+  unix_first:
+  - technical_inspection
+  - effective_dpi_and_aspect_checks
+  - edge_diagnostics
+  - deterministic_resize_crop_canvas_or_bleed_candidates
+  - image_to_pdf_where_appropriate
+  - structured_reports
+  windows_quality_executor:
+  - photoshop_specific_layers_or_psd_psb
+  - smart_objects_or_actions_scripts
+  - content_aware_or_quality_specific_processing
+  - cases_where_cli_output_is_visually_insufficient
+  - orchestration_policy_remains_outside_workstation
+  raster_policy:
+  - effective_dpi_and_aspect_are_separate_checks
+  - minimum_effective_dpi_is_configurable
+  - max_automatic_nonproportional_adjustment_is_configurable
+  - outside_policy_requires_confirmation_or_review
+  - k_only_text_enhancement_is_heuristic_and_safety_gated
+  observability:
+  - every_mutation_or_candidate_has_preview
+  - machine_report
+  - human_explanation_when_useful
+  - source_revision_and_output_provenance
+historical_examples_not_constants:
+- 25 DPI minimum
+- 3-5 percent automatic distortion tolerance
+- 80-90 percent Unix-native coverage estimate
+- specific bleed strategy ordering
+reuse_first_checks_before_promotion:
+- live Prepress processing/runtime implementation
+- current SysAdmin Windows station/device execution contract
+- current deterministic probe and Asset Fact Packet work
+- Verification Lab visual fixture/evaluation capability
+- current Library print/profile policy
+non_goals:
+- hard-code PDF then Photoshop then Illustrator for all files
+- make Windows workstation the central orchestrator
+- hard-code historical DPI/distortion examples
+- enable blind K-only conversion
+- declare one processing tool globally best
+- mutate Prepress runtime from this planning intake

@@ -1,0 +1,28 @@
+schema_version: blueprint_artifact_retention_consistency_audit_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T12:55:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: dc450df20da13a50d28916d1242a6ea095ee30fd
+  result: GREEN
+sources:
+  artifact_authority_policy: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  artifact_authority_retention_map: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  snapshot_comparison_gate: coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+runtime_report: reports/artifact_retention_consistency_report.yaml
+summary:
+  artifact_class_count: 5
+  failed_artifact_classes: 0
+  snapshot_pair_count: 4
+  protected_snapshot_file_count: 8
+  failed_snapshot_pairs: 0
+  history_review_item_count: 0
+  generated_snapshot_overlap_count: 0
+  policy_error_count: 0
+history_review_items: []
+decisions:
+  blocking_retention_violations: 0
+  historical_snapshot_hash_drift: 0
+  generated_views_used_as_snapshots: 0
+  history_review_items_are_bounded: true
+  external_rollout_state: gated

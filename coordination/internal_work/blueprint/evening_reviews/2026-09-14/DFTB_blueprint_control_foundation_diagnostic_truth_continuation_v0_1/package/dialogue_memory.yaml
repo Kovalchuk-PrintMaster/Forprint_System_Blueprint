@@ -1,0 +1,1236 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-09-14-continuation
+source:
+  source_id: SRC-blueprint-2026-09-14-continuation
+  title: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26 (continuation delta)
+  source_type: chatgpt_mhtml_overlapping_continuation
+  source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  source_hash_sha256: 9911992845f537bfc18eaae65c2193c0e767c6ce0e4b927917312f9db133b707
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 12:08:33 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial_delta
+  completeness_notes: Full export has 61 message blocks. 18 duplicate message IDs overlap the 12.09 source and are not re-indexed. 43 messages are new;
+    5 messages present in 12.09 are absent from this re-export. Most intermediate new user turns are attachment placeholders without embedded attachment
+    content.
+extraction:
+  created_at: '2026-09-15T13:28:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_delta_only_continuation_reconstruction
+  implementation_verification_performed: false
+  notes: Only new message IDs are normalized. Shared 12.09 messages remain authoritative in the base DFTB package and are not duplicated here.
+evidence_index:
+- evidence_id: EV-BP1409-0001
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'n: forprint_u180b_cf02_active_double_write_gate_hardening_result_v0_1 status: PASS work_id: u180b canonical_lifecycle_state: ACTIVE roadmap_sync:
+    IN_SYNC control_foundation_step_state_field_count: 0 active_control_foundation_double_write_removed: true legacy_continuity_terminal_state_field_count:
+    12 legacy_terminal_state_retirement_pending: true lifecycle_reconciliation_gate_actions: - plan - activate - checkpoint - close lifecycle_reconciliation_gate_fail_c'
+  quote_whitespace_normalized: true
+  context_before: CF-02 active double-write gate hardening reports historical PASS.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf02
+- evidence_id: EV-BP1409-0002
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'VE roadmap_sync: IN_SYNC control_foundation_step_state_field_count: 0 active_control_foundation_double_write_removed: true legacy_continuity_terminal_state_field_count:
+    12 legacy_terminal_state_retirement_pending: true lifecycle_reconciliation_gate_actions: - plan - activate - checkpoint - close lifecycle_reconciliation_gate_fail_closed_when_installed:
+    true standalone_continuity_portability_preserved: true current_lifecycle_core_hash_pinned_under_u180b: true checkpoint_gate_current_cf02_pass: true'
+  quote_whitespace_normalized: true
+  context_before: Active Control Foundation state double-write is reported removed.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - double_write
+- evidence_id: EV-BP1409-0003
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'e_field_count: 0 active_control_foundation_double_write_removed: true legacy_continuity_terminal_state_field_count: 12 legacy_terminal_state_retirement_pending:
+    true lifecycle_reconciliation_gate_actions: - plan - activate - checkpoint - close lifecycle_reconciliation_gate_fail_closed_when_installed: true standalone_continuity_portability_preserved:
+    true current_lifecycle_core_hash_pinned_under_u180b: true checkpoint_gate_current_cf02_pass: true auto_next_activation_allowed: false worker_dispa'
+  quote_whitespace_normalized: true
+  context_before: Legacy continuity terminal-state hints remain pending retirement.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - migration
+- evidence_id: EV-BP1409-0004
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '_state_field_count: 12 legacy_terminal_state_retirement_pending: true lifecycle_reconciliation_gate_actions: - plan - activate - checkpoint -
+    close lifecycle_reconciliation_gate_fail_closed_when_installed: true standalone_continuity_portability_preserved: true current_lifecycle_core_hash_pinned_under_u180b:
+    true checkpoint_gate_current_cf02_pass: true auto_next_activation_allowed: false worker_dispatch_authority: false release_authority: false foreign_repository_write_performed:
+    fal'
+  quote_whitespace_normalized: true
+  context_before: Reconciliation gate covers plan/activate/checkpoint/close and is fail-closed when installed.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - lifecycle_gate
+- evidence_id: EV-BP1409-0005
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'hash_pinned_under_u180b: true checkpoint_gate_current_cf02_pass: true auto_next_activation_allowed: false worker_dispatch_authority: false release_authority:
+    false foreign_repository_write_performed: false forprint_library_modified: false next_action: RETIRE_LEGACY_CONTINUITY_TERMINAL_STATE_HINTS_THEN_CHECKPOINT_VALIDATE_CLOSE_CF02
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: CF-02 hardening preserves manual authority boundaries.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - authority_boundary
+- evidence_id: EV-BP1409-0006
+  speaker: user
+  locator:
+    conversation_turn: 181
+    turn_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    message_id: ed9631d2-1bea-4a3b-9adb-805ac5252ca2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '_write_performed: false forprint_library_modified: false next_action: RETIRE_LEGACY_CONTINUITY_TERMINAL_STATE_HINTS_THEN_CHECKPOINT_VALIDATE_CLOSE_CF02
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Next action is retirement of legacy terminal hints before CF-02 close.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - next_action
+- evidence_id: EV-BP1409-0007
+  speaker: user
+  locator:
+    conversation_turn: 193
+    turn_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    message_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'txt Document schema_version: forprint_u180b_cf02_closure_failure_v0_1 status: FAIL error: ''Fail: command failed rc=2: make roadmap-sync-check''
+    observed_u180b_state_after_failure: CLOSED observed_u180b_sequence_after_failure: 30 canonical_state_may_have_advanced: true do_not_rerun_blindly: true
+    auto_next_activation_performed: false worker_dispatch_performed: false release_performed: false foreign_repository_write_performed: false forprint_library_modified:
+    fa'
+  quote_whitespace_normalized: true
+  context_before: CF-02 closure path later fails at roadmap-sync-check.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf02_failure
+- evidence_id: EV-BP1409-0008
+  speaker: user
+  locator:
+    conversation_turn: 193
+    turn_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    message_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'tus: FAIL error: ''Fail: command failed rc=2: make roadmap-sync-check'' observed_u180b_state_after_failure: CLOSED observed_u180b_sequence_after_failure:
+    30 canonical_state_may_have_advanced: true do_not_rerun_blindly: true auto_next_activation_performed: false worker_dispatch_performed: false release_performed:
+    false foreign_repository_write_performed: false forprint_library_modified: false next_action: RETURN_FAILURE_FOR_STATE_AWARE_CF02_CLOSURE_RECOVERY Show
+    more Show less'
+  quote_whitespace_normalized: true
+  context_before: Despite failure, canonical u180b state is observed CLOSED.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - partial_advance
+- evidence_id: EV-BP1409-0009
+  speaker: user
+  locator:
+    conversation_turn: 193
+    turn_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    message_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'state_after_failure: CLOSED observed_u180b_sequence_after_failure: 30 canonical_state_may_have_advanced: true do_not_rerun_blindly: true auto_next_activation_performed:
+    false worker_dispatch_performed: false release_performed: false foreign_repository_write_performed: false forprint_library_modified: false next_action:
+    RETURN_FAILURE_FOR_STATE_AWARE_CF02_CLOSURE_RECOVERY Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Failure explicitly says canonical state may have advanced.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - state_aware_recovery
+- evidence_id: EV-BP1409-0010
+  speaker: user
+  locator:
+    conversation_turn: 193
+    turn_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    message_id: 0cf56976-2d65-44a7-99d1-5b25736e8a0d
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '0b_sequence_after_failure: 30 canonical_state_may_have_advanced: true do_not_rerun_blindly: true auto_next_activation_performed: false worker_dispatch_performed:
+    false release_performed: false foreign_repository_write_performed: false forprint_library_modified: false next_action: RETURN_FAILURE_FOR_STATE_AWARE_CF02_CLOSURE_RECOVERY
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Blind rerun is explicitly forbidden.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - state_aware_recovery
+- evidence_id: EV-BP1409-0011
+  speaker: user
+  locator:
+    conversation_turn: 197
+    turn_id: b8fe861e-74d2-4bc4-aa58-ac2d042371ac
+    message_id: b8fe861e-74d2-4bc4-aa58-ac2d042371ac
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: перегенеруй скрипт пыд ыншою назвою бо цей не повний прийшов
+  quote_whitespace_normalized: true
+  context_before: Owner reports script delivery was incomplete and asks regeneration under another name.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - artifact_delivery
+- evidence_id: EV-BP1409-0012
+  speaker: user
+  locator:
+    conversation_turn: 199
+    turn_id: d811cdae-2674-42f6-9975-a2c46033d0b5
+    message_id: d811cdae-2674-42f6-9975-a2c46033d0b5
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: знову обрызаний давай ынше ымя ы всередины змыни коду зроби для надыйносты косметичны
+  quote_whitespace_normalized: true
+  context_before: Second delivery is also truncated; owner requests another distinct name and cosmetic code change for delivery reliability.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - artifact_delivery
+- evidence_id: EV-BP1409-0013
+  speaker: user
+  locator:
+    conversation_turn: 273
+    turn_id: 94109d9e-d04c-464e-8a0f-e141b103c527
+    message_id: 94109d9e-d04c-464e-8a0f-e141b103c527
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: Так дивися ну у нас по-перше лізе оцей варіант з товарами на прорахунок в головне меню верхнє його там не має бути він має бути тут справа над
+    цією сірі полосі вверху бути і там вже кількість має представлятися воно тут взагалі зайве його там ніколи не було ми можемо там перечитати як зроблено
+    на тому сайті де хостинг лежить щоб тобі можливо було простіше ми можемо дати задачу нашому коокеру щоб він там підготував ця полоса сильно довга ще
+    лишилас
+  quote_whitespace_normalized: true
+  context_before: A Website/UI task briefly appears in the continuation.
+  context_after: null
+  evidence_role:
+  - owner_request
+  - scope_candidate
+- evidence_id: EV-BP1409-0014
+  speaker: user
+  locator:
+    conversation_turn: 275
+    turn_id: 78e53220-b325-4b40-8ef8-b691b1b40ae2
+    message_id: 78e53220-b325-4b40-8ef8-b691b1b40ae2
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: Pasted text.txt Document це не наша робота її не робимо продовжуємо свое робити
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly rejects the Website/UI branch as not this assistant/module's work.
+  context_after: null
+  evidence_role:
+  - owner_scope_correction
+  - scope_exclusion
+- evidence_id: EV-BP1409-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 292
+    turn_id: 3d8c262d-146d-4f06-9e1d-1802d92ae31d
+    message_id: 87f7ae61-c6d4-4604-b6b3-150542ef10c8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '0102 підтвердив усе, крім одного останнього моменту: source-B provenance закритий, focused checks зелені, handoff/context/roadmap/knowledge/semantic
+    перевірки проходять, але повний Pytest всередині make check усе ще падає на одному aggregate blocker . u180e при цьому лишився ACTIVE / seq42 , жодної
+    canonical mutation не було. Тепер не треба знову ганяти весь make check . Я підготувала read-only 0103, який читає свіжий reports/diagnostics/blueprint_check_rep'
+  quote_whitespace_normalized: true
+  context_before: By u180e, source-B provenance and multiple focused/semantic/context checks are reported closed/green.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - u180e
+- evidence_id: EV-BP1409-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 292
+    turn_id: 3d8c262d-146d-4f06-9e1d-1802d92ae31d
+    message_id: 87f7ae61-c6d4-4604-b6b3-150542ef10c8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: ', handoff/context/roadmap/knowledge/semantic перевірки проходять, але повний Pytest всередині make check усе ще падає на одному aggregate blocker
+    . u180e при цьому лишився ACTIVE / seq42 , жодної canonical mutation не було. Тепер не треба знову ганяти весь make check . Я підготувала read-only
+    0103, який читає свіжий reports/diagnostics/blueprint_check_report_full.log , витягує точний failing pytest node , і повторно запускає тільки його без
+    cache. Це покаже, '
+  quote_whitespace_normalized: true
+  context_before: One aggregate full-pytest blocker remains while u180e stays ACTIVE and no canonical mutation occurs.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - test_blocker
+- evidence_id: EV-BP1409-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 292
+    turn_id: 3d8c262d-146d-4f06-9e1d-1802d92ae31d
+    message_id: 87f7ae61-c6d4-4604-b6b3-150542ef10c8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: ому лишився ACTIVE / seq42 , жодної canonical mutation не було. Тепер не треба знову ганяти весь make check . Я підготувала read-only 0103, який
+    читає свіжий reports/diagnostics/blueprint_check_report_full.log , витягує точний failing pytest node , і повторно запускає тільки його без cache. Це
+    покаже, чи це справжня детермінована помилка, чи full-suite order/state leak. Завантажити 0103__diagnose_remaining_full_pytest_blocker_after_0102_v0_1.py
+    SHA256=6415debfc9d3729924d6d1e1993eae5
+  quote_whitespace_normalized: true
+  context_before: Assistant chooses targeted diagnosis rather than rerunning the entire public check.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - diagnostics
+- evidence_id: EV-BP1409-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 292
+    turn_id: 3d8c262d-146d-4f06-9e1d-1802d92ae31d
+    message_id: 87f7ae61-c6d4-4604-b6b3-150542ef10c8
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'ня детермінована помилка, чи full-suite order/state leak. Завантажити 0103__diagnose_remaining_full_pytest_blocker_after_0102_v0_1.py SHA256=6415debfc9d3729924d6d1e1993eae5479d12a41535fb386c45c5d5bfc4b9bc8
+    BYTES=11092 LINES=325 SYNTAX_COMPILE=PASS PY_COMPILE=PASS READ_ONLY=true Запускай: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    .venv_blueprint/bin/python -u tmp.py Ключовий фінал буде: FAILED_TEST_COUNT=... FAILED_NODE=... FOCUSED_RERUN_PASS=... CLASSIFIC'
+  quote_whitespace_normalized: true
+  context_before: Read-only 0103 targets the precise failing pytest node.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - diagnostics
+- evidence_id: EV-BP1409-0019
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'cker_diagnostic_v0_1 status: PASS_READ_ONLY_DIAGNOSTIC work_id: u180e lifecycle_state: ACTIVE lifecycle_sequence: 42 roadmap_sync: IN_SYNC roadmap_status:
+    ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-04:current=CF-05:next=CF-06:ready=CF-06 full_log_path: reports/diagnostics/blueprint_check_report_full.log
+    full_log_sha256: b60e9b5b329025f7b81c9990978284f64c7756d396f0267e229f06680ea9f17f failed_nodes: - tests/validation/test_blueprint_controlled_failure_wri'
+  quote_whitespace_normalized: true
+  context_before: Read-only diagnostic reports u180e ACTIVE at sequence 42.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - u180e
+- evidence_id: EV-BP1409-0020
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: ' lifecycle_state: ACTIVE lifecycle_sequence: 42 roadmap_sync: IN_SYNC roadmap_status: ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-04:current=CF-05:next=CF-06:ready=CF-06
+    full_log_path: reports/diagnostics/blueprint_check_report_full.log full_log_sha256: b60e9b5b329025f7b81c9990978284f64c7756d396f0267e229f06680ea9f17f
+    failed_nodes: - tests/validation/test_blueprint_controlled_failure_write_flow_contract.py::test_controlled_failure_sources_are_exact failure_secti'
+  quote_whitespace_normalized: true
+  context_before: Diagnostic reports CF-04 previous, CF-05 current, CF-06 next/ready.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - roadmap_projection
+- evidence_id: EV-BP1409-0021
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '/validation/test_blueprint_controlled_failure_write_flow_contract.py::test_controlled_failure_sources_are_exact failure_section: - ===================================
+    FAILURES =================================== - __________________ test_controlled_failure_sources_are_exact ___________________ - '''' - '' def test_controlled_failure_sources_are_exact()
+    -> None:'' - ''> assert {'' - '' path: _sha256(ROOT / path)'' - '' for path in EXPECTED_HASHES'' - '' } == EXPECTED_HASHES'' - ''E AssertionError: as'
+  quote_whitespace_normalized: true
+  context_before: The only failing node is the controlled-failure source-hash contract test.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - test_failure
+- evidence_id: EV-BP1409-0022
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'ing items:'' - ''E {''''scripts/coordination/build_context_bundle.py'''': ''''73769b9117e5facfc2b338397c343ab90b545d2e3886e79004d0739f94214786''''}
+    != {''''scripts/coordination/build_context_bundle.py'''': ''''099b83127d8fb310179efff7f0a4745017cda5c6f7baffc09ff754bece63fe89''''}'' - E Use -v to
+    get more diff - '''' - ''tests/validation/test_blueprint_controlled_failure_write_flow_contract.py:57: AssertionError'' - ===========================
+    short test summary info ==============='
+  quote_whitespace_normalized: true
+  context_before: Observed build_context_bundle hash differs from expected old 099b pin.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - hash_pin
+- evidence_id: EV-BP1409-0023
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'e_write_flow_contract.py::test_controlled_failure_sources_are_exact - 1 failed, 1022 passed, 32 skipped in 96.72s (0:01:36) - '''' - ''------------------------------------------------------------------------------------------------''
+    - STDERR - <empty> - '''' - ================================================================================================ - ''[3] Current release
+    projection'' - ''check_id: current_release_projection_validation'' - ''group: core_quality'' - ''status: OK'' - ''r'
+  quote_whitespace_normalized: true
+  context_before: Historical full log shows one failure among an otherwise large green suite.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - test_summary
+- evidence_id: EV-BP1409-0024
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'Coordination Release - ''base_release: v0.4 PROMOTED/CLOSED/SEALED'' - ''hardening_release: v0.4.1 ACTIVE_CURRENT'' - ''legacy_compatibility:
+    advisory / nonblocking'' - ''roadmap_health: minimum=5 target=8 maximum=none'' - ''prompt_buffer: minimum=2 target=3 maximum=none'' - ''errors: -''
+    - '''' - ''------------------------------------------------------------------------------------------------'' - STDERR - <empty> - '''' - ================================================================================'
+  quote_whitespace_normalized: true
+  context_before: Historical current-release projection reports v0.4 sealed and v0.4.1 active.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - release_projection
+- evidence_id: EV-BP1409-0025
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '1 ACTIVE_CURRENT'' - ''legacy_compatibility: advisory / nonblocking'' - ''roadmap_health: minimum=5 target=8 maximum=none'' - ''prompt_buffer:
+    minimum=2 target=3 maximum=none'' - ''errors: -'' - '''' - ''------------------------------------------------------------------------------------------------''
+    - STDERR - <empty> - '''' - ================================================================================================ - ''[4] Blueprint validation''
+    - ''check_id: blueprint_validation'' - ''grou'
+  quote_whitespace_normalized: true
+  context_before: Historical health projection gives roadmap and prompt-buffer targets.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - planning_health
+- evidence_id: EV-BP1409-0026
+  speaker: user
+  locator:
+    conversation_turn: 293
+    turn_id: 842230da-3884-4c35-a28e-0530d08e8964
+    message_id: 842230da-3884-4c35-a28e-0530d08e8964
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '---------------------------------------------------------'' - STDOUT - BLUEPRINT_SEMANTIC_STRUCTURE=PASS - '''' - ''------------------------------------------------------------------------------------------------''
+    - STDERR - <empty> - '''' - ================================================================================================ - ''[7] Outgoing prompts''
+    - ''check_id: outgoing_prompts_validation'' - ''group: coordination'' - ''status: OK'' - ''return_code: 0'' - ''duration_seconds: 0.10'
+  quote_whitespace_normalized: true
+  context_before: Semantic-structure validation is green in the same diagnostic.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - semantic_validation
+- evidence_id: EV-BP1409-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'деталь: він класифікував це як order/state-dependent failure, але сам full_log фактично застарілий — у ньому досі старий pin 099b... , тоді як
+    поточний test уже містить 7376... , і focused rerun проходить. Тобто зараз треба відділити дві речі: чи справді повний pytest на поточному working tree
+    падає, чи падає тільки ізольований public make check через спосіб materialization/capture. Підготувала read-only 0104: Завантажити 0104__diagnose_current_tree_vs_public_check_pytest_v'
+  quote_whitespace_normalized: true
+  context_before: Assistant identifies the previously used full log as stale relative to the current pin.
+  context_after: null
+  evidence_role:
+  - assistant_correction
+  - diagnostic_freshness
+- evidence_id: EV-BP1409-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'сі старий pin 099b... , тоді як поточний test уже містить 7376... , і focused rerun проходить. Тобто зараз треба відділити дві речі: чи справді
+    повний pytest на поточному working tree падає, чи падає тільки ізольований public make check через спосіб materialization/capture. Підготувала read-only
+    0104: Завантажити 0104__diagnose_current_tree_vs_public_check_pytest_v0_1.py SHA256=be6cb6d62ed3e90aa98c02ed4d416742943fa5b9cc7ee1094bb6bab81cdb2c18
+    BYTES=13641 LINES=380 SYNTA'
+  quote_whitespace_normalized: true
+  context_before: Focused rerun passes against the current test/source state.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - diagnostic_freshness
+- evidence_id: EV-BP1409-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '.. , і focused rerun проходить. Тобто зараз треба відділити дві речі: чи справді повний pytest на поточному working tree падає, чи падає тільки
+    ізольований public make check через спосіб materialization/capture. Підготувала read-only 0104: Завантажити 0104__diagnose_current_tree_vs_public_check_pytest_v0_1.py
+    SHA256=be6cb6d62ed3e90aa98c02ed4d416742943fa5b9cc7ee1094bb6bab81cdb2c18 BYTES=13641 LINES=380 SYNTAX_COMPILE=PASS PY_COMPILE=PASS READ_ONLY=true Він
+    не запускає make check повторно. Він: доводить'
+  quote_whitespace_normalized: true
+  context_before: The next question explicitly separates current working-tree truth from isolated public-check behavior.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - test_isolation
+- evidence_id: EV-BP1409-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: 'осіб materialization/capture. Підготувала read-only 0104: Завантажити 0104__diagnose_current_tree_vs_public_check_pytest_v0_1.py SHA256=be6cb6d62ed3e90aa98c02ed4d416742943fa5b9cc7ee1094bb6bab81cdb2c18
+    BYTES=13641 LINES=380 SYNTAX_COMPILE=PASS PY_COMPILE=PASS READ_ONLY=true Він не запускає make check повторно. Він: доводить, чи blueprint_check_report_full.log
+    stale відносно поточного pin; запускає повний pytest напряму на поточному working tree , без cache; якщо pytest зелений — фіксує, що пробле'
+  quote_whitespace_normalized: true
+  context_before: Read-only 0104 is prepared to compare current-tree full pytest against public-check materialization/report freshness.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - test_isolation
+- evidence_id: EV-BP1409-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: '3641 LINES=380 SYNTAX_COMPILE=PASS PY_COMPILE=PASS READ_ONLY=true Він не запускає make check повторно. Він: доводить, чи blueprint_check_report_full.log
+    stale відносно поточного pin; запускає повний pytest напряму на поточному working tree , без cache; якщо pytest зелений — фіксує, що проблема вже не
+    в тестах, а в non-mutating check isolation/materialization або report freshness; збирає relevant references із run_non_mutating_make_check.py , run_blueprint_checks.py
+    і Makefile '
+  quote_whitespace_normalized: true
+  context_before: 0104 deliberately avoids another make check rerun.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - diagnostics
+- evidence_id: EV-BP1409-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 294
+    turn_id: e6b126b1-0b85-4a11-b11e-d30921b2415d
+    message_id: c82f8e44-a531-425e-be9d-13f8782bd013
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: YTEST_PASS=true і HOST_FULL_LOG_STALE_FOR_CURRENT_PIN=true , тоді вже не чіпаємо tests/source — будемо ремонтувати саме non-mutating public check
+    snapshot/materialization .
+  quote_whitespace_normalized: true
+  context_before: If current tree is green and host log stale, repair should target non-mutating check isolation/materialization rather than tests/source.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - test_isolation
+- evidence_id: EV-BP1409-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 296
+    turn_id: 14da6e26-5aa7-41df-8a99-de7d015cff63
+    message_id: 48ad42bc-8c6d-4240-9af7-b64cf08d0d4a
+    source_file: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  quote: Message delivery timed out. Please try again. Retry
+  quote_whitespace_normalized: true
+  context_before: Source ends with an assistant delivery timeout after turn 295 attachment.
+  context_after: null
+  evidence_role:
+  - source_boundary
+  - incomplete_tail
+items:
+- item_id: IT-BP1409-0001
+  kind: implementation_claim
+  title: CF-02 active double-write gate hardening historically passes
+  statement: u180b CF-02 hardening reports PASS while lifecycle remains ACTIVE and roadmap sync is IN_SYNC.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical execution output only.
+- item_id: IT-BP1409-0002
+  kind: implementation_claim
+  title: Active Control Foundation double-write is removed
+  statement: Historical result reports no active Control Foundation step-state fields, while legacy continuity terminal-state hints still remain.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1409-0002
+  - EV-BP1409-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current migration status not audited.
+- item_id: IT-BP1409-0003
+  kind: plan
+  title: Retire legacy continuity terminal-state hints before CF-02 closure
+  statement: The remaining migration step is to retire legacy continuity terminal-state hints before checkpoint/validate/close of CF-02.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0003
+  - EV-BP1409-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0004
+  kind: process_rule
+  title: Roadmap/lifecycle reconciliation gate is fail-closed
+  statement: Installed reconciliation gates must cover lifecycle transitions such as plan, activate, checkpoint and close and fail closed on disagreement.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0005
+  kind: process_rule
+  title: CF-02 does not gain dispatch/release/auto-next authority
+  statement: Roadmap reconciliation and lifecycle hardening do not authorize automatic next activation, worker dispatch, release or foreign-repository writes.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0006
+  kind: implementation_claim
+  title: CF-02 closure can fail after canonical lifecycle advanced
+  statement: A later closure attempt fails on `make roadmap-sync-check` while u180b is already observed CLOSED at sequence 30.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - recovery
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0007
+  - EV-BP1409-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical output only.
+- item_id: IT-BP1409-0007
+  kind: process_rule
+  title: State-aware recovery forbids blind rerun after partial advancement
+  statement: If canonical lifecycle may already have advanced, recovery must inspect actual state and continue from that boundary instead of replaying the
+    whole mutator.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - mutation_safety
+  - control_foundation
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0009
+  - EV-BP1409-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0008
+  kind: process_rule
+  title: Artifact delivery truncation requires identity-safe regeneration
+  statement: When a generated script arrives truncated, regenerate it under a distinct artifact identity; repeated delivery failure should not be mistaken
+    for a valid complete script.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - artifact_identity
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - tooling
+  evidence_refs:
+  - EV-BP1409-0011
+  - EV-BP1409-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0009
+  kind: rejected_alternative
+  title: Website/UI branch is explicitly out of Blueprint work scope here
+  statement: A brief Website/UI task is rejected by the owner as not this workfront; Blueprint should continue its own control-foundation work.
+  dialogue_status: rejected
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - scope_control
+  - website
+  implementation_expectation: not_required
+  verification_targets:
+  - roadmap
+  - docs
+  evidence_refs:
+  - EV-BP1409-0013
+  - EV-BP1409-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0010
+  kind: implementation_claim
+  title: u180e reaches CF-05 with roadmap sync and broad focused checks green
+  statement: Historical diagnostic reports u180e ACTIVE sequence 42, roadmap IN_SYNC, CF-04 previous / CF-05 current / CF-06 next-ready, with source-B provenance
+    and multiple focused/context/semantic checks green.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - control_foundation
+  - continuity
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0015
+  - EV-BP1409-0019
+  - EV-BP1409-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Intermediate CF-03/CF-04 evidence is attachment-only in this export.
+- item_id: IT-BP1409-0011
+  kind: risk
+  title: One aggregate full-pytest blocker remains despite green focused checks
+  statement: At the u180e checkpoint, broad focused/handoff/context/roadmap/knowledge/semantic checks are green but full pytest still reports one blocker.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - validation
+  - control_foundation
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0016
+  - EV-BP1409-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0012
+  kind: process_rule
+  title: Diagnose exact failing node before rerunning expensive aggregate checks
+  statement: When only one aggregate blocker remains, prefer a read-only targeted diagnosis/focused rerun over blindly rerunning the whole `make check`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - validation
+  - operator_workflow
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0017
+  - EV-BP1409-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0013
+  kind: implementation_claim
+  title: Controlled-failure source-hash contract is the reported failing node
+  statement: Historical full log identifies `test_controlled_failure_sources_are_exact` and a build_context_bundle hash mismatch as the only failure.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - validation
+  - mutation_safety
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP1409-0021
+  - EV-BP1409-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0014
+  kind: risk
+  title: Diagnostic logs can be stale relative to current source/test pins
+  statement: The same full log can report an old expected pin even after the current test/source pin has changed and the focused rerun passes.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - diagnostics
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - tests
+  - scripts
+  evidence_refs:
+  - EV-BP1409-0027
+  - EV-BP1409-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0015
+  kind: process_rule
+  title: Separate current-tree truth from isolated public-check materialization
+  statement: A failure in an isolated/non-mutating public check must be distinguished from the current working-tree test result before changing source or
+    tests.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - validation
+  - isolation
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0029
+  - EV-BP1409-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0016
+  kind: process_rule
+  title: If current tree is green and public log stale repair isolation/report freshness, not source
+  statement: When direct current-tree pytest passes and the public-check log is stale, the repair target should be non-mutating check snapshot/materialization/report
+    freshness rather than application/test source.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - validation
+  - isolation
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0030
+  - EV-BP1409-0031
+  - EV-BP1409-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1409-0017
+  kind: implementation_claim
+  title: Historical release projection remains v0.4 sealed / v0.4.1 active
+  statement: The diagnostic embeds a current-release projection with base v0.4 promoted/closed/sealed and hardening v0.4.1 active-current.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - release
+  - authority
+  implementation_expectation: unverifiable
+  verification_targets:
+  - config
+  - reports
+  evidence_refs:
+  - EV-BP1409-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical projection, not current authority today.
+- item_id: IT-BP1409-0018
+  kind: implementation_claim
+  title: Historical planning health shows roadmap 5/8 and prompt buffer 2/3
+  statement: The same diagnostic projects roadmap minimum/target 5/8 and prompt-buffer minimum/target 2/3.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  implementation_expectation: unverifiable
+  verification_targets:
+  - config
+  - reports
+  evidence_refs:
+  - EV-BP1409-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical projection only.
+- item_id: IT-BP1409-0019
+  kind: implementation_claim
+  title: Semantic structure is green at the u180e diagnostic checkpoint
+  statement: Blueprint semantic-structure validation reports PASS even while the aggregate full-pytest issue remains.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - control_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical diagnostic only.
+- item_id: IT-BP1409-0020
+  kind: open_question
+  title: Final 0104 diagnosis result is not preserved
+  statement: The source ends after a turn-295 attachment and an assistant delivery timeout; the result of the current-tree-vs-public-check diagnostic cannot
+    be recovered from visible text.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - validation
+  - continuity
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  - tests
+  evidence_refs:
+  - EV-BP1409-0030
+  - EV-BP1409-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Attachment content is not embedded in the MHTML visible transcript.
+relations:
+- relation_id: REL-BP1409-0001
+  from_item: IT-BP1409-0002
+  type: enables
+  to_item: IT-BP1409-0003
+  evidence_refs:
+  - EV-BP1409-0002
+  - EV-BP1409-0003
+  confidence: high
+- relation_id: REL-BP1409-0002
+  from_item: IT-BP1409-0004
+  type: constrains
+  to_item: IT-BP1409-0006
+  evidence_refs:
+  - EV-BP1409-0004
+  - EV-BP1409-0007
+  confidence: high
+- relation_id: REL-BP1409-0003
+  from_item: IT-BP1409-0006
+  type: motivates
+  to_item: IT-BP1409-0007
+  evidence_refs:
+  - EV-BP1409-0008
+  - EV-BP1409-0009
+  - EV-BP1409-0010
+  confidence: high
+- relation_id: REL-BP1409-0004
+  from_item: IT-BP1409-0011
+  type: motivates
+  to_item: IT-BP1409-0012
+  evidence_refs:
+  - EV-BP1409-0016
+  - EV-BP1409-0017
+  confidence: high
+- relation_id: REL-BP1409-0005
+  from_item: IT-BP1409-0013
+  type: motivates
+  to_item: IT-BP1409-0014
+  evidence_refs:
+  - EV-BP1409-0021
+  - EV-BP1409-0022
+  - EV-BP1409-0027
+  confidence: high
+- relation_id: REL-BP1409-0006
+  from_item: IT-BP1409-0014
+  type: refines
+  to_item: IT-BP1409-0015
+  evidence_refs:
+  - EV-BP1409-0027
+  - EV-BP1409-0029
+  confidence: high
+- relation_id: REL-BP1409-0007
+  from_item: IT-BP1409-0015
+  type: enables
+  to_item: IT-BP1409-0016
+  evidence_refs:
+  - EV-BP1409-0030
+  - EV-BP1409-0032
+  confidence: high
+- relation_id: REL-BP1409-0008
+  from_item: IT-BP1409-0009
+  type: conflicts_with
+  to_item: IT-BP1409-0010
+  evidence_refs:
+  - EV-BP1409-0014
+  - EV-BP1409-0015
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-BP1409-0001
+  type: overlapping_continuation_not_full_duplicate
+  description: 14.09 export shares 18 message IDs with the 12.09 source, adds 43 new messages, and omits 5 messages retained in 12.09. Only the 43 new messages
+    are indexed here to avoid duplication.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP1409-0002
+  type: attachment_only_evidence_gap
+  description: Most intermediate turns in the new tail are only visible as `Pasted text.txt` / `Pasted code.yaml`; their contents are not embedded in the
+    MHTML text, so exact CF-03/CF-04 and repair lineage cannot be reconstructed safely.
+  item_refs:
+  - IT-BP1409-0010
+  - IT-BP1409-0020
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0003
+  type: cf02_partial_advance_failure
+  description: CF-02 closure reports FAIL on roadmap-sync-check while canonical u180b state is already CLOSED; a naïve rerun would risk replaying completed
+    state.
+  item_refs:
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  evidence_refs:
+  - EV-BP1409-0007
+  - EV-BP1409-0008
+  - EV-BP1409-0009
+  - EV-BP1409-0010
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0004
+  type: legacy_terminal_state_hints_pending
+  description: Active CF double-write is reported removed, but twelve legacy continuity terminal-state fields remain pending retirement at the observed
+    hardening checkpoint.
+  item_refs:
+  - IT-BP1409-0002
+  - IT-BP1409-0003
+  evidence_refs:
+  - EV-BP1409-0003
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0005
+  type: artifact_delivery_truncation
+  description: Two generated script deliveries are reported truncated; operator requests distinct names and cosmetic changes to improve reliable delivery.
+  item_refs:
+  - IT-BP1409-0008
+  evidence_refs:
+  - EV-BP1409-0011
+  - EV-BP1409-0012
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0006
+  type: scope_contamination_then_owner_rejection
+  description: Website/UI work appears inside the control-foundation continuation but is explicitly rejected by the owner as not this workfront.
+  item_refs:
+  - IT-BP1409-0009
+  evidence_refs:
+  - EV-BP1409-0013
+  - EV-BP1409-0014
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP1409-0007
+  type: stale_full_check_log
+  description: A full-check report contains an old controlled-failure hash pin even though the current focused rerun passes with the newer pin.
+  item_refs:
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  evidence_refs:
+  - EV-BP1409-0022
+  - EV-BP1409-0027
+  - EV-BP1409-0028
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0008
+  type: current_tree_vs_isolated_check_ambiguity
+  description: At source end it is unresolved whether the current working tree actually fails full pytest or whether only isolated non-mutating public-check
+    materialization/report freshness is stale.
+  item_refs:
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  evidence_refs:
+  - EV-BP1409-0029
+  - EV-BP1409-0030
+  - EV-BP1409-0033
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1409-0009
+  type: final_delivery_timeout
+  description: The conversation ends with an assistant message-delivery timeout after the 0104-related attachment, so the final diagnostic interpretation
+    is missing.
+  item_refs:
+  - IT-BP1409-0020
+  evidence_refs:
+  - EV-BP1409-0033
+  severity: high
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP1409-0001
+  description: Verify CF-02 final closure and retirement of legacy continuity terminal-state hints.
+  item_refs:
+  - IT-BP1409-0002
+  - IT-BP1409-0003
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  last_known_state: Active CF double-write removed; legacy hints remained; later closure failure observed u180b CLOSED and required state-aware recovery.
+  recommended_verification: Inspect live lifecycle/event store, roadmap projection and current legacy-field inventory before any rerun.
+- loop_id: LOOP-BP1409-0002
+  description: Recover/verify missing CF-03/CF-04 intermediate evidence.
+  item_refs:
+  - IT-BP1409-0010
+  last_known_state: By u180e the roadmap projects CF-04 previous / CF-05 current, but intermediate attachment contents are absent from MHTML.
+  recommended_verification: Use repository history/current artifacts rather than infer from placeholder attachments.
+- loop_id: LOOP-BP1409-0003
+  description: Resolve the current-tree vs non-mutating public-check isolation/materialization ambiguity.
+  item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  last_known_state: Focused rerun passed; full log appeared stale; 0104 was prepared but its result is not visible.
+  recommended_verification: Run current direct full pytest and current non-mutating public check with fresh report provenance; compare source/test hashes
+    and materialized snapshot.
+- loop_id: LOOP-BP1409-0004
+  description: Verify controlled-failure source-hash pin maintenance is derived/reconciled correctly.
+  item_refs:
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  last_known_state: Historical log expected old 099b pin while current source/test used 7376 pin.
+  recommended_verification: Audit pin derivation/update contract and stale-report invalidation.
+- loop_id: LOOP-BP1409-0005
+  description: Verify Website/UI branch remains excluded from Blueprint control-foundation scope.
+  item_refs:
+  - IT-BP1409-0009
+  last_known_state: Owner explicitly says it is not this work and to continue own work.
+  recommended_verification: Keep Website work in its owning module unless later explicit authority reassigns it.
+- loop_id: LOOP-BP1409-0006
+  description: Verify generated-script delivery integrity handling.
+  item_refs:
+  - IT-BP1409-0008
+  last_known_state: Two script deliveries arrived truncated and were regenerated under different names.
+  recommended_verification: Use checksums/bytes/line counts or downloadable artifacts to prove complete delivery before execution.
+implementation_audit_ref: implementation_audit.stub.yaml

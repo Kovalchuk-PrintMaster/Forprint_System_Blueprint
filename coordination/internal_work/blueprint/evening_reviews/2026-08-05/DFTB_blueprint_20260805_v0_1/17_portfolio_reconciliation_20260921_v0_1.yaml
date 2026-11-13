@@ -1,0 +1,200 @@
+schema_version: forprint_dftb_blueprint_20260805_portfolio_reconciliation_v0_1
+source_date: '2026-08-05'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 008a5d89f6e7d0a8ff48340b7707fff5afb6a264a87a90a6c6915498d7d54e60
+source_dialogue_hash_sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+source_authority: HISTORICAL_COMMAND_KNOWLEDGE_AND_TRANSPARENCY_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL_CONVERSATIONAL_CAPTURE_WITH_COMPLETE_RETAINED_TURN_TEXT
+  retained_turns: 107
+  text_bearing_turns: 107
+  message_blocks:
+    user: 103
+    assistant: 4
+  artifact_labels: 92
+  rule: All retained turns have text, but assistant-side narrative is sparse. Historical reports/artifact labels
+    reconstruct chronology, not current implementation or authority.
+summary: The 2026-08-05 dialogue is an early origin source for evidence-backed Repository Knowledge, Make/command
+  semantics, module-owned execution versus Blueprint-owned inspection, bounded external semantic assessment, operational
+  readiness, exact validator/write contracts, rollback-aware mutation and current-state transparency. Later Blueprint
+  governance and Control Foundation mechanisms mature most of these concepts. Historical roadmap horizon counts
+  and pilot rollout gates are not restored as current authority.
+topic_reconciliation:
+- topic: repository_knowledge_evidence_model
+  item_refs:
+  - IT-BP0508-0001
+  - IT-BP0508-0002
+  - IT-BP0508-0003
+  - IT-BP0508-0008
+  disposition: RETAIN_AND_REUSE_CURRENT_KNOWLEDGE_SATURATION
+  source_rules:
+  - templates/protocol scaffolding are not repository knowledge
+  - file/index coverage is not semantic understanding
+  - material claims need evidence/confidence classification
+  - snapshots must bind to exact Git/working-state provenance
+  historical_example: A self-knowledge report showed 695/695 indexed files but only 22 purpose-understood, 4 dependency-mapped
+    and 1 fully verified.
+  current_connection:
+  - portfolio knowledge baseline
+  - Roadmap Enrichment / Knowledge Saturation
+  - portfolio forensics evidence classes
+  - current-state evidence and freshness
+- topic: make_as_discoverable_operator_surface
+  item_refs:
+  - IT-BP0508-0004
+  - IT-BP0508-0016
+  - IT-BP0508-0017
+  disposition: RETAIN_AS_OPERATOR_AND_COMMAND_SEMANTICS_INVARIANT
+  source_rules:
+  - main operational functions should be discoverable through Make or equivalent stable operator entrypoints
+  - a command called check must remain read-only
+  - mutating actions require explicit separate command semantics
+  - prefer coherent target architecture over preserving misleading legacy command behavior
+- topic: blueprint_internal_structure_and_old_forward_horizon
+  item_refs:
+  - IT-BP0508-0005
+  - IT-BP0508-0007
+  - IT-BP0508-0036
+  - IT-BP0508-0039
+  disposition: PARTLY_MATERIALIZED_OLD_NUMERIC_HORIZON_SUPERSEDED
+  source_rule: Blueprint should keep its own structure readable and show a useful forward path; the historical 8-10-step
+    count was an operator visibility heuristic, not a permanent canonical horizon limit.
+  current_reconciliation: Current full-horizon roadmaps/target states supersede a fixed 8-10-step requirement while
+    preserving visible future direction.
+- topic: bounded_external_semantic_assessment
+  item_refs:
+  - IT-BP0508-0009
+  - IT-BP0508-0010
+  - IT-BP0508-0011
+  disposition: RETAIN_AS_PROVENANCE_AND_SEMANTIC_REVIEW_INVARIANT
+  source_rules:
+  - bounded external semantic review supplements machine analysis
+  - request/workflow identity and content checksum survive roundtrip
+  - validated response is resumed/merged into the owning workflow rather than treated as free-floating authority
+  - downloadable working reports use project-local temporary workspace where appropriate
+  current_connection: Later 31.08 semantic-inventory methodology generalizes this into bounded review batches plus
+    coordinator synthesis.
+- topic: module_owned_execution_blueprint_owned_inspection
+  item_refs:
+  - IT-BP0508-0012
+  - IT-BP0508-0013
+  - IT-BP0508-0014
+  - IT-BP0508-0015
+  - IT-BP0508-0019
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Module assistants execute with module-owned tooling and write module-owned status/completion evidence;
+    Blueprint inspects through Blueprint-owned read-only/intake tooling and keeps acceptance/review as a separate
+    authority transition.
+  current_connection:
+  - module prompt pull/intake
+  - module completion packet/report protocol
+  - Blueprint read-only completion observation
+  - fresh-worker runtime
+- topic: pilot_and_rollout_authorization
+  item_refs:
+  - IT-BP0508-0020
+  - IT-BP0508-0021
+  - IT-BP0508-0037
+  - IT-BP0508-0040
+  disposition: GENERAL_AUTHORITY_SEPARATION_RETAINED_HISTORICAL_PILOT_POLICY_SUPERSEDED
+  source_rule: Passing canonical validation/gates does not itself authorize pilot execution, release or external
+    rollout; authorization is a distinct explicit state.
+  current_reconciliation: Later execution profiles, Work Front/procedure authority, Dispatcher gates and staged
+    autonomy make the boundary more explicit. Historical pilot-specific gating is provenance, not current rollout
+    policy.
+- topic: blueprint_self_indexes_and_stable_governance_workflow
+  item_refs:
+  - IT-BP0508-0022
+  - IT-BP0508-0023
+  - IT-BP0508-0024
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current_connection:
+  - Blueprint prompt/status/report indexes
+  - coordination status/current-state surfaces
+  - repository knowledge/source indexes
+  - governed procedure and continuity surfaces
+- topic: operational_readiness_write_flow_validator_exact_contract
+  item_refs:
+  - IT-BP0508-0025
+  - IT-BP0508-0026
+  - IT-BP0508-0027
+  - IT-BP0508-0028
+  disposition: HISTORICAL_CONTROL_LAYER_ANCESTOR_REUSE_LATER_CONTROL_FOUNDATION
+  source_chain: prompt workflow governance closeout -> operational readiness -> write-flow recovery -> validator
+    contract -> exact contract
+  current_reconciliation: Do not restore old artifact chain as a parallel framework. Current protected-surface,
+    procedure, validation, mutation and runtime-safety mechanisms are the mature control surfaces.
+- topic: project_transparency_and_status_projection
+  item_refs:
+  - IT-BP0508-0029
+  - IT-BP0508-0033
+  - IT-BP0508-0034
+  - IT-BP0508-0035
+  disposition: MATERIALIZED_AND_MATURED
+  source_model:
+  - one machine-readable projection of current HEAD/branch/phase/blockers/next action/boundaries/dependencies
+  - read-only operator status command
+  - projection consumes authoritative sources but does not replace them
+  - source disagreement fails closed
+  current_connection:
+  - Project Health
+  - status/dashboard projections
+  - roadmap reconciliation
+  - continuity/bootstrap projections
+- topic: canonical_mutation_builder_and_rollback
+  item_refs:
+  - IT-BP0508-0030
+  - IT-BP0508-0031
+  - IT-BP0508-0032
+  disposition: HISTORICAL_IMPLEMENTATION_LINEAGE_CURRENT_SAFE_MUTATION_MODEL_IS_BROADER
+  source_rule: Mutation follows an exact bounded contract, validation and rollback discipline; historical integration
+    reportedly passed 28/28 while pilot authorization remained false.
+  current_reconciliation: Current work uses broader merge-aware/preimage/hash/protected-surface/fail-closed mutation
+    practices. Audit exact current mutation tooling only when implementation work touches it.
+- topic: zero_context_handoff
+  item_refs:
+  - IT-BP0508-0038
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Replacement assistant needs exact current state, baseline and a deterministic reading path.
+  current_connection:
+  - bootstrap START_HERE
+  - assistant context pack
+  - Handoff v2 / CF-08
+  - continuity projections
+open_loop_reconciliation:
+- loop: LOOP-BP0508-0001
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_KNOWLEDGE_SATURATION
+  note: Evidence-backed understanding, provenance and freshness are explicit current concerns; exact implementation
+    completeness is separately auditable.
+- loop: LOOP-BP0508-0002
+  status: DURABLE_INVARIANT_CURRENT_MAKE_TARGETS_AUDIT_ONLY_IF_TOUCHED
+  note: Read-only checks versus explicit mutation remains a current command-semantics rule.
+- loop: LOOP-BP0508-0003
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_PROMPT_AND_COMPLETION_PROTOCOLS
+  note: Module ownership and Blueprint read-only inspection are materially represented in later canonical workflow
+    direction.
+- loop: LOOP-BP0508-0004
+  status: MATERIALIZED_AND_SUPERSEDED_BY_BROADER_STATUS_HEALTH_SURFACES
+  note: Current status/prompt/report/health/continuity surfaces are broader than the early 05.08 proposal.
+- loop: LOOP-BP0508-0005
+  status: HISTORICAL_CHAIN_SUPERSEDED_BY_CONTROL_FOUNDATION
+  note: Retain provenance; do not recreate readiness/write-flow/exact-contract artifacts as a second control plane.
+- loop: LOOP-BP0508-0006
+  status: HISTORICAL_IMPLEMENTATION_CURRENT_REAUDIT_IF_MUTATION_TOOLING_IS_TOUCHED
+  note: Rollback/fail-closed/exact-scope principles remain; historical commit/check counts are not current proof.
+- loop: LOOP-BP0508-0007
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_PROJECT_HEALTH_STATUS_AND_CONTINUITY
+  note: The early transparency manifest/status idea evolved into broader current projections.
+- loop: LOOP-BP0508-0008
+  status: GENERAL_RULE_RETAINED_HISTORICAL_PILOT_STATE_SUPERSEDED
+  note: Validation never equals authorization; historical pilot-specific state is not current authority.
+- loop: LOOP-BP0508-0009
+  status: HISTORICAL_MAINTENANCE_STREAM_NOT_CURRENT_BLOCKER
+  note: Reopen only if current document validators expose a structural/fence regression.
+- loop: LOOP-BP0508-0010
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_BOOTSTRAP_HANDOFF_CONTINUITY
+  note: Current zero-context entry/handoff mechanisms are substantially more mature than the historical hand-written
+    prompt.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

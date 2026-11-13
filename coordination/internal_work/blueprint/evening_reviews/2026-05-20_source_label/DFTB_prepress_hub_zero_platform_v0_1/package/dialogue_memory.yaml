@@ -1,0 +1,1025 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-prepress-hub-source-label-2026-05-20
+source:
+  source_id: SRC-prepress-hub-source-label-2026-05-20
+  title: ForPrint Prepress Hub_20.05.26
+  source_type: chatgpt_mhtml_prepress_module_dialogue
+  source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  source_hash_sha256: 7093b97b3b5e16aed5ebc71fcbaf8f878417f0c93a99e4fc9b5f3b6b26afe0ca
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:47:13 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: prepress_module_history_only
+  completeness: extremely_partial_attachment_referenced
+  completeness_notes: 3 visible message blocks in turns 1–2. Owner references attached `prepress_hub.docx` with earlier agreements, but attachment body
+    is absent. Assistant provides a detailed proposed scaffold; there is no execution/commit evidence.
+extraction:
+  created_at: '2026-09-15T15:00:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_strict_prepress_bootstrap_reconstruction
+  implementation_verification_performed: false
+  notes: Concrete code is treated as proposal, not implementation. Assistant summaries of the missing attachment are secondary evidence only.
+evidence_index:
+- evidence_id: EV-PRE2005-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    message_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: prepress_hub.docx Document так дивись ми починаємо з тобою роботу над новим модулем ForPrint Prepress Hub у гас вже є робоча директорія на сервері
+    деми можемо почати роботу над проєктом /srv/software_development/forprint-project/forprint_prepress_hub попередньо у нас вже була розмова над тим як
+    може виглядати проєкт і я тобі у вкладенні даю промт і початкові домовленості Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner says this is the start of work on the new ForPrint Prepress Hub module.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - module_start
+- evidence_id: EV-PRE2005-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    message_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: t Prepress Hub у гас вже є робоча директорія на сервері деми можемо почати роботу над проєктом /srv/software_development/forprint-project/forprint_prepress_hub
+    попередньо у нас вже була розмова над тим як може виглядати проєкт і я тобі у вкладенні даю промт і початкові домовленості Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner provides the existing server working directory.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - repo_path
+- evidence_id: EV-PRE2005-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    message_id: f44fadbd-9cc1-449b-abd7-88ca450105bb
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: print_prepress_hub попередньо у нас вже була розмова над тим як може виглядати проєкт і я тобі у вкладенні даю промт і початкові домовленості Show
+    more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner says prior prompt/agreements are attached; the attachment body is not visible in MHTML.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - attachment_gap
+- evidence_id: EV-PRE2005-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'Я прийняла стартові умови: модуль окремий, робоча директорія вже є, і фокус — не “плагін”, а локальний центр керування препрес-процесами. Зараз
+    швидко зафіксую архітектурне рішення й дам перший робочий крок без роздування проєкту. Прийняла. Фіксую стартову рамку для ForPrint Prepress Hub . З
+    вкладення я беру за основу такі домовленості: це не окремий Adobe-плагін під кожну програму, а локальний центр керування препрес-ланцюжками , де HTML/web-панель
+    є тільки інтерфейсом, Python — мозком, Adobe actions/scripts — виконавцями, presets — технологічними картами, а logs — виробничим контролем prepress_hub
+    .'
+  quote_whitespace_normalized: true
+  context_before: Assistant summarizes the attached intent as a local prepress control center rather than one plugin per Adobe app.
+  context_after: null
+  evidence_role:
+  - assistant_summary_of_attachment
+  - architecture
+- evidence_id: EV-PRE2005-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'е окремий Adobe-плагін під кожну програму, а локальний центр керування препрес-ланцюжками , де HTML/web-панель є тільки інтерфейсом, Python —
+    мозком, Adobe actions/scripts — виконавцями, presets — технологічними картами, а logs — виробничим контролем prepress_hub . Стартове рішення Для першого
+    етапу робимо: ForPrint Prepress Hub = Python backend + локальна web-панель + preset engine + тести Поки не ліземо в Acrobat / Photoshop / Illustrator
+    напряму . Спочатку будуємо стабільний каркас: /srv/software_development/forprint-project/forprint_prepress_hub Перший робочий проміжний крок: структура
+    проєкту; venv; pyproject.toml ; FastAPI health endpoin'
+  quote_whitespace_normalized: true
+  context_before: Assistant summarizes UI/backend/executor/preset/log separation from the missing attachment.
+  context_after: null
+  evidence_role:
+  - assistant_summary_of_attachment
+  - architecture
+- evidence_id: EV-PRE2005-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'им контролем prepress_hub . Стартове рішення Для першого етапу робимо: ForPrint Prepress Hub = Python backend + локальна web-панель + preset engine
+    + тести Поки не ліземо в Acrobat / Photoshop / Illustrator напряму . Спочатку будуємо стабільний каркас: /srv/software_development/forprint-project/forprint_prepress_hub
+    Перший робочий проміжний крок: структура проєкту; venv; pyproject.toml ; FastAPI health endpoint; конфігурація; базовий loader для YAML-пресетів; перший
+    тестовий preset; тести; Makefile. Це буде “нульова платформа”, на яку далі безболісно додамо PDF-пресети, drag-and-drop, READY/ERROR, job log і hot
+    folders. Команди для першого запуску У директорії проєкт'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes the first bounded platform.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - bootstrap
+- evidence_id: EV-PRE2005-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'у робимо: ForPrint Prepress Hub = Python backend + локальна web-панель + preset engine + тести Поки не ліземо в Acrobat / Photoshop / Illustrator
+    напряму . Спочатку будуємо стабільний каркас: /srv/software_development/forprint-project/forprint_prepress_hub Перший робочий проміжний крок: структура
+    проєкту; venv; pyproject.toml ; FastAPI health endpoint; конфігурація; базовий loader для YAML-пресетів; перший тестовий preset; тести; Makefile. Це
+    буде “нульова платформа”, на яку далі безболісно додамо PDF-пресети, drag-and-drop, READY/ERROR, job log і hot folders. Команди для першого запуску
+    У директорії проєкту: Bash cd /srv/software_development/forprint-project/forpr'
+  quote_whitespace_normalized: true
+  context_before: First phase avoids direct Adobe integration.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - scope
+- evidence_id: EV-PRE2005-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'srv/software_development/forprint-project/forprint_prepress_hub Перший робочий проміжний крок: структура проєкту; venv; pyproject.toml ; FastAPI
+    health endpoint; конфігурація; базовий loader для YAML-пресетів; перший тестовий preset; тести; Makefile. Це буде “нульова платформа”, на яку далі безболісно
+    додамо PDF-пресети, drag-and-drop, READY/ERROR, job log і hot folders. Команди для першого запуску У директорії проєкту: Bash cd /srv/software_development/forprint-project/forprint_prepress_hub
+    python3.11 -m venv .venv_prepress_hub source .venv_prepress_hub/bin/activate mkdir -p app/forprint_prepress_hub/core mkdir -p app/forpr'
+  quote_whitespace_normalized: true
+  context_before: Assistant lists the initial project structure and runtime/data/log/test directories.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - repository_structure
+- evidence_id: EV-PRE2005-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'forprint_prepress_hub Перший робочий проміжний крок: структура проєкту; venv; pyproject.toml ; FastAPI health endpoint; конфігурація; базовий
+    loader для YAML-пресетів; перший тестовий preset; тести; Makefile. Це буде “нульова платформа”, на яку далі безболісно додамо PDF-пресети, drag-and-drop,
+    READY/ERROR, job log і hot folders. Команди для першого запуску У директорії проєкту: Bash cd /srv/software_development/forprint-project/forprint_prepress_hub
+    python3.11 -m venv .venv_prepress_hub source .venv_prepress_hub/bin/activate mkdir -p app/forprint_prepress_hub/core mkdir -p app/forprint_prepress_hub/api
+    mkdir -p app/forprint_prepr'
+  quote_whitespace_normalized: true
+  context_before: Bootstrap includes health endpoint, config and YAML preset loader.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - service_scaffold
+- evidence_id: EV-PRE2005-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 't_data [ "_file" ] = preset_path . name presets . append( preset_data ) return presets presets/pdf_basic_check.yaml YAML name: pdf_basic_check
+    title: "PDF: базова перевірка файлу" description: "Перший тестовий пресет. Поки не запускає Acrobat, а тільки фіксує майбутню структуру." input: extensions:
+    - ".pdf" steps: - type: internal_check name: check_file_exists - type: internal_check name: check_extension_pdf output: folder: "data/ready" filename_template:
+    "{original_stem}_CHECKED.pdf" on_error: move_to: "data/error" write_report: true tests/test_health.py Python Run from fastapi . testclient import TestClient
+    from forprint_prep'
+  quote_whitespace_normalized: true
+  context_before: First preset is only a structural/test preset and does not launch Acrobat.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - preset
+- evidence_id: EV-PRE2005-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: '(PIP) install -e ".[dev]" test: $(PYTHON) -m pytest -q lint: $(PYTHON) -m ruff check app tests check: lint test run: $(PYTHON) -m uvicorn forprint_prepress_hub.main:app
+    --app-dir app --host 0.0.0.0 --port 8020 --reload health: curl http://127.0.0.1:8020/health app/forprint_prepress_hub/__init__.py Python Run """ForPrint
+    Prepress Hub package.""" app/forprint_prepress_hub/main.py Python Run from fastapi import FastAPI from forprint_prepress_hub . core . settings import
+    get_settings from forprint_prepress_hub . core . presets import load_presets settings = get_settings () app = FastAPI ( title = "ForPrint Prepress Hub"
+    , versi'
+  quote_whitespace_normalized: true
+  context_before: Proposed Makefile `check` is read-only lint+test, with run/health separate.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - make_surface
+- evidence_id: EV-PRE2005-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'tests check: lint test run: $(PYTHON) -m uvicorn forprint_prepress_hub.main:app --app-dir app --host 0.0.0.0 --port 8020 --reload health: curl
+    http://127.0.0.1:8020/health app/forprint_prepress_hub/__init__.py Python Run """ForPrint Prepress Hub package.""" app/forprint_prepress_hub/main.py
+    Python Run from fastapi import FastAPI from forprint_prepress_hub . core . settings import get_settings from forprint_prepress_hub . core . presets
+    import load_presets settings = get_settings () app = FastAPI ( title = "ForPrint Prepress Hub" , version = "0.1.0" , description = "Local hub for prepress
+    automation workflows." , ) @ app . get ( "/health" ) d'
+  quote_whitespace_normalized: true
+  context_before: Proposed development server binds all interfaces with reload, despite being described as local.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - runtime
+- evidence_id: EV-PRE2005-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 's ( BaseSettings ): """Головні налаштування локального сервісу.""" environment : str = "local" project_root : Path = Path ( "/srv/software_development/forprint-project/forprint_prepress_hub"
+    ) presets_dir : Path = project_root / "presets" incoming_dir : Path = project_root / "data" / "incoming" processing_dir : Path = project_root / "data"
+    / "processing" ready_dir : Path = project_root / "data" / "ready" error_dir : Path = project_root / "data" / "error" logs_dir : Path = project_root
+    / "logs" model_config = SettingsConfigDict ( env_prefix = "FORPRINT_PREPRESS_HUB_" , env_file = ".env" , env_file_encoding = "utf-8" , ) @ lru_cache
+    de'
+  quote_whitespace_normalized: true
+  context_before: Settings hard-code the historical absolute project path as the default root.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - configuration
+- evidence_id: EV-PRE2005-0014
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 's_hub . core . settings import get_settings from forprint_prepress_hub . core . presets import load_presets settings = get_settings () app = FastAPI
+    ( title = "ForPrint Prepress Hub" , version = "0.1.0" , description = "Local hub for prepress automation workflows." , ) @ app . get ( "/health" ) def
+    health () -> dict : """Базова перевірка, що сервіс живий.""" return { "status" : "ok" , "service" : "ForPrint Prepress Hub" , "environment" : settings
+    . environment, } @ app . get ( "/presets" ) def presets () -> dict : """Повертає список доступних YAML-пресетів.""" loaded_presets = load_presets (
+    settings . presets_dir) retu'
+  quote_whitespace_normalized: true
+  context_before: Preset loader reads YAML files and annotates each with source filename.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - preset_loader
+- evidence_id: EV-PRE2005-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: '_dir : Path ) -> list [ dict [ str , Any ]]: """ Завантажує YAML-пресети з директорії presets. На цьому етапі це ще не виконує препрес-операції.
+    Зараз задача — перевірити, що система бачить технологічні карти. """ if not presets_dir . exists(): return [] presets : list [ dict [ str , Any ]] =
+    [] for preset_path in sorted ( presets_dir . glob( "*.yaml" )): with preset_path . open( "r" , encoding = "utf-8" ) as file : preset_data = yaml . safe_load(
+    file ) or {} preset_data [ "_file" ] = preset_path . name presets . append( preset_data ) return presets presets/pdf_basic_check.yaml YAML name: pdf_basic_check
+    title: "PDF: базова перевірка файлу" description:'
+  quote_whitespace_normalized: true
+  context_before: Preset loader explicitly does not perform prepress operations yet.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - scope
+- evidence_id: EV-PRE2005-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: print_prepress_hub/adapters mkdir -p app/forprint_prepress_hub/workers mkdir -p config presets data/incoming data/processing data/ready data/error
+    logs tests Після того створюємо файли. pyproject.toml TOML [build-system] requires = ["setuptools>=69", "wheel"] build-backend = "setuptools.build_meta"
+    [project] name = "forprint-prepress-hub" version = "0.1.0" description = "Local prepress automation hub for ForPrint workflows" requires-python = ">=3.11"
+    dependencies = [ "fastapi>=0.110", "uvicorn[standard]>=0.29", "pydantic>=2.7", "pydantic-settings>=2.2", "PyYAML>=6.0", "python-multipart>=0.0.9", ]
+    [project.optional-depend
+  quote_whitespace_normalized: true
+  context_before: Proposed local job-state folders are incoming/processing/ready/error.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - job_lifecycle
+- evidence_id: EV-PRE2005-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'e gitignore .venv*/ __pycache__/ *.pyc .pytest_cache/ .ruff_cache/ *.egg-info/ .env logs/*.log logs/*.jsonl data/incoming/* data/processing/*
+    data/ready/* data/error/* !data/incoming/.gitkeep !data/processing/.gitkeep !data/ready/.gitkeep !data/error/.gitkeep Щоб Git бачив порожні директорії:
+    Bash touch data/incoming/.gitkeep touch data/processing/.gitkeep touch data/ready/.gitkeep touch data/error/.gitkeep Перевірка Після створення файлів:
+    Bash source .venv_prepress_hub/bin/activate make install make check Очікувано має бути приблизно так: ruff check app tests All checks passed! pytest
+    -q ... [100%] Потім запуск: Bash'
+  quote_whitespace_normalized: true
+  context_before: Proposed repository ignores runtime logs and job data while tracking .gitkeep placeholders.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - repository_hygiene
+- evidence_id: EV-PRE2005-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: '127.0.0.1:8020/presets Що вважати завершенням першого кроку Перший крок завершений, якщо: Bash make check проходить без помилок, /health повертає
+    status: ok , а /presets бачить pdf_basic_check.yaml . Після цього наступним кроком я б додала вже Job Runner v1 : прийняти шлях до PDF, скопіювати оригінал
+    у data/processing/job_xxx/ , не чіпати оригінал, виконати internal steps і записати logs/jobs.jsonl .'
+  quote_whitespace_normalized: true
+  context_before: First-step completion criteria are green `make check`, `/health` OK and preset discovery.
+  context_after: null
+  evidence_role:
+  - assistant_acceptance_hint
+  - bootstrap_gate
+- evidence_id: EV-PRE2005-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'tus: ok , а /presets бачить pdf_basic_check.yaml . Після цього наступним кроком я б додала вже Job Runner v1 : прийняти шлях до PDF, скопіювати
+    оригінал у data/processing/job_xxx/ , не чіпати оригінал, виконати internal steps і записати logs/jobs.jsonl .'
+  quote_whitespace_normalized: true
+  context_before: Next step is a bounded Job Runner after the zero-platform gate.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - next_step
+- evidence_id: EV-PRE2005-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'check.yaml . Після цього наступним кроком я б додала вже Job Runner v1 : прийняти шлях до PDF, скопіювати оригінал у data/processing/job_xxx/
+    , не чіпати оригінал, виконати internal steps і записати logs/jobs.jsonl .'
+  quote_whitespace_normalized: true
+  context_before: Proposed Job Runner should copy original into a job processing folder rather than mutate it.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - input_safety
+- evidence_id: EV-PRE2005-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: 'ала вже Job Runner v1 : прийняти шлях до PDF, скопіювати оригінал у data/processing/job_xxx/ , не чіпати оригінал, виконати internal steps і записати
+    logs/jobs.jsonl .'
+  quote_whitespace_normalized: true
+  context_before: Original input preservation is explicit in the proposed next-step workflow.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - input_safety
+- evidence_id: EV-PRE2005-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 9ccb713f-070e-4f87-a07b-8614ab58f2d5
+    message_id: 0109dcf5-fd64-4a57-aca1-b4e4d71dba11
+    source_file: ForPrint Prepress Hub_20.05.26.mhtml
+  quote: и оригінал у data/processing/job_xxx/ , не чіпати оригінал, виконати internal steps і записати logs/jobs.jsonl .
+  quote_whitespace_normalized: true
+  context_before: Job Runner proposal includes append-style job log output.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - observability
+items:
+- item_id: IT-PRE2005-0001
+  kind: plan
+  title: ForPrint Prepress Hub starts as a separate module in an existing server directory
+  statement: Owner explicitly starts a new module and provides the working path `/srv/software_development/forprint-project/forprint_prepress_hub`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  - git
+  evidence_refs:
+  - EV-PRE2005-0001
+  - EV-PRE2005-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical path is not current repository proof.
+- item_id: IT-PRE2005-0002
+  kind: risk
+  title: Prior Prepress prompt/agreements attachment is missing from visible source
+  statement: Owner says the previous prompt and initial agreements are attached, but the attachment body is not recoverable from MHTML.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-PRE2005-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant summaries cannot substitute for the missing attachment as direct owner evidence.
+- item_id: IT-PRE2005-0003
+  kind: architecture_constraint
+  title: Historical Prepress Hub is summarized as a local control center rather than per-app plugin architecture
+  statement: Assistant summarizes the missing attachment as one local prepress workflow center, not a separate heavy plugin for each Adobe product.
+  dialogue_status: proposed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - prepress
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-PRE2005-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Second-hand summary of missing attachment.
+- item_id: IT-PRE2005-0004
+  kind: architecture_constraint
+  title: Historical scaffold separates web UI backend executors presets and logs
+  statement: Assistant summarizes the intended layers as HTML/web UI, Python brain, Adobe actions/scripts as executors, presets as process cards and logs
+    as operational control.
+  dialogue_status: proposed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - prepress
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-PRE2005-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Second-hand summary of missing attachment.
+- item_id: IT-PRE2005-0005
+  kind: plan
+  title: Zero-platform bootstrap is Python backend plus local web UI preset engine and tests
+  statement: The first implementation step is deliberately a stable minimal platform rather than broad Adobe automation.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - bootstrap
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - git
+  evidence_refs:
+  - EV-PRE2005-0006
+  - EV-PRE2005-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No execution evidence survives.
+- item_id: IT-PRE2005-0006
+  kind: process_rule
+  title: First bootstrap phase excludes direct Photoshop Illustrator and Acrobat automation
+  statement: The initial skeleton should validate service/config/preset foundations before native-application integrations.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - scope
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - docs
+  evidence_refs:
+  - EV-PRE2005-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0007
+  kind: plan
+  title: Historical repository scaffold separates API core adapters workers config presets data logs and tests
+  statement: The proposed directory tree isolates core/API/adapters/workers from config, presets, job data, logs and tests.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - repository_structure
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  evidence_refs:
+  - EV-PRE2005-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Proposed scaffold only.
+- item_id: IT-PRE2005-0008
+  kind: plan
+  title: Bootstrap exposes health and preset-discovery endpoints
+  statement: Historical zero-platform includes a FastAPI `/health` endpoint and `/presets` endpoint backed by YAML preset loading.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - service
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No runtime evidence.
+- item_id: IT-PRE2005-0009
+  kind: plan
+  title: First preset is structural and non-executing
+  statement: '`pdf_basic_check.yaml` is proposed to verify preset shape and internal checks without launching Acrobat.'
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - presets
+  implementation_expectation: unverifiable
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0010
+  - EV-PRE2005-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No implementation evidence.
+- item_id: IT-PRE2005-0010
+  kind: process_rule
+  title: Historical Make `check` is non-mutating lint plus tests
+  statement: 'The proposed Makefile separates install/run/health from `check: lint test`, consistent with later non-mutating validation discipline.'
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - make_surface
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0011
+  kind: risk
+  title: Proposed local dev server binds to all interfaces
+  statement: The historical `make run` uses Uvicorn `--host 0.0.0.0 --reload`; this may conflict with an intended local-only service/security boundary and
+    should not be reused blindly.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - runtime_security
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - config
+  evidence_refs:
+  - EV-PRE2005-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current runtime policy must decide bind/reload behavior.
+- item_id: IT-PRE2005-0012
+  kind: risk
+  title: Historical settings hard-code an absolute project root
+  statement: The proposed settings default to `/srv/software_development/forprint-project/forprint_prepress_hub`, which conflicts with later project-relative/portable
+    path discipline.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later Blueprint prefers project-relative paths.
+- item_id: IT-PRE2005-0013
+  kind: requirement
+  title: Preset loader returns deterministic structured YAML data with source identity
+  statement: Historical loader scans sorted YAML presets and annotates each with its file name.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - presets
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0014
+  kind: architecture_constraint
+  title: Preset discovery is separated from execution
+  statement: The proposed loader only discovers/loads process definitions; it explicitly does not execute prepress steps at this stage.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - execution_boundary
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0015
+  kind: workflow
+  title: Historical job lifecycle uses incoming processing ready and error directories
+  statement: The proposed filesystem workflow separates input, active processing, successful output and error state.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - job_lifecycle
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  - code
+  evidence_refs:
+  - EV-PRE2005-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0016
+  kind: process_rule
+  title: Runtime job data and logs are not normal Git content
+  statement: The proposed `.gitignore` excludes logs and incoming/processing/ready/error contents while tracking `.gitkeep` scaffolding.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - gitignore
+  - docs
+  evidence_refs:
+  - EV-PRE2005-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0017
+  kind: acceptance_criterion
+  title: Zero-platform gate is check green plus health OK plus preset discovery
+  statement: Historical first-step completion requires `make check` success, `/health` status OK and `/presets` seeing the test preset.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - bootstrap
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - runtime
+  evidence_refs:
+  - EV-PRE2005-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No evidence that this gate was actually run.
+- item_id: IT-PRE2005-0018
+  kind: plan
+  title: Job Runner v1 follows only after bootstrap gate
+  statement: The next proposed workfront is a job runner that accepts a PDF/path after the zero-platform is proven.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - roadmap
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-PRE2005-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0019
+  kind: process_rule
+  title: Prepress processing should preserve the original input
+  statement: Historical Job Runner proposal copies original input into an isolated job processing folder and explicitly does not modify the original.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - input_safety
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0020
+  - EV-PRE2005-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0020
+  kind: requirement
+  title: Prepress job processing should emit append-style job logs
+  statement: The proposed next-step workflow records job execution to `logs/jobs.jsonl`.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - observability
+  implementation_expectation: required
+  verification_targets:
+  - logs
+  - tests
+  evidence_refs:
+  - EV-PRE2005-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-PRE2005-0021
+  kind: risk
+  title: Historical scaffold is proposal not implementation evidence
+  statement: The source contains concrete code/config/tests but no terminal output, commit, file attachment, runtime proof or owner confirmation that the
+    scaffold was applied.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-PRE2005-0006
+  - EV-PRE2005-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not infer implementation.
+- item_id: IT-PRE2005-0022
+  kind: architecture_constraint
+  title: This source is early Prepress history and cannot supersede later capability-first/current authority
+  statement: The May bootstrap explains the original local-hub scaffold; the later 27.06 owner direction refines immediate work toward capability mapping/product
+    assistants/Unix-first execution, and current Blueprint/Prepress authority wins.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - prepress
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-PRE2005-0004
+  - EV-PRE2005-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-PRE2005-0001
+  from_item: IT-PRE2005-0003
+  type: refines
+  to_item: IT-PRE2005-0005
+  evidence_refs:
+  - EV-PRE2005-0004
+  - EV-PRE2005-0006
+  confidence: medium
+- relation_id: REL-PRE2005-0002
+  from_item: IT-PRE2005-0006
+  type: constrains
+  to_item: IT-PRE2005-0005
+  evidence_refs:
+  - EV-PRE2005-0007
+  confidence: high
+- relation_id: REL-PRE2005-0003
+  from_item: IT-PRE2005-0008
+  type: enables
+  to_item: IT-PRE2005-0017
+  evidence_refs:
+  - EV-PRE2005-0009
+  - EV-PRE2005-0018
+  confidence: high
+- relation_id: REL-PRE2005-0004
+  from_item: IT-PRE2005-0009
+  type: enables
+  to_item: IT-PRE2005-0017
+  evidence_refs:
+  - EV-PRE2005-0010
+  - EV-PRE2005-0018
+  confidence: high
+- relation_id: REL-PRE2005-0005
+  from_item: IT-PRE2005-0017
+  type: enables
+  to_item: IT-PRE2005-0018
+  evidence_refs:
+  - EV-PRE2005-0018
+  - EV-PRE2005-0019
+  confidence: high
+- relation_id: REL-PRE2005-0006
+  from_item: IT-PRE2005-0019
+  type: constrains
+  to_item: IT-PRE2005-0018
+  evidence_refs:
+  - EV-PRE2005-0020
+  - EV-PRE2005-0021
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-PRE2005-0001
+  type: new_unique_prepress_source
+  description: No shared message IDs or meaningful normalized text overlap with previously loaded sources. Distinct early Prepress bootstrap history.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-PRE2005-0002
+  type: missing_attached_prior_agreements
+  description: Owner references attached `prepress_hub.docx` / prior agreements, but attachment body is not visible. Assistant's restatement is secondary
+    evidence only.
+  item_refs:
+  - IT-PRE2005-0002
+  - IT-PRE2005-0003
+  - IT-PRE2005-0004
+  evidence_refs:
+  - EV-PRE2005-0003
+  - EV-PRE2005-0004
+  - EV-PRE2005-0005
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-PRE2005-0003
+  type: proposal_code_without_execution_proof
+  description: Large concrete scaffold/code is present, but there is no evidence it was written, installed, tested, run or committed.
+  item_refs:
+  - IT-PRE2005-0005
+  - IT-PRE2005-0008
+  - IT-PRE2005-0017
+  - IT-PRE2005-0021
+  evidence_refs:
+  - EV-PRE2005-0006
+  - EV-PRE2005-0018
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-PRE2005-0004
+  type: absolute_path_drift
+  description: Historical settings hard-code `/srv/software_development/forprint-project/forprint_prepress_hub`, while later Blueprint governance prefers
+    project-relative/portable paths.
+  item_refs:
+  - IT-PRE2005-0012
+  evidence_refs:
+  - EV-PRE2005-0013
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-PRE2005-0005
+  type: local_service_all_interfaces_bind
+  description: Proposed local development server binds `0.0.0.0` with reload, which may expose a development service more broadly than intended.
+  item_refs:
+  - IT-PRE2005-0011
+  evidence_refs:
+  - EV-PRE2005-0012
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-PRE2005-0006
+  type: later_scope_refinement
+  description: May source begins by scaffolding a broad local Hub; 27.06 owner direction later narrows immediate work to capability discovery/product-specific
+    assistants and Unix-first practical tooling before broader integration.
+  item_refs:
+  - IT-PRE2005-0022
+  evidence_refs:
+  - EV-PRE2005-0004
+  - EV-PRE2005-0019
+  severity: high
+  confidence: high
+  requires_followup: false
+open_loops:
+- loop_id: LOOP-PRE2005-0001
+  description: Determine whether the May zero-platform scaffold was ever implemented or superseded before implementation.
+  item_refs:
+  - IT-PRE2005-0005
+  - IT-PRE2005-0008
+  - IT-PRE2005-0009
+  - IT-PRE2005-0017
+  - IT-PRE2005-0021
+  last_known_state: Only proposed code/config/tests are visible; no execution or Git evidence.
+  recommended_verification: Inspect current and historical Prepress Git history/files; classify each scaffold element as implemented, moved, superseded
+    or never applied.
+- loop_id: LOOP-PRE2005-0002
+  description: Recover or supersede the missing `prepress_hub.docx` agreements.
+  item_refs:
+  - IT-PRE2005-0002
+  - IT-PRE2005-0003
+  - IT-PRE2005-0004
+  last_known_state: Attachment is referenced but body absent from MHTML.
+  recommended_verification: Prefer later direct owner Prepress evidence/current authority; recover attachment only if historical provenance is needed.
+- loop_id: LOOP-PRE2005-0003
+  description: Verify current Prepress runtime binding/security policy.
+  item_refs:
+  - IT-PRE2005-0011
+  last_known_state: Historical proposed dev command uses `0.0.0.0:8020 --reload`.
+  recommended_verification: Inspect current deployment/listen configuration; ensure local-only/dev behavior follows current security policy.
+- loop_id: LOOP-PRE2005-0004
+  description: Verify current Prepress path/config portability.
+  item_refs:
+  - IT-PRE2005-0012
+  last_known_state: Historical scaffold hard-codes an absolute server path.
+  recommended_verification: Audit current config for project-relative/root-discovery behavior and remove machine-specific defaults if still active.
+- loop_id: LOOP-PRE2005-0005
+  description: Verify original-input immutability in current processing pipeline.
+  item_refs:
+  - IT-PRE2005-0019
+  last_known_state: Historical next-step explicitly copies input into isolated job workspace and does not touch original.
+  recommended_verification: Audit current job runner/file handling and tests for immutable-source behavior.
+implementation_audit_ref: implementation_audit.stub.yaml

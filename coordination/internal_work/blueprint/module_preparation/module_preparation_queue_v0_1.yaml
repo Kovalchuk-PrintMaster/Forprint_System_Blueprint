@@ -1,0 +1,237 @@
+schema_version: forprint_module_preparation_queue_v0_1
+status: ACTIVE_CURRENT
+purpose: operator-driven module preparation only
+ordering: module_id_lexicographic_not_development_priority
+development_priority_selection_performed: false
+development_priority_selection_allowed: false
+worker_launch_allowed: false
+operator_selection_required: true
+queue_rows:
+- module_id: calculator_engine
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: true
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: cloud_backup_manager
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_accounting_registry_service
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_contract_registry
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_crm
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_identity_access_service
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_integration_gateway
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_library
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_marketing_orchestrator
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_operations_assistant
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_operations_control_registry
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_prepress_hub
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_project_inspector
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 9
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  - BLUEPRINT_OBLIGATIONS_REQUIRE_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_strategic_control_plane
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: forprint_system_administration
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: logistics_service
+  preparation_state: BOOTSTRAP_READY
+  action: AWAIT_EXPLICIT_BOOTSTRAP_REPLACEMENT_RELEASE_AUTHORIZATION
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 5
+  blockers:
+  - BOOTSTRAP_REPLACEMENT_PROMPT_RELEASE_AUTHORIZATION_REQUIRED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: mobile_app
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: production_runtime_inspector
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: telegram_bot
+  preparation_state: DISCOVERED
+  action: FORENSIC_INVENTORY
+  historical_legacy_risk: true
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: verification_lab
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: warehouse_service
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false
+- module_id: website
+  preparation_state: DISCOVERED
+  action: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  development_priority_rank: null
+  dispatch_allowed: false

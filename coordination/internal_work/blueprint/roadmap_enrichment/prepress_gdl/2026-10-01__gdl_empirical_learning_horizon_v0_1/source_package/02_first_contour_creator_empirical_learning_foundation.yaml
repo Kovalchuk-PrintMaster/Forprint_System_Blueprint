@@ -1,0 +1,122 @@
+schema_version: forprint_gdl_planned_contour_v0_1
+contour_id: prepress_gdl_creator_empirical_learning_foundation_v0_1
+title: GDL Creator Empirical Learning Foundation v0.1
+priority: highest_next
+requested_state: blueprint_review_then_executable_prompt
+owner_module: forprint_prepress_hub
+capability: graphic_design_lab
+purpose: >
+  Establish the smallest governed foundation for capturing, comparing and learning from
+  real Creator-facing design cases before broader GDL automation is implemented.
+why_first: >
+  Current development can already define contracts and deterministic mechanics, but the
+  next architectural decisions should be driven by real evidence about customer request
+  patterns, operator usability, prompt effectiveness, Creator strengths/weaknesses,
+  revision behavior, and customer acceptance.
+primary_outcome: >
+  A lightweight, operator-usable empirical case system plus a manual experimentation
+  protocol that lets the Human Owner and assistant collect real cases immediately while
+  worker-built mechanics mature around them.
+authorized_scope:
+  - define_creator_interaction_case_schema
+  - define_case_identity_and_external_artifact_reference_semantics
+  - define_product_task_and_variant_metadata
+  - define_prompt_version_and_prompt_text_reference_semantics
+  - define_creator_result_observation_metadata
+  - define_operator_assessment_fields
+  - define_customer_acceptance_and_optional_satisfaction_fields
+  - define_accepted_attempt_and_revision_count_metrics
+  - define_strengths_weaknesses_failure_modes_and_lessons_fields
+  - define_candidate_local_automation_observation_fields
+  - define_manual_operator_intake_experiment_protocol
+  - define_lightweight_product_intake_loader_instruction_pattern
+  - provide_sanitized_examples_for_menu_business_card_and_flyer
+  - add_validation_and_indexing_support
+  - add_human_readable_case_summary_view
+  - add_Makefile_operator_workflow
+  - add_focused_tests
+  - add_verified_local_evidence_after_implementation
+manual_experiment_focus:
+  objective: >
+    Allow a non-designer manager/operator to use a prepared instruction in a fresh AI chat
+    and be guided from a minimal customer statement toward sufficient information for a
+    Creator-ready prompt.
+  initial_products: [menu, business_card, flyer]
+  mode: manual_experimental
+  production_runtime_required: false
+data_policy:
+  keep_in_repository:
+    - sanitized_case_metadata
+    - prompt_text_or_sanitized_prompt_reference
+    - prompt_version
+    - product_and_task_metadata
+    - structured_observations
+    - operator_assessment
+    - customer_acceptance_signal
+    - customer_satisfaction_signal_if_explicitly_known
+    - accepted_attempt
+    - revision_count
+    - failure_modes
+    - lessons
+    - external_artifact_locator_metadata
+  do_not_require_in_repository:
+    - heavy_design_files
+    - customer_source_assets
+    - generated_high_resolution_design_files
+  privacy:
+    store_customer_pii_in_git: false
+    prefer: [customer_ref, order_ref, case_ref, external_storage_locator]
+required_distinctions:
+  - operator_accepted_is_not_customer_accepted
+  - customer_accepted_is_not_customer_explicitly_satisfied
+  - technically_valid_is_not_design_approved
+  - design_approved_is_not_production_ready
+  - failed_prompt_is_learning_evidence_not_discardable_noise
+initial_high_value_metrics:
+  - first_attempt_accepted
+  - accepted_attempt
+  - revision_count
+  - manual_intervention_required
+  - operator_acceptance
+  - customer_acceptance
+  - customer_explicit_satisfaction_if_known
+  - unresolved_question_count
+  - creator_failure_modes
+  - preprocessing_steps
+  - postprocessing_steps
+explicit_deferrals:
+  - autonomous_creator_execution
+  - provider_selection
+  - provider_orchestration
+  - production_write
+  - GDL_runtime_initialization
+  - automatic_customer_messaging
+  - automatic_order_creation
+  - automatic_design_approval
+  - heavy_artifact_storage_in_git
+  - broad_cross_module_API
+  - automatic_model_scoring_or_ranking
+  - large_scale_analytics_before_sufficient_cases_exist
+acceptance:
+  - case_schema_validated
+  - manual_case_can_be_recorded_without_real_customer_PII
+  - external_artifact_reference_supported_without_copying_artifact_into_repo
+  - accepted_attempt_and_revision_count_are_explicit
+  - operator_and_customer_outcomes_are_separate
+  - strengths_weaknesses_failure_modes_and_lessons_are_recordable
+  - manual_menu_intake_experiment_can_be_run_from_a_fresh_chat
+  - ambiguity_and_missing_information_are_preserved_not_silently_invented
+  - deterministic_validation_passes
+  - focused_tests_pass
+  - governance_passes
+  - assistant_handoff_passes
+  - Makefile_operator_surface_exists
+  - System_Blueprint_remains_read_only_from_Prepress
+  - no_next_contour_auto_activated
+stop_conditions:
+  - equivalent_current_case_learning_system_requires_reconciliation
+  - ownership_conflict_with_CRM_operational_registry_or_other_module
+  - customer_PII_would_be_required_in_repository
+  - production_runtime_or_provider_execution_becomes_required
+  - cross_module_contract_is_required_without_Blueprint_resolution
+  - current_module_state_materially_invalidates_this_contour

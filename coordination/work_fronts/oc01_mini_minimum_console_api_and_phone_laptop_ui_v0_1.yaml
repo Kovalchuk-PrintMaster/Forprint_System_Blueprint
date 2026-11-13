@@ -1,0 +1,156 @@
+work_front_id: wf-oc01-mini-minimum-console-api-and-phone-laptop-ui-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-6
+name: minimum_console_api_and_phone_laptop_ui
+
+objective: >-
+  Deliver the minimum phone/laptop Operator Console as a thin HTTP/JSON and
+  responsive HTML surface over already-published OC01 backend adapters. Reuse
+  session projection, Protected Terminal, Assistant Dev Sandbox, checkpoint/seal
+  and promotion preview implementations. Do not create execution truth, lease
+  authority, promotion authority or a second control plane.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_6_BOUNDED_IMPLEMENTATION_ONLY
+  runtime_projection:
+    console_is_state_authority: false
+    execution_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    promotion_authority: false
+    release_authority: false
+
+reuse_adapt_new:
+  session_projection:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/session_projection.py
+  protected_terminal:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/protected_terminal.py
+  assistant_dev_sandbox:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  sealed_result:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/sealed_result.py
+  promotion_surface:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/promotion_surface.py
+  dashboard_projection_semantics:
+    disposition: REUSE_EXTEND
+    rationale: >-
+      Present existing non-authoritative projections through one compact
+      operator snapshot without creating a new state source.
+  minimum_http_json_surface:
+    disposition: NEW
+    rationale: >-
+      No existing HTTP API framework or server is present in the OC01 baseline.
+      MINI-6 needs only a small standard-library HTTP adapter.
+  responsive_phone_laptop_ui:
+    disposition: NEW
+    rationale: >-
+      No existing Operator Console web UI exists. MINI-6 requires only a thin,
+      dependency-free responsive page over the same JSON API.
+
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_minimum_console_api_and_phone_laptop_ui_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/console_api.py
+  - scripts/coordination/control_plane/operator_console/console_ui.py
+  - tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py
+  - tests/coordination/control_plane/operator_console/test_oc01_console_ui_v0_1.py
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - Makefile
+
+protected_reuse_only_components:
+  - scripts/coordination/control_plane/operator_console/session_projection.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  - scripts/coordination/control_plane/operator_console/sealed_result.py
+  - scripts/coordination/control_plane/operator_console/promotion_surface.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/workspace/provision.py
+
+api_contract:
+  implementation: python_standard_library_http_server
+  external_http_dependency_added: false
+  default_bind: 127.0.0.1
+  remote_bind:
+    default_allowed: false
+    explicit_flag_required: true
+    transport_authentication_provided_by_mini6: false
+    external_trusted_transport_required: true
+  path_scope:
+    canonical_root: exact_configured_repository
+    runtime_root: exact_configured_runtime_tree
+    arbitrary_host_filesystem_read: false
+  read_endpoints:
+    - GET /api/health
+    - GET /api/snapshot
+  bounded_action_endpoints:
+    - POST /api/action/terminal_plan
+    - POST /api/action/terminal_run
+    - POST /api/action/sandbox_create
+    - POST /api/action/sandbox_status
+    - POST /api/action/checkpoint
+    - POST /api/action/seal
+    - POST /api/action/promotion_preview
+  forbidden_action_endpoints:
+    - promotion_apply
+    - commit
+    - push
+    - merge
+    - release
+
+ui_contract:
+  dependency_free: true
+  responsive_phone_laptop: true
+  state_source: console_api_only
+  sections:
+    - state_snapshot
+    - protected_terminal
+    - assistant_dev_sandbox
+    - checkpoint_and_seal
+    - promotion_preview
+  local_storage_role: operator_form_convenience_only_not_state_authority
+  promotion_apply_control_present: false
+
+acceptance:
+  - HTTP server uses Python standard library only
+  - default bind is loopback and remote bind requires an explicit flag
+  - API file access is restricted to configured canonical/runtime roots
+  - snapshot is explicitly non-authoritative
+  - terminal plan/run delegates to Protected Terminal backend
+  - sandbox create/status delegates to Assistant Dev Sandbox backend
+  - checkpoint/seal delegates to MINI-4 backend
+  - promotion preview delegates to MINI-5 backend
+  - no promotion apply endpoint exists
+  - no commit/push/merge/release endpoint exists
+  - responsive HTML exposes state, terminal, sandbox, checkpoint/seal and promotion preview
+  - protected reuse-only components remain byte-identical
+  - focused tests and prior OC01 backend regressions pass
+  - Makefile exposes console check/snapshot/serve workflows
+  - work-front, roadmap-detail, document-surface and diff checks pass
+
+non_goals:
+  - implement authentication or TLS inside MINI-6
+  - expose unauthenticated remote bind by default
+  - create another execution registry
+  - create another lease authority
+  - implement promotion apply in the UI
+  - commit
+  - push
+  - merge
+  - release
+  - full frontend framework migration
+  - activate OC01-MINI-7
+
+source_design_freeze:
+  slice: OC01-MINI-6
+  name: minimum_console_api_and_phone_laptop_ui
+  rule: thin surface over canonical backend

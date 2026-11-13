@@ -1,0 +1,143 @@
+schema_version: forprint_evening_architecture_canonical_integration_closure_v0_1
+date: '2026-09-19'
+status: PASS_CANONICAL_PLANNING_COVERAGE_21_OF_21
+authority: integration_evidence_not_release_or_execution_authority
+source_package:
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1
+  file_count: 12
+  files:
+  - 00_README.md
+  - 01_tomorrow_bootstrap_prompt.md
+  - 02_evening_architecture_summary.md
+  - 03_roadmap_capabilities.yaml
+  - 04_telegram_communication_boundary.md
+  - 05_customer_profiles_and_dynamic_policy.md
+  - 06_historical_asset_indexing.md
+  - 07_process_manager_hosted_capability.md
+  - 08_integration_audit_checklist.md
+  - 09_open_questions.md
+  - SHA256SUMS.txt
+  - manifest.yaml
+  immutable_source_preserved: true
+coverage_evidence:
+  mode: recomputed_directly_from_canonical_planning_surfaces
+  temporary_report_dependency: false
+  total_checks: 21
+  covered_checks: 21
+  missing_checks: 0
+  result: PASS
+  checks:
+    telegram_personalized_communication: COVERED
+    telegram_structured_intent_contract: COVERED
+    telegram_customer_context: COVERED
+    telegram_clarification_workspace: COVERED
+    telegram_ai_escalation: COVERED
+    historical_asset_index: COVERED
+    historical_asset_retrieval_consumer: COVERED
+    crm_seed_profile: COVERED
+    crm_observed_customer_model: COVERED
+    crm_effective_policy: COVERED
+    crm_baseline_shift: COVERED
+    crm_health_trajectory: COVERED
+    crm_event_reconciliation: COVERED
+    crm_transition_audit: COVERED
+    process_manager_host: COVERED
+    process_manager_ocr_host: COVERED
+    process_manager_durable_state: COVERED
+    process_manager_extraction_ready: COVERED
+    process_manager_crm_surface: COVERED
+    process_manager_gateway_boundary: COVERED
+    process_manager_logistics_boundary: COVERED
+integrated_capability_groups:
+- telegram_personalized_communication_orchestration
+- telegram_structured_communication_intents
+- telegram_customer_context_consumption
+- telegram_structured_clarification_workspace
+- telegram_deterministic_context_ai_human_escalation
+- crm_seed_profile
+- crm_observed_customer_model
+- crm_effective_policy
+- crm_baseline_shift_detection
+- crm_customer_health_and_trajectory
+- crm_event_and_periodic_reconciliation
+- crm_profile_policy_transition_audit
+- historical_asset_index_distributed_capability
+- historical_asset_retrieval_consumer
+- process_manager_hosted_capability
+- process_manager_crm_control_surface
+- process_manager_logistics_boundary
+- process_manager_gateway_boundary
+resolved_planning_decisions:
+- decision: telegram_communication_orchestration
+  state: RESOLVED_IN_PLANNING
+  summary: Telegram is the personalized communication orchestration layer and consumer of canonical domain
+    facts, not their owner.
+- decision: customer_intelligence_working_owner
+  state: RESOLVED_IN_PLANNING
+  working_owner: forprint_crm
+  summary: Seed Profile, Observed Customer Model, Effective Policy orchestration and customer health/trajectory
+    projections are planned in CRM while underlying domain facts remain with their canonical owners.
+- decision: historical_asset_index_ownership
+  state: RESOLVED_AS_DISTRIBUTED_CAPABILITY
+  summary: 'Historical Asset Index is a projection over distributed authoritative sources: Library reference/media
+    semantics, Prepress technical asset facts and Operations Control Registry operational order/job/revision
+    state.'
+- decision: semantic_retrieval_module_status
+  state: REMAINS_NONCANONICAL
+  summary: ForPrint Semantic Retrieval Service is not automatically promoted. Search returns candidates;
+    domain owners retain truth.
+- decision: process_manager_initial_host
+  state: RESOLVED_IN_PLANNING
+  working_host: forprint_operations_control_registry
+  summary: The first durable Process Manager capability is hosted inside Operations Control Registry as
+    a separate extraction-ready capability.
+- decision: process_manager_separation
+  state: HOSTED_BUT_EXTRACTABLE
+  summary: No standalone Process Manager module is created initially. Later extraction requires evidence
+    from scale, topology, availability, ownership pressure or cross-domain coupling.
+open_governance_and_implementation_questions:
+- question: communication_profile_canonical_location
+  state: OPEN
+- question: exact_database_models_and_storage_topology
+  state: OPEN
+- question: existing_telegram_capability_overlap_and_migration
+  state: OPEN
+- question: calculator_extension_target_for_order_draft_or_clarification
+  state: OPEN
+- question: business_workflow_terminology_collisions
+  state: OPEN
+- question: customer_health_evidence_vs_effective_policy_authority
+  state: OPEN
+- question: automatic_vs_human_approved_customer_policy_changes
+  state: OPEN
+- question: bounded_pilot_scenarios_and_acceptance_metrics
+  state: OPEN
+- question: process_manager_extraction_trigger_thresholds
+  state: OPEN
+canonical_planning_surfaces:
+  telegram_roadmap:
+    path: coordination/roadmaps/telegram_bot.yaml
+    sha256: 5a1e9d8679fd47493caae27efed3f32f0b76cc241e9b848c42d7c93a5f661c5a
+  portfolio_full_horizon_yaml:
+    path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+    sha256: f19182e4af8c4e80edcfd74ce34da499989be46d18b86b856d6d210e4db7973b
+  portfolio_full_horizon_md:
+    path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.md
+    sha256: 2ab38a2b0fcb181032f64ae1bbd76d5ef9e911bfe1fa4d0ddb8b622cdb96c46a
+  approval_matrix_yaml:
+    path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+    sha256: 5dd568a26524c8b2186556f79951662081575352d8b412026f88f5c83877736d
+  approval_matrix_md:
+    path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.md
+    sha256: 7cb0f186eb3da12ba027da115dafc1b2b3d304efabc25294ae7cf41986d74f68
+safety_and_authority:
+  execution_authority_changed: false
+  distribution_gate_changed: false
+  module_implementation_authorized: false
+  assistant_distribution_authorized: false
+  cf10_binding: false
+  cf10_activation: false
+closure_statement: All substantive practical capabilities from the 2026-09-19 evening architecture handoff
+  are represented in canonical planning surfaces. Remaining items are governance, detailed ownership,
+  data-model, migration, pilot or extraction-threshold questions and do not invalidate the planning coverage
+  closure.

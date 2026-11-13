@@ -1,0 +1,163 @@
+schema_version: forprint_work_front_v0_1
+work_front_id: wf-oc01-full1-protected-terminal-runtime-observation-bridge-v0-1
+roadmap_step: OC-01
+contour: OC01-FULL-1
+name: protected_terminal_runtime_observation_bridge
+objective: Reuse the existing shared launcher heartbeat/watchdog contract to expose bounded runtime progress observations
+  through Protected Terminal external append-only history without modifying worker runtime or widening authority.
+authority:
+  work_front_is_execution_authority: true
+  chat_is_authority: false
+  execution_authority_scoped_to_this_slice: true
+  dispatch_authority_conferred: false
+  lease_authority_conferred: false
+  release_authority_conferred: false
+  push_authority_conferred: false
+  merge_authority_conferred: false
+  automatic_accept: false
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: REUSE_AND_EXTEND_CONSUMER
+  reuse_target: scripts/coordination/control_plane/worker_runtime/launcher.py
+  reuse_function: launch_process
+  launcher_modification_allowed: false
+  new_launcher_allowed: false
+scope:
+- scripts/coordination/control_plane/operator_console/protected_terminal.py
+- tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+read_only_dependencies:
+- scripts/coordination/control_plane/worker_runtime/launcher.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+- coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_b_runtime_observation_design_freeze_v0_1.yaml
+exclusions:
+- SAFE_WRITE
+- canonical_session_or_lease_implementation
+- live_process_cancel
+- byte_level_live_stdout_streaming
+- arbitrary_shell_or_command_text
+- sensitive_elevation_approval
+- capability_registry_integration
+- worker_runtime_launcher_modification
+- kill_on_stall
+- automatic_retry
+- automatic_redispatch
+- OC01_FULL_2_plus_activation
+instructions:
+- Modify only the two declared scope files.
+- Reuse worker_runtime.launcher.launch_process; do not fork or wrap it into a second process runtime.
+- Add explicit bounded runtime-observation configuration to Protected Terminal plans.
+- Use the existing on_heartbeat callback to append sanitized observation metadata to external terminal history.
+- Retain only bounded progress/stall metadata, never stdout/stderr content in history.
+- Preserve fixed registered argv, --no-optional-locks, exact repo scope and shell=false.
+- Keep stall observational only and keep timeout behavior owned by the shared launcher.
+- Keep SAFE_WRITE blocked and live cancel dependency-gated.
+- Start with tests and preserve all existing Slice A behavior.
+acceptance:
+- Tests-first RED is observed for the new Protected Terminal observation surface.
+- Shared launcher and its CF10 regression test file remain byte-for-byte unchanged.
+- Protected Terminal still accepts only registered fixed argv with shell=false.
+- Runtime observation is explicit and does not introduce arbitrary command text.
+- Heartbeat callback facts are sanitized before append-only audit retention.
+- No stdout/stderr content is copied into terminal history; only bounded metadata is retained.
+- Observed progress is not represented as semantic proof that a model is thinking.
+- Stall evidence is observational only and causes no remediation.
+- Timeout remains distinct and uses the existing shared launcher termination path.
+- SAFE_WRITE remains blocked by EXCLUSIVE_MODULE_LEASE_NOT_PROVEN.
+- Live cancel remains DEPENDENCY_PENDING_CF10 and is not implemented by Slice B.
+- No new launcher, dispatcher, daemon or parallel control plane is created.
+- No commit, push, merge, release or promotion authority is granted by the gateway.
+- Focused Protected Terminal tests pass.
+- Existing shared launcher tests pass unchanged.
+- Work-front contract validation passes.
+- git diff --check passes on the exact Slice B write set.
+stop_conditions:
+- A modification to shared launcher or its CF10 test file becomes required.
+- A third implementation mutation path becomes required.
+- Byte-level streaming or arbitrary command text becomes necessary.
+- SAFE_WRITE, live cancel, retry, redispatch or authority widening becomes necessary.
+- Existing registered argv/shell=false semantics cannot be preserved.
+- Shared launcher SHA changes before implementation and is not reconciled.
+- Protected Terminal implementation/test SHA changes before implementation and is not reconciled.
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_b_runtime_observation_design_freeze_v0_1.yaml
+activation_boundary:
+  implementation_authorized: true
+  automatic_commit: false
+  automatic_push: false
+  automatic_next_slice_activation: false
+status: SLICE_B_RUNTIME_PROVEN
+completion_evidence:
+  completed_at: '2026-10-04'
+  activation_commit: 5834647a0680a1923f4a58a8a8d9faaf9ebc734b
+  published_implementation_commit: 442b4b2af5aae65658a3e4e154f7c5547a2fbb74
+  implementation:
+    tests_first_red_observed: true
+    gateway_test_count: 23
+    gateway_tests_passed: 23
+    shared_launcher_regression_test_count: 6
+    shared_launcher_regression_tests_passed: 6
+    work_front_contract_check: PASS
+    canonical_terminal_check: PASS
+    semantic_review: PASS
+    implementation_write_set:
+    - scripts/coordination/control_plane/operator_console/protected_terminal.py
+    - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+    module_sha256: bfd54a8166216e339933d140c14dc310e55739932deb930bda0a62c80f00e89d
+    test_sha256: 70415b0db0acebea2808790029d659ab5a76fa54027af4a3fea66b389ab39263
+    shared_launcher_sha256: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+    shared_launcher_test_sha256: d877e685dc4ab6981a1abd2ea2fea8cac4896f890b26b682fbc4dc7ea8e342b4
+  runtime_proof:
+    state: PASS
+    schema_version: forprint_oc01_full1_slice_b_runtime_proof_v0_2
+    yaml_path: tmp/oc01_full1_slice_b_runtime_proof_2026_10_04_v0_2.yaml
+    yaml_sha256: 78aae38d94965f5ba6c2d426069bb5d9769db51305b3ede878fc6cae5c917752
+    markdown_path: tmp/oc01_full1_slice_b_runtime_proof_2026_10_04_v0_2.md
+    markdown_sha256: 451bd8c832bfe1b73f74f2bf73bd457b0ff05d9fd35f4098e4ed18d4c082ebcc
+    previous_v0_1_failure: HARNESS_WORKLOAD_TOO_FAST_NOT_IMPLEMENTATION_FAILURE
+    default_path_compatibility: PASS
+    default_runtime_observation_event_count: 0
+    calibration_method: REAL_REGISTERED_REPO_DIFF_CHECK
+    selected_payload_mib: 256
+    calibrated_direct_elapsed_seconds: 2.212083
+    real_runtime_observation_event_count: 2
+    protected_terminal_elapsed_seconds: 2.254576
+    progress_observed_true_seen: false
+    stall_detected_true_seen: true
+    progress_stall_metadata_present: true
+    sanitizer_allowlist_enforced: true
+    stdout_sentinel_present: true
+    stdout_sentinel_absent_from_history: true
+    byte_level_streaming: false
+    callback_error_count: 0
+    fake_git_used: false
+    monkeypatch_used: false
+    canonical_blueprint_repo_used_as_execution_target: false
+  dependency_boundaries:
+    safe_write_enabled: false
+    safe_write_blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    live_cancel_enabled: false
+    live_cancel_state: DEPENDENCY_PENDING_CF10
+    sensitive_elevated_capability_approval: DESIGN_REQUIRED_NOT_ACTIVATED
+    registry_integration: NO_RUNTIME_PRIMITIVE_PROVEN
+  authority_and_integrity:
+    authority_widened: false
+    canonical_write_performed: false
+    commit_performed_by_gateway: false
+    push_performed_by_gateway: false
+    merge_performed_by_gateway: false
+    release_performed_by_gateway: false
+    promotion_performed_by_gateway: false
+    canonical_tracked_hashes_unchanged: true
+    canonical_git_status_unchanged: true
+    shared_launcher_unchanged: true
+  completion:
+    slice_b_complete: true
+    slice_b_runtime_proven: true
+    oc01_full1_complete: false
+    remaining:
+    - lease_backed_safe_write
+    - live_process_cancel
+    - sensitive_elevated_capability_approval
+    - registry_integration
+    automatic_next_slice_activation: false

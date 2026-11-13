@@ -1,0 +1,59 @@
+schema_version: blueprint_q1_clarification_lifecycle_activation_v0_1
+metadata:
+  created_at: '2026-08-24T17:25:17+03:00'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: LOCAL_COMMITTED_READY_FOR_EXPLICIT_PUBLICATION
+record_id: blueprint_q1_clarification_lifecycle_activation_2026_08_24_v0_1
+activation:
+  display_id: Q1
+  stable_id: blueprint_v0_4_1_clarification_question_lifecycle_v0_1
+  operator_direction: PROCEED_TO_Q_TRACK
+  manual_execution_of_activation_transaction_required: true
+  automatic_activation: false
+dependency_evidence:
+  b2_acceptance_seal_commit: c0b74c261b11f4c0e59d49fdd7bfc12d5be54788
+  b2_exit_marker: B2_ACCEPTED_PUBLISHED_CLOSED
+  dependency_satisfied: true
+scope:
+  question_lifecycle:
+  - OPEN
+  - ROUTED
+  - ANSWERED
+  - CONFIRMED
+  - RESOLVED
+  alternative_terminals:
+  - ESCALATED
+  - CANCELLED
+  - EXPIRED
+  prompt_waiting_state: waiting_on_clarification
+  question_alone_means_return_or_hold: false
+  minimum_identity:
+  - question_id
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - requester
+  - target
+  - correlation_id
+  - blocking
+  - question_class
+  - round
+  - question
+  - answer
+  - evidence_refs
+  - timestamps
+boundaries:
+  q2_q8_activated: false
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  autonomous_execution_enabled: false
+  automatic_acceptance: false
+  automatic_next_activation: false
+  telegram_transport_enabled: false
+  cross_repository_writes: false
+  business_prompt_release: false
+next_transition:
+  id: Q1-IMPLEMENT-ACCEPT
+  exit_marker: Q1_ACCEPTED_PUBLISHED_CLOSED

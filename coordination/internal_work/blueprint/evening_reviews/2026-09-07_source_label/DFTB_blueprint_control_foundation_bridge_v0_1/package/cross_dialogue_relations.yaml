@@ -1,0 +1,41 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-blueprint-source-label-2026-09-07-control-foundation
+relations:
+- type: overlaps_checkpoint_with
+  from_bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  to_bundle: DFTB-blueprint-2026-09-12
+  confidence: HIGH
+  note: This chat begins from CF-01 CLOSED / CF-02 NEXT_MANUAL, a checkpoint also present inside the 12.09 history. It supplies missing reasoning for the
+    CF-02 candidate/review path.
+- type: precedes
+  from_bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  to_bundle: DFTB-blueprint-2026-09-14-continuation
+  confidence: HIGH
+  note: 14.09 later shows CF-02 hardening PASS and additional migration/closure diagnostics; this source captures the earlier v0.1 RETURN_FOR_CORRECTION
+    stage.
+item_relations:
+- type: refines
+  from_item: IT-BP0709CF-0007
+  to_item: IT-BP1209-0028
+  confidence: HIGH
+  note: Same roadmap-plan vs lifecycle-execution authority model, now exercised in an implementation candidate.
+- type: motivates
+  from_item: IT-BP0709CF-0012
+  to_item: IT-BP1209-0033
+  confidence: HIGH
+  note: Missing dependency/registry contracts explain later stricter CF-02 registration hardening.
+- type: motivates
+  from_item: IT-BP0709CF-0013
+  to_item: IT-BP1209-0033
+  confidence: HIGH
+  note: Missing derivation registration explains later strict registration/rebuild ordering.
+- type: motivates
+  from_item: IT-BP0709CF-0016
+  to_item: IT-BP1209-0033
+  confidence: HIGH
+  note: Projection bootstrap gap explains later roadmap-sync ordering after apply.
+- type: precedes
+  from_item: IT-BP0709CF-0011
+  to_item: IT-BP1409-0001
+  confidence: HIGH
+  note: v0.1 is RETURN_FOR_CORRECTION here; 14.09 later reports CF-02 hardening PASS.

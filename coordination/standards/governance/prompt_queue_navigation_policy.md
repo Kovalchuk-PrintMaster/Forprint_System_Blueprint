@@ -116,15 +116,17 @@ normal
 low
 reference
 
-Priority controls operator attention, not automatic execution.
+Priority controls canonical future-work selection among otherwise eligible candidates; it does not authorize execution.
 
-High-priority prompts should be considered before lower-priority prompts, but sequence order remains the main navigation rule inside one module queue.
+Higher-priority eligible work is selected before lower-priority eligible work. Equal-priority candidates use stable canonical ID, not sequence or creation time, as the deterministic tie-break.
 
 ## Sequence
 
 Each prompt should have a numeric sequence.
 
 The sequence is module-local.
+
+Sequence is navigation and audit metadata. It is not the canonical future-work selection key and must not outrank priority.
 
 Example:
 
@@ -134,6 +136,21 @@ forprint_library:
   3 reference resolution preview
 
 If an older sequence remains unfinished while a later prompt is already in progress, dashboards should mark the older unfinished prompt as a warning.
+
+## Roadmap binding — Logistics pilot hardening
+
+The current Logistics pilot requires every new managed `draft` / `prepared`
+prompt artifact to carry an explicit stable `roadmap_step_id`.
+
+This is structural identity. Filename and free-text matching are not valid
+forward bindings. When a Logistics managed artifact is released, Prompt Queue
+v0.2 persists the same `roadmap_step_id`.
+
+Historical released prompts and non-managed legacy drafts remain readable for
+migration/forensic compatibility and are not rewritten. They do not count as
+H7 Logistics pilot buffer stock unless they have the structured binding.
+
+Pilot rollout to other modules requires a later explicit operator decision.
 
 ## Prompt File
 
@@ -178,7 +195,7 @@ Markdown and JSON reports must not rely only on color. They must include explici
 
 The next prompt for a module should be resolved from the queue, not from a hardcoded Makefile variable.
 
-The resolver should select the first prompt by sequence where:
+Active-prompt navigation is not future-work selection. Under WIP=1, the active resolver should return the single prompt where:
 
 module_execution.status == ready_for_module_pull
 
@@ -313,3 +330,14 @@ current ready prompt marked with an arrow;
 status color applied to the whole active row;
 draft/planned prompts shown in a separate muted section;
 draft prompts never treated as executable work.
+
+## Logistics H7 prepared acceptance binding
+
+During the Logistics pilot, structured `roadmap_step_id` is necessary but not
+sufficient for acceptance-ready prepared work. A concrete prepared prompt is
+paired with an immutable `module_prompt_contract_v0_4` source snapshot and a
+Blueprint-owned `blueprint_acceptance_oracle_v0_1`; the roadmap parent binds
+the oracle by exact path and SHA-256.
+
+Roadmap parents without a concrete prompt remain planning-only and do not
+receive placeholder/fabricated oracle bindings.

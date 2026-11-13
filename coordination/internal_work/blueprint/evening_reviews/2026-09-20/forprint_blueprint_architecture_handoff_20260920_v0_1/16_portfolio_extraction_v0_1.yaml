@@ -1,0 +1,151 @@
+schema_version: forprint_blueprint_architecture_handoff_portfolio_extraction_v0_1
+source_date: '2026-09-20'
+intake_date: '2026-09-21'
+source_archive_sha256: 5f0d3130309f7473949f8a1a14adf41023e2a86b1e3eaa3aaa1cf96b927eb4d9
+authority: planning_input_not_execution_authority
+operator_reconfirmation_2026_09_21:
+  roadmap_enrichment_scope: portfolio_wide
+  nt07_interest: explicitly_reconfirmed
+  desired_outcome: After knowledge saturation, Blueprint should maintain a dynamic portfolio planning system that
+    recomputes dependency relationships, matrices, chains, readiness and derived planning projections when roadmap
+    knowledge changes, and provides machine-readable reports and human dashboards.
+  implementation_rule: Before implementation, reconcile the task against current Blueprint structure and existing
+    mechanisms; enrich/refine the task where repository evidence requires it.
+near_term_capabilities:
+- id: NT-01
+  title: Existing mechanism reconciliation audit
+  disposition: MANDATORY_FIRST
+  intent: Audit existing Blueprint mechanisms before introducing any architecture capability.
+- id: NT-02
+  title: Worker execution sandbox and capability enforcement
+  disposition: RECONCILE_WITH_CONTROL_FOUNDATION
+- id: NT-03
+  title: Reuse-first capability discovery and novelty gate
+  disposition: RECONCILE_WITH_CF04_AND_CURRENT_REUSE_GOVERNANCE
+- id: NT-04
+  title: Implementation Knowledge and Traceability Graph
+  disposition: RECONCILE_WITH_CURRENT_INDEX_GRAPH_INSPECTOR_FOUNDATIONS
+- id: NT-05
+  title: Publication Control Plane and promotion model
+  disposition: BLUEPRINT_HOSTED_EXTRACTION_READY_CANDIDATE
+- id: NT-06
+  title: Capability lifecycle/catalog/publication-review architecture
+  disposition: OWNERSHIP_AUDIT_REQUIRED_LIBRARY_HOST_CANDIDATE
+- id: NT-07
+  title: Portfolio Planning Dependency Intelligence and Convergence Engine
+  disposition: PRIMARY_OPERATOR_FOCUS_SEPARATE_IMPLEMENTATION_CANDIDATE
+  host: forprint_system_blueprint
+  extraction_ready: true
+portfolio_planning_recovered_direction:
+  phase: PORTFOLIO_KNOWLEDGE_SATURATION
+  principle: EXPAND_KNOWLEDGE_NOT_PERFECT_ORDER
+  normalized_graph_entities:
+  - module
+  - capability
+  - roadmap_step
+  - work_item
+  - milestone
+  - artifact
+  - policy
+  - decision
+  - resource_pool
+  - risk
+  - external_dependency
+  candidate_relations:
+  - requires
+  - blocks
+  - enables
+  - produces
+  - consumes
+  - invalidates
+  - derived_from
+  - supersedes
+  - conflicts_with
+  - competes_for_resource
+  - gated_by
+  - implements
+  - evidence_for
+  near_mid_term_analysis:
+  - dependency_integrity
+  - cycles_and_strongly_connected_components
+  - topological_generations
+  - blast_radius
+  - bottleneck_and_bridge_analysis
+  - current_execution_frontier
+  - desired_vs_actual_reconciliation
+  - plan_revisions
+  - event_watermark_freshness
+  - structured_reports
+  - scenario_dry_runs
+  - transaction_change_set_application
+  later_analysis_reference_only:
+  - critical_path_and_float
+  - resource_constrained_critical_chain
+  - capacity_and_leveling
+  - baselines_and_variance
+  - uncertainty_and_buffers
+  - monte_carlo
+  - sensitivity_analysis
+  - system_dynamics
+  authority_split:
+    planner: desired_planning_state
+    continuity_event_store: factual_execution_history
+    dispatcher: execution_leases_and_state_transitions
+    reconciler: desired_vs_actual_comparison
+    publication_control: canonical_git_promotion_not_planning_priority
+    project_inspector: read_only_conformance_and_diagnostics
+  dynamic_vocabulary:
+  - Strategic Horizon
+  - Near-Horizon Candidate Chain
+  - Execution Frontier
+  - Execution Lease
+  - Plan Revision
+  - Planning Control Signal
+  - Promotion Milestone
+  projection_principle: Canonical sources remain authoritative; indexes support lookup, graphs support relationship
+    reasoning, and dashboards/C4/UML/BPMN/WBS-style views are derived projections.
+existing_blueprint_foundations_to_reconcile:
+- coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml#CF-02
+- coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml#CF-07
+- coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml#CF-14
+- coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+- coordination/roadmaps/details/forprint_system_blueprint/dependency_matrix_seed_v0_1.yaml
+- coordination/roadmaps/details/forprint_system_blueprint/portfolio_execution_dashboard_concept_v0_1.md
+- coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+- coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+- coordination/human_intent/modules/forprint_system_blueprint.yaml
+far_horizon:
+  authority: STRATEGIC_REFERENCE_ONLY
+  rule: Do not convert wholesale into implementation backlog.
+  reference_families:
+  - CPM
+  - CCPM
+  - PERT
+  - Monte Carlo
+  - Sensitivity Analysis
+  - System Dynamics
+  - EVM
+  - Lean/Last Planner
+  - Jira-like lessons
+  - MS Project/Planner lessons
+  - C4
+  - UML
+  - BPMN
+  - WBS
+  - Google Issue Tracker/Critique/OKR/Design Sprint
+  - portfolio digital twin
+  - mature multi-worker parallelism
+open_questions_preserved:
+- existing execution-profile model and runtime enforcement
+- worker runtime/sandbox implementation boundaries
+- reuse/novelty gate current canonical owner
+- graph/index current foundations and stable entity IDs
+- Project Inspector read-only boundaries
+- Library capability-catalog ownership suitability
+- publication/Git current policy contradictions
+- legacy wave semantic inventory
+- capability lifecycle archive placement
+- portfolio graph canonical fields vs compatibility imports
+- synthetic-gap confidence/provenance representation
+- desired planning state vs derived projection boundary
+- future multi-worker safe-parallelism model

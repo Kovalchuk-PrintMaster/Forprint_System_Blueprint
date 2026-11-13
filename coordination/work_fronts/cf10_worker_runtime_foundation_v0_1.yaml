@@ -1,0 +1,99 @@
+work_front_id: wf-cf10-worker-runtime-foundation-v0-1
+objective: Establish the reusable CF-10 worker runtime foundation without duplicating existing Work Front, Execution Profile,
+  Governed Procedure, Handoff v2, Execution Attempt Ledger, Dispatcher, Completion or Inspector frameworks. Add only the missing
+  normalized tasking and isolated-workspace boundaries needed before the first Blueprint-internal worker attempt.
+scope:
+- coordination/standards/automation/worker_task_envelope_contract_v0_1.yaml
+- coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+- coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+- coordination/standards/automation/index.yaml
+- coordination/standards/index.yaml
+- scripts/coordination/control_plane/tasking/
+- scripts/coordination/control_plane/workspace/
+- scripts/validation/validate_worker_runtime_foundation_v0_1.py
+- tests/coordination/control_plane/tasking/
+- tests/coordination/control_plane/workspace/
+exclusions:
+- Do not modify the existing first-worker Work Front wf-cf10-zero-stage-dispatch-boundary-regression-v0-1.
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py in this slice.
+- Do not modify scripts/coordination/control_plane/worker_runtime/runtime.py in this slice.
+- Do not modify scripts/coordination/control_plane/context/runtime.py in this slice.
+- Do not modify scripts/coordination/build_context_bundle.py in this slice.
+- Do not modify Handoff v2 contracts or runtimes in this slice.
+- Do not create another Work Front, Execution Profile, Procedure, Handoff, Attempt Ledger, Dispatcher, Completion or Inspector
+  framework.
+- Do not create a fake outgoing_prompts/forprint_system_blueprint queue.
+- Do not create automatic roadmap/planner task generation yet.
+- Do not provision a real external worker runtime directory yet.
+- Do not launch a worker.
+- Do not commit, push, merge, release or automatically ACCEPT.
+- Do not write any repository other than forprint_system_blueprint.
+- Do not mutate lifecycle or roadmap state.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+  - scripts/coordination/control_plane/
+  - coordination/standards/automation/work_front_contract_v0_1.yaml
+  - coordination/registry/execution_profiles_v0_1.yaml
+  - coordination/registry/governed_procedure_registry_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- Work Front contract and runtime
+- Execution Profile registry
+- Governed Procedure registry
+- Handoff v2
+- Execution Attempt Ledger
+- existing Control Plane packages
+outputs:
+- One normalized Worker Task Envelope contract with manual-internal and external-prompt-queue source classes.
+- One reusable Worker Workspace contract defining runtime-root, attempt layout, isolation boundary, disposable versus durable
+  artifacts and no-canonical-write rule.
+- One Candidate Promotion contract defining candidate-only return and controlled promotion into canonical repositories.
+- A minimal control_plane/tasking package that normalizes source-specific task input without granting execution authority.
+- A minimal control_plane/workspace package that models and validates workspace layout without launching workers or provisioning
+  a live workspace.
+- Focused validation and tests proving no authority duplication or widening.
+acceptance:
+- No existing execution-authority framework is duplicated.
+- Worker Task Envelope explicitly declares Work Front as execution authority and task envelope as instruction/context only.
+- Manual internal task and external prompt queue normalize to the same envelope.
+- Workspace contract defines canonical checkout as non-worker workspace and requires isolated per-attempt workspace.
+- Candidate promotion is separate from worker execution and remains manual/operator controlled for CF-10.
+- New package tests pass.
+- Foundation validator passes.
+- git diff --check passes for all foundation paths.
+- No worker dispatch, commit, push, merge, release, automatic ACCEPT, foreign write or lifecycle mutation occurs.
+stop_conditions:
+- Implementation requires changing Dispatcher, Handoff v2, build_context_bundle.py or worker_runtime in this slice.
+- A proposed component duplicates an existing canonical framework.
+- A task envelope begins granting execution or dispatch authority.
+- A workspace component writes into canonical repository during worker execution.
+- A promotion component bypasses result validation or operator boundary.
+- A path outside this Work Front becomes necessary.
+- Any cross-module write, release, push, merge or authority widening is requested.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane
+  - coordination/standards/automation
+  - coordination/registry
+  - tests/coordination/control_plane
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/
+  - coordination/standards/automation/work_front_contract_v0_1.yaml
+  - coordination/standards/automation/execution_profile_registry_contract_v0_1.yaml
+  - coordination/standards/automation/governed_procedure_graph_contract_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml

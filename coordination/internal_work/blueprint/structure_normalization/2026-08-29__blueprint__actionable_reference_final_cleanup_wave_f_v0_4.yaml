@@ -1,0 +1,78 @@
+schema_version: forprint_blueprint_actionable_reference_final_cleanup_wave_f_v0_4
+date: '2026-08-29'
+scope: forprint_system_blueprint_only
+status: local_implementation_candidate
+implementation_revision: wave_f_v0_4
+basis:
+  - ForPrint_Blueprint_Actionable_Reference_Review_Bundle_v0_1
+  - ForPrint_Blueprint_Actionable_Reference_Final_Triage_v1_0
+depends_on:
+  - blueprint_normalization_foundation_wave_a
+  - blueprint_normalization_wave_b_identity_routing
+  - blueprint_semantic_normalization_consolidated_wave_c_v1_3
+  - blueprint_full_knowledge_index_wave_d_v0_2
+  - blueprint_knowledge_index_semantic_refinement_wave_e_v0_5
+input_findings:
+  actionable_unresolved_reference_candidates: 100
+  no_inbound_current_documents: 62
+  harmful_duplicate_candidates: 0
+semantic_result:
+  real_current_defect_classes:
+    - stale_incoming_reports_surface_in_active_prompt_reporting_standard
+    - incomplete_canonical_incoming_request_routing
+  remaining_reference_findings_are_reclassified_not_deleted: true
+  no_inbound_documents_are_structurally_discoverable_not_orphaned: true
+real_fixes:
+  prompt_reporting_standard:
+    path: coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+    removes_current_surface: coordination/incoming_reports/
+    current_review_surface: coordination/review_packets/<module_id>/processed/
+    repairs_markdown_fence_structure: true
+  incoming_request_routes:
+    canonical_identity_source: machine/module_identity_registry.yaml
+    current_root: coordination/incoming_requests/
+    lifecycle_directories:
+      - new
+      - reviewed
+      - archived
+    historical_aliases_retained_as_evidence:
+      - accounting_registry_service
+      - forprint_operational_registry
+index_changes:
+  new_specialized_index: indexes/incoming_requests.yaml
+  actionable_unresolved_target: 0
+  genuine_no_inbound_target: 0
+  harmful_duplicate_target: 0
+  unknown_module_endpoint_target: 0
+safety:
+  current_release_change: false
+  h10_authority_change: false
+  released_prompt_rewrite: false
+  external_repo_write: false
+  git_commit: false
+  git_push: false
+  git_network: false
+
+retry_semantic_fix:
+  prior_v0_1_result: rollback_after_knowledge_validator
+  observed_actionable_remaining: 9
+  normalized_punctuation_tokens_fixed: 4
+  indexer_rule_literal_class_added: true
+  target_actionable_remaining: 0
+
+preflight_reconciliation:
+  allowed_derived_drift:
+    - indexes/files.json
+    - indexes/knowledge_summary.yaml
+  semantic_index_drift_allowed: false
+  source_mutation_before_backup: false
+  reason: post-validation file-inventory drift can exist without semantic-index drift
+
+preflight_inventory_delta_lock:
+  expected_added:
+    - coordination/internal_work/blueprint/portfolio_strategy_history/ForPrint_Portfolio_All_Modules_Working_Sheets_v0_3_2026-08-28.pdf
+  expected_removed:
+    - BLUEPRINT_VERSION.yaml
+  expected_changed: []
+  knowledge_validator_deferred_when_inventory_only_drift: true
+  semantic_structure_deferred_when_inventory_only_drift: true

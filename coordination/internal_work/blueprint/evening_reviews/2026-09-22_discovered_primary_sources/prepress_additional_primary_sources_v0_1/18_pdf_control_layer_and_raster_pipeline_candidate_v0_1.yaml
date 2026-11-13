@@ -1,0 +1,63 @@
+schema_version: forprint_prepress_pdf_control_layer_and_raster_pipeline_candidate_v0_1
+candidate_id: prepress_pdf_control_layer_and_raster_pipeline
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: forprint_prepress_hub
+supporting_or_adjacent_owners:
+- calculator_engine
+- forprint_library
+- forprint_contract_registry
+- forprint_integration_gateway
+- forprint_system_administration
+- verification_lab
+related_existing_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/18_shared_file_intelligence_and_assistant_boundary_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/19_candidate_processing_and_execution_policy_candidate_v0_1.yaml
+purpose: Define a ForPrint-owned, engine-agnostic PDF control layer and raster-to-PDF intake path without turning
+  any external PDF product or Windows workstation into the owner of ForPrint business logic.
+candidate_contract:
+  intake_and_decision_flow:
+  - receive_file_and_job_context
+  - deterministic_preflight_against_product_policy
+  - safe_low_risk_auto_fix_when_allowed
+  - produce_before_after_evidence_and_visual_proof
+  - request_structured_clarification_when_ambiguous
+  - route_manual_paid_prepress_when_automation_is_not_safe
+  - handoff_production_ready_revision_with_provenance
+  pdf_control_layer:
+  - python_first_orchestration_rules_adapters_and_reports
+  - engine_agnostic_business_logic
+  - replaceable_external_or_native_pdf_engines
+  - no_vendor_is_canonical_business_logic_owner
+  - bounded_non_python_microtools_only_when_gap_is_proven
+  raster_pipeline:
+  - raster_input_inspection
+  - bounded_print_preparation_candidates
+  - normalize_or_render_to_appropriate_pdf_representation
+  - pdf_specific_validation
+  - prepress_readiness_handoff
+  cross_module_boundary:
+  - Library owns canonical product/material/profile semantics
+  - Calculator owns calculation/job-spec semantics
+  - Gateway/Contract Registry own inter-module transport/form contracts
+  - Prepress owns file readiness and processing policy
+  - System Administration owns workstation/device runtime identity
+provider_policy:
+  acrobat_pitstop_callas_quite_or_other_vendor_lock_in: false
+  historical_vendor_and_library_recommendations_are_current_policy: false
+  fresh_technical_license_security_benchmark_review_required_before_selection: true
+reuse_first_checks_before_promotion:
+- live Prepress PDF/raster utilities and current repository capability inventory
+- current deterministic document probe / Asset Fact Packet implementation
+- current June shared-tools and execution-policy candidates
+- Calculator Job Spec and Library prepress-profile contracts
+- Gateway/Contract Registry file-intake and clarification contracts
+- Website/Telegram upload and proof/clarification surfaces
+- Verification Lab PDF/raster fixture and visual-regression capability
+non_goals:
+- clone the full commercial callas or PitStop product surface
+- freeze any historical third-party engine recommendation as permanent policy
+- make Acrobat or Windows the central orchestrator
+- duplicate product-specific assistants already captured from 27.06
+- duplicate Unix/Windows execution intent already captured from 27.06
+- mutate Prepress runtime from this planning intake

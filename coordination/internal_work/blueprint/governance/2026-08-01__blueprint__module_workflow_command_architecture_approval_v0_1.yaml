@@ -1,0 +1,70 @@
+schema_version: blueprint_standard_approval_decision_v0_1
+
+metadata:
+  decision_id: blueprint_module_workflow_command_architecture_approval_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-01"
+  status: approved
+
+subject:
+  standard_id: module_workflow_command_architecture
+  path: coordination/standards/governance/module_workflow_command_architecture_v0_1.md
+  version: v0_1
+  reviewed_baseline_commit: 45b67706e7742136ab4a24d96e36c61545f3db69
+
+decision:
+  outcome: approved_as_target_standard
+  adoption_mode: reference_only
+  architecture_normative: true
+  implementation_migration_authorized: false
+  external_rollout_authorized: false
+  cross_repository_mutation_authorized: false
+  module_makefile_changes_authorized: false
+  canonical_make_template_changes_authorized: false
+
+scope:
+  applies_by_repository_class: true
+  hard_coded_module_list: false
+  filesystem_root_is_scope_authority: false
+  current_and_future_registered_modules_in_scope: true
+  pilot_repository_is_architecture_dependency: false
+
+review_findings:
+  - command names have explicit read-only or mutating semantics
+  - module completion is separate from Blueprint acceptance
+  - module finish is separate from publication
+  - publication is separate from merge
+  - Blueprint and module repository ownership boundaries are explicit
+  - completion idempotency is checked outside the live worktree
+  - future registered modules inherit the standard module workflow profile
+  - current repository assessments remain partial and non-exhaustive
+
+remaining_gates:
+  adoption_matrix:
+    status: draft
+    authority: reference_only
+  command_behavior_validator:
+    status: not_implemented
+  completion_intake_check:
+    status: not_implemented
+  reference_pilot_migration:
+    status: not_authorized
+  canonical_module_make_template_migration:
+    status: not_authorized
+  external_rollout:
+    status: gated
+    requires_blueprint_operational_readiness_green: true
+
+next_required_step:
+  action: implement_adoption_matrix_validator_and_tests
+  owner: forprint_system_blueprint
+  external_module_action: none
+
+boundaries:
+  makefile_modified: false
+  module_make_template_modified: false
+  cross_repository_writes: false
+  external_rollout_released: false
+
+result: APPROVED

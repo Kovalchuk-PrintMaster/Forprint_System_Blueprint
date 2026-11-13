@@ -1,0 +1,33 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-10-07'
+status: active_planning_context
+authority: human_owner_approved_2026_10_07
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-ARCH-EXECUTION-MODEL-20261007-001
+      status: AGREED
+      text: Before broad module activation, ForPrint must integrate capability, ownership, roadmap decomposition,
+        dependency, interface, workflow, verification and dispatcher models into one traceable Architecture & Execution
+        Model portfolio so assistants and workers can discover existing and planned functionality, dependencies,
+        supported workflows and completion criteria without reconstructing them from chat history.
+      context: Human Owner approved this as the next cross-cutting architecture direction after the current OC-01
+        work. Existing Blueprint/CF10 primitives must be reused or extended first; rich control metadata should
+        preserve a shallow execution path.
+      roadmap: blueprint_architecture_execution_model_integration_v0_1
+      source_refs:
+        - coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+        - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+        - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
+    - intent_id: HI-FP-POST-OC01-AEM-GATE-20261007-001
+      status: AGREED
+      text: When OC-01-FULL reaches its canonical completion meaning, the next relevant portfolio architecture priority
+        is AEM-01 of the Architecture & Execution Model integration initiative; activation remains an explicit Human
+        Owner decision and must not reorder CF10/Control Foundation dependencies, preempt an active bounded writer,
+        or convert the separate OC-02 future target.
+      context: This durable priority pointer prevents the next architecture task from being lost during assistant
+        replacement while keeping roadmap dependency and execution authority separate from prioritization.
+      roadmap: blueprint_architecture_execution_model_integration_v0_1
+      source_refs:
+        - coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+        - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+        - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md

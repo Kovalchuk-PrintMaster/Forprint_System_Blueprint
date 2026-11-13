@@ -1,0 +1,68 @@
+schema_version: forprint_assistant_handoff_v2_result_contract_v0_1
+contract_id: assistant_handoff_v2_result
+revision: 0.1.0
+status: active_cf08_s3
+implementation_slice: CF-08/S3
+family: assistant_handoff_v2
+source_contract: coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+runtime: scripts/coordination/assistant_handoff_v2_result_v0_1.py
+result_schema_version: forprint_assistant_handoff_v2_result_v0_1
+result_envelope:
+  exact_fields:
+  - schema_version
+  - handoff_manifest_sha256
+  - attempt_id
+  - status
+  - changed_paths
+  - validation_evidence
+  - self_repair_attempts
+  - resume_coordinates
+  - unresolved_findings
+  aliases_allowed: false
+  additional_fields_allowed: false
+  missing_fields_fail_closed: true
+manifest_binding:
+  required: true
+  must_equal_origin_manifest_hash: true
+  rewrite_allowed: false
+  mismatch_class: RESULT_MANIFEST_BINDING_MISMATCH
+attempt_binding:
+  required: true
+  reuse_execution_attempt_ledger_id_semantics: true
+  append_to_central_attempt_history: false
+  central_attempt_history_deferred_to_cf09: true
+  attempt_id_rewrite_allowed: false
+validation_evidence:
+  required: true
+  non_empty: true
+  self_repair_evidence_recorded: true
+  unresolved_findings_preserved: true
+bounded_self_repair:
+  local_only: true
+  authority_scope: RESULT_ENVELOPE_MECHANICAL_ONLY
+  authority_widening: false
+  project_source_writes: false
+  dispatcher_retry_orchestration: false
+  worker_launch: false
+  max_attempts_default: 2
+  max_attempts_hard_ceiling: 3
+  safe_repair_codes:
+  - DEDUPLICATE_IDENTICAL_CHANGED_PATHS
+  manifest_hash_rewrite_allowed: false
+  attempt_id_rewrite_allowed: false
+  field_alias_repair_allowed: false
+  missing_field_synthesis_allowed: false
+  semantic_status_rewrite_allowed: false
+resume_boundary:
+  S3_accepts_mapping_or_string_list: true
+  freshness_and_durable_resume_hardening_deferred_to_s4: true
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  grants_cross_repository_write_authority: false
+deferred_to_cf09:
+- dispatcher_integration
+- worker_launch
+- central_retry_orchestration
+- central_attempt_result_routing

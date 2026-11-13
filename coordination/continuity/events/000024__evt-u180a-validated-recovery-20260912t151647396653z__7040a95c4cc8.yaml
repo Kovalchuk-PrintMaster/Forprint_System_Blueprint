@@ -1,0 +1,25 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180a-validated-recovery-20260912t151647396653z
+event_type: VALIDATION_PASSED
+sequence: 24
+previous_event_id: evt-u180a-checkpoint-20260912t151420854594z
+previous_event_sha256: 4114d181f5bee5f1d739beeecc45ece1cd5224bbd2106b5d88fa332e388b6483
+work_id: u180a
+occurred_at: '2026-09-12T15:16:55.417398Z'
+actor: assistant_generated_operator_executed
+summary: CF-01 Control Foundation baseline validated after checkpoint-spec cardinality recovery
+source_state_ref: 3807dd2a04770f81a35ecfb86bee298252b9e03f1735b61a6f0fe3f046c32cf7
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180a-checkpoint-20260912t151420854594z
+  checkpoint_event_sha256: 4114d181f5bee5f1d739beeecc45ece1cd5224bbd2106b5d88fa332e388b6483
+  evidence:
+    - previous full pytest zero failures
+    - previous public make check 40 of 40 PASS
+    - checkpoint source fingerprint unchanged during recovery
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: 44299586ab567c4d71c617089bda53c92d6e182591d9734f44d10b88667785c1
+    checkpoint_fingerprint: 44299586ab567c4d71c617089bda53c92d6e182591d9734f44d10b88667785c1

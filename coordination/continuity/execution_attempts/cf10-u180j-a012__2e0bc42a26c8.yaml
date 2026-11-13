@@ -1,0 +1,33 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a012
+work_front_id: wf-cf10-local-dispatcher-telegram-operator-surface-v0-1
+recorded_at: '2026-09-27T11:49:59.141793Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a012/workspace/repo
+why: CF-10 local Dispatcher Telegram/operator surface training task launch.
+source_fingerprint: 66c869883695581571ede3ae4968b5b7a62ac43dbf4d3027540c7733d03276e7
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 4b62c095f3587d28ccc2c7b2d446916b5b10b377668f379396d7e5c7e02ef1e4
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a012/input/cf10_a012_provider_invocation_v0_1.yaml
+attempt_stage: FINISHED
+result_state: FAILED
+result_refs:
+- worker_process_result_sha256:88a5693adc7d14e3210b6819c49c4898f5a4a1fdfcc9ae0d27ef17e119e5fa82
+- worker_delta_sha256:5a15db3625ce29a0ab76bce4e7f7f80bfeb1136486aa298ba54d195c8f08b1b5
+- candidate_validation_sha256:0b1f1bb9946dcda5f13d37aab32471dd050ecae6c8b75a52f8deed2a0e238022
+validator_outcome: FAIL
+validator_evidence_refs:
+- candidate_validation_sha256:0b1f1bb9946dcda5f13d37aab32471dd050ecae6c8b75a52f8deed2a0e238022
+- worker_delta_sha256:5a15db3625ce29a0ab76bce4e7f7f80bfeb1136486aa298ba54d195c8f08b1b5
+failure_or_retry_ref: candidate_validation_sha256:0b1f1bb9946dcda5f13d37aab32471dd050ecae6c8b75a52f8deed2a0e238022
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003
+  - attempt:cf10-u180j-a004
+  - attempt:cf10-u180j-a007
+  - attempt:cf10-u180j-a009
+  - attempt:cf10-u180j-a011

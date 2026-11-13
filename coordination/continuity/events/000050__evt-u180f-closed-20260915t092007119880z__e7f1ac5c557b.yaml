@@ -1,0 +1,37 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180f-closed-20260915t092007119880z
+event_type: WORK_CLOSED
+sequence: 50
+previous_event_id: evt-u180f-validated-20260915t091833852864z
+previous_event_sha256: f2a1c4baa8de97901f3dd9e8b2758c77e97cc10cd8588fcfd13625d7e4aabfbf
+work_id: u180f
+occurred_at: '2026-09-15T09:20:41.576956Z'
+actor: assistant_generated_operator_executed
+summary: CF-06 extensible Execution Profiles Registry closed
+source_state_ref: 1bba8439e4e5c47ea1dc020d25731f043fc3ba278a14a87a49746a26e1b7b7a6
+bootstrap_historical_import: false
+lifecycle:
+  from_state: VALIDATED
+  to_state: CLOSED
+  checkpoint_event_id: evt-u180f-checkpoint-20260915t090339614348z
+  validation_event_id: evt-u180f-validated-20260915t091833852864z
+  evidence:
+    - validated exact CF-06 checkpoint seq48
+    - validation seq49 is checkpoint-bound
+    - four initial reusable execution profiles are installed
+    - profile permissions remain ceilings not authority grants
+    - model backend remains replaceable
+    - higher budget or wider authority requires explicit escalation
+    - CF-07 remains manual next step and is not auto-activated
+    - worker dispatch release and foreign writes remain blocked
+  close_gate:
+    checkpoint_exists: true
+    latest_checkpoint_validation_passed: true
+    continuity_validation_passed: true
+    current_source_delta_reconciled: true
+    current_fingerprint: 90c78c4c138a55fc932c675095f606100852dcc93f417b9910dbd5cdb6aaaa7f
+    checkpoint_fingerprint: 90c78c4c138a55fc932c675095f606100852dcc93f417b9910dbd5cdb6aaaa7f
+    blocker_count: 0
+    blockers_explicitly_deferred: false
+    deferred_blockers: []
+    defer_rationale: ''

@@ -1,0 +1,35 @@
+schema_version: blueprint_tracking_events_v0_4_semantic_fidelity_operator_decision_v0_1
+metadata:
+  owner: forprint_system_blueprint
+  step_id: blueprint_v0_4_tracking_events_reference_v0_1
+  subject: logistics_service_tracking_events_v0_1
+  created_at: '2026-08-17'
+  state: RECORDED
+decision:
+  value: ACCEPT_SEMANTIC_FIDELITY
+  scope: prompt_contract_semantic_fidelity_only
+  contract: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2.yaml
+  contract_file_sha256: 73f0fe602398536c940f3a6295a3b7d3263f302fba65b68e21d5c90355250981
+  contract_payload_sha256: 02775affa37cd6b21c8251dd05f379cb727bfecd9bebe6f948d2ac8b987c2138
+  semantic_review_packet: coordination/internal_work/blueprint/governance/2026-08-17__blueprint__tracking_events_v0_4_semantic_fidelity_review_packet_v0_1.yaml
+  semantic_review_packet_sha256: c3d355fefd0dc6ba9d345abc6320dd52d12fe05dcbebc598f205bf79065f0a02
+  semantic_coverage: 26/26
+  assistant_recommendation: PASS
+effects:
+  semantic_fidelity_accepted: true
+  tracking_events_completion_accepted: false
+  tracking_events_lifecycle_decision_created: false
+  roadmap_advanced: false
+  prompt_queue_advanced: false
+  module_repository_writes: false
+  completion_packet_v0_4_fabricated_by_blueprint: false
+  completion_outbox_v0_4_fabricated_by_blueprint: false
+  dark_zone_audit_run: false
+  global_v0_4_promotion_performed: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+next_gate:
+  if_accepted: seal Blueprint-owned STEP27 prompt-contract semantic layer, then proceed to module-owned v0.4 completion
+    evidence
+  tracking_events_acceptance_still_requires_separate_operator_decision: true

@@ -1,0 +1,128 @@
+schema_version: blueprint_acceptance_oracle_v0_1
+metadata:
+  oracle_id: logistics_service_taxi_provider_abstraction_v0_1__acceptance_oracle_v0_1
+  module_id: logistics_service
+  prompt_id: logistics_service_taxi_provider_abstraction_v0_1
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  owner: forprint_system_blueprint
+  immutable: true
+source_prompt_contract:
+  path: coordination/prompt_contracts/logistics_service/logistics_service_taxi_provider_abstraction_v0_1/logistics_service_taxi_provider_abstraction_v0_1__contract_v0_4_h7_v0_1.yaml
+  sha256: 54a0cd8b472a0a3f70803c5d8179e5bc62f10babae403e59b2379b6415e63662
+criteria:
+- criterion_id: AC-001
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  substep_id: logistics_service_taxi_provider_abstraction_v0_1__01
+  requirement_refs:
+  - IMP-001
+  - VER-001
+  summary: 'Verify blocking substep: Define pickup dropoff cargo and contact snapshots'
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet requirement_results + evidence_manifest for logistics_service_taxi_provider_abstraction_v0_1__01
+    expected_observation: The substep is implemented as specified, cited contract obligations are satisfied,
+      and completion evidence is concrete and internally consistent.
+  evidence_required:
+  - EV-COMPLETION-REPORT
+  - EV-FOCUSED-TESTS
+- criterion_id: AC-002
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  substep_id: logistics_service_taxi_provider_abstraction_v0_1__02
+  requirement_refs:
+  - IMP-002
+  - VER-002
+  summary: 'Verify blocking substep: Define on-demand service option quote and ETA semantics'
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet requirement_results + evidence_manifest for logistics_service_taxi_provider_abstraction_v0_1__02
+    expected_observation: The substep is implemented as specified, cited contract obligations are satisfied,
+      and completion evidence is concrete and internally consistent.
+  evidence_required:
+  - EV-COMPLETION-REPORT
+  - EV-FOCUSED-TESTS
+- criterion_id: AC-003
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  substep_id: logistics_service_taxi_provider_abstraction_v0_1__03
+  requirement_refs:
+  - IMP-003
+  - VER-003
+  summary: 'Verify blocking substep: Define courier-arrival pickup and delivery lifecycle events'
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet requirement_results + evidence_manifest for logistics_service_taxi_provider_abstraction_v0_1__03
+    expected_observation: The substep is implemented as specified, cited contract obligations are satisfied,
+      and completion evidence is concrete and internally consistent.
+  evidence_required:
+  - EV-COMPLETION-REPORT
+  - EV-FOCUSED-TESTS
+- criterion_id: AC-004
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  substep_id: logistics_service_taxi_provider_abstraction_v0_1__04
+  requirement_refs:
+  - IMP-004
+  - VER-004
+  summary: 'Verify blocking substep: Define capability differences from parcel providers'
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet requirement_results + evidence_manifest for logistics_service_taxi_provider_abstraction_v0_1__04
+    expected_observation: The substep is implemented as specified, cited contract obligations are satisfied,
+      and completion evidence is concrete and internally consistent.
+  evidence_required:
+  - EV-COMPLETION-REPORT
+  - EV-FOCUSED-TESTS
+- criterion_id: AC-005
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  substep_id: logistics_service_taxi_provider_abstraction_v0_1__05
+  requirement_refs:
+  - IMP-005
+  - VER-005
+  summary: 'Verify blocking substep: Add synthetic multi-provider booking-preview fixtures'
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet requirement_results + evidence_manifest for logistics_service_taxi_provider_abstraction_v0_1__05
+    expected_observation: The substep is implemented as specified, cited contract obligations are satisfied,
+      and completion evidence is concrete and internally consistent.
+  evidence_required:
+  - EV-COMPLETION-REPORT
+  - EV-FOCUSED-TESTS
+- criterion_id: AC-900
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  requirement_refs:
+  - CE-001
+  - CE-002
+  - CE-003
+  - CE-004
+  - CE-005
+  - IMP-006
+  - IMP-007
+  summary: Verify remaining prompt-contract obligations and the canonical full module gate.
+  blocking: true
+  verification:
+    kind: command
+    locator: make check
+    expected_observation: Canonical module check exits successfully with zero blockers and the completion
+      packet records the exact command/result.
+  evidence_required:
+  - EV-FULL-GATE
+  - EV-COMPLETION-REPORT
+- criterion_id: AC-901
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  requirement_refs:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+  summary: Verify authority, ownership and no-live-write boundaries.
+  blocking: true
+  verification:
+    kind: semantic_review
+    locator: completion packet boundary_confirmations + changed-file inventory + completion report
+    expected_observation: No forbidden provider write, production activation, secret leak, Blueprint repository
+      write or cross-repository mutation occurred.
+  evidence_required:
+  - EV-BOUNDARY
+  - EV-COMPLETION-REPORT

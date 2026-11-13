@@ -1,0 +1,185 @@
+schema_version: forprint_blueprint_20260917_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Forprint_Blueprint_17.09.26.mhtml
+  sha256: ef0a49a2803af7c768206a8fa8c202a22a11d0902ea4673f80e9726ed4c0a7ed
+  relationship_to_existing_intake: EXACT_PRIMARY_DIALOGUE_ALREADY_NORMALIZED_IN_17_09_DFTB
+  existing_source_id: DFTB-blueprint-2026-09-17
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-17/DFTB_blueprint_cf05_cf09_dispatcher_continuation_v0_1
+  dftb_archive_sha256: d9f7d00dcdd60fa4d423f905a899a3d057b1502bb5188264c3b8a3d6dc155412
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_ATTACHMENT_HEAVY_SPARSE_ASSISTANT_NARRATIVE
+  dftb_visible_turn_sections: 110
+  dftb_visible_message_blocks: 110
+  dftb_short_attachment_placeholders: 98
+  independently_observed_turn_containers: 111
+  independently_observed_roles:
+    user: 107
+    assistant: 3
+    unknown_or_wrapper: 1
+  lossy_cyrillic_after_correct_mime_decode: false
+  limitation: >
+    UTF-8 Cyrillic is intact. The real limitation is attachment-heavy / sparse assistant
+    narrative capture. Missing attachment bodies and absent assistant reasoning must not
+    be reconstructed by guesswork. Historical PASS/ACTIVE/CLOSED labels remain historical
+    evidence, not current runtime authority.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - opening u180e / CF-05 ACTIVE boundary
+    - narrow morning metadata repair without reactivation or roadmap advancement
+    - generated projections refreshed by canonical producers only
+    - make check remains validation-only
+    - later historical progression from CF-05 to CF-06
+    - context/intake package is not direct execution authority
+    - CF-07 safe-fail before canonical mutation
+    - state-aware recovery after partial planning apply
+    - explicit developer-tool provisioning need for rg
+    - large handoff packages applied stepwise with identity confirmation
+    - Makefile operator-readable command-map requirement
+    - explicit legacy/alternate-purpose Make-target classification
+    - CF-09 ACK gate and Dispatcher readiness lineage
+    - 9/9 local Dispatcher readiness versus full project closure failure
+    - stale generator inventory as historical project-gate blocker
+    - failed project closure must not start worker/CF-10
+    - human boundary between Dispatcher closure and first worker pilot
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: makefile_operator_map_origin_to_current_policy
+    source_items:
+      - IT-BP1709-0016
+      - IT-BP1709-0017
+    historical_rule: >
+      Makefile should be readable as an operator command map with clear descriptions,
+      grouping, scope and explicit classification of legacy/compatibility/alternate
+      targets so the operator does not have to guess command semantics.
+    current_materialization:
+      standard_id: makefile_operator_functional_map_policy_v0_1
+      file: coordination/standards/governance/makefile_operator_functional_map_policy_v0_1.yaml
+      human_intent: HI-FP-MAKEFILE-FUNCTIONAL-MAP-20260922-001
+      current_rule: >
+        Supported operator workflows require Makefile coverage; newly implemented or
+        newly discovered supported workflows trigger coverage review; obsolete targets
+        for removed functionality must be removed or explicitly reclassified.
+    relation: HISTORICAL_ORIGIN_TO_CURRENT_ACTIVE_STANDARD
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: local_readiness_vs_project_closure_boundary
+    source_items:
+      - IT-BP1709-0019
+      - IT-BP1709-0020
+      - IT-BP1709-0021
+      - IT-BP1709-0022
+      - IT-BP1709-0023
+      - IT-BP1709-0024
+      - IT-BP1709-0025
+      - IT-BP1709-0026
+    historical_fact: >
+      CF-09 local Dispatcher readiness reached 9/9 with zero gaps while the full
+      project closure gate remained red because generator_inventory.yaml was stale.
+      The visible source therefore kept CF-09 ACTIVE and did not dispatch the worker
+      or start CF-10.
+    current_connection:
+      - full project closure boundary versus local subsystem readiness
+      - generated-state freshness and project-wide gate semantics
+      - state-aware closure recovery
+      - current CF-09/CF-10 lineage
+    current_status_note: >
+      Later repository evidence already proves CF-09 was repaired and closed and CF-10
+      later became active. Preserve the red 0254 endpoint as historical evidence only;
+      do not treat it as a current blocker.
+    action: RECORD_HISTORICAL_TO_CURRENT_RESOLUTION_BRIDGE
+
+  - topic: partial_apply_state_aware_recovery
+    source_items:
+      - IT-BP1709-0012
+      - IT-BP1709-0013
+    source_rule: >
+      If planning/canonical state may already have advanced before failure, inspect
+      durable state/fingerprints and repair only the failed downstream boundary rather
+      than replaying the source mutation.
+    current_connection:
+      - Mutation Compiler state-aware recovery
+      - append-only lifecycle/event authority
+      - roadmap/execution reconciliation
+      - bounded repair/resume
+    human_intent_action: NO_DUPLICATE
+    action: NO_DUPLICATE
+
+  - topic: developer_environment_materialization
+    source_items:
+      - IT-BP1709-0014
+    source_rule: >
+      Repeatedly required developer utilities such as rg should be provisioned through
+      the canonical development environment rather than rediscovered as ad-hoc blockers.
+    current_connection:
+      - development environment policy
+      - bootstrap tool provisioning
+      - assistant/runtime preflight
+    action: NO_DUPLICATE
+
+  - topic: context_package_not_execution_authority
+    source_items:
+      - IT-BP1709-0008
+      - IT-BP1709-0015
+    source_rule: >
+      Large handoff/context packages are identity-checked and applied stepwise; package
+      contents do not themselves authorize lifecycle, roadmap, dispatch, release or
+      foreign-repository mutation.
+    current_connection:
+      - assistant context system specs
+      - assistant-context-pack non-authority rule
+      - package semantic identity / routing validation
+      - Handoff v2
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: historical_endpoint_resolution
+    source_items:
+      - IT-BP1709-0027
+      - IT-BP1709-0028
+    source_endpoint: >
+      The primary source ends before the CF-09 recovery/closure result. At that exact
+      endpoint CF-09 is still ACTIVE, CF-10 has not started and worker dispatch is false.
+    later_resolution: >
+      Later/current evidence proves the recovery succeeded: CF-09 was closed through the
+      full project boundary, CF-10 was explicitly planned/activated and governed worker
+      attempts were executed. This later resolution must not rewrite the missing source
+      endpoint itself.
+    action: PRESERVE_SOURCE_ENDPOINT_AND_RECORD_LATER_RESOLUTION
+
+  - topic: master_memory_v36_navigation_status
+    historical_master:
+      archive_sha256: 7020ff54c92b3fcc3bc08bb4373c984f2f6e1016c6f28434a5d52ac938e803df
+      role: derived_duplicate_aware_cross_module_dialogue_navigation_archive
+      authority: derived_aggregate_not_current_runtime_authority
+    current_status:
+      preferred_navigation: false
+      superseded_by: Master Memory v3.7
+      retention: historical_navigation_archive_retained
+    rule: >
+      v3.6 remains valuable historical navigation evidence but is no longer the preferred
+      navigation layer. Master Memory v3.7 is preferred and remains derived navigation,
+      never current runtime authority.
+    action: RECORD_NAVIGATION_SUPERSESSION_ONLY
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  makefile_policy_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation against the already-normalized DFTB source
+    - corrected source-quality statement: UTF-8 Cyrillic is intact
+    - provenance bridge from 17.09 Makefile UX requirement to current active Makefile functional-map standard
+    - historical-to-current resolution bridge for CF-09 local-ready/project-red endpoint
+    - context-package non-authority lineage
+    - Master Memory v3.6 retained historically but superseded as preferred navigation by v3.7

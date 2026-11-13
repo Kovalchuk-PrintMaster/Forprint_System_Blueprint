@@ -1,0 +1,1361 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-integration-gateway-source-label-2026-05-26
+source:
+  source_id: SRC-integration-gateway-source-label-2026-05-26
+  title: Forprint Integration Gateway_26.05.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: Forprint Integration Gateway_26.05.26.mhtml
+  source_hash_sha256: f2bb2340e15c72c241922e431e906987f8a942ac0dd7f283399b92323134f151
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:45:55 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: integration_gateway_module_history_only
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 34 visible message blocks across turn range 1–144; user=29, assistant=5. Most intermediate turns are attachment placeholders. Filename
+    says 26.05 but terminal visible state is v0.7 with no embedded date.
+extraction:
+  created_at: '2026-09-15T13:50:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_gateway_reconstruction
+  implementation_verification_performed: false
+  notes: Gateway module history informs architecture but cannot supersede current Blueprint authority. Missing attachment bodies are not inferred.
+evidence_index:
+- evidence_id: EV-GW2605-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: dc1f3631-281e-4ac2-8a34-6182fb550ee6
+    message_id: dc1f3631-281e-4ac2-8a34-6182fb550ee6
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: Pasted markdown.md File Назва нашого чату Forprint_Integration_Gateway так дивись у нас зявивсяновий муль який буде корегувати рух розвитку нашого
+    проєкту вціломі і нашого з тобою модулю ідея синхронізувати роботу всіх модулів і визначити єдину мету / архітектуру / іменування процсів модулів єтапів
+    ябуду на першій стадії давати тобі промт а ти будеш повертати мені відповідь для нашого керуючого модуля Forprint_System_Blueprint по стадіям виконання
+    пики даю тобі план на перші кроки і загальну картинку Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner names the new module and says it will work under a coordinating Forprint_System_Blueprint flow.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - blueprint_coordination
+- evidence_id: EV-GW2605-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'way 1. Confirmed understanding of Gateway role forprint_integration_gateway має бути не бізнес-мозком системи, а межовим інтеграційним шаром між
+    каналами, CRM та внутрішніми модулями. Його головне питання: Чи цей запит валідний, безпечний, нормалізований, трасований, ідемпотентний, і куди його
+    потрібно передати? Gateway відповідає за: contract transport; validation; normalization; routing; correlation context; idempotency boundary; audit envelope;
+    module response envelope. Gateway не приймає бізнес-рішень . Бізнес-логіка та workflow-рішення залишаються в forprint_crm . Gat'
+  quote_whitespace_normalized: true
+  context_before: Gateway is defined as an integration boundary, not the business brain.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - gateway_role
+- evidence_id: EV-GW2605-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ий, трасований, ідемпотентний, і куди його потрібно передати? Gateway відповідає за: contract transport; validation; normalization; routing; correlation
+    context; idempotency boundary; audit envelope; module response envelope. Gateway не приймає бізнес-рішень . Бізнес-логіка та workflow-рішення залишаються
+    в forprint_crm . Gateway також не володіє: клієнтами; замовленнями; матеріалами; продуктами; ціноутворенням; рахунками; оплатами; складом; dashboard/UI
+    state; архітектурним governance. 2. Proposed v0.1 project structure Перший крок — маленький, тестований Python-пак'
+  quote_whitespace_normalized: true
+  context_before: Gateway responsibilities include transport/validation/normalization/routing/correlation/idempotency/audit envelopes.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - gateway_role
+- evidence_id: EV-GW2605-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ion context; idempotency boundary; audit envelope; module response envelope. Gateway не приймає бізнес-рішень . Бізнес-логіка та workflow-рішення
+    залишаються в forprint_crm . Gateway також не володіє: клієнтами; замовленнями; матеріалами; продуктами; ціноутворенням; рахунками; оплатами; складом;
+    dashboard/UI state; архітектурним governance. 2. Proposed v0.1 project structure Перший крок — маленький, тестований Python-пакет без production API,
+    БД і реальних зовнішніх інтеграцій. /srv/software_development/forprint-project/forprint_integration_gateway/ ├── README.md ├── Makef'
+  quote_whitespace_normalized: true
+  context_before: Business/workflow decisions remain outside Gateway, in CRM/business owners.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - domain_ownership
+- evidence_id: EV-GW2605-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'иймає бізнес-рішень . Бізнес-логіка та workflow-рішення залишаються в forprint_crm . Gateway також не володіє: клієнтами; замовленнями; матеріалами;
+    продуктами; ціноутворенням; рахунками; оплатами; складом; dashboard/UI state; архітектурним governance. 2. Proposed v0.1 project structure Перший крок
+    — маленький, тестований Python-пакет без production API, БД і реальних зовнішніх інтеграцій. /srv/software_development/forprint-project/forprint_integration_gateway/
+    ├── README.md ├── Makefile ├── pyproject.toml ├── forprint_module_manifest.yaml ├── docs/ │ └── architecture/ │ └'
+  quote_whitespace_normalized: true
+  context_before: Gateway must not own clients, orders, catalogs, pricing, invoices/payments, stock, UI state or architecture governance.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - must_not_own
+- evidence_id: EV-GW2605-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 2. Proposed v0.1 project structure Перший крок — маленький, тестований Python-пакет без production API, БД і реальних зовнішніх інтеграцій. /srv/software_development/forprint-project/forprint_integration_gateway/
+    ├── README.md ├── Makefile ├── pyproject.toml ├── forprint_module_manifest.yaml ├── docs/ │ └── architecture/ │ └── gateway_boundaries.md ├── app/ │
+    └── forprint_integration_gateway/ │ ├── __init__.py │ ├── models/ │ │ ├── __init__.py │ │ ├── envelope.py │ │ ├── errors.py │ │ └── routing.py │ ├──
+    services/ │ │ ├── __init__.py │ │ ├── validator.py │ │ ├── ro
+  quote_whitespace_normalized: true
+  context_before: v0.1 is intentionally local/tested, without production API, DB or real integrations.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - bootstrap
+- evidence_id: EV-GW2605-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'Python environment: Python: 3.11.2 venv: .venv_gateway 3. Proposed first data models IntegrationRequest Перший вхідний envelope для будь-якого
+    source module або customer channel. Поля: request_id correlation_id idempotency_key source_module source_channel target_module contract_id contract_version
+    operation payload metadata created_at IntegrationResponse Уніфікована відповідь Gateway назад до source module / CRM / audit. Поля: request_id correlation_id
+    target_module status result_payload errors warnings metadata created_at ValidationError Стандартизована помилка валі'
+  quote_whitespace_normalized: true
+  context_before: Initial canonical envelopes/models are IntegrationRequest/Response, ValidationError, RoutingRule and later RoutedModuleRequest.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - contracts
+- evidence_id: EV-GW2605-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'e для будь-якого source module або customer channel. Поля: request_id correlation_id idempotency_key source_module source_channel target_module
+    contract_id contract_version operation payload metadata created_at IntegrationResponse Уніфікована відповідь Gateway назад до source module / CRM /
+    audit. Поля: request_id correlation_id target_module status result_payload errors warnings metadata created_at ValidationError Стандартизована помилка
+    валідації. Поля: code message field_path severity is_retryable RoutingRule Опис локального placeholder route. Поля: route_id so'
+  quote_whitespace_normalized: true
+  context_before: Idempotency is a first-class request boundary from the initial model.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - idempotency
+- evidence_id: EV-GW2605-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'us: production_api: false database_migrations: false real_module_integrations: false local_placeholder_routes_only: true 7. Safe first implementation
+    step Безпечний перший крок: Створити директорію: /srv/software_development/forprint-project/forprint_integration_gateway Створити .venv_gateway на Python
+    3.11.2. Додати мінімальний skeleton: pyproject.toml Makefile README.md forprint_module_manifest.yaml docs/architecture/gateway_boundaries.md app/forprint_integration_gateway/...
+    tests/... Додати тільки локальні placeholder routes у: app/forprint_integration_gateway/config/routes.'
+  quote_whitespace_normalized: true
+  context_before: Initial status explicitly restricts routing to local placeholders.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - bootstrap
+- evidence_id: EV-GW2605-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ow_decisions - ui_dashboard_state - architecture_governance customer_channel_policy: channel_agnostic: true allowed_channel_concepts: - customer_channel
+    - customer_channel_request - customer_action - customer_session - customer_notification planned_future_channels: - mobile_app initial_status: production_api:
+    false database_migrations: false real_module_integrations: false local_placeholder_routes_only: true 7. Safe first implementation step Безпечний перший
+    крок: Створити директорію: /srv/software_development/forprint-project/forprint_integration_gateway Створити .venv_'
+  quote_whitespace_normalized: true
+  context_before: Gateway is designed to be channel-agnostic and future-channel compatible.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - channels
+- evidence_id: EV-GW2605-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'equested quote_preview_requested customer_channel.quote.preview інший формат? Чи має contract_id посилатися на майбутній Library contract registry
+    у форматі типу: library.contract.customer_order_intake.v1 чи поки достатньо локальних placeholder names? Чи потрібно одразу закладати source_channel
+    як enum: telegram website mobile_app crm internal_module чи тримати його як plain string до появи централізованого semantic registry? Чи Blueprint хоче,
+    щоб Gateway мав власний docs/architecture/gateway_boundaries.md , чи цей файл має дублюватися/генеруватися з центрального Bluepr'
+  quote_whitespace_normalized: true
+  context_before: Bootstrap raises contract-definition ownership as an open Blueprint/Library question rather than hardcoding an answer.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - contract_registry
+- evidence_id: EV-GW2605-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ntake.v1 чи поки достатньо локальних placeholder names? Чи потрібно одразу закладати source_channel як enum: telegram website mobile_app crm internal_module
+    чи тримати його як plain string до появи централізованого semantic registry? Чи Blueprint хоче, щоб Gateway мав власний docs/architecture/gateway_boundaries.md
+    , чи цей файл має дублюватися/генеруватися з центрального Blueprint? Чи потрібно в manifest одразу вказувати future dependency на Project Inspector
+    / Module Status Registry, але зі статусом planned ? Рекомендований наступний крок Після підтвердження Blueprint'
+  quote_whitespace_normalized: true
+  context_before: Bootstrap raises source-channel semantics as a centralized semantic-registry question.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - semantic_registry
+- evidence_id: EV-GW2605-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 045919a9-ffa7-4e07-a112-f47a8648e1c6
+    message_id: 5ec088fe-6975-451b-aeac-7077334aae6a
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'центрального Blueprint? Чи потрібно в manifest одразу вказувати future dependency на Project Inspector / Module Status Registry, але зі статусом
+    planned ? Рекомендований наступний крок Після підтвердження Blueprint можна переходити до практичної реалізації першого bootstrap commit: створення
+    skeleton, моделей, placeholder routes, manifest, документації меж і тестів.'
+  quote_whitespace_normalized: true
+  context_before: Project Inspector/status-registry dependency is considered planned/future, not silently active.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - project_inspector
+- evidence_id: EV-GW2605-0014
+  speaker: user
+  locator:
+    conversation_turn: 17
+    turn_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    message_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: y) root@s01:/srv/software_development/forprint-project/forprint_integration_gateway# tree -L 4 . ├── app │ ├── forprint_integration_gateway │ │
+    ├── config │ │ │ ├── __init__.py │ │ │ └── routes.yaml │ │ ├── __init__.py │ │ ├── models │ │ │ ├── envelope.py │ │ │ ├── errors.py │ │ │ ├── __init__.py
+    │ │ │ ├── __pycache__ │ │ │ └── routing.py │ │ ├── __pycache__ │ │ │ └── __init__.cpython-311.pyc │ │ └── services │ │ ├── example_loader.py │ │ ├──
+    gateway_processor.py │ │ ├── idempotency.py │ │ ├── __init__.py │ │ ├── __pycache__ │ │ ├── router.py │ │ └── validat
+  quote_whitespace_normalized: true
+  context_before: Historical user output shows the implemented Gateway skeleton and local examples/tests structure.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - bootstrap
+- evidence_id: EV-GW2605-0015
+  speaker: user
+  locator:
+    conversation_turn: 17
+    turn_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    message_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: │ └── examples │ └── local_gateway_processor.md ├── examples │ ├── contracts │ │ ├── accounting.invoice_request.v1.yaml │ │ ├── calculator.quote_request.v1.yaml
+    │ │ └── calculator.quote_response.v1.yaml │ ├── requests │ │ ├── crm_to_accounting_invoice_request.json │ │ ├── crm_to_calculator_quote_recalculation_request.json
+    │ │ └── customer_channel_quote_preview_request.json │ └── responses │ ├── calculator_to_crm_quote_result_response.json │ └── validation_error_response.json
+    ├── forprint_module_manifest.yaml ├── Makefile ├── pyproject.toml ├── README.md ├── reports │ ├── gateway_che
+  quote_whitespace_normalized: true
+  context_before: Early examples already include contract-shaped request/response fixtures between CRM, Calculator and Accounting.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - contract_examples
+- evidence_id: EV-GW2605-0016
+  speaker: user
+  locator:
+    conversation_turn: 17
+    turn_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    message_id: b502ed3b-bb64-4353-9e0f-d6fa598a218e
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: │ │ └── __init__.cpython-311.pyc │ │ └── services │ │ ├── example_loader.py │ │ ├── gateway_processor.py │ │ ├── idempotency.py │ │ ├── __init__.py
+    │ │ ├── __pycache__ │ │ ├── router.py │ │ └── validator.py │ └── forprint_integration_gateway.egg-info │ ├── dependency_links.txt │ ├── PKG-INFO │ ├──
+    requires.txt │ ├── SOURCES.txt │ └── top_level.txt ├── docs │ ├── architecture │ │ ├── gateway_boundaries.md │ │ └── request_lifecycle.md │ └── examples
+    │ └── local_gateway_processor.md ├── examples │ ├── contracts │ │ ├── accounting.invoice_request.v1.yaml │ │ ├── calculato
+  quote_whitespace_normalized: true
+  context_before: Gateway processor/router/validator/idempotency services exist in the historical tree.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - implementation
+- evidence_id: EV-GW2605-0017
+  speaker: user
+  locator:
+    conversation_turn: 101
+    turn_id: ec26ab54-a321-4102-92ed-6bb5a8517844
+    message_id: ec26ab54-a321-4102-92ed-6bb5a8517844
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: Pasted text.txt Document так у нас є новий промт і скажи мені ми поки читаємо тільки промти чи моніторимо директорію з інструкціями stadarts також?
+    якщо ні чи є у нас реалізовааний цей механізм якщо ні то дай мені знати
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly asks whether Gateway observes Blueprint standards as well as prompts.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - standards_visibility
+- evidence_id: EV-GW2605-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 140
+    turn_id: 5352943a-fb7f-41ba-a0aa-0b1c2e42c3df
+    message_id: ecf1e784-3e55-4c84-9942-03364d487020
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'Чудово, coordination checker вже зелений: ✅ Current status ✅ Prompts index ✅ Reports index ✅ Reports tracked ✅ Canonical module id guard ✅ No
+    live integration flags ✅ Gateway coordination records are machine-clean. Тепер запускай повну перевірку і комітимо v0.7 report. Bash find app tests
+    scripts examples docs coordination reports contracts -type d -name "__pycache__" -prune -exec rm -rf {} + 2 >/dev/null || true find . -type d -name
+    ".pytest_cache" -prune -exec rm -rf {} + make governance-check make chec'
+  quote_whitespace_normalized: true
+  context_before: By v0.7, coordination records and canonical-module/no-live flags are machine-clean.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - v0.7
+- evidence_id: EV-GW2605-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 140
+    turn_id: 5352943a-fb7f-41ba-a0aa-0b1c2e42c3df
+    message_id: ecf1e784-3e55-4c84-9942-03364d487020
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: he" -prune -exec rm -rf {} + make governance-check make check make check-report make blueprint-standards-list make blueprint-standards-check make
+    blueprint-standards-sync make channel-intake-preview make adapter-readiness-preview make compatibility-matrix-preview make replay-fixtures-preview make
+    contract-release-preview make consumer-acceptance-preview make backward-compatibility-preview grep -R --exclude-dir = "__pycache__" --exclude = "*.pyc"
+    "forprint_calculator_engine" -n app tests scripts examples docs coordination reports contracts || true grep -R --exclude-dir = "_
+  quote_whitespace_normalized: true
+  context_before: v0.7 includes standards list/check/sync and standards snapshot visibility.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - standards_visibility
+- evidence_id: EV-GW2605-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 140
+    turn_id: 5352943a-fb7f-41ba-a0aa-0b1c2e42c3df
+    message_id: ecf1e784-3e55-4c84-9942-03364d487020
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: int-standards-list make blueprint-standards-check make blueprint-standards-sync make channel-intake-preview make adapter-readiness-preview make
+    compatibility-matrix-preview make replay-fixtures-preview make contract-release-preview make consumer-acceptance-preview make backward-compatibility-preview
+    grep -R --exclude-dir = "__pycache__" --exclude = "*.pyc" "forprint_calculator_engine" -n app tests scripts examples docs coordination reports contracts
+    || true grep -R --exclude-dir = "__pycache__" --exclude = "*.pyc" -E "^[[:space:]]*(live_delivery_enabled|is_live_delivery_
+  quote_whitespace_normalized: true
+  context_before: v0.7 validation includes channel/adaptor/compatibility/replay/contract-release/consumer/backward-compatibility previews.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - preview_surfaces
+- evidence_id: EV-GW2605-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 140
+    turn_id: 5352943a-fb7f-41ba-a0aa-0b1c2e42c3df
+    message_id: ecf1e784-3e55-4c84-9942-03364d487020
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: '|| true grep -R --exclude-dir = "__pycache__" --exclude = "*.pyc" -E "^[[:space:]]*(live_delivery_enabled|is_live_delivery_enabled|one_c_writes_added|automatic_posting_added|final_price_calculation_added):
+    true" -n app tests scripts examples docs coordination reports contracts || true git ls-files coordination/reports/index.yaml git ls-files coordination/reports/gateway_v0_7_blueprint_standards_visibility_completion.md
+    git status --short Якщо все OK, коміт: Bash git add -f coordination/reports/index.yaml git add -f coordination/reports/gateway_v0_7_blueprint_standards_'
+  quote_whitespace_normalized: true
+  context_before: Final gate explicitly checks that live-delivery/1C/posting/final-price flags are not enabled.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - safety_boundary
+- evidence_id: EV-GW2605-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 142
+    turn_id: 0f0bc162-e52d-4899-9543-f14879b6ffad
+    message_id: eb71545c-aaee-43d2-a557-4f90e3c5d7c3
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'а validation зелена . Підтверджено: make governance-check: OK make check: OK pytest: 59 passed make check-report: OK Blueprint standards visibility:
+    OK blueprint-standards-list/check/sync: OK all v0.3/v0.4/v0.5/v0.6 previews: OK coordination/reports/index.yaml tracked v0.7 completion report tracked
+    У git status зараз є MM , бо частину файлів ти вже staged, але після цього make coordination-records-refresh / make blueprint-standards-sync ще раз
+    змінили ті самі файли. Треба просто перестейджити все фінальне перед commit. Pasted text Виконай: Bash git add -f co'
+  quote_whitespace_normalized: true
+  context_before: Historical full validation reports 59 tests passing.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-GW2605-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 142
+    turn_id: 0f0bc162-e52d-4899-9543-f14879b6ffad
+    message_id: eb71545c-aaee-43d2-a557-4f90e3c5d7c3
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ation/reports/index.yaml tracked v0.7 completion report tracked У git status зараз є MM , бо частину файлів ти вже staged, але після цього make
+    coordination-records-refresh / make blueprint-standards-sync ще раз змінили ті самі файли. Треба просто перестейджити все фінальне перед commit. Pasted
+    text Виконай: Bash git add -f coordination/reports/index.yaml git add -f coordination/reports/gateway_v0_7_blueprint_standards_visibility_completion.md
+    git add coordination/status/current_status.yaml \ coordination/prompts/index.yaml \ coordination/reports/inde'
+  quote_whitespace_normalized: true
+  context_before: Coordination refresh/sync modifies already staged files and requires restaging before commit.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - git_state
+- evidence_id: EV-GW2605-0024
+  speaker: user
+  locator:
+    conversation_turn: 143
+    turn_id: 4e23bcc3-2c25-482c-be9b-1c308dca600c
+    message_id: 4e23bcc3-2c25-482c-be9b-1c308dca600c
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'way v0.7 coordination report" git push git status --short git log -1 --oneline [main 2f36256] Add Gateway v0.7 coordination report 8 files changed,
+    422 insertions(+), 23 deletions(-) create mode 100644 coordination/reports/gateway_v0_7_blueprint_standards_visibility_completion.md Enumerating objects:
+    28, done. Counting objects: 100% (28/28), done. Delta compression using up to 4 threads Compressing objects: 100% (15/15), done. Writing objects: 100%
+    (16/16), 7.61 KiB | 2.54 MiB/s, done. Total 16 (delta 9), reused 0 (delta 0), pack-reused 0 remote: Resolving'
+  quote_whitespace_normalized: true
+  context_before: User output shows v0.7 coordination report commit and push to Gateway main.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git
+- evidence_id: EV-GW2605-0025
+  speaker: user
+  locator:
+    conversation_turn: 143
+    turn_id: 4e23bcc3-2c25-482c-be9b-1c308dca600c
+    message_id: 4e23bcc3-2c25-482c-be9b-1c308dca600c
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'ck-reused 0 remote: Resolving deltas: 100% (9/9), completed with 8 local objects. To github.com:Kovalchuk-PrintMaster/Forprint_Integration_Gateway.git
+    9f792a3..2f36256 main -> main 2f36256 (HEAD -> main, origin/main) Add Gateway v0.7 coordination report root@s01:/srv/software_development/forprint-project/forprint_integration_gateway#
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Push target is the dedicated Integration Gateway repository.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - repo_identity
+- evidence_id: EV-GW2605-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 144
+    turn_id: 5e4b58f1-bc4f-413f-bc00-033d14142468
+    message_id: 539e1961-322e-4f05-b06d-0fe601f24e7d
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'Готово, v0.7 повністю завершений і запушений . Маємо два commit-и по v0.7: 9f792a3 Add Gateway Blueprint standards visibility 2f36256 Add Gateway
+    v0.7 coordination report Фінальний report/coordination commit: 2f36256 Add Gateway v0.7 coordination report git status --short після push нічого не
+    вивів, тобто робоче дерево чисте. Для Blueprint можна передати: ForPrint Integration Gateway v0.7 is completed in module. Prompt: gateway_blueprint_standards_visibility_advisory_alignment_v0_7
+    Phase: blueprint_standards_visibility_advisory_alignment_v0_7 Com'
+  quote_whitespace_normalized: true
+  context_before: Final v0.7 summary distinguishes implementation commit from completion/report commit.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - provenance
+- evidence_id: EV-GW2605-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 144
+    turn_id: 5e4b58f1-bc4f-413f-bc00-033d14142468
+    message_id: 539e1961-322e-4f05-b06d-0fe601f24e7d
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'governance-check: OK - make check: OK - pytest: 59 passed - make check-report: OK - Blueprint standards visibility: OK - make blueprint-standards-list:
+    OK - make blueprint-standards-check: OK - make blueprint-standards-sync: OK - make channel-intake-preview: OK - make adapter-readiness-preview: OK -
+    make compatibility-matrix-preview: OK - make replay-fixtures-preview: OK - make contract-release-preview: OK - make consumer-acceptance-preview: OK
+    - make backward-compatibility-preview: OK - coordination records check: OK - canonical module id guard: OK - no live/1C/posting/final price'
+  quote_whitespace_normalized: true
+  context_before: Standards visibility/check/sync are part of the historical completion evidence.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - standards_visibility
+- evidence_id: EV-GW2605-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 144
+    turn_id: 5e4b58f1-bc4f-413f-bc00-033d14142468
+    message_id: 539e1961-322e-4f05-b06d-0fe601f24e7d
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'y: Gateway remains offline / contract-only / validation-routing / standards-visible. No live API, database ownership, queues, Redis, S3, runtime
+    adapter calls, 1C writes, automatic posting, final price calculation, or forced full implementation of every Blueprint standard was added. Please mark:
+    gateway_blueprint_standards_visibility_advisory_alignment_v0_7 as completed_accepted and issue the next allowed Gateway prompt. Далі можна запускати:
+    Bash make blueprint-prompts-list make blueprint-prompt'
+  quote_whitespace_normalized: true
+  context_before: Final boundary remains offline/contract-only with no DB ownership, queues, runtime adapter calls, 1C writes or final-price calculation.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - scope
+- evidence_id: EV-GW2605-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 144
+    turn_id: 5e4b58f1-bc4f-413f-bc00-033d14142468
+    message_id: 539e1961-322e-4f05-b06d-0fe601f24e7d
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'dded. Please mark: gateway_blueprint_standards_visibility_advisory_alignment_v0_7 as completed_accepted and issue the next allowed Gateway prompt.
+    Далі можна запускати: Bash make blueprint-prompts-list make blueprint-prompt'
+  quote_whitespace_normalized: true
+  context_before: Gateway asks Blueprint to mark the prompt completed/accepted rather than self-accepting it.
+  context_after: null
+  evidence_role:
+  - assistant_handoff
+  - acceptance_boundary
+- evidence_id: EV-GW2605-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 144
+    turn_id: 5e4b58f1-bc4f-413f-bc00-033d14142468
+    message_id: 539e1961-322e-4f05-b06d-0fe601f24e7d
+    source_file: Forprint Integration Gateway_26.05.26.mhtml
+  quote: 'way_blueprint_standards_visibility_advisory_alignment_v0_7 as completed_accepted and issue the next allowed Gateway prompt. Далі можна запускати:
+    Bash make blueprint-prompts-list make blueprint-prompt'
+  quote_whitespace_normalized: true
+  context_before: Next work is explicitly Blueprint-authorized via a next allowed prompt.
+  context_after: null
+  evidence_role:
+  - assistant_handoff
+  - prompt_governance
+items:
+- item_id: IT-GW2605-0001
+  kind: architecture_constraint
+  title: Integration Gateway is a runtime integration boundary, not a business brain
+  statement: Gateway validates, normalizes, routes and traces messages but does not make business/workflow decisions.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-GW2605-0002
+  - EV-GW2605-0003
+  - EV-GW2605-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0002
+  kind: architecture_constraint
+  title: Gateway must not own domain business truth
+  statement: Gateway must not canonically own clients, orders, materials/products, pricing, invoices/payments, stock, UI state or architecture governance.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - module_ownership
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - docs
+  - tests
+  evidence_refs:
+  - EV-GW2605-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0003
+  kind: requirement
+  title: Gateway owns transport validation normalization routing correlation idempotency and audit envelopes
+  statement: The core module surface includes integration request/response envelopes, validation errors, routing rules, correlation context, idempotency
+    boundary and integration audit events.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-GW2605-0003
+  - EV-GW2605-0007
+  - EV-GW2605-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0004
+  kind: process_rule
+  title: Gateway bootstrap starts local and safe
+  statement: Initial implementation should use a small tested Python package, local placeholder routes and no production API/database/real-module integrations.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - bootstrap
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-GW2605-0006
+  - EV-GW2605-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0005
+  kind: architecture_constraint
+  title: Gateway is channel-agnostic
+  statement: Customer channels are represented generically so Website/Telegram/Mobile/CRM/internal sources can share the same boundary without embedding
+    channel-specific business truth.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - channels
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-GW2605-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0006
+  kind: open_question
+  title: Contract-definition authority is external to Gateway
+  statement: Bootstrap explicitly leaves `contract_id` canonical ownership for Blueprint/Library/Contract Registry resolution instead of making Gateway
+    the contract authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - contract_registry
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  - schemas
+  evidence_refs:
+  - EV-GW2605-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later Blueprint architecture creates an explicit Contract Registry and must be treated as the refinement.
+- item_id: IT-GW2605-0007
+  kind: open_question
+  title: Channel semantic vocabulary should come from canonical semantic authority
+  statement: Whether `source_channel` is enum/string is raised as a central semantic-registry issue, not Gateway-owned vocabulary.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - semantic_registry
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-GW2605-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0008
+  kind: plan
+  title: Project Inspector integration is planned rather than silently enabled
+  statement: Any Inspector/module-status relationship should be explicit and initially planned, not assumed active.
+  dialogue_status: discussed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - docs
+  evidence_refs:
+  - EV-GW2605-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0009
+  kind: implementation_claim
+  title: Historical Gateway skeleton contains expected bounded services and fixtures
+  statement: Visible tree includes models, validator/router/idempotency/gateway processor, local routes, contract examples, smoke/check scripts and tests.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - git
+  evidence_refs:
+  - EV-GW2605-0014
+  - EV-GW2605-0015
+  - EV-GW2605-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal tree only; current repo not audited.
+- item_id: IT-GW2605-0010
+  kind: requirement
+  title: Gateway should consume Blueprint standards as well as prompts
+  statement: Owner explicitly asks whether the module monitors/understands Blueprint standards, leading to v0.7 standards visibility surfaces.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - standards_adoption
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-GW2605-0017
+  - EV-GW2605-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0011
+  kind: implementation_claim
+  title: Historical v0.7 coordination records pass machine checks
+  statement: Historical assistant report says current status, prompt/report indexes, report tracking, canonical module-id guard and no-live flags are clean.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - coordination
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  - config
+  - tests
+  evidence_refs:
+  - EV-GW2605-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only.
+- item_id: IT-GW2605-0012
+  kind: requirement
+  title: Gateway standards visibility includes list check and sync surfaces
+  statement: v0.7 explicitly provides Blueprint standards listing, checking, snapshot/sync and coordination awareness.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - standards_adoption
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - config
+  - tests
+  evidence_refs:
+  - EV-GW2605-0019
+  - EV-GW2605-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0013
+  kind: requirement
+  title: Gateway readiness stays preview-first across integration capabilities
+  statement: Channel intake, adapter readiness, compatibility, replay, contract release, consumer acceptance and backward compatibility are exercised as
+    preview/readiness surfaces before live enablement.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - safety
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-GW2605-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0014
+  kind: architecture_constraint
+  title: No live delivery 1C posting or final-price authority in v0.7
+  statement: Historical final gates explicitly require no live delivery, 1C writes, automatic posting or final-price calculation flags.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - safety
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-GW2605-0021
+  - EV-GW2605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0015
+  kind: implementation_claim
+  title: Historical v0.7 validation reports 59 passing tests
+  statement: The final visible validation reports governance/check/check-report/standards and preview surfaces green with 59 passing tests.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-GW2605-0022
+  - EV-GW2605-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report.
+- item_id: IT-GW2605-0016
+  kind: process_rule
+  title: Coordination regeneration after staging requires final restage
+  statement: If coordination refresh/standards sync modifies already-staged files, final commit must restage the final generated state rather than committing
+    a stale index/snapshot.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-GW2605-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0017
+  kind: implementation_claim
+  title: Historical v0.7 report commit is pushed to Gateway repository
+  statement: User output shows commit `2f36256` pushed on Gateway main with the v0.7 coordination report.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - git_workflow
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-GW2605-0024
+  - EV-GW2605-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal output only.
+- item_id: IT-GW2605-0018
+  kind: process_rule
+  title: Implementation and completion/report commits have separate provenance roles
+  statement: The final handoff distinguishes implementation commit `9f792a3` and completion/coordination report commit `2f36256`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - provenance
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - git
+  - schemas
+  evidence_refs:
+  - EV-GW2605-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0019
+  kind: architecture_constraint
+  title: Gateway remains offline contract-only after v0.7
+  statement: Even after standards visibility, Gateway remains contract/validation/routing oriented and does not gain live API/database/queue/object-storage/runtime-adapter
+    or business-accounting authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - scope_control
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-GW2605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0020
+  kind: process_rule
+  title: Gateway completion requires Blueprint acceptance
+  statement: Module-local completion asks Blueprint to mark the prompt completed/accepted; Gateway does not self-promote.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - acceptance
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - reports
+  - docs
+  evidence_refs:
+  - EV-GW2605-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0021
+  kind: process_rule
+  title: Next Gateway work is Blueprint-authorized
+  statement: After local completion, the next workfront should come from the next allowed Blueprint prompt rather than autonomous scope expansion.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - prompt_governance
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - docs
+  evidence_refs:
+  - EV-GW2605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0022
+  kind: architecture_constraint
+  title: CRM/business owners retain workflow decisions
+  statement: Gateway can route business commands but the owning CRM/domain module decides workflow/business outcomes.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - crm
+  - domain_ownership
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-GW2605-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0023
+  kind: integration
+  title: Gateway examples bridge CRM Calculator and Accounting through contract-shaped messages
+  statement: Early examples show request/response fixtures for Calculator quote and Accounting invoice interactions, supporting a transport/validation role
+    rather than direct domain logic.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - calculator
+  - accounting
+  - crm
+  implementation_expectation: unverifiable
+  verification_targets:
+  - contracts
+  - examples
+  evidence_refs:
+  - EV-GW2605-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Example fixtures are historical; exact current contracts need live audit.
+- item_id: IT-GW2605-0024
+  kind: risk
+  title: Standards sync may mix visibility with mutation if not carefully bounded
+  statement: v0.7 has standards sync and generated snapshots. Current implementation should ensure standards visibility/sync does not silently grant Gateway
+    authority to rewrite Blueprint standards.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - integration_gateway
+  - standards_adoption
+  - repo_boundary
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-GW2605-0019
+  - EV-GW2605-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Visible transcript does not preserve all intermediate standards-sync implementation.
+- item_id: IT-GW2605-0025
+  kind: risk
+  title: Coordination reports appear to require force-add despite reports directory ignore
+  statement: Historical commit flow uses `git add -f` for tracked coordination reports under an ignored reports path, indicating possible repository-policy
+    friction.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - gitignore
+  - docs
+  - tests
+  evidence_refs:
+  - EV-GW2605-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current repository policy should decide whether canonical reports belong under an ignored tree.
+- item_id: IT-GW2605-0026
+  kind: architecture_constraint
+  title: This Gateway source is module history not Blueprint authority
+  statement: The dialogue records Gateway implementation and handoff evidence; current Blueprint release/architecture/Contract Registry authority remains
+    superior on conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-GW2605-0001
+  - EV-GW2605-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0027
+  kind: risk
+  title: Filename date does not establish terminal chronology
+  statement: The file label says 26.05 but the visible conversation progresses from bootstrap through v0.7 standards-visibility completion without embedded
+    dates, so terminal placement must be causal rather than filename-only.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - chronology
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-GW2605-0001
+  - EV-GW2605-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-GW2605-0028
+  kind: process_rule
+  title: Canonical module-id/no-live guards are first-class governance checks
+  statement: Gateway coordination validation should explicitly fail on module-id drift or unexpected live-capability flags.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - integration_gateway
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - config
+  evidence_refs:
+  - EV-GW2605-0018
+  - EV-GW2605-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-GW2605-0001
+  from_item: IT-GW2605-0001
+  type: constrains
+  to_item: IT-GW2605-0003
+  evidence_refs:
+  - EV-GW2605-0002
+  - EV-GW2605-0003
+  confidence: high
+- relation_id: REL-GW2605-0002
+  from_item: IT-GW2605-0002
+  type: constrains
+  to_item: IT-GW2605-0019
+  evidence_refs:
+  - EV-GW2605-0005
+  - EV-GW2605-0028
+  confidence: high
+- relation_id: REL-GW2605-0003
+  from_item: IT-GW2605-0006
+  type: refines
+  to_item: IT-GW2605-0003
+  evidence_refs:
+  - EV-GW2605-0011
+  confidence: high
+- relation_id: REL-GW2605-0004
+  from_item: IT-GW2605-0010
+  type: enables
+  to_item: IT-GW2605-0012
+  evidence_refs:
+  - EV-GW2605-0017
+  - EV-GW2605-0019
+  confidence: high
+- relation_id: REL-GW2605-0005
+  from_item: IT-GW2605-0013
+  type: constrains
+  to_item: IT-GW2605-0014
+  evidence_refs:
+  - EV-GW2605-0020
+  - EV-GW2605-0021
+  confidence: high
+- relation_id: REL-GW2605-0006
+  from_item: IT-GW2605-0015
+  type: enables
+  to_item: IT-GW2605-0017
+  evidence_refs:
+  - EV-GW2605-0022
+  - EV-GW2605-0024
+  confidence: high
+- relation_id: REL-GW2605-0007
+  from_item: IT-GW2605-0018
+  type: supports
+  to_item: IT-GW2605-0020
+  evidence_refs:
+  - EV-GW2605-0026
+  - EV-GW2605-0029
+  confidence: high
+- relation_id: REL-GW2605-0008
+  from_item: IT-GW2605-0020
+  type: enables
+  to_item: IT-GW2605-0021
+  evidence_refs:
+  - EV-GW2605-0029
+  - EV-GW2605-0030
+  confidence: high
+- relation_id: REL-GW2605-0009
+  from_item: IT-GW2605-0022
+  type: related_to
+  to_item: IT-GW2605-0001
+  evidence_refs:
+  - EV-GW2605-0004
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-GW2605-0001
+  type: new_unique_cross_module_source
+  description: No shared message IDs or meaningful normalized sequence overlap with previously loaded sources. This is a distinct Integration Gateway history.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-GW2605-0002
+  type: attachment_heavy_partial_capture
+  description: Only 34 visible message blocks survive across turns 1–144; most intermediate user turns are attachment placeholders, so v0.2–v0.6 implementation
+    details cannot be reconstructed literally.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-GW2605-0003
+  type: filename_date_terminal_ambiguity
+  description: Filename says 26.05, but the same conversation reaches v0.7 Blueprint standards visibility with no embedded terminal date. Chronology must
+    use causal project lineage rather than filename alone.
+  item_refs:
+  - IT-GW2605-0027
+  evidence_refs:
+  - EV-GW2605-0001
+  - EV-GW2605-0026
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-GW2605-0004
+  type: early_contract_authority_unresolved
+  description: Bootstrap asks whether contract_id should point at a future Library registry or local placeholders. Later Blueprint creates a dedicated Contract
+    Registry, so early Gateway contract assumptions are not current authority.
+  item_refs:
+  - IT-GW2605-0006
+  evidence_refs:
+  - EV-GW2605-0011
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-GW2605-0005
+  type: standards_sync_repo_boundary_ambiguity
+  description: v0.7 includes standards-sync/snapshots, but the visible transcript does not fully prove whether Gateway only consumes/caches Blueprint standards
+    or can mutate foreign Blueprint sources.
+  item_refs:
+  - IT-GW2605-0024
+  evidence_refs:
+  - EV-GW2605-0019
+  severity: high
+  confidence: medium
+  requires_followup: true
+- anomaly_id: ANOM-GW2605-0006
+  type: ignored_canonical_report_friction
+  description: The v0.7 completion report/index needs force-add under an ignored reports path, suggesting canonical report tracking conflicts with ignore
+    policy.
+  item_refs:
+  - IT-GW2605-0025
+  evidence_refs:
+  - EV-GW2605-0024
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-GW2605-0007
+  type: local_completion_not_blueprint_acceptance
+  description: v0.7 is locally complete and pushed, but the final handoff still asks Blueprint to mark the prompt completed/accepted and issue the next
+    allowed prompt.
+  item_refs:
+  - IT-GW2605-0020
+  - IT-GW2605-0021
+  evidence_refs:
+  - EV-GW2605-0029
+  - EV-GW2605-0030
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-GW2605-0001
+  description: Verify current Gateway boundary and must-not-own contracts.
+  item_refs:
+  - IT-GW2605-0001
+  - IT-GW2605-0002
+  - IT-GW2605-0019
+  - IT-GW2605-0022
+  last_known_state: Historical Gateway is validation/routing/idempotency/audit only and remains offline/contract-only through v0.7.
+  recommended_verification: Audit current manifest/code/contracts for business-logic, domain-truth, live-adapter or pricing/accounting creep.
+- loop_id: LOOP-GW2605-0002
+  description: Reconcile Gateway with the later dedicated Contract Registry architecture.
+  item_refs:
+  - IT-GW2605-0006
+  - IT-GW2605-0023
+  last_known_state: Early bootstrap leaves contract_id authority open; later Blueprint says Contract Registry owns versioned agreements and Gateway validates/routes
+    them at runtime.
+  recommended_verification: Resolve current Contract Registry/Gateway/domain-owner contracts and ensure Gateway does not become contract semantic authority.
+- loop_id: LOOP-GW2605-0003
+  description: Verify current Blueprint standards visibility/sync is read-only with respect to Blueprint authority.
+  item_refs:
+  - IT-GW2605-0010
+  - IT-GW2605-0012
+  - IT-GW2605-0024
+  last_known_state: Historical v0.7 has standards list/check/sync and a local standards snapshot.
+  recommended_verification: Inspect current scripts/path ownership; prove sync only materializes module-local projections and cannot rewrite Blueprint standards.
+- loop_id: LOOP-GW2605-0004
+  description: Verify preview-first readiness remains separated from live capability enablement.
+  item_refs:
+  - IT-GW2605-0013
+  - IT-GW2605-0014
+  last_known_state: Historical v0.7 preview surfaces are green while live/1C/posting/final-price flags remain disabled.
+  recommended_verification: Run current readiness/live-flag gates and inspect adapter/runtime boundaries.
+- loop_id: LOOP-GW2605-0005
+  description: Verify v0.7 implementation/report commits and Blueprint acceptance history.
+  item_refs:
+  - IT-GW2605-0017
+  - IT-GW2605-0018
+  - IT-GW2605-0020
+  last_known_state: Historical module reports implementation `9f792a3`, report `2f36256`, locally complete but awaiting Blueprint acceptance.
+  recommended_verification: Resolve current Gateway Git ancestry and Blueprint intake/acceptance records; do not infer acceptance from local push.
+- loop_id: LOOP-GW2605-0006
+  description: Resolve canonical coordination-report tracking vs ignore policy.
+  item_refs:
+  - IT-GW2605-0025
+  last_known_state: Historical v0.7 uses `git add -f` for canonical coordination report/index under ignored reports tree.
+  recommended_verification: Inspect current repository policy so authoritative reports do not require accidental-force-add behavior.
+implementation_audit_ref: implementation_audit.stub.yaml

@@ -1,0 +1,49 @@
+schema_version: forprint_legacy_compatibility_registry_v0_1
+metadata:
+  registry_id: forprint_legacy_compatibility
+  owner: forprint_system_blueprint
+  updated_at: '2026-08-21'
+  status: active_current
+policy: coordination/standards/governance/legacy_compatibility_retirement_policy_v0_1.md
+default_current_gate_behavior:
+  blocking: false
+  visibility: advisory_yellow
+  execution: excluded_or_skipped
+  new_current_dependencies_allowed: false
+components:
+- component_id: completion_exchange_v0_2_v0_3_transition
+  status: deprecated_candidate
+  reason: Superseded by promoted v0.4 closed-loop completion exchange. Retained only for historical/manual
+    migration context.
+  blocking_current_gates: false
+  manual_use_only: true
+  replacement:
+    release_projection: coordination/releases/current.yaml
+    revision_registry: coordination/revisions/current.yaml
+    discovery_intake: scripts/coordination/completion_discovery_and_intake_v0_4.py
+    review_transaction: scripts/coordination/review_roadmap_queue_transaction_v0_4.py
+  legacy_scripts:
+  - scripts/coordination/completion_revision_status.py
+  - scripts/coordination/completion_intake_check.py
+  - scripts/coordination/module_completion_intake.py
+  deprecated_test_modules:
+  - tests/validation/test_completion_revision_registry_v0_1.py
+  - tests/coordination/test_completion_intake_check.py
+  - tests/test_completion_intake_check_protocol_v0_2.py
+  - tests/test_completion_intake_check_protocol_v0_3.py
+  deprecated_test_nodeids:
+  - tests/validation/test_v0_4_completion_packet.py::test_operational_v02_and_candidate_v03_revision_registry_are_unchanged
+  - tests/validation/test_v0_4_completion_discovery_and_intake.py::test_legacy_operational_and_candidate_intake_revisions_are_unchanged
+  pytest_collection_policy: tests/conftest.py
+  historical_docs:
+  - coordination/standards/governance/module_completion_exchange_protocol_v0_3.md
+  - coordination/standards/module_prompt_completion_protocol.md
+  retirement:
+    planned_slice: H11
+    requires_h10_complete: true
+    requires_active_module_migration_complete: true
+    requires_explicit_operator_retirement_decision: true
+    preservation_options:
+    - immutable_git_tag
+    - dedicated_compatibility_branch
+    - self_contained_archive

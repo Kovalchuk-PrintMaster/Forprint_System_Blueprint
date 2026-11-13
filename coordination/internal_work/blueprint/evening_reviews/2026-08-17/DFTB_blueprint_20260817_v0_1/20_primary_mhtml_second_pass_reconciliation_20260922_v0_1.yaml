@@ -1,0 +1,199 @@
+schema_version: forprint_blueprint_20260817_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  sha256: 9d693e7905ba827b9c6b9d3920357546a653437745f1531adac1bce11102f0c1
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-08-17
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_HIGH_TURN_COVERAGE_SPARSE_ASSISTANT_NARRATIVE
+  retained_turn_containers_from_existing_intake: 142
+  text_bearing_turn_containers_from_existing_intake: 142
+  preserved_assistant_narrative_messages_from_existing_intake: 4
+  artifact_labels_from_existing_intake: 70
+  lossy_cyrillic_after_correct_mime_decode: false
+  limitation: >
+    UTF-8 Cyrillic is recoverable. The real source limitation is partial ChatGPT DOM
+    capture: only four assistant narrative messages survive, while much intermediate
+    reasoning is represented by owner-provided reports, archives and follow-up commands.
+    Missing assistant reasoning must not be reconstructed by guesswork.
+  safe_to_use_for:
+    - exact source identity
+    - owner intent and corrections
+    - recoverable execution chronology
+    - architecture/governance origin
+    - artifact ownership and roadmap-granularity provenance
+  unsafe_to_use_for:
+    - reconstructing absent assistant reasoning
+    - treating historical STEP/H/B states as current runtime authority
+    - inferring current release or workfront status from archived reports alone
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - acceptance/seal lineage and explicit publication boundary
+    - module completion evidence versus Blueprint review/acceptance separation
+    - finish bounded work before deliberate roadmap re-planning
+    - hierarchical roadmap tasks/subtasks
+    - compact and detailed roadmap views from one canonical state
+    - current architecture may supersede legacy workflow
+    - predictability/stability/transparency over permanent compatibility drag
+    - Logistics as historical sole pilot before wider rollout
+    - translate owner business examples into reusable machine-oriented specifications
+    - superseded tests/tools should not permanently block the current platform
+    - isolate/archive deprecated tooling while preserving optional historical access
+    - zero-context bootstrap survives session loss
+    - bootstrap carries the full remaining release path, not only the next command
+    - global promotion remains a separate decision
+    - read-only diagnostics before bounded mutation
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: makefile_as_transparency_control_surface_origin
+    source_items:
+      - IT-BP1708-0002
+      - IT-BP1708-0004
+      - IT-BP1708-0015
+      - IT-BP1708-0016
+    historical_open_loop: LOOP-BP1708-0001
+    historical_rule: >
+      Make was explicitly treated as a project transparency/control surface. Current
+      workflow commands and documentation should remain understandable and aligned,
+      while obsolete architecture may be replaced rather than preserved indefinitely.
+    current_operator_extension_20260922:
+      status: PENDING_CONSOLIDATED_PROJECT_RULE_UPDATE
+      rule: >
+        Treat Makefile as an operator-facing functional map of the project. Supported
+        functionality with an operator workflow should be represented in the proper
+        Makefile section. Newly implemented or newly discovered supported functionality
+        must trigger Makefile coverage review. Targets for functionality that no longer
+        exists should be removed.
+      relation_to_historical_rule: EXTENDS_AND_MAKES_THE_COVERAGE_INVARIANT_EXPLICIT
+    later_audit_requirement: >
+      Reconcile live implemented/operator-facing capabilities against Makefile targets,
+      sections and command contracts. Missing supported functions are coverage gaps;
+      stale targets for removed functionality are cleanup defects.
+    mutation_in_this_second_pass: none
+    action: RECORD_ORIGIN_AND_PENDING_CONSOLIDATED_AUDIT
+
+  - topic: hierarchical_roadmap_task_subtask_dual_view
+    source_items:
+      - IT-BP1708-0013
+      - IT-BP1708-0014
+    promoted_human_intent: HI-FP-HARDENING-20260817-002
+    existing_design_candidate: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/19_hierarchical_roadmap_task_subtask_projection_design_candidate_v0_1.yaml
+    source_rule: >
+      Roadmap items should support meaningful subtasks so implementation depth and
+      partial completion remain visible. A compact view should show main tasks and
+      aggregate state while a detailed view exposes parent/subtask hierarchy and
+      evidence from the same canonical roadmap state.
+    current_reconciliation:
+      classification: RECONCILE_BEFORE_IMPLEMENTATION
+      reuse_audit_targets:
+        - current module roadmap schemas
+        - full-horizon portfolio target-state/roadmap renderers
+        - roadmap execution reconciliation/event model
+        - dependency/convergence graph node model
+        - human-readable portfolio partial-progress rendering
+      non_goals:
+        - do not create a second parallel roadmap hierarchy
+        - do not force every step into microtasks
+        - do not treat subtask completion as implicit parent ACCEPT
+        - do not mutate execution authority from this source
+    roadmap_effect: none_until_live_gap_is_proven
+    action: PRESERVE_CANDIDATE_NO_DUPLICATE_ROADMAP
+
+  - topic: zero_context_bootstrap_full_remaining_path
+    source_items:
+      - IT-BP1708-0030
+      - IT-BP1708-0031
+      - IT-BP1708-0033
+      - IT-BP1708-0034
+    promoted_human_intent: HI-FP-HARDENING-20260817-005
+    source_rule: >
+      A replacement assistant must receive current position, exact next bounded work,
+      remaining path and final objective so the complete development line survives
+      context-window loss. The handoff should enable resumption of the bounded existing
+      work rather than trigger a new architecture cycle.
+    current_connection:
+      - Continuity Contract
+      - Assistant Handoff / Handoff v2
+      - coordination/instruction_intake/assistant_reading_order.md
+      - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+      - assistant-context-pack
+      - bounded parallel-workstream current snapshot design
+    authority_note: >
+      Bootstrap/handoff/context surfaces preserve state and navigation but do not grant
+      lifecycle, dispatch, roadmap, release, acceptance, commit, push or merge authority.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: bounded_task_before_roadmap_replanning
+    source_items:
+      - IT-BP1708-0012
+    promoted_human_intent: HI-FP-HARDENING-20260817-001
+    source_rule: >
+      When a technical task is already explicitly bounded, finish it or explicitly
+      stop/return it before repeatedly redesigning the roadmap around the in-flight
+      work. Roadmap reconciliation occurs deliberately at meaningful boundaries.
+    current_connection:
+      - current work-front boundaries
+      - roadmap/execution reconciliation
+      - source-processing rule against opportunistic roadmap mutation
+      - parallel-work semantic-collision discipline
+    action: NO_DUPLICATE
+
+  - topic: legacy_retirement_and_nonblocking_current_platform
+    source_items:
+      - IT-BP1708-0022
+      - IT-BP1708-0023
+    promoted_human_intent: HI-FP-HARDENING-20260817-003
+    source_rule: >
+      Superseded tests, scripts and workflow mechanisms should not permanently block
+      current work solely for legacy compatibility. Deprecated mechanisms may be
+      isolated or archived for controlled historical access.
+    current_connection:
+      - self-cleaning/deprecation governance
+      - current validation-surface hygiene
+      - Makefile stale-target cleanup rule
+      - historical artifacts as evidence, not active authority
+    action: NO_DUPLICATE
+
+  - topic: completion_review_acceptance_ownership_boundary
+    source_items:
+      - IT-BP1708-0006
+      - IT-BP1708-0007
+      - IT-BP1708-0008
+      - IT-BP1708-0010
+      - IT-BP1708-0035
+    source_rule: >
+      Module-owned completion evidence, Blueprint review, operator confirmation,
+      acceptance/seal and wider/global promotion are distinct lifecycle stages and must
+      not collapse into one implicit mutation.
+    current_connection:
+      - completion packets / completion intake
+      - ACCEPT / RETURN / HOLD separation
+      - Control Foundation lifecycle and publication authority boundaries
+      - full project closure versus local readiness
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  makefile_functional_map_rule_pending_consolidated_apply: true
+  roadmap_hierarchy_candidate_requires_live_reuse_audit: true
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - corrected source-quality interpretation: UTF-8 is intact; assistant-side DOM capture is sparse
+    - provenance bridge from 17.08 Make transparency/control surface to current operator Makefile functional-map rule
+    - reaffirmed roadmap hierarchy/subtask dual-view candidate without duplicate roadmap mutation
+    - provenance bridge from 17.08 full-path zero-context bootstrap to current Handoff/context architecture
+    - retained legacy-retirement and completion/review/acceptance separation semantics

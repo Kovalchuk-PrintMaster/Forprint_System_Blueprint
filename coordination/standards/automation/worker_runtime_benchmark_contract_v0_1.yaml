@@ -1,0 +1,70 @@
+schema_version: forprint_worker_runtime_benchmark_contract_v0_1
+contract_id: worker_runtime_benchmark
+revision: 0.1.0
+status: active_cf10_slice5a
+
+purpose:
+  - compare provider runtimes and models under equivalent ForPrint task boundaries
+  - distinguish model quality from agent/runtime-shell quality
+  - preserve raw facts separately from human evaluation
+
+identity:
+  required:
+    - benchmark_id
+    - task_id
+    - work_id
+    - attempt_id
+    - worker_id
+    - provider_id
+    - runtime_id
+    - model_id
+
+execution_facts:
+  required:
+    - started_at
+    - finished_at
+    - duration_seconds
+    - exit_code
+    - timeout
+    - retry_count
+    - result_state
+  optional_observable:
+    - input_tokens
+    - output_tokens
+    - total_tokens
+    - ai_credits
+    - provider_cost
+    - currency
+  unavailable_telemetry_value: NOT_OBSERVABLE
+
+quality_facts:
+  required:
+    - changed_paths
+    - tests_passed
+    - tests_failed
+    - governance_checks_passed
+    - governance_checks_failed
+    - scope_violation_count
+    - unresolved_findings
+    - candidate_only
+  semantic_acceptance_is_automatic: false
+
+human_review:
+  required_before_provider_comparison_acceptance: true
+  fields:
+    - operator_reviewed
+    - correction_needed
+    - result_accepted
+    - operator_score
+    - operator_notes
+  operator_score_scale:
+    minimum: 1
+    maximum: 5
+  score_is_authority: false
+
+comparison_rules:
+  same_task_family_preferred: true
+  identical_work_front_where_possible: true
+  same_validation_gate_where_possible: true
+  provider_rank_is_not_architectural_authority: true
+  provider_default_may_change_from_evidence: true

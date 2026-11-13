@@ -1,0 +1,81 @@
+# Execution / Artifact Timeline
+
+Unique archive/report labels recovered: **73**.
+
+> Historical lineage only; labels do not independently prove current canonical state.
+
+| ID | Turn | Theme | Artifact |
+|---|---:|---|---|
+| `ART-BP3108-0001` | 1 | theory_review | `forprint_theory_review_delta_v0_2_20260827.zip` |
+| `ART-BP3108-0002` | 1 | portfolio_roadmap | `2026-08-26__forprint_portfolio__module_detailed_review_sheets_v0_2.pdf` |
+| `ART-BP3108-0003` | 1 | theory_review | `forprint_theory_review_reconciliation_preflight_20260827_082003.tar.gz` |
+| `ART-BP3108-0004` | 85 | external_semantic_review | `B01__core__semantic_review_RETURN.zip` |
+| `ART-BP3108-0005` | 85 | external_semantic_review | `B01__core__semantic_review.zip` |
+| `ART-BP3108-0006` | 85 | external_semantic_review | `B02__core__semantic_review.zip` |
+| `ART-BP3108-0007` | 85 | external_semantic_review | `B03__core_part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0008` | 85 | external_semantic_review | `B03__core_part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0009` | 85 | external_semantic_review | `B04__acceptance_oracles__semantic_review.zip` |
+| `ART-BP3108-0010` | 85 | external_semantic_review | `B04__schemas_contracts_templates__semantic_review.zip` |
+| `ART-BP3108-0011` | 85 | external_semantic_review | `B04__standards_part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0012` | 85 | external_semantic_review | `B04__standards_part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0013` | 85 | external_semantic_review | `B05__completion_lifecycle__semantic_review.zip` |
+| `ART-BP3108-0014` | 85 | external_semantic_review | `B05__directives__semantic_review.zip` |
+| `ART-BP3108-0015` | 85 | external_semantic_review | `B05__prompt_lifecycle_part_01_of_03__semantic_review.zip` |
+| `ART-BP3108-0016` | 85 | external_semantic_review | `B05__prompt_lifecycle_part_02_of_03__semantic_review.zip` |
+| `ART-BP3108-0017` | 85 | external_semantic_review | `B05__prompt_lifecycle_part_03_of_03__semantic_review.zip` |
+| `ART-BP3108-0018` | 85 | external_semantic_review | `B06__core__semantic_review.zip` |
+| `ART-BP3108-0019` | 85 | external_semantic_review | `B07__core__semantic_review.zip` |
+| `ART-BP3108-0020` | 85 | external_semantic_review | `B08__knowledge_foundation_awareness_self_audit__semantic_review.zip` |
+| `ART-BP3108-0021` | 85 | external_semantic_review | `B08__repository_knowledge__semantic_review.zip` |
+| `ART-BP3108-0022` | 85 | external_semantic_review | `B09__coordination_execution_scripts__semantic_review.zip` |
+| `ART-BP3108-0023` | 85 | external_semantic_review | `B09__other_scripts__semantic_review.zip` |
+| `ART-BP3108-0024` | 85 | external_semantic_review | `B09__tools_config_source_part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0025` | 85 | external_semantic_review | `B09__tools_config_source_part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0026` | 85 | external_semantic_review | `B09__validation_audit_scripts__semantic_review.zip` |
+| `ART-BP3108-0027` | 85 | external_semantic_review | `B10__legacy_misc_catchall_part_01_of_05__semantic_review.zip` |
+| `ART-BP3108-0028` | 85 | external_semantic_review | `B10__legacy_misc_catchall_part_02_of_05__semantic_review.zip` |
+| `ART-BP3108-0029` | 85 | external_semantic_review | `B10__legacy_misc_catchall_part_03_of_05__semantic_review.zip` |
+| `ART-BP3108-0030` | 85 | external_semantic_review | `B10__legacy_misc_catchall_part_04_of_05__semantic_review.zip` |
+| `ART-BP3108-0031` | 85 | external_semantic_review | `B10__legacy_misc_catchall_part_05_of_05__semantic_review.zip` |
+| `ART-BP3108-0032` | 85 | external_semantic_review | `B10__reports_generated_diagrams__semantic_review.zip` |
+| `ART-BP3108-0033` | 85 | external_semantic_review | `B01__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0034` | 85 | external_semantic_review | `B02__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0035` | 85 | external_semantic_review | `B03__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0036` | 85 | external_semantic_review | `B04__part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0037` | 85 | external_semantic_review | `B04__part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0038` | 85 | external_semantic_review | `B05__part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0039` | 85 | external_semantic_review | `B05__part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0040` | 85 | external_semantic_review | `B06__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0041` | 85 | external_semantic_review | `B07__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0042` | 85 | external_semantic_review | `B08__part_01_of_01__semantic_review.zip` |
+| `ART-BP3108-0043` | 85 | external_semantic_review | `B09__part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0044` | 85 | external_semantic_review | `B09__part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0045` | 85 | external_semantic_review | `B10__part_01_of_02__semantic_review.zip` |
+| `ART-BP3108-0046` | 85 | external_semantic_review | `B10__part_02_of_02__semantic_review.zip` |
+| `ART-BP3108-0047` | 91 | external_semantic_review | `B02__core__semantic_review_RETURN.zip` |
+| `ART-BP3108-0048` | 93 | other | `machine_analysis_compact_v0_1.zip` |
+| `ART-BP3108-0049` | 93 | other | `machine_analysis_full_v0_1.zip` |
+| `ART-BP3108-0050` | 93 | other | `assistant_01__B01__core__ea0fba5cc5c0__RETURN.zip` |
+| `ART-BP3108-0051` | 93 | other | `assistant_02__B02__core__e7c9cdafec76__RETURN.zip` |
+| `ART-BP3108-0052` | 93 | other | `assistant_07__B07__core__76af43ac7ad7__RETURN.zip` |
+| `ART-BP3108-0053` | 93 | other | `reconciliation_chain_compact_latest.zip` |
+| `ART-BP3108-0054` | 95 | knowledge_inventory | `knowledge_inventory_checkpoint_compact_v0_2.zip` |
+| `ART-BP3108-0055` | 99 | knowledge_inventory | `knowledge_inventory_checkpoint_compact_v0_3.zip` |
+| `ART-BP3108-0056` | 99 | external_semantic_review | `B03__semantic_review_COMPLETE_RETURN.zip` |
+| `ART-BP3108-0057` | 99 | external_semantic_review | `B04_semantic_review_results.zip` |
+| `ART-BP3108-0058` | 99 | external_semantic_review | `B05__semantic_review_return.zip` |
+| `ART-BP3108-0059` | 99 | external_semantic_review | `B07__core__semantic_review_RETURN.zip` |
+| `ART-BP3108-0060` | 99 | external_semantic_review | `B08__semantic_review__completed_outputs.zip` |
+| `ART-BP3108-0061` | 99 | external_semantic_review | `B10_semantic_review_results.zip` |
+| `ART-BP3108-0062` | 113 | external_semantic_review | `B06__core__semantic_review_RETURN.zip` |
+| `ART-BP3108-0063` | 115 | external_semantic_review | `B09__semantic_review_COMPLETE_RETURN.zip` |
+| `ART-BP3108-0064` | 125 | knowledge_inventory | `knowledge_inventory_targeted_evidence_gap_closure_v0_1.zip` |
+| `ART-BP3108-0065` | 127 | other | `info.pdf` |
+| `ART-BP3108-0066` | 235 | operations_registry_rename | `ForPrint_Operations_Control_Registry_Repair_Bundle_v0_1.zip` |
+| `ART-BP3108-0067` | 241 | operations_registry_rename | `ForPrint_Operations_Control_Registry_Full_Technical_Rename_Bundle_v0_1.zip` |
+| `ART-BP3108-0068` | 265 | blueprint_self_inventory | `ForPrint_Blueprint_Self_Inventory_v0_1.zip` |
+| `ART-BP3108-0069` | 269 | structure_normalization | `ForPrint_Blueprint_Structure_Normalization_Decision_Bundle_v0_1.zip` |
+| `ART-BP3108-0070` | 285 | semantic_cleanup | `ForPrint_Blueprint_Semantic_Cleanup_Corpus_v0_1.zip` |
+| `ART-BP3108-0071` | 301 | knowledge_index | `ForPrint_Blueprint_Knowledge_Index_Review_Bundle_v0_1.zip` |
+| `ART-BP3108-0072` | 317 | actionable_reference | `ForPrint_Blueprint_Actionable_Reference_Review_Bundle_v0_1.zip` |
+| `ART-BP3108-0073` | 387 | portfolio_roadmap | `ForPrint_Blueprint_Evening_Architecture_Roadmap_Package_v1_0.zip` |

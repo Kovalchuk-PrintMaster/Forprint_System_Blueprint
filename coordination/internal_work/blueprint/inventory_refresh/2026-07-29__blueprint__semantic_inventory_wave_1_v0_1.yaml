@@ -1,0 +1,967 @@
+schema_version: blueprint_semantic_inventory_wave_v0_1
+metadata:
+  wave_id: 2026-07-29__blueprint__semantic_inventory_wave_1_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T17:28:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: 33f2e74e5e0710c219b7c6438aabde8de1bdc640
+  plan_step_id: blueprint_semantic_inventory_wave_1_v0_1
+  result: READY_WITH_UNKNOWNS
+scope:
+  selection_rule: High-value coordination, validation, registry, roadmap and prompt-queue files; capped at 30 tracked
+    files.
+  selected_files: 30
+  tracked_files_at_source_commit: 710
+  source_artifact_map: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  source_rci: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  source_redm: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  write_policy: No implementation, registry, roadmap, prompt queue or policy source is modified by this inventory
+    wave.
+summary:
+  selected_files: 30
+  purpose_evidenced: 30
+  dependencies_mapped: 30
+  fully_verified: 30
+  records_with_unknowns: 23
+  confidence_counts:
+    high: 7
+    medium: 23
+    low: 0
+  authority_class_counts:
+    automation_and_validation: 18
+    canonical_machine_contracts: 1
+    governance_and_policy: 3
+    module_roadmaps: 3
+    prompt_queue_and_prompt_artifacts: 3
+    registries_and_source_indexes: 2
+records:
+- path: Makefile
+  authority_class: automation_and_validation
+  purpose: Repository command surface exposing validation, coordination, reporting and module-workflow targets.
+  purpose_source: make_target_structure
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'make target: .PHONY'
+  - 'make target: help'
+  - 'make target: .PHONY'
+  - 'make target: install'
+  - 'make target: .PHONY'
+  - 'make target: lint'
+  - 'make target: .PHONY'
+  - 'make target: lint-fix'
+  - 'make target: .PHONY'
+  - 'make target: format'
+  - 'make target: .PHONY'
+  - 'make target: test'
+  - 'make target: .PHONY'
+  - 'make target: validate'
+  - 'make target: .PHONY'
+  - 'make target: markdown-fences'
+  - 'make target: .PHONY'
+  - 'make target: check'
+  - 'make target: .PHONY'
+  - 'make target: check-report'
+  outbound_dependencies:
+  - coordination/global_policy/forprint_project_doctrine.md
+  - scripts/audit_module_governance.py
+  - scripts/check_coordination_metadata.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  - scripts/coordination/render_module_roadmap_dashboard.py
+  - scripts/coordination/render_prompt_dashboard.py
+  - scripts/coordination/resolve_next_module_work.py
+  - scripts/coordination/resolve_next_prompt.py
+  - scripts/coordination/update_document_awareness_ledger.py
+  - scripts/coordination/validate_module_roadmap.py
+  - scripts/coordination/validate_prompt_queue.py
+  - scripts/fix_coordination_metadata.py
+  - scripts/generate_mermaid.py
+  - scripts/generate_module_guides.py
+  - scripts/generate_module_policy_docs.py
+  - scripts/reporting/audit_consolidation.py
+  - scripts/run_blueprint_checks.py
+  - scripts/validate_blueprint.py
+  - scripts/validate_completion_packet_template.py
+  - scripts/validate_instruction_intake.py
+  - scripts/validate_module_manifest.py
+  - scripts/validate_module_standards_template.py
+  - scripts/validate_outgoing_prompts.py
+  - scripts/validate_prompt_dispatch_index.py
+  - scripts/validate_standards_index.py
+  - scripts/validation/validate_diagrams_index.py
+  - scripts/validation/validate_markdown_fences.py
+  inbound_references: []
+  unknowns: []
+- path: scripts/run_blueprint_checks.py
+  authority_class: automation_and_validation
+  purpose: Run Blueprint checks through a structured compact/full reporting pipeline.
+  purpose_source: module_docstring
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'function: format_duration'
+  - 'function: color_status'
+  - 'function: summarize_results'
+  - 'function: render_text_table'
+  - 'function: render_markdown_report'
+  - 'function: write_reports'
+  - 'function: build_checks'
+  - 'function: tail_text'
+  - 'function: run_one_check'
+  - 'function: run_checks'
+  - 'function: build_cli'
+  - 'function: main'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - docs/architecture/blueprint_check_reporting_architecture.md
+  - docs/operations/blueprint_check_reporting_recovery.md
+  - docs/operations/blueprint_check_reporting_runbook.md
+  - scripts/audit_module_governance.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  - scripts/coordination/render_module_roadmap_dashboard.py
+  - scripts/coordination/validate_module_roadmap.py
+  - scripts/coordination/validate_prompt_queue.py
+  - scripts/generate_mermaid.py
+  - scripts/generate_module_guides.py
+  - scripts/reporting/artifact_writer.py
+  - scripts/reporting/console_summary.py
+  - scripts/reporting/models.py
+  - scripts/reporting/statuses.py
+  - scripts/reporting/table_renderer.py
+  - scripts/validate_blueprint.py
+  - scripts/validate_completion_packet_template.py
+  - scripts/validate_instruction_intake.py
+  - scripts/validate_module_manifest.py
+  - scripts/validate_module_standards_template.py
+  - scripts/validate_outgoing_prompts.py
+  - scripts/validate_prompt_dispatch_index.py
+  - scripts/validate_standards_index.py
+  - scripts/validation/validate_diagrams_index.py
+  - scripts/validation/validate_markdown_fences.py
+  - tests/coordination/test_module_completion_finalization.py
+  inbound_references:
+  - Makefile
+  - adr/0008-human-readable-check-report.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - docs/architecture/blueprint_check_reporting_architecture.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - scripts/reporting/audit_consolidation.py
+  unknowns: []
+- path: scripts/coordination/module_completion_intake.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml_mapping'
+  - 'function: _required_string'
+  - 'function: _safe_under'
+  - 'function: _run_git'
+  - 'function: _verify_commit'
+  - 'function: _remote_contains'
+  - 'function: _date_part'
+  - 'function: _normalize_check_value'
+  - 'function: _validate_checks'
+  - 'function: _validate_boundary'
+  - 'function: collect_completion_evidence'
+  - 'function: _find_prompt'
+  - 'class: CompletionIntakeError'
+  - 'class: CompletionEvidence'
+  - 'class: IntakePlan'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/validate_module_roadmap.py
+  - scripts/coordination/validate_prompt_queue.py
+  - scripts/reporting/coordination_result_tables.py
+  inbound_references:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_coordination_result_tables_recovery.md
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_coordination_result_tables.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/module_roadmap.py
+  authority_class: automation_and_validation
+  purpose: Reusable Python coordination or validation component; exact behavior is represented by its public symbols.
+  purpose_source: python_top_level_symbols
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: load_yaml_file'
+  - 'function: resolve_roadmap_path'
+  - 'function: validate_roadmap_document'
+  - 'function: render_roadmap_dashboard'
+  - 'function: render_modules_summary'
+  - 'function: _sorted_steps'
+  - 'function: _derive_current_step_id'
+  - 'function: _step_index'
+  - 'function: _find_step'
+  - 'function: _find_next_ready_step'
+  - 'function: _dependency_summary'
+  - 'function: _evidence_summary'
+  - 'class: RoadmapError'
+  - 'class: ValidationResult'
+  outbound_dependencies:
+  - scripts/reporting/statuses.py
+  - scripts/reporting/table_renderer.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_module_roadmap_renderer_cleanup_runbook.md
+  - docs/operations/blueprint_reporting_consolidation_audit_runbook.md
+  - docs/operations/blueprint_shared_dashboard_renderer_recovery.md
+  - docs/operations/blueprint_shared_dashboard_renderer_runbook.md
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_module_roadmap_renderer_cleanup.py
+  - tests/reporting/test_reporting_consolidation_audit.py
+  - tests/reporting/test_shared_dashboard_renderer.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/validate_module_roadmap.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: main'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/module_roadmap.py
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/standards/make_command_standard.md
+  - scripts/coordination/module_completion_intake.py
+  - scripts/run_blueprint_checks.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/validate_prompt_queue.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml'
+  - 'function: _require_string'
+  - 'function: _require_int'
+  - 'function: _validate_nested_status'
+  - 'function: _validate_prompt_record'
+  - 'function: _validate_prompt_queue_index'
+  - 'function: validate_root'
+  - 'function: main'
+  - 'class: ValidationIssue'
+  - 'class: ValidationResult'
+  - __main__ entrypoint present
+  outbound_dependencies: []
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - scripts/coordination/module_completion_intake.py
+  - scripts/run_blueprint_checks.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/resolve_next_prompt.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml'
+  - 'function: _sorted_prompt_queue'
+  - 'function: _resolve_next_prompt'
+  - 'function: resolve_next_prompt_summary'
+  - 'function: render_summary'
+  - 'function: main'
+  - 'class: NextPromptSummary'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/reporting/coordination_result_tables.py
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - docs/architecture/blueprint_resolve_next_prompt_result_table_architecture.md
+  - docs/operations/blueprint_resolve_next_prompt_result_table_recovery.md
+  - docs/operations/blueprint_resolve_next_prompt_result_table_runbook.md
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_reporting_consolidation_audit.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/resolve_next_module_work.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml_mapping'
+  - 'function: _sorted_steps'
+  - 'function: _current_step'
+  - 'function: _next_step'
+  - 'function: _active_prompts'
+  - 'function: _draft_files'
+  - 'function: _matches_step'
+  - 'function: resolve_next_work'
+  - 'function: _step_payload'
+  - 'function: as_dict'
+  - 'function: render'
+  - 'function: main'
+  - 'class: NextWorkError'
+  - 'class: NextWorkSuggestion'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/module_roadmap.py
+  - scripts/reporting/coordination_result_tables.py
+  inbound_references:
+  - Makefile
+  - coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_coordination_result_tables_recovery.md
+  - docs/operations/blueprint_coordination_result_tables_runbook.md
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_coordination_result_tables.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/render_prompt_dashboard.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml'
+  - 'function: _cell'
+  - 'function: _short_commit'
+  - 'function: _sorted_prompt_queue'
+  - 'function: resolve_next_prompt'
+  - 'function: render_dashboard'
+  - 'function: _render_active_prompt_table'
+  - 'function: _render_draft_prompt_table'
+  - 'function: _same_prompt'
+  - 'function: _record_row_color'
+  - 'function: _sorted_draft_prompts'
+  - 'function: _draft_id'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/reporting/table_renderer.py
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_shared_dashboard_renderer_recovery.md
+  - docs/operations/blueprint_shared_dashboard_renderer_runbook.md
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_shared_dashboard_renderer.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/render_module_roadmap_dashboard.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: main'
+  - 'function: _split_modules'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/module_roadmap.py
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/standards/make_command_standard.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - scripts/reporting/audit_consolidation.py
+  - scripts/run_blueprint_checks.py
+  - tests/reporting/test_module_roadmap_renderer_cleanup.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/modules/module_workflow_cli.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _root'
+  - 'function: _validate_control_files'
+  - 'function: _list'
+  - 'function: _check'
+  - 'function: main'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - coordination/modules/module_workflow_registry.yaml
+  - scripts/coordination/modules/_shared/io.py
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/__init__.py
+  inbound_references:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+  authority_class: automation_and_validation
+  purpose: Reusable Python coordination or validation component; exact behavior is represented by its public symbols.
+  purpose_source: python_top_level_symbols
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _timestamp'
+  - 'function: _runtime_path'
+  - 'function: _evidence_paths'
+  - 'function: _build_bundle_manifest'
+  - 'function: _build_bundle'
+  - 'function: _write_reports'
+  - 'function: prepare'
+  - 'function: resume'
+  - 'function: status'
+  - 'function: print_full_report'
+  outbound_dependencies:
+  - coordination/modules/module_workflow_registry.yaml
+  - scripts/coordination/modules/_shared/external_input.py
+  - scripts/coordination/modules/_shared/io.py
+  - scripts/coordination/modules/_shared/reporting.py
+  - scripts/coordination/modules/_shared/repository_scan.py
+  inbound_references:
+  - coordination/modules/forprint_system_blueprint/workflows/workflow_index.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/build_document_manifest.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _load_yaml'
+  - 'function: _as_string_list'
+  - 'function: load_source_registry'
+  - 'function: _matches_pattern'
+  - 'function: _should_include_file'
+  - 'function: _content_hash'
+  - 'function: _slug'
+  - 'function: _document_id'
+  - 'function: _title_from_text'
+  - 'function: _relative_to_root'
+  - 'function: scan_documents'
+  - 'function: build_manifest'
+  - 'class: SourceDefinition'
+  - 'class: DocumentRecord'
+  - 'class: ManifestResult'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - coordination/document_awareness/source_registry.yaml
+  - scripts/reporting/document_awareness_tables.py
+  inbound_references:
+  - Makefile
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/standards/make_command_standard.md
+  - docs/operations/blueprint_document_awareness_shared_renderer_recovery.md
+  - scripts/run_blueprint_checks.py
+  - tests/reporting/test_document_awareness_shared_renderer.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/update_document_awareness_ledger.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _resolve_root_relative'
+  - 'function: _resolve_cwd_relative'
+  - 'function: _load_yaml_mapping'
+  - 'function: _load_ledger'
+  - 'function: _ledger_items_by_path'
+  - 'function: _is_applicable_to_module'
+  - 'function: _matches_document_selector'
+  - 'function: _select_documents'
+  - 'function: update_ledger'
+  - 'function: build_parser'
+  - 'function: print_result'
+  - 'function: main'
+  - 'class: LedgerUpdateResult'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/build_document_manifest.py
+  inbound_references:
+  - Makefile
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/standards/make_command_standard.md
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/coordination/render_document_awareness_dashboard.py
+  authority_class: automation_and_validation
+  purpose: Executable Python coordination or validation entrypoint; exact business purpose is evidenced by its top-level
+    symbols.
+  purpose_source: python_main_guard
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _relative_to_root'
+  - 'function: _load_yaml'
+  - 'function: load_ledger'
+  - 'function: _is_applicable_to_module'
+  - 'function: _priority_rank'
+  - 'function: _awareness_status'
+  - 'function: _recommended_action'
+  - 'function: build_dashboard'
+  - 'function: _build_summaries'
+  - 'function: _paint_priority'
+  - 'function: _paint_status'
+  - 'function: render_dashboard'
+  - 'class: LedgerEntry'
+  - 'class: AwarenessRecord'
+  - 'class: SourceSummary'
+  - 'class: DashboardResult'
+  - 'class: Palette'
+  - __main__ entrypoint present
+  outbound_dependencies:
+  - scripts/coordination/build_document_manifest.py
+  - scripts/reporting/document_awareness_tables.py
+  inbound_references:
+  - Makefile
+  - coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/standards/make_command_standard.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_document_awareness_shared_renderer_recovery.md
+  - scripts/reporting/audit_consolidation.py
+  - scripts/run_blueprint_checks.py
+  - tests/reporting/test_document_awareness_shared_renderer.py
+  - tests/reporting/test_reporting_consolidation_audit.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/reporting/table_renderer.py
+  authority_class: automation_and_validation
+  purpose: Reusable Python coordination or validation component; exact behavior is represented by its public symbols.
+  purpose_source: python_top_level_symbols
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: strip_ansi'
+  - 'function: leading_ansi_color'
+  - 'function: format_visible_cell'
+  - 'function: _border'
+  - 'function: _resolve_row_color'
+  - 'function: _row'
+  - 'function: render_boxed_table_lines'
+  - 'function: render_boxed_table'
+  - 'class: TableRow'
+  outbound_dependencies:
+  - scripts/reporting/statuses.py
+  inbound_references:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/standards/visual_interface/boxed_table_layout_policy.md
+  - docs/architecture/blueprint_check_reporting_architecture.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_coordination_result_tables_recovery.md
+  - docs/operations/blueprint_document_awareness_shared_renderer_recovery.md
+  - docs/operations/blueprint_shared_dashboard_renderer_recovery.md
+  - scripts/reporting/audit_consolidation.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/reporting/coordination_result_tables.py
+  authority_class: automation_and_validation
+  purpose: Reusable Python coordination or validation component; exact behavior is represented by its public symbols.
+  purpose_source: python_top_level_symbols
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _signal_token'
+  - 'function: _section'
+  - 'function: render_completion_intake_summary'
+  - 'function: _step_row'
+  - 'function: render_next_work_summary'
+  - 'function: render_next_prompt_summary'
+  - 'function: render_module_governance_summary'
+  outbound_dependencies:
+  - scripts/reporting/table_renderer.py
+  inbound_references:
+  - coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - docs/architecture/blueprint_coordination_result_tables_architecture.md
+  - docs/architecture/blueprint_module_governance_terminal_artifact_split.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/architecture/blueprint_resolve_next_prompt_result_table_architecture.md
+  - docs/operations/blueprint_coordination_result_tables_recovery.md
+  - docs/operations/blueprint_module_governance_terminal_artifact_split_recovery.md
+  - docs/operations/blueprint_module_governance_terminal_artifact_split_runbook.md
+  - docs/operations/blueprint_resolve_next_prompt_result_table_recovery.md
+  - docs/operations/blueprint_resolve_next_prompt_result_table_runbook.md
+  - scripts/reporting/audit_consolidation.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: scripts/reporting/document_awareness_tables.py
+  authority_class: automation_and_validation
+  purpose: Reusable Python coordination or validation component; exact behavior is represented by its public symbols.
+  purpose_source: python_top_level_symbols
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'function: _rows'
+  - 'function: render_awareness_area_summary'
+  - 'function: render_awareness_document_table'
+  - 'function: render_context_bundle_summary'
+  - 'function: render_document_manifest_summary'
+  outbound_dependencies:
+  - scripts/reporting/table_renderer.py
+  inbound_references:
+  - coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_document_awareness_shared_renderer_recovery.md
+  - scripts/reporting/audit_consolidation.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: machine/modules.yaml
+  authority_class: canonical_machine_contracts
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: modules.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: modules'
+  outbound_dependencies: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/templates/forprint_module_manifest.template.yaml
+  - coordination/templates/outgoing_prompt_template.md
+  - human/integration_strategy.md
+  - human/project_landscape.md
+  - scripts/validate_module_manifest.py
+  - scripts/validate_prompt_dispatch_index.py
+  - tests/test_module_alignment_execution_plan.py
+  - tests/test_module_alignment_matrix.py
+  - tests/test_project_directories.py
+  - tests/test_prompt_dispatch_index.py
+  - tests/test_system_detail_map.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/module_sources/module_git_sources.yaml
+  authority_class: registries_and_source_indexes
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: module_git_sources.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: module_git_sources'
+  outbound_dependencies:
+  - coordination/reports/index.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/module_sources/README.md
+  - coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - reports/module_governance_audit.json
+  - scripts/collect_module_coordination.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/module_policy/module_policy_index.yaml
+  authority_class: governance_and_policy
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: module_policy_index.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: module_policy_index'
+  outbound_dependencies: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  - coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/modules/module_workflow_registry.yaml
+  authority_class: registries_and_source_indexes
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version, status,
+    modules, shared.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: status'
+  - 'top-level key: modules'
+  - 'top-level key: shared'
+  outbound_dependencies:
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+  - scripts/coordination/modules/module_workflow_cli.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/standards/governance/module_development_roadmap_policy.md
+  authority_class: governance_and_policy
+  purpose: ForPrint Module Development Roadmap Policy
+  purpose_source: markdown_h1
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'H1: ForPrint Module Development Roadmap Policy'
+  - 'heading: ## Status'
+  - 'heading: ## Purpose'
+  - 'heading: ## Scope'
+  - 'heading: ## Planning horizon rule'
+  outbound_dependencies:
+  - coordination/roadmaps/forprint_library.yaml
+  - coordination/standards/visual_interface/color_tokens_policy.md
+  - coordination/templates/module_development_roadmap_v0_1.template.yaml
+  inbound_references:
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/global_policy/current_execution_focus.md
+  authority_class: governance_and_policy
+  purpose: Current ForPrint Execution Focus
+  purpose_source: markdown_h1
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Current ForPrint Execution Focus'
+  - 'heading: ## Status'
+  - 'heading: ## Current priority model'
+  - 'heading: ## P0'
+  - 'heading: ### 1. System Blueprint coordination foundation'
+  - 'heading: ### 2. Calculator Engine'
+  outbound_dependencies:
+  - coordination/reports/index.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/roadmaps/forprint_library.yaml
+  authority_class: module_roadmaps
+  purpose: Initial module roadmap seed for ForPrint Library development visibility.
+  purpose_source: metadata_purpose
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: metadata'
+  - 'top-level key: visual_policy'
+  - 'top-level key: roadmap'
+  - 'top-level key: status_values'
+  - 'top-level key: priority_values'
+  - 'top-level key: dependency_types'
+  outbound_dependencies:
+  - coordination/outgoing_prompts/forprint_library/approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-06-29__library__reference_contract_foundation_v0_2.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+  - coordination/standards/governance/coordination_document_awareness_policy.md
+  - coordination/standards/governance/prompt_queue_navigation_policy.md
+  - coordination/standards/visual_interface/color_tokens_policy.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/standards/governance/module_development_roadmap_policy.md
+  unknowns: []
+- path: coordination/roadmaps/logistics_service.yaml
+  authority_class: module_roadmaps
+  purpose: Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts, tracking truth,
+    provider payloads, logistics address book and logistics event history for ForPrint operational workflows.
+  purpose_source: metadata_purpose
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: metadata'
+  - 'top-level key: roadmap'
+  outbound_dependencies:
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  - tests/coordination/test_module_completion_finalization.py
+  unknowns: []
+- path: coordination/roadmaps/telegram_bot.yaml
+  authority_class: module_roadmaps
+  purpose: Control Telegram Bot development as a Tier 1 client communication channel and intake assistant. Telegram
+    Bot may collect channel-local context, temporary drafts and handoff previews, but must not become the canonical
+    owner of clients, orders, products, prices, payments, stock, production statuses, accounting documents or 1C data.
+  purpose_source: metadata_purpose
+  confidence: high
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: metadata'
+  - 'top-level key: roadmap'
+  outbound_dependencies:
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/outgoing_prompts/forprint_library/index.yaml
+  authority_class: prompt_queue_and_prompt_artifacts
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version, module,
+    prompt_queue.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: prompt_queue'
+  outbound_dependencies: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/outgoing_prompts/forprint_library/approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/outgoing_prompts/logistics_service/index.yaml
+  authority_class: prompt_queue_and_prompt_artifacts
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version, module,
+    prompt_queue.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: prompt_queue'
+  outbound_dependencies: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  - tests/coordination/test_module_completion_finalization.py
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+- path: coordination/outgoing_prompts/telegram_bot/index.yaml
+  authority_class: prompt_queue_and_prompt_artifacts
+  purpose: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version, module,
+    prompt_queue.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: module'
+  - 'top-level key: prompt_queue'
+  outbound_dependencies: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose/description field.
+interpretation:
+  purpose_evidenced: An explicit docstring/title/description or a directly observable structural role was found.
+  dependencies_mapped: At least one tracked Python import or exact tracked path reference was verified.
+  fully_verified: Purpose and structural/dependency evidence are both present; this does not claim full runtime behavior
+    verification.
+  unknowns: Unverified semantics remain explicit and are not filled by filename inference.
+quality_checks:
+  git_tracked_scope_used: true
+  python_ast_used: true
+  exact_path_references_used: true
+  purpose_inference_limited_and_labeled: true
+  unknowns_preserved: true
+  source_files_not_modified: true
+  cross_repository_writes_not_authorized: true
+  network_io_not_used: true
+  yaml_validated: true

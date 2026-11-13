@@ -1,0 +1,176 @@
+schema_version: forprint_calculator_engine_long_running_portfolio_reconciliation_v0_1
+terminal_directive_anchor: '2026-06-03'
+reconciled_on: '2026-09-22'
+source_identity:
+  uploaded_filename: Asistant_Calculator_Engine_09.10.26.mhtml
+  primary_mhtml_sha256: 89ebb98618d86b0fa928d5c3f1748c68db81292f68b75698c19c2711689921fb
+  dftb_archive_sha256: 2ba7c3b2e5082dfc7e1dd8b0591e13faaf386efd1abc8fa4d28081f5ddaa9ecc
+  master_memory_v2_9_archive_sha256: b55ef2cdf8208fb434723d2cb0cace76c91d613a0fe58237a72c976e70cd00de
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v2_9_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v2_9_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_date_trusted: false
+  filename_label: '2026-10-09'
+  mhtml_export_saved: Tue, 15 Sep 2026 15:33:42 +0300
+  historical_span: 2025 artifacts through terminal checkpoint after Blueprint directive dated 2026-06-03
+  terminal_commit: eba5384
+  terminal_exact_date_known: false
+  rule: Use embedded causal/artifact chronology, not filename date.
+source_quality:
+  classification: UNIQUE_LARGE_BUT_SPARSE_LONG_RUNNING_CALCULATOR_MODULE_HISTORY
+  visible_turn_sections: 206
+  message_blocks: 213
+  roles:
+    user: 167
+    assistant: 46
+  turn_number_range: 1-1151
+  placeholder_or_missing_content_entries: 71
+  cyrillic_loss: false
+  current_implementation_verification_performed: false
+current_owner_boundary:
+  calculator_role: Canonical production calculation, quote-item semantics and production-filename interpretation
+    engine
+  calculator_owns:
+  - calculation_semantics
+  - quote_item_semantics
+  - pricing_and_estimate_logic
+  - calculation_applicability_rules
+  - production_filename_interpretation
+  - structured_calculation_evidence
+  calculator_must_not_own:
+  - canonical_product_material_semantics
+  - crm_customer_identity_or_segmentation_truth
+  - canonical_operational_order_truth
+  - accounting_truth
+  - channel_runtime_or_visual_ui_truth
+  - runtime_transport_contract_routing
+  adjacent_owners:
+    forprint_library: canonical product/material/service/operation semantics and labels
+    forprint_contract_registry: versioned inter-module contract form/lifecycle
+    forprint_integration_gateway: runtime validation/routing/delivery correlation and transport mechanics
+    forprint_crm: customer identity and approved customer/segment context
+reuse_first_findings:
+- topic: data_driven_pricing_and_b2b_b2c_modifiers
+  item_refs:
+  - IT-CALC0910-0001
+  - IT-CALC0910-0002
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_PRICING_CANDIDATE
+- topic: filtered_bulk_pricing_policies
+  item_refs:
+  - IT-CALC0910-0003
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_PRICING_CANDIDATE
+- topic: multi_channel_reusable_calculation_backend
+  item_refs:
+  - IT-CALC0910-0004
+  - IT-CALC0910-0027
+  classification: REUSE
+  disposition: Retain reusable Calculator backend direction, but current channels route through versioned Contract
+    Registry/Gateway/domain boundaries rather than direct channel-specific coupling.
+- topic: bounded_incremental_and_long_term_readability
+  item_refs:
+  - IT-CALC0910-0005
+  - IT-CALC0910-0006
+  - IT-CALC0910-0017
+  classification: REUSE_GLOBAL_ENGINEERING_GOVERNANCE
+  disposition: NO_DUPLICATE_CALCULATOR_HUMAN_INTENT
+- topic: pilot_products_before_full_catalog
+  item_refs:
+  - IT-CALC0910-0007
+  classification: HISTORICAL_DELIVERY_STRATEGY
+  disposition: PRESERVE_PROVENANCE_NO_CURRENT_ROADMAP_MUTATION
+- topic: scalable_product_material_relationships
+  item_refs:
+  - IT-CALC0910-0008
+  - IT-CALC0910-0009
+  - IT-CALC0910-0010
+  - IT-CALC0910-0037
+  classification: ADAPT
+  disposition: NEW_HUMAN_INTENT_WITH_LIBRARY_OWNERSHIP_REFINEMENT
+- topic: calculator_admin_scope
+  item_refs:
+  - IT-CALC0910-0011
+  - IT-CALC0910-0012
+  classification: ADAPT
+  disposition: NEW_HUMAN_INTENT_BOUNDED_ADMIN_NOT_WHOLE_PROJECT_ADMIN
+- topic: schema_migration_admin_projection_and_restore
+  item_refs:
+  - IT-CALC0910-0013
+  - IT-CALC0910-0014
+  - IT-CALC0910-0015
+  - IT-CALC0910-0016
+  - IT-CALC0910-0021
+  classification: RECONCILE_LIVE_IMPLEMENTATION
+  disposition: Historical Alembic, request-id logging, unmanaged Django projections, scoped restore tooling and
+    clean Django/tests are engineering evidence. Verify live repository before retaining/replacing mechanics.
+- topic: centralized_paths_portability_and_quarantine
+  item_refs:
+  - IT-CALC0910-0018
+  - IT-CALC0910-0019
+  - IT-CALC0910-0020
+  - IT-CALC0910-0035
+  classification: REUSE_PROJECT_WIDE_GOVERNANCE
+  disposition: Reuse current configuration/path/repository-cleanliness standards; preserve Calculator source as
+    provenance.
+- topic: external_quote_intake_idempotency_and_errors
+  item_refs:
+  - IT-CALC0910-0022
+  - IT-CALC0910-0024
+  - IT-CALC0910-0025
+  - IT-CALC0910-0026
+  - IT-CALC0910-0028
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_AND_QUOTE_CONTRACT_CANDIDATE
+- topic: operational_conflict_alerting
+  item_refs:
+  - IT-CALC0910-0023
+  classification: ADAPT
+  disposition: Preserve visible-incident requirement, but current observability/operator-attention owner and transport
+    must be reconciled; do not hard-wire Calculator to Telegram.
+- topic: blueprint_coordination_and_directive_sync
+  item_refs:
+  - IT-CALC0910-0029
+  - IT-CALC0910-0030
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0035
+  - IT-CALC0910-0036
+  classification: REUSE_GLOBAL_BLUEPRINT_GOVERNANCE
+  disposition: Historical false-success schema mismatch is valuable provenance for current instruction-intake/schema
+    validation and CWD-independent tooling. No Calculator-only duplicate standard is created.
+- topic: historical_terminal_checkpoint
+  item_refs:
+  - IT-CALC0910-0031
+  - IT-CALC0910-0032
+  classification: HISTORICAL_ENDPOINT
+  disposition: eba5384 local/origin-main aligned and controlled pause are historical facts only; current repository
+    state must be revalidated before implementation.
+- topic: direct_channel_coupling
+  item_refs:
+  - IT-CALC0910-0038
+  classification: REPLACE
+  disposition: SUPERSEDED_BY_GATEWAY_CONTRACT_REGISTRY_AND_DOMAIN_OWNER_ARCHITECTURE
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  reuse_current_horizon:
+  - preserve Calculator ownership of calculation/quote-item semantics
+  - stable request/result contracts with provenance and assumptions
+  - early visual configuration/workbench UX
+  - Verification Lab deterministic regression fixtures
+  new_candidates:
+  - calculator_pricing_policy_and_admin_surface
+  - calculator_channel_neutral_quote_contract
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: Historical source adds pricing-policy and quote-contract detail, but live Calculator implementation and
+    Library/CRM/Contract Registry/Gateway ownership contracts must be reconciled before canonical roadmap insertion.
+master_memory_relationship:
+  uploaded_master: v2.9
+  v2_9_role: historical_derived_navigation_archive
+  v2_9_contains_this_dftb: true
+  v2_9_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

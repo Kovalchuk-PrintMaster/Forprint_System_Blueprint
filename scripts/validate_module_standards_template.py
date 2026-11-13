@@ -63,7 +63,7 @@ def _validate_makefile_fragment(root: Path) -> list[str]:
         if f"{target}:" not in text:
             issues.append(_issue(path, f"missing target `{target}`"))
     for expected in (
-        "$(MAKE) blueprint-pull",
+        "$(MAKE) blueprint-check",
         "scripts/read_blueprint_standards.py",
         "scripts/check_blueprint_standards.py",
         "scripts/sync_blueprint_standards_snapshot.py",

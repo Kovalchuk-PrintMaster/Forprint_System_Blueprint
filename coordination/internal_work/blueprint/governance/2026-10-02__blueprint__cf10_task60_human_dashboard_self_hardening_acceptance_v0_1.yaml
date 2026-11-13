@@ -1,0 +1,50 @@
+schema_version: forprint_cf10_training_task_operator_acceptance_v0_1
+acceptance_id: cf10-task60-human-dashboard-self-hardening-acceptance-v0-1
+status: ACCEPTED
+module_id: forprint_system_blueprint
+work_id: u180j
+training_task_id: human_dashboard_self_hardening
+worker_task_id: cf10-human-dashboard-self-hardening-v0-1
+work_front_id: wf-cf10-human-dashboard-self-hardening-v0-1
+operator_decision: ACCEPT
+accepted_at: '2026-10-02T19:33:06.172858+03:00'
+decision_authority: HUMAN_OPERATOR
+decision_materialization: OPERATOR_EXECUTED_BOUNDED_SCRIPT
+raw_chat_is_authority: false
+acceptance_basis:
+  attempt_id: cf10-u180j-a022
+  attempt_terminal_state: FINISHED/SUCCEEDED/PASS
+  operator_promotion: PASS
+  canonical_validation: PASS
+  publication_commit: a64620f323278f7c659f5cd55414e4c8526dea79
+  publication_commit_is_ancestor_of_current_head: true
+  published_task60_targets_unchanged: true
+  focused_revalidation: PASS
+  focused_test_result: 6 passed
+evidence:
+  execution_attempt: attempt:cf10-u180j-a022
+  execution_attempt_record: coordination/continuity/execution_attempts/cf10-u180j-a022__b437bc3cee6c.yaml
+  promotion_evidence: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a022/evidence/worker_candidate_promotion_v0_1.yaml
+  promotion_evidence_sha256: 0bb519eb81ce04c43e517d5025cd608019e7c7b99168920bb33a895e779541b2
+  canonical_validation_evidence: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a022/evidence/governed_worker_cycle_canonical_validation_v0_1.yaml
+  canonical_validation_evidence_sha256: 659ce14d08f983fd605b2fac04c0f1c01f8d426e76374bf56297a08c685dab6e
+  publication_commit: a64620f323278f7c659f5cd55414e4c8526dea79
+  current_head_at_acceptance: bee66a90d38c09527421b64eb1c4f7601ce75527
+  canonical_targets:
+  - scripts/coordination/control_plane/human_dashboard.py
+  - tests/coordination/control_plane/test_cf10_human_dashboard_self_hardening_v0_1.py
+  promotion_authority: OPERATOR_CONTROLLED_CF10
+authority:
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_release_authority: false
+  grants_push_authority: false
+  grants_merge_authority: false
+  grants_foreign_write_authority: false
+  grants_automatic_accept_authority: false
+next_training_boundary:
+  task_id: validation_check_pipeline_profile_and_optimization
+  order: 70
+  prerequisite_satisfied: true
+  materialization_allowed: true
+  worker_launch_allowed_by_this_acceptance: false

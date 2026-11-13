@@ -1,0 +1,42 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-control-plane-source-label-2026-06-01
+authority_class: historical_bootstrap_proposal_non_blueprint_authority
+relations:
+- type: precedes_and_motivates
+  from_bundle: DFTB-control-plane-source-label-2026-06-01
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: HIGH
+  note: The proposal introduces a separate Strategic/Control Plane concept; 14.07 later explicitly records Strategic Control Plane as a planned separate
+    component.
+- type: conceptually_distinct_from
+  from_bundle: DFTB-control-plane-source-label-2026-06-01
+  to_bundle: DFTB-blueprint-2026-09-12
+  confidence: MEDIUM
+  note: Early strategic Control Plane is strategy/governance-oriented; later Control Foundation manages roadmap/execution-state reconciliation. Names should
+    not be collapsed automatically.
+- type: historical_priority_superseded_by
+  from_bundle: DFTB-control-plane-source-label-2026-06-01
+  to_bundle: DFTB-blueprint-2026-08-17
+  confidence: HIGH
+  note: Early Telegram/Calculator/Accounting priority snapshot is superseded by later current release/H10 Logistics-only authority.
+item_relations:
+- type: precedes
+  from_item: IT-CP0106-0002
+  to_item: IT-BP1407-0029
+  confidence: HIGH
+  note: Early Control Plane proposal precedes later explicit plan to keep Strategic Control Plane as a separate component.
+- type: supports
+  from_item: IT-CP0106-0017
+  to_item: IT-BP1708-0003
+  confidence: HIGH
+  note: Early proposal already forbids Control Plane from mutating Blueprint/foreign repositories.
+- type: related_to
+  from_item: IT-CP0106-0011
+  to_item: IT-BP2708-0015
+  confidence: MEDIUM
+  note: Early decision-rights/checkpoint concept resembles later explicit manual major-phase approval and bounded deterministic same-phase automation.
+- type: conflicts_with
+  from_item: IT-CP0106-0009
+  to_item: IT-BP1708-0019
+  confidence: HIGH
+  note: Early priority map is obsolete relative to later Logistics-only/H10 current authority.

@@ -1,0 +1,25 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a001
+work_front_id: wf-cf10-zero-stage-dispatch-boundary-regression-v0-1
+recorded_at: '2026-09-22T16:05:15.672348Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/workspace/repo
+why: CF-10 first bounded Blueprint-internal zero-stage worker launch
+source_fingerprint: 0d0903aa2430c830c63180582ba112725a98db445cc8ad16981d8cb2191d6aeb
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: ab24d41c912e295af1ca506d76be41b5b99da601ec0ff214dc595a069b5d9662
+launch_or_invocation_ref: runtime:/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/evidence/cf10_worker_invocation_v0_1.yaml#sha256=060fc3425bea0f67fc5777a56f0358d17ac349be635f6f74bc7b6d6d5d365a9e
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- worker_result_sha256:b0a485330d4fb89efeee2c568e9aeb4a434487b824b06337d7cf519ffe7562a6
+- retry_attempt:cf10-u180j-a002
+validator_outcome: NOT_RUN
+validator_evidence_refs:
+- worker_benchmark_sha256:ef67941c63a4ca449c61f759cac090f3e6869a2fff0db17d3d49c3477b422c0e
+- empty_candidate_patch_sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+failure_or_retry_ref: retry_attempt:cf10-u180j-a002
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs: []

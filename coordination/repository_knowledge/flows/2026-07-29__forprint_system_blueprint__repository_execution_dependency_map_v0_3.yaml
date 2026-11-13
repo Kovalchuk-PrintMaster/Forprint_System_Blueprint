@@ -1,0 +1,1283 @@
+schema_version: repository_execution_dependency_map_v0_3
+snapshot:
+  snapshot_id: 2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3
+  created_at: '2026-07-29T16:00:00+03:00'
+  scope_id: forprint_system_blueprint
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: 7b34b4426057ade4f587cbaa20b5ae55914abc3f
+  working_tree: clean
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  previous_snapshot_id: 2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2
+  source_rci: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  result: READY_WITH_UNKNOWNS
+flow_summary:
+  mapped_flows: 10
+  verified_flows: 10
+  inferred_flows: 0
+  flows_with_unknown_links: 4
+  write_capable_flows: 7
+  external_network_flows: 0
+flows:
+- flow_id: blueprint.quality_gate.v1
+  name: Blueprint quality gate
+  purpose: Run canonical lint, tests, validation, coordination and generated-artifact checks.
+  flow_kind: validation
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make check / check-report
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: Makefile
+    symbol_or_target: check/check-report
+    role: Dispatch canonical runner.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence:
+    - Makefile
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/run_blueprint_checks.py
+    symbol_or_target: main
+    role: Execute 22 checks.
+    inputs:
+    - repository
+    outputs:
+    - check results
+    side_effects: []
+    evidence:
+    - 'operator result: 22/22 OK'
+    failure_modes:
+    - any non-zero check
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/reporting/
+    symbol_or_target: render/write
+    role: Render compact output and detailed artifacts.
+    inputs: []
+    outputs:
+    - JSON/Markdown/full log
+    side_effects:
+    - writes reports
+    evidence:
+    - reporting tests
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 4
+    component_path: Makefile
+    symbol_or_target: exit status
+    role: Return success or blocker.
+    inputs: []
+    outputs:
+    - shell exit code
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - 22/22 OK or blocker list
+  produced_artifacts: &id001
+  - reports/blueprint_check_report.json
+  - reports/blueprint_check_report.md
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies:
+  - pytest
+  - ruff
+  - PyYAML
+  observability:
+    logs: []
+    reports: *id001
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/test_run_blueprint_checks.py
+  - tests/reporting/
+  related_inventory_paths:
+  - Makefile
+  - scripts/run_blueprint_checks.py
+  recovery_paths:
+  - docs/operations/blueprint_check_reporting_recovery.md
+- flow_id: blueprint.architecture_validation.v1
+  name: Machine architecture validation
+  purpose: Validate machine YAML and references.
+  flow_kind: validation
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make validate
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: Makefile
+    symbol_or_target: validate
+    role: Invoke validator.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/validate_blueprint.py
+    symbol_or_target: load
+    role: Load machine YAML.
+    inputs:
+    - machine/*.yaml
+    outputs:
+    - model
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/validate_blueprint.py
+    symbol_or_target: rules
+    role: Check IDs, owners and references.
+    inputs: []
+    outputs:
+    - findings
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 4
+    component_path: scripts/validate_blueprint.py
+    symbol_or_target: exit
+    role: Return pass/fail.
+    inputs: []
+    outputs:
+    - exit code
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - passed or explicit errors
+  produced_artifacts: []
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies:
+  - PyYAML
+  observability:
+    logs: []
+    reports: []
+    correlation_or_trace: []
+  safety:
+    mutates_state: false
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/test_validate_blueprint.py
+  related_inventory_paths:
+  - machine/
+  - scripts/validate_blueprint.py
+  recovery_paths: []
+- flow_id: blueprint.module_policy_generation.v1
+  name: Module policy generation
+  purpose: Render canonical module_policy.md from module_policy_index.yaml.
+  flow_kind: report
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make module-policy-generate / module-policy-check
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: coordination/module_policy/module_policy_index.yaml
+    symbol_or_target: module records
+    role: Provide source of truth.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/generate_module_policy_docs.py
+    symbol_or_target: render_policy
+    role: Render deterministic Markdown.
+    inputs: []
+    outputs:
+    - Markdown
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: coordination/module_policy/<module>/module_policy.md
+    symbol_or_target: write/compare
+    role: Write or exact-compare output.
+    inputs: []
+    outputs: []
+    side_effects:
+    - write in generate mode
+    evidence: []
+    failure_modes:
+    - manual edit mismatch
+    recovery_step: Regenerate from index.
+    status: verified
+  terminal_results:
+  - generated current or mismatch
+  produced_artifacts: &id002
+  - coordination/module_policy/<module>/module_policy.md
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id002
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/test_module_policy_index.py
+  related_inventory_paths:
+  - module_policy_index.yaml
+  - generate_module_policy_docs.py
+  recovery_paths:
+  - Regenerate; keep detailed manual content in separate brief.
+- flow_id: blueprint.prompt_navigation.v1
+  name: Prompt queue navigation
+  purpose: Resolve first ready Prompt Queue v0.2 entry.
+  flow_kind: query
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger: make prompt-dashboard / make prompt-next / make next-work-suggestion
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: Makefile
+    symbol_or_target: prompt-next
+    role: Pass MODULE.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/coordination/resolve_next_prompt.py
+    symbol_or_target: load
+    role: Load module queue.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/coordination/resolve_next_prompt.py
+    symbol_or_target: resolve
+    role: Select ready entry in sequence order.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 4
+    component_path: approved prompt
+    symbol_or_target: read
+    role: Return path or body.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - prompt path/body or no-ready failure
+  produced_artifacts: []
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: []
+    correlation_or_trace: []
+  safety:
+    mutates_state: false
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/coordination/test_prompt_queue_navigation.py
+  related_inventory_paths:
+  - coordination/outgoing_prompts/
+  - resolve_next_prompt.py
+  recovery_paths: []
+  title: Prompt queue navigation and next-work resolution
+  entrypoints:
+  - scripts/coordination/render_prompt_dashboard.py
+  - scripts/coordination/resolve_next_prompt.py
+  - scripts/coordination/resolve_next_module_work.py
+  inputs:
+  - coordination/outgoing_prompts/<module>/index.yaml
+  - coordination/roadmaps/<module>.yaml
+  outputs:
+  - prompt dashboard
+  - next prompt decision
+  - next-work suggestion
+  reads:
+  - prompt queue
+  - roadmap current step
+  - approved and draft prompt files
+  writes: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - scripts/reporting/table_renderer.py
+    - scripts/reporting/coordination_result_tables.py
+    external: []
+  failure_modes:
+  - multiple active prompts
+  - roadmap and queue point to different work
+  - missing prompt file
+  recovery:
+  - run queue validation
+  - repair canonical queue and roadmap sources
+  - do not execute draft prompts
+  evidence:
+  - Logistics tracking-events prompt issued from accepted roadmap state
+  unknowns:
+  - Ecosystem-wide queue/roadmap consistency audit remains pending.
+- flow_id: blueprint.completion_acceptance.v1
+  name: Completion acceptance
+  purpose: Preview, accept or return module completion and update records.
+  flow_kind: command
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make completion-*
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: Makefile
+    symbol_or_target: completion-*
+    role: Collect module/packet/review arguments.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/coordination/module_completion_intake.py
+    symbol_or_target: validate
+    role: Load and validate packet.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes:
+    - invalid packet
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/coordination/module_completion_intake.py
+    symbol_or_target: accept/return
+    role: Update queue, roadmap and review packet.
+    inputs: []
+    outputs: []
+    side_effects:
+    - writes coordination files
+    evidence: []
+    failure_modes: []
+    recovery_step: Use preview and exact Git restore.
+    status: verified
+  - sequence: 4
+    component_path: scripts/reporting/
+    symbol_or_target: summary
+    role: Render compact result.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - accepted, returned or failed
+  produced_artifacts: &id003
+  - updated queue
+  - updated roadmap
+  - processed review packet
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id003
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/coordination/test_module_completion_finalization.py
+  related_inventory_paths:
+  - module_completion_intake.py
+  - coordination/review_packets/
+  recovery_paths:
+  - Preview before write.
+  - Restore only affected paths.
+- flow_id: blueprint.document_awareness.v1
+  name: Document awareness
+  purpose: Discover governance docs and build module context.
+  flow_kind: query
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger: document-awareness Make targets
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: coordination/document_awareness/source_registry.yaml
+    symbol_or_target: sources
+    role: Declare roots/priorities/actions.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/coordination/build_document_manifest.py
+    symbol_or_target: manifest
+    role: Hash documents and report warnings.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/coordination/render_document_awareness_dashboard.py
+    symbol_or_target: dashboard
+    role: Compare ledger and show attention.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 4
+    component_path: scripts/coordination/build_context_bundle.py
+    symbol_or_target: bundle
+    role: Select module/scope context.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - manifest/dashboard/context bundle
+  produced_artifacts: &id004
+  - optional manifest/context bundle
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id004
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/coordination/test_document_awareness_manifest.py
+  - tests/coordination/test_context_bundle.py
+  related_inventory_paths:
+  - source_registry.yaml
+  - build_document_manifest.py
+  recovery_paths:
+  - Use no-write mode.
+  title: Coordination document-awareness manifest and dashboard
+  entrypoints:
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/update_document_awareness_ledger.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  inputs:
+  - coordination/document_awareness/source_registry.yaml
+  - tracked standards and coordination documents
+  outputs:
+  - document manifest
+  - awareness ledger
+  - awareness dashboard
+  reads:
+  - registered document sources
+  - tracked Markdown and YAML documents
+  writes:
+  - generated awareness artifacts
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - scripts/reporting/document_awareness_tables.py
+    external: []
+  failure_modes:
+  - stale source registry
+  - missing source document
+  - generated ledger drift
+  recovery:
+  - rebuild manifest from canonical source registry
+  - do not hand-edit generated awareness views
+  evidence:
+  - document-awareness workflow and renderer tests pass
+  unknowns:
+  - Authority and retention policy for generated reports remains pending.
+- flow_id: blueprint.roadmap_navigation.v1
+  name: Roadmap navigation
+  purpose: Validate and display module roadmap.
+  flow_kind: query
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make roadmap-*
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: Makefile
+    symbol_or_target: roadmap-*
+    role: Resolve module/path.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/coordination/module_roadmap.py
+    symbol_or_target: load/validate
+    role: Load roadmap and current step.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/coordination/render_module_roadmap_dashboard.py
+    symbol_or_target: render
+    role: Display step window/summary.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - dashboard or validation failure
+  produced_artifacts: []
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: []
+    correlation_or_trace: []
+  safety:
+    mutates_state: false
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links:
+  - No automatic prompt-queue synchronization.
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/coordination/test_module_roadmap_dashboard.py
+  related_inventory_paths:
+  - coordination/roadmaps/
+  - module_roadmap.py
+  recovery_paths: []
+- flow_id: blueprint.module_governance_audit.v1
+  name: Module governance audit
+  purpose: Compare registered repositories with required files/targets.
+  flow_kind: validation
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make module-governance-audit*
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: coordination/module_sources/module_git_sources.yaml
+    symbol_or_target: registry
+    role: Provide module paths/status.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/audit_module_governance.py
+    symbol_or_target: audit
+    role: Inspect permitted module paths.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes:
+    - missing path/files/targets
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/reporting/
+    symbol_or_target: report
+    role: Render/write findings.
+    inputs: []
+    outputs: []
+    side_effects:
+    - writes audit reports
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - clean or alignment findings
+  produced_artifacts: &id005
+  - reports/module_governance_audit.json
+  - reports/module_governance_audit.md
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id005
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links:
+  - External modules not freshly rerun in this snapshot.
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/test_module_governance_protocol.py
+  related_inventory_paths:
+  - module_git_sources.yaml
+  - audit_module_governance.py
+  recovery_paths: []
+- flow_id: blueprint.generated_architecture_artifacts.v1
+  name: Generated architecture artifacts
+  purpose: Generate diagrams and module guides from machine architecture.
+  flow_kind: report
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: make_target
+    name: make diagrams / guides
+    path: Makefile
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: machine/*.yaml
+    symbol_or_target: sources
+    role: Provide architecture model.
+    inputs: []
+    outputs: []
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: scripts/generate_mermaid.py
+    symbol_or_target: generate
+    role: Render diagrams.
+    inputs: []
+    outputs: []
+    side_effects:
+    - writes diagrams
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: scripts/generate_module_guides.py
+    symbol_or_target: generate
+    role: Render module guides.
+    inputs: []
+    outputs: []
+    side_effects:
+    - writes guides
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  terminal_results:
+  - generated or failure
+  produced_artifacts: &id006
+  - diagrams/
+  - module_guides/
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id006
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links:
+  - Registry guide waits for machine registration.
+  duplicate_or_parallel_flows: []
+  related_tests:
+  - tests/test_generate_module_guides.py
+  - tests/test_validate_diagrams_index.py
+  related_inventory_paths:
+  - machine/
+  - diagrams/
+  - module_guides/
+  recovery_paths: []
+- flow_id: blueprint.repository_knowledge_snapshot.v1
+  name: Repository knowledge snapshot
+  purpose: Collect evidence and create RCI, REDM and two SDRS snapshots.
+  flow_kind: report
+  status: verified
+  confidence: high
+  owner: forprint_system_blueprint
+  trigger:
+    type: manual
+    name: python tmp.py --repo "$PWD" --out /tmp/...
+    path: tmp.py
+  preconditions:
+  - Run from Blueprint repository root.
+  - Python environment is available.
+  ordered_steps:
+  - sequence: 1
+    component_path: tmp.py
+    symbol_or_target: collector v0.2
+    role: Collect Git/tree/manifest/safe text.
+    inputs: []
+    outputs:
+    - input directory
+    side_effects:
+    - writes /tmp
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 2
+    component_path: /tmp/blueprint_repository_knowledge_input_v0_2.tar.gz
+    symbol_or_target: archive
+    role: Package evidence/checksum.
+    inputs: []
+    outputs:
+    - tar.gz/.sha256
+    side_effects: []
+    evidence:
+    - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 3
+    component_path: manual Blueprint analysis
+    symbol_or_target: author snapshots
+    role: Classify capabilities, flows, direction and unknowns.
+    inputs: []
+    outputs:
+    - four YAML snapshots
+    side_effects: []
+    evidence: []
+    failure_modes: []
+    recovery_step: null
+    status: verified
+  - sequence: 4
+    component_path: coordination/repository_knowledge/
+    symbol_or_target: store
+    role: Install dated immutable artifacts.
+    inputs: []
+    outputs: []
+    side_effects:
+    - writes new files
+    evidence: []
+    failure_modes: []
+    recovery_step: Remove baseline files before commit or revert commit.
+    status: verified
+  terminal_results:
+  - READY_WITH_UNKNOWNS
+  produced_artifacts: &id007
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  consumed_contracts: []
+  emitted_contracts: []
+  external_dependencies: []
+  observability:
+    logs: []
+    reports: *id007
+    correlation_or_trace: []
+  safety:
+    mutates_state: true
+    external_write: false
+    credentials_required: false
+    personal_data: 'no'
+  unverified_links: []
+  duplicate_or_parallel_flows: []
+  related_tests: []
+  related_inventory_paths:
+  - coordination/repository_knowledge/
+  - coordination/templates/repository_knowledge_template/
+  recovery_paths:
+  - docs/operations/blueprint_repository_knowledge_snapshot_recovery.md
+- flow_id: blueprint.self_audit.v1
+  title: Blueprint Self Audit
+  status: verified
+  confidence: high
+  trigger: make blueprint-self-audit / make blueprint-self-audit-resume
+  entrypoints:
+  - 'Makefile: blueprint-self-audit'
+  - 'Makefile: blueprint-self-audit-resume'
+  - scripts/coordination/modules/module_workflow_cli.py
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+  inputs:
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  - operator_input/forprint_system_blueprint/bsa.yaml
+  outputs:
+  - reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+  - tmp/module_workflows/forprint_system_blueprint/<request_id>/analysis_bundle.tar.gz
+  - validated external assessment archive
+  reads:
+  - Git-visible Blueprint scope
+  - Make targets
+  - Python files
+  - workflow definitions
+  - previous RCI/REDM/SDRS evidence
+  writes:
+  - runtime self-knowledge reports
+  - temporary analysis bundle
+  - operator-input workflow state
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - scripts/coordination/modules/_shared/repository_scan.py
+    - scripts/coordination/modules/_shared/external_input.py
+    - scripts/coordination/modules/_shared/reporting.py
+    external: []
+  failure_modes:
+  - stale awaiting_input request blocks regeneration
+  - missing analysis bundle
+  - checksum mismatch
+  - invalid external input schema
+  recovery:
+  - docs/operations/blueprint_self_audit_recovery.md
+  - restore awaiting_input state when resume validation fails
+  - regenerate bundle under a new request ID
+  evidence:
+  - request bsa-20260729T115729Z completed
+  - 'make check: 24/24 OK'
+  unknowns:
+  - Semantic purpose remains unverified for most repository files.
+- flow_id: blueprint.completion_intake.v1
+  title: Module completion intake and acceptance
+  status: verified
+  confidence: high
+  trigger: make completion-intake-preview / make completion-accept
+  entrypoints:
+  - scripts/coordination/module_completion_intake.py
+  - Makefile completion intake targets
+  inputs:
+  - module completion packet
+  - module repository path
+  - completion commit
+  - Blueprint prompt queue
+  - module roadmap
+  outputs:
+  - processed Blueprint review packet
+  - updated prompt queue state
+  - updated roadmap evidence
+  reads:
+  - module repository Git state
+  - completion packet
+  - Blueprint coordination metadata
+  writes:
+  - Blueprint review packet
+  - Blueprint prompt queue
+  - Blueprint roadmap
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - scripts/coordination/validate_prompt_queue.py
+    - scripts/coordination/validate_module_roadmap.py
+    external: []
+  failure_modes:
+  - invalid or incomplete completion packet
+  - module commit mismatch
+  - dirty or divergent module branch
+  - queue/roadmap inconsistency
+  recovery:
+  - run completion-intake-preview before acceptance
+  - leave Blueprint unchanged on RED result
+  - repair module packet on its feature branch
+  evidence:
+  - Logistics Provider Adapter Contract accepted
+  - Library invalid completion packet rejected without Blueprint writes
+  unknowns:
+  - Module-side completion packet validation is not yet uniform.
+- flow_id: blueprint.roadmap_control.v1
+  title: Module roadmap validation and planning-horizon control
+  status: verified
+  confidence: high
+  trigger: make roadmap-dashboard / roadmap validation during make check
+  entrypoints:
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/validate_module_roadmap.py
+  - scripts/coordination/render_module_roadmap_dashboard.py
+  inputs:
+  - coordination/roadmaps/<module>.yaml
+  - module development roadmap policy
+  outputs:
+  - validated roadmap
+  - roadmap dashboard
+  - planning-horizon decision
+  reads:
+  - module roadmap
+  - prompt queue
+  - completion evidence
+  writes:
+  - roadmap only during explicit coordination edits
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - coordination/standards/governance/module_development_roadmap_policy.md
+    external: []
+  failure_modes:
+  - fewer than eight actionable steps ahead
+  - invalid dependency reference
+  - multiple active steps
+  - accepted work missing evidence
+  recovery:
+  - extend roadmap before downstream work
+  - reconcile roadmap after acceptance or scope change
+  evidence:
+  - Logistics roadmap maintains eight actionable steps ahead
+  - Blueprint inventory plan maintains forward horizon
+  unknowns:
+  - Some older module roadmaps remain stale.
+- flow_id: blueprint.repository_inventory_refresh.v1
+  title: Blueprint repository knowledge refresh
+  status: verified
+  confidence: high
+  trigger: controlled audit branch inventory refresh
+  entrypoints:
+  - make blueprint-self-audit
+  - inventory refresh control plan
+  - dated RCI/REDM/SDRS creation
+  inputs:
+  - completed Blueprint Self Audit
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  outputs:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - new dated Blueprint coordination SDRS
+  - new dated system portfolio SDRS
+  reads:
+  - Git tracked scope
+  - previous repository-knowledge snapshots
+  - current coordination evidence
+  writes:
+  - new dated repository-knowledge snapshots
+  - inventory refresh plan status
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    cross_repository_write: false
+  dependencies:
+    internal:
+    - repository knowledge snapshot protocol
+    - Blueprint validation suite
+    external: []
+  failure_modes:
+  - historical baseline overwritten
+  - tracked-file assumptions are stale
+  - collector scope mismatch is hidden
+  - planning horizon drops below policy
+  recovery:
+  - keep historical baselines immutable
+  - derive counts from Git
+  - record collector scope differences
+  - commit each inventory wave separately
+  evidence:
+  - RCI v0.3 committed as 7b34b44
+  - self-audit assessment committed as 7778b6e
+  unknowns:
+  - Metadata consistency and module registry reconciliation remain pending.
+cross_flow_relationships:
+- relationship_id: policy_generation_validated_by_quality
+  upstream_flow: blueprint.module_policy_generation.v1
+  downstream_flow: blueprint.quality_gate.v1
+  relationship: validated_by
+  contract_or_artifact: generated module policies
+  status: verified
+  evidence:
+  - tests/test_module_policy_index.py
+- relationship_id: completion_updates_prompt
+  upstream_flow: blueprint.completion_acceptance.v1
+  downstream_flow: blueprint.prompt_navigation.v1
+  relationship: updates_input
+  contract_or_artifact: Prompt Queue v0.2
+  status: verified
+  evidence:
+  - tests/coordination/test_module_completion_finalization.py
+- relationship_id: completion_updates_roadmap
+  upstream_flow: blueprint.completion_acceptance.v1
+  downstream_flow: blueprint.roadmap_navigation.v1
+  relationship: updates_input
+  contract_or_artifact: module roadmap
+  status: verified
+  evidence:
+  - tests/coordination/test_module_completion_finalization.py
+- relationship_id: machine_generates_artifacts
+  upstream_flow: blueprint.architecture_validation.v1
+  downstream_flow: blueprint.generated_architecture_artifacts.v1
+  relationship: provides_validated_input
+  contract_or_artifact: machine architecture
+  status: verified
+  evidence:
+  - Makefile
+  - tests
+comparison_to_previous:
+  previous_snapshot: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  previous_flow_count: 10
+  current_flow_count: 14
+  added_flow_ids:
+  - blueprint.completion_intake.v1
+  - blueprint.repository_inventory_refresh.v1
+  - blueprint.roadmap_control.v1
+  - blueprint.self_audit.v1
+  removed_flow_ids: []
+  carried_forward_flow_ids:
+  - blueprint.architecture_validation.v1
+  - blueprint.completion_acceptance.v1
+  - blueprint.document_awareness.v1
+  - blueprint.generated_architecture_artifacts.v1
+  - blueprint.module_governance_audit.v1
+  - blueprint.module_policy_generation.v1
+  - blueprint.prompt_navigation.v1
+  - blueprint.quality_gate.v1
+  - blueprint.repository_knowledge_snapshot.v1
+  - blueprint.roadmap_navigation.v1
+  major_changes:
+  - Blueprint Self Audit is now a verified two-stage external-input workflow.
+  - Completion intake is mapped as preview-first and non-writing on RED.
+  - Roadmap planning-horizon enforcement is explicit.
+  - Repository inventory refresh is mapped as a controlled dated-snapshot flow.
+  - Generated/runtime outputs are separated from canonical inputs.
+  carried_forward_unknowns:
+  - Broad file-level dependency mapping remains incomplete.
+  - External module runtime state is not verified by this Blueprint-only REDM.
+  - Metadata consistency and alias reconciliation remain pending.
+  refreshed_flow_ids:
+  - blueprint.completion_intake.v1
+  - blueprint.document_awareness.v1
+  - blueprint.prompt_navigation.v1
+  - blueprint.repository_inventory_refresh.v1
+  - blueprint.roadmap_control.v1
+  - blueprint.self_audit.v1
+quality_checks:
+  previous_snapshot_not_overwritten: true
+  current_rci_linked: true
+  verified_flows_have_entrypoints: true
+  writes_and_side_effects_explicit: true
+  failure_modes_explicit: true
+  recovery_paths_explicit: true
+  unknowns_preserved: true
+  cross_repository_writes_not_authorized: true
+  network_io_not_inferred: true
+  yaml_validated: true
+  existing_flow_records_normalized: true
+scope:
+  repository: forprint_system_blueprint
+  tracked_files_at_source_commit: 704
+  included_surfaces:
+  - Make targets
+  - Python CLI entrypoints
+  - coordination registries
+  - prompt queues
+  - module roadmaps
+  - completion intake
+  - module workflows
+  - self-audit
+  - document awareness
+  - repository knowledge refresh
+  excluded_surfaces:
+  - runtime behavior inside external module repositories
+  - external network calls
+  - cross-repository writes
+  - production databases
+  inspection_limits:
+  - Flows are verified from Blueprint source, Make targets, tests and tracked coordination evidence.
+  - No runtime execution inside external module repositories is claimed.
+  - Unknowns remain explicit where file-level dependency evidence is incomplete.
+dependency_surface:
+  canonical_inputs:
+  - machine/*.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/*/index.yaml
+  - coordination/roadmaps/*.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  operational_entrypoints:
+  - Makefile
+  - scripts/run_blueprint_checks.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/modules/module_workflow_cli.py
+  generated_or_runtime_outputs:
+  - reports/
+  - module_guides/
+  - diagrams/
+  - tmp/module_workflows/
+  - operator_input/
+  cross_repository_reads:
+  - allowed only for explicit module completion review or authorized inventory workflows
+  cross_repository_writes:
+  - forbidden by default
+  network_io:
+  - none required by the verified Blueprint flows in this snapshot

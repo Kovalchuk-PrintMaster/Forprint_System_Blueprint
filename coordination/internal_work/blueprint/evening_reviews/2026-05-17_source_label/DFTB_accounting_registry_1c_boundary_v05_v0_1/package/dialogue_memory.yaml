@@ -1,0 +1,1331 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-accounting-registry-source-label-2026-05-17
+source:
+  source_id: SRC-accounting-registry-source-label-2026-05-17
+  title: Forprint_Accounting_registry_Service_17.05.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  source_hash_sha256: af8b9e8ee14965e8347011011211b77b562f69a960ac61ab481d7348326bc346
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:46:09 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: accounting_registry_module_history_only
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 22 visible message blocks; user=16, assistant=6. Most intermediate implementation turns are attachment placeholders. Filename starts
+    at 17.05; terminal visible phase is v0.5 acceptance with no independent terminal date.
+extraction:
+  created_at: '2026-09-15T13:56:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_accounting_reconstruction
+  implementation_verification_performed: false
+  notes: Accounting module history informs architecture but cannot supersede current Blueprint authority. Early inventory/material-ledger proposal is treated
+    as system-design discussion, not automatically Accounting ownership.
+evidence_index:
+- evidence_id: EV-ACC1705-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    message_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: ься облік всіх наявних матеріалів я би хотів щоб ми зробили таким чином я б хотів би максимально відв'язатися від 1С в внутрішні технічній роботі
+    нехай там бухгалтерія там возиться з нею далі поки що але щоб наша робота була таким чином що у нас є власна база даних матеріалів ну тобто ми витягуємо
+    всю специфікацію всіх матеріалів всі залишки з 1С формуємо собі там ну 1С певно що формує там якісь документи або щось там подібне ну то не проблема
+    ми його розпарсимо легко і ми собі формуємо надалі свою власну базу даних базуючись на тому що вже є а після цього ми уже перетягуємо одіяло керування
+    на себе тобто всі
+  quote_whitespace_normalized: true
+  context_before: Owner wants production/technical work to become autonomous from 1C while accounting can remain there for now.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - 1c_boundary
+- evidence_id: EV-ACC1705-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    message_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Дивись ми зараз накидуємо логіку роботи нашого проекту друкарні і таке питання що треба розібратися з тим як можна скоригувати і синхронізувати
+    роботу нашого проекту з 1С скажімо так вся поточна бухгалтерія і всі фінансові проводки проводяться зараз в 1С там же поки що і ведеться облік всіх
+    наявних матеріалів я би хотів щоб ми зробили таким чином я б хотів би максимально відв''язатися від 1С в внутрішні технічній роботі нехай там бухгалтерія
+    там возиться з нею далі поки що але щоб наша робота була таким чином що у нас є власна база даних матеріалів ну тобто ми витягуємо всю специфікацію
+    всіх матеріалів всі залишки з 1С формуємо собі там ну 1С певно що формує там якісь документи або щось там подібне ну то не проблема ми його розпарсимо
+    легко і ми собі '
+  quote_whitespace_normalized: true
+  context_before: Owner proposes importing initial material specification/balances then managing production movement internally.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - operational_truth
+- evidence_id: EV-ACC1705-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    message_id: bbb213c8-75cf-4814-aad3-551e6f204697
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: ись на тому що вже є а після цього ми уже перетягуємо одіяло керування на себе тобто всі списання всі залишки даних які йдуть по робочим процесам
+    ми переадресовуємо на себе на свій модуль і просто вже потім точково в 1С ми передаємо актуальну інформацію тобто наприклад за поточний день то ну там
+    ми вибираємо там наприклад три або чотири точки передачі даних да там кожні 4 години там наприклад там ну умовно там о 8:00 ранку 12 там четверта і
+    20 там година там або кожну годину ну то не є принциповим це ми можемо налаштовувати але принциповим є те що ми беремо на себе автономне керування залишками
+    автоном
+  quote_whitespace_normalized: true
+  context_before: Owner wants internal control over receipts/write-offs/balances and periodic fact transfer back into 1C.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - operational_truth
+- evidence_id: EV-ACC1705-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'ажливим уточненням: нам не треба “ламати” 1С і воювати з нею. Треба зробити так, щоб виробнича система стала головною для реального руху матеріалів
+    , а 1С залишилась бухгалтерською/обліковою системою , куди ми передаємо вже підготовлені, перевірені документи. Тобто модель така: Наш проєкт = фактичний
+    виробничий облік, залишки, списання, резерви, норми, калькуляції, виробничі події. 1С = бухгалтерія, фінансові проводки, офіційні документи, податковий/складський
+    облік, поки що без втручання у виробничу логіку. 1С технічно дозволяє інтеграцію з зовнішніми системами: через REST/OData можна читати й змінювати дані,'
+  quote_whitespace_normalized: true
+  context_before: Assistant separates production operational truth from accounting/1C truth.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - authority_split
+- evidence_id: EV-ACC1705-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'у Я б не робила прямий хаотичний обмін “з 1С туди-сюди”. Я б зробила окремий модуль: inventory_core / materials_ledger Його задача — вести власну
+    книгу руху матеріалів . Не просто таблицю “залишок банеру 800 м²”, а саме журнал подій: material_movement - id - material_id - movement_type: receipt
+    / write_off / reserve / release_reserve / correction / inventory_adjustment - quantity - unit - warehouse_id - production_order_id - source_module -
+    operator_id - created_at - synced_to_1c - sync_batch_id Тоді залишок — це не ручне число, а результат рухів: початковий залишок + прихід - списання
+    - резерв + повернення ± к'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes a movement-ledger model rather than one mutable stock number.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - ledger
+- evidence_id: EV-ACC1705-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'гу руху матеріалів . Не просто таблицю “залишок банеру 800 м²”, а саме журнал подій: material_movement - id - material_id - movement_type: receipt
+    / write_off / reserve / release_reserve / correction / inventory_adjustment - quantity - unit - warehouse_id - production_order_id - source_module -
+    operator_id - created_at - synced_to_1c - sync_batch_id Тоді залишок — це не ручне число, а результат рухів: початковий залишок + прихід - списання
+    - резерв + повернення ± коригування = актуальний залишок Це набагато надійніше, ніж просто тримати одну колонку current_stock . Головна ідея: 1С не
+    джерело іс'
+  quote_whitespace_normalized: true
+  context_before: Movement events include receipt/write-off/reserve/release/correction/inventory-adjustment with provenance.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - ledger
+- evidence_id: EV-ACC1705-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Це набагато надійніше, ніж просто тримати одну колонку current_stock . Головна ідея: 1С не джерело істини для виробництва Перший етап — 1С ще
+    джерело стартових даних: 1С → експорт матеріалів, одиниць, залишків, складів, можливо партій Ми імпортуємо це у свою базу: our_materials our_warehouses
+    our_stock_snapshot our_material_movements А далі поступово змінюємо роль: до запуску: 1С = головна по залишках після запуску нашого модуля: наша система
+    = головна по фактичному виробничому руху 1С = отримує результат І це дуже правильний підхід для друкарні, бо 1С часто добре підходить для бухгалтерії,
+    але незручна для живого'
+  quote_whitespace_normalized: true
+  context_before: 1C is framed as initial/import/accounting system, not long-term production movement authority.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - authority_split
+- evidence_id: EV-ACC1705-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'пряму синхронізацію, а через чергу Правильна схема: Наш виробничий модуль ↓ таблиця outbox / sync_queue ↓ 1C adapter ↓ 1С ↓ sync_log / результат
+    Тобто коли у нас відбулося списання, ми не одразу ліземо в 1С. Ми створюємо подію: event: material_write_off_created status: pending_sync Потім окремий
+    адаптер бере ці події й передає в 1С. Це дає дуже важливі плюси: 1С впала — виробництво не зупинилось помилка синхронізації — подія не загубилась можна
+    повторити передачу можна бачити, що саме не передалося можна робити передачу раз на годину, 4 рази на день або в кінці дня Частота передачі даних Твоя
+    іде'
+  quote_whitespace_normalized: true
+  context_before: Integration should be asynchronous through outbox/queue and a 1C adapter.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - integration
+- evidence_id: EV-ACC1705-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'f_day_close: true Але архітектурно краще, щоб система підтримувала обидва режими: 1. scheduled sync — пакетна передача кілька разів на день 2.
+    manual sync — кнопка “передати зараз” 3. end-of-day sync — закриття виробничого дня 4. emergency resync — повторна передача проблемного пакета Що саме
+    треба синхронізувати з 1С Я б поділила обмін на два напрямки. 1. Імпорт з 1С до нашої системи На старті або періодично: довідник матеріалів одиниці
+    виміру склади групи матеріалів залишки на дату можливо постачальники можливо партії/серії, якщо вони ведуться Це режим: 1С → наша система 2. Експорт
+    з нашої'
+  quote_whitespace_normalized: true
+  context_before: Sync should support scheduled/manual/end-of-day/emergency resync modes.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - sync_modes
+- evidence_id: EV-ACC1705-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: df3d5614-0b9f-4737-bc1c-ef6dd60814d4
+    message_id: 35f66561-f805-446f-a04f-bffa33d818b6
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'т. Я б не передавала в 1С тільки голу цифру: Списано банеру: 800 м² Краще передавати документ або пакет документів із розшифровкою: Дата: 2026-05-17
+    Матеріал: Банер 440 г Склад: Основний Кількість: 800 м² Підстава: виробничі замовлення №... Тип операції: виробниче списання Джерело: ForPrint Inventory
+    Core ID пакета синхронізації: sync_2026_05_17_2000 Бо якщо бухгалтерія потім спитає: “Звідки взялося 800 м²?”, у нас має бути відповідь не словами,
+    а структурованими даними. Я б зробила не пряму синхронізацію, а через чергу Правильна схема: Наш виробничий модуль ↓ таблиця outbox / sync_queue ↓ 1C
+    adapter ↓ 1С ↓'
+  quote_whitespace_normalized: true
+  context_before: Transfers to 1C should carry structured provenance, not just a naked aggregate number.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - auditability
+- evidence_id: EV-ACC1705-0011
+  speaker: user
+  locator:
+    conversation_turn: 25
+    turn_id: 882772b8-a25e-4805-8a94-19d68afd2448
+    message_id: 882772b8-a25e-4805-8a94-19d68afd2448
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: Pasted text.txt Document так ще раз тут все вірно я віддаю yf blueprint чи треба ще щось дописати сюди якщо так до додай щоб я передав наш звіт
+    про поточний стан і наміри
+  quote_whitespace_normalized: true
+  context_before: Owner prepares a current-state/intent report for Blueprint review.
+  context_after: null
+  evidence_role:
+  - owner_workflow
+  - blueprint_coordination
+- evidence_id: EV-ACC1705-0012
+  speaker: user
+  locator:
+    conversation_turn: 33
+    turn_id: 53553702-f7c0-462d-a589-7812469bb9bb
+    message_id: 53553702-f7c0-462d-a589-7812469bb9bb
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: пусті дай наповнення test_counterparty_model test_health test_library_change_request test_one_c_snapshot test_product_model
+  quote_whitespace_normalized: true
+  context_before: Owner reports several tests are empty and asks for actual test contents.
+  context_after: null
+  evidence_role:
+  - owner_observation
+  - testing
+- evidence_id: EV-ACC1705-0013
+  speaker: user
+  locator:
+    conversation_turn: 53
+    turn_id: 16715b4a-430a-4864-82d3-f207d2597c22
+    message_id: 16715b4a-430a-4864-82d3-f207d2597c22
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: Pasted text.txt Document так все ок ще лишилось що доробити з останнго промт blueprint чи реба вже новий?
+  quote_whitespace_normalized: true
+  context_before: Owner checks whether the current Blueprint prompt is complete before requesting a new one.
+  context_after: null
+  evidence_role:
+  - owner_workflow
+  - prompt_governance
+- evidence_id: EV-ACC1705-0014
+  speaker: assistant
+  locator:
+    conversation_turn: 78
+    turn_id: ab373c90-8d45-4bd7-8602-56fe8d08d6d9
+    message_id: 8d250949-b345-4789-abef-5241cb2e92cc
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'к, v0.5 перевірки зелені , можна комітити й пушити. Стан приймаємо: Ruff: OK Pytest: 117 passed, 1 warning Check-report: OK v0.5 implementation
+    files: OK v0.5 test fixture validation: OK Gitignore sandbox validation: OK StarletteDeprecationWarning поки не чіпаємо — це warning із залежностей
+    fastapi/starlette , він не блокує проєкт. Перед комітом зроби: Bash git status --short Перевір, щоб не було: .venv_accounting_registry/ __pycache__/
+    .pytest_cache/ .ruff_cache/ local_sandbox/ *.1CD *.dt *.sqlite *.db Якщо все ок, коміт: Bash git add .gitignore README.md app scripts tests reports
+    git ad'
+  quote_whitespace_normalized: true
+  context_before: Historical v0.5 gate reports Ruff OK, pytest 117 passed, check-report OK and fixture/gitignore safety checks green.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-ACC1705-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 78
+    turn_id: ab373c90-8d45-4bd7-8602-56fe8d08d6d9
+    message_id: 8d250949-b345-4789-abef-5241cb2e92cc
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'ір, щоб не було: .venv_accounting_registry/ __pycache__/ .pytest_cache/ .ruff_cache/ local_sandbox/ *.1CD *.dt *.sqlite *.db Якщо все ок, коміт:
+    Bash git add .gitignore README.md app scripts tests reports git add tests/fixtures/one_c git commit -m "Add Accounting Registry sanitized OneC import
+    pipeline" git push Після пушу: Bash git status Очікувано: nothing to commit, working tree clean Після цього v0.5 можна буде закрити completion report
+    для Blueprint.'
+  quote_whitespace_normalized: true
+  context_before: Before commit, assistant explicitly excludes local sandbox/1C database/cache artifacts.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - repository_hygiene
+- evidence_id: EV-ACC1705-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 80
+    turn_id: 7ba77e48-38a5-4227-8d32-c4cef6f659c4
+    message_id: 12d80b42-9a13-4787-abfa-63d213b4c7af
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Супер, v0.5 закрито успішно . Фактичний результат: Commit: 95d4a55 — Add Accounting Registry sanitized OneC import pipeline Push: ab48ef1..95d4a55
+    main -> main git status: clean У коміті додано v0.5-пакет: sanitized source intake, export detection/parsers, import pipeline, mapping issue persistence,
+    developer smoke scripts, fixtures і тести; після пушу робоче дерево чисте. Pasted text Тепер правильно зробити completion report для Blueprint і не
+    стартувати v0.6 без нового дозволу. Можеш передати Blueprint так: Accounting Registry v0.5 Completion Report Accounti'
+  quote_whitespace_normalized: true
+  context_before: Historical v0.5 implementation commit is pushed cleanly to main.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - git
+- evidence_id: EV-ACC1705-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 80
+    turn_id: 7ba77e48-38a5-4227-8d32-c4cef6f659c4
+    message_id: 12d80b42-9a13-4787-abfa-63d213b4c7af
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'ne Push: ab48ef1..95d4a55 main -> main git status: clean У коміті додано v0.5-пакет: sanitized source intake, export detection/parsers, import
+    pipeline, mapping issue persistence, developer smoke scripts, fixtures і тести; після пушу робоче дерево чисте. Pasted text Тепер правильно зробити
+    completion report для Blueprint і не стартувати v0.6 без нового дозволу. Можеш передати Blueprint так: Accounting Registry v0.5 Completion Report Accounting
+    Registry v0.5 Completion Report Target module forprint_accounting_registry_service Completed step Accounting Registry v0.5 — Real Sanitized OneC Test
+    DB and Exp'
+  quote_whitespace_normalized: true
+  context_before: v0.5 package adds sanitized source intake, format detection/parsers, schema probe, offline import pipeline and mapping-issue persistence.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - v0.5
+- evidence_id: EV-ACC1705-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 80
+    turn_id: 7ba77e48-38a5-4227-8d32-c4cef6f659c4
+    message_id: 12d80b42-9a13-4787-abfa-63d213b4c7af
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'behavior: sanitized test DB source can be registered unsanitized source is rejected production source is rejected checksum can be calculated for
+    local sample file working copy manifest references original source but remains separate original source is not mutated by tests Direct DB/file discovery
+    against sanitized test sources status Implemented graceful schema probing: probe_sanitized_source_schema OneCSchemaProbeResult Current behavior: synthetic
+    fixture discovery works unsupported file/database-like source returns unsupported_source production source is rejected schema discovery output remains
+    non-canon'
+  quote_whitespace_normalized: true
+  context_before: Historical behavior rejects unsanitized/production sources and keeps original source unmodified.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - safety
+- evidence_id: EV-ACC1705-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 80
+    turn_id: 7ba77e48-38a5-4227-8d32-c4cef6f659c4
+    message_id: 12d80b42-9a13-4787-abfa-63d213b4c7af
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Супер, v0.5 закрито успішно . Фактичний результат: Commit: 95d4a55 — Add Accounting Registry sanitized OneC import pipeline Push: ab48ef1..95d4a55
+    main -> main git status: clean У коміті додано v0.5-пакет: sanitized source intake, export detection/parsers, import pipeline, mapping issue persistence,
+    developer smoke scripts, fixtures і тести; після пушу робоче дерево чисте. Pasted text Тепер правильно зробити completion report для Blueprint і не
+    стартувати v0.6 без нового дозволу. Можеш передати Blueprint так: Accounting Registry v0.5 Completion Report Accounting Registry v0.5 Completion Report
+    Target module forprint_accounting_registry_service Completed step Accounting Registry v0.5 — Real Sanitized OneC Test DB and Export Parser Pack Commit
+    95d4a55 '
+  quote_whitespace_normalized: true
+  context_before: v0.5 supports sanitized manual/file export parsing across common structured/tabular formats.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - parsers
+- evidence_id: EV-ACC1705-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 80
+    turn_id: 7ba77e48-38a5-4227-8d32-c4cef6f659c4
+    message_id: 12d80b42-9a13-4787-abfa-63d213b4c7af
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'rns unsupported_source production source is rejected schema discovery output remains non-canonical no write API exists in read-only discovery
+    path Manual/file export parser status Implemented parser boundary for: JSON CSV XML YAML TXT tabular dump unknown raw text / unsupported Current behavior:
+    json export fixture parses csv export fixture parses xml export fixture parses unknown format returns unsupported_source-style result raw row values
+    are preserved unknown columns are preserved parsed export maps into OneCStagingRecord candidates Mapping issue persistence status Implemented storage
+    mo'
+  quote_whitespace_normalized: true
+  context_before: Schema discovery/import outputs remain noncanonical staging evidence rather than authoritative business state.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - staging
+- evidence_id: EV-ACC1705-0021
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    message_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Accounting Registry v0.5 is accepted. Status: sandbox_1c_import_export_ready Do not proceed to live 1C integration. Do not implement production
+    write. Do not implement automatic posting. Next allowed v0.6 direction is conditional: prepare stronger parser profiles only when real sanitized 1C
+    export samples are provided. Until then: - maintain v0.5; - update coordination/status files; - keep check-report green; - wait for sanitized counterparties/nomenclature/invoices/payments/balances
+    samples. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner supplies Blueprint acceptance/status for Accounting Registry v0.5.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - blueprint_acceptance
+- evidence_id: EV-ACC1705-0022
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    message_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'Accounting Registry v0.5 is accepted. Status: sandbox_1c_import_export_ready Do not proceed to live 1C integration. Do not implement production
+    write. Do not implement automatic posting. Next allowed v0.6 direction is conditional: prepare stronger parser profiles only when real sanitized 1C
+    export samples are provided. Until then: - maintain v0.5; - update coordination/status files; - keep check-report green; - wait for sanitized counterparties/nomenclature/invoices/payments/balances
+    samples. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Accepted v0.5 explicitly blocks live 1C integration.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - safety_boundary
+- evidence_id: EV-ACC1705-0023
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    message_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'epted. Status: sandbox_1c_import_export_ready Do not proceed to live 1C integration. Do not implement production write. Do not implement automatic
+    posting. Next allowed v0.6 direction is conditional: prepare stronger parser profiles only when real sanitized 1C export samples are provided. Until
+    then: - maintain v0.5; - update coordination/status files; - keep check-report green; - wait for sanitized counterparties/nomenclature/invoices/payments/balances
+    samples. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Accepted v0.5 explicitly blocks production writes.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - safety_boundary
+- evidence_id: EV-ACC1705-0024
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    message_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'port_ready Do not proceed to live 1C integration. Do not implement production write. Do not implement automatic posting. Next allowed v0.6 direction
+    is conditional: prepare stronger parser profiles only when real sanitized 1C export samples are provided. Until then: - maintain v0.5; - update coordination/status
+    files; - keep check-report green; - wait for sanitized counterparties/nomenclature/invoices/payments/balances samples. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Accepted v0.5 explicitly blocks automatic accounting posting.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - safety_boundary
+- evidence_id: EV-ACC1705-0025
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    message_id: cd850f84-aa56-427a-99c4-73ac4dc78e20
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'xt allowed v0.6 direction is conditional: prepare stronger parser profiles only when real sanitized 1C export samples are provided. Until then:
+    - maintain v0.5; - update coordination/status files; - keep check-report green; - wait for sanitized counterparties/nomenclature/invoices/payments/balances
+    samples. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: v0.6 is conditional on actual sanitized 1C export samples.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - next_gate
+- evidence_id: EV-ACC1705-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 82
+    turn_id: c1b7f6da-bbcc-4b15-8377-c06bce0c299d
+    message_id: 0bb8d56c-52e8-4785-8dc4-7befb8121dd3
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'ibrary runtime integration; real Calculator integration; real Warehouse integration; canonical client registry; canonical order registry; canonical
+    product/material catalog; full 1C mirror. v0.6 condition v0.6 is conditional. Do not start stronger parser profiles until real sanitized 1C export samples
+    are provided. Required future sample categories: counterparties; nomenclature; invoices; payments; balances. Current maintenance rule Until sanitized
+    samples are provided: maintain v0.5; keep check-report green; update coordination/status files; do not add production 1C behavior; do not add live write
+    beha'
+  quote_whitespace_normalized: true
+  context_before: Maintenance instructions explicitly forbid Accounting Registry from becoming canonical client/order/product/material owner.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - module_boundary
+- evidence_id: EV-ACC1705-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 82
+    turn_id: c1b7f6da-bbcc-4b15-8377-c06bce0c299d
+    message_id: 0bb8d56c-52e8-4785-8dc4-7befb8121dd3
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: '; automatic posting; real Gateway runtime integration; real CRM runtime integration; real Operational Registry runtime integration; real Library
+    runtime integration; real Calculator integration; real Warehouse integration; canonical client registry; canonical order registry; canonical product/material
+    catalog; full 1C mirror. v0.6 condition v0.6 is conditional. Do not start stronger parser profiles until real sanitized 1C export samples are provided.
+    Required future sample categories: counterparties; nomenclature; invoices; payments; balances. Current maintenance rule Until sanitized samples are
+    provided: maintain v0.5; ke'
+  quote_whitespace_normalized: true
+  context_before: Maintenance status forbids live Operational Registry/Library/Calculator/Warehouse/Gateway/CRM integrations at this stage.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - integration_boundary
+- evidence_id: EV-ACC1705-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 82
+    turn_id: c1b7f6da-bbcc-4b15-8377-c06bce0c299d
+    message_id: 0bb8d56c-52e8-4785-8dc4-7befb8121dd3
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'il real sanitized 1C export samples are provided. Required future sample categories: counterparties; nomenclature; invoices; payments; balances.
+    Current maintenance rule Until sanitized samples are provided: maintain v0.5; keep check-report green; update coordination/status files; do not add
+    production 1C behavior; do not add live write behavior; do not add automatic posting. --- # 2. Файл: `docs/development/sanitized_one_c_samples_required.md`
+    ```markdown # Sanitized OneC Export Samples Required for v0.6 ## Purpose Accounting Registry v0.6 may start only after real sanitized 1C export sample'
+  quote_whitespace_normalized: true
+  context_before: Future sanitized sample categories include counterparties, nomenclature, invoices, payments and balances.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - v0.6_inputs
+- evidence_id: EV-ACC1705-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 82
+    turn_id: c1b7f6da-bbcc-4b15-8377-c06bce0c299d
+    message_id: 0bb8d56c-52e8-4785-8dc4-7befb8121dd3
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: '; payments; balances. Current maintenance rule Until sanitized samples are provided: maintain v0.5; keep check-report green; update coordination/status
+    files; do not add production 1C behavior; do not add live write behavior; do not add automatic posting. --- # 2. Файл: `docs/development/sanitized_one_c_samples_required.md`
+    ```markdown # Sanitized OneC Export Samples Required for v0.6 ## Purpose Accounting Registry v0.6 may start only after real sanitized 1C export samples
+    are provided. The samples are needed to build stronger parser profiles without guessing real 1C export structure. ## Req'
+  quote_whitespace_normalized: true
+  context_before: Until samples exist, only maintenance/status work is authorized; no new production functionality.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - maintenance
+- evidence_id: EV-ACC1705-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 82
+    turn_id: c1b7f6da-bbcc-4b15-8377-c06bce0c299d
+    message_id: 0bb8d56c-52e8-4785-8dc4-7befb8121dd3
+    source_file: Forprint_Accounting_registry_Service_17.05.26.mhtml
+  quote: 'ery provided sample must be sanitized. Required: ```text real_1c_data: true or false sanitized: true production_allowed: false Forbidden in committed
+    samples: real personal phone numbers; real private emails; real personal names unless anonymized; real bank accounts; real client confidential data;
+    real production DB files; unsanitized payment data; live 1C database files. Storage location Small sanitized samples may be placed under: tests/fixtures/one_c/exports/
+    examples/one_c/ Large or real test DB files must stay only under ignored paths: local_sandbox/one_c_databases/ local_sandbox/one_c_ex'
+  quote_whitespace_normalized: true
+  context_before: Future sample handling requires sanitized data and forbids real personal/bank data in committed fixtures.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - data_safety
+items:
+- item_id: IT-ACC1705-0001
+  kind: architecture_constraint
+  title: Production operational truth should be separated from 1C accounting truth
+  statement: The ForPrint operational system should become authoritative for actual production material movements while 1C remains accounting/official-document
+    truth until later architecture changes.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - operational_registry
+  - warehouse
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0001
+  - EV-ACC1705-0003
+  - EV-ACC1705-0004
+  - EV-ACC1705-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0002
+  kind: architecture_constraint
+  title: Material stock should be derived from movement events rather than a manually edited balance
+  statement: Receipts, write-offs, reservations, releases, corrections and inventory adjustments form an auditable movement ledger from which balances are
+    derived.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - warehouse
+  - materials
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0005
+  - EV-ACC1705-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical design precedes later explicit Operational Registry/Warehouse ownership and must not be assigned to Accounting Registry by default.
+- item_id: IT-ACC1705-0003
+  kind: integration
+  title: 1C synchronization should use outbox/queue and an adapter
+  statement: Production events should be queued for asynchronous/retryable 1C synchronization rather than blocking production on direct synchronous writes.
+  dialogue_status: discussed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - 1c_integration
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - code
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0004
+  kind: requirement
+  title: 1C transfer packages need structured provenance
+  statement: Accounting synchronization should preserve material/document/date/warehouse/order/operation/source/sync-batch evidence rather than sending
+    only aggregate quantities.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - audit
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-ACC1705-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0005
+  kind: requirement
+  title: 1C synchronization supports configurable batch and recovery modes
+  statement: The proposed boundary supports scheduled, manual, end-of-day and emergency-resync modes.
+  dialogue_status: discussed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - 1c_integration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0006
+  kind: process_rule
+  title: Accounting work is reported back to Blueprint before the next prompt
+  statement: Module state/intent is packaged for Blueprint review, and the module checks completion of the current prompt before requesting a new one.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - reports
+  evidence_refs:
+  - EV-ACC1705-0011
+  - EV-ACC1705-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0007
+  kind: nonfunctional_requirement
+  title: Accounting Registry tests must contain real assertions rather than empty placeholders
+  statement: Empty model/snapshot/health/change-request tests are explicitly identified for correction.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0008
+  kind: implementation_claim
+  title: Historical v0.5 validation reports 117 passing tests
+  statement: The visible v0.5 gate reports Ruff OK, pytest 117 passed with one dependency warning, check-report OK, fixture validation OK and sandbox gitignore
+    validation OK.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-ACC1705-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only; current repo not audited.
+- item_id: IT-ACC1705-0009
+  kind: process_rule
+  title: Local/production 1C artifacts must stay out of Git
+  statement: Virtualenv/cache/local sandbox/1CD/dt/sqlite/db artifacts are explicitly excluded before commit.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - repository_hygiene
+  - data_safety
+  implementation_expectation: required
+  verification_targets:
+  - gitignore
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0010
+  kind: implementation_claim
+  title: Historical v0.5 implementation commit is 95d4a55 and was pushed cleanly
+  statement: The dialogue reports `95d4a55 — Add Accounting Registry sanitized OneC import pipeline`, pushed to main with a clean working tree.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - git_workflow
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-ACC1705-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report.
+- item_id: IT-ACC1705-0011
+  kind: requirement
+  title: Accounting Registry v0.5 handles sanitized/offline 1C intake and parsing
+  statement: v0.5 covers sanitized source registration, export detection/parsing, schema probing, staging/import pipeline and mapping-issue persistence.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - 1c_integration
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - schemas
+  evidence_refs:
+  - EV-ACC1705-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical implementation claim; current verification required.
+- item_id: IT-ACC1705-0012
+  kind: architecture_constraint
+  title: Unsanitized and production 1C sources are rejected in the sandbox pipeline
+  statement: The sandbox must reject production/unsanitized sources, keep test working copies separate and not mutate the original source.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - data_safety
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0013
+  kind: requirement
+  title: Sanitized 1C exports support multiple common file formats
+  statement: Historical v0.5 parser support includes JSON, CSV, XML, YAML and TXT/tabular fixtures for offline analysis.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - parsers
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical implementation claim.
+- item_id: IT-ACC1705-0014
+  kind: architecture_constraint
+  title: 1C discovery/import outputs are staging evidence, not canonical business truth
+  statement: Schema probes and imported records remain noncanonical candidates/staging data until explicitly reconciled with owning domains.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - domain_ownership
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0015
+  kind: decision
+  title: Historical Blueprint status accepts Accounting Registry v0.5 as sandbox_1c_import_export_ready
+  statement: The owner supplies an acceptance instruction that v0.5 is accepted with status `sandbox_1c_import_export_ready`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - blueprint_coordination
+  implementation_expectation: unverifiable
+  verification_targets:
+  - coordination
+  - reports
+  evidence_refs:
+  - EV-ACC1705-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical owner-supplied Blueprint acceptance; current authority must still be resolved.
+- item_id: IT-ACC1705-0016
+  kind: architecture_constraint
+  title: v0.5 acceptance does not authorize live 1C integration
+  statement: Live 1C connections remain explicitly out of scope after v0.5 acceptance.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - 1c_integration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0017
+  kind: architecture_constraint
+  title: v0.5 acceptance forbids production writes
+  statement: Accounting Registry must not perform production direct writes at this stage.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - 1c_integration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0018
+  kind: architecture_constraint
+  title: v0.5 acceptance forbids automatic posting
+  statement: Automatic accounting posting remains outside the accepted capability.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - accounting
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0019
+  kind: plan
+  title: v0.6 stronger parser profiles are conditional on real sanitized exports
+  statement: Do not guess real 1C structures; v0.6 may start only after sanitized real export samples are available.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - docs
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0020
+  kind: architecture_constraint
+  title: Accounting Registry must not become canonical client order product or material owner
+  statement: The accepted maintenance boundary explicitly excludes canonical client/order/product/material registries from Accounting Registry.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - module_ownership
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - docs
+  - tests
+  evidence_refs:
+  - EV-ACC1705-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0021
+  kind: architecture_constraint
+  title: Accounting Registry has no live runtime integrations with neighboring modules at v0.5
+  statement: Real Gateway/CRM/Operational Registry/Library/Calculator/Warehouse integrations remain forbidden until separately authorized.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - module_ownership
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0022
+  kind: external_dependency
+  title: v0.6 depends on sanitized counterparties nomenclature invoices payments and balances samples
+  statement: The next parser-hardening phase requires representative sanitized exports in these five categories.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - data_inputs
+  implementation_expectation: required
+  verification_targets:
+  - fixtures
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0023
+  kind: process_rule
+  title: Until v0.6 inputs arrive Accounting Registry stays in maintenance mode
+  statement: Only status/coordination/check-report maintenance is authorized; no new production behavior should be added.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0024
+  kind: nonfunctional_requirement
+  title: Sanitized fixtures must exclude real private or banking data
+  statement: Committed samples must be sanitized and production-disallowed, with real personal contact/banking information removed or anonymized.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - data_safety
+  implementation_expectation: required
+  verification_targets:
+  - fixtures
+  - tests
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0025
+  kind: architecture_constraint
+  title: Accounting Registry owns accounting/1C boundary, not operational truth
+  statement: The stable historical direction is that Accounting Registry handles accounting/1C import/export/mapping concerns while operational state remains
+    with operational owners.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting_registry
+  - operational_registry
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  - contracts
+  evidence_refs:
+  - EV-ACC1705-0004
+  - EV-ACC1705-0026
+  - EV-ACC1705-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-ACC1705-0026
+  kind: architecture_constraint
+  title: This Accounting source is module history, not Blueprint authority
+  statement: The dialogue contributes Accounting module evidence and historical Blueprint acceptance, but current Blueprint release/architecture authority
+    remains superior on conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - accounting_registry
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-ACC1705-0011
+  - EV-ACC1705-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-ACC1705-0001
+  from_item: IT-ACC1705-0001
+  type: constrains
+  to_item: IT-ACC1705-0025
+  evidence_refs:
+  - EV-ACC1705-0004
+  - EV-ACC1705-0026
+  confidence: high
+- relation_id: REL-ACC1705-0002
+  from_item: IT-ACC1705-0002
+  type: refines
+  to_item: IT-ACC1705-0001
+  evidence_refs:
+  - EV-ACC1705-0005
+  - EV-ACC1705-0006
+  confidence: medium
+- relation_id: REL-ACC1705-0003
+  from_item: IT-ACC1705-0003
+  type: enables
+  to_item: IT-ACC1705-0005
+  evidence_refs:
+  - EV-ACC1705-0008
+  - EV-ACC1705-0009
+  confidence: high
+- relation_id: REL-ACC1705-0004
+  from_item: IT-ACC1705-0012
+  type: constrains
+  to_item: IT-ACC1705-0011
+  evidence_refs:
+  - EV-ACC1705-0018
+  confidence: high
+- relation_id: REL-ACC1705-0005
+  from_item: IT-ACC1705-0015
+  type: constrains
+  to_item: IT-ACC1705-0016
+  evidence_refs:
+  - EV-ACC1705-0021
+  - EV-ACC1705-0022
+  confidence: high
+- relation_id: REL-ACC1705-0006
+  from_item: IT-ACC1705-0015
+  type: constrains
+  to_item: IT-ACC1705-0017
+  evidence_refs:
+  - EV-ACC1705-0021
+  - EV-ACC1705-0023
+  confidence: high
+- relation_id: REL-ACC1705-0007
+  from_item: IT-ACC1705-0015
+  type: constrains
+  to_item: IT-ACC1705-0018
+  evidence_refs:
+  - EV-ACC1705-0021
+  - EV-ACC1705-0024
+  confidence: high
+- relation_id: REL-ACC1705-0008
+  from_item: IT-ACC1705-0019
+  type: depends_on
+  to_item: IT-ACC1705-0022
+  evidence_refs:
+  - EV-ACC1705-0025
+  - EV-ACC1705-0028
+  confidence: high
+- relation_id: REL-ACC1705-0009
+  from_item: IT-ACC1705-0020
+  type: refines
+  to_item: IT-ACC1705-0025
+  evidence_refs:
+  - EV-ACC1705-0026
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-ACC1705-0001
+  type: new_unique_cross_module_source
+  description: No shared message IDs with prior loaded Blueprint/module sources. This is a distinct Accounting Registry history.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-ACC1705-0002
+  type: partial_attachment_heavy_capture
+  description: Only 22 visible message blocks survive; most intermediate implementation steps are attachment placeholders and cannot be reconstructed literally.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-ACC1705-0003
+  type: early_inventory_design_owner_ambiguity
+  description: The opening architecture proposes `inventory_core/materials_ledger` inside the Accounting conversation, but later module boundaries indicate
+    operational/warehouse truth should not belong to Accounting Registry. Treat it as early system design, not Accounting ownership.
+  item_refs:
+  - IT-ACC1705-0002
+  - IT-ACC1705-0025
+  evidence_refs:
+  - EV-ACC1705-0005
+  - EV-ACC1705-0026
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-ACC1705-0004
+  type: historical_acceptance_not_current_authority
+  description: Owner pastes a v0.5 accepted status, but this historical acceptance is not current implementation/architecture proof.
+  item_refs:
+  - IT-ACC1705-0015
+  - IT-ACC1705-0026
+  evidence_refs:
+  - EV-ACC1705-0021
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-ACC1705-0005
+  type: sandbox_ready_not_live_ready
+  description: '`sandbox_1c_import_export_ready` is explicitly not live-1C/write/posting readiness. These status dimensions must not be collapsed.'
+  item_refs:
+  - IT-ACC1705-0015
+  - IT-ACC1705-0016
+  - IT-ACC1705-0017
+  - IT-ACC1705-0018
+  evidence_refs:
+  - EV-ACC1705-0021
+  - EV-ACC1705-0022
+  - EV-ACC1705-0023
+  - EV-ACC1705-0024
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-ACC1705-0006
+  type: v06_blocked_on_real_sanitized_samples
+  description: Further parser work is blocked on real sanitized exports; inventing profiles from synthetic fixtures would violate the accepted gate.
+  item_refs:
+  - IT-ACC1705-0019
+  - IT-ACC1705-0022
+  - IT-ACC1705-0023
+  evidence_refs:
+  - EV-ACC1705-0025
+  - EV-ACC1705-0028
+  - EV-ACC1705-0029
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-ACC1705-0007
+  type: accounting_vs_operational_registry_historical_overlap
+  description: This source clarifies accounting/1C vs production operational truth, while later Blueprint history records Accounting-vs-Operational Registry
+    ambiguity. Current architecture must reconcile exact ownership without merging the two authorities.
+  item_refs:
+  - IT-ACC1705-0001
+  - IT-ACC1705-0025
+  evidence_refs:
+  - EV-ACC1705-0004
+  - EV-ACC1705-0026
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-ACC1705-0001
+  description: Verify current Accounting Registry vs Operational Registry/1C ownership boundary.
+  item_refs:
+  - IT-ACC1705-0001
+  - IT-ACC1705-0020
+  - IT-ACC1705-0025
+  last_known_state: Historical source separates production operational truth from accounting/1C concerns; later Blueprint history still contains naming/ownership
+    ambiguity.
+  recommended_verification: Resolve current release/ADRs/module manifests and assign accounting truth, operational truth, inventory/warehouse movement and
+    1C adapter ownership exactly once.
+- loop_id: LOOP-ACC1705-0002
+  description: Verify v0.5 sanitized 1C pipeline and safety boundaries in current repo.
+  item_refs:
+  - IT-ACC1705-0011
+  - IT-ACC1705-0012
+  - IT-ACC1705-0013
+  - IT-ACC1705-0014
+  last_known_state: Historical v0.5 reports offline sanitized parsers/staging/mapping issue pipeline and production-source rejection.
+  recommended_verification: Inspect current code/tests/config with current HEAD; ensure no live/write/posting capability was silently added.
+- loop_id: LOOP-ACC1705-0003
+  description: Verify historical v0.5 acceptance and commit lineage.
+  item_refs:
+  - IT-ACC1705-0008
+  - IT-ACC1705-0010
+  - IT-ACC1705-0015
+  last_known_state: 117 tests green; commit 95d4a55 pushed; owner supplies accepted status.
+  recommended_verification: Trace live Git history and Blueprint coordination/acceptance record; do not infer current state from historical report.
+- loop_id: LOOP-ACC1705-0004
+  description: Verify v0.6 remains gated on real sanitized sample categories.
+  item_refs:
+  - IT-ACC1705-0019
+  - IT-ACC1705-0022
+  - IT-ACC1705-0023
+  last_known_state: No v0.6 parser hardening until sanitized counterparties/nomenclature/invoices/payments/balances samples exist.
+  recommended_verification: Check current roadmap/status and whether qualifying sanitized samples were ever provided.
+- loop_id: LOOP-ACC1705-0005
+  description: Verify Accounting Registry never became canonical client/order/product/material owner.
+  item_refs:
+  - IT-ACC1705-0020
+  - IT-ACC1705-0021
+  - IT-ACC1705-0025
+  last_known_state: Historical maintenance boundary explicitly forbids these ownerships/live integrations.
+  recommended_verification: Audit current manifest/models/repositories against Operational Registry, Library, Warehouse and Gateway boundaries.
+- loop_id: LOOP-ACC1705-0006
+  description: Locate or supersede missing intermediate implementation attachments.
+  item_refs:
+  - IT-ACC1705-0011
+  last_known_state: Most v0.1–v0.5 intermediate steps are attachment-only in this MHTML.
+  recommended_verification: Use repository history and current artifacts rather than reconstructing missing turns from guesswork.
+implementation_audit_ref: implementation_audit.stub.yaml

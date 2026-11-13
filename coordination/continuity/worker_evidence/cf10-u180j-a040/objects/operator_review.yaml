@@ -1,0 +1,53 @@
+role: operator_review_projection_not_acceptance
+attempt_id: cf10-u180j-a040
+task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+worker_delta_exact: true
+worker_changed_paths:
+- Makefile
+- scripts/validation/run_validation_suite_v0_1.py
+- tests/validation/test_validation_suite_runner_v0_1.py
+inherited_dirty_paths:
+- AGENTS.md
+- Makefile
+- coordination/architecture/cf10_worker_result_extensibility_requirement_v0_1.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a037__db7cc2f04665.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a038__414729bcd4c8.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a038__e15e8ae2919c.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a039__809c8881b775.yaml
+- coordination/global_policy/current_execution_focus.md
+- coordination/standards/automation/index.yaml
+- coordination/work_fronts/cf10_generic_post_worker_closeout_v0_1.yaml
+- coordination/work_fronts/cf10_original_handoff_manifest_persistence_v0_1.yaml
+- coordination/work_fronts/cf10_worker_reporting_extensibility_s4_literal_v0_1.yaml
+- scripts/coordination/control_plane/dispatch_intent.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_advance_v0_1.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+- tests/coordination/control_plane/test_cf10_worker_s4_literal_binding_v0_1.py
+terminal: FINISHED/SUCCEEDED/PASS
+candidate_promoted: false
+promotion_or_commit_performed: false
+files:
+- path: Makefile
+  canonical_sha256: 775ee887879afc145dfce2236a9d75f8e190b57696d0a5a1ce6f16c0f2520b87
+  candidate_sha256: 1032d2de70e640a63e96559b707dcc5a466e07566e8cfa62b972205962e8afd0
+  patch_lines: 29
+- path: scripts/validation/run_validation_suite_v0_1.py
+  canonical_sha256: 432131700f0baf401b89e2a8198a684295b767baa9ae78e178489aded62c2368
+  candidate_sha256: 7c5670363d7d0ca94ff21c7b7f3d461fd6b731ba6179ce9ad27d0f8ee27ae1a3
+  patch_lines: 171
+- path: tests/validation/test_validation_suite_runner_v0_1.py
+  canonical_sha256: 334161d0bccde23cb80ac4a4b3ba639cb82decec0f0c94052590d3c40dccbb73
+  candidate_sha256: 8ab6d7420638739fc861d2d503e08e9147529da5a7c759bfd562cf875c39dbd1
+  patch_lines: 181
+worker_optimization_assessment:
+- kind: optimization_assessment
+  result: NO_SAFE_OPTIMIZATION
+  details: The focused pytest step was the measured critical path. No optimization
+    within the three-file scope was evidenced as safe without changing validation
+    execution or proof semantics.
+notes:
+- Compare these three paths only; raw workspace Git diff includes inherited changes.
+- A green terminal ledger does not constitute operator acceptance or promotion.
+- No Worker changes have been applied to the canonical repository.

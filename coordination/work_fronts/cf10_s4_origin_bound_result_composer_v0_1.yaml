@@ -1,0 +1,128 @@
+work_front_id: wf-cf10-s4-origin-bound-result-composer-v0-1
+objective: Implement and test a pure, opt-in, deterministic S4 Handoff v2 result candidate composer, deriving all
+  frozen base resume coordinates exclusively from validated original governed Worker context and preserving Worker-owned
+  result facts without copying authoritative SHA strings through an LLM. Stage 4A is an isolated foundation proof,
+  not live Worker result-return integration.
+scope:
+- coordination/work_fronts/cf10_s4_origin_bound_result_composer_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_composer_v0_1.py
+exclusions:
+- No modification to any existing production or test file in Stage 4A, particularly dirty invocation_adapter.py
+  and governed_worker_cycle.py.
+- Do not modify the existing assistant Handoff v2 result schema, S4 validator, worker_result_return.py, worker stdout
+  frame grammar, or the current legacy result-return handling.
+- No implicit correction or silent replacement of Worker-supplied mismatched resume fields; Worker-owned facts and
+  trusted origin must be provenance-separated and contradictions rejected before candidate assembly.
+- No reading fresh canonical roadmap state in place of frozen origin, no hash recomputation from current worktree
+  for S4 origin fields, no fallback guessed SHA/cursor values.
+- No result/worker_result.yaml write, stdout rewrite, ledger append, worker prepare, ACK, dispatch, launch, re-run,
+  candidate promotion or acceptance.
+- No staging, commit, push, merge, release, automatic validation bypass, or changes to Telegram Bot parallel staged
+  files.
+- No modification of historical attempt artifacts a037-a041; a041 remains terminal BLOCKED and a042 must not be
+  launched by this Work Front.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - attempt:cf10-u180j-a041/BLOCKED
+  - current_source_head_observed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - coordination/work_fronts/cf10_worker_reporting_extensibility_s4_literal_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- Stage 1 planning suite, Stage 2 isolated mirror prerequisites and Stage 3 repo_head/repo_status exposure are functionally
+  verified but not yet published.
+- Existing worker_result_return.extract_framed_result/materialize_worker_result currently validates full provider-stdout
+  Handoff v2 S4 before create-only result file; that behavior stays unchanged.
+- Origin input must be a previously validated, frozen, attempt-bound governed Worker context plus origin Handoff
+  binding, not a live recomputation or Worker-provided copy.
+- The exact Handoff v2 validation and S4 validator remain final independent checkers for any candidate produced
+  by pure composer.
+- The proposal does not allow an automatically accepted result or converting any terminal historical BLOCKED attempt
+  into PASS.
+- Before RED capture HEAD, exact staged index bytes, tracked/untracked changes, and all pre-existing dirty path
+  SHAs; protect them throughout.
+outputs:
+- A pure function that accepts (1) trusted frozen bound context and (2) explicitly typed Worker-owned completion
+  fields, returns a new in-memory Handoff v2 candidate mapping and no filesystem mutations.
+- The composer derives attempt_id, handoff_manifest_sha256, source_state_fingerprint and complete lifecycle_roadmap_cursor
+  only from the authoritative validated origin; no LLM transcription of origin SHA strings.
+- The composer preserves Worker-owned status, changed_paths, validation_evidence, self_repair_attempts and unresolved_findings
+  verbatim subject to existing schema validation; optional partial/resume extension fields are strictly typed and
+  validated.
+- A separate draft protocol/shape that rejects Worker attempts to supply or override reserved origin fields, rather
+  than accepting or repairing a malformed full Handoff.
+- Tests-first RED followed by focused GREEN fixtures for valid PASS and PARTIAL, wrong origin/attempt binding, malformed
+  partial, spoofed SHA/cursor, missing evidence, duplicate/mis-scoped paths and extra fields.
+- Independent validation of candidate with existing validate_result_envelope and validate_resume, with explicit
+  diagnostics and no writes.
+- Read-only integration recommendation documenting which changes would be required for a later separate Stage 4B
+  opt-in runtime integration with an operator gate.
+acceptance:
+- Work Front canonical validator passes, Stage 4A scope equals exactly three paths, with no pre-existing production
+  file changes.
+- Focused tests fail RED solely on missing pure composer and then pass GREEN; unrelated Stage 1-3 functionality
+  remains unchanged.
+- Frozen origin fields are byte/semantic identical to verified context and cannot be substituted from stdout, live
+  Git HEAD, roadmap status or a model-supplied payload.
+- Strict Worker-owned completion draft schema excludes authoritative base resume fields, ignores no unknown field,
+  fails closed on spoofing and never silently repairs a mismatched full result.
+- PASS and valid PARTIAL return candidates satisfy the established Handoff v2 result-envelope and S4 validators,
+  including latest completed node / accepted ref / replay-forbidden refs constraints.
+- No successful candidate when origin manifest hash or context schema is invalid, origin bound attempt differs,
+  input is incomplete, or frozen cursor is absent/contradictory.
+- Pure assembly has no subprocess, network, file, stdout, ledger or Git side effects, and emits no result artifacts.
+- Existing tests for worker_result_return, S4 validator, runtime MCP and both registered validation suites retain
+  PASS.
+- Git HEAD and staged Telegram index stay unchanged and unrelated dirty files stay byte-for-byte unchanged.
+- Stage 4A green does not constitute a live Worker runtime contract switch, approval, publication, or permission
+  to launch a042.
+stop_conditions:
+- A change to an existing implementation file is needed in Stage 4A; stop and request separate Stage 4B Work Front
+  and operator consent.
+- The pure composer cannot be made compatible with the existing Handoff v2 result schema without weakening strict
+  validation.
+- Worker-provided base resume coordinates must be silently overwritten or malformed old framed output must be rescued
+  to pass.
+- The implementation requires current-source roadmap refresh, extra executor authority, new shell/tool access, automatic
+  materialization, result replay or ledger mutation.
+- Any HEAD/staged index, protected dirty SHA or scope drift is detected during tests or implementation.
+- The task requires launching Worker, changing historical a041 evidence, or creating a042.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+  - tests/coordination/control_plane/test_cf10_worker_s4_literal_binding_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/s4_result_composer_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_s4_result_composer_v0_1.py
+  read_only_refs:
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  rationale: Prove a non-mutating origin-owned S4 composer as an isolated reusable building block before proposing
+    a separate explicit opt-in runtime contract; retain existing fail-closed result-return boundary and dirty S4
+    capsule.

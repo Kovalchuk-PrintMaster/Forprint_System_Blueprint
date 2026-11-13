@@ -120,3 +120,23 @@ The fixer must not claim that a report is pushed without checking Git upstream s
 
 
 ---
+
+## Immutable governance metadata correction evidence
+
+Blueprint-owned immutable governance records must not be rewritten merely to
+repair ownership metadata discovered after sealing.
+
+A correction may instead use
+`schema_version: blueprint_governance_metadata_correction_v0_1`.
+
+It is valid only when `metadata.module_id` and `metadata.owner` both equal
+`forprint_system_blueprint`, the correction is immutable, the target stays
+inside the Blueprint governance directory, the target is an immutable decision
+record, path and SHA256 match exactly, the observed value
+matches the sealed bytes, the corrected value is canonical, and at most one
+effective correction exists for a target-field pair.
+
+The correction changes only the effective metadata projection used by
+validation. It does not rewrite the historical target or alter the underlying
+operator decision/authorization semantics. Invalid or stale correction evidence
+must not suppress the original validation issue.

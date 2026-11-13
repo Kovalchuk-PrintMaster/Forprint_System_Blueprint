@@ -1,0 +1,96 @@
+schema_version: blueprint_step_acceptance_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_immutable_prompt_contract_acceptance_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-15T18:14:00+03:00'
+  owner: forprint_system_blueprint
+  source_head: 2f01bd423cbde60efa3140d3771de5eabf8717ee
+subject:
+  roadmap_step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  operator_instruction: ACCEPT STEP21
+  decision: ACCEPT
+  implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_implementation_v0_1.yaml
+applied_effects:
+  step21_roadmap_status: completed
+  step21_queue_status: completed
+  step21_execution_status: accepted
+  step21_prompt_physical_state: completed
+  step22_roadmap_status: active
+  step22_queue_status: approved
+  step22_execution_status: ready_for_module_pull
+  prompt_buffer_replenished_prompt_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+  prompt_buffer_replenishment_mode: create_next_v0_4_draft
+  legacy_deferred_prompts_reactivated: false
+  roadmap_future_steps: 7
+  dispatchable_drafts: 3
+  queue_metadata_counts:
+    approved_prompt_count: 1
+    draft_prompt_count: 10
+    completed_prompt_count: 21
+    dispatchable_draft_count: 3
+    deferred_prompt_count: 7
+prompt_contract_v0_4:
+  implementation_accepted: true
+  standard_state: candidate_reference_only
+  global_v0_4_promotion_performed: false
+  normal_acceptance_allowed_for_candidate_reference: false
+  immutable_contract_instance_rewritten: false
+  source_prompt_snapshot_rewritten: false
+boundaries:
+  completion_packet_v0_4_implemented: false
+  completion_outbox_implemented: false
+  module_repository_writes: false
+  rollout_or_production_write: false
+  automatic_commit: false
+  automatic_push: false
+  global_v0_4_promotion: false
+  publication_snapshot_advanced: false
+  published_base_preserved_until_remote_verification: true
+  transition_tests_updated: true
+  handoff_horizon_is_dynamic: true
+  fixed_next_10_length_required: false
+  synthetic_step30_created: false
+  roadmap_metadata_current_phase_updated: true
+  post_step20_stale_tests_transition_aware: true
+  health_target_shortfall_treated_as_advisory: true
+  roadmap_acceptance_prompt_id_schema_preserved: true
+  cross_ledger_acceptance_identity_consistent: true
+validation:
+  state: passed
+  checks:
+    make -s prompt-contract-v0-4-validate:
+      returncode: 0
+      result: passed
+    make standards-index:
+      returncode: 0
+      result: passed
+    make roadmap-validate MODULE=forprint_system_blueprint:
+      returncode: 0
+      result: passed
+    make check-self-coordination-consistency:
+      returncode: 0
+      result: passed
+    make -s coordination-pulse:
+      returncode: 0
+      result: passed
+    ? /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python
+      -m pytest -q tests/validation/test_v0_4_immutable_prompt_contract.py tests/validation/test_v0_4_closed_loop_lifecycle_standard.py
+      tests/validation/test_assistant_bootstrap_contract.py tests/validation/test_blueprint_protocol_revision_workstream.py
+      tests/validation/test_blueprint_roadmap_context_reconciliation.py tests/validation/test_v0_4_coordination_health_and_pulse.py
+      tests/validation/test_v0_4_coordination_source_registry.py
+    : returncode: 0
+      result: passed
+    /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python -m pytest -q:
+      returncode: 0
+      result: passed
+    make check:
+      returncode: 0
+      result: passed
+result: ACCEPTED
+post_acceptance_health:
+  roadmap_future_steps: 7
+  roadmap_target: 8
+  roadmap_minimum: 5
+  dispatchable_drafts: 3
+  prompt_buffer_target: 3
+  queue_roadmap_drift_expected: 0

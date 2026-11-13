@@ -1,0 +1,24 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a035
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+recorded_at: '2026-10-08T14:03:02.584086Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a035/workspace/repo
+why: CF-10 governed Worker launch for canonical task cf10-validation-check-pipeline-profile-and-optimization-v0-1.
+source_fingerprint: 19f2ec950a5f16354aac8a6bd6ef0bea695e99307727ff791387c86bada4a6d0
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 06688b5d82eed7a3d01725292176717def15f42ac48372f33f8d314f9828cb84
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a035/input/governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a035/evidence/governed_worker_cycle_result_return_v0_1.yaml
+validator_outcome: FAIL
+validator_evidence_refs:
+- RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a035/evidence/governed_worker_cycle_result_return_v0_1.yaml
+failure_or_retry_ref: RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs: []

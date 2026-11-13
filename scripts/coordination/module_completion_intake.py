@@ -14,6 +14,11 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.completion_intake_check import (
+    CompletionIntakeCheckError,
+    CompletionIntakeCheckResult,
+    check_completion_intake,
+)
 from scripts.coordination.module_roadmap import (
     load_yaml_file,
     resolve_roadmap_path,
@@ -367,6 +372,7 @@ def build_intake_plan(
     completion_commit: str | None = None,
     reviewed_at: str | None = None,
     verify_git: bool = True,
+    intake_check: CompletionIntakeCheckResult | None = None,
 ) -> IntakePlan:
     if decision not in ALLOWED_DECISIONS:
         raise CompletionIntakeError(
@@ -385,6 +391,52 @@ def build_intake_plan(
         completion_commit=completion_commit,
         verify_git=verify_git,
     )
+
+    if decision == "accepted":
+        if intake_check is None:
+            intake_check_data = {"status": "not_run"}
+        else:
+            expected_check_values = {
+                "module_id": evidence.module_id,
+                "prompt_id": evidence.prompt_id,
+                "phase": evidence.phase,
+                "packet_path": evidence.packet_relative_path,
+                "report_path": evidence.report_path,
+                "implementation_commit": evidence.implementation_commit,
+                "completion_commit": evidence.completion_commit,
+            }
+            actual_check_values = {
+                "module_id": intake_check.module_id,
+                "prompt_id": intake_check.prompt_id,
+                "phase": intake_check.phase,
+                "packet_path": intake_check.packet_path,
+                "report_path": intake_check.report_path,
+                "implementation_commit": intake_check.implementation_commit,
+                "completion_commit": intake_check.completion_commit,
+            }
+            if actual_check_values != expected_check_values:
+                raise CompletionIntakeError(
+                    "completion-intake-check result does not match "
+                    "the intake plan evidence"
+                )
+            intake_check_data = {
+                "status": "passed",
+                "module_id": intake_check.module_id,
+                "prompt_id": intake_check.prompt_id,
+                "phase": intake_check.phase,
+                "packet_path": intake_check.packet_path,
+                "report_path": intake_check.report_path,
+                "implementation_commit": intake_check.implementation_commit,
+                "completion_commit": intake_check.completion_commit,
+                "remote": intake_check.remote,
+                "branch": intake_check.branch,
+                "remote_commit": intake_check.remote_commit,
+                "warnings": list(intake_check.warnings),
+            }
+    else:
+        intake_check_data = {
+            "status": "not_required_for_return",
+        }
 
     queue_original = _load_yaml_mapping(queue_path)
     roadmap_original = load_yaml_file(roadmap_path)
@@ -499,6 +551,7 @@ def build_intake_plan(
             "checks": evidence.checks,
             "boundary_confirmation": evidence.boundary_confirmation,
         },
+        "blueprint_intake_check": intake_check_data,
         "blueprint_updates": {
             "prompt_queue": queue_path.relative_to(root).as_posix(),
             "roadmap": roadmap_path.relative_to(root).as_posix(),
@@ -554,6 +607,19 @@ def _atomic_write(path: Path, text: str) -> None:
 
 
 def apply_intake_plan(plan: IntakePlan) -> tuple[Path, ...]:
+    if plan.decision == "accepted":
+        intake_check = plan.review_data.get(
+            "blueprint_intake_check"
+        )
+        if (
+            not isinstance(intake_check, dict)
+            or intake_check.get("status") != "passed"
+        ):
+            raise CompletionIntakeError(
+                "completion-accept requires a successful "
+                "completion-intake-check before Blueprint writes"
+            )
+
     payloads = {
         plan.queue_path: _yaml_text(plan.queue_data),
         plan.roadmap_path: _yaml_text(plan.roadmap_data),
@@ -635,6 +701,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--review-notes", default="")
     parser.add_argument("--completion-commit")
+    parser.add_argument("--remote", default="origin")
+    parser.add_argument("--branch")
     parser.add_argument("--reviewed-at")
     parser.add_argument("--write", action="store_true")
     parser.add_argument(
@@ -651,6 +719,36 @@ def main() -> int:
     args = build_parser().parse_args()
 
     try:
+        intake_check = None
+        completion_commit = args.completion_commit
+
+        if args.decision == "accepted":
+            if args.no_git_verify:
+                raise CompletionIntakeError(
+                    "`--no-git-verify` cannot bypass "
+                    "completion-intake-check for acceptance"
+                )
+            if not completion_commit:
+                raise CompletionIntakeError(
+                    "completion-accept and completion-intake-preview "
+                    "require --completion-commit"
+                )
+            try:
+                intake_check = check_completion_intake(
+                    blueprint_root=args.root,
+                    module_id=args.module,
+                    module_root=args.module_root,
+                    packet=args.packet,
+                    completion_commit=completion_commit,
+                    remote=args.remote,
+                    branch=args.branch,
+                )
+            except CompletionIntakeCheckError as error:
+                raise CompletionIntakeError(
+                    f"completion-intake-check failed: {error}"
+                ) from error
+            completion_commit = intake_check.completion_commit
+
         plan = build_intake_plan(
             root=args.root,
             module_id=args.module,
@@ -658,9 +756,10 @@ def main() -> int:
             packet=args.packet,
             decision=args.decision,
             review_notes=args.review_notes,
-            completion_commit=args.completion_commit,
+            completion_commit=completion_commit,
             reviewed_at=args.reviewed_at,
-            verify_git=not args.no_git_verify,
+            verify_git=False,
+            intake_check=intake_check,
         )
         changed = apply_intake_plan(plan) if args.write else ()
     except CompletionIntakeError as exc:
@@ -682,12 +781,36 @@ def main() -> int:
                         for path in (changed if args.write else plan.changed_paths)
                     ],
                     "warnings": list(plan.warnings),
+                    "blueprint_intake_check": (
+                        plan.review_data.get(
+                            "blueprint_intake_check"
+                        )
+                    ),
                 },
                 ensure_ascii=False,
                 indent=2,
             )
         )
     else:
+        check_data = plan.review_data.get(
+            "blueprint_intake_check"
+        )
+        if (
+            isinstance(check_data, dict)
+            and check_data.get("status") == "passed"
+        ):
+            print("Completion intake check: PASSED")
+            print(
+                "Publication: "
+                f"{check_data['remote']}/{check_data['branch']} "
+                f"@ {check_data['remote_commit']}"
+            )
+        elif plan.decision == "returned_for_fix":
+            print(
+                "Completion intake check: "
+                "NOT REQUIRED FOR RETURN"
+            )
+
         print(
             _render_plan(
                 plan,

@@ -1,0 +1,70 @@
+schema_version: forprint_blueprint_internal_worker_task_v0_1
+task_id: cf10-operator-status-surface-self-hardening-v0-1
+revision: 0.1.0
+status: READY_FOR_CONTEXT
+module_id: forprint_system_blueprint
+source:
+  type: MANUAL_INTERNAL
+  generation_mode: MANUAL
+  created_by: operator_assistant
+  raw_chat_is_authority: false
+  automatic_generation: false
+work:
+  work_id: u180j
+  work_front_id: wf-cf10-operator-status-surface-self-hardening-v0-1
+objective: Extend the existing Execution Attempt Ledger CLI with one bounded read-only operator status view that derives
+  the latest immutable record for each attempt from existing ledger history without creating new authority or state.
+instructions:
+- Modify only scripts/coordination/execution_attempt_ledger_v0_1.py and tests/validation/test_execution_attempt_ledger_v0_1.py.
+- Reuse existing iter_records(), records_for_attempt() and latest_attempt_record() semantics; do not invent a second
+  execution-state resolver.
+- Add a read-only status subcommand to the existing Execution Attempt Ledger CLI.
+- The status command must derive exactly one latest immutable record per attempt.
+- Preserve optional --work-front-id filtering and the existing --store-root override pattern for the status command.
+- Keep output deterministic and operator-readable.
+- Preserve existing validate, append and list behavior; list remains the full immutable-history view.
+- Use coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml only as a read-only contract reference.
+- Do not modify append-only history, retry semantics, lifecycle authority, Work Front authority or dispatcher behavior.
+- Do not create a new mutable status store, registry or projection authority.
+- If the requested status cannot be derived from existing ledger interfaces, stop and return an operator escalation
+  instead of widening scope.
+acceptance:
+- Only scripts/coordination/execution_attempt_ledger_v0_1.py and tests/validation/test_execution_attempt_ledger_v0_1.py
+  are changed by the worker.
+- Status returns one derived latest record per attempt and does not expose superseded STARTED/PENDING records as current.
+- Work-front filtering is deterministic.
+- Store-root override behavior is covered deterministically.
+- Existing list output continues to preserve full immutable attempt history.
+- Existing same-attempt terminalization and retry tests remain passing.
+- Focused pytest passes.
+- git diff --check passes in the isolated worker workspace.
+- No prohibited execution or repository action is performed.
+stop_conditions:
+- Execution Attempt Ledger contract modification is required.
+- Lifecycle, Work Front, dispatcher or worker-runtime modification is required.
+- A path outside the two declared mutation targets must be modified.
+- Existing ledger interfaces cannot derive the requested status safely.
+- A new mutable status source or authority duplication would be required.
+- Authority widening is requested or inferred.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is required.
+- Governed context is stale or internally inconsistent.
+execution_profile:
+  profile_id: light-maintenance
+  revision: r1
+procedure:
+  procedure_id: governed_canonical_mutation
+  revision: 0.1.0
+workspace:
+  isolated_workspace_required: true
+  candidate_only: true
+  canonical_write_allowed: false
+authority:
+  execution_authority_source: WORK_FRONT
+  task_artifact_grants_authority: false
+  dispatch_authority: false
+  release_authority: false
+  push_authority: false
+  merge_authority: false
+  foreign_write_authority: false
+  automatic_accept: false
+  widening_requested: false

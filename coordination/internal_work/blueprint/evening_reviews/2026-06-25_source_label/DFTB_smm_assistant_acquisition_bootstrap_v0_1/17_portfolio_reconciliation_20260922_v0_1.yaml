@@ -1,0 +1,141 @@
+schema_version: forprint_smm_assistant_acquisition_bootstrap_portfolio_reconciliation_v0_1
+source_label: '2026-06-25'
+reconciled_on: '2026-09-22'
+canonical_owner: forprint_marketing_orchestrator
+source_identity:
+  uploaded_filename: smm_asistant_25.06.26.mhtml
+  primary_mhtml_sha256: 51ce83905e242bce97d31effe69092b1b74af306f66cbe775c1bef0196958f34
+  dftb_archive_sha256: bc16fc8bf25e31f9df89fef69e07eb3933eaada0472bedf07666c29664373cd9
+  master_memory_v2_7_archive_sha256: b927eef277971939a7ee62aade85fefd9c2c4ab51f9e4faeac658a723401ab5c
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v2_7_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v2_7_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_source_label: '2026-06-25'
+  exact_conversation_date_independently_verified: false
+  mhtml_export_saved: Tue, 15 Sep 2026 14:46:11 +0300
+  relative_position: before SMM July creative-tooling layer
+  rule: Retain 2026-06-25 as source label and the June-before-July relationship; do not infer missing campaign decisions
+    from absent turns.
+source_quality:
+  classification: UNIQUE_EXTREMELY_SPARSE_SMM_ACQUISITION_HISTORY
+  visible_turn_sections: 16
+  visible_message_blocks: 20
+  roles:
+    user: 11
+    assistant: 9
+  turn_number_range: 1-108
+  large_missing_spans:
+  - 10-62
+  - 64-70
+  - 72-103
+  screenshot_context_recoverable: false
+  cyrillic_loss: false
+  current_effectiveness_verification_performed: false
+current_owner_boundary:
+  marketing_orchestrator_role: marketing/content orchestration, publishing experiments and performance learning
+  reused_current_steps:
+  - forprint_marketing_orchestrator_brand_voice_content_policy_and_content_calendar_v0_1
+  - forprint_marketing_orchestrator_campaign_content_object_model_and_approval_lifecycle_v0_1
+  - forprint_marketing_orchestrator_instagram_youtube_publishing_foundations_v0_1
+  - forprint_marketing_orchestrator_analytics_campaign_attribution_and_performance_history_v0_1
+  - forprint_marketing_orchestrator_crm_lead_referral_handoff_v0_1
+  must_not_gain_from_this_source:
+  - website_technical_release_authority
+  - canonical_customer_or_lead_truth
+  - canonical_product_or_price_truth
+  - operational_order_truth
+  - blueprint_priority_or_execution_authority
+reuse_first_findings:
+- topic: deliberate_initial_traffic_seeding
+  item_refs:
+  - IT-SMM2506-0001
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_AND_ACQUISITION_BOOTSTRAP_CANDIDATE
+- topic: targeted_selective_local_acquisition
+  item_refs:
+  - IT-SMM2506-0002
+  - IT-SMM2506-0008
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_WITH_LOCALITY_AS_MEASURABLE_HYPOTHESIS
+- topic: small_local_google_ads
+  item_refs:
+  - IT-SMM2506-0003
+  - IT-SMM2506-0009
+  classification: SOURCE_PROPOSED
+  disposition: Retain as historical candidate mechanics only. The visible owner did not approve a durable Google
+    Ads budget or make Google Ads the canonical first channel.
+- topic: local_seo_google_business_and_channel_priority
+  item_refs:
+  - IT-SMM2506-0004
+  - IT-SMM2506-0013
+  - IT-SMM2506-0014
+  classification: SOURCE_PROPOSED
+  disposition: Historical assistant advice only. Current channel priority must come from measured acquisition evidence
+    and current operator decisions, not this old ranking.
+- topic: existing_customer_owned_touchpoint_seed
+  item_refs:
+  - IT-SMM2506-0005
+  classification: SOURCE_PROPOSED_REUSE_CURRENT_CRM_BOUNDARY
+  disposition: Can be considered in experiment design, but CRM/customer workflow ownership remains outside Marketing
+    and no direct CRM mutation is authorized.
+- topic: bounded_service_focus
+  item_refs:
+  - IT-SMM2506-0006
+  classification: SOURCE_PROPOSED
+  disposition: Preserve the idea of a bounded first promoted service set; historical exact count of ten is not an
+    owner-approved constant and product/catalog truth stays with its canonical owners.
+- topic: measure_improve_scale_learning_loop
+  item_refs:
+  - IT-SMM2506-0007
+  - IT-SMM2506-0010
+  classification: ADAPT
+  disposition: Strongly compatible with existing Marketing analytics/performance-history roadmap, but retained as
+    source-proposed mechanics because the visible source does not contain explicit owner acceptance of the full
+    loop. Candidate links traffic seeding to current analytics rather than creating a second analytics capability.
+- topic: cross_channel_content_reuse
+  item_refs:
+  - IT-SMM2506-0015
+  - IT-SMM2506-0016
+  classification: REUSE
+  disposition: Preserve as historical proposed rationale and reconcile with the July creative-toolchain candidate
+    plus current Marketing asset/publishing steps. No duplicate Human Intent is created from assistant-only advice.
+- topic: missing_dynamic_site_and_screenshot_context
+  item_refs:
+  - IT-SMM2506-0011
+  - IT-SMM2506-0012
+  classification: PROVENANCE_LIMIT
+  disposition: Do not reconstruct missing turns or screenshot semantics.
+- topic: no_final_smm_execution_plan
+  item_refs:
+  - IT-SMM2506-0017
+  classification: DEFERRED_SOURCE_ENDPOINT
+  disposition: No final budget, channel hierarchy, campaign launch authorization or accepted execution plan is recovered.
+- topic: smm_non_blueprint_authority
+  item_refs:
+  - IT-SMM2506-0018
+  classification: REUSE_AUTHORITY_BOUNDARY
+  disposition: Marketing history can enrich Marketing Orchestrator planning but cannot reactivate Website technical
+    work or alter CRM/Operational/Blueprint authority.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  reuse_targets:
+  - forprint_marketing_orchestrator_brand_voice_content_policy_and_content_calendar_v0_1
+  - forprint_marketing_orchestrator_instagram_youtube_publishing_foundations_v0_1
+  - forprint_marketing_orchestrator_analytics_campaign_attribution_and_performance_history_v0_1
+  - forprint_marketing_orchestrator_crm_lead_referral_handoff_v0_1
+  candidate: marketing_acquisition_bootstrap_learning_loop
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  gap_classification: GENUINE_EXPLICIT_COLD_START_ACQUISITION_GAP
+  reason: Current Marketing roadmap covers content/publishing/analytics/CRM handoff but does not explicitly encode
+    the young-site cold-start traffic-seeding problem. Promotion should occur only after live Website analytics/conversion
+    instrumentation and current channel evidence are reconciled.
+master_memory_relationship:
+  uploaded_master: v2.7
+  v2_7_role: historical_derived_navigation_archive
+  v2_7_contains_this_dftb: true
+  v2_7_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false
