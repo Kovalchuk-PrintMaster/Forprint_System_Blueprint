@@ -344,4 +344,3 @@ def test_isolated_runner_reconciles_roadmap_again_after_continuity_refresh(
     assert not (
         repo / "coordination/continuity/projections/CURRENT_WORKFRONT.yaml"
     ).exists()
-

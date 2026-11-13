@@ -207,4 +207,3 @@ def test_blueprint_next_horizon_uses_roadmap_execution_cursor() -> None:
     assert action_ids == remaining_ids
     assert horizon["action_count"] == len(action_ids)
     assert 5 <= horizon["action_count"] <= 10
-

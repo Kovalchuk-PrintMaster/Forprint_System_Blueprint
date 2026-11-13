@@ -186,4 +186,3 @@ def test_real_context_compiler_loader_registers_module_before_exec() -> None:
     assert compiler.__name__ in sys.modules
     assert sys.modules[compiler.__name__] is compiler
     assert callable(compiler.build_task_context)
-

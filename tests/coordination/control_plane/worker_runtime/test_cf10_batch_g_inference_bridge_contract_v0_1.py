@@ -106,4 +106,3 @@ class TestBatchG:
     def test_profile_sha_deterministic(self):
         p=g.plan(unit=U,lab_dir=D,private_file=D+'/fake_credential.txt')
         assert p['profile_sha256']==g.digest(p['properties'])
-

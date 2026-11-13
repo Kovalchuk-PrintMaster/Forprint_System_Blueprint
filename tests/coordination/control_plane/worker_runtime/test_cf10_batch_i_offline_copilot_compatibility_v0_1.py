@@ -114,4 +114,3 @@ class ChildOfflineTests(unittest.TestCase):
     def test_transport_only_unix(self):
         self.assertEqual(child.BIN,'/usr/local/bin/forprint-copilot-1.0.107')
         self.assertEqual(child.EXPECTED_VERSION,'1.0.107')
-

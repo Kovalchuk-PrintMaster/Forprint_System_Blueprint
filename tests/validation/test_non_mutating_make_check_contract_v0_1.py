@@ -224,4 +224,3 @@ def test_continuity_baseline_freeze_precedes_disposable_mirror_creation():
         in function_source
     )
     assert "str(workspace.resolve())" in function_source
-

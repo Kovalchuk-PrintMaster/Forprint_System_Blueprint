@@ -57,4 +57,3 @@ def test_human_intent_front_door_links_every_module_ledger():
             f"]({entry['file']}) — {entry['intent_count']} "
             "captured human-intent entries."
         ) in readme
-

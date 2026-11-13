@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from scripts.coordination.control_plane.worker_runtime import cf10_repository_risk_inventory_v0_1 as mod
 
-@pytest.mark.parametrize('src,code',[ 
+@pytest.mark.parametrize('src,code',[
     (b'import subprocess\nsubprocess.run("echo hi",shell=True)\n','SUBPROCESS_SHELL_TRUE'),
     (b'eval("2+2")','DYNAMIC_EXECUTION_OR_UNSAFE_LOAD'),
     (b'LIVE_CUTOVER_ENABLED = True\n','LIVE_CUTOVER_SOURCE_NOT_FALSE'),

@@ -152,4 +152,3 @@ def test_document_surface_knowledge_foundation_resolves_to_strict_subclass():
 
     assert profile["subclass_id"] == "knowledge_foundation_program"
     assert profile["migration_state"] == "STRICT"
-

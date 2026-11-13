@@ -560,4 +560,3 @@ def test_superseded_queue_record_does_not_block_refill(
         item["step_id"]
         for item in report["operator_refill"]["recommendations"]
     ] == ["future_a_v0_1"]
-
